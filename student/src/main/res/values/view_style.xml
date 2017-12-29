@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="indexText" parent="text_base">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+
+    <style name="text_base">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text16</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="mine_view">
+        <item name="android:background">@drawable/btn_gray_back</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:textColor">@color/color79</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:drawableRight">@drawable/ico_to</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+
+
+    <style name="myratingbar" parent="@android:style/Widget.RatingBar">
+        <item name="android:maxWidth">30dp</item>
+        <item name="android:minWidth">30dp</item>
+        <item name="android:progressDrawable">@drawable/ratingbar_bg</item>
+        <item name="android:minHeight">30dip</item>
+        <item name="android:maxHeight">30dip</item>
+        <item name="android:stepSize">1</item>
+    </style>
+
+    <style name="FxRadioButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/radio_bg</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">4dip</item>
+        <item name="android:textColor">@color/color_radio</item>
+        <item name="android:textSize">@dimen/text18</item>
+    </style>
+    <style name="TabRadioButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">4dip</item>
+        <item name="android:textColor">@color/index_radion_tv</item>
+    </style>
+</resources>

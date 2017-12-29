@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="all_bg">#EBEEF3</color>
+    <color name="color5A">#5A5A5A</color>
+    <color name="color79">#797979</color>
+    <color name="red">#E32425</color>
+    <color name="red_light">#EA5B5C</color>
+    <color name="blue_bg">#F2F9FF</color>R
+    <color name="blue_line">#DDE8F2</color>
+    <!-- 点名的四种状态-->
+    <color name="call_blue">#70738EB5</color>
+    <color name="call_red">#70E32425</color>
+    <color name="call_yellow">#70F2A613</color>
+    <color name="call_gray">#70666666</color>
+    <color name="orange">#FA7E3D</color>
+    <color name="radio_checked_back">#43679B</color>
+    <color name="radio_uncheck_text">#4A5B6F</color>
+
+    <color name="black_tv">#333333</color>
+    <color name="red_tv">#EA5B5C</color>
+    <color name="list_click">#f4f4f4</color>
+    <color name="mp3_bg">#343434</color>
+    <color name="mp3_line">#555555</color>
+</resources>

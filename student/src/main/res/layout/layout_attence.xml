@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:background="@color/app_bg"
+        android:paddingTop="1px">
+
+        <TextView
+            android:id="@+id/tv_cq_count"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/blue_bg"
+            android:gravity="center"
+            android:textColor="@color/app_bg_a"
+            android:textSize="@dimen/text16" />
+
+        <TextView
+            android:id="@+id/tv_cd_count"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/blue_bg"
+            android:gravity="center"
+            android:layout_marginRight="1px"
+            android:layout_marginLeft="1px"
+            android:textColor="@color/diskRed"
+            android:textSize="@dimen/text16" />
+
+        <TextView
+            android:id="@+id/tv_zt_count"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/blue_bg"
+            android:gravity="center"
+            android:textColor="@color/perplu"
+            android:textSize="@dimen/text16" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:background="@color/app_bg"
+        android:paddingBottom="1px"
+        android:paddingTop="1px">
+
+
+        <TextView
+            android:id="@+id/tv_kk_count"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/blue_bg"
+            android:gravity="center"
+            android:textColor="@color/red_tv"
+            android:textSize="@dimen/text16" />
+
+        <TextView
+            android:id="@+id/tv_qj_count"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/blue_bg"
+            android:gravity="center"
+            android:layout_marginRight="1px"
+            android:layout_marginLeft="1px"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/text16" />
+
+        <TextView
+            android:id="@+id/tv_tk_count"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/blue_bg"
+            android:gravity="center"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text16" />
+    </LinearLayout>
+
+    <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:isLoadMore="false"
+        app:overlay="false"
+        app:wave_color="@color/app_bg_a"
+        app:wave_show="false">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:dividerHeight="0px" />
+        <TextView style="@style/text_null" />
+    </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
+</merge>

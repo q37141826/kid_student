@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_user_index" />
+
+    <include layout="@layout/layout_tool_text" />
+
+    <RelativeLayout
+        android:id="@+id/re_choose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/re_header">
+
+        <TextView
+            android:id="@+id/tv_user_index_choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawablePadding="@dimen/textmarginleft"
+            android:drawableRight="@drawable/ico_grsy_down"
+            android:padding="@dimen/textmarginleft"
+            android:text="@string/user_index_pop_all"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_choose"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/textline"
+        android:layout_below="@+id/re_choose"
+        android:background="@color/blue_line" />
+
+    <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout
+        android:id="@+id/refresh_index_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_choose"
+        android:layout_weight="1"
+        app:isLoadMore="false"
+        app:overlay="false"
+        app:wave_color="@color/app_bg_a"
+        app:wave_show="false">
+
+        <ListView
+            android:id="@+id/lv_user_index"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/ico_line_bg"
+            android:dividerHeight="10dp"
+            android:listSelector="@color/list_click"
+            android:overScrollMode="never"></ListView>
+
+        <TextView style="@style/text_null" />
+    </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
+</RelativeLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/imIco"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/tvName"
+        android:layout_toRightOf="@id/imIco"
+        android:textColor="@color/text_deepgray"
+        android:textSize="@dimen/text18" />
+
+    <TextView
+        android:id="@+id/tvlesson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tvTitle"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/imIco"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/text13" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:drawablePadding="4dp"
+        android:drawableRight="@drawable/ico_to"
+        android:gravity="right"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text16" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/status"
+        android:layout_toStartOf="@+id/status"
+        android:textColor="@color/text_deepgray"
+        android:textSize="@dimen/text18" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/tvName"
+        android:layout_alignRight="@id/tvName"
+        android:layout_below="@+id/tvTitle"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/text13" />
+
+</RelativeLayout>

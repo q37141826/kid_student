@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+    <include layout="@layout/layout_tool_text"/>
+    <EditText
+        android:id="@+id/ed_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="12dp"
+        android:hint="@string/input_code"
+        android:padding="20dp"
+        android:paddingBottom="20dp"
+        android:background="@drawable/sp_add_class_white"
+       />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ask_for_code"
+        android:textSize="@dimen/text20"
+        android:textColor="@color/color5A"
+        android:layout_marginLeft="40dp"/>
+    <TextView
+        android:id="@+id/tv_sure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text20"
+        android:text="@string/sure"
+        android:background="@drawable/sp_add_class_app"
+        android:padding="20dp"
+        android:paddingBottom="20dp"
+        />
+
+</LinearLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="toolbar" type="id" />
+    <item name="tool_title" type="id" />
+    <item name="tool_left" type="id" />
+    <item name="tool_right" type="id" />
+    <item name="tv_null" type="id" />
+    <item name="id_list" type="id" />
+    <item name="tab_fragment" type="id" />
+    <item name="tab_group" type="id" />
+    <item name="ico_firstpager" type="drawable" />
+    <item name="id_object" type="id" />
+    <item name="ico_default_user" type="drawable" />
+    <item name="ico_default" type="drawable" />
+</resources>

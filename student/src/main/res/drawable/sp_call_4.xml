@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    android:useLevel="false">
+    <!--第一种颜色 蓝色 -->
+    <solid android:color="@color/call_gray"/>
+    <padding
+        android:bottom="1dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="1dp"/>
+    <solid
+        android:color="@color/call_gray"/>
+    <size
+        android:width="20dp"
+        android:height="20dp"/>
+</shape>
+

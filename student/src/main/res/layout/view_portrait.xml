@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ico_index_bg"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="35dp"
+    >
+    <RelativeLayout
+        android:id="@+id/re_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/img_group_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:adjustViewBounds="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitStart"
+            android:src="@drawable/ico_default"/>
+
+        <TextView
+            android:id="@+id/tv_group_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/img_group_icon"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="17sp"/>
+    </RelativeLayout>
+    <ImageView
+        android:layout_below="@id/re_group"
+        android:id="@+id/im_user"
+        android:layout_width="87dp"
+        android:layout_height="87dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ico_portrait"
+        android:padding="9dp"/>
+
+    <ImageView
+        android:layout_below="@id/re_group"
+        android:id="@+id/view_zxing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ico_zxing"
+        />
+
+    <TextView
+        android:id="@+id/tv_lable"
+        style="@style/text_base"
+        android:layout_alignTop="@id/im_user"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="18dp"
+        android:layout_toEndOf="@id/im_user"
+        android:layout_toRightOf="@id/im_user"
+        />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/im_user"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/tv_lable"
+        android:layout_toRightOf="@+id/tv_lable"
+        android:drawablePadding="5dp"
+        android:textColor="@color/white"
+        android:textSize="25sp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/im_user"
+        android:background="@drawable/sp_class_num"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:text="@string/classnum"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text16"
+            android:layout_marginLeft="10dp"
+            />
+
+        <cn.dajiahui.kid.ui.homework.view.NumTextView
+            android:id="@+id/tvClassNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="3dp"
+            android:layout_marginRight="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text20"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

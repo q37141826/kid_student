@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
+    <include layout="@layout/layout_tool_text"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_teaching_attitute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:text="@string/teaching_attitute"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18"/>
+
+        <RatingBar
+            android:id="@+id/rb_teaching_attitute"
+            style="@style/myratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_teaching_attitute"/>
+
+        <TextView
+            android:id="@+id/tv_teaching_attitute_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_teaching_lever"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:text="@string/teaching_lever"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18"/>
+
+        <RatingBar
+            android:id="@+id/rb_teaching_lever"
+            style="@style/myratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_teaching_lever"/>
+
+        <TextView
+            android:id="@+id/tv_teaching_lever_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_class_atmosphere"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:text="@string/class_atmosphere"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18"/>
+
+        <RatingBar
+            android:id="@+id/rb_class_atmosphere"
+            style="@style/myratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_class_atmosphere"/>
+
+        <TextView
+            android:id="@+id/tv_class_atmosphere_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_teaching_pertinence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/teaching_pertinence"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18"/>
+
+        <RatingBar
+            android:id="@+id/rb_teaching_pertinence"
+            style="@style/myratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_teaching_pertinence"/>
+
+        <TextView
+            android:id="@+id/tv_teaching_pertinence_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18"/>
+
+        <TextView
+            android:visibility="gone"
+            android:paddingTop="20dp"
+            android:id="@+id/tvop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/opinion_ok"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18"
+            android:layout_below="@+id/rb_teaching_pertinence"
+            android:layout_alignRight="@+id/tv_teaching_pertinence"
+            android:layout_alignEnd="@+id/tv_teaching_pertinence"/>
+        <TextView
+            android:visibility="gone"
+            android:paddingTop="20dp"
+            android:id="@+id/tvop_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18"
+            android:layout_below="@+id/rb_teaching_pertinence"
+            android:layout_alignLeft="@+id/rb_teaching_pertinence"
+            android:layout_alignStart="@+id/rb_teaching_pertinence"/>
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/et_opinion"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/sp_edit"
+        android:ems="10"
+        android:gravity="center_vertical|top"
+        android:inputType="textMultiLine"
+        android:maxLength="250"
+        android:padding="8dp"
+        android:textColor="@color/color5A"
+        android:textSize="17sp">
+
+    </EditText>
+
+    <TextView
+        android:id="@+id/tv_opinion_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="14dp"
+
+        android:textColor="@color/gray"
+        android:textSize="13sp"/>
+
+
+</LinearLayout>

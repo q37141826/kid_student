@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/sp_blue_bg"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/text_ico_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:drawableRight="@drawable/ico_to" />
+
+    <TextView
+        android:id="@+id/tvLessonNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@+id/text_ico_to"
+        android:textSize="@dimen/text16"/>
+
+    <TextView
+        android:id="@+id/tvLessonTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@id/tvLessonNum"
+        android:drawableLeft="@drawable/ico_homework"
+        android:drawablePadding="8dp"
+        android:singleLine="true"
+        android:textColor="@color/color5A"
+        android:textSize="@dimen/text18" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvLessonTitle"
+        android:layout_alignStart="@+id/tvLessonTitle"
+        android:layout_below="@+id/tvLessonTitle"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="5dp"
+        android:drawablePadding="8dp"
+        android:maxLength="5"
+        android:textColor="@color/whilte_gray"
+        android:textSize="@dimen/text13"
+        android:visibility="gone"/>
+</RelativeLayout>
+

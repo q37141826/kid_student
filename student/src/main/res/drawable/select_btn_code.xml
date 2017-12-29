@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 红色点击 效果 -->
+
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:radius="3dp"/>
+            <solid android:color="@color/whilte_line"/>
+        </shape>
+    </item>
+    <!-- pressed -->
+    <item  android:state_focused="true">
+        <shape>
+            <corners android:radius="3dp"/>
+            <solid android:color="@color/whilte_line"/>
+        </shape>
+    </item>
+    <!-- focused -->
+    <item>
+        <shape>
+            <corners android:radius="3dp"/>
+            <solid android:color="@color/whilte_gray"/>
+        </shape>
+    </item>
+    <!-- default -->
+
+    <item android:state_checked="true"
+          android:state_enabled="false">
+        <shape>
+            <corners android:radius="3dp"/>
+            <solid android:color="@color/whilte_gray"/>
+        </shape>
+    </item>
+</selector>

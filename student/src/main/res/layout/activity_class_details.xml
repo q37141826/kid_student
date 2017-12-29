@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fx="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_tool_text" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+
+        <com.fxtx.framework.widgets.TasksCompletedView
+            android:id="@+id/vTask"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginRight="10dp"
+            fx:task_circleColor="@color/white"
+            fx:task_radius="30dp"
+            fx:task_ringColor="@color/yellow"
+            fx:task_ringColor_bg="@color/whilte_gray"
+            fx:task_strokeWidth="4dp" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/vTask"
+            android:layout_toRightOf="@+id/vTask"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text20" />
+
+        <TextView
+            android:id="@+id/tvMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/vTask"
+            android:layout_alignLeft="@+id/tvTitle"
+            android:layout_alignStart="@+id/tvTitle"
+            android:layout_gravity="right"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text13" />
+
+    </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/app_bg"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:visibility="gone"
+            android:id="@+id/rdLesson"
+            style="@style/FxRadioButton"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:checked="true"
+            android:text="@string/text_lesson" />
+
+        <RadioButton
+            android:visibility="gone"
+            android:id="@+id/rdPhoto"
+            style="@style/FxRadioButton"
+            android:layout_margin="1dp"
+            android:text="@string/tv_photo" />
+
+        <RadioButton
+            android:visibility="gone"
+            android:id="@+id/rdStudent"
+            style="@style/FxRadioButton"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:text="@string/tv_attence" />
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/tab_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+</LinearLayout>

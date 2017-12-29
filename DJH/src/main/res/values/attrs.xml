@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- CirclePageIndicator -->
+    <declare-styleable name="CirclePageIndicator">
+        <attr name="centered" format="boolean"/>
+        <attr name="fillColor" format="color"/>
+        <attr name="android:orientation"/>
+        <attr name="radius" format="dimension"/>
+        <attr name="snap" format="boolean"/>
+        <attr name="strokeColor" format="color"/>
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="android:background"/>
+        <attr name="spacing" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="scrolltitl">
+        <attr name="itemCounts" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="ProgressWheel">
+        <attr name="progressIndeterminate" format="boolean"/>
+        <attr name="barColor" format="color"/>
+        <attr name="rimColor" format="color"/>
+        <attr name="rimWidth" format="dimension"/>
+        <attr name="spinSpeed" format="float"/>
+        <attr name="barSpinCycleTime" format="integer"/>
+        <attr name="circleRadius" format="dimension"/>
+        <attr name="fillRadius" format="boolean"/>
+        <attr name="barWidth" format="dimension"/>
+    </declare-styleable>
+
+    <!--MaterialRefreshLayout -->
+    <declare-styleable name="MaterialRefreshLayout">
+        <attr name="overlay" format="boolean"/>
+        <!-- style for MaterialWaveView  -->
+        <attr name="wave_height_type" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="higher" value="1"/>
+        </attr>
+        <attr name="wave_color" format="color"/>
+        <attr name="wave_show" format="boolean"/>
+
+        <!-- style for CircleProgressBar  -->
+        <attr name="progress_colors" format="reference"/>
+        <attr name="progress_stoke_width" format="dimension"/>
+        <attr name="progress_backgroud_color" format="color"/>
+        <attr name="progress_show_arrow" format="boolean"/>
+        <attr name="progress_arrow_width" format="dimension"/>
+        <attr name="progress_arrow_height" format="dimension"/>
+        <attr name="progress_show_circle_backgroud" format="boolean"/>
+        <attr name="progress_value" format="integer"/>
+        <attr name="progress_max_value" format="integer"/>
+        <attr name="progress_text_size" format="dimension"/>
+        <attr name="progress_text_color" format="color"/>
+        <attr name="head_show" format="boolean"/>
+        <attr name="progress_text_visibility" format="enum">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+        </attr>
+        <attr name="progress_size_type" format="enum">
+            <enum name="normal" value="0"></enum>
+            <enum name="big" value="1"></enum>
+        </attr>
+        <attr name="isLoadMore" format="boolean"></attr>
+    </declare-styleable>
+    <declare-styleable name="CircleProgressBar">
+        <attr name="mlpb_inner_radius" format="dimension"/>
+        <attr name="mlpb_background_color" format="color"/>
+        <attr name="mlpb_progress_color" format="color"/>
+        <attr name="mlpb_progress_stoke_width" format="dimension"/>
+        <attr name="mlpb_show_arrow" format="boolean"/>
+        <attr name="mlpb_enable_circle_background" format="boolean"/>
+        <attr name="mlpb_arrow_width" format="dimension"/>
+        <attr name="mlpb_arrow_height" format="dimension"/>
+
+        <attr name="mlpb_progress" format="integer"/>
+        <attr name="mlpb_max" format="integer"/>
+
+
+        <attr name="mlpb_progress_text_size" format="dimension"/>
+        <attr name="mlpb_progress_text_color" format="color"/>
+
+        <!--<attr name="mlpb_progress_text_offset" format="dimension"/>-->
+
+        <attr name="mlpb_progress_text_visibility" format="enum">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+        </attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="TagGroup">
+        <!-- The tag view text color. -->
+        <attr name="atg_textColor" format="color"/>
+        <!-- The tag view background color. -->
+        <attr name="atg_backgroundColor" format="reference|color"/>
+        <attr name="atg_checkedTextColor" format="color"/>
+        <!-- 标签背景色色 checked  -->
+        <attr name="atg_checkedBackgroundColor" format="reference|color"/>
+        <attr name="atg_textSize" format="dimension"/>
+        <attr name="atg_horizontalSpacing" format="dimension"/>
+        <attr name="atg_verticalSpacing" format="dimension"/>
+        <attr name="atg_horizontalPadding" format="dimension"/>
+        <attr name="atg_verticalPadding" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="Themes">
+        <attr name="tagGroupStyle" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="BGABadgeView">
+        <!-- 徽章背景色 -->
+        <attr name="badge_bgColor" format="reference|color"/>
+        <!-- 徽章文本的颜色 -->
+        <attr name="badge_textColor" format="reference|color"/>
+        <!-- 徽章文本字体大小 -->
+        <attr name="badge_textSize" format="reference|dimension"/>
+        <!-- 徽章背景与宿主控件上下边缘间距离 -->
+        <attr name="badge_verticalMargin" format="reference|dimension"/>
+        <!-- 徽章背景与宿主控件左右边缘间距离 -->
+        <attr name="badge_horizontalMargin" format="reference|dimension"/>
+        <!-- 徽章文本边缘与徽章背景边缘间的距离 -->
+        <attr name="badge_padding" format="reference|dimension"/>
+        <!-- 徽章在宿主控件中的位置 -->
+        <attr name="badge_gravity" format="enum">
+            <enum name="rightTop" value="0"/>
+            <enum name="rightCenter" value="1"/>
+            <enum name="rightBottom" value="2"/>
+        </attr>
+        <!-- 是否可以拖拽删除徽章 -->
+        <attr name="badge_dragable" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="TasksCompletedView">
+        <attr name="task_radius" format="dimension"/>
+        <attr name="task_strokeWidth" format="dimension"/>
+        <attr name="task_circleColor" format="color"/>
+        <attr name="task_ringColor" format="color"/>
+        <attr name="task_ringColor_bg" format="color"/>
+        <attr name="task_bfb" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="wheelview">
+        <attr name="gravity">
+            <enum name="center" value="17"/>
+            <enum name="left" value="3"/>
+            <enum name="right" value="5"/>
+        </attr>
+        <attr name="textSize" format="dimension"/>
+        <attr name="textColorOut" format="color"/>
+        <attr name="textColorCenter" format="color"/>
+        <attr name="dividerColor" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="RoundImageView">
+        <attr name="borderRadius"/>
+        <attr name="type"/>
+    </declare-styleable>
+    <attr name="borderRadius" format="dimension"/>
+    -
+    <attr name="type">
+        <enum name="circle" value="0"/>
+        <enum name="round" value="1"/>
+    </attr>
+</resources>

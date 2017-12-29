@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@id/tab_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1">
+    </FrameLayout>
+
+    <View style="@style/line_style"/>
+
+    <RadioGroup
+        android:id="@+id/tab_group"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/index_bottom_height"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="4dp">
+    </RadioGroup>
+
+</LinearLayout>

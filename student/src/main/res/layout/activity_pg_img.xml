@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_tool_text" />
+
+    <TextView style="@style/text_null" />
+
+    <cn.dajiahui.kid.ui.paper.view.PictureTagLayout
+        android:id="@+id/pictaglayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/over"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/sp_back_tv_circle"
+        android:gravity="center"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:text="+"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text18" />
+
+    <RelativeLayout
+    android:id="@+id/re_voice"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="20dp"
+    android:layout_marginRight="10dp"
+    android:layout_toLeftOf="@+id/over"
+    android:background="@drawable/sp_back_tv_circle"
+    android:visibility="gone">
+
+    <ImageView
+        android:id="@+id/voice"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:padding="10dp"
+        android:src="@drawable/ico_mp3_b" />
+</RelativeLayout>
+</RelativeLayout>

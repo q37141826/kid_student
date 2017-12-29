@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="e_class_null">暂无班级</string>
+    <string name="e_lesson_null">暂无课次信息</string>
+    <string name="e_op_null">暂无评价信息</string>
+    <string name="e_student_null">暂无考勤信息</string>
+    <string name="e_album_null">暂无班级相册</string>
+    <string name="e_photo_null">暂无照片</string>
+    <string name="e_audit_null">暂无申请信息</string>
+    <string name="e_test_null">暂无测评信息</string>
+    <string name="e_course_null">暂无微课信息</string>
+    <string name="e_msg_null">暂无消息</string>
+    <string name="e_site_null">网址收藏夹为空</string>
+    <string name="e_homework_null">暂无作业信息</string>
+    <string name="e_log_null">暂无日志数据</string>
+</resources>

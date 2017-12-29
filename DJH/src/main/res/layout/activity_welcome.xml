@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:fx="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/wl_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.fxtx.framework.widgets.viewpage.CirclePageIndicator
+        android:id="@+id/wl_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="40dip"
+        android:padding="10dip"
+        fx:centered="true"
+        fx:fillColor="@color/white"
+        fx:radius="5dp"
+        fx:spacing="20dp"
+        fx:strokeColor="@color/white"
+        fx:strokeWidth="2dp"/>
+
+</FrameLayout>

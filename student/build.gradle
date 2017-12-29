@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+
+
+def BuildVersion = 'b171123'
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'cn.dajiahui.kid'
+            keyPassword 'dajiahuikid'
+            storeFile file('keystore/atadajiahui_kid.jks')
+            storePassword 'dajiahuikid'
+        }
+    }
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
+    defaultConfig {
+        applicationId "cn.dajiahui.kid"
+        minSdkVersion 17
+        targetSdkVersion 22
+        versionCode 30
+        versionName '3.00'
+        signingConfig signingConfigs.config
+        multiDexEnabled true
+    }
+
+    buildTypes {
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+            zipAlignEnabled true
+        }
+        debug {
+            signingConfig signingConfigs.config
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    flavorDimensions 'app'
+
+    productFlavors {
+        dev {
+            dimension 'app'
+            buildConfigField "String", "httpUrl", '"http://139.129.193.217:8220/hxxApi/"'
+            buildConfigField "String", "httpFileUrl", '"http://139.129.193.217:8220/hxxTest/"'
+        }
+        online {
+            dimension 'app'
+            buildConfigField "String", "httpUrl", '"http://hxx.dajiahui.cn/api/"'
+            buildConfigField "String", "httpFileUrl", '"http://hxx.dajiahui.cn/"'
+        }
+
+    }
+
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "MogicEarsStudent_${variant.productFlavors[0].name}_v${variant.versionName}_c${variant.versionCode}-${BuildVersion}.apk"
+        }
+    }
+
+}
+
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:design:25.3.1'
+    compile project(':easemob3.3.7')
+    compile 'fm.jiecao:jiecaovideoplayer:5.8.1'
+    compile 'com.android.support:multidex:1.0.1'
+}

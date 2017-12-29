@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_tool_text" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/tvMonth"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/sp_call_1"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text18" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/tvMonth"
+            android:layout_toLeftOf="@+id/btn_code"
+            android:layout_toRightOf="@+id/tvMonth"
+            android:text="@string/class_name"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text20" />
+
+        <TextView
+            android:id="@+id/tvMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvMonth"
+            android:layout_alignLeft="@+id/tvTitle"
+            android:layout_alignStart="@+id/tvTitle"
+            android:layout_gravity="right"
+            android:layout_marginBottom="8dp"
+            android:layout_toLeftOf="@+id/btn_code"
+            android:text="@string/text_lesson"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text13" />
+
+        <TextView
+            android:id="@+id/btn_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_code_back"
+            android:padding="8dp"
+            android:text="@string/tv_opinion"
+            android:textColor="@color/app_bg"
+            android:textSize="@dimen/text16"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_totall_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text20"
+            android:visibility="gone" />
+
+        <RatingBar
+            android:id="@+id/rb_teaching_totall_score"
+            style="@style/myratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvMonth"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:isIndicator="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/lesson_d_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

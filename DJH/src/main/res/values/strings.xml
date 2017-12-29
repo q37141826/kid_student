@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fx_login">加载中</string>
+    <string name="sure">确定</string>
+    <string name="cancle">取消</string>
+    <string name="search_goods_hint">请输入搜索内容</string>
+    <string name="back_text">返回</string>
+    <string name="hint_capture">对准到框内即可自动扫描</string>
+    <string name="photo_max">最多选择%s张</string>
+    <string name="pickerview_year">年</string>
+    <string name="pickerview_month">月</string>
+    <string name="pickerview_day">日</string>
+    <string name="pickerview_hours">时</string>
+    <string name="pickerview_minutes">分</string>
+    <string name="pickerview_seconds">秒</string>
+    <string name="tv_max_lenght">最多可以输入%s个字符</string>
+    <string name="fx_look_details">查看详情</string>
+</resources>

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--系统通用文字-->
+    <string name="app_name">魔耳学生端</string>
+    <string name="search">搜索</string>
+    <string name="select">选择</string>
+    <string name="tv_submit">提交</string>
+    <string name="submiting">提交中</string>
+    <string name="edit">编辑</string>
+    <string name="prompt">提示</string>
+    <string name="create">新建</string>
+    <string name="all">全部</string>
+    <string name="btn_on">关闭</string>
+    <!--app应用文字-->
+
+    <!--作业文字start-->
+    <string name="tab_task">作业</string>
+    <string name="tab_study">学习</string>
+    <string name="tab_chat">沟通</string>
+    <string name="tab_mine">我的</string>
+    <string name="task_done">已完成</string>
+    <string name="task_staydone">待完成</string>
+    <string name="task_staycorrect">待批改</string>
+
+    <string-array name="spinner_adapter">
+        <item>全部</item>
+        <item>作业</item>
+        <item>通知</item>
+        <item>学生管理</item>
+        <item>资料</item>
+        <item>微课</item>
+        <item>测评</item>
+        <item>班级相册</item>
+        <item>教学研究</item>
+        <!--<item name = "ss">quanbu</item>-->
+    </string-array>
+    <string name="nothing">现在没有待办事项\n休息一下吧~</string>
+    <!--作业文字end-->
+
+    <!--通知start-->
+    <string name="num">(%s)</string>
+    <string name="notice_details">通知详情</string>
+    <string name="class_notice">班级\n通知</string>
+    <string name="school_notice">校园\n通知</string>
+    <string name="system_notice">系统\n通知</string>
+    <string name="notice_msg_ok">确定已经了解通知内容了吗？</string>
+    <!--通知end-->
+
+    <!--沟通start-->
+    <string name="chat_list">通讯录</string>
+    <string name="chat_concact_no">暂无通讯录</string>
+    <!--沟通end-->
+
+    <!--我的start-->
+
+    <string name="text_teaching_material">我的教材</string>
+    <string name="text_wrong_book">错题本</string>
+    <string name="text_report">学情报告</string>
+    <string name="text_notice">通知</string>
+    <string name="text_set_up">设置</string>
+
+    <string name="text_security">账户安全</string>
+    <string name="text_about">关于魔耳</string>
+    <string name="btn_exit">退出登录</string>
+
+
+    <string name="user_message">个人资料</string>
+    <string name="login_edit">是否要退出登录？</string>
+    <!--我的end-->
+
+
+    <!--登录注册 start -->
+    <string name="login">登录</string>
+    <string name="input_user">请输入用户名</string>
+    <string name="input_pwd">请输入登录密码</string>
+    <string name="tv_regist">注册</string>
+    <string name="forget_pwd">忘记密码</string>
+    <string name="inputnickname">请输入昵称</string>
+    <string name="nickname">昵称</string>
+    <string name="username">用户名</string>
+    <string name="email">邮  箱</string>
+    <string name="inputemail">请输入邮箱</string>
+    <string name="inputebirth">请选择出生日期</string>
+    <string name="emailerror">电子邮箱格式不正确</string>
+    <string name="registok">注册成功</string>
+    <string name="class_num">上课班级数%s</string>
+    <string name="classnum">上课班级数</string>
+    <!--登录注册 end -->
+    <!--忘记密码 start-->
+    <string name="login_account">登录账号</string>
+    <string name="input_login_account">请输入登录账号</string>
+    <string name="phone_num">手机号码</string>
+    <string name="input_phone_num">请输入手机号码</string>
+    <string name="phone_code">验证码</string>
+    <string name="newpwdagin">请再次输入新密码</string>
+    <string name="pwd_two_error">两次密码不匹配，请重新输入</string>
+    <!--忘记密码 end-->
+    <!--我的班级 start -->
+    <string name="class_attence">考勤</string>
+    <string name="class_attenceDetail">考勤详情</string>
+    <string name="my_class">我的班级</string>
+    <string name="class_details">班级详情</string>
+    <string name="class_lesson">班级详情</string>
+    <string name="lesson_details">课次详情</string>
+    <string name="text_class2"><![CDATA[已上课<font color=\'#50D2C2\'>%1$s</font>/%2$s]]></string>
+    <string name="tv_overlesson">已上完</string>
+    <string name="tv_lesson">已上%1$s次课 共%2$s次课</string>
+    <string name="class_code">班级码</string>
+    <string name="tv_student">学生</string>
+    <string name="tv_attence">考勤</string>
+    <string name="tv_photo">相册</string>
+    <string name="text_lesson">课次</string>
+    <string name="tv_opinion">评价教师</string>
+    <string name="tv_data">资料</string>
+    <string name="tv_practice">随堂练</string>
+    <string name="tv_homework">课后作业</string>
+    <string name="tv_lessonNum">%s题</string>
+    <string name="tv_call">点名</string>
+    <string name="tv_endTime">截至时间%s</string>
+    <!--我的班级 end -->
+
+    <!--作业 start -->
+    <string name="title_paper">做作业</string>
+    <string name="tv_paper">%1$s人未交</string>
+    <string name="answer_show">显示答案</string>
+    <string name="answer_public">公布答案</string>
+    <string name="submit_success">提交成功</string>
+    <!--作业 end -->
+
+    <!--点名 start -->
+    <string name="title_dianming">点名</string>
+    <string name="attence">考勤</string>
+    <string name="tv_chuqin">出勤：%s</string>
+    <string name="tvkuangke">旷课：%s</string>
+    <string name="tvQingjia">请假：%s</string>
+    <string name="tvTingke">停课：%s</string>
+    <string name="tvCallroll">第%1$s次课 %2$s</string>
+    <string name="tvShouldNum">应到：%s</string>
+    <string name="text_ask">请假</string>
+    <string name="text_truan">旷课</string>
+    <string name="text_atten">出勤</string>
+    <!--点名 end -->
+
+    <!--评价学生 start -->
+    <string name="discipline">纪律性：</string>
+    <string name="takeinit">主动性：</string>
+    <string name="active">活跃性：</string>
+    <string name="opinion_ok">评价：</string>
+    <string name="tv_opinion_ok">评价成功</string>
+    <string name="teaching_attitute">教学态度：</string>
+    <string name="teaching_lever">教学水平：</string>
+    <string name="class_atmosphere">上课氛围：</string>
+    <string name="teaching_pertinence">教学针对性：</string>
+    <!--评价学生 end -->
+    <!--相册 start -->
+    <string name="shart">分享</string>
+    <string name="down">下载</string>
+    <string name="delete">删除</string>
+    <string name="details">查看详情...</string>
+    <string name="up_photo">上传照片</string>
+    <string name="create_album">新建相册</string>
+    <string name="set_album">修改相册</string>
+    <string name="text_pingjia">评论(%s)</string>
+    <string name="fraction">%.1f分</string>
+    <string name="score_rate">得分率：%.1f%%</string>
+    <string name="reply"><![CDATA[%1$s回复<font color=\'#57D4C4\'>%2$s</font>:]]></string>
+    <string name="send">发送</string>
+    <string name="hint_eval">发表评论</string>
+    <string name="comments">评论</string>
+    <string name="class_album">相册</string>
+    <string name="hint_album_name">相册名字不能为空</string>
+    <string name="hint_comments_text">请输入评论内容</string>
+    <string name="hint_delete_photo">是否要删除照片？</string>
+    <string name="hint_down_photo">是否要下载照片？</string>
+    <string name="hint_down_ok">下载成功</string>
+    <string name="file_img_update">全部文件%1$s 上传成功%2$s 失败%3$s</string>
+    <string name="file_num">正在上传第%s张</string>
+    <string name="update_text">%s张图片上传失败。是否重新上传？</string>
+    <string name="album_input">请输入相册名称</string>
+    <!--相册 end -->
+    <!--教研 start -->
+    <string name="research">教研</string>
+    <!--教研 end -->
+    <!--微客 start -->
+    <string name="title_course">微课</string>
+    <string name="tit_html_wk">%s-微课</string>
+    <string name="text_class1">知识点:%1$s\n视　频:%2$s\n练　习:%3$s</string>
+    <!--微客 end -->
+    <!--测评 start -->
+    <string name="title_test">做测评</string>
+    <string name="test_undone">未完成</string>
+    <string name="test_done">已完成</string>
+    <string name="test_no_answer">未答题</string>
+    <string name="test_answer">已答题</string>
+    <!--测评 end -->
+
+    <!--我的资料 start -->
+    <string name="my_data">我的资料</string>
+    <string name="name">名称</string>
+    <string name="date">日期</string>
+    <string name="type">类型</string>
+    <string name="source">来源</string>
+    <string name="subject">学科</string>
+    <string name="remove">清除选项</string>
+    <string name="screening">筛选</string>
+    <string name="switch_show">切换\n显示</string>
+    <string name="move">移动</string>
+    <string name="move_msg">移动成功</string>
+    <string name="cancel_share">取消分享</string>
+    <string name="file_null">当前文件夹中没有文件</string>
+    <string name="tyle_data_null">类型分类不存在</string>
+    <string name="subject_data_null">学科分类不存在</string>
+    <string name="source_data_null">来源分类不存在</string>
+    <!--我的资料 end-->
+    <!--班级申请 start -->
+    <string name="title_audit_class">审核学生</string>
+    <string name="title_sq_class">班级申请</string>
+    <string name="audit_class">申请加入班级</string>
+    <string name="audit_time">申请加入时间</string>
+    <string name="audit">申请加入</string>
+    <string name="audit_parent">家长信息</string>
+    <string name="btn_agreed">同意</string>
+    <string name="btn_refused">拒绝</string>
+    <string name="tv_auditok">审核成功</string>
+    <string name="re_apply">确定要重新提交申请吗？</string>
+    <string name="addclass">添加班级</string>
+    <!--班级申请 end -->
+
+    <!--我的 start -->
+    <string name="btn_cancle">取消</string>
+    <string name="btn_takephone">拍照</string>
+    <string name="btn_album">相册</string>
+    <string name="tv_user_icon">头像</string>
+    <string name="tv_user_account">帐号</string>
+    <string name="tv_user_pwd">密码</string>
+    <string name="tv_user_phone">手机号</string>
+    <string name="tv_user_name">姓名</string>
+    <string name="edit_phone">修改手机号</string>
+    <string name="edit_user">修改帐号</string>
+    <string name="edit_pwd">修改密码</string>
+    <string name="code">短信验证码</string>
+    <string name="old_phone">原手机号</string>
+    <string name="new_phone">新手机号</string>
+    <string name="getcode">获取验证码</string>
+    <string name="inputcode">请输入验证码</string>
+    <string name="pwderror">密码输错</string>
+    <string name="old_user">原帐号</string>
+    <string name="new_user">新帐号</string>
+    <string name="inputnewuser">请输入新帐号</string>
+    <string name="inputnewpwd">请输入新密码</string>
+    <string name="inputnewphonw">请输入新手机号</string>
+    <string name="loginpwd">登录密码</string>
+    <string name="input_regit_phone">请输入手机号</string>
+    <string name="old_pwd">原密码</string>
+    <string name="new_pwd">新密码</string>
+    <string name="inputoldpwd">请输入原密码</string>
+    <string name="pwd_instru">6-16位字符,推荐使用字母加数字组合</string>
+    <string name="pwd_ok">确认密码</string>
+    <string name="inputpwdto">请确认密码</string>
+    <string name="pwd_length">建议密码长度6-16位</string>
+    <string name="hint_inputcode">验证码已发送，请注意查收</string>
+    <string name="save_ok">修改成功</string>
+    <string name="text_oldnewpwd">新手机号和原手机号相同，无法修改</string>
+    <string name="text_oldnewuser">新帐号和原帐号相同，无法修改</string>
+    <string name="text_oldnewpwd1">新密码两次输入不匹配，请重新输入</string>
+    <string name="click_birth">请点击选择生日</string>
+    <string name="no_chinese">密码不允许含有中文</string>
+    <string name="correct_pwd">密码长度只能为6-16位</string>
+    <string name="input_text_quest">输入你的答案</string>
+    <string name="textquest_op">是否提交答案？</string>
+    <string name="textquest">答案录入</string>
+    <!--我的 end -->
+
+    <!--意见反馈start -->
+    <string name="my_opioion">评价</string>
+    <string name="my_opioion_class">我的评价</string>
+    <string name="opinion">您的宝贵意见将帮助我们不断进步</string>
+    <!--<string name="my_teaching_material">我的教材</string>-->
+    <string name="opinion_info">请输入意见与建议内容</string>
+    <string name="msg_op">是否提交意见？</string>
+    <string name="msg_oppoin">是否提交评价？</string>
+    <string name="ts_op">您的意见与反馈已经提交成功！谢谢您的意见与反馈内容</string>
+    <!--意见反馈end -->
+
+    <!-- 随堂练习start-->
+    <string name="show_answer">显示答案</string>
+    <string name="hide_answer">收起答案</string>
+    <string name="answer_num"><![CDATA[<big>%1$s</big>/%2$s]]></string>
+    <string name="answer_true"><![CDATA[正确答案<br><font color=\'#47CDAA\'>%1$s</font>]]></string>
+    <string name="ps_answer">请填写答案</string>
+
+
+    <!-- 随堂联系end-->
+    <!--错题本 start -->
+    <string name="wrong_question">错题本</string>
+    <string name="wrong_question_count">错题统计</string>
+    <string name="add_wrong">添加错题</string>
+    <string name="wrong_count">统计</string>
+    <string name="wrong_go_errbook">跳过，直接加入错题本</string>
+    <string name="wrong_upload_myanswer">上传我的答案</string>
+    <string name="wrong_upload_by_canmera">2.拍照上传我的答案</string>
+    <string name="wrong_upload_first_ques"><font color='red'>* </font>1.请先拍照上传题干</string>
+    <string name="wrong_upload_errQues">上传错题</string>
+
+    <!-- 错题本 end-->
+    <string name="btn_choose">从相册选择</string>
+    <string name="ed_user_name">请输入姓名</string>
+    <string name="nameequel">和历史姓名一致，请重新输入姓名</string>
+    <string name="edit_name">修改姓名</string>
+    <string name="notlenth">密码长度不足6位</string>
+    <string name="tit_class">我的微课</string>
+    <string name="reapply">重新提交申请成功</string>
+    <string name="ask_for_code">请向教师索要班级码</string>
+    <string name="input_code">请输入班级码</string>
+    <string name="dialog_down_file">下载文件</string>
+
+    <string name="sex">性   别</string>
+    <string name="boy">男</string>
+    <string name="girl">女</string>
+    <string name="birth">生   日</string>
+    <string name="tv_user_sign">个性签名</string>
+    <string name="tv_user_email">邮箱</string>
+    <string name="tv_user_birth">生日</string>
+    <string name="edit_sign">修改个性签名</string>
+    <string name="edit_birth">修改生日</string>
+    <string name="edit_email">修改邮箱</string>
+    <string name="ed_user_sign">请输入个性签名</string>
+    <string name="ed_user_email">请输入邮箱地址</string>
+    <string name="ed_user_erroremail">请输入正确的邮箱地址</string>
+    <string name="ed_user_copyemail">和历史邮箱一致，请重新输入邮箱</string>
+    <string name="ed_user_birth">请点击选择生日</string>
+    <string name="score_attitute">还没给\"教学态度\"打分</string>
+    <string name="score_lever">还没给\"教学水平\"打分</string>
+    <string name="score_atomsfer">还没给\"上课氛围\"打分</string>
+    <string name="score_pertinence">还没给\"教学针对性\"打分</string>
+    <string name="click_birth_real">请选择正确的日期</string>
+    <string name="edit_sex">修改性别</string>
+    <string name="error_sex">性别没有变化</string>
+    <string name="no_homework">暂无作业信息</string>
+    <string name="wait">待审核</string>
+    <string name="class_agree">已同意</string>
+    <string name="class_refuse">被拒绝</string>
+    <string name="up_success">上传成功</string>
+    <string name="get_paper_fail">获取试卷信息失败</string>
+    <string name="angin_back">再按返回退出</string>
+    <string name="html_tv_score"><![CDATA[<font color=\'#F37E43\'><big>%.1f</big></font>分]]></string>
+    <string name="input_user_name">请输入姓名</string>
+    <string name="input_right_phine">请输入正确的手机号！</string>
+    <string name="chinese_lenght">用户名长度为6~16位字符，其中一个中文占3个字符，禁止输入标点符号及特殊字符</string>
+    <string name="special_symbol"></string>
+    <string name="not_wrong">暂无错题本数据</string>
+    <string name="not_wrong_count">暂无错题统计数据</string>
+    <!--错题本 end -->
+
+    <string name="not_data">暂无数据</string>
+    <string name="loading">正在登录......</string>
+
+    <string name="add_annotation">添加注释</string>
+    <string name="score">评分</string>
+    <string name="score_get_grade">满分100，得分</string>
+    <string name="not_comment">暂无评论</string>
+    <string name="ed_add_annotate_yuyin">请点击右下方语音批注</string>
+    <string name="not_practice">暂无随堂练</string>
+    <string name="not_lesson_homework">暂无课后作业</string>
+    <string name="not_meterial">暂无资料</string>
+    <string name="user_index_pop_all">全部</string>
+    <string name="class_name">班级名</string>
+    <string name="play">视频播放</string>
+    <string name="change_pwd">是否更改密码?</string>
+    <string name="lesson_over_str">课程结束后，才能评价</string>
+    <string name="fx_report">学情报告</string>
+    <string name="re_test">测评报告</string>
+    <string name="re_session">结课报告</string>
+    <string name="not_submit">未提交</string>
+    <string name="re_classroom">课堂报告</string>
+    <string name="fx_see_list">观看记录</string>
+    <string name="fx_student_num"><![CDATA[学生数:%1$s]]></string>
+    <string name="fx_see_num"><![CDATA[已看人数:%1$s]]></string>
+    <string name="fx_unsee_num"><![CDATA[未看人数:%1$s]]></string>
+</resources>

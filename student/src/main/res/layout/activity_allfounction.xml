@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_tool_text" />
+
+
+        <TextView
+            android:id="@+id/tvTodo1"
+            style="@style/mine_view"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/app_bg_a"/>
+
+        <TextView
+            android:id="@+id/tvNotice1"
+            style="@style/mine_view"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/app_bg_a" />
+
+        <TextView
+            android:id="@+id/tvAll1"
+            style="@style/mine_view"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/app_bg_a" />
+
+        <TextView
+            android:id="@+id/tvChat1"
+            style="@style/mine_view"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/app_bg_a" />
+
+        <TextView
+            android:id="@+id/tvMine1"
+            style="@style/mine_view"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/app_bg_a"
+            />
+</LinearLayout>

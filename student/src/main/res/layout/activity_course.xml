@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
+    <include layout="@layout/layout_tool_text"/>
+
+    <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout
+        android:id="@+id/refresh"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:isLoadMore="false"
+        app:overlay="false"
+        app:wave_color="@color/app_bg_a"
+        app:wave_show="false">
+
+        <ExpandableListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/transparent"
+            android:footerDividersEnabled="false"
+            android:groupIndicator="@null"
+            android:headerDividersEnabled="false"
+            android:overScrollMode="never"/>
+
+        <TextView
+            style="@style/text_null"/>
+
+    </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
+
+</LinearLayout>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_tool_text" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_discipline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/discipline"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18" />
+
+        <RatingBar
+            android:id="@+id/rb_discipline"
+            style="@style/myratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_discipline" />
+
+        <TextView
+            android:id="@+id/tv_discipline_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_takeinit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/takeinit"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18" />
+
+        <RatingBar
+            android:id="@+id/rb_takeinit"
+            style="@style/myratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_takeinit" />
+
+        <TextView
+            android:id="@+id/tv_takeinit_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/active"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18" />
+
+        <RatingBar
+            android:id="@+id/rb_active"
+            style="@style/myratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_active" />
+
+        <TextView
+            android:id="@+id/tv_avtive_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18" />
+
+        <TextView
+            android:id="@+id/et_opinion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rb_active"
+            android:layout_toLeftOf="@+id/rb_active"
+            android:layout_toStartOf="@+id/rb_active"
+            android:gravity="center_vertical|top"
+            android:paddingTop="20dp"
+            android:text="@string/opinion_ok"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18" />
+
+        <TextView
+            android:id="@+id/tvopmes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/et_opinion"
+            android:layout_toEndOf="@+id/et_opinion"
+            android:layout_toRightOf="@+id/et_opinion"
+            android:gravity="center_vertical|top"
+            android:paddingTop="20dp"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18" />
+    </RelativeLayout>
+
+</LinearLayout>

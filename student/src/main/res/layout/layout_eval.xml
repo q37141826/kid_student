@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <RelativeLayout
+        android:id="@+id/eval_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/whilte_line"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/imeMoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:src="@drawable/ico_emoji"/>
+
+        <EditText
+
+            android:id="@+id/edEval"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/btn_send"
+            android:layout_toRightOf="@id/imeMoji"
+            android:background="@drawable/sp_or_edit"
+            android:hint="@string/hint_eval"
+            android:maxLength="100"
+            android:maxLines="4"
+            android:padding="10dp"
+            android:textSize="@dimen/text18"/>
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/edEval"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/imeMoji"
+            android:background="@color/orange"
+            android:gravity="center"
+            android:text="@string/send"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text16"/>
+    </RelativeLayout>
+
+    <com.hyphenate.easeui.widget.emojicon.EaseEmojiconMenu
+        android:id="@+id/emojicon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+</merge>

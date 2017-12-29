@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:id="@+id/mine_scroll"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="50dp"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ib_bg"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="@drawable/ico_index_bg"
+                />
+
+            <RelativeLayout
+                android:id="@+id/topView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_user"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_below="@+id/iv_edit"
+                    android:layout_centerHorizontal="true"
+                    android:padding="10dp"
+                    android:background="@drawable/ico_portrait"/>
+
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_user"
+                    android:drawablePadding="5dp"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/user_name"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_nick_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_user_name"
+                    android:drawablePadding="5dp"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/tv_user_sign"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="15dp"
+                    android:padding="4dp"
+                    android:src="@drawable/ico_edit"/>
+            </RelativeLayout>
+        </FrameLayout>
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="10dp"-->
+            <!--android:text="@string/text_setting"-->
+            <!--android:textColor="@color/color5A"-->
+            <!--android:textSize="17sp"/>-->
+
+        <TextView
+            android:id="@+id/tvTeaching_material"
+            style="@style/mine_view"
+            android:drawableLeft="@drawable/ico_set_yj"
+            android:text="@string/text_teaching_material"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line_gray"/>
+
+        <TextView
+            android:id="@+id/tvReport"
+            style="@style/mine_view"
+            android:drawableLeft="@drawable/ico_set_bz"
+            android:text="@string/text_report"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line_gray"/>
+        <TextView
+            android:id="@+id/tvRrong_book"
+            style="@style/mine_view"
+            android:drawableLeft="@drawable/ico_set_bz"
+            android:text="@string/text_wrong_book"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line_gray"/>
+
+        <TextView
+            android:id="@+id/tvNotice"
+            style="@style/mine_view"
+            android:drawableLeft="@drawable/ico_set_bb"
+            android:text="@string/text_notice"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line_gray" />
+        <TextView
+            android:id="@+id/tvSet_up"
+            style="@style/mine_view"
+            android:drawableLeft="@drawable/ico_set_gy"
+            android:text="@string/text_set_up"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line_gray" />
+
+
+    </LinearLayout>
+</ScrollView>

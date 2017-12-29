@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 首页底部id-->
+    <item name="rediobtn_task" type="id"/>
+    <!--<item name="rediobtn_notice" type="id"/>-->
+    <item name="rediobtn_chat" type="id"/>
+    <item name="rediobtn_mine" type="id"/>
+    <item name="rediobtn_study" type="id"/>
+
+    <item name="paper_classId" type="id"/>
+    <item name="paper_lessonId" type="id"/>
+    <item name="paper_id" type="id"/>
+
+    <item name="webContent" type="id"/>
+    <item name="image" type="id"/>
+    <item name="imageAudio" type="id"/>
+</resources>

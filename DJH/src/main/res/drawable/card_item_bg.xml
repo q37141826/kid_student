@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--点击时背景色-->
+    <item android:state_enabled="true" android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/gray" />
+        </shape>
+    </item>
+    <!--选中后的背景色-->
+    <item android:state_checked="true" android:state_enabled="true" android:drawable="@drawable/sp_gray_tv_circle">
+
+    </item>
+    <!--禁止触摸的item背景色-->
+    <item android:state_enabled="false">
+        <shape android:useLevel="false">
+            <solid android:color="@color/whilte_gray" />
+            <size android:width="10dp" android:height="10dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:useLevel="false">
+            >
+            <solid android:color="@color/white" />
+            <size android:width="10dp" android:height="10dp" />
+        </shape>
+    </item>
+</selector>

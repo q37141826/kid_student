@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/ico_line_bg" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/tv_practice"
+        android:textColor="@color/color5A"
+        android:textSize="@dimen/text18" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.fxtx.framework.widgets.BasicListView
+            android:id="@+id/list_prctice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:divider="@color/white"
+            android:dividerHeight="10dp" />
+
+        <TextView
+            android:id="@+id/list_prcticeTv"
+            style="@style/text_null"
+            android:drawableTop="@drawable/ico_null1"
+            android:text="@string/not_practice" />
+    </FrameLayout>
+</merge>

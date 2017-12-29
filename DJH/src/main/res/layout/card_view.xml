@@ -1,0 +1,104 @@
+<RelativeLayout
+    style="@style/CalendarCard.Root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/cardTitle"
+        style="@style/CalendarCard.Title"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/cardDays"
+        style="@style/CalendarCard.Days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cardTitle"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="@string/fx_days1"
+            android:id="@+id/cardDay1"
+            style="@style/CalendarCard.Day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:text="@string/fx_days2"
+            android:id="@+id/cardDay2"
+            style="@style/CalendarCard.Day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:text="@string/fx_days3"
+            android:id="@+id/cardDay3"
+            style="@style/CalendarCard.Day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:text="@string/fx_days4"
+            android:id="@+id/cardDay4"
+            style="@style/CalendarCard.Day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:text="@string/fx_days5"
+            android:id="@+id/cardDay5"
+            style="@style/CalendarCard.Day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:text="@string/fx_days6"
+            android:id="@+id/cardDay6"
+            style="@style/CalendarCard.Day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:text="@string/fx_days7"
+            android:id="@+id/cardDay7"
+            style="@style/CalendarCard.Day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cardGrid"
+        style="@style/CalendarCard.Grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardDays"
+        android:orientation="vertical">
+
+        <include layout="@layout/card_row"/>
+
+        <include layout="@layout/card_row"/>
+
+        <include layout="@layout/card_row"/>
+
+        <include layout="@layout/card_row"/>
+
+        <include layout="@layout/card_row"/>
+
+        <include layout="@layout/card_row"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

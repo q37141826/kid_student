@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_bg">#50D2C2</color>
+    <color name="app_bg_a">#A8E9E1</color>
+    <color name="transparent">#00000000</color>
+    <color name="subtransparent">#30000000</color>
+    <color name="transparent1">#bb000000</color>
+    <color name="tr_black">#70000000</color>
+    <color name="yellow">#ff7306</color>
+    <!--暗灰色  -->
+    <color name="gray_light">#999999</color>
+    <color name="gray_line">#e3e3e3</color>
+    <color name="whilte_line">#FFF9F7F7</color>
+    <color name="gray">#777777</color>
+    <color name="perplu">#FFBA54CF</color>
+    <color name="diskRed">#FFDD457D</color>
+    <color name="whilte_gray">#cccccc</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="line_gray">#dedede</color>
+    <color name="line_gray_wideing">#eeeeec</color>
+    <color name="color5A">#5A5A5A</color>
+
+    <color name="text_deepgray">#333333</color>
+    <color name="text_gray">#666666</color>
+
+    <color name="background_gray">#f4f4f4</color>
+
+    <color name="card_2">#FFF89ECF</color>
+    <color name="card_3">#fc8d67</color>
+    <color name="card_4">#ab92ec</color>
+    <!-- photo-->
+    <color name="orange">#CC6600</color>
+    <color name="pink">#FFE6E6</color>
+    <color name="blue">#00AED6</color>
+    <color name="blue_wk">#A9EDE5</color>
+    <color name="red">#D80000</color>
+    <!-- actiondialog-->
+
+    <color name="pickerview_timebtn_nor">#057dff</color>
+    <color name="pickerview_timebtn_pre">#c2daf5</color>
+
+    <color name="pickerview_wheelview_textcolor_out">#a8a8a8</color>
+    <color name="pickerview_wheelview_textcolor_center">#2a2a2a</color>
+    <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
+</resources>

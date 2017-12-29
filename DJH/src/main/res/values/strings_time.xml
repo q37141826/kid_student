@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fx_days1">周一</string>
+    <string name="fx_days2">周二</string>
+    <string name="fx_days3">周三</string>
+    <string name="fx_days4">周四</string>
+    <string name="fx_days5">周五</string>
+    <string name="fx_days6">周六</string>
+    <string name="fx_days7">周日</string>
+
+    <string name="fx_time1">8:00\n -\n10:00</string>
+    <string name="fx_time2">10:00\n -\n12:00</string>
+    <string name="fx_time3">12:00\n -\n14:00</string>
+    <string name="fx_time4">14:00\n -\n16:00</string>
+    <string name="fx_time5">16:00\n -\n18:00</string>
+    <string name="fx_time6">18:00\n -\n20:00</string>
+    <string name="fx_time7">20:00\n -\n22:00</string>
+
+
+</resources>

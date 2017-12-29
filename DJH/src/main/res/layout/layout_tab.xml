@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup
+    android:id="@id/tab_group"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/index_bottom_height"
+    android:layout_alignParentBottom="true"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="4dp">
+</RadioGroup>

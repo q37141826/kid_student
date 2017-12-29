@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <style name="FxAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/app_bg</item>
+        <item name="colorPrimaryDark">@color/app_bg</item>
+        <item name="colorAccent">@color/app_bg</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="NoTitle">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="FxAppTheme">
+
+    </style>
+
+    <style name="translucentActivity" parent="FxAppTheme">
+        <item name="colorPrimary">@color/subtransparent</item>
+        <item name="colorPrimaryDark">@color/subtransparent</item>
+        <item name="colorAccent">@color/subtransparent</item>
+        <item name="android:windowBackground">@color/subtransparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+    </style>
+
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+</resources>

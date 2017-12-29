@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/eval_heade"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/im_user"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/im_user"
+            android:layout_toRightOf="@+id/im_user"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text20" />
+
+        <TextView
+            android:id="@+id/tvMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/im_user"
+            android:layout_alignLeft="@+id/tvTitle"
+            android:layout_alignStart="@+id/tvTitle"
+            android:layout_gravity="right"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text13" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/app_bg_a" />
+
+    <ImageView
+        android:id="@+id/imPhoto"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        android:scaleType="fitStart"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/ico_line_bg" />
+
+    <TextView
+        android:id="@+id/tvEval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/text_pingjia"
+        android:textColor="@color/color5A"
+        android:textSize="@dimen/text18" />
+
+    <TextView
+        android:id="@+id/list_dataNoTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:drawableTop="@drawable/ico_null1"
+        android:text="@string/not_comment"
+        android:visibility="gone" />
+</LinearLayout>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/color5A"
+             android:fitsSystemWindows="true"
+             android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|bottom"/>
+
+    <include
+        layout="@layout/layout_tool_text"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:layout_margin="10dp"/>
+
+
+    <LinearLayout
+        android:id="@+id/bottomView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@color/black"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="6dp">
+
+        <TextView
+            android:id="@+id/tvLike"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ico_like"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:maxLength="4"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text16"/>
+
+        <TextView
+            android:id="@+id/tvShart"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ico_share"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/shart"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text16"/>
+
+        <TextView
+            android:id="@+id/tvDown"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ico_down"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/down"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text16"/>
+
+        <TextView
+            android:id="@+id/tvDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ico_delete"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/delete"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text16"/>
+
+        <TextView
+            android:id="@+id/tvDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/details"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text16"/>
+    </LinearLayout>
+
+
+</FrameLayout>
