@@ -48,7 +48,7 @@ import cn.dajiahui.kid.ui.homework.FrHomework;
 import cn.dajiahui.kid.ui.login.LoginActivity;
 import cn.dajiahui.kid.ui.login.bean.BeUserAuth;
 import cn.dajiahui.kid.ui.mine.FrMine;
-import cn.dajiahui.kid.ui.mine.UserDetailsActivity;
+import cn.dajiahui.kid.ui.mine.personalinformation.UserDetailsActivity;
 import cn.dajiahui.kid.ui.study.FrStudy;
 
 
@@ -114,10 +114,10 @@ public class MainActivity extends FxTabActivity {
 
         addRadioView(tab, radioGroup);
         functionRb = addRadioView(tab2, radioGroup);
-        if (userAuth.isMsn) {
-            BeTab tab3 = new BeTab(R.id.rediobtn_chat, "", getString(R.string.tab_chat), R.drawable.radio_chat, false);
-            chatRb = addRadioView(tab3, radioGroup);
-        }
+//        if (userAuth.isMsn) {
+        BeTab tab3 = new BeTab(R.id.rediobtn_chat, "", getString(R.string.tab_chat), R.drawable.radio_chat, false);
+        chatRb = addRadioView(tab3, radioGroup);
+//        }
         addRadioView(tab4, radioGroup);
         radioGroup.setOnCheckedChangeListener(this);
 
@@ -183,7 +183,7 @@ public class MainActivity extends FxTabActivity {
             ArrayList<String> strings = data.getStringArrayListExtra(Constant.bundle_obj);
             if (strings != null && strings.size() != 0) {
                 if (frMine != null) {
-                    httpUserIcon(new File(strings.get(0)));
+//                    httpUserIcon(new File(strings.get(0)));
                 }
             }
         }
@@ -193,7 +193,7 @@ public class MainActivity extends FxTabActivity {
 //                GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frHomework.imUer, R.drawable.ico_default_user, true);
             }
             if (frMine != null) {
-                GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frMine.imUser, R.drawable.ico_default_user, true);
+//                GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frMine.imUser, R.drawable.ico_default_user, true);
             }
         }
     }
@@ -211,7 +211,7 @@ public class MainActivity extends FxTabActivity {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson headJson = new HeadJson(response);
-                if (headJson.getFlag() == 1) {
+                if (headJson.getstatus()  == 0) {
                     UserController.getInstance().getUser().setAvator(headJson.parsingString("avator"));
                     PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvator());
                     ToastUtil.showToast(context, R.string.save_ok);
@@ -266,16 +266,10 @@ public class MainActivity extends FxTabActivity {
 
         }
 
-//        @Override
-//        public void onMessageReadAckReceived(List<EMMessage> messages) {
-//        }
-//
-//        @Override
-//        public void onMessageDeliveryAckReceived(List<EMMessage> message) {
-//        }
 
         @Override
         public void onMessageChanged(EMMessage message, Object change) {
+
         }
     };
 
@@ -355,7 +349,7 @@ public class MainActivity extends FxTabActivity {
             updateUnreadLabel();
             ImHelper sdkHelper = ImHelper.getInstance();
             sdkHelper.pushActivity(this);
-            EMClient.getInstance().chatManager().addMessageListener(messageListener);
+//            EMClient.getInstance().chatManager().addMessageListener(messageListener);
         }
         super.onResume();
     }
@@ -363,7 +357,7 @@ public class MainActivity extends FxTabActivity {
     @Override
     protected void onStop() {
         if (UserController.getInstance().getUserAuth().isMsn) {
-            EMClient.getInstance().chatManager().removeMessageListener(messageListener);
+//            EMClient.getInstance().chatManager().removeMessageListener(messageListener);
             ImHelper sdkHelper = ImHelper.getInstance();
             sdkHelper.popActivity(this);
         }

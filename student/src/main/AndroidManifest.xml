@@ -33,35 +33,21 @@
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
 
     <application
-        android:name="cn.dajiahui.kid.DjhStudentApp"
+        android:name=".DjhStudentApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher1"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="cn.dajiahui.kid.ui.login.FirstActivity"
+            android:name=".ui.login.FirstActivity"
             android:label="@string/app_name"
             android:theme="@style/NoTitle">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity
-            android:name="cn.dajiahui.kid.ui.login.TestAuthActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="cn.dajiahui.kid.ui.MainActivity"
-            android:screenOrientation="portrait">
-            <!--测试专用 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -69,96 +55,124 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="cn.dajiahui.kid.ui.login.WelComnActivity"
+            android:name=".ui.login.TestAuthActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ui.login.WelComnActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.mine.SetUpActivity"
+            android:name=".ui.mine.SettingActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.mine.HelpActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name="cn.dajiahui.kid.ui.mp3.AudioActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name="cn.dajiahui.kid.ui.album.PhotoActivity"
+            android:name=".ui.mine.HelpActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.album.PhotoPageActivity"
+            android:name=".ui.mp3.AudioActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.album.PhotoDetailsActivity"
+            android:name=".ui.album.PhotoActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.album.PhotoPageActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.album.PhotoDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.album.AlbumActivity"
+            android:name=".ui.album.AlbumActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.login.RegistActivity"
+            android:name=".ui.login.RegistActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.login.ForgetPwdActivity"
+            android:name=".ui.login.ForgetPwdActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
-
-
         <activity
             android:name="com.fxtx.framework.image.SelectPhotoActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name="com.fxtx.framework.image.PreviewPicActivity"
             android:screenOrientation="portrait"/>
-
+        <!--登录-->
         <activity
-            android:name="cn.dajiahui.kid.ui.login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
+        <!--我的班級-->
         <activity
-            android:name="cn.dajiahui.kid.ui.mine.UserDetailsActivity"
+            android:name=".ui.mine.myclass.MyClassActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <!--班级详情-->
+        <activity
+            android:name=".ui.mine.myclass.ClassDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <!--班级信息-->
+        <activity
+            android:name="cn.dajiahui.kid.ui.mine.myclass.ClassInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <!--班级空间-->
+        <activity
+            android:name="cn.dajiahui.kid.ui.mine.myclass.ClassSpaceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <!--我的作品-->
+        <activity
+            android:name="cn.dajiahui.kid.ui.mine.myworks.MyWorksActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <!--个人信息-->
+        <activity
+            android:name=".ui.mine.personalinformation.UserDetailsActivity"
             android:screenOrientation="portrait"/>
-
+        <!--修改信息接口-->
         <activity
-            android:name="cn.dajiahui.kid.ui.mine.UserSetActivity"
+            android:name=".ui.mine.personalinformation.UserSetActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.chat.ConcactForClassActivity"
+            android:name=".ui.chat.ConcactForClassActivity"
             android:screenOrientation="portrait"/>
-
-
         <activity
-            android:name="cn.dajiahui.kid.ui.mine.AllFounctionActivity"
+            android:name=".ui.mine.myclass.AddClassActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.mine.AllFounctionActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-
 
         <!-- 环信 -->
         <activity
-            android:name="cn.dajiahui.kid.ui.chat.ChatActivity"
+            android:name=".ui.chat.ChatActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.login.RemoveLoginActivity"
+            android:name=".ui.login.RemoveLoginActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.chat.ImageGridActivity"
+            android:name=".ui.chat.ImageGridActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.chat.RecorderVideoActivity"
+            android:name=".ui.chat.RecorderVideoActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.chat.VideoCallActivity"
+            android:name=".ui.chat.VideoCallActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="cn.dajiahui.kid.ui.chat.VoiceCallActivity"
+            android:name=".ui.chat.VoiceCallActivity"
             android:screenOrientation="portrait"/>
-
         <activity
-            android:name="cn.dajiahui.kid.ui.mp3.Mp3Activity"
+            android:name=".ui.mp3.Mp3Activity"
             android:screenOrientation="portrait"/>
 
         <!-- 显示下载大图页面 -->
@@ -174,26 +188,19 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
-
         <activity
-            android:name="cn.dajiahui.kid.ui.login.LogoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoTitle"/>
-
-        <activity
-            android:name="cn.dajiahui.kid.ui.video.VideoActivity"
+            android:name=".ui.video.VideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"/>
-
         <activity
-            android:name="cn.dajiahui.kid.ui.video.FullscreenVideoActivity"
+            android:name=".ui.video.FullscreenVideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape"
             android:theme="@style/NoTitle"/>
-        <!-- Umeng  -->
+        <!-- Umeng -->
         <!-- 微信分享 -->
         <activity
-            android:name="cn.dajiahui.kid.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -218,7 +225,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -226,20 +232,19 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
-
         <activity
             android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
-
         </activity>
 
         <!-- 开机自启动服务 -->
-        <receiver android:name="cn.dajiahui.kid.ui.chat.util.StartServiceReceiver">
+        <receiver android:name=".ui.chat.util.StartServiceReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
@@ -289,12 +294,11 @@
             </intent-filter>
         </service>
 
-        <!-- since 3.0.9 Required SDK 核心功能-->
+        <!-- since 3.0.9 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DataProvider"
             android:authorities="${applicationId}.DataProvider"
-            android:exported="true"
-            />
+            android:exported="true"/>
         <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
@@ -325,7 +329,7 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
-            android:name="cn.dajiahui.kid.util.StudentReceiver"
+            android:name=".util.StudentReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -367,6 +371,7 @@
         <meta-data
             android:name="com.fxtx.framework.image.MyGlideMoudle"
             android:value="GlideModule"/>
+
 
     </application>
 

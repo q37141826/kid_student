@@ -1,1 +1,1 @@
-include ':student', ':DJH', ':social_sdk_library_project', ':easemob3.3.7','xCLCharts'
+include ':student', ':DJH', ':social_sdk_library_project', ':easemob3.3.7'

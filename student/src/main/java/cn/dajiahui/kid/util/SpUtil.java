@@ -8,7 +8,7 @@ import com.fxtx.framework.json.GsonUtil;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
 
 /**
- * Created by z on 2016/1/20.
+ *  SharedPreferences
  */
 public class SpUtil {
     private final String key_wel = "sp_welcome";

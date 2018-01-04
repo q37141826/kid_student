@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <include layout="@layout/view_user_index" />
+
 
     <include layout="@layout/layout_tool_text" />
 

@@ -16,8 +16,6 @@ import com.squareup.okhttp.Request;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
-import cn.dajiahui.kid.controller.UserController;
-import cn.dajiahui.kid.http.RequestUtill;
 
 /**
  * Created by z on 2016/3/7.
@@ -76,7 +74,7 @@ public class FrStudent extends FxFragment {
 
             }
         };
-        RequestUtill.getInstance().httpAttenceDetail(getActivity(), callback, UserController.getInstance().getUserId(), classId);
+//        RequestUtill.getInstance().httpAttenceDetail(getActivity(), callback, UserController.getInstance().getUserId(), classId);
     }
 
     @Override

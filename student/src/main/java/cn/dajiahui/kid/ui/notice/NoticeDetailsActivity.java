@@ -31,7 +31,6 @@ import cn.dajiahui.kid.http.bean.BeTeFile;
 import cn.dajiahui.kid.ui.album.adapter.ApPhotoEval;
 import cn.dajiahui.kid.ui.album.bean.BePhotoEval;
 import cn.dajiahui.kid.ui.album.bean.BePhotoEvalItem;
-import cn.dajiahui.kid.ui.notice.adapter.ApTeNote;
 import cn.dajiahui.kid.ui.notice.bean.BeNoticeDetails;
 import cn.dajiahui.kid.ui.notice.view.FxEmojiconView;
 
@@ -42,7 +41,7 @@ import cn.dajiahui.kid.ui.notice.view.FxEmojiconView;
 public class NoticeDetailsActivity extends FxActivity {
     private TextView tvTitle, tvClass, tvMsg, tvContent;
     private BasicListView listFile;
-    private ApTeNote adapterFile;
+//    private ApTeNote adapterFile;
     private ArrayList<BeTeFile> beTeFiles = new ArrayList<BeTeFile>();
     private String noticeId;
     private BeNoticeDetails details;
@@ -73,9 +72,9 @@ public class NoticeDetailsActivity extends FxActivity {
         tvContent = (TextView) view.findViewById(R.id.tvContent);
         listFile = (BasicListView) view.findViewById(R.id.basicListview);
         tvNull = (TextView) view.findViewById(R.id.list_dataNoTv);
-        adapterFile = new ApTeNote(context, beTeFiles);
+//        adapterFile = new ApTeNote(context, beTeFiles);
         listFile.setHaveScrollbar(false);
-        listFile.setAdapter(adapterFile);
+//        listFile.setAdapter(adapterFile);
         //图片点击
         evalAdapter = new ApPhotoEval(evals, context);
         listView.setAdapter(evalAdapter);
@@ -180,13 +179,13 @@ public class NoticeDetailsActivity extends FxActivity {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus()  == 1) {
                     List<BeTeFile> temp = json.parsingListArray("attrList", new GsonType<List<BeTeFile>>() {
                     });
                     if (temp != null) {
                         beTeFiles.clear();
                         beTeFiles.addAll(temp);
-                        adapterFile.notifyDataSetChanged();
+//                        adapterFile.notifyDataSetChanged();
                     }
                     details = json.parsingObject(BeNoticeDetails.class);
                     setViewData();
@@ -231,7 +230,7 @@ public class NoticeDetailsActivity extends FxActivity {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus()  == 1) {
                     tvNull.setVisibility(View.GONE);
                     BePhotoEval item = json.parsingObject(BePhotoEval.class);
                     if (item != null) {
@@ -322,7 +321,7 @@ public class NoticeDetailsActivity extends FxActivity {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus()  == 1) {
                     ActivityUtil.getInstance().finishThisActivity(NoticeDetailsActivity.this);
                     if (setOnBackAnim()) {
                         finishAnim();

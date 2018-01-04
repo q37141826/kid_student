@@ -7,21 +7,14 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.fxtx.framework.http.ErrorCode;
-import com.fxtx.framework.http.callback.ResultCallback;
-import com.fxtx.framework.json.GsonType;
-import com.fxtx.framework.json.HeadJson;
-import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
-import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
-import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.album.adapter.ApAlbum;
 import cn.dajiahui.kid.ui.album.bean.BeAlbum;
 import cn.dajiahui.kid.util.DjhJumpUtil;
@@ -81,34 +74,34 @@ public class FrAlbum extends FxFragment {
 
     @Override
     public void httpData() {
-        RequestUtill.getInstance().httpMyClassAlbumList(getContext(), new ResultCallback() {
-            @Override
-            public void onError(Request request, Exception e) {
-                dismissfxDialog();
-                finishRefreshAndLoadMoer(refresh, 0);
-                ToastUtil.showToast(getContext(), ErrorCode.error(e));
-            }
-
-            @Override
-            public void onResponse(String response) {
-                dismissfxDialog();
-                HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
-                    if (pagNum == 1) {
-                        ablums.clear();
-                    }
-                    List<BeAlbum> temp = json.parsingListArray(new GsonType<List<BeAlbum>>() {
-                    });
-                    if (temp != null && temp.size() > 0) {
-                        pagNum++;
-                        ablums.addAll(temp);
-                    }
-                    adapter.notifyDataSetChanged();
-                } else {
-                    ToastUtil.showToast(getContext(), json.getMsg());
-                }
-                finishRefreshAndLoadMoer(refresh, 1);
-            }
-        }, classId, pagNum, "30");
+//        RequestUtill.getInstance().httpMyClassAlbumList(getContext(), new ResultCallback() {
+//            @Override
+//            public void onError(Request request, Exception e) {
+//                dismissfxDialog();
+//                finishRefreshAndLoadMoer(refresh, 0);
+//                ToastUtil.showToast(getContext(), ErrorCode.error(e));
+//            }
+//
+//            @Override
+//            public void onResponse(String response) {
+//                dismissfxDialog();
+//                HeadJson json = new HeadJson(response);
+//                if (json.getstatus()  == 1) {
+//                    if (pagNum == 1) {
+//                        ablums.clear();
+//                    }
+//                    List<BeAlbum> temp = json.parsingListArray(new GsonType<List<BeAlbum>>() {
+//                    });
+//                    if (temp != null && temp.size() > 0) {
+//                        pagNum++;
+//                        ablums.addAll(temp);
+//                    }
+//                    adapter.notifyDataSetChanged();
+//                } else {
+//                    ToastUtil.showToast(getContext(), json.getMsg());
+//                }
+//                finishRefreshAndLoadMoer(refresh, 1);
+//            }
+//        }, classId, pagNum, "30");
     }
 }

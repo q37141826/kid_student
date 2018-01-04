@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
 
-    <include layout="@layout/layout_tool_text" />
+    <include layout="@layout/layout_tool_text"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_gray"/>
 
     <ScrollView
+        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,35 +28,41 @@
                 android:orientation="horizontal"
                 android:padding="14dp">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/login_account"
-                    android:textColor="@color/color5A"
-                    android:textSize="@dimen/text18" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="25dp"
+                    android:background="@color/black"
+                    android:src="@drawable/ico_user"/>
 
                 <EditText
-                    android:id="@+id/edLoginAccount"
+                    android:id="@+id/ed_phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:gravity="right|center"
-                    android:hint="@string/input_login_account"
+                    android:gravity="left|center"
+                    android:hint="@string/forget_user"
                     android:singleLine="true"
                     android:textColor="@color/gray"
                     android:textSize="@dimen/text16">
 
-                    <requestFocus />
+                    <requestFocus/>
                 </EditText>
+
+
             </LinearLayout>
 
-            <View
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/app_bg_a" />
+                android:layout_height="1dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@color/line_gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,23 +71,26 @@
                 android:orientation="horizontal"
                 android:padding="14dp">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/image1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/phone_num"
-                    android:textColor="@color/color5A"
-                    android:textSize="@dimen/text18" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="25dp"
+                    android:background="@color/black"
+                    android:src="@drawable/ico_user"/>
+
 
                 <EditText
-                    android:id="@+id/edPhoneNum"
+                    android:id="@+id/edPhoneCode"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:gravity="right|center"
-                    android:hint="@string/input_phone_num"
+                    android:gravity="left|center"
+                    android:hint="@string/inputcode"
                     android:singleLine="true"
                     android:textColor="@color/gray"
                     android:textSize="@dimen/text16">
@@ -95,15 +109,17 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="8dp"
-                    android:text="@string/getcode"
+                    android:text="@string/sendcode"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text13" />
+                    android:textSize="@dimen/text13"/>
             </LinearLayout>
 
-            <View
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/app_bg_a" />
+                android:layout_height="1dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@color/line_gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -112,49 +128,16 @@
                 android:orientation="horizontal"
                 android:padding="14dp">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/image3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/phone_code"
-                    android:textColor="@color/color5A"
-                    android:textSize="@dimen/text18" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="25dp"
+                    android:background="@color/black"
+                    android:src="@drawable/ico_user"/>
 
-                <EditText
-                    android:id="@+id/edPhoneCode"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="right|center"
-                    android:hint="@string/inputcode"
-                    android:singleLine="true"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/text16">
-
-                </EditText>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/app_bg_a" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="14dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/new_pwd"
-                    android:textColor="@color/color5A"
-                    android:textSize="@dimen/text18" />
 
                 <EditText
                     android:id="@+id/edNewPwd"
@@ -163,7 +146,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:gravity="right|center"
+                    android:gravity="left|center"
                     android:hint="@string/inputnewpwd"
                     android:password="true"
                     android:singleLine="true"
@@ -171,10 +154,13 @@
                     android:textSize="@dimen/text16"></EditText>
             </LinearLayout>
 
-            <View
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/app_bg_a" />
+                android:layout_height="1dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@color/line_gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -183,13 +169,15 @@
                 android:orientation="horizontal"
                 android:padding="14dp">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/image4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pwd_ok"
-                    android:textColor="@color/color5A"
-                    android:textSize="@dimen/text18" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="25dp"
+                    android:background="@color/black"
+                    android:src="@drawable/ico_user"/>
 
                 <EditText
                     android:id="@+id/edPwdOk"
@@ -198,18 +186,42 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:gravity="right|center"
-                    android:hint="@string/newpwdagin"
+                    android:gravity="left|center"
+                    android:hint="@string/inputpwdto"
                     android:password="true"
                     android:singleLine="true"
                     android:textColor="@color/gray"
                     android:textSize="@dimen/text16"></EditText>
             </LinearLayout>
 
-            <View
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/app_bg_a" />
+                android:layout_height="1dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@color/line_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <Button
+                    android:id="@+id/btn_forget"
+                    style="@style/btn_style"
+                    android:layout_below="@+id/edPwd"
+                    android:layout_marginBottom="56dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/select_btn_whilebg"
+                    android:text="@string/forget_sure"
+                    android:textColor="@color/whilte_line"/>
+            </LinearLayout>
         </LinearLayout>
+
+
     </ScrollView>
 </LinearLayout>

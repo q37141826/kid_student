@@ -35,24 +35,30 @@ public class UpdateApp extends UpdateManager {
             public void onResponse(String response) {
                 HeadJson json = new HeadJson(response);
 
-                if (json.getFlag() == 1) {
-                    BeUpdate update = json.parsingObject(BeUpdate.class);
-                    if (update.getCodeNumber() > BaseUtil.getVersionCode(mContext)) {
-                        if (StringUtil.sameStr(update.isForceUpdateFlag(), "1")) {
-                            isMustUpdate = true;
-                        } else {
-                            isMustUpdate = false;
-                        }
-                        message = update.getContent();
-                        doUpdate(update.getDownloadUrl());
-                    } else {
-                        onUpdate.onUpdateCancel(0);
-                    }
-                } else {
-                    onUpdate.onUpdateCancel(0);
-                }
+//                if (json.getstatus() == 1) {
+//                    BeUpdate update = json.parsingObject(BeUpdate.class);
+//                    if (update.getCodeNumber() > BaseUtil.getVersionCode(mContext)) {
+//                        if (StringUtil.sameStr(update.isForceUpdateFlag(), "1")) {
+//                            isMustUpdate = true;
+//                        } else {
+//                            isMustUpdate = false;
+//                        }
+//                        message = update.getContent();
+//
+////                        doUpdate(update.getDownloadUrl());
+//                        //majin 测试
+//                        onUpdate.onUpdateCancel(0);
+//                    } else {
+//                        onUpdate.onUpdateCancel(0);
+//                    }
+//                } else {
+//                    onUpdate.onUpdateCancel(0);
+//                }
+
             }
         });
+
+        onUpdate.onUpdateCancel(0);
     }
 
     @Override
@@ -72,7 +78,7 @@ public class UpdateApp extends UpdateManager {
             public void onResponse(String response) {
                 progressDialog.dismiss();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus() == 1) {
                     BeUpdate update = json.parsingObject(BeUpdate.class);
                     if (update.getCodeNumber() > BaseUtil.getVersionCode(mContext)) {
                         message = update.getContent();

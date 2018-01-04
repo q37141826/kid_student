@@ -16,7 +16,7 @@ import cn.dajiahui.kid.ui.album.PhotoPageActivity;
 import cn.dajiahui.kid.ui.album.bean.BePhoto;
 import cn.dajiahui.kid.ui.chat.ChatActivity;
 import cn.dajiahui.kid.ui.chat.ConcactForClassActivity;
-import cn.dajiahui.kid.ui.mine.UserSetActivity;
+import cn.dajiahui.kid.ui.mine.personalinformation.UserSetActivity;
 import cn.dajiahui.kid.ui.mp3.AudioActivity;
 import cn.dajiahui.kid.ui.video.FullscreenVideoActivity;
 import cn.dajiahui.kid.ui.video.VideoActivity;

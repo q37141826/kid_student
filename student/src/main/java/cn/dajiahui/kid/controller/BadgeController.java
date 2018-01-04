@@ -108,7 +108,7 @@ public class BadgeController {
             @Override
             public void onResponse(String response) {
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus() == 1) {
                     BadgeController.getInstance().paperBadge = json.parsingInt("zybzCount");
                     BadgeController.getInstance().testBadge = json.parsingInt("cpCount");
                     BadgeController.getInstance().auditBadge = json.parsingInt("pjjsCount");

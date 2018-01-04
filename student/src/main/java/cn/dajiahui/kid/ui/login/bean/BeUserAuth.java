@@ -16,7 +16,7 @@ public class BeUserAuth {
     public boolean isStuEval = false; // 我的评价 评价教师
     public boolean isJob = false; // 作业
     public boolean isEvaluation = false; // 测评
-    public boolean isMsn = false; // 通讯录 沟通
+    public boolean isMsn = true; // 通讯录 沟通
     public boolean isErrQue = false; // 错题本
     public boolean isMyFile = false; // 资料
 

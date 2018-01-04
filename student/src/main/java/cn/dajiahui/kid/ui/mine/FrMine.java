@@ -12,22 +12,24 @@ import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxFragment;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
+import cn.dajiahui.kid.ui.mine.myclass.MyClassActivity;
+import cn.dajiahui.kid.ui.mine.myworks.MyWorksActivity;
+import cn.dajiahui.kid.ui.mine.personalinformation.UserDetailsActivity;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 
 /**
  * 我的
  */
 public class FrMine extends FxFragment {
-    private ImageView imBg, imSet;
+    private ImageView imSet;
     public ImageView imUser;
 
     public static final int PICFPRRESULT = 9;
 
 
-    private TextView tv_userName, tv_nickName; // 用户名和个性签名
+    private TextView tv_userName; // 用户名
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -44,13 +46,12 @@ public class FrMine extends FxFragment {
         imSet.setOnClickListener(onClick);
 
         tv_userName = getView(R.id.tv_user_name);
-        tv_nickName = getView(R.id.tv_nick_name);
 
-        TextView tv_teaching_material = getView(R.id.tvTeaching_material);
-        tv_teaching_material.setOnClickListener(onClick);
-        TextView tv_report = getView(R.id.tvReport);
-        tv_report.setOnClickListener(onClick);
-        TextView tv_wrong_book = getView(R.id.tvRrong_book);
+        TextView tv_myclass = getView(R.id.tvMyclass);
+        tv_myclass.setOnClickListener(onClick);
+        TextView tv_myworks = getView(R.id.tvMyworks);
+        tv_myworks.setOnClickListener(onClick);
+        TextView tv_wrong_book = getView(R.id.tvAbout);
         tv_wrong_book.setOnClickListener(onClick);
         TextView tv_notice = getView(R.id.tvNotice);
         tv_notice.setOnClickListener(onClick);
@@ -68,7 +69,7 @@ public class FrMine extends FxFragment {
         } else {
             tv_userName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ico_girl, 0);
         }
-        tv_userName.setText(user.getRealName());
+        tv_userName.setText("张三");
         GlideUtil.showRoundImage(getContext(), UserController.getInstance().getUser().getAvator(), imUser, R.drawable.ico_default_user, true);
 
     }
@@ -96,22 +97,24 @@ public class FrMine extends FxFragment {
             switch (v.getId()) {
                 case R.id.iv_user:    //用户头像
 
-                    DjhJumpUtil.getInstance().startSelectPhotoActivity(getActivity(), Constant.Alum_phone_UserIcon);
+//                    DjhJumpUtil.getInstance().startSelectPhotoActivity(getActivity(), Constant.Alum_phone_UserIcon);
                     break;
                 case R.id.iv_edit:
 
                     DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), UserDetailsActivity.class, null, PICFPRRESULT);
-                    break;
 
-                case R.id.tvTeaching_material://我的教材
+                    break;
+                case R.id.tvMyclass://我的班级
+                    Toast.makeText(activity, "我的班级", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(activity, "我的教材", Toast.LENGTH_SHORT).show();
+                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MyClassActivity.class);
                     break;
-                case R.id.tvReport: //学情报告
-                    Toast.makeText(activity, "学情报告", Toast.LENGTH_SHORT).show();
+                case R.id.tvMyworks: //我的作品
+                    Toast.makeText(activity, "我的作品", Toast.LENGTH_SHORT).show();
+                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(),  MyWorksActivity.class);
                     break;
-                case R.id.tvRrong_book: //错题本
-                    Toast.makeText(activity, "错题本", Toast.LENGTH_SHORT).show();
+                case R.id.tvAbout: //关于
+                    Toast.makeText(activity, "关于", Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.tvNotice: //通知
@@ -119,7 +122,7 @@ public class FrMine extends FxFragment {
                     break;
                 case R.id.tvSet_up: //设置
 
-                    DjhJumpUtil.getInstance().startBaseActivity(getContext(), SetUpActivity.class);
+                    DjhJumpUtil.getInstance().startBaseActivity(getContext(), SettingActivity.class);
                     break;
 
 

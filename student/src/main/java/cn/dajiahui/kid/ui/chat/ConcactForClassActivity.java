@@ -22,7 +22,6 @@ import java.util.List;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.UserController;
-import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.chat.adapter.ApConcactForClass;
 import cn.dajiahui.kid.ui.chat.bean.BeConcact;
 import cn.dajiahui.kid.ui.chat.bean.BeConcactClass;
@@ -30,7 +29,7 @@ import cn.dajiahui.kid.ui.chat.db.DemoDBManager;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 
 /**
- * Created by wdj on 2016/4/5.
+ *
  */
 public class ConcactForClassActivity extends FxActivity {
     private PinnedHeaderListView listviewConcact;
@@ -107,7 +106,7 @@ public class ConcactForClassActivity extends FxActivity {
                 dismissfxDialog();
                 finishRefreshAndLoadMoer(refreshConcact, 1);
                 HeadJson headJson = new HeadJson(response);
-                if (headJson.getFlag() == 1) {
+                if (headJson.getstatus()  == 0) {
                     datas = headJson.parsingListArray(new GsonType<List<BeConcactClass>>() {
                     });
                     if (datas!=null)
@@ -117,6 +116,6 @@ public class ConcactForClassActivity extends FxActivity {
                 }
             }
         };
-        RequestUtill.getInstance().httpContactDetail(ConcactForClassActivity.this, callback, UserController.getInstance().getUserId());
+//        RequestUtill.getInstance().httpContactDetail(ConcactForClassActivity.this, callback, UserController.getInstance().getUserId());
     }
 }

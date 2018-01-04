@@ -1,73 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:id="@+id/mine_scroll"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@color/whilte_line"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="50dp"
-        >
+        android:paddingBottom="50dp">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/ib_bg"
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:background="@drawable/ico_index_bg"
-                />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/topView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                >
+                android:layout_marginTop="20dp">
 
                 <ImageView
                     android:id="@+id/iv_user"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
-                    android:layout_below="@+id/iv_edit"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/ico_portrait"
                     android:padding="10dp"
-                    android:background="@drawable/ico_portrait"/>
+                    android:src="@mipmap/ic_launcher"/>
 
                 <TextView
                     android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/iv_user"
+                    android:layout_alignTop="@+id/iv_edit"
+                    android:layout_toEndOf="@+id/iv_user"
                     android:drawablePadding="5dp"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/white"
-                    android:textSize="22sp"
-                    android:layout_centerHorizontal="true"
                     android:text="@string/user_name"
-                    />
+                    android:textColor="@color/black"
+                    android:textSize="22sp"/>
 
                 <TextView
-                    android:id="@+id/tv_nick_name"
+                    android:id="@+id/tv_sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_user_name"
+                    android:layout_below="@+id/tv_user_name"
+                    android:layout_toEndOf="@+id/iv_user"
                     android:drawablePadding="5dp"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginRight="5dp"
-                    android:text="@string/tv_user_sign"
-                    android:visibility="gone"/>
+                    android:text="@string/sex"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"/>
 
                 <ImageView
                     android:id="@+id/iv_edit"
@@ -78,73 +64,168 @@
                     android:padding="4dp"
                     android:src="@drawable/ico_edit"/>
             </RelativeLayout>
-        </FrameLayout>
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:padding="10dp"-->
-            <!--android:text="@string/text_setting"-->
-            <!--android:textColor="@color/color5A"-->
-            <!--android:textSize="17sp"/>-->
+            <LinearLayout
 
-        <TextView
-            android:id="@+id/tvTeaching_material"
-            style="@style/mine_view"
-            android:drawableLeft="@drawable/ico_set_yj"
-            android:text="@string/text_teaching_material"
-            />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
 
-        <View
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_stars"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_weight="1"
+                        android:drawableTop="@mipmap/ic_launcher"
+                        android:gravity="center"
+                        android:text="0"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_stars"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="我的星星"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+
+                        android:id="@+id/tv_studytime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_weight="1"
+                        android:drawableTop="@mipmap/ic_launcher"
+                        android:gravity="center"
+                        android:text="0"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_studytime"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/apptitle"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_goodhomework"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_weight="1"
+                        android:drawableTop="@mipmap/ic_launcher"
+                        android:gravity="center"
+                        android:text="0"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_goodhomework"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/apptitle"/>
+                </RelativeLayout>
+            </LinearLayout>
+            >
+        </LinearLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_gray"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
-        <TextView
-            android:id="@+id/tvReport"
-            style="@style/mine_view"
-            android:drawableLeft="@drawable/ico_set_bz"
-            android:text="@string/text_report"
-            />
-        <View
+            <TextView
+                android:id="@+id/tvMyclass"
+                style="@style/mine_view"
+                android:text="@string/my_class"/>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_gray"/>
-        <TextView
-            android:id="@+id/tvRrong_book"
-            style="@style/mine_view"
-            android:drawableLeft="@drawable/ico_set_bz"
-            android:text="@string/text_wrong_book"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
+            <TextView
+                android:id="@+id/tvMyworks"
+                style="@style/mine_view"
+                android:text="@string/myworks"/>
+        </RelativeLayout>
 
-        <View
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_gray"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
-        <TextView
-            android:id="@+id/tvNotice"
-            style="@style/mine_view"
-            android:drawableLeft="@drawable/ico_set_bb"
-            android:text="@string/text_notice"
-            />
+            <TextView
+                android:id="@+id/tvNotice"
+                style="@style/mine_view"
+                android:text="@string/text_notice"/>
 
-        <View
+            <TextView
+                android:id="@+id/tv_noticecount"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvNotice"
+                android:layout_alignBottom="@+id/tvNotice"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/shape"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_gray" />
-        <TextView
-            android:id="@+id/tvSet_up"
-            style="@style/mine_view"
-            android:drawableLeft="@drawable/ico_set_gy"
-            android:text="@string/text_set_up"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_gray" />
+            <TextView
+                android:id="@+id/tvAbout"
+                style="@style/mine_view"
+                android:text="@string/mine_text_about"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_gray"/>
+
+            <TextView
+                android:id="@+id/tvSet_up"
+                style="@style/mine_view"
+                android:text="@string/text_set_up"/>
+        </LinearLayout>
 
 
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

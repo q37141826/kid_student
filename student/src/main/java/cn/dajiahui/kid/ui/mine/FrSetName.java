@@ -21,7 +21,7 @@ import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.chat.constant.PreferenceManager;
 
 /**
- * Created by wdj on 2016/4/7.
+ *
  */
 public class FrSetName extends FxFragment {
     private EditText tvName;
@@ -77,7 +77,7 @@ public class FrSetName extends FxFragment {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson headJson = new HeadJson(response);
-                if (headJson.getFlag() == 1) {
+                if (headJson.getstatus()  == 1) {
                     UserController.getInstance().getUser().setRealName(realName);
                     PreferenceManager.getInstance().setCurrentUserNick(realName);
                     getActivity().setResult(Activity.RESULT_OK);

@@ -49,7 +49,7 @@ public class Constant {
     public static final int user_edit_user = 2;
     public static final int user_edit_phone = 3;
     public static final int user_edit_sign = 4;
-    public static final int user_edit_birth = 5;
+    public static final int user_edit_age = 5;
     public static final int user_edit_email = 6;
     public static final int user_edit_name = 7;
     public static final int user_edit_sex = 8;
@@ -64,9 +64,7 @@ public class Constant {
     public static final String type_wdpj = "wdpj";//我的评价
     public static final String type_cp = "cp";//测评发布
 
-//    public static final String type_jxyj = "jxyj";//教学研究
-//    public static final String type_jybg = "jybg";//教学报告
-//    public static final String type_jxzj = "jxzj";//教学总结
+
 
     //事务  所有待办也是事务
     public static final String type_xc = "xc";//相册

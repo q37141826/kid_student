@@ -87,7 +87,7 @@ public class HelpActivity extends FxActivity {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus()  == 1) {
                     List<BeHelp> temp = json.parsingListArray(new GsonType<List<BeHelp>>() {
                     });
                     if (temp != null && temp.size() > 0) {

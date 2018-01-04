@@ -129,7 +129,7 @@ public class FrSetPwd extends FxFragment {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus()  == 1) {
                     UserController.getInstance().getUser().setPwd(newPwd);
                     ToastUtil.showToast(getContext(), R.string.save_ok);
                     loginOut();

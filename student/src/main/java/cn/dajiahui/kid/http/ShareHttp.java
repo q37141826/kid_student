@@ -36,7 +36,7 @@ public class ShareHttp {
             public void onResponse(String response) {
                 activity.dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus() == 1) {
                     //成功
                     BeShareContent beTeFile = json.parsingObject(BeShareContent.class);
                     new UmengShare().shartShare(activity, beTeFile);

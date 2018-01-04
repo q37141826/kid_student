@@ -14,9 +14,9 @@
     <!--app应用文字-->
 
     <!--作业文字start-->
-    <string name="tab_task">作业</string>
-    <string name="tab_study">学习</string>
-    <string name="tab_chat">沟通</string>
+    <string name="tab_task">首页</string>
+    <string name="tab_study">自学</string>
+    <string name="tab_chat">消息</string>
     <string name="tab_mine">我的</string>
     <string name="task_done">已完成</string>
     <string name="task_staydone">待完成</string>
@@ -56,24 +56,28 @@
     <string name="text_teaching_material">我的教材</string>
     <string name="text_wrong_book">错题本</string>
     <string name="text_report">学情报告</string>
-    <string name="text_notice">通知</string>
     <string name="text_set_up">设置</string>
-
     <string name="text_security">账户安全</string>
     <string name="text_about">关于魔耳</string>
     <string name="btn_exit">退出登录</string>
-
-
+    <string name="btn_exitclass">退出班级</string>
     <string name="user_message">个人资料</string>
+    <string name="mine_class_space">班级空间</string>
+    <string name="mine_textbook_audio">课本剧配音</string>
+    <string name="mine_cara">卡拉OK</string>
+
     <string name="login_edit">是否要退出登录？</string>
     <!--我的end-->
 
 
     <!--登录注册 start -->
     <string name="login">登录</string>
-    <string name="input_user">请输入用户名</string>
-    <string name="input_pwd">请输入登录密码</string>
-    <string name="tv_regist">注册</string>
+    <string name="sendcode">发送验证码</string>
+    <string name="input_user">手机号</string>
+    <string name="input_birth">出生日期</string>
+    <string name="input_pwd">6-16位字母数字组合密码</string>
+    <string name="tv_regist">新学员注册</string>
+    <string name="tv_registok">注册</string>
     <string name="forget_pwd">忘记密码</string>
     <string name="inputnickname">请输入昵称</string>
     <string name="nickname">昵称</string>
@@ -85,6 +89,9 @@
     <string name="registok">注册成功</string>
     <string name="class_num">上课班级数%s</string>
     <string name="classnum">上课班级数</string>
+    <string name="apptitle">魔耳英语</string>
+    <string name="forget_sure">确认新的登录密码</string>
+    <string name="forget_user">输入手机号码</string>
     <!--登录注册 end -->
     <!--忘记密码 start-->
     <string name="login_account">登录账号</string>
@@ -215,7 +222,7 @@
     <!--班级申请 start -->
     <string name="title_audit_class">审核学生</string>
     <string name="title_sq_class">班级申请</string>
-    <string name="audit_class">申请加入班级</string>
+    <string name="audit_class">加入班级</string>
     <string name="audit_time">申请加入时间</string>
     <string name="audit">申请加入</string>
     <string name="audit_parent">家长信息</string>
@@ -242,7 +249,7 @@
     <string name="old_phone">原手机号</string>
     <string name="new_phone">新手机号</string>
     <string name="getcode">获取验证码</string>
-    <string name="inputcode">请输入验证码</string>
+    <string name="inputcode">验证码</string>
     <string name="pwderror">密码输错</string>
     <string name="old_user">原帐号</string>
     <string name="new_user">新帐号</string>
@@ -266,9 +273,13 @@
     <string name="click_birth">请点击选择生日</string>
     <string name="no_chinese">密码不允许含有中文</string>
     <string name="correct_pwd">密码长度只能为6-16位</string>
-    <string name="input_text_quest">输入你的答案</string>
+    <string name="input_text_code">请输入验证码</string>
     <string name="textquest_op">是否提交答案？</string>
     <string name="textquest">答案录入</string>
+    <string name="myworks">我的作品</string>
+    <string name="text_notice">魔耳通知</string>
+    <string name="mine_text_about">关于魔耳</string>
+    <string name="mine_class_info">班级信息</string>
     <!--我的 end -->
 
     <!--意见反馈start -->
@@ -304,14 +315,14 @@
 
     <!-- 错题本 end-->
     <string name="btn_choose">从相册选择</string>
-    <string name="ed_user_name">请输入姓名</string>
+    <string name="ed_user_name">学员姓名</string>
     <string name="nameequel">和历史姓名一致，请重新输入姓名</string>
     <string name="edit_name">修改姓名</string>
     <string name="notlenth">密码长度不足6位</string>
     <string name="tit_class">我的微课</string>
     <string name="reapply">重新提交申请成功</string>
     <string name="ask_for_code">请向教师索要班级码</string>
-    <string name="input_code">请输入班级码</string>
+    <string name="input_code">请输入要加入班级的班级的班级码</string>
     <string name="dialog_down_file">下载文件</string>
 
     <string name="sex">性   别</string>
@@ -320,7 +331,7 @@
     <string name="birth">生   日</string>
     <string name="tv_user_sign">个性签名</string>
     <string name="tv_user_email">邮箱</string>
-    <string name="tv_user_birth">生日</string>
+    <string name="tv_user_age">年龄</string>
     <string name="edit_sign">修改个性签名</string>
     <string name="edit_birth">修改生日</string>
     <string name="edit_email">修改邮箱</string>

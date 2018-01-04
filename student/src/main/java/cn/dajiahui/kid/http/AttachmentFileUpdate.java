@@ -48,7 +48,7 @@ public class AttachmentFileUpdate {
             @Override
             public void onResponse(String response) {
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus()  == 1) {
                     //成功
                     BeTeFile beTeFile = json.parsingObject(BeTeFile.class);
                     onFileUpdate.saveFile(beTeFile);

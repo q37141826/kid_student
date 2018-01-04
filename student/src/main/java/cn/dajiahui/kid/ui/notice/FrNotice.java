@@ -121,7 +121,7 @@ public class FrNotice extends FxFragment {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus()  == 1) {
                     List<BeNotice> temp = json.parsingListArray(new GsonType<List<BeNotice>>() {
                     });
                     if (temp != null && temp.size() > 0) {

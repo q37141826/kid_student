@@ -16,78 +16,7 @@
         <!--<include layout="@layout/layout_tool_fragment"/>-->
         <include layout="@layout/layout_tool_text"/>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/whilte_line"
-            android:orientation="vertical"
-            android:padding="0dp">
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/task_option"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/task_staydone"
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/task_staydone"
-                        android:textColor="#969696"
-                        android:textSize="17dp"/>
-
-                    <TextView
-                        android:id="@+id/task_done"
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/task_done"
-                        android:textColor="#969696"
-                        android:textSize="17dp"/>
-
-                    <TextView
-                        android:id="@+id/task_staycorrect"
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/task_staycorrect"
-                        android:textColor="#969696"
-                        android:textSize="17dp"/>
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/cursor"
-                    android:layout_width="114dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:background="@drawable/nav_bar_focus"
-                    android:contentDescription="@string/app_name"
-                    android:gravity="left"
-                    android:src="@drawable/nav_bar_focus"/>
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/task_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
     </LinearLayout>
+
 </RelativeLayout>

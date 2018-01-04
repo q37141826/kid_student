@@ -148,7 +148,7 @@ public class FrSetPhone extends FxFragment {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus()  == 1) {
                     UserController.getInstance().getUser().setPhone(newPhone);
                     getActivity().setResult(Activity.RESULT_OK);
                     finishActivity();
@@ -197,7 +197,7 @@ public class FrSetPhone extends FxFragment {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus()  == 1) {
                     ToastUtil.showToast(getContext(), R.string.hint_inputcode);
                 } else {
                     ToastUtil.showToast(getContext(), json.getMsg());

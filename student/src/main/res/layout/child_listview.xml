@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/textpadding"
+        android:divider="@color/transparent"
+        android:dividerHeight="0px"
+        android:fadeScrollbars="false"
+        android:overScrollMode="never"
+        android:scrollbars="none"></ListView>
+
+    <TextView
+        style="@style/text_null"/>
+</LinearLayout>

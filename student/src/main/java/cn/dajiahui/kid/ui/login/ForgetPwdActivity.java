@@ -13,19 +13,20 @@ import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.util.ActivityUtil;
-import com.fxtx.framework.widgets.dialog.FxDialog;
 import com.squareup.okhttp.Request;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
+import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.StudentTextWatcher;
 
+
 /**
- * Created by wdj on 2016/7/11.
+ * 忘记密码
  */
 public class ForgetPwdActivity extends FxActivity {
     private TextView btnCode;
-    private EditText edLoginAccount, edPhoneNum, edPhoneCode, edNewPwd, edPwdOk;
+    private EditText edLoginPhone, edPhoneCode, edNewPwd, edPwdOk;
     private TimeCount time;
     private boolean isBtnCode = true;
 
@@ -34,17 +35,25 @@ public class ForgetPwdActivity extends FxActivity {
         setContentView(R.layout.activity_forget);
         btnCode = getView(R.id.tv_code);
         btnCode.setOnClickListener(onClick);
-        edLoginAccount = getView(R.id.edLoginAccount);
-        edPhoneNum = getView(R.id.edPhoneNum);
+        edLoginPhone = getView(R.id.ed_phone);
+
         edPhoneCode = getView(R.id.edPhoneCode);
         edNewPwd = getView(R.id.edNewPwd);
         edPwdOk = getView(R.id.edPwdOk);
         btnCode.setClickable(false);
-        edLoginAccount.addTextChangedListener(new StudentTextWatcher() {
+
+        getView(R.id.btn_forget).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkEmpty();
+            }
+        });
+
+        edLoginPhone.addTextChangedListener(new StudentTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isBtnCode) {
-                    if (edPhoneNum.getText().toString().trim().length() == 11 && edLoginAccount.getText().toString().trim().length() > 0) {
+                    if (edLoginPhone.getText().toString().trim().length() == 11) {
                         btnCode.setBackgroundResource(R.drawable.select_btn_bg);
                         btnCode.setClickable(true);
                     } else {
@@ -54,21 +63,8 @@ public class ForgetPwdActivity extends FxActivity {
                 }
             }
         });
-        edPhoneNum.addTextChangedListener(new StudentTextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //输入中
-                if (isBtnCode) {
-                    if (edPhoneNum.getText().toString().trim().length() == 11 && edLoginAccount.getText().toString().trim().length() > 0) {
-                        btnCode.setBackgroundResource(R.drawable.select_btn_bg);
-                        btnCode.setClickable(true);
-                    } else {
-                        btnCode.setBackgroundResource(R.color.whilte_gray);
-                        btnCode.setClickable(false);
-                    }
-                }
-            }
-        });
+
+
     }
 
     @Override
@@ -76,7 +72,6 @@ public class ForgetPwdActivity extends FxActivity {
         super.onCreate(savedInstanceState);
         onBackText();
         setfxTtitle(R.string.forget_pwd);
-        onRightBtn(R.drawable.ico_updata, R.string.tv_submit);
         time = new TimeCount(60000, 1000);
     }
 
@@ -85,11 +80,10 @@ public class ForgetPwdActivity extends FxActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tv_code:
-                    String phoneNum = edPhoneNum.getText().toString().trim();
-                    String userName = edLoginAccount.getText().toString().trim();
-                    if (!StringUtil.isEmpty(phoneNum) && !StringUtil.isEmpty(userName)) {
+                    String userName = edLoginPhone.getText().toString().trim();
+                    if (!StringUtil.isEmpty(userName)) {
                         showfxDialog("获取验证码");
-                        httpPhoneCode(phoneNum, userName);
+                        httpPhoneCode(userName);
                     } else {
                         ToastUtil.showToast(context, "数据错误");
                     }
@@ -100,37 +94,14 @@ public class ForgetPwdActivity extends FxActivity {
         }
     };
 
-    @Override
-    public void onRightBtnClick(View view) {
-        super.onRightBtnClick(view);
-        FxDialog dialog = new FxDialog(context) {
-            @Override
-            public void onRightBtn(int flag) {
-                checkEmpty();
-            }
-
-            @Override
-            public void onLeftBtn(int flag) {
-
-            }
-        };
-        dialog.setTitle(R.string.prompt);
-        dialog.setMessage(R.string.change_pwd);
-        dialog.show();
-    }
-
+    /*检验*/
     private void checkEmpty() {
-        String account = edLoginAccount.getText().toString().trim();
-        String phone = edPhoneNum.getText().toString().trim();
+        String phone = edLoginPhone.getText().toString().trim();
         String code = edPhoneCode.getText().toString().trim();
         String newPwd = edNewPwd.getText().toString().trim();
         String pwdAgsin = edPwdOk.getText().toString().trim();
-        if (StringUtil.isEmpty(account)) {
-            ToastUtil.showToast(context, R.string.input_login_account);
-            return;
-        }
         if (StringUtil.isEmpty(phone)) {
-            ToastUtil.showToast(context, R.string.input_phone_num);
+            ToastUtil.showToast(context, R.string.forget_user);
             return;
         }
         if (StringUtil.isEmpty(code)) {
@@ -142,17 +113,19 @@ public class ForgetPwdActivity extends FxActivity {
             return;
         }
         if (StringUtil.isEmpty(pwdAgsin)) {
-            ToastUtil.showToast(context, R.string.newpwdagin);
+            ToastUtil.showToast(context, R.string.inputnewpwd);
             return;
         }
         if (!StringUtil.sameStr(newPwd, pwdAgsin)) {
-            ToastUtil.showToast(context, R.string.pwd_two_error);
+            ToastUtil.showToast(context, R.string.inputpwdto);
             return;
         }
-        httpChange(account, phone, code, newPwd, pwdAgsin);
+        httpChange(phone, newPwd, pwdAgsin, code);
+
     }
 
-    private void httpPhoneCode(String phone, String user) {
+    /*获取手机验证码*/
+    private void httpPhoneCode(String phone) {
         ResultCallback callback = new ResultCallback() {
             @Override
             public void onError(Request request, Exception e) {
@@ -166,7 +139,7 @@ public class ForgetPwdActivity extends FxActivity {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus() == 0) {
                     time.start();
                     ToastUtil.showToast(context, "验证码获取成功");
                 } else {
@@ -176,22 +149,24 @@ public class ForgetPwdActivity extends FxActivity {
                 }
             }
         };
-        RequestUtill.getInstance().sendPhoneCode(context, callback, phone, user);
+        RequestUtill.getInstance().sendPhoneCode(context, callback, phone);
     }
 
-    private void httpChange(String userName, String phone, String code, String toChangePwd, String pwdAgain) {
+    /*忘记密码*/
+    private void httpChange(String phone, String code, String toChangePwd, String pwdAgain) {
         ResultCallback callback = new ResultCallback() {
             @Override
             public void onError(Request request, Exception e) {
                 dismissfxDialog();
                 ToastUtil.showToast(context, ErrorCode.error(e));
+                Logger.d("majin", "忘记密码失败  request:" + request + " e: " + e);
             }
 
             @Override
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus() == 0) {
                     ToastUtil.showToast(context, "密码修改成功");
                     ActivityUtil.getInstance().finishActivity(ForgetPwdActivity.class);
                 } else {
@@ -199,7 +174,7 @@ public class ForgetPwdActivity extends FxActivity {
                 }
             }
         };
-        RequestUtill.getInstance().changePwd(context, callback, userName, phone, code, toChangePwd, pwdAgain);
+        RequestUtill.getInstance().changePwd(context, callback, phone, toChangePwd, pwdAgain, code);
     }
 
     class TimeCount extends CountDownTimer {
@@ -211,7 +186,7 @@ public class ForgetPwdActivity extends FxActivity {
         public void onFinish() {
             btnCode.setText("再次获取");
             isBtnCode = true;
-            if (edPhoneNum.getText().toString().trim().length() == 11 && edLoginAccount.getText().toString().trim().length() > 0) {
+            if (edLoginPhone.getText().toString().trim().length() == 11) {
                 btnCode.setClickable(true);
                 btnCode.setBackgroundResource(R.drawable.select_btn_bg);
             } else {

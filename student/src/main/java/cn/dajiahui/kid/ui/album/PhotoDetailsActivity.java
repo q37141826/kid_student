@@ -172,7 +172,7 @@ public class PhotoDetailsActivity extends FxActivity {
             public void onResponse(String response) {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus()  == 1) {
                     BePhotoDetails details = json.parsingObject(BePhotoDetails.class);
                     setViewTitile(details);
                 } else {

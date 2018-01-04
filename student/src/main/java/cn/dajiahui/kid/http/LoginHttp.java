@@ -7,7 +7,6 @@ import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.platforms.jpush.JpushUtil;
-import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -19,13 +18,12 @@ import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.ui.MainActivity;
 import cn.dajiahui.kid.ui.chat.constant.ImHelper;
 import cn.dajiahui.kid.ui.chat.constant.PreferenceManager;
-import cn.dajiahui.kid.ui.login.LogoActivity;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.SpUtil;
 
 /**
- * Created by z on 2016/3/17.
+ * 登录
  */
 public class LoginHttp {
     private OnLogin onLogin;
@@ -35,18 +33,17 @@ public class LoginHttp {
         this.onLogin = onLogin;
         this.context = context;
     }
+
     /*选择模式 logo OR defaul*/
     private void setStartActivity() {
-        BeUser user = UserController.getInstance().getUser();
-        if (!StringUtil.isEmpty(user.getLoadUrl()) && !StringUtil.sameStr("-1", user.getLoadUrl())) {
-            DjhJumpUtil.getInstance().startBaseActivity(context, LogoActivity.class);
-        } else {
-            DjhJumpUtil.getInstance().startBaseActivity(context, MainActivity.class);
-        }
+
+        DjhJumpUtil.getInstance().startBaseActivity(context, MainActivity.class);
+
     }
 
     /*登录请求*/
     public void httpData(final String user, final String pwd) {
+
         RequestUtill.getInstance().httpLogin(context, new ResultCallback() {
             @Override
             public void onError(Request request, Exception e) {
@@ -57,7 +54,7 @@ public class LoginHttp {
             @Override
             public void onResponse(String response) {
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus() == 0) {
                     BeUser temp = json.parsingObject(BeUser.class);
                     if (temp == null) {
                         ToastUtil.showToast(context, "用户信息丢失");
@@ -70,6 +67,7 @@ public class LoginHttp {
                     UserController.getInstance().getUser().setPwd(pwd);
                     spUtil.setLogin(user, pwd);
                     spUtil.setUser(temp);
+
                     // 判断是否有沟通模块存在，存在 再对环信登录进行判断
                     if (UserController.getInstance().getUserAuth().isMsn) {
                         if (ImHelper.getInstance().isLoggedIn()) {
@@ -94,7 +92,7 @@ public class LoginHttp {
         }, user, pwd);
     }
 
-
+    /*登录环信*/
     public void huanxLogin(final String user, final String pwd) {
 
         if (!EaseCommonUtils.isNetWorkConnected(context)) {

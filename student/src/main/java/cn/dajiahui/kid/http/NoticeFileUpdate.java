@@ -52,7 +52,7 @@ public class NoticeFileUpdate {
             @Override
             public void onResponse(String response) {
                 HeadJson json = new HeadJson(response);
-                if (json.getFlag() == 1) {
+                if (json.getstatus() == 1) {
                     //成功
                     successful++;
                     BePhoto photo = json.parsingObject(BePhoto.class);

@@ -63,5 +63,6 @@ public class FirstActivity extends FxFirstActivity {
 
     @Override
     protected void initView() {
+
     }
 }

@@ -8,7 +8,7 @@
     >
 
     <include layout="@layout/layout_tool_text"/>
-<include layout="@layout/title_list_test"/>
+
     <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout
         android:id="@+id/refresh"
         xmlns:app="http://schemas.android.com/apk/res-auto"

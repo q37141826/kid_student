@@ -8,7 +8,7 @@ public class BeJson {
     private String msg;
 
 
-    public int getFlag() {
+    public int getstatus()  {
         return flag;
     }
 

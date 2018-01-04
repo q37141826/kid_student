@@ -3,7 +3,7 @@ package cn.dajiahui.kid.util;
 import java.io.Serializable;
 
 /**
- * Created by z on 2016/3/10.
+ *
  * bena对象基类
  */
 public class BeanObj implements Serializable {
