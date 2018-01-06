@@ -197,12 +197,12 @@ public class CallActivity extends EaseBaseActivity {
                             EMClient.getInstance().callManager().answerCall();
                             isAnswered = true;
                             // meizu MX5 4G, hasDataConnection(context) return status is incorrect
-                            // MX5 con.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected() return false in 4G
+                            // MX5 con.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected() return mfalse in 4G
                             // so we will not judge it, App can decide whether judge the network status
 
 //                        if (NetUtils.hasDataConnection(CallActivity.this)) {
 //                            EMClient.getInstance().callManager().answerCall();
-//                            isAnswered = true;
+//                            isAnswered = mtrue;
 //                        } else {
 //                            runOnUiThread(new Runnable() {
 //                                public void run() {
@@ -219,7 +219,7 @@ public class CallActivity extends EaseBaseActivity {
                             return;
                         }
                     } else {
-                        EMLog.d(TAG, "answer call isInComingCall:false");
+                        EMLog.d(TAG, "answer call isInComingCall:mfalse");
                     }
                     break;
                 case MSG_CALL_REJECT:

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/content"
@@ -12,14 +13,13 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/layout_tool_text"/>
+        <include layout="@layout/layout_tool_text"/>
 
         <TextView
             android:id="@+id/tvSecurity"
             style="@style/mine_view"
-            android:drawableLeft="@drawable/ico_set_yj"
-            android:text="@string/text_security"
+
+            android:text="@string/mine_text_userphone"
             />
 
         <View
@@ -28,22 +28,50 @@
             android:background="@color/line_gray"/>
 
         <TextView
-            android:id="@+id/tvAbout"
+            android:id="@+id/tvFixpass"
             style="@style/mine_view"
-            android:drawableLeft="@drawable/ico_set_bz"
-            android:text="@string/text_about"/>
+
+            android:text="@string/mine_text_fixpass"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/line_gray"/>
+
+        <RelativeLayout
+            android:id="@+id/tvclean"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/textmarginleft"
+                android:text="@string/mine_text_clean"
+                android:textSize="@dimen/text18"/>
+
+            <TextView
+                android:id="@+id/tv_user_sex_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/textmarginleft"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/ico_to"
+                android:text="110M"
+                android:textSize="@dimen/text16"/>
+
+        </RelativeLayout>
+
+
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
         android:gravity="bottom"
         android:orientation="vertical">
 
@@ -55,9 +83,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="40dp"
-            android:background="@drawable/btn_red"
+            android:background="@color/white"
             android:text="@string/btn_exit"
-            android:textColor="@color/white"/>
+            android:textColor="@color/gray_line"/>
     </LinearLayout>
 
 

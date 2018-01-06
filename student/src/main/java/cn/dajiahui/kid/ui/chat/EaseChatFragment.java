@@ -1003,7 +1003,7 @@ public class EaseChatFragment extends EaseBaseFragment {
         void onMessageBubbleLongClick(EMMessage message);
 
         /**
-         * 扩展输入栏item点击事件,如果要覆盖EaseChatFragment已有的点击事件，return true
+         * 扩展输入栏item点击事件,如果要覆盖EaseChatFragment已有的点击事件，return mtrue
          *
          * @param view
          * @param itemId

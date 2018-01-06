@@ -45,7 +45,7 @@ public class ImHelper {
         /**
          * 同步完毕
          *
-         * @param success true：成功同步到数据，false失败
+         * @param success mtrue：成功同步到数据，false失败
          */
         void onSyncComplete(boolean success);
     }

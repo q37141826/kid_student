@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.fxtx.framework.util.ActivityUtil;
 
-import cn.dajiahui.kid.ui.video.VideoActivity;
+import cn.dajiahui.kid.ui.mine.myworks.VideoActivity;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 public class JCVideoPlayerStudent extends JCVideoPlayerStandard {

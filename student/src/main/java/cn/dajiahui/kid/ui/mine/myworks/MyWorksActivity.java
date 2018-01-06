@@ -16,6 +16,7 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.mine.adapter.ApMyWorks;
 import cn.dajiahui.kid.ui.mine.bean.BeMyWorks;
+import cn.dajiahui.kid.util.DjhJumpUtil;
 
 
 /*
@@ -27,8 +28,9 @@ public class MyWorksActivity extends FxActivity {
     private TextView tvcaraok;
     private Button btndelete;
     private ListView mListview;
-    private boolean isshowcheckbox = false;//false 不显示 true 显示
+    private boolean isshowcheckbox = false;//mfalse 不显示 mtrue 显示
     private ApMyWorks apMyWorks;
+    private List<BeMyWorks> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class MyWorksActivity extends FxActivity {
     protected void initView() {
         setContentView(R.layout.activity_my_works);
         initialize();
-        final List<BeMyWorks> data = new ArrayList<>();
+        data = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             data.add(new BeMyWorks("作品" + i, "2018.0" + i));
 
@@ -58,6 +60,8 @@ public class MyWorksActivity extends FxActivity {
                 //把点击的position传递到adapter里面去
                 apMyWorks.changeState(position);
                 Toast.makeText(context, "当前点击" + data.get(position).getWorksname(), Toast.LENGTH_SHORT).show();
+                DjhJumpUtil.getInstance().startVideoActivity(MyWorksActivity.this, null);
+
             }
         });
     }
@@ -67,6 +71,8 @@ public class MyWorksActivity extends FxActivity {
         tvcaraok = getView(R.id.tv_caraok);
         btndelete = getView(R.id.btn_delete);
         mListview = getView(R.id.listview);
+        tvbookaudio.setOnClickListener(onCick);
+        tvcaraok.setOnClickListener(onCick);
         btndelete.setOnClickListener(onCick);
     }
 
@@ -91,6 +97,26 @@ public class MyWorksActivity extends FxActivity {
 
             switch (v.getId()) {
 
+                case R.id.tv_bookaudio:
+                    data.clear();
+                    Toast.makeText(context, "课本剧作品", Toast.LENGTH_SHORT).show();
+                    for (int i = 0; i < 20; i++) {
+                        data.add(new BeMyWorks("课本剧作品" + i, "2018.0" + i));
+
+                    }
+
+                    apMyWorks.notifyDataSetChanged();
+                    break;
+                case R.id.tv_caraok:
+                    data.clear();
+                    Toast.makeText(context, "klaok作品", Toast.LENGTH_SHORT).show();
+                    for (int i = 0; i < 20; i++) {
+                        data.add(new BeMyWorks("klaok作品" + i, "2018.0" + i));
+
+                    }
+                    apMyWorks.notifyDataSetChanged();
+
+                    break;
                 case R.id.btn_delete:
 
 

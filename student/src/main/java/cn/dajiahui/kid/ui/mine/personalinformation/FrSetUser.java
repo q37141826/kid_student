@@ -189,7 +189,7 @@ public class FrSetUser extends FxFragment {
         }
         showfxDialog(R.string.getcode);
         time.start();
-        RequestUtill.getInstance().httpUserSendCode(getContext(), new ResultCallback() {
+        RequestUtill.getInstance().sendPhoneCode(getContext(), new ResultCallback() {
             @Override
             public void onError(Request request, Exception e) {
                 dismissfxDialog();
@@ -210,7 +210,7 @@ public class FrSetUser extends FxFragment {
                     time.onFinish();
                 }
             }
-        }, UserController.getInstance().getUserId(), newPhone);
+        },   newPhone);
     }
 
     class TimeCount extends CountDownTimer {

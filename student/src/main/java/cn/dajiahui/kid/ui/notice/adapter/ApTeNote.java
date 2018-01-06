@@ -23,7 +23,7 @@
 //        super(context, mDatas, R.layout.teaching_item_file);
 //    }
 //
-//    public boolean showImg = true;
+//    public boolean showImg = mtrue;
 //
 //    @Override
 //    public void convert(ViewHolder viewHolder, int position, BeTeFile item) {

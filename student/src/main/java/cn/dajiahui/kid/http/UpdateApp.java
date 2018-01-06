@@ -39,9 +39,9 @@ public class UpdateApp extends UpdateManager {
 //                    BeUpdate update = json.parsingObject(BeUpdate.class);
 //                    if (update.getCodeNumber() > BaseUtil.getVersionCode(mContext)) {
 //                        if (StringUtil.sameStr(update.isForceUpdateFlag(), "1")) {
-//                            isMustUpdate = true;
+//                            isMustUpdate = mtrue;
 //                        } else {
-//                            isMustUpdate = false;
+//                            isMustUpdate = mfalse;
 //                        }
 //                        message = update.getContent();
 //

@@ -68,7 +68,7 @@ public class UserDetailsActivity extends FxActivity {
         BeUser user = UserController.getInstance().getUser();
 //        if (user == null)
 //            return;
-//        GlideUtil.showRoundImage(context, user.getAvator(), userIcon, R.drawable.ico_default_user, true);
+//        GlideUtil.showRoundImage(context, user.getAvator(), userIcon, R.drawable.ico_default_user, mtrue);
 //        tv_account.setText(user.getUserName());
 
         tv_name.setText("张三");
@@ -188,7 +188,7 @@ public class UserDetailsActivity extends FxActivity {
 //                if (headJson.getstatus() == 1) {
 //                    UserController.getInstance().getUser().setAvator(headJson.parsingString("avator"));
 //                    PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvator());
-//                    GlideUtil.showNoneImage(UserDetailsActivity.this, UserController.getInstance().getUser().getAvator(), userIcon, R.drawable.ico_default_user, true);
+//                    GlideUtil.showNoneImage(UserDetailsActivity.this, UserController.getInstance().getUser().getAvator(), userIcon, R.drawable.ico_default_user, mtrue);
 ////                    initData();
 //                    ToastUtil.showToast(context, R.string.save_ok);
 //                    setResult(PICSETSULT);

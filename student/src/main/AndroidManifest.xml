@@ -66,7 +66,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"/>
         <activity
-            android:name=".ui.mine.SettingActivity"
+            android:name=".ui.mine.setting.SettingActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.mine.HelpActivity"
@@ -101,48 +101,66 @@
         <activity
             android:name="com.fxtx.framework.image.PreviewPicActivity"
             android:screenOrientation="portrait"/>
-        <!--登录-->
+        <!-- 登录 -->
         <activity
             android:name=".ui.login.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <!--我的班級-->
+        <!-- 我的班級 -->
         <activity
             android:name=".ui.mine.myclass.MyClassActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <!--班级详情-->
+        <!-- 班级详情 -->
         <activity
             android:name=".ui.mine.myclass.ClassDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <!--班级信息-->
+        <!-- 班级信息 -->
         <activity
-            android:name="cn.dajiahui.kid.ui.mine.myclass.ClassInfoActivity"
+            android:name=".ui.mine.myclass.ClassInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <!--班级空间-->
+        <!-- 班级空间 -->
         <activity
-            android:name="cn.dajiahui.kid.ui.mine.myclass.ClassSpaceActivity"
+            android:name=".ui.mine.myclass.ClassSpaceActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <!--我的作品-->
+        <!-- 我的作品 -->
         <activity
-            android:name="cn.dajiahui.kid.ui.mine.myworks.MyWorksActivity"
+            android:name=".ui.mine.myworks.MyWorksActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <!--个人信息-->
+        <!-- 个人信息 -->
         <activity
             android:name=".ui.mine.personalinformation.UserDetailsActivity"
             android:screenOrientation="portrait"/>
-        <!--修改信息接口-->
+        <!-- 修改信息接口 -->
         <activity
             android:name=".ui.mine.personalinformation.UserSetActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
+        <!-- 摩尔通知 -->
+        <activity android:name=".ui.mine.notice.NoticeActivity"/>
         <activity
             android:name=".ui.chat.ConcactForClassActivity"
             android:screenOrientation="portrait"/>
+        <!-- 关于摩尔start -->
+        <activity
+            android:name="com.fxtx.framework.ui.base.WebActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.mine.about.AboutActivity"
+            android:screenOrientation="portrait"/>
+        <!-- 关于摩尔end -->
+        <!-- 设置密码 -->
+        <activity android:name=".ui.mine.setting.SetPassActivity"/>
+        <!-- 设置账户 -->
+        <activity android:name=".ui.mine.setting.SetPhoneActivity"/>
+        <activity
+            android:name=".ui.mine.about.AllFounctionActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ui.mine.myclass.AddClassActivity"
             android:screenOrientation="portrait"/>
@@ -187,9 +205,8 @@
             android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
-
         <activity
-            android:name=".ui.video.VideoActivity"
+            android:name=".ui.mine.myworks.VideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"/>
         <activity
@@ -372,7 +389,12 @@
             android:name="com.fxtx.framework.image.MyGlideMoudle"
             android:value="GlideModule"/>
 
-
+        <activity android:name=".ui.homework.homeworkdetails.HomedetailsActivity">
+        </activity>
+        <activity android:name=".ui.homework.homeworkdetails.CheckHomeworkActivity">
+        </activity>
+        <activity android:name=".ui.homework.homeworkdetails.AnswerCardActivity">
+        </activity>
     </application>
 
 </manifest>

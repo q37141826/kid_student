@@ -17,7 +17,6 @@ import com.squareup.okhttp.Request;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
-import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.StudentTextWatcher;
 
 
@@ -159,7 +158,6 @@ public class ForgetPwdActivity extends FxActivity {
             public void onError(Request request, Exception e) {
                 dismissfxDialog();
                 ToastUtil.showToast(context, ErrorCode.error(e));
-                Logger.d("majin", "忘记密码失败  request:" + request + " e: " + e);
             }
 
             @Override
@@ -167,7 +165,6 @@ public class ForgetPwdActivity extends FxActivity {
                 dismissfxDialog();
                 HeadJson json = new HeadJson(response);
                 if (json.getstatus() == 0) {
-                    ToastUtil.showToast(context, "密码修改成功");
                     ActivityUtil.getInstance().finishActivity(ForgetPwdActivity.class);
                 } else {
                     ToastUtil.showToast(context, json.getMsg());

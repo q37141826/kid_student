@@ -108,7 +108,7 @@ public class MainActivity extends FxTabActivity {
         setContentView(R.layout.activity_main);
         radioGroup = getView(R.id.tab_group);
 
-        BeTab tab = new BeTab(R.id.rediobtn_task, "", getString(R.string.tab_task), R.drawable.radio_task, true);
+        BeTab tab = new BeTab(R.id.rediobtn_task, "", getString(R.string.tab_homework), R.drawable.radio_task, true);
         BeTab tab2 = new BeTab(R.id.rediobtn_study, "", getString(R.string.tab_study), R.drawable.radio_study, false);
         BeTab tab4 = new BeTab(R.id.rediobtn_mine, "", getString(R.string.tab_mine), R.drawable.radio_mine, false);
 
@@ -190,10 +190,10 @@ public class MainActivity extends FxTabActivity {
         if (resultCode == UserDetailsActivity.PICSETSULT) {
             //进入用户详情修改图片后返回来的值
             if (frHomework != null) {
-//                GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frHomework.imUer, R.drawable.ico_default_user, true);
+//                GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frHomework.imUer, R.drawable.ico_default_user, mtrue);
             }
             if (frMine != null) {
-//                GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frMine.imUser, R.drawable.ico_default_user, true);
+//                GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frMine.imUser, R.drawable.ico_default_user, mtrue);
             }
         }
     }
@@ -216,7 +216,7 @@ public class MainActivity extends FxTabActivity {
                     PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvator());
                     ToastUtil.showToast(context, R.string.save_ok);
                     if (frHomework != null) {
-//                        GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frHomework.imUer, R.drawable.ico_default_user, true);
+//                        GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frHomework.imUer, R.drawable.ico_default_user, mtrue);
                     }
                     if (frMine != null) {
                         GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frMine.imUser, R.drawable.ico_default_user, true);

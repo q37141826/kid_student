@@ -13,7 +13,6 @@ import java.util.List;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.mine.bean.BeMyWorks;
-import cn.dajiahui.kid.util.Logger;
 
 /**
  * Created by majin on 2016/5/11.
@@ -40,11 +39,9 @@ public class ApMyWorks extends CommonAdapter<BeMyWorks> {
 
         //如果当前的position等于传过来点击的position,就去改变他的状态
         if (selectorPosition == -1) {
-            Logger.d("majin", "View.VISIBLE");
             checkBox.setVisibility(View.VISIBLE);
         } else if (selectorPosition == -2) {
             checkBox.setVisibility(View.GONE);
-            Logger.d("majin", "View.GONE");
         }
 
         checkBox.setOnClickListener(new View.OnClickListener() {

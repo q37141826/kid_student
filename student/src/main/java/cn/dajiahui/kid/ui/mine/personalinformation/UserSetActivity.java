@@ -10,8 +10,6 @@ import com.fxtx.framework.ui.FxFragment;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.ui.mine.FrSetName;
-import cn.dajiahui.kid.ui.mine.FrSetPhone;
-import cn.dajiahui.kid.ui.mine.FrSetPwd;
 
 /**
  *
@@ -31,33 +29,16 @@ public class UserSetActivity extends FxActivity {
         int type = getIntent().getIntExtra(Constant.bundle_type, Constant.user_edit_user);
         //修改用户信息
         switch (type) {
-            case Constant.user_edit_phone:
-                //修改手机
-                setfxTtitle(R.string.edit_phone);
-                fragment = new FrSetPhone();
-                break;
-            case Constant.user_edit_pwd:
-                //修改密码
-                setfxTtitle(R.string.edit_pwd);
-                fragment = new FrSetPwd();
-                break;
             case Constant.user_edit_user:
                 //修改用户名
                 setfxTtitle(R.string.edit_user);
                 fragment = new FrSetUser();
                 break;
-            case  Constant.user_edit_sign:
-                setfxTtitle(R.string.edit_sign);
-//                fragment = new FrSetSign();
-                break;
             case Constant.user_edit_age:
                 setfxTtitle(R.string.edit_birth);
                 fragment = new FrSetBirth();
                 break;
-            case Constant.user_edit_email:
-                setfxTtitle(R.string.edit_email);
-//                fragment = new FrSetEmail();
-                break;
+
             case Constant.user_edit_name:
                 setfxTtitle(R.string.edit_name);
                 fragment = new FrSetName();

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.fxtx.framework.image.SelectPhotoActivity;
+import com.fxtx.framework.ui.base.WebActivity;
 import com.fxtx.framework.util.JumpUtil;
 
 import java.util.ArrayList;
@@ -16,10 +17,10 @@ import cn.dajiahui.kid.ui.album.PhotoPageActivity;
 import cn.dajiahui.kid.ui.album.bean.BePhoto;
 import cn.dajiahui.kid.ui.chat.ChatActivity;
 import cn.dajiahui.kid.ui.chat.ConcactForClassActivity;
+import cn.dajiahui.kid.ui.mine.myworks.VideoActivity;
 import cn.dajiahui.kid.ui.mine.personalinformation.UserSetActivity;
 import cn.dajiahui.kid.ui.mp3.AudioActivity;
 import cn.dajiahui.kid.ui.video.FullscreenVideoActivity;
-import cn.dajiahui.kid.ui.video.VideoActivity;
 import cn.dajiahui.kid.ui.video.bean.BeVideo;
 
 /**
@@ -55,14 +56,6 @@ public class DjhJumpUtil extends JumpUtil {
         }
         return nUtil;
     }
-
-
-
-
-
-
-
-
 
     //我的相册
     public void startPhotoActivity(Context context, String albumId, String title) {
@@ -115,6 +108,32 @@ public class DjhJumpUtil extends JumpUtil {
     }
 
 
+
+
+    /**
+     * 访问网页
+     *
+     * @param context
+     * @param title
+     * @param Url
+     */
+    public void startWebActivity(Context context, String title, String Url, Boolean type) {
+        startBaseWebActivity(context, title, Url, type, WebActivity.class);
+    }
+    /**
+     * 访问网页
+     *
+     * @param context
+     * @param title
+     * @param Url
+     */
+    public void startBaseWebActivity(Context context, String title, String Url, Boolean type, Class classs) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.bundle_title, title);
+        bundle.putString(Constant.bundle_obj, Url);
+        bundle.putBoolean(Constant.bundle_type, type);
+        startBaseActivity(context, classs, bundle, 0);
+    }
 
     /**
      * 视频播放

@@ -42,7 +42,7 @@ public class Mp3Activity extends FxActivity {
     private ImageView imStart;
     private View oneBtn, twoBtn;
     private Mp3Audio audio;
-    private boolean isAudio;//录音还是播放 true 录音，false 播放  当前播放状态
+    private boolean isAudio;//录音还是播放 mtrue 录音，mfalse 播放  当前播放状态
     private boolean isRecorder = false;//是否允许录制
     private int startType = 0;//  0 录制， 1 播放，2停止
     private File file;

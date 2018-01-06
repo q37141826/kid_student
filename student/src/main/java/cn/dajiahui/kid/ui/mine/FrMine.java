@@ -14,9 +14,12 @@ import com.fxtx.framework.ui.FxFragment;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
+import cn.dajiahui.kid.ui.mine.about.AboutActivity;
 import cn.dajiahui.kid.ui.mine.myclass.MyClassActivity;
 import cn.dajiahui.kid.ui.mine.myworks.MyWorksActivity;
+import cn.dajiahui.kid.ui.mine.notice.NoticeActivity;
 import cn.dajiahui.kid.ui.mine.personalinformation.UserDetailsActivity;
+import cn.dajiahui.kid.ui.mine.setting.SettingActivity;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 
 /**
@@ -115,10 +118,12 @@ public class FrMine extends FxFragment {
                     break;
                 case R.id.tvAbout: //关于
                     Toast.makeText(activity, "关于", Toast.LENGTH_SHORT).show();
-
+                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(),  AboutActivity.class);
                     break;
                 case R.id.tvNotice: //通知
                     Toast.makeText(activity, "通知", Toast.LENGTH_SHORT).show();
+                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(),  NoticeActivity.class);
+
                     break;
                 case R.id.tvSet_up: //设置
 

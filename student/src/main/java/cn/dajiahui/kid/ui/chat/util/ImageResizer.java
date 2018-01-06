@@ -111,7 +111,7 @@ public class ImageResizer extends ImageWorker {
 			int resId, int reqWidth, int reqHeight, ImageCache cache) {
 
 		// BEGIN_INCLUDE (read_bitmap_dimensions)
-		// First decode with inJustDecodeBounds=true to check dimensions
+		// First decode with inJustDecodeBounds=mtrue to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeResource(res, resId, options);
@@ -151,7 +151,7 @@ public class ImageResizer extends ImageWorker {
 	public static Bitmap decodeSampledBitmapFromFile(String filename,
 			int reqWidth, int reqHeight, ImageCache cache) {
 
-		// First decode with inJustDecodeBounds=true to check dimensions
+		// First decode with inJustDecodeBounds=mtrue to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(filename, options);
@@ -191,7 +191,7 @@ public class ImageResizer extends ImageWorker {
 			FileDescriptor fileDescriptor, int reqWidth, int reqHeight,
 			ImageCache cache) {
 
-		// First decode with inJustDecodeBounds=true to check dimensions
+		// First decode with inJustDecodeBounds=mtrue to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
@@ -242,7 +242,7 @@ public class ImageResizer extends ImageWorker {
 	 * 
 	 * @param options
 	 *            An options object with out* params already populated (run
-	 *            through a decode* method with inJustDecodeBounds==true
+	 *            through a decode* method with inJustDecodeBounds==mtrue
 	 * @param reqWidth
 	 *            The requested width of the resulting bitmap
 	 * @param reqHeight

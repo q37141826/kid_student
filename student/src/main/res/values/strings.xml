@@ -14,13 +14,14 @@
     <!--app应用文字-->
 
     <!--作业文字start-->
-    <string name="tab_task">首页</string>
+    <string name="tab_homework">作业</string>
     <string name="tab_study">自学</string>
     <string name="tab_chat">消息</string>
     <string name="tab_mine">我的</string>
     <string name="task_done">已完成</string>
     <string name="task_staydone">待完成</string>
     <string name="task_staycorrect">待批改</string>
+    <string name="AnswerCard">答题卡</string>
 
     <string-array name="spinner_adapter">
         <item>全部</item>
@@ -68,7 +69,11 @@
 
     <string name="login_edit">是否要退出登录？</string>
     <!--我的end-->
+    <!--作业start-->
+    <string name="homeworkdetails">作业详情</string>
+    <string name="checkhomework">检查作业</string>
 
+    <!--作业 end-->
 
     <!--登录注册 start -->
     <string name="login">登录</string>
@@ -280,6 +285,12 @@
     <string name="text_notice">魔耳通知</string>
     <string name="mine_text_about">关于魔耳</string>
     <string name="mine_class_info">班级信息</string>
+    <string name="mine_notice">魔耳通知</string>
+    <string name="mine_clear">清空</string>
+    <string name="mine_setting">设置</string>
+    <string name="mine_text_userphone">修改账户手机号</string>
+    <string name="mine_text_fixpass">修改密码</string>
+    <string name="mine_text_clean">清除缓存</string>
     <!--我的 end -->
 
     <!--意见反馈start -->

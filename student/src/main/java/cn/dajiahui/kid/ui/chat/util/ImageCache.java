@@ -335,7 +335,7 @@ public class ImageCache {
 	 *            - Bitmap to check
 	 * @param targetOptions
 	 *            - Options that have the out* value populated
-	 * @return true if <code>candidate</code> can be used for inBitmap re-use
+	 * @return mtrue if <code>candidate</code> can be used for inBitmap re-use
 	 *         with <code>targetOptions</code>
 	 */
 	@TargetApi(19)
@@ -455,7 +455,7 @@ public class ImageCache {
 	/**
 	 * Check if external storage is built-in or removable.
 	 * 
-	 * @return True if external storage is removable (like an SD card), false
+	 * @return True if external storage is removable (like an SD card), mfalse
 	 *         otherwise.
 	 */
 	@TargetApi(VERSION_CODES.GINGERBREAD)

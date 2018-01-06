@@ -141,7 +141,7 @@ public abstract class ImageWorker {
 
 
     /**
-     * If set to true, the image will fade-in once it has been loaded by the background thread.
+     * If set to mtrue, the image will fade-in once it has been loaded by the background thread.
      */
     public void setImageFadeIn(boolean fadeIn) {
         mFadeInBitmap = fadeIn;
@@ -186,9 +186,9 @@ public abstract class ImageWorker {
     }
 
     /**
-     * Returns true if the current work has been canceled or if there was no work in
+     * Returns mtrue if the current work has been canceled or if there was no work in
      * progress on this image view.
-     * Returns false if the work in progress deals with the same data. The work is not
+     * Returns mfalse if the work in progress deals with the same data. The work is not
      * stopped in that case.
      */
     public static boolean cancelPotentialWork(Object data, ImageView imageView) {
@@ -398,7 +398,7 @@ public abstract class ImageWorker {
      * {@link android.widget.AbsListView.OnScrollListener} to keep
      * scrolling smooth.
      * <p>
-     * If work is paused, be sure setPauseWork(false) is called again
+     * If work is paused, be sure setPauseWork(mfalse) is called again
      * before your fragment or activity is destroyed (for example during
      * {@link android.app.Activity#onPause()}), or there is a risk the
      * background thread will never finish.

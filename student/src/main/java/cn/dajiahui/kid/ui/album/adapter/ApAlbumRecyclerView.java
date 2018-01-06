@@ -35,7 +35,7 @@
 //    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 //        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
 //                context).inflate(R.layout.album_item_class, parent,
-//                false));
+//                mfalse));
 //        return holder;
 //    }
 //

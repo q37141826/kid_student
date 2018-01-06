@@ -84,89 +84,11 @@ public class RequestUtill {
 //        getHttpBuilder(context, "version/update.json").params(params).post(callback);
     }
 
-    /*注册*/
-    public void httpRegist(Context context, ResultCallback callback, String truename, String sex, String phone, String phonecode, String password, String birthday, String equipment) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("truename", truename);
-        params.put("gender", sex);
-        params.put("telnum", phone);
-        params.put("telcode", phonecode);
-        params.put("password", password);
-        params.put("birthday", birthday);
-        params.put("source", equipment);
-
-        getHttpBuilder(context, "site/register").params(params).post(callback);
-    }
-
-    /*登录*/
-    public void httpLogin(Context context, ResultCallback callback, String userName, String passowrd) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("username", userName);
-        params.put("password", passowrd);
-        getHttpBuilder(context, "site/login").params(params).post(callback);
-    }
-
-
-    /**
-     * 获取周课程
-     *
-     * @param dateStr "日期字符串 格式"yyyy-MM-dd"
-     * @param weekNum 0代表当前周 1是代表下一个周，-1代表上一个周 其他以此类推
-     */
-    public void httpLessonWeek(Context context, ResultCallback callback, String userid, String dateStr, String weekNum) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("userId", userid);
-        params.put("dateStr", dateStr);
-        params.put("weekNum", weekNum);
-        getHttpBuilder(context, "user/studentLessonsOfWeek.json").params(params).post(callback);
-    }
-
-
-    /**
-     * 获取教师班级和课程信息
-     */
-    public void httpLessonClass(Context context, ResultCallback callback, String userid, int pageSize, String pageNum) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("userId", userid);
-        params.put("pageSize", pageSize + "");
-        params.put("pageNum", pageNum);
-        getHttpBuilder(context, "orgClass/getMyClassWithLesson.json").params(params).post(callback);
-    }
-
-    /**
-     * 获取班级和课程列表信息
-     */
-    public void httpCourse(Context context, ResultCallback callback, String classId) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("classId", classId);
-        params.put("userId", UserController.getInstance().getUserId());
-        getHttpBuilder(context, "orgClass/getMyClassAndLesson.json").params(params).post(callback);
-    }
-
-
-    /**
-     * 获取课次详情
-     */
-    public void httpLessonDetail(Context context, ResultCallback callback, String userId, String lessonId) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("lessonId", lessonId);
-        params.put("userId", userId);
-        getHttpBuilder(context, "orgClass/getLessonDetail.json").params(params).post(callback);
-    }
 
     public void addDownCount(Context context, String id, ResultCallback callback) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("materialId", id);
         new OkHttpRequest.Builder().tag(context).url(getUrl() + "material/addCount.json").params(params).get(callback);
-    }
-
-    /**
-     * 获取作业列表
-     */
-    public void httpPaper(Context context, ResultCallback callback, String userId) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("userId", userId);
-        getHttpBuilder(context, "classPaper/getClassPaper.json").params(params).post(callback);
     }
 
     /**
@@ -192,16 +114,6 @@ public class RequestUtill {
         getHttpBuilder(context, "classAlbum/getClassAndClassAlbumList.json").params(params).post(callback);
     }
 
-    /**
-     * 微课班级列表
-     */
-    public void httpMicroKwngList(Context context, ResultCallback callback, String userId, int num, String size) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("userId", userId);
-        params.put("pageSize", size);
-        params.put("pageNum", num + "");
-        getHttpBuilder(context, "microKwng/getMyClassWithMicroKwng.json").params(params).post(callback);
-    }
 
     public void httpPictureDetails(Context context, ResultCallback callback, String userId, String pictureId) {
         IdentityHashMap params = new IdentityHashMap<>();
@@ -313,22 +225,6 @@ public class RequestUtill {
         getHttpBuilder(context, "caseMsg/findListforLearningSpace.json").params(params).post(callback);
     }
 
-    //修改绑定手机  获取验证码
-    public void httpSendCode(Context context, ResultCallback callback, String access_token, String username, String telnum, String password) {
-        IdentityHashMap params = new IdentityHashMap<>();
-//        params.put("userId", access_token);
-//        params.put("username", username);
-//        params.put("telnum", telnum);
-//        params.put("password", password);
-//        getHttpBuilder(context, "user/modifyTelnumSendCode.json").params(params).post(callback);
-    }
-
-    public void httpUserSendCode(Context context, ResultCallback callback, String access_token, String telnum) {
-        IdentityHashMap params = new IdentityHashMap<>();
-//        params.put("userId", access_token);
-//        params.put("telnum", telnum);
-//        getHttpBuilder(context, "user/sendCode.json").params(params).post(callback);
-    }
 
     public void httpModifyAccount(Context context, ResultCallback callback, String telnum, String xinUsername, String code, String userId, String password) {
         IdentityHashMap params = new IdentityHashMap<>();
@@ -351,13 +247,7 @@ public class RequestUtill {
 
     }
 
-    public void httpboundPhone(Context context, ResultCallback callback, String userId, String telnum, String captcha) {
-        IdentityHashMap params = new IdentityHashMap<>();
-//        params.put("userId", userId);
-//        params.put("telnum", telnum);
-//        params.put("captcha", captcha);
-//        getHttpBuilder(context, "user/boundPhone.json").params(params).post(callback);
-    }
+
 
     /**
      * 意见反馈
@@ -533,6 +423,31 @@ public class RequestUtill {
         getHttpBuilder(context, "picture/shareMsg.json").params(params).post(callback);
     }
 
+/*8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888*/
+
+    /*注册*/
+    public void httpRegist(Context context, ResultCallback callback, String truename, String sex, String phone, String phonecode, String password, String birthday, String equipment) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("truename", truename);
+        params.put("gender", sex);
+        params.put("telnum", phone);
+        params.put("telcode", phonecode);
+        params.put("password", password);
+        params.put("birthday", birthday);
+        params.put("source", equipment);
+
+        getHttpBuilder(context, "site/register").params(params).post(callback);
+    }
+
+    /*登录*/
+    public void httpLogin(Context context, ResultCallback callback, String userName, String passowrd) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("username", userName);
+        params.put("password", passowrd);
+        getHttpBuilder(context, "site/login").params(params).post(callback);
+    }
+
+
     //获取手机获取验证码
     public void sendPhoneCode(Context context, ResultCallback callback, String phone) {
         IdentityHashMap params = new IdentityHashMap<>();
@@ -550,7 +465,13 @@ public class RequestUtill {
 
         getHttpBuilder(context, "site/find-passwd").params(params).post(callback);
     }
-
+    public void httpboundPhone(Context context, ResultCallback callback, String userId, String telnum, String captcha) {
+        IdentityHashMap params = new IdentityHashMap<>();
+//        params.put("userId", userId);
+//        params.put("telnum", telnum);
+//        params.put("captcha", captcha);
+//        getHttpBuilder(context, "user/boundPhone.json").params(params).post(callback);
+    }
 
 }
 
