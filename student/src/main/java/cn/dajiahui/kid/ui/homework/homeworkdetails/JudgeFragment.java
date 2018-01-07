@@ -12,9 +12,8 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.homework.bean.BeJudge;
+import cn.dajiahui.kid.ui.homework.bean.BaseBean;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
-import cn.dajiahui.kid.util.Logger;
 
 
 /**
@@ -27,10 +26,9 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
     private ImageView imgconment, img_play, imgtrue, ingfasle;
     private SubmitJudgeFragment submit;
     private GetMediaPlayer Mp3;
-    private boolean ischeck = false;
+
     private MediaPlayer mediaPlayer;
-    private BeJudge inbeJudge;
-//    private BaseBean beJudge;//activity传过来的模型
+    private BaseBean inbasebean;
 
 
     @Override
@@ -41,7 +39,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
     @Override
     public void setArguments(Bundle bundle) {
-        inbeJudge = (BeJudge) bundle.get("beJudge");
+        inbasebean = (BaseBean) bundle.get("baseBean");
 
 
     }
@@ -51,7 +49,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         super.onViewCreated(view, savedInstanceState);
         initialize();
         mediaPlayer = new MediaPlayer();
-
+        tv1.setText(inbasebean.getNomber() + "");
     }
 
     @Override
@@ -122,20 +120,22 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                     break;
                 case R.id.img_true:
 
-                    if (inbeJudge.isWhetheranswer() == false) {
+                    if (inbasebean.isWhetheranswer() == false) {
                         Toast.makeText(activity, "正确", Toast.LENGTH_SHORT).show();
-                        inbeJudge.setAnswer(true);
-                        submit.submitJudgeFragment(inbeJudge);
+                        inbasebean.setAnswer("true");
+                        inbasebean.setAnswerflag(true);
+                        submit.submitJudgeFragment(inbasebean);
                     } else {
                         Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();
                     }
 
                     break;
                 case R.id.img_fasle:
-                    if (inbeJudge.isWhetheranswer() == false) {//实力不对
+                    if (inbasebean.isWhetheranswer() == false) {
                         Toast.makeText(activity, "错误", Toast.LENGTH_SHORT).show();
-                        inbeJudge.setAnswer(false);
-                        submit.submitJudgeFragment(inbeJudge);
+                        inbasebean.setAnswer("false");
+                        inbasebean.setAnswerflag(true);
+                        submit.submitJudgeFragment(inbasebean);
                     } else {
                         Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();
                     }
@@ -143,13 +143,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                     break;
 
                 case R.id.tv_1:
-                    if (!ischeck) {
-                        tv1.setText("被点击1！");
-                        ischeck = !ischeck;
-                    } else {
-                        tv1.setText("被点击2！");
-                        ischeck = !ischeck;
-                    }
+
                     submit = (SubmitJudgeFragment) getActivity();
 
                     break;
@@ -161,14 +155,13 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
     };
 
     @Override
-    public void submitHomework(BeJudge beJudge) {
-        Logger.d("majin", "传入f1的:" +beJudge.isWhetheranswer() );
-        inbeJudge.setWhetheranswer(beJudge.isWhetheranswer());
-
+    public void submitHomework(BaseBean baseBean) {
+        inbasebean.setWhetheranswer(baseBean.isWhetheranswer());
+//        Logger.d("majin", "fragment 通知判断题答过不能在选择");
     }
 
     public interface SubmitJudgeFragment {
-        public void submitJudgeFragment(BeJudge beJudge);
+        public void submitJudgeFragment(BaseBean baseBean);
     }
 
     public interface GetMediaPlayer {

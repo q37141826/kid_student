@@ -17,7 +17,7 @@
 
         <SeekBar
             android:id="@+id/seek"
-            android:layout_width="300dp"
+            android:layout_width="00dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"/>
@@ -37,15 +37,15 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
-
-        <android.support.v4.view.ViewPager
+        <!--自定义取消预加载-->
+        <cn.dajiahui.kid.ui.homework.view.NoPreloadViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:flipInterval="30"
             android:persistentDrawingCache="animation">
-        </android.support.v4.view.ViewPager>
+        </cn.dajiahui.kid.ui.homework.view.NoPreloadViewPager>
 
     </LinearLayout>
 

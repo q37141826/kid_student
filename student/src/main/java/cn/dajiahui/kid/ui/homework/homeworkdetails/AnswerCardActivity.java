@@ -1,6 +1,8 @@
 package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -8,10 +10,13 @@ import com.fxtx.framework.ui.FxActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.adapter.ApAnswerCard;
-import cn.dajiahui.kid.ui.homework.bean.BeAnswerCard;
+import cn.dajiahui.kid.ui.homework.bean.BaseBean;
+import cn.dajiahui.kid.ui.homework.bean.BeSerializableMap;
+import cn.dajiahui.kid.util.Logger;
 
 /*
 * 答题卡
@@ -23,34 +28,36 @@ public class AnswerCardActivity extends FxActivity {
     private TextView tvnoanswer;
     private TextView tvanswer;
     private GridView grildview;
+    private ArrayList<Integer> pagelist;
+
+    private Map<Integer, BaseBean> answerCardMap;
+    //    private List<BeAnswerCard> list;
+    private int answernum;
+    private List<BaseBean> listdata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setfxTtitle(R.string.AnswerCard);
         onBackText();
-        initialize();
+
     }
 
     @Override
     protected void initView() {
         setContentView(R.layout.activity_answer_card);
         initialize();
-        List<BeAnswerCard> list = new ArrayList<>();
 
-        list.add(new BeAnswerCard(1, 1));
-        list.add(new BeAnswerCard(2, 2));
-        list.add(new BeAnswerCard(3, 3));
-        list.add(new BeAnswerCard(2, 4));
-        list.add(new BeAnswerCard(3, 5));
-        list.add(new BeAnswerCard(1, 6));
-        list.add(new BeAnswerCard(1, 7));
-        list.add(new BeAnswerCard(2, 8));
-        list.add(new BeAnswerCard(1, 9));
-        list.add(new BeAnswerCard(1, 10));
+        Intent intent = getIntent();
+        answernum = intent.getIntExtra("answerNum", 0);
+        //取所有check过的数据
+        BeSerializableMap answerCard = (BeSerializableMap) intent.getSerializableExtra("answerCard");
+        listdata = answerCard.getData();
 
+        Logger.d("majin", "  集合 " + listdata.toString());
 
-        ApAnswerCard apAnswerCard = new ApAnswerCard(context, list);
+        tvanswer.setText(answernum + "/" + listdata.size());
+        ApAnswerCard apAnswerCard = new ApAnswerCard(context, listdata);
         grildview.setAdapter(apAnswerCard);
 
     }
@@ -62,4 +69,17 @@ public class AnswerCardActivity extends FxActivity {
         tvanswer = getView(R.id.tv_answer);
         grildview = getView(R.id.grildview);
     }
+
+    private View.OnClickListener onClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+
+//                case
+                default:
+                    break;
+            }
+
+        }
+    };
 }

@@ -63,7 +63,7 @@ public class FrHomework extends FxFragment {
                 DjhJumpUtil.getInstance().startBaseActivity(getActivity(), HomedetailsActivity.class);
             }
         });
-        Logger.d("majin", "11111111" + "");
+
     }
 
 
