@@ -38,14 +38,14 @@
         android:layout_weight="1"
         android:orientation="vertical">
         <!--自定义取消预加载-->
-        <cn.dajiahui.kid.ui.homework.view.NoPreloadViewPager
+        <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:flipInterval="30"
             android:persistentDrawingCache="animation">
-        </cn.dajiahui.kid.ui.homework.view.NoPreloadViewPager>
+        </android.support.v4.view.ViewPager>
 
     </LinearLayout>
 

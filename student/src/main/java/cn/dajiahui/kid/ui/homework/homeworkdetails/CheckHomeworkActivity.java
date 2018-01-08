@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,7 +24,6 @@ import java.util.Map;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BaseBean;
 import cn.dajiahui.kid.ui.homework.bean.BeSerializableMap;
-import cn.dajiahui.kid.ui.homework.view.NoPreloadViewPager;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.Logger;
 
@@ -36,21 +36,22 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
     private Button btncheck;
     private SeekBar seek;
     private TextView mSchedule;
-    //    private ViewPager mViewpager;
-    private cn.dajiahui.kid.ui.homework.view.NoPreloadViewPager mViewpager;
+    private ViewPager mViewpager;
     private int subjectype = -1;//当前题型
     private MediaPlayer mediaPlayer;
     private int currentposition = 1;//当前页面的索引
-    private BaseBean currentbeJudge;//当前页面的数据模型
+    private BaseBean JudgeModle;//当前页面的数据模型
     private Map<Integer, BaseBean> map = new HashMap();//保存每一页的页数和数据
     private List<Integer> pagelist = new ArrayList<>();//保存页数的集合（check过的页）
+    private Map<Integer, BaseHomeworkFragment> frMap = new HashMap();
 
-    private JudgeFragment fr1;
-    private ChoiceFragment fr2;
-    private SortFragment fr3;
-    private LineFragment fr4;
-    private CompletionFragment fr5;
+    private JudgeFragment fr1;//判断题
+    private ChoiceFragment fr2;//选择题
+    private SortFragment fr3;//排序题
+    private LineFragment fr4;//连线题
+    private CompletionFragment fr5;//填空题
     private List<BaseBean> data;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,8 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
     @Override
     protected void initView() {
         setContentView(R.layout.activity_check_homework);
-        currentbeJudge = new BaseBean();//判断题模型（每建立一个碎片就创建一个模型）
+        JudgeModle = new BaseBean();//判断题模型（每建立一个碎片就创建一个模型）
+
         initialize();
 
         data = new ArrayList<>();
@@ -77,7 +79,9 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
         data.add(new BaseBean(1, "true", "8"));
         data.add(new BaseBean(1, "true", "9"));
 
+
         seek.setMax(data.size());
+        mSchedule.setText(currentposition + "/" + data.size());
         Adapter adapter = new Adapter(getSupportFragmentManager(), data);
         mViewpager.setAdapter(adapter);
 
@@ -115,13 +119,13 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
 
     @Override
     public void submitJudgeFragment(BaseBean baseBean) {
-        currentbeJudge.setAnswer(baseBean.getAnswer());//保存学作答答案
-        currentbeJudge.setTrueAnswer(baseBean.getTrueAnswer());//保存当前题的正确答案
-        currentbeJudge.setCurrentpage(currentposition);
-        currentbeJudge.setEachposition(baseBean.getEachposition());//存储每个题对应数据源的索引
-        currentbeJudge.setNomber(baseBean.getNomber());//第几题
-        currentbeJudge.setSubjectype(baseBean.getSubjectype());//获取试题类型
-        currentbeJudge.setAnswerflag(baseBean.getAnswerflag());//学生作答标记
+        JudgeModle.setAnswer(baseBean.getAnswer());//保存学作答答案
+        JudgeModle.setTrueAnswer(baseBean.getTrueAnswer());//保存当前题的正确答案
+        JudgeModle.setCurrentpage(currentposition);
+        JudgeModle.setEachposition(baseBean.getEachposition());//存储每个题对应数据源的索引
+        JudgeModle.setNomber(baseBean.getNomber());//第几题
+        JudgeModle.setSubjectype(baseBean.getSubjectype());//获取试题类型
+        JudgeModle.setAnswerflag(baseBean.getAnswerflag());//学生作答标记
 
     }
 
@@ -143,21 +147,26 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
                     case R.id.btn_check:
 
                         if (map.get(currentposition) != null && map.get(currentposition).isWhetheranswer() == true && map.get(currentposition).getAnswerflag() == true) {
-                            if (currentbeJudge.getSubjectype() == 1) {
-                                fr1.submitHomework(currentbeJudge);
+                            if (JudgeModle.getSubjectype() == 1) {
+
+                                JudgeFragment judgeFragment = (JudgeFragment) frMap.get((currentposition - 1));
+                                judgeFragment.submitHomework(JudgeModle);
                             }
                             Toast.makeText(context, "已经check过第" + currentposition + "题了！", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        map.put(currentposition, currentbeJudge);
+                        map.put(currentposition, JudgeModle);
 
-                        if (currentbeJudge.isWhetheranswer() == false && currentbeJudge.getAnswerflag() == true) {
+                        if (JudgeModle.isWhetheranswer() == false && JudgeModle.getAnswerflag() == true) {
                             Toast.makeText(context, "保存第" + currentposition + "题数据", Toast.LENGTH_SHORT).show();
                             pagelist.add(currentposition);
-                            currentbeJudge.setWhetheranswer(true);//设置做答过题 true 答过 false 未作答
+                            JudgeModle.setWhetheranswer(true);//设置做答过题 true 答过 false 未作答
+                            if (JudgeModle.getSubjectype() == 1) {
+                                JudgeFragment judgeFragment = (JudgeFragment) frMap.get((currentposition - 1));
+                                judgeFragment.submitHomework(JudgeModle);
+                            }
 
-                            fr1.submitHomework(currentbeJudge);//通知碎片
                         } else {
                             Toast.makeText(context, "请作答第" + currentposition + "题", Toast.LENGTH_SHORT).show();
                         }
@@ -175,7 +184,7 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
     }
 
     /*viewpager滑动监听*/
-    private NoPreloadViewPager.OnPageChangeListener onPageChangeListener = new NoPreloadViewPager.OnPageChangeListener() {
+    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         }
@@ -184,13 +193,16 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
         public void onPageSelected(int position) {
             currentposition = position + 1;//当前题的页数
 
+             /*翻页获取每页的数据模型*/
             if (map.get(currentposition) != null) {
-                currentbeJudge = map.get(currentposition);
-                if (currentbeJudge.getSubjectype() == 1) {
-                    fr1.submitHomework(currentbeJudge);
+                JudgeModle = map.get(currentposition);
+
+                if (JudgeModle.getSubjectype() == 1) {
+                    JudgeFragment judgeFragment = (JudgeFragment) frMap.get(position);
+                    judgeFragment.submitHomework(JudgeModle);
                 }
             } else {
-                currentbeJudge = new BaseBean();
+                JudgeModle = new BaseBean();
             }
 
 
@@ -212,10 +224,11 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
     private class Adapter extends FragmentStatePagerAdapter {
 
         private List<BaseBean> data1;
+        FragmentManager fragmentManager;
 
         private Adapter(FragmentManager fragmentManager, List<BaseBean> data) {
             super(fragmentManager);
-
+            this.fragmentManager = fragmentManager;
             this.data1 = data;
         }
 
@@ -226,45 +239,50 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
 
         @Override
         public Fragment getItem(int position) {
-            int i = position + 1;
+            //获取题型
             subjectype = data1.get(position).getSubjectype();
 
             if (subjectype == 1) {
-                fr1 = new JudgeFragment();
-                currentbeJudge.setEachposition(position);
-                currentbeJudge.setSubjectype(subjectype);//保存当前的题型
-                currentbeJudge.setTrueAnswer(data1.get(position).getTrueAnswer());//保存当前题的正确答案
-                currentbeJudge.setNomber(data1.get(position).getNomber());//保存
-                currentbeJudge.setAnswerflag(currentbeJudge.getAnswerflag());
-                currentbeJudge.setAnswer(currentbeJudge.getAnswer());
-                currentbeJudge.setWhetheranswer(currentbeJudge.isWhetheranswer());
+                Logger.d("majin", "getItem() position = " + position);
+                JudgeFragment fr1 = new JudgeFragment();
+                JudgeModle.setEachposition(position);//每个题对应数据源的索引
+                JudgeModle.setSubjectype(subjectype);//保存当前的题型
+                JudgeModle.setTrueAnswer(data1.get(position).getTrueAnswer());//保存当前题的正确答案
+                JudgeModle.setNomber(data1.get(position).getNomber());//保存
+                JudgeModle.setAnswerflag(JudgeModle.getAnswerflag());
+                JudgeModle.setAnswer(JudgeModle.getAnswer());
+                JudgeModle.setWhetheranswer(JudgeModle.isWhetheranswer());
 
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("baseBean", currentbeJudge);
+                bundle.putSerializable("baseBean", data1.get(position));
                 fr1.setArguments(bundle);
+
+                //保存实例（用于通知各个页面）
+                frMap.put(position, fr1);
                 return fr1;
+
             } else if (subjectype == 2) {
                 fr2 = new ChoiceFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("baseBean", currentbeJudge);
+                bundle.putSerializable("baseBean", JudgeModle);
                 fr2.setArguments(bundle);
                 return fr2;
             } else if (subjectype == 3) {
                 fr3 = new SortFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("baseBean", currentbeJudge);
+                bundle.putSerializable("baseBean", JudgeModle);
                 fr3.setArguments(bundle);
                 return fr3;
             } else if (subjectype == 4) {
                 fr4 = new LineFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("baseBean", currentbeJudge);
+                bundle.putSerializable("baseBean", JudgeModle);
                 fr4.setArguments(bundle);
                 return fr4;
             } else if (subjectype == 5) {
                 fr5 = new CompletionFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("baseBean", currentbeJudge);
+                bundle.putSerializable("baseBean", JudgeModle);
                 fr5.setArguments(bundle);
                 return fr5;
             }
@@ -277,6 +295,7 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
         public void destroyItem(ViewGroup container, int position, Object object) {
             //如果注释这行，那么不管怎么切换，page都不会被销毁
             super.destroyItem(container, position, object);
+            frMap.remove(position);
             Logger.d("majin", "fragment destroyItem" + (position + 1));
             //希望做一次垃圾回收
             System.gc();

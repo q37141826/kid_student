@@ -14,6 +14,7 @@ import java.io.IOException;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BaseBean;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
+import cn.dajiahui.kid.util.Logger;
 
 
 /**
@@ -23,7 +24,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
 
     private TextView tv1;
-    private ImageView imgconment, img_play, imgtrue, ingfasle;
+    private ImageView imgconment, img_play, imgtrue, imgfasle;
     private SubmitJudgeFragment submit;
     private GetMediaPlayer Mp3;
 
@@ -89,11 +90,11 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         tv1 = getView(R.id.tv_1);
         imgconment = getView(R.id.img_conment);
         imgtrue = getView(R.id.img_true);
-        ingfasle = getView(R.id.img_fasle);
+        imgfasle = getView(R.id.img_fasle);
         img_play = getView(R.id.img_play);
 
         imgtrue.setOnClickListener(onClick);
-        ingfasle.setOnClickListener(onClick);
+        imgfasle.setOnClickListener(onClick);
         tv1.setOnClickListener(onClick);
         img_play.setOnClickListener(onClick);
 
@@ -156,7 +157,25 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
     @Override
     public void submitHomework(BaseBean baseBean) {
-        inbasebean.setWhetheranswer(baseBean.isWhetheranswer());
+        if (baseBean != null) {
+            inbasebean.setWhetheranswer(baseBean.isWhetheranswer());
+            inbasebean.setAnswer(baseBean.getAnswer());
+            inbasebean.setTrueAnswer(baseBean.getTrueAnswer());
+
+            Logger.d("majin", "学生作答答案baseBean.getAnswer():" + baseBean.getAnswer());
+            Logger.d("majin", "本题正确答案baseBean.getTrueAnswer():" + baseBean.getTrueAnswer());
+            if (baseBean.isWhetheranswer() == true &&
+                    baseBean.getAnswer().equals(baseBean.getTrueAnswer())) {
+                imgtrue.setImageResource(R.color.btn_green_noraml);
+                imgfasle.setImageResource(R.color.red);
+                Logger.d("majin", "回答正确");
+
+            } else {
+                imgtrue.setImageResource(R.color.red);
+                imgfasle.setImageResource(R.color.btn_green_noraml);
+                Logger.d("majin", "回答错误");
+            }
+        }
 //        Logger.d("majin", "fragment 通知判断题答过不能在选择");
     }
 
