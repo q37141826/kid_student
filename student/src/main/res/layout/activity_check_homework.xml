@@ -63,7 +63,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/gray"
+            android:background="@color/blue"
             android:text="Check"
             android:textColor="@color/black"/>
     </LinearLayout>

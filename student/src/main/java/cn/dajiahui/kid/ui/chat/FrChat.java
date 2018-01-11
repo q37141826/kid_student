@@ -170,26 +170,26 @@ public class FrChat extends EaseConversationListFragment {
 
     private void loginHx() {
         BeUser beUser = UserController.getInstance().getUser();
-        if (TextUtils.isEmpty(beUser.getHxId())) {
+        if (TextUtils.isEmpty(beUser.getThird().getEasemob_username())) {
             ToastUtil.showToast(getContext(), R.string.User_name_cannot_be_empty);
             return;
         }
-        if (TextUtils.isEmpty(beUser.getHxPwd())) {
+        if (TextUtils.isEmpty(beUser.getThird().getEasemob_passwd())) {
             ToastUtil.showToast(getContext(), R.string.Password_cannot_be_empty);
             return;
         }
-        EMClient.getInstance().login(beUser.getHxId(), beUser.getHxPwd(), new EMCallBack() {
+        EMClient.getInstance().login(beUser.getThird().getEasemob_username(), beUser.getThird().getEasemob_passwd(), new EMCallBack() {
             @Override
             public void onSuccess() {
                 BeUser beUser = UserController.getInstance().getUser();
-                ImHelper.getInstance().setCurrentUserName(beUser.getHxId());
+                ImHelper.getInstance().setCurrentUserName(beUser.getThird().getEasemob_username());
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
                 //异步获取当前用户的昵称和头像(从自己服务器获取，demo使用的一个第三方服务)
                 PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvator());
                 PreferenceManager.getInstance().setCurrentUserNick(beUser.getRealName());
-                PreferenceManager.getInstance().setCurrentUserName(beUser.getHxId());
+                PreferenceManager.getInstance().setCurrentUserName(beUser.getThird().getEasemob_username());
                 handler.sendEmptyMessage(1);
             }
 

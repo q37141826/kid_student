@@ -14,7 +14,6 @@ import cn.dajiahui.kid.ui.login.bean.BeUserAuth;
 import cn.dajiahui.kid.util.SpUtil;
 
 /**
- *
  * 用户信息控制器  控制用户基本信息数据
  */
 public class UserController {

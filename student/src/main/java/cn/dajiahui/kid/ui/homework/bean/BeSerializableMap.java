@@ -9,18 +9,18 @@ import java.util.List;
 
 public class BeSerializableMap implements Serializable {
 
-    private List<BaseBean> data;
+    private List<QuestionModle> data;
 
-    public List<BaseBean> getData() {
+    public List<QuestionModle> getData() {
         return data;
     }
 
-    public void setData(List<BaseBean> data) {
+    public void setData(List<QuestionModle> data) {
         this.data = data;
     }
 
 
-    public BeSerializableMap(List<BaseBean> data) {
+    public BeSerializableMap(List<QuestionModle> data) {
         this.data = data;
     }
 }

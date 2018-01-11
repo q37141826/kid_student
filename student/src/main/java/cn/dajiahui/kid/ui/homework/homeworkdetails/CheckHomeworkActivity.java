@@ -14,6 +14,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fxtx.framework.json.GsonType;
+import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.ui.FxActivity;
 
 import java.util.ArrayList;
@@ -22,35 +24,36 @@ import java.util.List;
 import java.util.Map;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.homework.bean.BaseBean;
 import cn.dajiahui.kid.ui.homework.bean.BeSerializableMap;
+import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.Logger;
 
 /*
 * 检查作业
 * */
-public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.SubmitJudgeFragment, JudgeFragment.GetMediaPlayer {
+public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.SubmitJudgeFragment, ChoiceFragment.SubmitChoiseFragment, JudgeFragment.GetMediaPlayer {
 
     private LinearLayout homeworkroot;
     private Button btncheck;
     private SeekBar seek;
     private TextView mSchedule;
     private ViewPager mViewpager;
-    private int subjectype = -1;//当前题型
+    private String subjectype = "-1";//当前题型
     private MediaPlayer mediaPlayer;
-    private int currentposition = 1;//当前页面的索引
-    private BaseBean JudgeModle;//当前页面的数据模型
-    private Map<Integer, BaseBean> map = new HashMap();//保存每一页的页数和数据
+    private int currentposition = 0;//当前页面的索引
     private List<Integer> pagelist = new ArrayList<>();//保存页数的集合（check过的页）
     private Map<Integer, BaseHomeworkFragment> frMap = new HashMap();
+    private Map<Integer, QuestionModle> PageMap = new HashMap();//保存每一页的页数和数据
 
     private JudgeFragment fr1;//判断题
     private ChoiceFragment fr2;//选择题
     private SortFragment fr3;//排序题
     private LineFragment fr4;//连线题
     private CompletionFragment fr5;//填空题
-    private List<BaseBean> data;
+
+
+    private List<QuestionModle> mdata;//模拟数据元
 
 
     @Override
@@ -64,27 +67,20 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
     @Override
     protected void initView() {
         setContentView(R.layout.activity_check_homework);
-        JudgeModle = new BaseBean();//判断题模型（每建立一个碎片就创建一个模型）
-
         initialize();
+             /*解析数组*/
+        String zz = "{    \"mdata\": [        {            \"book_id\": 0,            \"id\": 1,            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01089rty6ais.jpg\",                    \"label\": \"正确\",                    \"type\": \"1\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"错误\",                    \"type\": \"1\",                    \"val\": \"2\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 1,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 0,            \"standard_answer\": \"1\",            \"title\": \"第一个判断题\",            \"unit_id\": 0        },        {            \"book_id\": 5,            \"id\": 6,            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项A\",                    \"type\": \"1\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项B\",                    \"type\": \"1\",                    \"val\": \"2\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项C\",                    \"type\": \"1\",                    \"val\": \"3\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项D\",                    \"type\": \"1\",                    \"val\": \"4\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 2,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 2,            \"standard_answer\": \"2\",            \"title\": \"选择题\",            \"unit_id\": 6        },        {            \"book_id\": 5,            \"id\": 3,            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容1\",                    \"type\": \"1\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容2\",                    \"type\": \"1\",                    \"val\": \"2\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容3\",                    \"type\": \"1\",                    \"val\": \"3\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容4\",                    \"type\": \"1\",                    \"val\": \"4\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容5\",                    \"type\": \"1\",                    \"val\": \"5\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 3,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 2,            \"standard_answer\": \"3,5,4,1,2\",            \"title\": \"排序题示例\",            \"unit_id\": 6        },        {            \"book_id\": 0,            \"id\": 3,            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01089rty6ais.jpg\",                    \"label\": \"正确\",                    \"type\": \"1\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"错误\",                    \"type\": \"1\",                    \"val\": \"2\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 1,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 0,            \"standard_answer\": \"1\",            \"title\": \"第一个判断题\",            \"unit_id\": 0        },        {            \"book_id\": 0,            \"id\": 4,            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01089rty6ais.jpg\",                    \"label\": \"正确\",                    \"type\": \"1\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"错误\",                    \"type\": \"1\",                    \"val\": \"2\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 1,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 0,            \"standard_answer\": \"1\",            \"title\": \"第一个判断题\",            \"unit_id\": 0        },        {            \"book_id\": 5,            \"id\": 5,            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项A\",                    \"type\": \"1\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项B\",                    \"type\": \"1\",                    \"val\": \"2\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项C\",                    \"type\": \"1\",                    \"val\": \"3\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项D\",                    \"type\": \"1\",                    \"val\": \"4\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 2,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 2,            \"standard_answer\": \"2\",            \"title\": \"选择题\",            \"unit_id\": 6        }    ],    \"msg\": \"成功\",    \"status\": \"0\"}";
 
-        data = new ArrayList<>();
-        data.add(new BaseBean(1, "true", "1"));
-        data.add(new BaseBean(1, "true", "2"));
-        data.add(new BaseBean(1, "false", "3"));
-        data.add(new BaseBean(1, "true", "4"));
-        data.add(new BaseBean(1, "false", "5"));
-        data.add(new BaseBean(1, "true", "6"));
-        data.add(new BaseBean(1, "false", "7"));
-        data.add(new BaseBean(1, "true", "8"));
-        data.add(new BaseBean(1, "true", "9"));
+        HeadJson headJson = new HeadJson(zz);
+        /*解析数组*/
+        mdata = headJson.parsingListArray("mdata", new GsonType<List<QuestionModle>>() {
+        });
+        mdata.toString();
 
-
-        seek.setMax(data.size());
-        mSchedule.setText(currentposition + "/" + data.size());
-        Adapter adapter = new Adapter(getSupportFragmentManager(), data);
+        seek.setMax(mdata.size());
+        mSchedule.setText((currentposition + 1) + "/" + mdata.size());
+        Adapter adapter = new Adapter(getSupportFragmentManager(), mdata);
         mViewpager.setAdapter(adapter);
-
         mViewpager.setOnPageChangeListener(onPageChangeListener);
     }
 
@@ -102,12 +98,11 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
 
         for (int i = 0; i < pagelist.size(); i++) {
             //获取模型的索引
-            data.set(map.get(pagelist.get(i)).getEachposition(), map.get(pagelist.get(i)));//插入对应选择的题
+            mdata.set(PageMap.get(pagelist.get(i)).getEachposition(), PageMap.get(pagelist.get(i)));//插入对应选择的题
 
         }
 
-
-        BeSerializableMap answerCard = new BeSerializableMap(data);
+        BeSerializableMap answerCard = new BeSerializableMap(mdata);
         Bundle bundle = new Bundle();
         bundle.putSerializable("answerCard", answerCard);
         bundle.putInt("answerNum", pagelist.size());
@@ -116,17 +111,39 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
 
     }
 
-
+    /*判断题回掉接口*/
     @Override
-    public void submitJudgeFragment(BaseBean baseBean) {
-        JudgeModle.setAnswer(baseBean.getAnswer());//保存学作答答案
-        JudgeModle.setTrueAnswer(baseBean.getTrueAnswer());//保存当前题的正确答案
-        JudgeModle.setCurrentpage(currentposition);
-        JudgeModle.setEachposition(baseBean.getEachposition());//存储每个题对应数据源的索引
-        JudgeModle.setNomber(baseBean.getNomber());//第几题
-        JudgeModle.setSubjectype(baseBean.getSubjectype());//获取试题类型
-        JudgeModle.setAnswerflag(baseBean.getAnswerflag());//学生作答标记
+    public void submitJudgeFragment(QuestionModle questionModle) {
 
+        QuestionModle qm = PageMap.get(currentposition);
+        qm.setSubmitAnswer(questionModle.getSubmitAnswer());//保存学作答答案
+        qm.setStandard_answer(questionModle.getStandard_answer());//保存当前题的正确答案
+        qm.setCurrentpage(currentposition);//当前是第几页 wangzhi
+        qm.setEachposition(questionModle.getEachposition());//存储每个题对应数据源的索引
+        qm.setId(questionModle.getId());//第几题
+        qm.setSubjectype(questionModle.getSubjectype());//获取试题类型
+        qm.setAnswerflag(questionModle.getAnswerflag());//学生作答标记
+
+    }
+
+    /*选择题回掉接口*/
+    @Override
+    public void submitChoiceFragment(QuestionModle questionModle) {
+
+//        Logger.d("majin", "当前选择答案：" + questionModle.getChoiceanswer());
+
+        QuestionModle qm = PageMap.get(currentposition);
+
+        qm.setSubmitAnswer(questionModle.getSubmitAnswer());//保存学作答答案
+        qm.setStandard_answer(questionModle.getStandard_answer());//保存当前题的正确答案
+        qm.setCurrentpage(currentposition);//当前是第几页 wangzhi
+        qm.setEachposition(questionModle.getEachposition());//存储每个题对应数据源的索引
+        qm.setId(questionModle.getId());//第几题
+        qm.setSubjectype(questionModle.getSubjectype());//获取试题类型
+        qm.setAnswerflag(questionModle.getAnswerflag());//学生作答标记
+        qm.setChoiceanswer(questionModle.getChoiceanswer());//选择题答案
+        Logger.d("majin", "保存当前选择索引：" + questionModle.getChoiceitemposition());
+        qm.setChoiceitemposition(questionModle.getChoiceitemposition());
     }
 
     @Override
@@ -140,35 +157,35 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
     {
         onclick = new View.OnClickListener() {
 
-
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.btn_check:
+                        QuestionModle questionModle = PageMap.get(currentposition);
+                        PageMap.put(currentposition, questionModle);
+                        if (questionModle != null && questionModle.isisAnswer() == true && questionModle.getAnswerflag().equals("true")) {
 
-                        if (map.get(currentposition) != null && map.get(currentposition).isWhetheranswer() == true && map.get(currentposition).getAnswerflag() == true) {
-                            if (JudgeModle.getSubjectype() == 1) {
-
-                                JudgeFragment judgeFragment = (JudgeFragment) frMap.get((currentposition - 1));
-                                judgeFragment.submitHomework(JudgeModle);
-                            }
-                            Toast.makeText(context, "已经check过第" + currentposition + "题了！", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        map.put(currentposition, JudgeModle);
-
-                        if (JudgeModle.isWhetheranswer() == false && JudgeModle.getAnswerflag() == true) {
-                            Toast.makeText(context, "保存第" + currentposition + "题数据", Toast.LENGTH_SHORT).show();
+                        if (questionModle.isisAnswer() == false && questionModle.getAnswerflag().equals("true")) {
+                            Toast.makeText(context, "保存第" + (currentposition + 1) + "题数据", Toast.LENGTH_SHORT).show();
+                            btncheck.setBackgroundResource(R.color.gray);
                             pagelist.add(currentposition);
-                            JudgeModle.setWhetheranswer(true);//设置做答过题 true 答过 false 未作答
-                            if (JudgeModle.getSubjectype() == 1) {
-                                JudgeFragment judgeFragment = (JudgeFragment) frMap.get((currentposition - 1));
-                                judgeFragment.submitHomework(JudgeModle);
+                            questionModle.setisAnswer(true);//设置提交答案  true 答过 false 未作答
+
+                            if (questionModle.getSubjectype().equals("1")) {//判断题
+                                JudgeFragment judgeFragment = (JudgeFragment) frMap.get((currentposition));
+                                //通知判断题碎片
+                                judgeFragment.submitHomework(questionModle);
+                            } else if (questionModle.getSubjectype().equals("2")) {//选择题
+                                ChoiceFragment choiceFragment = (ChoiceFragment) frMap.get((currentposition));
+                                //通知选择题碎片
+                                choiceFragment.submitHomework(questionModle);
                             }
 
                         } else {
-                            Toast.makeText(context, "请作答第" + currentposition + "题", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "请作答第" + (currentposition + 1) + "题", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -191,24 +208,33 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
 
         @Override
         public void onPageSelected(int position) {
-            currentposition = position + 1;//当前题的页数
+            currentposition = position;//当前题的页数
 
-             /*翻页获取每页的数据模型*/
-            if (map.get(currentposition) != null) {
-                JudgeModle = map.get(currentposition);
-
-                if (JudgeModle.getSubjectype() == 1) {
+            if (PageMap.get(position) != null) {
+                    /*翻页获取每页的数据模型*/
+                QuestionModle questionModle = PageMap.get(position);
+               /*判断题*/
+                if (questionModle.getSubjectype().equals("1")) {
                     JudgeFragment judgeFragment = (JudgeFragment) frMap.get(position);
-                    judgeFragment.submitHomework(JudgeModle);
+                    judgeFragment.submitHomework(questionModle);
+                } else if (questionModle.getSubjectype().equals("2")) {
+                     /*选择题*/
+                    ChoiceFragment choiceFragment = (ChoiceFragment) frMap.get(position);
+                    choiceFragment.submitHomework(questionModle);
                 }
             } else {
-                JudgeModle = new BaseBean();
+
+                PageMap.put(position, new QuestionModle());
             }
 
-
+            if (PageMap.get(currentposition) != null && PageMap.get(currentposition).isisAnswer() == true && PageMap.get(currentposition).getAnswerflag().equals("true")) {
+                btncheck.setBackgroundResource(R.color.gray);
+            } else {
+                btncheck.setBackgroundResource(R.color.blue);
+            }
             seek.setProgress(currentposition);
-            mSchedule.setText(currentposition + "/" + data.size());
-            if (mediaPlayer != null) {
+            mSchedule.setText((currentposition + 1) + "/" + mdata.size());
+            if (mediaPlayer != null) {//滑动停止音频
                 mediaPlayer.stop();
             }
         }
@@ -223,10 +249,10 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
     /*适配器*/
     private class Adapter extends FragmentStatePagerAdapter {
 
-        private List<BaseBean> data1;
+        private List<QuestionModle> data1;
         FragmentManager fragmentManager;
 
-        private Adapter(FragmentManager fragmentManager, List<BaseBean> data) {
+        private Adapter(FragmentManager fragmentManager, List<QuestionModle> data) {
             super(fragmentManager);
             this.fragmentManager = fragmentManager;
             this.data1 = data;
@@ -240,49 +266,75 @@ public class CheckHomeworkActivity extends FxActivity implements JudgeFragment.S
         @Override
         public Fragment getItem(int position) {
             //获取题型
-            subjectype = data1.get(position).getSubjectype();
+            subjectype = data1.get(position).getQuestion_cate_id();
 
-            if (subjectype == 1) {
-                Logger.d("majin", "getItem() position = " + position);
+            Logger.d("majin", "getItem() subjectype = " + subjectype);
+
+            if (subjectype.equals("1")) {
                 JudgeFragment fr1 = new JudgeFragment();
-                JudgeModle.setEachposition(position);//每个题对应数据源的索引
-                JudgeModle.setSubjectype(subjectype);//保存当前的题型
-                JudgeModle.setTrueAnswer(data1.get(position).getTrueAnswer());//保存当前题的正确答案
-                JudgeModle.setNomber(data1.get(position).getNomber());//保存
-                JudgeModle.setAnswerflag(JudgeModle.getAnswerflag());
-                JudgeModle.setAnswer(JudgeModle.getAnswer());
-                JudgeModle.setWhetheranswer(JudgeModle.isWhetheranswer());
+                QuestionModle questionModle = new QuestionModle();
+                questionModle.setEachposition(position);//每个题对应数据源的索引
+                questionModle.setSubjectype(subjectype);//保存当前的题型
+                questionModle.setStandard_answer(data1.get(position).getStandard_answer());//保存当前题的正确答案
+                questionModle.setId(data1.get(position).getId());//保存第几题
 
+                if (PageMap.get(position) != null) {
+                    questionModle.setAnswerflag(PageMap.get(position).getAnswerflag());//学生作答标记
+                    questionModle.setSubmitAnswer(PageMap.get(position).getSubmitAnswer());//学生作答答案
+                    questionModle.setisAnswer(PageMap.get(position).isisAnswer());//学生是否提交
+                }
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("baseBean", data1.get(position));
+                bundle.putSerializable("JudgeQuestionModle", data1.get(position));
                 fr1.setArguments(bundle);
 
                 //保存实例（用于通知各个页面）
                 frMap.put(position, fr1);
+                PageMap.put(position, questionModle);
                 return fr1;
 
-            } else if (subjectype == 2) {
-                fr2 = new ChoiceFragment();
+            } else if (subjectype.equals("2")) {
+
+                ChoiceFragment fr2 = new ChoiceFragment();
+                QuestionModle questionModle = new QuestionModle();
+
+                questionModle.setEachposition(position);//每个题对应数据源的索引
+                questionModle.setSubjectype(subjectype);//保存当前的题型
+                questionModle.setStandard_answer(data1.get(position).getStandard_answer());//保存当前题的正确答案
+                questionModle.setId(data1.get(position).getId());//保存
+
+                if (PageMap.get(position) != null) {
+                    questionModle.setAnswerflag(PageMap.get(position).getAnswerflag());//学生作答标记
+                    questionModle.setSubmitAnswer(PageMap.get(position).getSubmitAnswer());//学生作答答案
+                    questionModle.setisAnswer(PageMap.get(position).isisAnswer());//学生是否提交
+                    questionModle.setChoiceitemposition(PageMap.get(position).getChoiceitemposition());
+                }
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("baseBean", JudgeModle);
+                bundle.putSerializable("ChoiceQuestionModle", data1.get(position));
                 fr2.setArguments(bundle);
+                //保存实例（用于通知各个页面）
+                frMap.put(position, fr2);
+                PageMap.put(position, questionModle);
+
                 return fr2;
-            } else if (subjectype == 3) {
-                fr3 = new SortFragment();
+            } else if (subjectype.equals("3")) {
+                SortFragment fr3 = new SortFragment();
+                QuestionModle questionModle = new QuestionModle();
+
+
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("baseBean", JudgeModle);
+                bundle.putSerializable("baseBean", data1.get(position));
                 fr3.setArguments(bundle);
                 return fr3;
-            } else if (subjectype == 4) {
+            } else if (subjectype.equals("4")) {
                 fr4 = new LineFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("baseBean", JudgeModle);
+//                bundle.putSerializable("baseBean", PageModle);
                 fr4.setArguments(bundle);
                 return fr4;
-            } else if (subjectype == 5) {
+            } else if (subjectype.equals("5")) {
                 fr5 = new CompletionFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("baseBean", JudgeModle);
+//                bundle.putSerializable("baseBean", PageModle);
                 fr5.setArguments(bundle);
                 return fr5;
             }

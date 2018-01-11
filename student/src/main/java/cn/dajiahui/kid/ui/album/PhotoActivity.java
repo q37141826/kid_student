@@ -125,7 +125,7 @@ public class PhotoActivity extends FxActivity {
                 } else {
                     ToastUtil.showToast(context, json.getMsg());
                 }
-                finishRefreshAndLoadMoer(refresh, json.getIsLastPage());
+//                finishRefreshAndLoadMoer(refresh, json.getstatus());
             }
         }, albumId, UserController.getInstance().getUserId(), mPageNum, "30");
     }

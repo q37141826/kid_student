@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *
  * @description : 头部信息解析
  */
 public class HeadJson {
@@ -15,9 +14,8 @@ public class HeadJson {
 
     private final String strstatus = "status";
     private final String strMsg = "msg";
-    private final String mObj = "data" ;
+    private final String mObj = "data";
     private final String strIsLast = "isLastPage";
-
 
 
     public HeadJson(String object) {
@@ -100,9 +98,14 @@ public class HeadJson {
         return null;
     }
 
-    public <T> T parsingListArray(GsonType type){
-        return parsingListArray("list",type);
+    public <T> T parsingListArray(GsonType type) {
+        return parsingListArray("options", type);
     }
+
+    public <T> T parsingListArraydata(GsonType type) {
+        return parsingListArray("data", type);
+    }
+
     /**
      * 获取一个对象
      *
@@ -121,7 +124,7 @@ public class HeadJson {
      *
      * @return
      */
-    public <T> T parsingObject( Class<T> classs) {
+    public <T> T parsingObject(Class<T> classs) {
         if (status != -1 && !object.isNull(mObj)) {
             GsonUtil gson = new GsonUtil();
             return gson.getJsonObject(object.optJSONObject(mObj).toString(), classs);

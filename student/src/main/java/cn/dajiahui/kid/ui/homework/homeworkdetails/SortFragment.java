@@ -11,7 +11,7 @@ import cn.dajiahui.kid.R;
 
 
 /**
- * 排序
+ * 排序题
  */
 
 
@@ -59,6 +59,8 @@ public class SortFragment extends FxFragment {
         super.onPause();
 //        Log.d("majin", " ReadFragment onPause");
     }
+
+
 
 
 }

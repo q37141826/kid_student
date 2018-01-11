@@ -55,7 +55,7 @@ import java.util.Comparator;
 
 /**
  * Layout manager that allows the user to flip left and right
- * through pages of data.  You supply an implementation of a
+ * through pages of DataTest.  You supply an implementation of a
  * {@link android.support.v4.view.PagerAdapter} to generate the pages that the view shows.
  *
  * <p>Note this class is currently under early design and

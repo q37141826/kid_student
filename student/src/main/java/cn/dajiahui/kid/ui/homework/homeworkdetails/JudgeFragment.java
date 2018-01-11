@@ -1,7 +1,6 @@
 package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
 import android.app.Activity;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.homework.bean.BaseBean;
+import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.util.Logger;
 
@@ -26,10 +25,8 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
     private TextView tv1;
     private ImageView imgconment, img_play, imgtrue, imgfasle;
     private SubmitJudgeFragment submit;
-    private GetMediaPlayer Mp3;
 
-    private MediaPlayer mediaPlayer;
-    private BaseBean inbasebean;
+    private QuestionModle inbasebean;
 
 
     @Override
@@ -40,7 +37,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
     @Override
     public void setArguments(Bundle bundle) {
-        inbasebean = (BaseBean) bundle.get("baseBean");
+        inbasebean = (QuestionModle) bundle.get("JudgeQuestionModle");
 
 
     }
@@ -49,8 +46,8 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialize();
-        mediaPlayer = new MediaPlayer();
-        tv1.setText(inbasebean.getNomber() + "");
+
+        tv1.setText(inbasebean.getId() + "");
     }
 
     @Override
@@ -58,7 +55,6 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         // TODO Auto-generated method stub
         super.onAttach(activity);
         submit = (SubmitJudgeFragment) activity;
-        Mp3 = (GetMediaPlayer) activity;
     }
 
     @Override
@@ -75,13 +71,14 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
     @Override
     public void onStop() {
         super.onStop();
+        mediaPlayer.stop();
 //        Log.d("majin", " ReadFragment onStop");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-//        mediaPlayer.stop();
+        mediaPlayer.pause();
 //        Log.d("majin", " ReadFragment onPause  ;
     }
 
@@ -110,10 +107,10 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                     Toast.makeText(activity, "播放音频", Toast.LENGTH_SHORT).show();
                     try {
                         mediaPlayer.reset();
-                        mediaPlayer.setDataSource("/storage/emulated/0/test.mp3");
+                        mediaPlayer.setDataSource("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3");
                         mediaPlayer.prepare();
                         mediaPlayer.start();
-                        Mp3 = (GetMediaPlayer) getActivity();
+                        Mp3 = (BaseHomeworkFragment.GetMediaPlayer) getActivity();
                         Mp3.getMediaPlayer(mediaPlayer);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -121,10 +118,10 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                     break;
                 case R.id.img_true:
 
-                    if (inbasebean.isWhetheranswer() == false) {
+                    if (inbasebean.isisAnswer() == false) {
                         Toast.makeText(activity, "正确", Toast.LENGTH_SHORT).show();
-                        inbasebean.setAnswer("true");
-                        inbasebean.setAnswerflag(true);
+                        inbasebean.setSubmitAnswer("true");
+                        inbasebean.setAnswerflag("true");//答题标志
                         submit.submitJudgeFragment(inbasebean);
                     } else {
                         Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();
@@ -132,10 +129,10 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
                     break;
                 case R.id.img_fasle:
-                    if (inbasebean.isWhetheranswer() == false) {
+                    if (inbasebean.isisAnswer() == false) {
                         Toast.makeText(activity, "错误", Toast.LENGTH_SHORT).show();
-                        inbasebean.setAnswer("false");
-                        inbasebean.setAnswerflag(true);
+                        inbasebean.setSubmitAnswer("false");
+                        inbasebean.setAnswerflag("true");
                         submit.submitJudgeFragment(inbasebean);
                     } else {
                         Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();
@@ -145,7 +142,6 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
                 case R.id.tv_1:
 
-                    submit = (SubmitJudgeFragment) getActivity();
 
                     break;
 
@@ -156,35 +152,32 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
     };
 
     @Override
-    public void submitHomework(BaseBean baseBean) {
-        if (baseBean != null) {
-            inbasebean.setWhetheranswer(baseBean.isWhetheranswer());
-            inbasebean.setAnswer(baseBean.getAnswer());
-            inbasebean.setTrueAnswer(baseBean.getTrueAnswer());
+    public void submitHomework(QuestionModle questionModle) {
+        if (questionModle != null) {
+            inbasebean = questionModle;
 
-            Logger.d("majin", "学生作答答案baseBean.getAnswer():" + baseBean.getAnswer());
-            Logger.d("majin", "本题正确答案baseBean.getTrueAnswer():" + baseBean.getTrueAnswer());
-            if (baseBean.isWhetheranswer() == true &&
-                    baseBean.getAnswer().equals(baseBean.getTrueAnswer())) {
-                imgtrue.setImageResource(R.color.btn_green_noraml);
-                imgfasle.setImageResource(R.color.red);
-                Logger.d("majin", "回答正确");
+            if (questionModle.getAnswerflag().equals("true")) {
 
-            } else {
-                imgtrue.setImageResource(R.color.red);
-                imgfasle.setImageResource(R.color.btn_green_noraml);
-                Logger.d("majin", "回答错误");
+
+                if (questionModle.isisAnswer() == true &&
+                        questionModle.getSubmitAnswer().equals(questionModle.getStandard_answer())) {
+                    imgtrue.setImageResource(R.color.btn_green_noraml);
+                    imgfasle.setImageResource(R.color.red);
+                    Logger.d("majin", "回答正确");
+
+                } else {
+                    imgtrue.setImageResource(R.color.red);
+                    imgfasle.setImageResource(R.color.btn_green_noraml);
+                    Logger.d("majin", "回答错误");
+                }
             }
         }
-//        Logger.d("majin", "fragment 通知判断题答过不能在选择");
     }
 
     public interface SubmitJudgeFragment {
-        public void submitJudgeFragment(BaseBean baseBean);
+        public void submitJudgeFragment(QuestionModle questionModle);
     }
 
-    public interface GetMediaPlayer {
-        public void getMediaPlayer(MediaPlayer mediaPlayer);
-    }
+
 }
 

@@ -14,7 +14,7 @@ import java.util.List;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.adapter.ApAnswerCard;
-import cn.dajiahui.kid.ui.homework.bean.BaseBean;
+import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.BeSerializableMap;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 
@@ -30,7 +30,7 @@ public class AnswerCardActivity extends FxActivity {
     private GridView grildview;
     private Button mBtnsubmit;
     private int answernum;
-    private List<BaseBean> listdata;
+    private List<QuestionModle> listdata;
     private BeSerializableMap answerCard;
 
 

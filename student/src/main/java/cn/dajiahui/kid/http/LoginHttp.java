@@ -20,6 +20,7 @@ import cn.dajiahui.kid.ui.chat.constant.ImHelper;
 import cn.dajiahui.kid.ui.chat.constant.PreferenceManager;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.util.DjhJumpUtil;
+import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.SpUtil;
 
 /**
@@ -48,14 +49,18 @@ public class LoginHttp {
             @Override
             public void onError(Request request, Exception e) {
                 onLogin.error();
+                Logger.d("majin", "登录失败：" + e);
                 ToastUtil.showToast(context, ErrorCode.error(e));
             }
 
             @Override
             public void onResponse(String response) {
+//                Logger.d("majin", "登录成功：" + response);
                 HeadJson json = new HeadJson(response);
+
                 if (json.getstatus() == 0) {
                     BeUser temp = json.parsingObject(BeUser.class);
+
                     if (temp == null) {
                         ToastUtil.showToast(context, "用户信息丢失");
                         onLogin.error();
@@ -74,7 +79,7 @@ public class LoginHttp {
                             setStartActivity();
                             onLogin.successful();
                         } else {
-                            huanxLogin(temp.getHxId(), temp.getHxPwd());
+                            huanxLogin(temp.getThird().getEasemob_username(), temp.getThird().getEasemob_passwd());
                         }
                     } else {
                         if (ImHelper.getInstance().isLoggedIn()) {
@@ -83,7 +88,7 @@ public class LoginHttp {
                         setStartActivity();
                         onLogin.successful();
                     }
-                    JpushUtil.statJpushAlias(context, temp.getObjectId());
+                   JpushUtil.statJpushAlias(context, temp.getThird().getJpush_alias());
                 } else {
                     ToastUtil.showToast(context, json.getMsg());
                     onLogin.error();
@@ -110,6 +115,7 @@ public class LoginHttp {
         EMClient.getInstance().login(user, pwd, new EMCallBack() {
             @Override
             public void onSuccess() {
+                Logger.d("majin", "登录环信1");
                 // 登陆成功，保存用户名
                 ImHelper.getInstance().setCurrentUserName(user);
                 EMClient.getInstance().groupManager().loadAllGroups();
@@ -127,13 +133,14 @@ public class LoginHttp {
 
             @Override
             public void onProgress(int progress, String status) {
-
+                Logger.d("majin", "登录环信2");
             }
 
             @Override
             public void onError(final int code, final String message) {
                 context.runOnUiThread(new Runnable() {
                     public void run() {
+                        Logger.d("majin", "登录环信3");
                         setStartActivity();
                         onLogin.successful();
                     }

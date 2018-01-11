@@ -434,7 +434,7 @@ public class ImageCache {
 	/**
 	 * Get the size in bytes of a bitmap in a BitmapDrawable. Note that from
 	 * Android 4.4 (KitKat) onward this returns the allocated memory size of the
-	 * bitmap which can be larger than the actual bitmap data byte count (in the
+	 * bitmap which can be larger than the actual bitmap DataTest byte count (in the
 	 * case it was re-used).
 	 * 
 	 * @param value
@@ -480,7 +480,7 @@ public class ImageCache {
 		}
 
 		// Before Froyo we need to construct the external cache dir ourselves
-		final String cacheDir = "/Android/data/" + context.getPackageName()
+		final String cacheDir = "/Android/DataTest/" + context.getPackageName()
 				+ "/cache/";
 		return new File(Environment.getExternalStorageDirectory().getPath()
 				+ cacheDir);

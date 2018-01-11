@@ -25,6 +25,7 @@ import java.util.Date;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
+import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.StudentTextWatcher;
 
 /**
@@ -173,7 +174,9 @@ public class RegistActivity extends FxActivity {
             @Override
             public void onResponse(String response) {
                 dismissfxDialog();
+                Logger.d("majin", "注册返回json:" + response.toString());
                 HeadJson json = new HeadJson(response);
+//                Logger.d("majin", "注册返回json:" + json.toString());
                 if (json.getstatus() == 0) {
                     ToastUtil.showToast(context, R.string.registok);
                     finishActivity();

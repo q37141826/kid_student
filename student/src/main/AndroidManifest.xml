@@ -366,7 +366,7 @@
                 <category android:name="${applicationId}"/>
             </intent-filter>
         </receiver>
-        <!-- Required  . Enable it you can get statistics data with channel -->
+        <!-- Required  . Enable it you can get statistDataTestdata with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default"/>

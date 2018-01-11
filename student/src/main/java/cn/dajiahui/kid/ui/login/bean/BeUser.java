@@ -18,17 +18,28 @@ public class BeUser extends BeanObj {
     /*注册*/
     private String telnum;
 
+    private BeUserThrid third;//解析第三方注册登录信息
 
     private String avator;
     private String phone;
     private String realName;
     private String sex;
     private String userName;
-    private String hxId;
-    private String hxPwd;
     private String birthday;
     private String pwd;
 
+
+    public BeUserThrid getThird() {
+        return third;
+    }
+
+    public void setThird(BeUserThrid third) {
+        this.third = third;
+    }
+
+    public void setAuthList(ArrayList<String> authList) {
+        this.authList = authList;
+    }
 
     public String getToken() {
         return token;
@@ -90,13 +101,6 @@ public class BeUser extends BeanObj {
         this.birthday = birthday;
     }
 
-    public String getHxId() {
-        return hxId;
-    }
-
-    public String getHxPwd() {
-        return hxPwd;
-    }
 
     public String getAvator() {
         return avator;
@@ -146,5 +150,6 @@ public class BeUser extends BeanObj {
     public void setId(String objectId) {
         setObjectId(objectId);
     }
+
 
 }

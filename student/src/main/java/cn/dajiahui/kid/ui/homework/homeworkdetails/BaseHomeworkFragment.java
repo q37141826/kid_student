@@ -1,6 +1,9 @@
 package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
+import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -11,6 +14,9 @@ import com.fxtx.framework.ui.FxFragment;
  */
 
 public abstract class BaseHomeworkFragment extends FxFragment {
+    public BaseHomeworkFragment.GetMediaPlayer Mp3;
+
+    public MediaPlayer mediaPlayer;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -19,5 +25,37 @@ public abstract class BaseHomeworkFragment extends FxFragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mediaPlayer = new MediaPlayer();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Mp3 = (GetMediaPlayer) activity;
+    }
+
+    @Override
     public abstract void setArguments(Bundle bundle);
+
+    /*公共接口 音乐播放器*/
+    public interface GetMediaPlayer {
+        public void getMediaPlayer(MediaPlayer mediaPlayer);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mediaPlayer.stop();
+//        Log.d("majin", " ReadFragment onStop");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        mediaPlayer.stop();
+//        Log.d("majin", " ReadFragment onPause  ;
+    }
 }

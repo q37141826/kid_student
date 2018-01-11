@@ -93,9 +93,9 @@ public class ImageResizer extends ImageWorker {
 	 * height.
 	 * 
 	 * @param res
-	 *            The resources object containing the image data
+	 *            The resources object containing the image DataTest
 	 * @param resId
-	 *            The resource id of the image data
+	 *            The resource id of the image DataTest
 	 * @param reqWidth
 	 *            The requested width of the resulting bitmap
 	 * @param reqHeight

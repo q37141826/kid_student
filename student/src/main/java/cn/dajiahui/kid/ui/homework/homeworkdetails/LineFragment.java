@@ -11,13 +11,14 @@ import cn.dajiahui.kid.R;
 
 
 /**
- * 学习
+ * 连线题
  */
 
 
 public class LineFragment extends FxFragment {
 
     private int path;
+
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
         bundle = getArguments();

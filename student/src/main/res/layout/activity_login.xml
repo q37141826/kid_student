@@ -9,6 +9,9 @@
         android:id="@+id/login_title"
         layout="@layout/layout_tool_text"/>
 
+
+
+
     <TextView
         android:id="@+id/apptitle"
         android:layout_width="wrap_content"

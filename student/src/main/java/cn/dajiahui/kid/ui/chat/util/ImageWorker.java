@@ -69,7 +69,7 @@ public abstract class ImageWorker {
     }
 
     /**
-     * Load an image specified by the data parameter into an ImageView (override
+     * Load an image specified by the DataTest parameter into an ImageView (override
      * {@link ImageWorker#processBitmap(Object)} to define the processing logic). A memory and
      * disk cache will be used if an {@link ImageCache} has been added using
      * {@link ImageWorker#addImageCache(android.support.v4.app.FragmentManager, ImageCache.ImageCacheParams)}. If the
@@ -157,7 +157,7 @@ public abstract class ImageWorker {
      * the final bitmap. This will be executed in a background thread and be long running. For
      * example, you could resize a large bitmap here, or pull down an image from the network.
      *
-     * @param data The data to identify which image to process, as provided by
+     * @param data The DataTest to identify which image to process, as provided by
      *            {@link ImageWorker#loadImage(Object, ImageView)}
      * @return The processed bitmap
      */
@@ -188,7 +188,7 @@ public abstract class ImageWorker {
     /**
      * Returns mtrue if the current work has been canceled or if there was no work in
      * progress on this image view.
-     * Returns mfalse if the work in progress deals with the same data. The work is not
+     * Returns mfalse if the work in progress deals with the same DataTest. The work is not
      * stopped in that case.
      */
     public static boolean cancelPotentialWork(Object data, ImageView imageView) {
