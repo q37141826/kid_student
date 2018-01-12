@@ -6,14 +6,10 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
-import com.fxtx.framework.text.StringUtil;
 import com.squareup.okhttp.Request;
 import com.umeng.socialize.utils.ContextUtil;
 
-import java.util.List;
-
 import cn.dajiahui.kid.http.RequestUtill;
-import cn.dajiahui.kid.ui.homework.bean.BeUnReadCount;
 
 /**
  *
@@ -57,13 +53,13 @@ public class BadgeController {
     }
 
     //初始化 角标数量
-    public void initBeDge(List<BeUnReadCount> lists) {
-        for (BeUnReadCount c : lists) {
-            if (StringUtil.sameStr(Constant.type_tz, c.type)) {
-                noticeBadge = c.count;
-            }
-        }
-    }
+//    public void initBeDge(List<BeUnReadCount> lists) {
+//        for (BeUnReadCount c : lists) {
+//            if (StringUtil.sameStr(Constant.type_tz, c.type)) {
+//                noticeBadge = c.count;
+//            }
+//        }
+//    }
 
     /**
      * 获取角标数

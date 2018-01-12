@@ -14,6 +14,7 @@ public class Matching {
         this.color = color;
     }
 
+    int color;
     TextView textView;
     int leftMargin;
     int topMargin;
@@ -26,7 +27,7 @@ public class Matching {
         this.color = color;
     }
 
-    int color;
+
 
     public int getLeftMargin() {
         return leftMargin;

@@ -65,7 +65,6 @@ public class Constant {
     public static final String type_cp = "cp";//测评发布
 
 
-
     //事务  所有待办也是事务
     public static final String type_xc = "xc";//相册
     public static final String type_xcpl = "xcpl";//相册评论
@@ -106,4 +105,13 @@ public class Constant {
     public static final String code_msn = "msn"; // 通讯录 沟通
     public static final String code_errQue = "errQue"; // 错题本
     public static final String code_myFile = "myFile"; // 资料
+
+
+    /*检查作业*/
+    public static final String Judje = "1";
+    public static final String Choice = "2";
+    public static final String Sort = "3";
+    public static final String Line = "4";
+    public static final String Completion = "5";
+
 }

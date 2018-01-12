@@ -291,6 +291,7 @@
     <string name="mine_text_userphone">修改账户手机号</string>
     <string name="mine_text_fixpass">修改密码</string>
     <string name="mine_text_clean">清除缓存</string>
+    <string name="homework_img">homework_img</string>
     <!--我的 end -->
 
     <!--意见反馈start -->

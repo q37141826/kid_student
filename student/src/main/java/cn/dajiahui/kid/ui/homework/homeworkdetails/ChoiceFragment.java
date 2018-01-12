@@ -15,8 +15,8 @@ import java.util.List;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.adapter.ApChoice;
-import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
-import cn.dajiahui.kid.ui.homework.bean.options;
+import cn.dajiahui.kid.ui.homework.bean.BeChoiceOptions;
+import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 
 
@@ -24,11 +24,11 @@ import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
  * 选择
  */
 
-public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomework {
+public class ChoiceFragment extends BaseHomeworkFragment  implements CheckHomework{
 
 
     private ListView mListview;
-    private QuestionModle inbasebean;
+    private ChoiceQuestionModle inbasebean;
     private TextView tvtest, tv_1;
     private ChoiceFragment.GetMediaPlayer Mp3;
     private ImageView img_play;
@@ -43,16 +43,16 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
 
     @Override
     public void setArguments(Bundle bundle) {
-        inbasebean = (QuestionModle) bundle.get("ChoiceQuestionModle");
+        inbasebean = (ChoiceQuestionModle) bundle.get("ChoiceQuestionModle");
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialize();
-        tv_1.setText(inbasebean.getId() + "");
+//        tv_1.setText(inbasebean.getId() + "");
 
-        List<options> options = inbasebean.getOptions();
+        List<BeChoiceOptions> options = inbasebean.getOptions();
 
         apChoice = new ApChoice(getActivity(), options);
         mListview.setAdapter(apChoice);
@@ -62,7 +62,7 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(), "选择" + (position + 1) + "答案", Toast.LENGTH_SHORT).show();
 
-                if (inbasebean.isisAnswer() == false) {
+                if (inbasebean.isAnswer() == false) {
                     inbasebean.setChoiceitemposition(position);
                     apChoice.changeState(getActivity(), submit, position, inbasebean);
 
@@ -144,22 +144,22 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         mediaPlayer.pause();
     }
 
+
+
     @Override
-    public void submitHomework(QuestionModle questionModle) {
+    public void submitHomework(Object questionModle) {
         if (questionModle != null) {
-            inbasebean = questionModle;
+            inbasebean = (ChoiceQuestionModle) questionModle;
             if (inbasebean.getChoiceitemposition() >= 0) {
-                apChoice.changeitemState(inbasebean, questionModle.getChoiceitemposition(),mListview);
+                apChoice.changeitemState(inbasebean, inbasebean.getChoiceitemposition(),mListview);
             }
 
         }
-
     }
 
     public interface SubmitChoiseFragment {
-        public void submitChoiceFragment(QuestionModle questionModle);
+        public void submitChoiceFragment(ChoiceQuestionModle questionModle);
     }
-
 
 }
 

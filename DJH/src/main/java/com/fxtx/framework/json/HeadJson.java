@@ -1,5 +1,6 @@
 package com.fxtx.framework.json;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -97,6 +98,29 @@ public class HeadJson {
         }
         return null;
     }
+
+    /**
+     * 获取 对象
+     */
+    public <T> T parsingListArrayByIndex(String key, int index, Class<T> classs) {
+        JSONArray jarray;
+        try {
+            String s = "";
+            if (status != -1 && !object.isNull(key)) {
+                jarray = object.optJSONArray(key);
+//                String zzz = jarray.toString();
+                JSONObject jsonObject = (JSONObject) jarray.get(index);
+                s = jsonObject.toString();
+                GsonUtil gson = new GsonUtil();
+                return gson.getJsonObject(s, classs);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
     public <T> T parsingListArray(GsonType type) {
         return parsingListArray("options", type);

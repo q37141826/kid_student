@@ -15,8 +15,9 @@ import android.widget.Toast;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.ui.homework.bean.BeChoiceOptions;
+import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
-import cn.dajiahui.kid.ui.homework.bean.options;
 import cn.dajiahui.kid.ui.homework.homeworkdetails.ChoiceFragment;
 
 /**
@@ -25,12 +26,12 @@ import cn.dajiahui.kid.ui.homework.homeworkdetails.ChoiceFragment;
 public class ApChoice extends BaseAdapter {
     private int selectorPosition = -1;
 
-    private List<options> mPptions;
+    private List<BeChoiceOptions> mPptions;
     private Context context;
     private LayoutInflater mInflater;
 
 
-    public ApChoice(Context context, List<options> mPptions) {
+    public ApChoice(Context context, List<BeChoiceOptions> mPptions) {
         this.mPptions = mPptions;
         this.context = context;
         mInflater = LayoutInflater.from(context);
@@ -106,7 +107,7 @@ public class ApChoice extends BaseAdapter {
     }
 
 
-    public void changeState(Context context, ChoiceFragment.SubmitChoiseFragment submit, int pos, QuestionModle inbasebean) {
+    public void changeState(Context context, ChoiceFragment.SubmitChoiseFragment submit, int pos, ChoiceQuestionModle inbasebean) {
         selectorPosition = pos;
         Toast.makeText(context, "选择：" + mPptions.get(pos).getLabel(), Toast.LENGTH_SHORT).show();
         inbasebean.setAnswerflag("true");//学生作答标记

@@ -11,7 +11,7 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
+import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.util.Logger;
 
@@ -26,7 +26,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
     private ImageView imgconment, img_play, imgtrue, imgfasle;
     private SubmitJudgeFragment submit;
 
-    private QuestionModle inbasebean;
+    private JudjeQuestionModle inbasebean;
 
 
     @Override
@@ -37,7 +37,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
     @Override
     public void setArguments(Bundle bundle) {
-        inbasebean = (QuestionModle) bundle.get("JudgeQuestionModle");
+        inbasebean = (JudjeQuestionModle) bundle.get("JudgeQuestionModle");
 
 
     }
@@ -117,27 +117,28 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                     }
                     break;
                 case R.id.img_true:
-
-                    if (inbasebean.isisAnswer() == false) {
-                        Toast.makeText(activity, "正确", Toast.LENGTH_SHORT).show();
-                        inbasebean.setSubmitAnswer("true");
-                        inbasebean.setAnswerflag("true");//答题标志
-                        submit.submitJudgeFragment(inbasebean);
-                    } else {
-                        Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();
+                    if (inbasebean != null) {
+                        if (inbasebean.isAnswer() == false) {
+                            Toast.makeText(activity, "正确", Toast.LENGTH_SHORT).show();
+                            inbasebean.setSubmitAnswer("true");
+                            inbasebean.setAnswerflag("true");//答题标志
+                            submit.submitJudgeFragment(inbasebean);
+                        } else {
+                            Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();
+                        }
                     }
-
                     break;
                 case R.id.img_fasle:
-                    if (inbasebean.isisAnswer() == false) {
-                        Toast.makeText(activity, "错误", Toast.LENGTH_SHORT).show();
-                        inbasebean.setSubmitAnswer("false");
-                        inbasebean.setAnswerflag("true");
-                        submit.submitJudgeFragment(inbasebean);
-                    } else {
-                        Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();
+                    if (inbasebean != null) {
+                        if (inbasebean.isAnswer() == false) {
+                            Toast.makeText(activity, "错误", Toast.LENGTH_SHORT).show();
+                            inbasebean.setSubmitAnswer("false");
+                            inbasebean.setAnswerflag("true");
+                            submit.submitJudgeFragment(inbasebean);
+                        } else {
+                            Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();
+                        }
                     }
-
                     break;
 
                 case R.id.tv_1:
@@ -151,16 +152,16 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         }
     };
 
+
     @Override
-    public void submitHomework(QuestionModle questionModle) {
+    public void submitHomework(Object questionModle) {
         if (questionModle != null) {
-            inbasebean = questionModle;
+            inbasebean = (JudjeQuestionModle) questionModle;
 
-            if (questionModle.getAnswerflag().equals("true")) {
+            if (inbasebean.getAnswerflag().equals("true")) {
 
-
-                if (questionModle.isisAnswer() == true &&
-                        questionModle.getSubmitAnswer().equals(questionModle.getStandard_answer())) {
+                if (inbasebean.isAnswer() == true &&
+                        inbasebean.getSubmitAnswer().equals(inbasebean.getStandard_answer())) {
                     imgtrue.setImageResource(R.color.btn_green_noraml);
                     imgfasle.setImageResource(R.color.red);
                     Logger.d("majin", "回答正确");
@@ -172,12 +173,11 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                 }
             }
         }
+
     }
 
     public interface SubmitJudgeFragment {
-        public void submitJudgeFragment(QuestionModle questionModle);
+        public void submitJudgeFragment(JudjeQuestionModle questionModle);
     }
-
-
 }
 

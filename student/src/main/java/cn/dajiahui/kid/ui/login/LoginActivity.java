@@ -54,7 +54,6 @@ public class LoginActivity extends FxActivity {
                     break;
                 case R.id.btn_login:
                     httpData();
-//                    DjhJumpUtil.getInstance().startBaseActivity(context, MainActivity.class);
                     break;
                 case R.id.forgetTv:
                     //忘记密码
