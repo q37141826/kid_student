@@ -20,6 +20,7 @@ import cn.dajiahui.kid.ui.chat.constant.ImHelper;
 import cn.dajiahui.kid.ui.chat.constant.PreferenceManager;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.util.DjhJumpUtil;
+import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.SpUtil;
 
 /**
@@ -48,13 +49,14 @@ public class LoginHttp {
             @Override
             public void onError(Request request, Exception e) {
                 onLogin.error();
+                Logger.d("majin", "登录失败：" + e);
                 ToastUtil.showToast(context, ErrorCode.error(e));
             }
 
             @Override
             public void onResponse(String response) {
                 HeadJson json = new HeadJson(response);
-
+                Logger.d("majin", "登录成功：" + json);
                 if (json.getstatus() == 0) {
                     BeUser temp = json.parsingObject(BeUser.class);
 
@@ -86,7 +88,7 @@ public class LoginHttp {
                         onLogin.successful();
                     }
 
-                   JpushUtil.statJpushAlias(context, temp.getThird().getJpush_alias());
+                    JpushUtil.statJpushAlias(context, temp.getThird().getJpush_alias());
                 } else {
                     ToastUtil.showToast(context, json.getMsg());
                     onLogin.error();

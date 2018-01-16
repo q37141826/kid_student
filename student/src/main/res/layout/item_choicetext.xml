@@ -18,12 +18,13 @@
 
     <TextView
         android:id="@+id/tv_answer"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:singleLine="false"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/img_choice"
         android:padding="12dp"
-        android:singleLine="true"
+
         android:textColor="@color/color5A"
         android:textSize="@dimen/text18"/>
 

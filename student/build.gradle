@@ -33,6 +33,10 @@ android {
             zipAlignEnabled true
         }
         debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+            zipAlignEnabled true
             signingConfig signingConfigs.config
         }
     }

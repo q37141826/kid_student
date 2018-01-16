@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +26,7 @@ import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 public class ChoiceFragment extends BaseHomeworkFragment  implements CheckHomework{
 
 
-    private ListView mListview;
+    private cn.dajiahui.kid.ui.homework.view.OpenListView mListview;
     private ChoiceQuestionModle inbasebean;
     private TextView tvtest, tv_1;
     private ChoiceFragment.GetMediaPlayer Mp3;

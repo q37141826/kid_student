@@ -20,6 +20,7 @@ public class CricleTextView extends TextView {
 
     public CricleTextView(Context context) {
         super(context);
+        init();
         // TODO Auto-generated constructor stub
     }
 

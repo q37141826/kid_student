@@ -9,14 +9,22 @@ import java.util.List;
  */
 
 public class BeLineOptions {
-    private List<BeLineLeft> BeLineLeft;
-    private List<BeLineRight> BeLineRight;
+    private List<BeLineLeft> left;
+    private List<BeLineRight> right;
 
-    public List<BeLineLeft> getBeLineLeft() {
-        return BeLineLeft;
+    public List<BeLineLeft> getLeft() {
+        return left;
     }
 
-    public List<BeLineRight> getBeLineRight() {
-        return BeLineRight;
+    public void setLeft(List<BeLineLeft> left) {
+        this.left = left;
+    }
+
+    public List<BeLineRight> getRight() {
+        return right;
+    }
+
+    public void setRight(List<BeLineRight> right) {
+        this.right = right;
     }
 }

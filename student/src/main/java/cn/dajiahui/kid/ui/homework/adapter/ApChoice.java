@@ -12,6 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.List;
 
 import cn.dajiahui.kid.R;
@@ -59,8 +62,9 @@ public class ApChoice extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
+//            Logger.d("majin","mPptions.get(position).getType():"+mPptions.get(position).getType());
             /*区别答案的类型*/
-//            if (mPptions.get(position).getChoiceitemtype().equals("1")) {//文字答案
+            if (mPptions.get(position).getType().equals("1")) {//文字答案
             convertView = mInflater.inflate(R.layout.item_choicetext, null);
             //把convertView中的控件保存到viewHolder中
             holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
@@ -68,26 +72,30 @@ public class ApChoice extends BaseAdapter {
             holder.tv_answer = (TextView) convertView.findViewById(R.id.tv_answer);
             holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
 
-//            }
+            }
 
-//            else {//图片答案
-//                convertView = mInflater.inflate(R.layout.item_choicepic, null);
-//                //把convertView中的控件保存到viewHolder中
-//                holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
-//                //item右边的对勾控件
-//                holder.img_rightchoice = (ImageView) convertView.findViewById(R.id.img_rightchoice);
-//                holder.img_answer = (ImageView) convertView.findViewById(R.id.img_answer);
-//                holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
-//            }
+            else {//图片答案
+                convertView = mInflater.inflate(R.layout.item_choicepic, null);
+                //把convertView中的控件保存到viewHolder中
+                holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
+                //item右边的对勾控件
+                holder.img_rightchoice = (ImageView) convertView.findViewById(R.id.img_rightchoice);
+                holder.img_answer = (ImageView) convertView.findViewById(R.id.img_answer);
+                holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
+            }
 
-//            if (mPptions.get(position).getChoiceitemtype().equals("1")) {//文字答案
+            if (mPptions.get(position).getType().equals("1")) {//文字答案
                 holder.tv_answer.setText(mPptions.get(position).getLabel());
 
-//            }
+            }
 
-//            else {
-//                holder.img_answer.setImageResource(mPptions.get(position).getChoiceitemshowpic());
-//            }
+            else {
+                Glide.with(context)
+                        .load(mPptions.get(position).getContent())
+                        .asBitmap()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(holder.img_answer);
+            }
 
             convertView.setTag(holder);
         } else {

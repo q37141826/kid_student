@@ -151,5 +151,22 @@ public class BeUser extends BeanObj {
         setObjectId(objectId);
     }
 
-
+    @Override
+    public String toString() {
+        return "BeUser{" +
+                "token='" + token + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", user_type='" + user_type + '\'' +
+                ", telnum='" + telnum + '\'' +
+                ", third=" + third +
+                ", avator='" + avator + '\'' +
+                ", phone='" + phone + '\'' +
+                ", realName='" + realName + '\'' +
+                ", sex='" + sex + '\'' +
+                ", userName='" + userName + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", authList=" + authList +
+                '}';
+    }
 }

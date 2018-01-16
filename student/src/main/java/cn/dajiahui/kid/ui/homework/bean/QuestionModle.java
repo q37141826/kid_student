@@ -1,6 +1,10 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 基类模型
  */
@@ -22,10 +26,31 @@ public class QuestionModle extends BeBaseModle {
     private String nomber = "";//第几题
 
     private int choiceitemshowpic;//选择题item显示的图片源
-    private String choiceitemtype = "";//选择答案类型 1 文字 2 图片
     private String choiceanswer = "";//选择题显示的答案（后台提供）
-
     private int choiceitemposition = -1;//记录选择题选的索引（用于翻页回来设置指定选项处于备选状态）
+
+
+
+    /*连线题保存答案的坐标点*/
+    private List<DrawPath> drawPathList = new ArrayList();
+
+    public List<DrawPath> getDrawPathList() {
+        return drawPathList;
+    }
+
+    public void setDrawPathList(List<DrawPath> drawPathList) {
+        this.drawPathList = drawPathList;
+    }
+
+    public List<Map<String, String>> MyanswerList = new ArrayList<>();
+
+    public List<Map<String, String>> getMyanswerList() {
+        return MyanswerList;
+    }
+
+    public void setMyanswerList(List<Map<String, String>> myanswerList) {
+        MyanswerList = myanswerList;
+    }
 
     public int getCurrentpage() {
         return currentpage;
@@ -108,7 +133,6 @@ public class QuestionModle extends BeBaseModle {
     }
 
 
-
     public String getChoiceanswer() {
         return choiceanswer;
     }
@@ -123,5 +147,25 @@ public class QuestionModle extends BeBaseModle {
 
     public void setChoiceitemposition(int choiceitemposition) {
         this.choiceitemposition = choiceitemposition;
+    }
+
+    @Override
+    public String toString() {
+        return "QuestionModle{" +
+                "currentpage=" + currentpage +
+                ", answerflag='" + answerflag + '\'' +
+                ", subjectype='" + subjectype + '\'' +
+                ", audiourl='" + audiourl + '\'' +
+                ", isAnswer=" + isAnswer +
+                ", submitAnswer='" + submitAnswer + '\'' +
+                ", rightAnswer='" + rightAnswer + '\'' +
+                ", eachposition=" + eachposition +
+                ", nomber='" + nomber + '\'' +
+                ", choiceitemshowpic=" + choiceitemshowpic +
+                ", choiceanswer='" + choiceanswer + '\'' +
+                ", choiceitemposition=" + choiceitemposition +
+                ", drawPathList=" + drawPathList +
+                ", MyanswerList=" + MyanswerList +
+                '}';
     }
 }

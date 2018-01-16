@@ -19,7 +19,42 @@ public class CompletionQuestionModle extends QuestionModle {
     private String standard_answer;//参考答案
     private String title;
     private String unit_id;
+    private String is_answer;//是否作答
+    private String my_answer;//已经上传的作答答案
+    private String is_right;//是否正确
+    private String is_auto;//
 
+    public String getIs_answer() {
+        return is_answer;
+    }
+
+    public void setIs_answer(String is_answer) {
+        this.is_answer = is_answer;
+    }
+
+    public String getMy_answer() {
+        return my_answer;
+    }
+
+    public void setMy_answer(String my_answer) {
+        this.my_answer = my_answer;
+    }
+
+    public String getIs_right() {
+        return is_right;
+    }
+
+    public void setIs_right(String is_right) {
+        this.is_right = is_right;
+    }
+
+    public String getIs_auto() {
+        return is_auto;
+    }
+
+    public void setIs_auto(String is_auto) {
+        this.is_auto = is_auto;
+    }
     public String getBook_id() {
         return book_id;
     }

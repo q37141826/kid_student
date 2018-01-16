@@ -1,5 +1,7 @@
 package cn.dajiahui.kid.controller;
 
+import cn.dajiahui.kid.ui.homework.bean.Point;
+
 /**
  *
  */
@@ -113,5 +115,8 @@ public class Constant {
     public static final String Sort = "3";
     public static final String Line = "4";
     public static final String Completion = "5";
+
+
+    public  static final Point PointZero = new Point(0,0);
 
 }

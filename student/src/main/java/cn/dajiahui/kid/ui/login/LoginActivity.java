@@ -14,6 +14,7 @@ import com.fxtx.framework.widgets.StatusBarCompat;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.AppSet;
 import cn.dajiahui.kid.http.LoginHttp;
+import cn.dajiahui.kid.ui.MainActivity;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.SpUtil;
 
@@ -53,7 +54,8 @@ public class LoginActivity extends FxActivity {
                     DjhJumpUtil.getInstance().startBaseActivity(context, RegistActivity.class);
                     break;
                 case R.id.btn_login:
-                    httpData();
+//                    httpData();
+                    DjhJumpUtil.getInstance().startBaseActivity(context, MainActivity.class);
                     break;
                 case R.id.forgetTv:
                     //忘记密码
