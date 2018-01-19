@@ -9,6 +9,8 @@ import android.view.View;
 
 import com.fxtx.framework.ui.FxFragment;
 
+import java.io.IOException;
+
 /**
  * Created by lenovo on 2018/1/5.
  */
@@ -57,5 +59,19 @@ public abstract class BaseHomeworkFragment extends FxFragment {
 
         mediaPlayer.stop();
 //        Log.d("majin", " ReadFragment onPause  ;
+    }
+
+    public void playMp3(String mp3path) {
+
+        try {
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(mp3path);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+            Mp3 = (BaseHomeworkFragment.GetMediaPlayer) getActivity();
+            Mp3.getMediaPlayer(mediaPlayer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -3,25 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/choice_root"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="50dp"
+    android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/img_choice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/textpadding"
-        android:layout_marginRight="10dp"
-        android:background="@null"
-        android:clickable="false"
-        android:src="@drawable/ico_im_not"/>
 
     <ImageView
         android:id="@+id/img_answer"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/img_choice"
         android:padding="12dp"
         android:singleLine="true"
         android:textColor="@color/color5A"
@@ -36,7 +26,8 @@
         android:layout_alignParentRight="true"
         android:padding="12dp"
         android:singleLine="true"
-        android:src="@drawable/ico_im_not"
+
         android:textColor="@color/color5A"
         android:textSize="@dimen/text18"/>
+    <!--android:src="@drawable/ico_im_not"-->
 </RelativeLayout>

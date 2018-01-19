@@ -2,7 +2,6 @@ package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,7 +44,7 @@ public class LineFragment extends BaseHomeworkFragment implements CheckHomework,
     private SubmitLineFragment submit;
     private ImageView img_play;
     private TextView mLeft, mRight;
-    private RelativeLayout selectview_root, draw_root, allroot;
+    private RelativeLayout selectview_root, draw_root  ;
     private LinearLayout linroot;
     private DrawView drawView;
     private LineImagePointView currentSelectedView;//当前选中的view
@@ -166,7 +165,7 @@ public class LineFragment extends BaseHomeworkFragment implements CheckHomework,
             if (msg.what == PREPARERIGHT) {
                 if (ponitViewXY.size() == (leftViews.size() * 2)) {
                     String standard_answer = inbasebean.getStandard_answer();
-                    Logger.d("majin", "正确答案:" + standard_answer);
+//                    Logger.d("majin", "正确答案:" + standard_answer);
                     String substring = standard_answer.substring(1, (standard_answer.length() - 1));
                     String[] strs = substring.split(",");
                    /*截取字符串*/
@@ -279,30 +278,14 @@ public class LineFragment extends BaseHomeworkFragment implements CheckHomework,
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
 
     /*初始化*/
     @SuppressLint("ResourceType")
     private void initialize() {
         draw_root = getView(R.id.draw_root);
-        allroot = getView(R.id.allroot);
+
         linroot = getView(R.id.linroot);
         selectview_root = getView(R.id.selectview_root);
         img_play = getView(R.id.img_play);
@@ -310,6 +293,7 @@ public class LineFragment extends BaseHomeworkFragment implements CheckHomework,
         mRight = getView(R.id.mRight);
         mLeft.setOnClickListener(this);
         mRight.setOnClickListener(this);
+        img_play.setOnClickListener(this);
 
     }
 
@@ -401,6 +385,7 @@ public class LineFragment extends BaseHomeworkFragment implements CheckHomework,
                         currentSelectedView = null;
                         lineImagePointView.selected(false);
 
+                        inbasebean.setAnswerflag("true");//答题标志
                         inbasebean.setDrawPathList(drawPathList);
                         submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
                     }
@@ -433,12 +418,7 @@ public class LineFragment extends BaseHomeworkFragment implements CheckHomework,
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
                 draw_root.addView(drawView, params);
 
-//                Logger.d("majin", "drawPath :" + drawPath.getLeftPoint().getY());
-//                Logger.d("majin", "drawPath :" + drawPath.getRightPoint().getX());
             }
-
-             /*点击check后*/
-            inbasebean.setAnswerflag("true");//答题标志
 
 
         }
@@ -452,6 +432,11 @@ public class LineFragment extends BaseHomeworkFragment implements CheckHomework,
 
 
         switch (v.getId()) {
+
+
+            case R.id.img_play:
+                playMp3(  "http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3");
+                break;
             case R.id.mLeft:
                 mLeft.setTextColor(getResources().getColor(R.color.white));
                 mLeft.setBackgroundResource(R.color.btn_green_noraml);
@@ -540,11 +525,16 @@ public class LineFragment extends BaseHomeworkFragment implements CheckHomework,
     @Override
     public void onStop() {
         super.onStop();
+        mediaPlayer.stop();
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
+
+        mediaPlayer.stop();
+
     }
 
 

@@ -7,7 +7,7 @@ package cn.dajiahui.kid.ui.homework.bean;
 
 public class BeChoiceOptions {
     private String content;
-    private String label;
+    private String label;//后台的选择题的答案
     private String type;
     private String val;
 

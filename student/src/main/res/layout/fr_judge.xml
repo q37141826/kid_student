@@ -11,7 +11,7 @@
         android:background="@color/whilte_line">
 
         <TextView
-            android:id="@+id/tv_1"
+            android:id="@+id/tv_judge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="听音频对话，去判断正确错误！"
@@ -34,34 +34,39 @@
             android:layout_centerInParent="true"
             android:src="@drawable/conment"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_conment"
             android:layout_marginTop="30dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/img_true"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
-                android:src="@drawable/mtrue"/>
+                android:layout_marginRight="30dp"
+                android:layout_toLeftOf="@+id/centerline"
+                android:padding="3dp"
+                />
+            <!-- android:src="@drawable/mtrue"-->
+            <TextView
+                android:id="@+id/centerline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
 
             <ImageView
                 android:id="@+id/img_fasle"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
-                android:src="@drawable/mfalse"/>
-        </LinearLayout>
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/centerline"
+                android:padding="3dp"
+                />
+            <!--   android:src="@drawable/mfalse"-->
+        </RelativeLayout>
 
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="判断题"
-            android:textSize="20dp"/>
     </RelativeLayout>
 </ScrollView>

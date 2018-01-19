@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/pink"
-    android:fitsSystemWindows="true">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                android:scrollbars="none">
 
-    <TextView
-        android:id="@+id/test"
-        android:text="填空"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:background="@color/whilte_line">
+
+        <TextView
+            android:id="@+id/tv_completion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="听音频对话，去填空！"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/img_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_completion"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ring"/>
+
+        <ImageView
+            android:id="@+id/img_conment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_play"
+            android:layout_centerInParent="true"
+            android:src="@drawable/conment"/>
+
+        <RelativeLayout
+            android:id="@+id/relaroot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/img_conment"
+           >
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/horlistviewroot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/img_conment">
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</ScrollView>

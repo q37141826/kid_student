@@ -67,7 +67,7 @@ public class ApChoice extends BaseAdapter {
             if (mPptions.get(position).getType().equals("1")) {//文字答案
             convertView = mInflater.inflate(R.layout.item_choicetext, null);
             //把convertView中的控件保存到viewHolder中
-            holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
+//            holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
             holder.img_rightchoice = (ImageView) convertView.findViewById(R.id.img_rightchoice);
             holder.tv_answer = (TextView) convertView.findViewById(R.id.tv_answer);
             holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
@@ -77,7 +77,7 @@ public class ApChoice extends BaseAdapter {
             else {//图片答案
                 convertView = mInflater.inflate(R.layout.item_choicepic, null);
                 //把convertView中的控件保存到viewHolder中
-                holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
+//                holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
                 //item右边的对勾控件
                 holder.img_rightchoice = (ImageView) convertView.findViewById(R.id.img_rightchoice);
                 holder.img_answer = (ImageView) convertView.findViewById(R.id.img_answer);
@@ -105,29 +105,35 @@ public class ApChoice extends BaseAdapter {
 
         //如果当前的position等于传过来点击的position,就去改变他的状态
         if (selectorPosition == position) {
-            holder.img_choice.setImageResource(R.drawable.ico_im_ok);
+//            holder.img_choice.setImageResource(R.drawable.ico_im_ok);
+            holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);
+
+
         } else {
             //其他的恢复原来的状态
-            holder.img_choice.setImageResource(R.drawable.ico_im_not);
+//            holder.img_choice.setImageResource(R.drawable.ico_im_not);
+            holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);
+
         }
 
         return convertView;
     }
 
 
+    /*改变当前选择item的状态*/
     public void changeState(Context context, ChoiceFragment.SubmitChoiseFragment submit, int pos, ChoiceQuestionModle inbasebean) {
         selectorPosition = pos;
         Toast.makeText(context, "选择：" + mPptions.get(pos).getLabel(), Toast.LENGTH_SHORT).show();
         inbasebean.setAnswerflag("true");//学生作答标记
-        inbasebean.setChoiceanswer(mPptions.get(pos).getLabel());
-        inbasebean.setSubmitAnswer(mPptions.get(pos).getLabel());//学生做答案
+//        inbasebean.setChoiceanswer(mPptions.get(pos).getLabel());//保存后台的选项答案
+        inbasebean.setSubmitAnswer(mPptions.get(pos).getLabel());//学生作答答案
         inbasebean.setChoiceitemposition(pos);//保存选择题答案的索引（用于翻页回来后给选择的条目赋予背景颜色）
         submit.submitChoiceFragment(inbasebean);
 
         notifyDataSetChanged();
     }
 
-    /*点击check后调用*/
+
     @SuppressLint("ResourceAsColor")
     public void changeitemState(QuestionModle questionModle, int posi, ListView listView) {
 
@@ -139,17 +145,19 @@ public class ApChoice extends BaseAdapter {
         if (posi >= visibleFirstPosi && posi <= visibleLastPosi) {
             View view = listView.getChildAt(posi - visibleFirstPosi);
             holder = (ViewHolder) view.getTag();
-            holder.img_choice.setImageResource(R.drawable.ico_im_ok);
-            //            holder.choice_root.setBackgroundColor();//给正确答案外边画个框框
+
+         holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);//给正确答案外边画个框框
         } else {
-            holder.img_choice.setImageResource(R.drawable.ico_im_not);
+
+
+            holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);//给正确答案外边画个框框
+
         }
 
     }
 
 
     class ViewHolder {
-        public ImageView img_choice;
         public ImageView img_answer;
         public TextView tv_answer;
         public ImageView img_rightchoice;

@@ -22,7 +22,7 @@
                 android:textSize="20dp"/>
 
             <ImageView
-                android:id="@+id/line_img_play"
+                android:id="@+id/img_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_1"
@@ -35,7 +35,7 @@
                 android:id="@+id/allroot"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/line_img_play">
+                android:layout_below="@+id/img_play">
 
                 <LinearLayout
                     android:id="@+id/linroot"

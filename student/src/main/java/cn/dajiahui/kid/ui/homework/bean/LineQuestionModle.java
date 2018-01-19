@@ -1,5 +1,8 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by lenovo on 2018/1/11.
  * <p>
@@ -25,6 +28,19 @@ public class LineQuestionModle extends QuestionModle {
     private String my_answer;//已经上传的作答答案
     private String is_right;//是否正确
     private String is_auto;//
+
+
+    /*连线题保存答案的坐标点*/
+    private List<DrawPath> drawPathList = new ArrayList();
+
+    public List<DrawPath> getDrawPathList() {
+        return drawPathList;
+    }
+
+    public void setDrawPathList(List<DrawPath> drawPathList) {
+        this.drawPathList = drawPathList;
+    }
+
 
     public String getIs_answer() {
         return is_answer;

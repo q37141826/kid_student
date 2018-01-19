@@ -20,10 +20,21 @@ public class JudjeQuestionModle extends QuestionModle {
     private String standard_answer;//参考答案
     private String title;
     private String unit_id;
-    private String is_answer;//是否作答
+    private String is_answer;//是否作答(后台提供)
     private String my_answer;//已经上传的作答答案
     private String is_right;//是否正确
     private String is_auto;//
+
+
+    private String  judgeAnswerFlag="";//判断题答案标志
+
+    public String getJudgeAnswerFlag() {
+        return judgeAnswerFlag;
+    }
+
+    public void setJudgeAnswerFlag(String judgeAnswerFlag) {
+        this.judgeAnswerFlag = judgeAnswerFlag;
+    }
 
     public String getIs_answer() {
         return is_answer;
@@ -56,6 +67,7 @@ public class JudjeQuestionModle extends QuestionModle {
     public void setIs_auto(String is_auto) {
         this.is_auto = is_auto;
     }
+
     public String getBook_id() {
         return book_id;
     }

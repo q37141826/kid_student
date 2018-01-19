@@ -109,7 +109,7 @@ public class Constant {
     public static final String code_myFile = "myFile"; // 资料
 
 
-    /*检查作业*/
+    /* 魔耳 检查作业*/
     public static final String Judje = "1";
     public static final String Choice = "2";
     public static final String Sort = "3";
@@ -117,6 +117,6 @@ public class Constant {
     public static final String Completion = "5";
 
 
-    public  static final Point PointZero = new Point(0,0);
+    public static final Point PointZero = new Point(0, 0);
 
 }

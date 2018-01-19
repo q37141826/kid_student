@@ -1,6 +1,8 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lenovo on 2018/1/11.
@@ -8,7 +10,7 @@ import java.util.List;
  * 排序题模型
  */
 
-public class SortQuestionModle  extends QuestionModle{
+public class SortQuestionModle extends QuestionModle {
 
     private String book_id;
     private String id;
@@ -24,6 +26,58 @@ public class SortQuestionModle  extends QuestionModle{
     private String my_answer;//已经上传的作答答案
     private String is_right;//是否正确
     private String is_auto;//
+
+
+    /*保存答案集合 key：左边的顺序 vul：对应右边的坐标点*/
+    private Map<Integer, BeLocation> sortAnswerMap = new HashMap<>();
+
+    public Map<Integer, BeLocation> getSortAnswerMap() {
+        return sortAnswerMap;
+    }
+
+    public void setSortAnswerMap(Map<Integer, BeLocation> sortAnswerMap) {
+        this.sortAnswerMap = sortAnswerMap;
+    }
+
+    public void setBook_id(String book_id) {
+        this.book_id = book_id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setMedia(String media) {
+        this.media = media;
+    }
+
+    public void setOptions(List<BeSortOptions> options) {
+        this.options = options;
+    }
+
+    public void setOrg_id(String org_id) {
+        this.org_id = org_id;
+    }
+
+    public void setQuestion_stem(String question_stem) {
+        this.question_stem = question_stem;
+    }
+
+    public void setSchool_id(String school_id) {
+        this.school_id = school_id;
+    }
+
+    public void setStandard_answer(String standard_answer) {
+        this.standard_answer = standard_answer;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setUnit_id(String unit_id) {
+        this.unit_id = unit_id;
+    }
 
     public String getIs_answer() {
         return is_answer;
@@ -56,6 +110,7 @@ public class SortQuestionModle  extends QuestionModle{
     public void setIs_auto(String is_auto) {
         this.is_auto = is_auto;
     }
+
     public String getBook_id() {
         return book_id;
     }
