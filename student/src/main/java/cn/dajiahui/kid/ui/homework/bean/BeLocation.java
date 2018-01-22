@@ -1,19 +1,21 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
-import android.content.Context;
+import java.io.Serializable;
 
 /**
  * Created by lenovo on 2018/1/16.
+ * <p>
+ * 排序位置
  */
 
-public class BeLocation {
-    private Context context;
-    private int getLeft;
-    private int getTop;
-    private int getRight;
-    private int getBottom;
-    private int width;
-    private int height;
+public class BeLocation implements Serializable {
+
+    private int getLeft;//距离左边
+    private int getTop;//上部
+    private int getRight;//右边
+    private int getBottom;//底部
+    private int width;//宽
+    private int height;//高
 
     public BeLocation(int getLeft, int getTop, int getRight, int getBottom, int width, int height) {
         this.getLeft = getLeft;
@@ -24,13 +26,6 @@ public class BeLocation {
         this.height = height;
     }
 
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
 
     public int getGetLeft() {
         return getLeft;
@@ -83,7 +78,7 @@ public class BeLocation {
     @Override
     public String toString() {
         return "BeLocation{" +
-                "context=" + context +
+
                 ", getLeft=" + getLeft +
                 ", getTop=" + getTop +
                 ", getRight=" + getRight +

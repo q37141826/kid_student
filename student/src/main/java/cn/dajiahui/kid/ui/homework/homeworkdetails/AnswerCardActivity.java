@@ -1,6 +1,5 @@
 package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,15 +7,21 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.fxtx.framework.ui.FxActivity;
-import com.fxtx.framework.util.ActivityUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.ui.homework.adapter.ApAnswerCard;
+import cn.dajiahui.kid.ui.homework.bean.BeSaveAnswerCard;
+import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
+import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
+import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
+import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
-import cn.dajiahui.kid.ui.homework.bean.BeSerializableMap;
-import cn.dajiahui.kid.util.DjhJumpUtil;
+import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 
 /*
 * 答题卡
@@ -30,8 +35,9 @@ public class AnswerCardActivity extends FxActivity {
     private GridView grildview;
     private Button mBtnsubmit;
     private int answernum;
-    private List<QuestionModle> listdata;
-    private BeSerializableMap answerCard;
+//    private List<QuestionModle> listdata;
+
+    private List<QuestionModle> listdata = new ArrayList<>();
 
 
     @Override
@@ -47,13 +53,64 @@ public class AnswerCardActivity extends FxActivity {
         setContentView(R.layout.activity_answer_card);
         initialize();
 
-        Intent intent = getIntent();
-        answernum = intent.getIntExtra("answerNum", 0);
-        //取所有check过的数据
-        answerCard = (BeSerializableMap) intent.getSerializableExtra("answerCard");
-        listdata = answerCard.getData();
+        Bundle bundle = getIntent().getExtras();
+        BeSaveAnswerCard beSaveAnswerCard =
+                (BeSaveAnswerCard) bundle.getSerializable("answerCard");
+        HashMap<Integer, Object> pageMap = beSaveAnswerCard.getPageMap();
 
-        tvanswer.setText(answernum + "/" + listdata.size());
+
+        for (int i = 0; i < pageMap.size(); i++) {
+
+            QuestionModle questionModle = (QuestionModle) pageMap.get(i);
+
+            switch (questionModle.getQuestion_cate_id()) {
+
+                case Constant.Judje:
+                    JudjeQuestionModle jude = (JudjeQuestionModle) pageMap.get(i);
+                    String anJudje = jude.getAnswerflag();
+                    listdata.add(new QuestionModle(jude.getCurrentpage(), anJudje));
+//                    Logger.d( "AnswerCardActivity-----判断getSubjectype :" + questionModle.getQuestion_cate_id() );
+//                    Logger.d( "AnswerCardActivity-----判断getAnswerflag:" + anJudje );
+                    break;
+                case Constant.Choice:
+                    ChoiceQuestionModle choice = (ChoiceQuestionModle) pageMap.get(i);
+                    String anchoice = choice.getAnswerflag();
+                    listdata.add(new QuestionModle(choice.getCurrentpage(), anchoice));
+//                    Logger.d( "AnswerCardActivity-----选择getSubjectype :" + questionModle.getQuestion_cate_id() );
+//                    Logger.d( "AnswerCardActivity-----选择getAnswerflag:" + anchoice );
+                    break;
+                case Constant.Sort:
+                    SortQuestionModle sort = (SortQuestionModle) pageMap.get(i);
+                    String ansort = sort.getAnswerflag();
+                    listdata.add(new QuestionModle(sort.getCurrentpage(), ansort));
+//                    Logger.d( "AnswerCardActivity-----排序getSubjectype :" + questionModle.getQuestion_cate_id() );
+//                    Logger.d( "AnswerCardActivity-----排序getAnswerflag:" + ansort );
+                    break;
+                case Constant.Line:
+                    LineQuestionModle line = (LineQuestionModle) pageMap.get(i);
+                    String anline = line.getAnswerflag();
+                    listdata.add(new QuestionModle(line.getCurrentpage(), anline));
+//                    Logger.d( "AnswerCardActivity-----连线getSubjectype :" + questionModle.getQuestion_cate_id() );
+//                    Logger.d( "AnswerCardActivity-----连线getAnswerflag:" + anline );
+                    break;
+                case Constant.Completion:
+                    CompletionQuestionModle completion = (CompletionQuestionModle) pageMap.get(i);
+                    String ancompletion = completion.getAnswerflag();
+
+                    listdata.add(new QuestionModle(completion.getCurrentpage(), ancompletion));
+//                    Logger.d( "AnswerCardActivity-----填空getSubjectype :" + questionModle.getQuestion_cate_id() );
+//                    Logger.d( "AnswerCardActivity-----填空getAnswerflag:" + ancompletion );
+                    break;
+
+                default:
+                    break;
+            }
+
+        }
+//
+//
+////        tvanswer.setText(answernum + "/" + listdata.size());
+////
         ApAnswerCard apAnswerCard = new ApAnswerCard(context, listdata);
         grildview.setAdapter(apAnswerCard);
 
@@ -74,12 +131,15 @@ public class AnswerCardActivity extends FxActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_submit:
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("answerCard", answerCard);
 
-                    DjhJumpUtil.getInstance().startBaseActivity(AnswerCardActivity.this, HomedetailsActivity.class, bundle, ANSWERCARD);
-                    ActivityUtil.getInstance().finishActivity(CheckHomeworkActivity.class);//结束指定的activity
-                    finishActivity();
+                    /*网络请求提交答案*/
+
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable("answerCard", answerCard);
+//
+//                    DjhJumpUtil.getInstance().startBaseActivity(AnswerCardActivity.this, HomedetailsActivity.class, bundle, ANSWERCARD);
+//                    ActivityUtil.getInstance().finishActivity(CheckHomeworkActivity.class);//结束指定的activity
+//                    finishActivity();
                     break;
 
                 default:

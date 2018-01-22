@@ -19,17 +19,17 @@ public class SortQuestionModle extends QuestionModle {
     private String org_id;
     private String question_stem;//代表题干
     private String school_id;
-    private String standard_answer;//参考答案
+    private String standard_answer = "";//参考答案
     private String title;
     private String unit_id;
-    private String is_answer;//是否作答
-    private String my_answer;//已经上传的作答答案
-    private String is_right;//是否正确
-    private String is_auto;//
+    private String is_answer = "";//是否作答(后台)
+    private String my_answer = "";//已经上传的作答答案
+    private String is_right = "";//是否正确
+    private String is_auto = "";//
 
 
     /*保存答案集合 key：左边的顺序 vul：对应右边的坐标点*/
-    private Map<Integer, BeLocation> sortAnswerMap = new HashMap<>();
+    public Map<Integer, BeLocation> sortAnswerMap = new HashMap<>();
 
     public Map<Integer, BeLocation> getSortAnswerMap() {
         return sortAnswerMap;

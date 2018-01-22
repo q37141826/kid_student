@@ -56,6 +56,16 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgfasle);
 
+        if (inbasebean.getIs_answer().equals("1")) {
+            /*回答正确*/
+            if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
+                imgtrue.setBackgroundResource(R.drawable.select_judge_image);
+            } else {
+                imgfasle.setBackgroundResource(R.drawable.select_judge_image);
+            }
+
+
+        }
 //        tv_judge.setText(inbasebean.getId() + "");
     }
 
@@ -126,7 +136,6 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                         inbasebean.setJudgeAnswerFlag("mtrue");//正确回答标志
                         inbasebean.setSubmitAnswer("true");//学生答题答案
                         inbasebean.setAnswerflag("true");
-
                         submit.submitJudgeFragment(inbasebean);
 //                        } else {
 //                            Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();
@@ -142,7 +151,6 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                         inbasebean.setJudgeAnswerFlag("mfalse");//错误回答标志
                         inbasebean.setSubmitAnswer("false");//学生答题答案
                         inbasebean.setAnswerflag("true");
-
                         submit.submitJudgeFragment(inbasebean);
 //                        } else {
 //                        Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();

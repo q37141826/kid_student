@@ -38,24 +38,22 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/mLeft"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="25sp"
-                    />
-
-                <TextView
                     android:id="@+id/mRight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="25sp"
-                    />
+                    android:textSize="25sp"/>
+
+                <TextView
+                    android:id="@+id/mLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="25sp"/>
             </LinearLayout>
 
             <RelativeLayout
@@ -63,10 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/linroot">
-
             </RelativeLayout>
-
-
         </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

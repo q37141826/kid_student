@@ -1,11 +1,13 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by lenovo on 2018/1/11.
  * 连线题右
  */
 
-public class BeLineRight {
+public class BeLineRight implements Serializable {
 
     private String content;
     private String label;

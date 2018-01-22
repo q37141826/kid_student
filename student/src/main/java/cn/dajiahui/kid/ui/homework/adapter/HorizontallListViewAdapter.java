@@ -160,7 +160,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             temp = s;
-            submitEditext.submitEditextInfo(selfposition);
+
         }
 
         @Override
@@ -180,7 +180,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
                 int tempSelection = editStart;
                 if (!s.equals("")) {
                     this.editText.setText(s);
-
+                    submitEditext.submitEditextInfo(selfposition);
                 }
                 this.editText.setSelection(tempSelection);
             }

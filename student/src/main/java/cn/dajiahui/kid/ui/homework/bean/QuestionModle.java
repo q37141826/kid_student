@@ -1,27 +1,34 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
 
+import java.io.Serializable;
+
 /**
  * 基类模型
  */
 
-public class QuestionModle extends BeBaseModle {
+public class QuestionModle extends BeBaseModle  implements Serializable {
 
     public QuestionModle() {
     }
 
+    /*答题卡使用*/
+    public QuestionModle(int currentpage, String answerflag) {
+        this.currentpage = currentpage;
+        this.answerflag = answerflag;
+    }
+
     /////////////////////////////////////////////////////
     private int currentpage = 0;//记录当前的页数
-    private String answerflag = "";//学生作答标记（是否 作答）
+    private String answerflag = "";//学生作答标记（是否 作答 true false ）
     private String subjectype = "";//当前题型
 
-    private boolean isAnswer;//是否作答（记录当前页面check）
+    private boolean isAnswer;//是否作答
     private String submitAnswer = "";//学生作答答案
     private String rightAnswer = "";//当前题正确答案
     private int eachposition;//每个题对应数据源的索引
-    private String nomber = "";//第几题
 
-    private String choiceanswer = "";//选择题显示的答案（后台提供）
+
     private int choiceitemposition = -1;//记录选择题选的索引（用于翻页回来设置指定选项处于备选状态）
 
 
@@ -82,22 +89,6 @@ public class QuestionModle extends BeBaseModle {
         this.eachposition = eachposition;
     }
 
-    public String getNomber() {
-        return nomber;
-    }
-
-    public void setNomber(String nomber) {
-        this.nomber = nomber;
-    }
-
-
-    public String getChoiceanswer() {
-        return choiceanswer;
-    }
-
-    public void setChoiceanswer(String choiceanswer) {
-        this.choiceanswer = choiceanswer;
-    }
 
     public int getChoiceitemposition() {
         return choiceitemposition;
@@ -118,8 +109,8 @@ public class QuestionModle extends BeBaseModle {
                 ", submitAnswer='" + submitAnswer + '\'' +
                 ", rightAnswer='" + rightAnswer + '\'' +
                 ", eachposition=" + eachposition +
-                ", nomber='" + nomber + '\'' +
-                ", choiceanswer='" + choiceanswer + '\'' +
+
+
                 ", choiceitemposition=" + choiceitemposition +
                 '}';
     }

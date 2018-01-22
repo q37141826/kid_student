@@ -13,9 +13,8 @@ import com.fxtx.framework.ui.FxActivity;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.homework.adapter.ApAnswerCard;
-import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.BeSerializableMap;
+import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 
 /*
@@ -46,14 +45,15 @@ public class HomedetailsActivity extends FxActivity {
         initialize();
         Intent intent = getIntent();
         int flags = intent.getFlags();
-        if (flags == 3) {
-            answerCard = (BeSerializableMap) intent.getSerializableExtra("answerCard");
-            listdata = answerCard.getData();
-            grildview.setVisibility(View.VISIBLE);
-            ApAnswerCard apAnswerCard = new ApAnswerCard(context, listdata);
-            grildview.setAdapter(apAnswerCard);
-            mBtnCheck.setText("在练一次");
-        }
+
+//        if (flags == 3) {
+//            answerCard = (BeSerializableMap) intent.getSerializableExtra("answerCard");
+//            listdata = answerCard.getData();
+//            grildview.setVisibility(View.VISIBLE);
+//            ApAnswerCard apAnswerCard = new ApAnswerCard(context, listdata);
+//            grildview.setAdapter(apAnswerCard);
+//            mBtnCheck.setText("在练一次");
+//        }
 
         mBtnCheck.setOnClickListener(onClick);
 

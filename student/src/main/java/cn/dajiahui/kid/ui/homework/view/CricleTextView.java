@@ -8,6 +8,8 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import cn.dajiahui.kid.R;
+
 /**
  * 自定义圆形中间带字
  */
@@ -17,10 +19,12 @@ public class CricleTextView extends TextView {
 
 
     private Paint mPaint;
+    private int color = (getResources().getColor(R.color.black));//defeal color
 
     public CricleTextView(Context context) {
         super(context);
         init();
+        setcolor(color);
         // TODO Auto-generated constructor stub
     }
 
@@ -42,6 +46,15 @@ public class CricleTextView extends TextView {
      */
     public void init() {
         mPaint = new Paint();
+    }
+
+    /*设置画笔颜色*/
+    public void setcolor(int color) {
+        mPaint.setColor(color);
+    }
+
+    public void refreshPonitColor() {
+       invalidate();
     }
 
     /**

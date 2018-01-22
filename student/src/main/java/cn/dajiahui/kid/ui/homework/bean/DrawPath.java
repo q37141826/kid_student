@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,13 +10,12 @@ import cn.dajiahui.kid.controller.Constant;
  * Created by lenovo on 2018/1/13.
  */
 
-public class DrawPath {
+public class DrawPath implements Serializable {
     int pathColor;
     cn.dajiahui.kid.ui.homework.bean.Point leftPoint = Constant.PointZero;
     cn.dajiahui.kid.ui.homework.bean.Point rightPoint = Constant.PointZero;
 
     private Map<String, String> answerMap = new HashMap<>();
-
 
 
     /*记录坐标点*/
@@ -32,8 +32,6 @@ public class DrawPath {
     public void setAnswerMap(Map<String, String> answerMap) {
         this.answerMap = answerMap;
     }
-
-
 
 
     public int getPathColor() {

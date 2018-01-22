@@ -174,9 +174,9 @@ public class RegistActivity extends FxActivity {
             @Override
             public void onResponse(String response) {
                 dismissfxDialog();
-                Logger.d("majin", "注册返回json:" + response.toString());
+                Logger.d( "注册返回json:" + response.toString());
                 HeadJson json = new HeadJson(response);
-//                Logger.d("majin", "注册返回json:" + json.toString());
+//                Logger.d( "注册返回json:" + json.toString());
                 if (json.getstatus() == 0) {
                     ToastUtil.showToast(context, R.string.registok);
                     finishActivity();

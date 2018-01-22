@@ -1,10 +1,12 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by lenovo on 2018/1/13.
  */
 
-public class Point {
+public class Point implements Serializable {
     public int x;
     public int y;
 

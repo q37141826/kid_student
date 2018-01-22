@@ -25,32 +25,48 @@ import cn.dajiahui.kid.ui.homework.myinterface.MoveLocation;
 
 @SuppressLint("AppCompatCustomView")
 public class MoveImagview extends RelativeLayout implements View.OnTouchListener {
-    private int startY;
-    private int startX;
-    private float pointX;
-    private float pointY;
+
     private Context context;
-    private MoveLocation moveLocation;
+    //起始 x y
+    private int startX;
+    private int startY;
+    //图片中心点
+    private float centerPointX;
+    private float centerPointY;
+    private int position;//移动图片的索引值（从0开始）
+    private SortQuestionModle inbasebean;//数据模型
+    private MoveLocation moveLocation;//接口实例
 
-    private SortQuestionModle inbasebean;
-    private int position;
 
+    /*构造*/
     public MoveImagview(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
+    /*构造*/
     public MoveImagview(Context context, MoveLocation moveLocation, int position, SortQuestionModle inbasebean) {
         super(context);
         this.context = context;
         this.setOnTouchListener(this);
         this.inbasebean = inbasebean;
-        /*接口实例*/
         this.moveLocation = moveLocation;
-
         this.position = position;
 
         /*添加图片*/
+
         addview();
+    }
+
+    /*正确答案构造（后台返回数据后需重新加载一遍排序的图片）*/
+    public MoveImagview(Context context, int position, SortQuestionModle inbasebean) {
+        super(context);
+        this.context = context;
+        this.inbasebean = inbasebean;
+        this.position = position;
+
+          /*添加图片*/
+        addRightview();
+
 
     }
 
@@ -65,38 +81,38 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
 
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (inbasebean.isAnswer() == false) {
-                    int endX = (int) motionEvent.getRawX();
-                    int endY = (int) motionEvent.getRawY();
 
-                    // 计算移动偏移量
-                    int dx = endX - startX;
-                    int dy = endY - startY;
+                    if ( inbasebean.getIs_answer().equals("0")) {
+                        int endX = (int) motionEvent.getRawX();
+                        int endY = (int) motionEvent.getRawY();
 
-                    // 更新左上右下距离
-                    int l = this.getLeft() + dx;
-                    int r = this.getRight() + dx;
-                    int t = this.getTop() + dy;
-                    int b = this.getBottom() + dy;
+                        // 计算移动偏移量
+                        int dx = endX - startX;
+                        int dy = endY - startY;
 
+                        // 更新左上右下距离
+                        int l = this.getLeft() + dx;
+                        int r = this.getRight() + dx;
+                        int t = this.getTop() + dy;
+                        int b = this.getBottom() + dy;
+                    /*移动刷新位置*/
+                        this.layout(l, t, r, b);
 
-                    this.layout(l, t, r, b);
+                        // 重新初始化起点坐标
+                        startX = (int) motionEvent.getRawX();
+                        startY = (int) motionEvent.getRawY();
 
-                    // 更新界面
-                    // 重新初始化起点坐标
-                    startX = (int) motionEvent.getRawX();
-                    startY = (int) motionEvent.getRawY();
+                    /*获取拖动的中心点*/
+                        centerPointX = (((float) 1 / (float) 2) * this.getWidth()) + l;
+                        centerPointY = (((float) 1 / (float) 2) * getHeight()) + t;
 
-                /*获取拖动的中心点*/
-                    pointX = (((float) 1 / (float) 2) * this.getWidth()) + l;
-                    pointY = (((float) 1 / (float) 2) * getHeight()) + t;
+                        getParent().requestDisallowInterceptTouchEvent(true);
+                    }
 
-                    getParent().requestDisallowInterceptTouchEvent(true);
-                }
                 break;
             case MotionEvent.ACTION_UP:
-                /*手指抬起时回调当前拖动的view的中心点*/
-                BeLocation beLocation = moveLocation.submitCenterPoint(this, pointX, pointY);
+                /* 通知碎片  然后回调 手指抬起时回调当前拖动的view的中心点  */
+                BeLocation beLocation = moveLocation.submitCenterPoint(this, position, centerPointX, centerPointY);
                 if (beLocation != null) {
                 /*更新滑动之后的位置*/
                     this.layout(beLocation.getGetLeft(), beLocation.getGetTop(), beLocation.getGetRight(), beLocation.getGetBottom());
@@ -112,14 +128,14 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
 
     /*刷新起始位置*/
     public void refreshLocation(BeLocation beLocation) {
-        if(beLocation!=null){
-        this.layout(beLocation.getGetLeft(), beLocation.getGetTop(), beLocation.getGetRight(), beLocation.getGetBottom());
-    }}
+        if (beLocation != null) {
+            this.layout(beLocation.getGetLeft(), beLocation.getGetTop(), beLocation.getGetRight(), beLocation.getGetBottom());
+        }
+    }
 
     /*添加视图*/
     private void addview() {
         ImageView imageView = new ImageView(context);
-//        imageView.setImageResource(R.drawable.ic_launcher);
         LayoutParams params = new LayoutParams(150, 150);
         imageView.setLayoutParams(params);
         this.addView(imageView);
@@ -137,8 +153,43 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
         addView(textView);
     }
 
+    /*添加视图*/
+    private void addRightview() {
+        ImageView imageView = new ImageView(context);
+        LayoutParams params = new LayoutParams(150, 150);
+        imageView.setImageResource(R.drawable.ic_launcher);
+        imageView.setLayoutParams(params);
+        this.addView(imageView);
+//        Glide.with(context)
+//                .load(inbasebean.getOptions().get(position).getContent())
+//                .asBitmap()
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .into(imageView);
+        TextView textView = new TextView(context);
+
+        LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textView.setTextColor(getResources().getColor(R.color.blue));
+        params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
+        textView.setLayoutParams(tparams);
+        textView.setText("第" + (position + 1) + "个");
+        addView(textView);
+    }
+
     /*锁定移动图片*/
     public void lockMoveImage(SortQuestionModle inbasebean) {
+        /*用 inbasebean.getIs_answer().equals("0") 控制图片是否能滑动 0 没打过题 能划  1 已经答过 锁定位置*/
         this.inbasebean = inbasebean;
     }
+
+    /*显示我的答案*/
+    public void showAnswer(BeLocation beLocation) {
+
+        if (beLocation != null) {
+            this.layout(beLocation.getGetLeft(), beLocation.getGetTop(), beLocation.getGetRight(), beLocation.getGetBottom());
+            this.setFocusable(false);
+            this.setClickable(false);
+        }
+    }
+
+
 }

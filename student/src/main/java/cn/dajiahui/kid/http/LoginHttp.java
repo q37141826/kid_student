@@ -49,14 +49,14 @@ public class LoginHttp {
             @Override
             public void onError(Request request, Exception e) {
                 onLogin.error();
-                Logger.d("majin", "登录失败：" + e);
+                Logger.d( "登录失败：" + e);
                 ToastUtil.showToast(context, ErrorCode.error(e));
             }
 
             @Override
             public void onResponse(String response) {
                 HeadJson json = new HeadJson(response);
-                Logger.d("majin", "登录成功：" + json);
+                Logger.d( "登录成功：" + json);
                 if (json.getstatus() == 0) {
                     BeUser temp = json.parsingObject(BeUser.class);
 

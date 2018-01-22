@@ -1,7 +1,7 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 /**
  * 传递答题卡data
@@ -9,18 +9,17 @@ import java.util.List;
 
 public class BeSerializableMap implements Serializable {
 
-    private List<QuestionModle> data;
+    private   Map<Integer, Object> PageMap;
 
-    public List<QuestionModle> getData() {
-        return data;
+    public BeSerializableMap(Map<Integer, Object> pageMap) {
+        PageMap = pageMap;
     }
 
-    public void setData(List<QuestionModle> data) {
-        this.data = data;
+    public Map<Integer, Object> getPageMap() {
+        return PageMap;
     }
 
-
-    public BeSerializableMap(List<QuestionModle> data) {
-        this.data = data;
+    public void setPageMap(Map<Integer, Object> pageMap) {
+        PageMap = pageMap;
     }
 }

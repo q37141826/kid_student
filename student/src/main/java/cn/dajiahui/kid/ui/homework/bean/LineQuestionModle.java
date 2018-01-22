@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * 连线题模型
  */
 
-public class LineQuestionModle extends QuestionModle {
+public class LineQuestionModle extends QuestionModle implements Serializable {
 
     private String book_id;
     private String id;
@@ -24,7 +25,7 @@ public class LineQuestionModle extends QuestionModle {
     private String title;
     private String unit_id;
 
-    private String is_answer;//是否作答
+    private String is_answer;//是否作答(后台提供)
     private String my_answer;//已经上传的作答答案
     private String is_right;//是否正确
     private String is_auto;//

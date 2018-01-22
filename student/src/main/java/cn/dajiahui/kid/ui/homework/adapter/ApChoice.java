@@ -62,7 +62,7 @@ public class ApChoice extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-//            Logger.d("majin","mPptions.get(position).getType():"+mPptions.get(position).getType());
+//            Logger.d("mPptions.get(position).getType():"+mPptions.get(position).getType());
             /*区别答案的类型*/
             if (mPptions.get(position).getType().equals("1")) {//文字答案
             convertView = mInflater.inflate(R.layout.item_choicetext, null);

@@ -26,7 +26,7 @@ public class StudentReceiver extends JpushReceiver {
     protected void sendToActivity(HeadJson json, int notificationID) {
 
         jpush = new GsonUtil().getJsonObject(json.getObject().toString(), BeJpush.class);
-        Logger.d("majin","摩尔jpush:"+jpush.toString()) ;
+        Logger.d("摩尔jpush:"+jpush.toString()) ;
         if (jpush != null) {
             //处理逻辑
             String str = jpush.getType();

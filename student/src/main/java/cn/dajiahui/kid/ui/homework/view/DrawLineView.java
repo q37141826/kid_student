@@ -152,7 +152,7 @@ public class DrawLineView extends View {
     private void initAnswerPoint() {
         beginList = new ArrayList<Point>();
         // 根据答案个数 将自定义view分成几块 然后初始化每个选项的x y 点
-        Logger.d("majin", "宽 " + getMeasuredWidth() + "	高 " + getMeasuredHeight());
+        Logger.d( "宽 " + getMeasuredWidth() + "	高 " + getMeasuredHeight());
         int size = pointText.length;
         for (int i = 0; i < size; i++) {
             beginList.add(getPoint(i));
@@ -165,7 +165,7 @@ public class DrawLineView extends View {
         Point point = null;
         // TODO Auto-generated method stub
         int size = pointText.length;
-//        Logger.d("majin", "==宽度 = " + getMeasuredWidth() + "		高度 = "
+//        Logger.d( "==宽度 = " + getMeasuredWidth() + "		高度 = "
 //                + getMeasuredHeight());
         int item = getMeasuredHeight() / size;
         int x = 0, y = 0;
@@ -199,18 +199,18 @@ public class DrawLineView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
 
-        Logger.d("majin", "觸摸事件");
-        Logger.d("majin", "宽 = " + getMeasuredWidth() + "	高 = " + getMeasuredHeight());
+        Logger.d( "觸摸事件");
+        Logger.d( "宽 = " + getMeasuredWidth() + "	高 = " + getMeasuredHeight());
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
-                Logger.d("majin", "按下事件  x = " + event.getX() + " y= " + event.getY());
+                Logger.d( "按下事件  x = " + event.getX() + " y= " + event.getY());
                 break;
             case MotionEvent.ACTION_MOVE:
-                Logger.d("majin", "移動事件  x = " + event.getX() + " y= " + event.getY());
+                Logger.d( "移動事件  x = " + event.getX() + " y= " + event.getY());
                 break;
             case MotionEvent.ACTION_UP:
-                Logger.d("majin", "移動事件  x = " + event.getX() + " y= " + event.getY());
+                Logger.d( "移動事件  x = " + event.getX() + " y= " + event.getY());
 
                 break;
 
@@ -254,7 +254,7 @@ public class DrawLineView extends View {
             }
             // 或者
             String str = String.valueOf(answer1) + String.valueOf(answer2);
-            Logger.d("majin", "存入的答案 = " + str);
+            Logger.d( "存入的答案 = " + str);
             MyLine myLine = new MyLine(getPoint(answer1), getPoint(answer2),
                     str);
             list.add(myLine);

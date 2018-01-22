@@ -27,10 +27,10 @@ import cn.dajiahui.kid.ui.homework.myinterface.Sublineinfo;
  */
 
 
-public class LineImagePointView extends RelativeLayout implements View.OnClickListener {
+public class LineImagePointView extends RelativeLayout implements View.OnClickListener  {
     private Context context;
     private final ImageView imageView;
-    private CricleTextView pointview;
+    public CricleTextView pointview;
     private int cLeftposiion = 0;
     private LineQuestionModle inbasebean;
     private Dir direction;

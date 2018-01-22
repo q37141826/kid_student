@@ -20,7 +20,6 @@ import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
 import cn.dajiahui.kid.ui.homework.view.HorizontalListView;
-import cn.dajiahui.kid.util.Logger;
 
 
 /**
@@ -41,7 +40,9 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
     private int mTop = 0;//初始距离上端
     private Map<Integer, Object> integerObjectMap;
-    private List<CompletionQuestionModle> rightanswer;
+    private List<CompletionQuestionModle> rightanswer = new ArrayList<>();
+    ;//正确答案
+    private List<String> myanswer = new ArrayList<>();
 
 
     @Override
@@ -54,16 +55,15 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         super.onViewCreated(view, savedInstanceState);
 
         initialize();
-        /*模拟我的答案*/
-        List<String> myanswer = new ArrayList<>();
-        rightanswer = new ArrayList<>();
+        /*模拟我的答案数据*/
         myanswer.add("m");
         myanswer.add("a");
         myanswer.add("c");
         myanswer.add("t");
 
 
-        /*正确答案*/
+
+        /*解析正确答案（后台获取的正确答案）*/
         String standard_answer = inbasebean.getStandard_answer();
         String[] strs = standard_answer.split(",");
        /*截取字符串*/
@@ -76,10 +76,9 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         }
 
 
+
            /*判断是否已经上传后台 0 没答过题  1 答过题*/
-        if (inbasebean.getIs_answer().equals("1")) {
-//            Logger.d("majin", "rightanswer   ：" + rightanswer.toString());
-//            Logger.d("majin", "myanswer   ：" + myanswer.toString());
+        if (inbasebean.getIs_answer().equals("0")) {
 
 
         } else {
@@ -88,13 +87,12 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             for (int a = 0; a < myanswer.size(); a++) {
                 /*填空对应的答案相等*/
                 if (rightanswer.get(a).getAnalysisAnswer().equals(myanswer.get(a))) {
-                    Logger.d("majin", "相等的：" + a);
                     rightanswer.get(a).setTextcolor("green");
                 }
             }
         }
-
-        addHorizontalListView(2);
+         /* size 填写有几道填空题 后台提供*/
+        addHorizontalListView(3);
 
     }
 
@@ -104,7 +102,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         Map<Integer, CompletionQuestionModle> map = new HashMap<>();
 
         for (int i = 0; i < rightanswer.size(); i++) {
-//            Logger.d("majin", "准备数据源：" + rightanswer.get(i).getAnalysisAnswer());
+//            Logger.d( "准备数据源：" + rightanswer.get(i).getAnalysisAnswer());
             CompletionQuestionModle com = new CompletionQuestionModle();
             com.setAnalysisAnswer(rightanswer.get(i).getAnalysisAnswer());
             com.setAnalysisMineAnswer(rightanswer.get(i).getAnalysisMineAnswer());
@@ -167,9 +165,9 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         }
     }
 
+    /*先走setArguments 在走onPageSelected中的函数 最后走 submitHomework*/
     @Override
     public void setArguments(Bundle bundle) {
-        Logger.d("majin", "11111111111111");
         inbasebean = (CompletionQuestionModle) bundle.get("CompletionQuestionModle");
     }
 
@@ -223,6 +221,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     /*监听editext输入*/
     @Override
     public void submitEditextInfo(int selfposition) {
+        inbasebean.setAnswerflag("true");
         mAllMap.put(selfposition, mAllList.get(selfposition).getInputContainer());
         inbasebean.setmAllMap(mAllMap);
         submit.submitCompletionFragment(inbasebean);//通知activity这次的作答答案
@@ -233,6 +232,10 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     public void submitHomework(Object questionModle) {
         if (questionModle != null) {
             inbasebean = (CompletionQuestionModle) questionModle;
+              /*判断是否已经上传后台 0 没答过题  1 答过题*/
+            if (inbasebean.getIs_answer() != null && inbasebean.getIs_answer().equals("0")) {
+
+            }
         }
     }
 
