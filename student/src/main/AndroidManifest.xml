@@ -157,6 +157,26 @@
         <activity android:name=".ui.mine.setting.SetPassActivity"/>
         <!-- 设置账户 -->
         <activity android:name=".ui.mine.setting.SetPhoneActivity"/>
+        <!-- 作业详情 -->
+        <activity android:name=".ui.homework.homeworkdetails.HomedetailsActivity">
+        </activity>
+        <!-- 检查作业 -->
+        <activity android:name=".ui.homework.homeworkdetails.CheckHomeworkActivity">
+        </activity>
+        <!-- 答题卡 -->
+        <activity android:name=".ui.homework.homeworkdetails.AnswerCardActivity">
+        </activity>
+        <!-- 教材选择 -->
+        <activity android:name=".ui.study.ChoiceTeachingMaterialActivity"/>
+        <!-- 选择教材详情 -->
+        <activity android:name=".ui.study.ChoiceTeachingMaterialInfoActivity">
+        </activity>
+        <!-- 6大题型的学习首页 -->
+        <activity android:name=".ui.study.StudyDetailsActivity">
+        </activity>
+        <!-- 点读本 -->
+        <activity android:name=".ui.study.kinds.readingbook.ReadingBookActivity">
+        </activity>
         <activity
             android:name=".ui.mine.about.AllFounctionActivity"
             android:screenOrientation="portrait"
@@ -389,11 +409,9 @@
             android:name="com.fxtx.framework.image.MyGlideMoudle"
             android:value="GlideModule"/>
 
-        <activity android:name=".ui.homework.homeworkdetails.HomedetailsActivity">
+        <activity android:name=".ui.study.kinds.personalstereo.PersonalStereoActivity">
         </activity>
-        <activity android:name=".ui.homework.homeworkdetails.CheckHomeworkActivity">
-        </activity>
-        <activity android:name=".ui.homework.homeworkdetails.AnswerCardActivity">
+        <activity android:name=".ui.study.kinds.cardpractice.CardPracticeActivity">
         </activity>
     </application>
 

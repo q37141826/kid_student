@@ -22,10 +22,7 @@ import java.io.File;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.http.AttachmentFileUpdate;
-import cn.dajiahui.kid.http.DownloadFile;
 import cn.dajiahui.kid.http.OnAttachmentUpdate;
-import cn.dajiahui.kid.http.OnDownload;
-import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.http.bean.BeTeFile;
 import cn.dajiahui.kid.ui.mp3.bean.BeMp3;
 
@@ -124,7 +121,7 @@ public class Mp3Activity extends FxActivity {
                 file = new File(mp3.getFilePath());
                 if (!file.exists() || !file.isFile()) {
                     //执行下载方法
-                    initDownMp3();
+//                    initDownMp3();
                 } else {
                     audio.initAudio(file.getPath());
                     vTask.setProgress(mp3.getDuration());
@@ -135,29 +132,29 @@ public class Mp3Activity extends FxActivity {
                 }
             } else if (!StringUtil.isEmpty(mp3.getFileUrl())) {
                 //执行下载方法
-                initDownMp3();
+//                initDownMp3();
             }
         }
         initData();
     }
 
-    private void initDownMp3() {
-        BeDownFile file = new BeDownFile(mp3.getObjectId(), Constant.file_mp3, mp3.getFileUrl(), "录音");
-        new DownloadFile(this, file, false, new OnDownload() {
-            @Override
-            public void onDownload(String fileurl) {
-                startType = 1;
-                mp3.setFilePath(fileurl);
-                audio.initAudio(fileurl);
-                vTask.setProgress(audio.getAudioDuration());
-                if (isRecorder) {
-                    buttonView.setVisibility(View.VISIBLE);
-                }
-                Mp3Activity.this.file = new File(fileurl);
-                imStart.setImageResource(R.drawable.ico_mp3_b);
-            }
-        });
-    }
+//    private void initDownMp3() {
+//        BeDownFile file = new BeDownFile(mp3.getObjectId(), Constant.file_mp3, mp3.getFileUrl(), "录音");
+//        new DownloadFile(this, file, false, new OnDownload() {
+//            @Override
+//            public void onDownload(String fileurl) {
+//                startType = 1;
+//                mp3.setFilePath(fileurl);
+//                audio.initAudio(fileurl);
+//                vTask.setProgress(audio.getAudioDuration());
+//                if (isRecorder) {
+//                    buttonView.setVisibility(View.VISIBLE);
+//                }
+//                Mp3Activity.this.file = new File(fileurl);
+//                imStart.setImageResource(R.drawable.ico_mp3_b);
+//            }
+//        });
+//    }
 
     @Override
     public void finishActivity() {

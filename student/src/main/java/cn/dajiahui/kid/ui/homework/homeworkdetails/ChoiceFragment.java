@@ -36,11 +36,13 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
-        return inflater.inflate(R.layout.fr_choice, null);}
+        return inflater.inflate(R.layout.fr_choice, null);
+    }
 
     @Override
     public void setArguments(Bundle bundle) {
-        inbasebean = (ChoiceQuestionModle) bundle.get("ChoiceQuestionModle");}
+        inbasebean = (ChoiceQuestionModle) bundle.get("ChoiceQuestionModle");
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -48,38 +50,43 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         initialize();
 //        tv_choice.setText(inbasebean.getId() + "");
 
+        List<BeChoiceOptions> options = inbasebean.getOptions();
+
+
+
                   /*判断是否已经上传后台 0 没答过题  1 答过题*/
         if (inbasebean.getIs_answer().equals("0")) {
-            List<BeChoiceOptions> options = inbasebean.getOptions();
-            apChoice = new ApChoice(getActivity(), options);
-            mListview.setAdapter(apChoice);
+            apChoice = new ApChoice(getActivity(), options,inbasebean);
+
             mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(getActivity(), "选择" + (position + 1) + "答案", Toast.LENGTH_SHORT).show();
 
-//                    if (inbasebean.isAnswer() == false) {
-                        inbasebean.setChoiceitemposition(position);//保存选择题当前item的索引 用于 翻页回来后指定某个item选择状态
-                        apChoice.changeState(getActivity(), submit, position, inbasebean);
-
-//                    } else {
-//                        Toast.makeText(getActivity(), "已经答过题了", Toast.LENGTH_SHORT).show();
-
-//                        return;
-//                    }
+                    inbasebean.setChoiceitemposition(position);//保存选择题当前item的索引 用于 翻页回来后指定某个item选择状态
+                    apChoice.changeState(getActivity(), submit, position, inbasebean);
 
 
                 }
             });
         } else {
-
             /*上传答案回答过题了*/
 
 
+//             /*回答正确*/
+            if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
+
+                apChoice = new ApChoice(getActivity(), options, inbasebean,(Integer.parseInt(inbasebean.getMy_answer())-1));
+
+            } else {/*回答错误*/
+
+                apChoice = new ApChoice(getActivity(), options,  inbasebean ,(Integer.parseInt(inbasebean.getStandard_answer())-1));
+            }
 
 
         }
 
+        mListview.setAdapter(apChoice);
 
     }
 
@@ -152,7 +159,7 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
             inbasebean = (ChoiceQuestionModle) questionModle;
             if (inbasebean.getChoiceitemposition() >= 0) {
                 /*刷新翻页回来后 上次答题情况*/
-                apChoice.changeitemState(inbasebean, inbasebean.getChoiceitemposition(), mListview);
+                apChoice.changeitemState(inbasebean.getChoiceitemposition(), mListview);
             }
 
         }

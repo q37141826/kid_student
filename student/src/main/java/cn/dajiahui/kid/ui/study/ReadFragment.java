@@ -71,13 +71,13 @@ public class ReadFragment extends FxFragment implements View.OnTouchListener {
     @Override
     public void onStop() {
         super.onStop();
-//        Log.d("majin", " ReadFragment onStop");
+//        Log.d("majin", " ReadingBookFragment onStop");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-//        Log.d("majin", " ReadFragment onPause");
+//        Log.d("majin", " ReadingBookFragment onPause");
     }
 
 

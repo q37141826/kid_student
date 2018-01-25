@@ -1,7 +1,7 @@
 package cn.dajiahui.kid.http.bean;
 
 /**
- * Created by Administrator on 2016/4/10.
+ *
  */
 public class BeDownFile {
     private String materialId;//资料id
@@ -10,6 +10,15 @@ public class BeDownFile {
     private String fileUrl;//文件路径
     private String name; //文件名字
     private String locaUrl;//本地路径
+
+    /*下载点读运品*/
+    public BeDownFile( int fileType,String fileUrl, String name, String locaUrl) {
+        this.fileType=fileType;
+        this.fileUrl = fileUrl;
+        this.name = name;
+        this.locaUrl = locaUrl;
+
+    }
 
     public BeDownFile(String materialId, int fileType, String fileUrl, String name) {
         this.materialId = materialId;

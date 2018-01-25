@@ -17,6 +17,7 @@ import java.util.IdentityHashMap;
 
 import cn.dajiahui.kid.BuildConfig;
 import cn.dajiahui.kid.controller.UserController;
+import cn.dajiahui.kid.util.KidConfig;
 
 
 /**
@@ -68,8 +69,8 @@ public class RequestUtill {
 
     //下载资料文件
     public void downMaterialFile(Context context, String url, String fileName, ResultCallback callback) {
-        //文件名称 和文件地址
-        httpDownFile(context, url, callback, fileName, UserController.getInstance().getUserMaterial(context));
+        // url 文件地址  fileName文件名字   KidConfig.getInstance().getPathTemp() 文件本地路径
+        httpDownFile(context, url, callback, fileName, KidConfig.getInstance().getPathTemp());
     }
 
     /**

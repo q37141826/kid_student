@@ -22,13 +22,13 @@ public class CompletionQuestionModle extends QuestionModle {
     private String standard_answer;//参考答案
     private String title;
     private String unit_id;
-    private String is_answer;//是否作答
+    private String is_answer = "";//是否作答
     private String my_answer;//已经上传的作答答案
     private String is_right;//是否正确
     private String is_auto;//
 
-    private String  analysisAnswer="";//解析的正确答案
-    private String  analysisMineAnswer="";//解析的我的答案
+    private String analysisAnswer = "";//解析的正确答案
+    private String analysisMineAnswer = "";//解析的我的答案
     private String isFocusable = "";//editext焦点标记  yes 有焦点  no无焦点
     private String isShowRightAnswer = "";//显示正确答案 yes 显示正确答案  no不显示正确答案
     private String textcolor = "";//设置字体和边框颜色

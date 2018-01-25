@@ -1,9 +1,12 @@
 package cn.dajiahui.kid.http;
 
+import android.content.DialogInterface;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.http.ErrorCode;
 import com.fxtx.framework.http.OkHttpClientManager;
 import com.fxtx.framework.http.callback.ResultCallback;
@@ -11,22 +14,20 @@ import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.dialog.FxDialog;
+import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 import com.squareup.okhttp.Request;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
-import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.http.bean.BeDownFile;
-import cn.dajiahui.kid.ui.album.bean.BePhoto;
-import cn.dajiahui.kid.util.DjhJumpUtil;
+import cn.dajiahui.kid.util.KidConfig;
+import cn.dajiahui.kid.util.MD5;
 import cn.dajiahui.kid.util.OpFileUtil;
 
 
 /**
- * Created by Administrator on 2016/4/9.
  * 下载文件
  */
 public class DownloadFile {
@@ -46,32 +47,38 @@ public class DownloadFile {
         this.onDown = onDown;
         this.mContext = context;
         this.befile = befile;
-        if (befile.getFileType() == Constant.file_img) {
-            ArrayList<BePhoto> photos = new ArrayList<BePhoto>();
-            photos.add(new BePhoto(befile.getFileUrl(), befile.getFileUrl(), befile.getFileUrl()));
-            DjhJumpUtil.getInstance().startPhotoPageActivity(context, photos, 0, false);
-            return;
+        if (befile.getFileType() == Constant.file_pointreading) {
+//            /*做跳转处理*/
+//            ArrayList<BePhoto> photos = new ArrayList<BePhoto>();
+//            photos.add(new BePhoto(befile.getFileUrl(), befile.getFileUrl(), befile.getFileUrl()));
+//            DjhJumpUtil.getInstance().startPhotoPageActivity(context, photos, 0, false);
+//
+//            return;
         }
         if (StringUtil.isEmpty(befile.getFileUrl())) return;
         int index = befile.getFileUrl().lastIndexOf("/");
         if (index == -1) {
-            this.fileName = befile.getFileUrl();
+            this.fileName = MD5.getMD5(befile.getFileUrl());
+
         } else {
-            this.fileName = befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"));
+            this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp3";
+
         }
-        file = new File(UserController.getInstance().getUserMaterial(context) + fileName);
+        showfxDialog("下载中");
+        file = new File(KidConfig.getInstance().getPathTemp() + fileName);//参数文件名字
         if (file.exists()) {
             if (isDownLoad) {
                 file.delete();
                 downLoad(befile.getFileUrl(), fileName);
                 return;
             }
-            befile.setLocaUrl(file.getAbsolutePath());
+            befile.setLocaUrl(KidConfig.getInstance().getPathTemp());
             if (onDown != null) {
-                onDown.onDownload(befile.getLocaUrl());
-            } else {
-                OpFileUtil.openFile(mContext, befile);
+                onDown.onDownload(befile.getLocaUrl() + fileName, progressDialog);
             }
+//            else {
+//                OpFileUtil.openFile(mContext, befile);
+//            }
         } else {
             downLoad(befile.getFileUrl(), fileName);
         }
@@ -90,39 +97,79 @@ public class DownloadFile {
      * @param url
      * @param fileName
      */
-    public void downLoad(String url, String fileName) {
+    public void downLoad(String url, final String fileName) {
         if (!url.startsWith("http://")) {
             url = RequestUtill.getInstance().getFileUrl() + url;
         }
-        initDownDialog();
+
         RequestUtill.getInstance().downMaterialFile(mContext, url, fileName, new ResultCallback() {
+
             @Override
             public void onError(Request request, Exception e) {
-                mContext.dismissfxDialog();
+                dismissfxDialog(0);
                 if (file.exists()) file.delete();
                 ToastUtil.showToast(mContext, ErrorCode.error(e));
             }
 
             @Override
             public void onResponse(String response) {
-                mContext.dismissfxDialog();
-                befile.setLocaUrl(file.getAbsolutePath());
+
+                befile.setLocaUrl(KidConfig.getInstance().getPathTemp());
+                /*复制文件到 pathPointRedaing*/
+                FileUtil.copy(KidConfig.getInstance().getPathTemp(), KidConfig.getInstance().getPathPointRedaing());
                 if (onDown != null) {
-                    onDown.onDownload(befile.getLocaUrl());
+                    onDown.onDownload(befile.getLocaUrl() + fileName, progressDialog);
                 } else {
                     OpFileUtil.openFile(mContext, befile);
                 }
-                dialog.dismiss();
-                ToastUtil.showToast(mContext, "下载成功保存到" + file.getAbsolutePath());
+//                dialog.dismiss();
+//                ToastUtil.showToast(mContext, "下载成功保存到" + KidConfig.getInstance().getPathTemp());
             }
 
             @Override
             public void inProgress(float progress) {
                 super.inProgress(progress);
-                if (progressBar != null)
-                    progressBar.setProgress((int) (progress * 100.f));
+
+//                if (progressBar != null)
+//                    progressBar.setProgress((int) (progress * 100.f));
             }
         });
+    }
+
+    private FxProgressDialog progressDialog;
+    protected final int PROGRESS_BACK = -1;
+
+    public void showfxDialog(Object title) {
+
+        if (progressDialog == null) {
+            progressDialog = new FxProgressDialog(mContext);
+            progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                        //点击返回
+                        dismissfxDialog(PROGRESS_BACK);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
+        if (title != null) {
+            if (title instanceof String) {
+                progressDialog.setTextMsg((String) title);
+            } else {
+                progressDialog.setTextMsg((Integer) title);
+            }
+        }
+        progressDialog.show();
+    }
+
+    protected void dismissfxDialog(int flag) {
+
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     private FxDialog dialog;

@@ -20,6 +20,7 @@ import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
 import cn.dajiahui.kid.ui.homework.view.HorizontalListView;
+import cn.dajiahui.kid.util.Logger;
 
 
 /**
@@ -32,13 +33,14 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     private TextView tvcompletion;
     private ImageView imgplay;
     private ImageView imgconment;
-    private RelativeLayout relaroot, horlistviewroot;
+    private RelativeLayout horlistviewroot;
     /////////////////
     private List<HorizontallListViewAdapter> mAllList = new ArrayList<>();//装每个HorizontalListView的适配器
     private List<HorizontalListView> mAllHorizontalListView = new ArrayList<>();//装每个HorizontalListView的适配器
     private Map<Integer, Map<Integer, Object>> mAllMap = new HashMap<>();//存所有答案的集合
 
     private int mTop = 0;//初始距离上端
+    private int mTop1 = 0;//初始距离上端
     private Map<Integer, Object> integerObjectMap;
     private List<CompletionQuestionModle> rightanswer = new ArrayList<>();
     ;//正确答案
@@ -78,10 +80,9 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
 
            /*判断是否已经上传后台 0 没答过题  1 答过题*/
-        if (inbasebean.getIs_answer().equals("0")) {
+        if (inbasebean.getIs_answer().equals("1")) {
 
 
-        } else {
             inbasebean.setIsFocusable("false");
             inbasebean.setIsShowRightAnswer("yes");
             for (int a = 0; a < myanswer.size(); a++) {
@@ -90,6 +91,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
                     rightanswer.get(a).setTextcolor("green");
                 }
             }
+
         }
          /* size 填写有几道填空题 后台提供*/
         addHorizontalListView(3);
@@ -132,8 +134,12 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
             } else {
                 if (inbasebean.getmAllMap().get(i) != null) {
+                    Logger.d("-------1---- " + inbasebean.getmAllMap().size());
+                    Logger.d("-------11---- " + inbasebean.getmAllMap().toString());
                     integerObjectMap = inbasebean.getmAllMap().get(i);
+
                 } else {
+                    Logger.d("-------55555555555---- ");
                     integerObjectMap = new HashMap<Integer, Object>();
                 }
 
@@ -213,7 +219,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         tvcompletion = getView(R.id.tv_completion);
         imgplay = getView(R.id.img_play);
         imgconment = getView(R.id.img_conment);
-        relaroot = getView(R.id.relaroot);
+
         horlistviewroot = getView(R.id.horlistviewroot);
         imgplay.setOnClickListener(this);
     }
@@ -232,10 +238,8 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     public void submitHomework(Object questionModle) {
         if (questionModle != null) {
             inbasebean = (CompletionQuestionModle) questionModle;
+            Logger.d("-------33---- " + inbasebean.getmAllMap().size());
               /*判断是否已经上传后台 0 没答过题  1 答过题*/
-            if (inbasebean.getIs_answer() != null && inbasebean.getIs_answer().equals("0")) {
-
-            }
         }
     }
 

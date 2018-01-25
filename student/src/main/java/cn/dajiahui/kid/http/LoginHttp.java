@@ -20,6 +20,7 @@ import cn.dajiahui.kid.ui.chat.constant.ImHelper;
 import cn.dajiahui.kid.ui.chat.constant.PreferenceManager;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.util.DjhJumpUtil;
+import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.SpUtil;
 
@@ -57,6 +58,7 @@ public class LoginHttp {
             public void onResponse(String response) {
                 HeadJson json = new HeadJson(response);
                 Logger.d( "登录成功：" + json);
+
                 if (json.getstatus() == 0) {
                     BeUser temp = json.parsingObject(BeUser.class);
 
@@ -71,7 +73,8 @@ public class LoginHttp {
                     UserController.getInstance().getUser().setPwd(pwd);
                     spUtil.setLogin(user, pwd);
                     spUtil.setUser(temp);
-
+                    KidConfig.getInstance().init();//初始化文件夹
+                    KidConfig.getInstance().initUserConfig(user);
                     // 判断是否有沟通模块存在，存在 再对环信登录进行判断
                     if (UserController.getInstance().getUserAuth().isMsn) {
                         if (ImHelper.getInstance().isLoggedIn()) {

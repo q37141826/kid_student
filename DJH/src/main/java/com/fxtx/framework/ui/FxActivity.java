@@ -197,13 +197,29 @@ public abstract class FxActivity extends AppCompatActivity {
             });
         }
     }
-
+    /*右上角 加图片*/
     public void onRightBtn(int drawableId, int textId) {
         if (toolbar != null) {
             TextView tv = getView(R.id.tool_right);
             tv.setText(textId);
             tv.setVisibility(View.VISIBLE);
             tv.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onRightBtnClick(v);
+                }
+            });
+        }
+    }
+
+    /*右上角 不加图片*/
+    public void onRightBtn(int textId) {
+        if (toolbar != null) {
+            TextView tv = getView(R.id.tool_right);
+            tv.setText(textId);
+            tv.setVisibility(View.VISIBLE);
+
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

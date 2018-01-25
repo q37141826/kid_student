@@ -29,6 +29,9 @@ public class Constant {
     public static final int file_paper = 7; //试卷
     public static final int file_wps = 8; //wps
 
+    /*魔耳点读*/
+    public static final int file_pointreading = 1; //点读一品
+
 
     /**
      * 通过我的班级列表进入的
@@ -116,7 +119,13 @@ public class Constant {
     public static final String Line = "4";
     public static final String Completion = "5";
 
-
+    /*画线路径*/
     public static final Point PointZero = new Point(0, 0);
+
+    /*选择教材*/
+    public static final int GOCHOICETEACHINGMATERIAL = 9;
+    public static final int CHOICETEACHINGMATERIAL = 10;
+    public static final int CHOICETEACHINGMATERIALINFO = 11;
+
 
 }

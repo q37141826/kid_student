@@ -201,31 +201,33 @@ public class LineFragment extends BaseHomeworkFragment implements
                     if (inbasebean.getIs_answer().equals("1")) {
                         mLeft.setText("我的答案");
 
-                  /*获取json解析的我的答案*/
+                            /*获取json解析的我的答案*/
                         if (ponitViewXY.size() == (leftViews.size() * 2) && inbasebean.getMy_answer() != null && inbasebean.getIs_answer().equals("1")) {
                             String my_answer = inbasebean.getMy_answer();
 
                             String substringmyanswer = my_answer.substring(1, (my_answer.length() - 1));
                             String[] strs = substringmyanswer.split(",");
-                    /*截取字符串*/
+                             /*截取字符串*/
                             for (int i = 0, len = strs.length; i < len; i++) {
                                 String split = strs[i].toString();
                                 substringMineList.add(split);
                             }
-                         /*二次截取 获取答案 获取 */
+                             /*二次截取 获取答案 获取 */
                             for (int l = 0; l < substringMineList.size(); l++) {
                                 String split1 = substringMineList.get(l).toString().substring(0, 1);
                                 mLeftMineAnswerList.add(split1);
                                 String split2 = substringMineList.get(l).toString().substring(2);
                                 mRightMineAnswerList.add(split2);
                             }
-                      /*获取我的答案的 坐标点*/
+                            /*获取我的答案的 坐标点*/
                             for (int m = 0; m < mLeftAnswerList.size(); m++) {
                                 Point pointL = ponitViewXY.get(mLeftMineAnswerList.get(m));
                                 mMineLPonitList.add(pointL);
                                 Point pointR = ponitViewXY.get(mRightMineAnswerList.get(m));
                                 mMineRPonitList.add(pointR);
                             }
+                            /*显示我的答案*/
+                            showMineAnswer();
                         }
                     }
                 }
@@ -273,6 +275,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                 }
             }
         });
+
 
 
     }
@@ -435,32 +438,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                 playMp3("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3");
                 break;
             case R.id.mLeft:
-                if (inbasebean != null && inbasebean.getIs_answer().equals("1")) {
-                    mLeft.setTextColor(getResources().getColor(R.color.white));
-                    mLeft.setBackgroundResource(R.color.btn_green_noraml);
-                    mRight.setTextColor(getResources().getColor(R.color.btn_green_noraml));
-                    mRight.setBackgroundResource(R.color.white);
-                 /*可以更新小点颜色*/
-                    leftViews.get(1).pointview.setcolor(getResources().getColor(R.color.red));
-                    leftViews.get(1).pointview.refreshPonitColor();
-                    drawPathList.clear();
-                /*条件换成从后台返回是否作答标记*/
-
-                    draw_root.removeAllViews();
-                    for (int n = 0; n < mMineRPonitList.size(); n++) {
-                        DrawPath drawPath = new DrawPath(mMineRPonitList.get(n), mMineLPonitList.get(n));
-                        DrawView drawView = new DrawView(getActivity());
-                        drawView.DrawViewOnback(drawPath);
-                        drawPathList.add(drawPath);
-                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
-                        draw_root.addView(drawView, params);
-                    }
-
-                    inbasebean.setDrawPathList(drawPathList);
-                    submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
-
-//                    Toast.makeText(activity, "我的答案", Toast.LENGTH_SHORT).show();
-                }
+                showMineAnswer();
 
                 break;
             case R.id.mRight:
@@ -532,7 +510,34 @@ public class LineFragment extends BaseHomeworkFragment implements
         mediaPlayer.stop();
     }
 
+    /*我的答案*/
+    public void showMineAnswer() {
+        if (inbasebean != null && inbasebean.getIs_answer().equals("1")) {
+            mLeft.setTextColor(getResources().getColor(R.color.white));
+            mLeft.setBackgroundResource(R.color.btn_green_noraml);
+            mRight.setTextColor(getResources().getColor(R.color.btn_green_noraml));
+            mRight.setBackgroundResource(R.color.white);
+                 /*可以更新小点颜色*/
+            leftViews.get(1).pointview.setcolor(getResources().getColor(R.color.red));
+            leftViews.get(1).pointview.refreshPonitColor();
+            drawPathList.clear();
 
+            draw_root.removeAllViews();
+            for (int n = 0; n < mMineRPonitList.size(); n++) {
+                DrawPath drawPath = new DrawPath(mMineRPonitList.get(n), mMineLPonitList.get(n));
+                DrawView drawView = new DrawView(getActivity());
+                drawView.DrawViewOnback(drawPath);
+                drawPathList.add(drawPath);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
+                draw_root.addView(drawView, params);
+            }
+
+            inbasebean.setDrawPathList(drawPathList);
+            submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
+
+//                    Toast.makeText(activity, "我的答案", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 
 

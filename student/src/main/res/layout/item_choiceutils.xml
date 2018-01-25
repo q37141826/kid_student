@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/id_item_select"
+    android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_height="50dp">
+
+    <ImageView
+        android:id="@+id/id_itemimage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/textpadding"
+        android:layout_marginRight="10dp"
+        android:background="@null"
+        android:clickable="false"
+        android:src="@drawable/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/tv_utilName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/id_itemimage"
+        android:singleLine="true"
+        android:text="Until1 frist to school"
+        android:textColor="@color/color5A"
+        android:textSize="@dimen/text18"/>
+<!---->
+    <cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar
+        android:id="@+id/seek_item"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_utilName"
+        android:layout_toEndOf="@+id/id_itemimage"/>
+
+    <TextView
+        android:id="@+id/tv_utilstudy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:drawableRight="@drawable/ico_to"
+        android:padding="12dp"
+        android:singleLine="true"
+        android:textColor="@color/color5A"
+        android:textSize="@dimen/text18"/>
+</RelativeLayout>

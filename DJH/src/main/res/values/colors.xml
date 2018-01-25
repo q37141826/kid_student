@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_bg">#50D2C2</color>
+    <color name="app_bg">#ff7306</color>
     <color name="app_bg_a">#A8E9E1</color>
     <color name="transparent">#00000000</color>
     <color name="subtransparent">#30000000</color>

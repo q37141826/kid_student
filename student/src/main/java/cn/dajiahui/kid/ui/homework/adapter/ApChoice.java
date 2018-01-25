@@ -20,8 +20,8 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BeChoiceOptions;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
-import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.ui.homework.homeworkdetails.ChoiceFragment;
+import cn.dajiahui.kid.util.Logger;
 
 /**
  * 选择题
@@ -32,12 +32,24 @@ public class ApChoice extends BaseAdapter {
     private List<BeChoiceOptions> mPptions;
     private Context context;
     private LayoutInflater mInflater;
+    private ChoiceQuestionModle inbasebean;
+    int currentposition = -1;
 
-
-    public ApChoice(Context context, List<BeChoiceOptions> mPptions) {
+    /*is_answer=0*/
+    public ApChoice(Context context, List<BeChoiceOptions> mPptions, ChoiceQuestionModle inbasebean) {
         this.mPptions = mPptions;
         this.context = context;
+        this.inbasebean = inbasebean;
         mInflater = LayoutInflater.from(context);
+    }
+
+    /*is_answer=1*/
+    public ApChoice(Context context, List<BeChoiceOptions> mPptions, ChoiceQuestionModle inbasebean, int currentposition) {
+        this.mPptions = mPptions;
+        this.context = context;
+        this.currentposition = currentposition;
+        this.inbasebean = inbasebean;
+        this.mInflater = LayoutInflater.from(context);
     }
 
 
@@ -62,19 +74,17 @@ public class ApChoice extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-//            Logger.d("mPptions.get(position).getType():"+mPptions.get(position).getType());
+
             /*区别答案的类型*/
             if (mPptions.get(position).getType().equals("1")) {//文字答案
-            convertView = mInflater.inflate(R.layout.item_choicetext, null);
-            //把convertView中的控件保存到viewHolder中
+                convertView = mInflater.inflate(R.layout.item_choicetext, null);
+                //把convertView中的控件保存到viewHolder中
 //            holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
-            holder.img_rightchoice = (ImageView) convertView.findViewById(R.id.img_rightchoice);
-            holder.tv_answer = (TextView) convertView.findViewById(R.id.tv_answer);
-            holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
+                holder.img_rightchoice = (ImageView) convertView.findViewById(R.id.img_rightchoice);
+                holder.tv_answer = (TextView) convertView.findViewById(R.id.tv_answer);
+                holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
 
-            }
-
-            else {//图片答案
+            } else {//图片答案
                 convertView = mInflater.inflate(R.layout.item_choicepic, null);
                 //把convertView中的控件保存到viewHolder中
 //                holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
@@ -87,9 +97,7 @@ public class ApChoice extends BaseAdapter {
             if (mPptions.get(position).getType().equals("1")) {//文字答案
                 holder.tv_answer.setText(mPptions.get(position).getLabel());
 
-            }
-
-            else {
+            } else {
                 Glide.with(context)
                         .load(mPptions.get(position).getContent())
                         .asBitmap()
@@ -107,12 +115,22 @@ public class ApChoice extends BaseAdapter {
         if (selectorPosition == position) {
 //            holder.img_choice.setImageResource(R.drawable.ico_im_ok);
             holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);
-
-
         } else {
             //其他的恢复原来的状态
 //            holder.img_choice.setImageResource(R.drawable.ico_im_not);
             holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);
+        }
+
+
+        if (inbasebean.getIs_answer().equals("1")) {
+            Logger.d("");
+            if (currentposition == position) {
+                   /*正確的*/
+                holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);
+            } else {
+                /*错误的*/
+                holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);
+            }
 
         }
 
@@ -135,27 +153,27 @@ public class ApChoice extends BaseAdapter {
 
 
     @SuppressLint("ResourceAsColor")
-    public void changeitemState(QuestionModle questionModle, int posi, ListView listView) {
+    public void changeitemState(int posi, ListView listView) {
 
         ViewHolder holder = null;
         int visibleFirstPosi = listView.getFirstVisiblePosition();
         int visibleLastPosi = listView.getLastVisiblePosition();
 
-        /* item 学生作答正确  正确答案 画绿色背景    其余错误的答案画红色背景 */
+        /* item 学生作答正确  正确答案 画黄色背景    其余错误的答案画红色背景 */
         if (posi >= visibleFirstPosi && posi <= visibleLastPosi) {
             View view = listView.getChildAt(posi - visibleFirstPosi);
             holder = (ViewHolder) view.getTag();
 
-         holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);//给正确答案外边画个框框
-        } else {
+            holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);//给正确答案外边画个框框
 
+        } else {
 
             holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);//给正确答案外边画个框框
 
         }
 
-    }
 
+    }
 
     class ViewHolder {
         public ImageView img_answer;

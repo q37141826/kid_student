@@ -26,7 +26,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
     private final SubmitEditext submitEditext;
     private MyFoucus myFoucus;
     private EditChangedListener editChangedListener;//editext监听器
-    private Map<Integer, Object> inputContainer;// = new HashMap<Integer, Object>();//存editext的集合
+    public Map<Integer, Object> inputContainer;// = new HashMap<Integer, Object>();//存editext的集合
     private Map<Integer, CompletionQuestionModle> mList;
     private int selfposition;//HorizontallList在碎片中的索引（用于取出当前的HorizontallList）
     private String haveFocus = "";//用于网络请求后清空editext所有焦点
@@ -102,12 +102,13 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
         holderView.editext.removeTextChangedListener(editChangedListener);
 
-        if (inputContainer.containsKey(position)) {
-            holderView.editext.setText(inputContainer.get(position).toString());
-        } else {
-            holderView.editext.setText("");
+        if (inputContainer != null) {
+            if (inputContainer.containsKey(position)) {
+                holderView.editext.setText(inputContainer.get(position).toString());
+            } else {
+                holderView.editext.setText("");
+            }
         }
-
 
         if (IsShowRightAnswer.equals("no")) {
             /*不显示正确答案*/

@@ -332,9 +332,6 @@ public class SortFragment extends BaseHomeworkFragment implements
                             mMineAnswerMap.put(indexOf, beLocation);
                             submit.submitSoreFragment(inbasebean);
 
-                            Logger.d("替换上一个" + indexOf + "   beLocation" + beLocation);
-
-
                         }
                     }
                 /*获取右视图坐标点*/
@@ -392,16 +389,16 @@ public class SortFragment extends BaseHomeworkFragment implements
     @Override
     public void submitHomework(Object questionModle) {
         inbasebean = (SortQuestionModle) questionModle;
-        Logger.d(" -------------------------------1");
+
         if (inbasebean != null) {
-            Logger.d(" -------------------------------2");
+
            /*条件换成后台的是否作答标记*/
             if (inbasebean.getIs_answer().equals("0")) {
-                Logger.d(" -------------------------------3");
+
                  /*获取复原的数据集合*/
                 Map<Integer, BeLocation> sortAnswerMap = inbasebean.getSortAnswerMap();
                 if (sortAnswerMap.size() > 0) {
-                    Logger.d(" -------------------------------4");
+
                    /*自己答题 非网络请求*/
                     for (int a = 0; a < leftViews.size(); a++) {
                         BeLocation beLocation = sortAnswerMap.get(a );
@@ -439,9 +436,6 @@ public class SortFragment extends BaseHomeworkFragment implements
 
 
                 Toast.makeText(activity, "排序正确答案", Toast.LENGTH_SHORT).show();
-//                if (inbasebean.isAnswer() == true) {
-//
-//                }
                 break;
             case R.id.sort_img_play:
                 playMp3("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3");

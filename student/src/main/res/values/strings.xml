@@ -236,6 +236,8 @@
     <string name="tv_auditok">审核成功</string>
     <string name="re_apply">确定要重新提交申请吗？</string>
     <string name="addclass">添加班级</string>
+    <string name="choicebook">教材选择</string>
+
     <!--班级申请 end -->
 
     <!--我的 start -->
@@ -297,6 +299,8 @@
     <string name="show_pointright">show_pointright</string>
     <string name="imgring">imgring</string>
     <string name="imgline">imgline </string>
+    <string name="card_imgage">cardimgage</string>
+    <string name="card_textview">cardtextview</string>
     <!--我的 end -->
 
     <!--意见反馈start -->
@@ -393,7 +397,7 @@
     <string name="not_meterial">暂无资料</string>
     <string name="user_index_pop_all">全部</string>
     <string name="class_name">班级名</string>
-    <string name="play">视频播放</string>
+    <string name="play">播放</string>
     <string name="change_pwd">是否更改密码?</string>
     <string name="lesson_over_str">课程结束后，才能评价</string>
     <string name="fx_report">学情报告</string>
@@ -405,4 +409,8 @@
     <string name="fx_student_num"><![CDATA[学生数:%1$s]]></string>
     <string name="fx_see_num"><![CDATA[已看人数:%1$s]]></string>
     <string name="fx_unsee_num"><![CDATA[未看人数:%1$s]]></string>
+    <!--<string name="title_activity_choice_teaching_material">ChoiceTeachingMaterialActivity</string>-->
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
