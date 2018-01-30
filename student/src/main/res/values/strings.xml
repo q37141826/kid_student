@@ -14,7 +14,7 @@
     <!--app应用文字-->
 
     <!--作业文字start-->
-    <string name="tab_homework">作业</string>
+    <string name="tab_homework">首页</string>
     <string name="tab_study">自学</string>
     <string name="tab_chat">消息</string>
     <string name="tab_mine">我的</string>
@@ -301,6 +301,7 @@
     <string name="imgline">imgline </string>
     <string name="card_imgage">cardimgage</string>
     <string name="card_textview">cardtextview</string>
+    <string name="study_pratice">练习</string>
     <!--我的 end -->
 
     <!--意见反馈start -->

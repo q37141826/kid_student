@@ -1,4 +1,4 @@
-package cn.dajiahui.kid.ui.study;
+package cn.dajiahui.kid.ui.study.kinds.cardpractice;
 
 import android.graphics.Camera;
 import android.graphics.Matrix;
@@ -7,7 +7,9 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
 /**
- * Created by lenovo on 2018/1/25.
+ * Created by majin on 2018/1/25.
+ *
+ * 卡片练习的动画类
  */
 
 public class Rotate3dAnimation extends Animation {

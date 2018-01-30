@@ -28,6 +28,18 @@ public class JudjeQuestionModle extends QuestionModle {
 
     private String  judgeAnswerFlag="";//判断题答案标志
 
+    private String pratice_answer="";//练习题自己作答答案
+
+    public String getPratice_answer() {
+        return pratice_answer;
+    }
+
+    public void setPratice_answer(String pratice_answer) {
+        this.pratice_answer = pratice_answer;
+    }
+
+
+
     public String getJudgeAnswerFlag() {
         return judgeAnswerFlag;
     }

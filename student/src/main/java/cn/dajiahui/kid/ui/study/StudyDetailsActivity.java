@@ -16,6 +16,7 @@ import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.http.DownloadFile;
 import cn.dajiahui.kid.http.OnDownload;
 import cn.dajiahui.kid.http.bean.BeDownFile;
+import cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity;
 import cn.dajiahui.kid.ui.study.adapter.ApChoiceStudy;
 import cn.dajiahui.kid.ui.study.bean.BeChoiceStudy;
 import cn.dajiahui.kid.ui.study.kinds.cardpractice.CardPracticeActivity;
@@ -69,22 +70,31 @@ public class StudyDetailsActivity extends FxActivity {
 
                 switch (list.get(position).getType()) {
 
-                    case "1":
+                    case Constant.READINGBOOK:
                         initDownMp3();
                         break;
-                    case "2":
+                    case Constant.TEXTBOOKPLAY:
 
                         break;
-                    case "3":
+                    case Constant.KARAOKE:
 
                         break;
-                    case "4":
+                    case Constant.CAREDPRATICE:
 
                         DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, CardPracticeActivity.class);
 
                         break;
-                    case "5":
+                    case Constant.PERSONALSTEREO:
                         DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, PersonalStereoActivity.class);
+
+                        break;
+                    case Constant.PRATICE:
+                        /*练习与作业复用一个activity*/
+
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("SourceFlag", "Practice");
+                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, DoHomeworkActivity.class, bundle, 0);
 
                         break;
 

@@ -77,7 +77,7 @@ public class SortFragment extends BaseHomeworkFragment implements
     private ImageView sort_img_play;//播放器按钮
 
 
-    private  Map<Integer, BeLocation> mMineAnswerMap=new HashMap<>();//（isanswer=0）
+    private Map<Integer, BeLocation> mMineAnswerMap = new HashMap<>();//（isanswer=0）
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
 
@@ -133,6 +133,13 @@ public class SortFragment extends BaseHomeworkFragment implements
                                 msg3.what = GETRIGHTANSWER;
                                 handler.sendMessage(msg3);
                             }
+                            /*练习模块正确答案准备数据*/
+                            if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+                                Message msg3 = Message.obtain();
+                                msg3.what = GETRIGHTANSWER;
+                                handler.sendMessage(msg3);
+                            }
+
                         }
                     }
                     break;
@@ -157,7 +164,9 @@ public class SortFragment extends BaseHomeworkFragment implements
                 case GETRIGHTANSWER://正确答案
 
                     if (sortRightAnswerMap.size() > 0) {
-                        mRight.setText("正确答案");
+                        if (inbasebean.getIs_answer().equals("1")) {//作业模块submit提交之后
+                            mRight.setText("正确答案");
+                        }
                         for (int a = 0; a < sortRightAnswerMap.size(); a++) {
                            /*循环取出*/
                             BeLocation beLocation = sortRightAnswerMap.get(a + 1);
@@ -207,6 +216,18 @@ public class SortFragment extends BaseHomeworkFragment implements
         if (inbasebean.getIs_answer().equals("1")) {
             addGroupRightImage(inbasebean.getOptions().size(), relaroot);
         }
+
+        /*练习模块添加正确答案view  要隐藏*/
+        if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+            addGroupRightImage(inbasebean.getOptions().size(), relaroot);
+            if (showRightViews.size() == inbasebean.getOptions().size()) {
+            /*隐藏左右view*/
+                for (int i = 0; i < showRightViews.size(); i++) {
+                    showRightViews.get(i).setVisibility(View.INVISIBLE);
+                }
+            }
+        }
+
 
         /*监听 relaroot 上的子视图绘制完成*/
         ViewTreeObserver observer = relaroot.getViewTreeObserver();
@@ -357,7 +378,7 @@ public class SortFragment extends BaseHomeworkFragment implements
 
                     inbasebean.setAnswerflag("true");//答题标志
                     submit.submitSoreFragment(inbasebean);//告诉活动每次连线的数据
-                 /****************************************************第一次返回的坐标有问题*/
+                    /****************************************************第一次返回的坐标有问题*/
 //                    Logger.d("回到原来位置 "+indexOf + "   beLocation" + beLocation);
                 }
             }
@@ -391,26 +412,50 @@ public class SortFragment extends BaseHomeworkFragment implements
         inbasebean = (SortQuestionModle) questionModle;
 
         if (inbasebean != null) {
+            /*作业翻页回来会走 submitHomework*/
+            if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
 
-           /*条件换成后台的是否作答标记*/
-            if (inbasebean.getIs_answer().equals("0")) {
+            /*条件换成后台的是否作答标记*/
+                if (inbasebean.getIs_answer().equals("0")) {
 
                  /*获取复原的数据集合*/
-                Map<Integer, BeLocation> sortAnswerMap = inbasebean.getSortAnswerMap();
-                if (sortAnswerMap.size() > 0) {
+                    Map<Integer, BeLocation> sortAnswerMap = inbasebean.getSortAnswerMap();
+                    if (sortAnswerMap.size() > 0) {
 
-                   /*自己答题 非网络请求*/
-                    for (int a = 0; a < leftViews.size(); a++) {
-                        BeLocation beLocation = sortAnswerMap.get(a );
-                        MoveImagview moveImagview = leftViews.get(a);
-                        moveImagview.refreshLocation(beLocation);
-                        mMineAnswerMap.put(a, beLocation);
+                        /*自己答题 非网络请求*/
+                        for (int a = 0; a < leftViews.size(); a++) {
+                            BeLocation beLocation = sortAnswerMap.get(a);
+                            MoveImagview moveImagview = leftViews.get(a);
+                            moveImagview.refreshLocation(beLocation);
+                            mMineAnswerMap.put(a, beLocation);
+                        }
                     }
-                }
-            } else {
+                } else {
 
 //                leftViews.get(a).lockMoveImage(inbasebean);
+                }
+
             }
+            /*练习check之后会走 submitHomework*/
+            else if (DoHomeworkActivity.sourceFlag.equals("Practice") && inbasebean.getAnswerflag().equals("true")) {
+
+                Map<Integer, BeLocation> mPsortAnswerMap = inbasebean.getSortAnswerMap();//练习模块我的答案
+                    /*自己答题 非网络请求*/
+                for (int a = 0; a < leftViews.size(); a++) {
+                    BeLocation beLocation = mPsortAnswerMap.get(a);
+                    MoveImagview moveImagview = leftViews.get(a);
+                    moveImagview.refreshLocation(beLocation);
+                    mMineAnswerMap.put(a, beLocation);
+                }
+
+
+                   /*显示正确答案按钮*/
+                for (int i = 0; i < showRightViews.size(); i++) {
+                    showRightViews.get(i).setVisibility(View.VISIBLE);
+                }
+
+            }
+
         }
     }
 
@@ -420,19 +465,19 @@ public class SortFragment extends BaseHomeworkFragment implements
 
         switch (v.getId()) {
             case R.id.mLeft:
-                mLeft.setTextColor(getResources().getColor(R.color.white));
-                mLeft.setBackgroundResource(R.color.btn_green_noraml);
-                mRight.setTextColor(getResources().getColor(R.color.btn_green_noraml));
-                mRight.setBackgroundResource(R.color.white);
+//                mLeft.setTextColor(getResources().getColor(R.color.white));
+//                mLeft.setBackgroundResource(R.color.btn_green_noraml);
+//                mRight.setTextColor(getResources().getColor(R.color.btn_green_noraml));
+//                mRight.setBackgroundResource(R.color.white);
 
 
-                Toast.makeText(activity, "排序我的答案", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(activity, "排序我的答案", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.mRight:
-                mRight.setTextColor(getResources().getColor(R.color.white));
-                mRight.setBackgroundResource(R.color.btn_green_noraml);
-                mLeft.setTextColor(getResources().getColor(R.color.btn_green_noraml));
-                mLeft.setBackgroundResource(R.color.white);
+//                mRight.setTextColor(getResources().getColor(R.color.white));
+//                mRight.setBackgroundResource(R.color.btn_green_noraml);
+//                mLeft.setTextColor(getResources().getColor(R.color.btn_green_noraml));
+//                mLeft.setBackgroundResource(R.color.white);
 
 
                 Toast.makeText(activity, "排序正确答案", Toast.LENGTH_SHORT).show();

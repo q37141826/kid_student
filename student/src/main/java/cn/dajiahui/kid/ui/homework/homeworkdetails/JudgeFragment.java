@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
+import cn.dajiahui.kid.util.Logger;
 
 
 /**
@@ -43,6 +44,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialize();
+
         /*加载正确答案按钮图片*/
         Glide.with(getActivity())
                 .load(inbasebean.getOptions().get(0).getContent())
@@ -55,16 +57,17 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgfasle);
+        /*作业模式*/
+        if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+            if (inbasebean.getIs_answer().equals("1")) {
+               /*回答正确*/
+                if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
+                    imgtrue.setBackgroundResource(R.drawable.select_judge_image);
+                } else {
+                    imgfasle.setBackgroundResource(R.drawable.select_judge_image);
+                }
 
-        if (inbasebean.getIs_answer().equals("1")) {
-            /*回答正确*/
-            if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
-                imgtrue.setBackgroundResource(R.drawable.select_judge_image);
-            } else {
-                imgfasle.setBackgroundResource(R.drawable.select_judge_image);
             }
-
-
         }
 //        tv_judge.setText(inbasebean.getId() + "");
     }
@@ -84,11 +87,12 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         imgtrue = getView(R.id.img_true);
         imgfasle = getView(R.id.img_fasle);
         img_play = getView(R.id.img_play);
+        imgtrue.setOnClickListener(onClick);
+        imgfasle.setOnClickListener(onClick);
+        img_play.setOnClickListener(onClick);
         /*判断是否已经上传后台 0 没答过题  1 答过题*/
         if (inbasebean.getIs_answer().equals("0")) {
-            imgtrue.setOnClickListener(onClick);
-            imgfasle.setOnClickListener(onClick);
-            img_play.setOnClickListener(onClick);
+
         } else {// 更改两个选择按钮的样式
             /*获取我的答案 后台提供*/
             String my_answer = inbasebean.getMy_answer();
@@ -127,32 +131,42 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                     break;
                 case R.id.img_true:
                     if (inbasebean != null) {
+                        if (inbasebean.isAnswer() == false) {
                         /*正确 错误答案添加背景遮罩*/
-                        imgtrue.setBackgroundResource(R.drawable.select_judge_image);
-                        imgfasle.setBackgroundResource(R.drawable.noselect_judge_image);
-//                        if (inbasebean.isAnswer() == false) {
+                            imgtrue.setBackgroundResource(R.drawable.select_judge_image);
+                            imgfasle.setBackgroundResource(R.drawable.noselect_judge_image);
 
-                        Toast.makeText(activity, "正确", Toast.LENGTH_SHORT).show();
-                        inbasebean.setJudgeAnswerFlag("mtrue");//正确回答标志
-                        inbasebean.setSubmitAnswer("true");//学生答题答案
-                        inbasebean.setAnswerflag("true");
-                        submit.submitJudgeFragment(inbasebean);
-//                        } else {
+                            if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+                                inbasebean.setPratice_answer("1");
+                            }
+
+                            Toast.makeText(activity, "正确", Toast.LENGTH_SHORT).show();
+                            inbasebean.setJudgeAnswerFlag("mtrue");//正确回答标志
+                            inbasebean.setSubmitAnswer("true");//学生答题答案
+                            inbasebean.setAnswerflag("true");
+                            submit.submitJudgeFragment(inbasebean);
+                        }
+// else {
 //                            Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();
 //                        }
                     }
                     break;
                 case R.id.img_fasle:
                     if (inbasebean != null) {
-                        imgtrue.setBackgroundResource(R.drawable.noselect_judge_image);
-                        imgfasle.setBackgroundResource(R.drawable.select_judge_image);
-//                        if (inbasebean.isAnswer() == false) {
-                        Toast.makeText(activity, "错误", Toast.LENGTH_SHORT).show();
-                        inbasebean.setJudgeAnswerFlag("mfalse");//错误回答标志
-                        inbasebean.setSubmitAnswer("false");//学生答题答案
-                        inbasebean.setAnswerflag("true");
-                        submit.submitJudgeFragment(inbasebean);
-//                        } else {
+                        if (inbasebean.isAnswer() == false) {
+                            imgtrue.setBackgroundResource(R.drawable.noselect_judge_image);
+                            imgfasle.setBackgroundResource(R.drawable.select_judge_image);
+
+                            if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+                                inbasebean.setPratice_answer("2");
+                            }
+                            Toast.makeText(activity, "错误", Toast.LENGTH_SHORT).show();
+                            inbasebean.setJudgeAnswerFlag("mfalse");//错误回答标志
+                            inbasebean.setSubmitAnswer("false");//学生答题答案
+                            inbasebean.setAnswerflag("true");
+                            submit.submitJudgeFragment(inbasebean);
+                        }
+// else {
 //                        Toast.makeText(activity, "已经答过题了", Toast.LENGTH_SHORT).show();
 //                        }
                     }
@@ -170,19 +184,31 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         if (questionModle != null) {
             inbasebean = (JudjeQuestionModle) questionModle;
 
-            /*确保回答了*/
-            if (inbasebean.getAnswerflag().equals("true")) {
-                if (inbasebean.getJudgeAnswerFlag().equals("mtrue")) {
+            if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+                      /*确保回答了*/
+                if (inbasebean.getAnswerflag().equals("true")) {
+                    if (inbasebean.getJudgeAnswerFlag().equals("mtrue")) {
+                        imgtrue.setBackgroundResource(R.drawable.select_judge_image);
+                    } else if (inbasebean.getJudgeAnswerFlag().equals("mfalse")) {
+                        imgfasle.setBackgroundResource(R.drawable.select_judge_image);
+                    }
+
+                }
+            } else if (DoHomeworkActivity.sourceFlag.equals("Practice") && inbasebean.getAnswerflag().equals("true")) {
+
+                /*进行正确错误答案对比机制*/
+
+                /*进行UI的样式书写  待续 imgtrue、 imgfasle 加遮罩层*/
+                 /*回答正确*/
+                if (inbasebean.getPratice_answer().equals(inbasebean.getStandard_answer())) {
+                    Logger.d("判断题-------------------------------------回答正确");
                     imgtrue.setBackgroundResource(R.drawable.select_judge_image);
-                } else if (inbasebean.getJudgeAnswerFlag().equals("mfalse")) {
+                } else {
+                    Logger.d("判断题-------------------------------------回答错误");
                     imgfasle.setBackgroundResource(R.drawable.select_judge_image);
                 }
+//                Logger.d("inbasebean.isanswer()" + inbasebean.isAnswer());
 
-//                if (inbasebean.isAnswer() == true &&
-//                        inbasebean.getSubmitAnswer().equals(inbasebean.getStandard_answer())) {
-//                } else {
-//
-//                }
             }
         }
 

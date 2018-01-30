@@ -17,7 +17,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
+import cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity;
 import cn.dajiahui.kid.ui.homework.myinterface.MoveLocation;
+import cn.dajiahui.kid.util.Logger;
 
 /**
  * Created by lenovo on 2018/1/16.
@@ -81,33 +83,40 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
 
                 break;
             case MotionEvent.ACTION_MOVE:
+                   /*如果是练习模式，已作答就锁定移动的view位置*/
+                if (DoHomeworkActivity.sourceFlag.equals("Practice") && inbasebean.getAnswerflag().equals("true")) {
+                    Logger.d("排序1111111111111111111111");
 
-                    if ( inbasebean.getIs_answer().equals("0")) {
-                        int endX = (int) motionEvent.getRawX();
-                        int endY = (int) motionEvent.getRawY();
+                    break;
+                }
 
-                        // 计算移动偏移量
-                        int dx = endX - startX;
-                        int dy = endY - startY;
 
-                        // 更新左上右下距离
-                        int l = this.getLeft() + dx;
-                        int r = this.getRight() + dx;
-                        int t = this.getTop() + dy;
-                        int b = this.getBottom() + dy;
+                if (inbasebean.getIs_answer().equals("0")) {
+                    int endX = (int) motionEvent.getRawX();
+                    int endY = (int) motionEvent.getRawY();
+
+                    // 计算移动偏移量
+                    int dx = endX - startX;
+                    int dy = endY - startY;
+
+                    // 更新左上右下距离
+                    int l = this.getLeft() + dx;
+                    int r = this.getRight() + dx;
+                    int t = this.getTop() + dy;
+                    int b = this.getBottom() + dy;
                     /*移动刷新位置*/
-                        this.layout(l, t, r, b);
+                    this.layout(l, t, r, b);
 
-                        // 重新初始化起点坐标
-                        startX = (int) motionEvent.getRawX();
-                        startY = (int) motionEvent.getRawY();
+                    // 重新初始化起点坐标
+                    startX = (int) motionEvent.getRawX();
+                    startY = (int) motionEvent.getRawY();
 
                     /*获取拖动的中心点*/
-                        centerPointX = (((float) 1 / (float) 2) * this.getWidth()) + l;
-                        centerPointY = (((float) 1 / (float) 2) * getHeight()) + t;
+                    centerPointX = (((float) 1 / (float) 2) * this.getWidth()) + l;
+                    centerPointY = (((float) 1 / (float) 2) * getHeight()) + t;
 
-                        getParent().requestDisallowInterceptTouchEvent(true);
-                    }
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
 
                 break;
             case MotionEvent.ACTION_UP:

@@ -82,7 +82,6 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
            /*判断是否已经上传后台 0 没答过题  1 答过题*/
         if (inbasebean.getIs_answer().equals("1")) {
 
-
             inbasebean.setIsFocusable("false");
             inbasebean.setIsShowRightAnswer("yes");
             for (int a = 0; a < myanswer.size(); a++) {
@@ -139,7 +138,6 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
                     integerObjectMap = inbasebean.getmAllMap().get(i);
 
                 } else {
-                    Logger.d("-------55555555555---- ");
                     integerObjectMap = new HashMap<Integer, Object>();
                 }
 
@@ -227,10 +225,13 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     /*监听editext输入*/
     @Override
     public void submitEditextInfo(int selfposition) {
-        inbasebean.setAnswerflag("true");
-        mAllMap.put(selfposition, mAllList.get(selfposition).getInputContainer());
-        inbasebean.setmAllMap(mAllMap);
-        submit.submitCompletionFragment(inbasebean);//通知activity这次的作答答案
+        if (inbasebean.isAnswer() == false) {
+
+            inbasebean.setAnswerflag("true");
+            mAllMap.put(selfposition, mAllList.get(selfposition).getInputContainer());
+            inbasebean.setmAllMap(mAllMap);
+            submit.submitCompletionFragment(inbasebean);//通知activity这次的作答答案
+        }
     }
 
     /*是activity翻页后通知自己*/
@@ -238,8 +239,21 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     public void submitHomework(Object questionModle) {
         if (questionModle != null) {
             inbasebean = (CompletionQuestionModle) questionModle;
-            Logger.d("-------33---- " + inbasebean.getmAllMap().size());
+            /*作业翻页回来会走 submitHomework*/
+            if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+//                Logger.d("-------33---- " + inbasebean.getmAllMap().size());
               /*判断是否已经上传后台 0 没答过题  1 答过题*/
+            }
+            /*练习check之后会走 submitHomework*/
+            else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+                Logger.d("-------33---- " + inbasebean.getmAllMap().size());
+                Logger.d("-------33---- " + inbasebean.getmAllMap().toString());
+
+
+
+
+            }
+
         }
     }
 

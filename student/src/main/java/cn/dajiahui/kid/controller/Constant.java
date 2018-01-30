@@ -125,7 +125,14 @@ public class Constant {
     /*选择教材*/
     public static final int GOCHOICETEACHINGMATERIAL = 9;
     public static final int CHOICETEACHINGMATERIAL = 10;
-    public static final int CHOICETEACHINGMATERIALINFO = 11;
+    /*6大题型*/
+
+    public static final String READINGBOOK = "1";//点读本
+    public static final String TEXTBOOKPLAY = "2";//课本剧
+    public static final String KARAOKE = "3";//K拉OK
+    public static final String CAREDPRATICE = "4";//卡片练习
+    public static final String PERSONALSTEREO = "5";//随身听
+    public static final String PRATICE = "6";//练习
 
 
 }

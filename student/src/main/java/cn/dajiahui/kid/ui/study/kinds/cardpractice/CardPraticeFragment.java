@@ -13,16 +13,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.fxtx.framework.file.FileUtil;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.study.LazyLoadFragment;
-import cn.dajiahui.kid.ui.study.Rotate3dAnimation;
 import cn.dajiahui.kid.ui.study.bean.BeCradPratice;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.ui.study.view.CardView;
+import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
+import cn.dajiahui.kid.util.MD5;
 
 
 /**
@@ -39,15 +41,11 @@ public class CardPraticeFragment extends LazyLoadFragment {
     private CardView cardView;
     private NoticeCheckButton noticeCheckButton;
 
-
     private int centerX;
     private int centerY;
     private int depthZ = 400;
     private int duration = 600;
     private Rotate3dAnimation openAnimation;
-    //    private Rotate3dAnimation closeAnimation;
-    private boolean isOpen = false;
-
 
     private Handler mHandler = new Handler() {
 
@@ -66,28 +64,12 @@ public class CardPraticeFragment extends LazyLoadFragment {
                     if (openAnimation == null) {
                         initOpenAnim();
                         cardView.startAnimation(openAnimation);
-//                        initCloseAnim();
                     }
 
                     if (timer != null) {
                         timer.cancel();
                         timer = null;
                     }
-
-//                    //用作判断当前点击事件发生时动画是否正在执行
-//                    if (openAnimation.hasStarted() && !openAnimation.hasEnded()) {
-//                        return;
-//                    }
-//                    if (closeAnimation.hasStarted() && !closeAnimation.hasEnded()) {
-//                        return;
-//                    }
-                    //判断动画执行
-//                    if (isOpen) {
-////                        cardView.startAnimation(closeAnimation);
-//                    } else {
-//                        cardView.startAnimation(openAnimation);
-//
-//                    }
 
                 }
 
@@ -103,14 +85,6 @@ public class CardPraticeFragment extends LazyLoadFragment {
         super.onAttach(activity);
         noticeCheckButton = (NoticeCheckButton) activity;
     }
-
-//    @Override
-//    protected View initinitLayout(LayoutInflater inflater) {
-//        bundle = getArguments();
-//        beCradPratice = (BeCradPratice) bundle.getSerializable("BeCradPratice");
-//
-//        return inflater.inflate(R.layout.fr_card, null);
-//    }
 
     /*启动计时器*/
     private void startTimer() {
@@ -136,22 +110,17 @@ public class CardPraticeFragment extends LazyLoadFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
     }
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-
         System.gc();
     }
 
     @Override
     protected int setContentView() {
-        Logger.d("setContentView:");
         return R.layout.fr_card;
     }
 
@@ -164,7 +133,8 @@ public class CardPraticeFragment extends LazyLoadFragment {
         noticeCheckButton.NoticeCheck(false, position);
         initialize();
         Logger.d("进入播放：----------" + beCradPratice.getAudio_url());
-        PlayMedia.getPlaying().StartMp3(beCradPratice.getAudio_url());
+
+        playMedia();
         startTimer();
 
         cardView = new CardView(getActivity(), beCradPratice);
@@ -191,7 +161,6 @@ public class CardPraticeFragment extends LazyLoadFragment {
     @Override
     public void onStop() {
         super.onStop();
-
     }
 
     @Override
@@ -202,9 +171,6 @@ public class CardPraticeFragment extends LazyLoadFragment {
 
 
     private void initialize() {
-//        imgpaly = getView(R.id.img_paly);
-//        cardroot = getView(R.id.card_root);
-//        imgpaly.setOnClickListener(onClick);
         imgpaly = findViewById(R.id.img_paly);
         cardroot = findViewById(R.id.card_root);
         imgpaly.setOnClickListener(onClick);
@@ -214,15 +180,11 @@ public class CardPraticeFragment extends LazyLoadFragment {
         @Override
         public void onClick(View v) {
             Logger.d("点击播放：----------" + beCradPratice.getAudio_url());
-            PlayMedia.getPlaying().StartMp3(beCradPratice.getAudio_url());
+            playMedia();
             PlayMedia.getPlaying().setOnCompletionListener(1);
         }
     };
 
-    /*通知活动按钮*/
-    public interface NoticeCheckButton {
-        public void NoticeCheck(boolean ischeck, int position);
-    }
 
     /**
      * 卡牌文本介绍打开效果：注意旋转角度
@@ -262,38 +224,25 @@ public class CardPraticeFragment extends LazyLoadFragment {
         });
     }
 
-//    /**
-//     * 卡牌文本介绍关闭效果：旋转角度与打开时逆行即可
-//     */
-//    private void initCloseAnim() {
-//        closeAnimation = new Rotate3dAnimation(360, 270, centerX, centerY, depthZ, true);
-//        closeAnimation.setDuration(duration);
-//        closeAnimation.setFillAfter(true);
-//        closeAnimation.setInterpolator(new AccelerateInterpolator());
-//        closeAnimation.setAnimationListener(new Animation.AnimationListener() {
-//
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                cardView.textView.setVisibility(View.GONE);
-//                cardView.imageView.setVisibility(View.VISIBLE);
-//
-//                Rotate3dAnimation rotateAnimation = new Rotate3dAnimation(90, 0, centerX, centerY, depthZ, false);
-//                rotateAnimation.setDuration(duration);
-//                rotateAnimation.setFillAfter(true);
-//                rotateAnimation.setInterpolator(new DecelerateInterpolator());
-//                cardView.startAnimation(rotateAnimation);
-//            }
-//        });
-//    }
+    /*播放音频*/
+    private void playMedia() {
+               /*文件名以MD5加密*/
+        String mp3Name = MD5.getMD5(beCradPratice.getAudio_url().substring(beCradPratice.getAudio_url().lastIndexOf("/"))) + ".mp3";
+
+        if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
+            /*读取本地*/
+            PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathPointRedaing() + mp3Name);
+
+        } else {
+             /*读取网络*/
+            PlayMedia.getPlaying().StartMp3(beCradPratice.getAudio_url());
+        }
+
+    }
+
+    /*通知活动按钮*/
+    public interface NoticeCheckButton {
+        public void NoticeCheck(boolean ischeck, int position);
+    }
 }
 

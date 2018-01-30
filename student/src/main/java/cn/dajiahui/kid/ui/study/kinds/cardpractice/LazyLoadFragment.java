@@ -1,4 +1,4 @@
-package cn.dajiahui.kid.ui.study;
+package cn.dajiahui.kid.ui.study.kinds.cardpractice;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 /**
- * Created by lenovo on 2018/1/25.
+ * Created by majin on 2018/1/25.
+ *
+ * 懒加载Fragment
+ *
+ * 是卡片练习的基fragment
  */
 
 public abstract class LazyLoadFragment extends Fragment {

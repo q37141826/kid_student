@@ -79,23 +79,23 @@
             android:visibility="invisible"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="vertical">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="bottom"-->
+        <!--android:orientation="vertical">-->
 
-        <Button
-            android:id="@+id/btn_checkhomework"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/white"
-            android:text="检查作业"
-            android:textColor="@color/black"/>
-    </LinearLayout>
+        <!--<Button-->
+            <!--android:id="@+id/btn_doagain"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:background="@color/white"-->
+            <!--android:text="再练一次"-->
+            <!--android:textColor="@color/black"/>-->
+    <!--</LinearLayout>-->
 </LinearLayout>
 

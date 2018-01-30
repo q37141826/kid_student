@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,6 +60,7 @@ public class LineFragment extends BaseHomeworkFragment implements
     private int PREPARERIGHT = 3;//准备数据
     private int PREPMINEARERIGHT = 4;//准备数据
     private List<DrawPath> drawPathList = new ArrayList();//保存绘制路径的集合
+    private List<DrawPath> praticeDrawPathList = new ArrayList();//保存绘制路径的集合
 
     private Map<String, Point> ponitViewXY = new HashMap();//通过val获取point点的map（提供显示正确答案 和 自己的答案 用）
     private boolean calculation = false;//false 监听  测量连线题图片的左右第一个 坐标
@@ -153,6 +155,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                     ponitViewXY.put("" + ((i + 1) + leftViews.size()), new Point(pRightX, pRightY));
                     pRightY = pRightY += 300;//左边所有点的y坐标
                     if (ponitViewXY.size() == (leftViews.size() * 2)) {
+
                         handler.sendEmptyMessage(PREPARERIGHT);
                         handler.sendEmptyMessage(PREPMINEARERIGHT);
                     }
@@ -165,73 +168,76 @@ public class LineFragment extends BaseHomeworkFragment implements
                 if (inbasebean != null) {
                     if (inbasebean.getIs_answer().equals("1")) {
                         mRight.setText("正确答案");
-                        if (ponitViewXY.size() == (leftViews.size() * 2) && inbasebean.getStandard_answer() != null && inbasebean.getIs_answer().equals("1")) {
-                            String standard_answer = inbasebean.getStandard_answer();
-//                    Logger.d( "正确答案:" + standard_answer);
-                            String substring = standard_answer.substring(1, (standard_answer.length() - 1));
-                            String[] strs = substring.split(",");
+                    }
+                    if (ponitViewXY.size() == (leftViews.size() * 2) && inbasebean.getStandard_answer() != null) {// && inbasebean.getIs_answer().equals("1")
+                        String standard_answer = inbasebean.getStandard_answer();
+                        String substring = standard_answer.substring(1, (standard_answer.length() - 1));
+                        String[] strs = substring.split(",");
                    /*截取字符串*/
-                            for (int i = 0, len = strs.length; i < len; i++) {
-                                String split = strs[i].toString();
-                                substringRightList.add(split);
-                            }
+                        for (int i = 0, len = strs.length; i < len; i++) {
+                            String split = strs[i].toString();
+                            substringRightList.add(split);
+                        }
                     /*二次截取 获取答案 获取 */
-                            for (int l = 0; l < substringRightList.size(); l++) {
-                                String split1 = substringRightList.get(l).toString().substring(0, 1);
-                                mLeftAnswerList.add(split1);
-                                String split2 = substringRightList.get(l).toString().substring(2);
-                                mRightAnswerList.add(split2);
-                            }
-
-                    /*获取正确答案的 坐标点*/
-                            for (int m = 0; m < mLeftAnswerList.size(); m++) {
-                                Point pointL = ponitViewXY.get(mLeftAnswerList.get(m));
-                                mRightLPonitList.add(pointL);
-                                Point pointR = ponitViewXY.get(mRightAnswerList.get(m));
-                                mRightRPonitList.add(pointR);
-                            }
+                        for (int l = 0; l < substringRightList.size(); l++) {
+                            String split1 = substringRightList.get(l).toString().substring(0, 1);
+                            mLeftAnswerList.add(split1);
+                            String split2 = substringRightList.get(l).toString().substring(2);
+                            mRightAnswerList.add(split2);
                         }
 
+                        /*获取正确答案的 坐标点*/
+                        for (int m = 0; m < mLeftAnswerList.size(); m++) {
+                            Point pointL = ponitViewXY.get(mLeftAnswerList.get(m));
+                            mRightLPonitList.add(pointL);
+                            Point pointR = ponitViewXY.get(mRightAnswerList.get(m));
+                            mRightRPonitList.add(pointR);
+                        }
                     }
+
                 }
+
             }
             /*为我的答案准备数据*/
             if (msg.what == PREPMINEARERIGHT) {
                 if (inbasebean != null) {
                     if (inbasebean.getIs_answer().equals("1")) {
                         mLeft.setText("我的答案");
-
+                    }
                             /*获取json解析的我的答案*/
-                        if (ponitViewXY.size() == (leftViews.size() * 2) && inbasebean.getMy_answer() != null && inbasebean.getIs_answer().equals("1")) {
-                            String my_answer = inbasebean.getMy_answer();
+                    if (ponitViewXY.size() == (leftViews.size() * 2) && inbasebean.getMy_answer() != null) {
+                        String my_answer = inbasebean.getMy_answer();
 
-                            String substringmyanswer = my_answer.substring(1, (my_answer.length() - 1));
-                            String[] strs = substringmyanswer.split(",");
+                        String substringmyanswer = my_answer.substring(1, (my_answer.length() - 1));
+                        String[] strs = substringmyanswer.split(",");
                              /*截取字符串*/
-                            for (int i = 0, len = strs.length; i < len; i++) {
-                                String split = strs[i].toString();
-                                substringMineList.add(split);
-                            }
+                        for (int i = 0, len = strs.length; i < len; i++) {
+                            String split = strs[i].toString();
+                            substringMineList.add(split);
+                        }
                              /*二次截取 获取答案 获取 */
-                            for (int l = 0; l < substringMineList.size(); l++) {
-                                String split1 = substringMineList.get(l).toString().substring(0, 1);
-                                mLeftMineAnswerList.add(split1);
-                                String split2 = substringMineList.get(l).toString().substring(2);
-                                mRightMineAnswerList.add(split2);
-                            }
+                        for (int l = 0; l < substringMineList.size(); l++) {
+                            String split1 = substringMineList.get(l).toString().substring(0, 1);
+                            mLeftMineAnswerList.add(split1);
+                            String split2 = substringMineList.get(l).toString().substring(2);
+                            mRightMineAnswerList.add(split2);
+                        }
                             /*获取我的答案的 坐标点*/
-                            for (int m = 0; m < mLeftAnswerList.size(); m++) {
-                                Point pointL = ponitViewXY.get(mLeftMineAnswerList.get(m));
-                                mMineLPonitList.add(pointL);
-                                Point pointR = ponitViewXY.get(mRightMineAnswerList.get(m));
-                                mMineRPonitList.add(pointR);
-                            }
+                        for (int m = 0; m < mLeftAnswerList.size(); m++) {
+                            Point pointL = ponitViewXY.get(mLeftMineAnswerList.get(m));
+                            mMineLPonitList.add(pointL);
+                            Point pointR = ponitViewXY.get(mRightMineAnswerList.get(m));
+                            mMineRPonitList.add(pointR);
+                        }
                             /*显示我的答案*/
+                        if (DoHomeworkActivity.sourceFlag.equals("HomeWork") && inbasebean.getIs_answer().equals("1")) {
                             showMineAnswer();
                         }
+
                     }
                 }
             }
+
         }
     };
 
@@ -277,7 +283,6 @@ public class LineFragment extends BaseHomeworkFragment implements
         });
 
 
-
     }
 
 
@@ -303,23 +308,28 @@ public class LineFragment extends BaseHomeworkFragment implements
 
     }
 
-    /*删除线*/
-    private void removeLine(LineImagePointView firstView, LineImagePointView secondView) {
+    /*删除线作业模块*/
+    private void removeLineHomework(LineImagePointView firstView, LineImagePointView secondView) {
         /* 查找firstView */
         for (int i = 0; i < drawPathList.size(); i++) {
             DrawPath drawPath = drawPathList.get(i);
             if (firstView.getDirection() == Dir.left) {
                 if (drawPath.getLeftPoint().getY() == firstView.getPoint().getY()) {
-                    // 当前这点是有线的，要删除
                     draw_root.removeViewAt(i);
-                    drawPathList.remove(i);
+                    if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+                        // 当前这点是有线的，要删除
+                        drawPathList.remove(i);
+                    }
                     break;
                 }
             } else {
                 if (drawPath.getRightPoint().getY() == firstView.getPoint().getY()) {
                     // 当前这点是有线的，要删除
                     draw_root.removeViewAt(i);
-                    drawPathList.remove(i);
+                    if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+                        // 当前这点是有线的，要删除
+                        drawPathList.remove(i);
+                    }
                     break;
                 }
             }
@@ -331,36 +341,157 @@ public class LineFragment extends BaseHomeworkFragment implements
                 if (drawPath.getLeftPoint().getY() == secondView.getPoint().getY()) {
                     // 当前这点是有线的，要删除
                     draw_root.removeViewAt(i);
-                    drawPathList.remove(i);
+                    if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+                        // 当前这点是有线的，要删除
+                        drawPathList.remove(i);
+                    }
                     break;
                 }
             } else {
                 if (drawPath.getRightPoint().getY() == secondView.getPoint().getY()) {
                     // 当前这点是有线的，要删除
                     draw_root.removeViewAt(i);
-                    drawPathList.remove(i);
+                    if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+                        // 当前这点是有线的，要删除
+                        drawPathList.remove(i);
+                    }
                     break;
                 }
             }
         }
     }
 
-    /*添加线*/
-    private void addLine(LineImagePointView firstView, LineImagePointView secondView) {
+    /*添加线作业模块*/
+    private void addLineHomework(LineImagePointView firstView, LineImagePointView secondView) {
         DrawPath path = null;
         if (firstView.getDirection() == Dir.left) {
             path = new DrawPath(firstView.getPoint(), secondView.getPoint());
         } else {
             path = new DrawPath(secondView.getPoint(), firstView.getPoint());
         }
-        drawPathList.add(path);
+
+        if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+            drawPathList.add(path);
+        }
     }
+
+    /*删除线练习模块*/
+    private void removeLinePratice(LineImagePointView firstView, LineImagePointView secondView) {
+        /* 查找firstView */
+        for (int i = 0; i < praticeDrawPathList.size(); i++) {
+            DrawPath drawPath = praticeDrawPathList.get(i);
+            if (firstView.getDirection() == Dir.left) {
+                if (drawPath.getLeftPoint().getY() == firstView.getPoint().getY()) {
+                    draw_root.removeViewAt(i);
+                    if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+                        // 当前这点是有线的，要删除
+                        praticeDrawPathList.remove(i);
+                    }
+                    break;
+                }
+            } else {
+                if (drawPath.getRightPoint().getY() == firstView.getPoint().getY()) {
+                    // 当前这点是有线的，要删除
+                    draw_root.removeViewAt(i);
+                    if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+                        // 当前这点是有线的，要删除
+                        praticeDrawPathList.remove(i);
+                    }
+                    break;
+                }
+            }
+        }
+        /* 查找secondView */
+        for (int i = 0; i < praticeDrawPathList.size(); i++) {
+            DrawPath drawPath = praticeDrawPathList.get(i);
+            if (secondView.getDirection() == Dir.left) {
+                if (drawPath.getLeftPoint().getY() == secondView.getPoint().getY()) {
+                    // 当前这点是有线的，要删除
+                    draw_root.removeViewAt(i);
+                    if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+                        // 当前这点是有线的，要删除
+                        praticeDrawPathList.remove(i);
+                    }
+                    break;
+                }
+            } else {
+                if (drawPath.getRightPoint().getY() == secondView.getPoint().getY()) {
+                    // 当前这点是有线的，要删除
+                    draw_root.removeViewAt(i);
+                    if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+                        // 当前这点是有线的，要删除
+                        praticeDrawPathList.remove(i);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    /*添加线练习模块*/
+    private void addLinePratice(LineImagePointView firstView, LineImagePointView secondView) {
+        DrawPath path = null;
+        if (firstView.getDirection() == Dir.left) {
+            path = new DrawPath(firstView.getPoint(), secondView.getPoint());
+        } else {
+            path = new DrawPath(secondView.getPoint(), firstView.getPoint());
+        }
+
+        if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+            praticeDrawPathList.add(path);
+        }
+    }
+
 
     /*要连线的图片的点击事件*/
     @Override
     public void submitlininfo(LineImagePointView lineImagePointView) {
-        if (inbasebean != null && inbasebean.getIs_answer().equals("0")) {
-            //判断当前选择的view是否为空 若等于空把点击的view赋值给当前选择的view
+        /*作业*/
+        if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+        /*&&inbasebean.isAnswer()==false 是控制在 pratice中check过之后就不能点击了*/
+            if (inbasebean != null && inbasebean.getIs_answer().equals("0") && inbasebean.isAnswer() == false) {
+                //判断当前选择的view是否为空 若等于空把点击的view赋值给当前选择的view
+                if (currentSelectedView == null) {
+                    lineImagePointView.selected(true);//设置为选中
+                    currentSelectedView = lineImagePointView;
+                } else {//当前选择的view不为空  把点击的
+            /*判断再次点击的是不是自己  是自己 就把 点击的view付给选择的currentSelectedView*/
+                    if (lineImagePointView == currentSelectedView) {
+                        lineImagePointView.selected(false);//设置非选中
+                        currentSelectedView = null;
+                    } else {
+                /*再次点击的不是自己*/
+                /* 判断是否同侧点 */
+                        if (currentSelectedView.getDirection() == lineImagePointView.getDirection()) {
+                            currentSelectedView.selected(false); // 把上一个view设置成非选中
+                            lineImagePointView.selected(true); // 把当前的view设置成选中
+                            currentSelectedView = lineImagePointView;
+                        } else {
+                    /* 非同侧view */
+                    /*先删除*/
+                            removeLineHomework(currentSelectedView, lineImagePointView);
+                    /*必须每次都要new出来 要不不显示划线*/
+                            drawView = new DrawView(getActivity(), currentSelectedView, lineImagePointView);
+                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
+                            draw_root.addView(drawView, params);
+                            addLineHomework(currentSelectedView, lineImagePointView);
+                            currentSelectedView.selected(false);
+                            currentSelectedView = null;
+                            lineImagePointView.selected(false);
+
+                            inbasebean.setAnswerflag("true");//答题标志
+                            inbasebean.setDrawPathList(drawPathList);
+                            submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
+                        }
+
+                    }
+                }
+
+            }
+        }
+        /*练习模块未作答*/
+        else if ((DoHomeworkActivity.sourceFlag.equals("Practice")) && inbasebean.isAnswer() == false) {
+
             if (currentSelectedView == null) {
                 lineImagePointView.selected(true);//设置为选中
                 currentSelectedView = lineImagePointView;
@@ -379,18 +510,18 @@ public class LineFragment extends BaseHomeworkFragment implements
                     } else {
                     /* 非同侧view */
                     /*先删除*/
-                        removeLine(currentSelectedView, lineImagePointView);
+                        removeLinePratice(currentSelectedView, lineImagePointView);
                     /*必须每次都要new出来 要不不显示划线*/
                         drawView = new DrawView(getActivity(), currentSelectedView, lineImagePointView);
                         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
                         draw_root.addView(drawView, params);
-                        addLine(currentSelectedView, lineImagePointView);
+                        addLinePratice(currentSelectedView, lineImagePointView);
                         currentSelectedView.selected(false);
                         currentSelectedView = null;
                         lineImagePointView.selected(false);
 
                         inbasebean.setAnswerflag("true");//答题标志
-                        inbasebean.setDrawPathList(drawPathList);
+                        inbasebean.setDrawPathList(praticeDrawPathList);
                         submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
                     }
 
@@ -405,25 +536,34 @@ public class LineFragment extends BaseHomeworkFragment implements
     public void submitHomework(Object questionModle) {
         if (questionModle != null) {
             inbasebean = (LineQuestionModle) questionModle;
-            if (currentSelectedView != null) {
-                currentSelectedView.selected(true);
+
+            if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+                if (currentSelectedView != null) {
+                    currentSelectedView.selected(true);
+                }
+                drawPathList = inbasebean.getDrawPathList();
+                for (int i = 0; i < drawPathList.size(); i++) {
+                    DrawPath drawPath = drawPathList.get(i);
+                    drawPath.setPathColor(getResources().getColor(R.color.btn_green_noraml));
+                    DrawView drawView = new DrawView(getActivity());
+                    drawView.DrawViewOnback(drawPath);
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
+                    draw_root.addView(drawView, params);
+
+                }
+            } else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {// check之后要显示正确答案和我的答案
+
+                /*添加我的答案  和正确答案按钮*/
+                mLeft.setText("我的答案");
+                mLeft.setTextColor(getResources().getColor(R.color.white));
+                mLeft.setBackgroundResource(R.color.btn_green_noraml);
+                mRight.setTextColor(getResources().getColor(R.color.btn_green_noraml));
+                mRight.setBackgroundResource(R.color.white);
+                mRight.setText("正确答案");
+
             }
 
-//            if (inbasebean != null && inbasebean.getIs_answer().equals("1")) {
-//                /*添加我的答案  和正确答案按钮*/
-//                mLeft.setText("我的答案");
-//                mRight.setText("正确答案");
-//            }
-            drawPathList = inbasebean.getDrawPathList();
-            for (int i = 0; i < drawPathList.size(); i++) {
-                DrawPath drawPath = drawPathList.get(i);
-                drawPath.setPathColor(getResources().getColor(R.color.btn_green_noraml));
-                DrawView drawView = new DrawView(getActivity());
-                drawView.DrawViewOnback(drawPath);
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
-                draw_root.addView(drawView, params);
 
-            }
         }
     }
 
@@ -438,31 +578,46 @@ public class LineFragment extends BaseHomeworkFragment implements
                 playMp3("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3");
                 break;
             case R.id.mLeft:
-                showMineAnswer();
+                if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+                    showMineAnswer();
+
+                } else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+                    mLeft.setTextColor(getResources().getColor(R.color.white));
+                    mLeft.setBackgroundResource(R.color.btn_green_noraml);
+                    mRight.setTextColor(getResources().getColor(R.color.btn_green_noraml));
+                    mRight.setBackgroundResource(R.color.white);
+                 /*可以更新小点颜色*/
+                    leftViews.get(1).pointview.setcolor(getResources().getColor(R.color.red));
+                    leftViews.get(1).pointview.refreshPonitColor();
+
+                    Toast.makeText(activity, "我的答案", Toast.LENGTH_SHORT).show();
+                    draw_root.removeAllViews();
+                    for (int i = 0; i < praticeDrawPathList.size();
+                         i++) {
+                        DrawPath drawPath = praticeDrawPathList.get(i);
+//                        drawPath.setPathColor(getResources().getColor(R.color.btn_green_noraml));
+                        DrawView drawView = new DrawView(getActivity());
+                        drawView.DrawViewOnback(drawPath);
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
+                        draw_root.addView(drawView, params);
+
+                    }
+
+                }
 
                 break;
             case R.id.mRight:
-                if (inbasebean != null && inbasebean.getIs_answer().equals("1")) {
-                    mRight.setTextColor(getResources().getColor(R.color.white));
-                    mRight.setBackgroundResource(R.color.btn_green_noraml);
-                    mLeft.setTextColor(getResources().getColor(R.color.btn_green_noraml));
-                    mLeft.setBackgroundResource(R.color.white);
-                    drawPathList.clear();
-                /*条件换成后台提供的是否回答的标志 json获得*/
-
+                if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
                     draw_root.removeAllViews();
-                    for (int n = 0; n < mRightLPonitList.size(); n++) {
-                        DrawPath drawPath = new DrawPath(mRightLPonitList.get(n), mRightRPonitList.get(n));
-                        DrawView drawView = new DrawView(getActivity());
-                        drawView.DrawViewOnback(drawPath);
-                        drawPathList.add(drawPath);
-                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
-                        draw_root.addView(drawView, params);
-                    }
+                    showRightAnswer();
+                } else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+                    draw_root.removeAllViews();
 
-                    inbasebean.setDrawPathList(drawPathList);//
-                    submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
+                    showRightAnswer();
+
+
                 }
+
                 break;
 
             default:
@@ -534,9 +689,34 @@ public class LineFragment extends BaseHomeworkFragment implements
 
             inbasebean.setDrawPathList(drawPathList);
             submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
-
-//                    Toast.makeText(activity, "我的答案", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /*显示正确答案*/
+    private void showRightAnswer() {
+//        if (inbasebean != null && inbasebean.getIs_answer().equals("1")) {
+        mRight.setTextColor(getResources().getColor(R.color.white));
+        mRight.setBackgroundResource(R.color.btn_green_noraml);
+        mLeft.setTextColor(getResources().getColor(R.color.btn_green_noraml));
+        mLeft.setBackgroundResource(R.color.white);
+        drawPathList.clear();
+                /*条件换成后台提供的是否回答的标志 json获得*/
+
+        draw_root.removeAllViews();
+        for (int n = 0; n < mRightLPonitList.size(); n++) {
+            DrawPath drawPath = new DrawPath(mRightLPonitList.get(n), mRightRPonitList.get(n));
+            DrawView drawView = new DrawView(getActivity());
+            drawView.DrawViewOnback(drawPath);
+            drawPathList.add(drawPath);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
+            draw_root.addView(drawView, params);
+        }
+
+        inbasebean.setDrawPathList(drawPathList);//
+        submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
+//        Toast.makeText(activity, "正确答案", Toast.LENGTH_SHORT).show();
+//        }
+
     }
 }
 

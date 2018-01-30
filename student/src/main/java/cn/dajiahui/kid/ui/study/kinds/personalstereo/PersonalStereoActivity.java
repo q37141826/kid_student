@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.ui.FxActivity;
 
 import java.util.Formatter;
@@ -16,8 +17,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.ui.study.bean.BePersonalStereo;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
+import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
+import cn.dajiahui.kid.util.MD5;
 
 
 /*
@@ -64,11 +68,22 @@ public class PersonalStereoActivity extends FxActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setfxTtitle(11111);
+        setfxTtitle("随身听");
         onBackText();
         initialize();
+        BePersonalStereo bePersonalStereo = new BePersonalStereo("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3");
 
-        PlayMedia.getPlaying().StartMp3("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3");
+        /*文件名以MD5加密*/
+        String mp3Name = MD5.getMD5(bePersonalStereo.getAudio_url().substring(bePersonalStereo.getAudio_url().lastIndexOf("/"))) + ".mp3";
+
+        if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
+            /*读取本地*/
+            PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathPointRedaing() + mp3Name);
+
+        } else {
+             /*读取网络*/
+            PlayMedia.getPlaying().StartMp3(bePersonalStereo.getAudio_url());
+        }
         setProgress(true);//设置进度
         startTimer();//启动计时器
 
@@ -99,7 +114,6 @@ public class PersonalStereoActivity extends FxActivity {
     protected void initView() {
         setContentView(R.layout.activity_personal_stereo);
     }
-
 
     /*初始化*/
     private void initialize() {

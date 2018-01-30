@@ -143,9 +143,10 @@ public class ApChoice extends BaseAdapter {
         selectorPosition = pos;
         Toast.makeText(context, "选择：" + mPptions.get(pos).getLabel(), Toast.LENGTH_SHORT).show();
         inbasebean.setAnswerflag("true");//学生作答标记
-//        inbasebean.setChoiceanswer(mPptions.get(pos).getLabel());//保存后台的选项答案
         inbasebean.setSubmitAnswer(mPptions.get(pos).getLabel());//学生作答答案
         inbasebean.setChoiceitemposition(pos);//保存选择题答案的索引（用于翻页回来后给选择的条目赋予背景颜色）
+
+        inbasebean.setChoiceanswer((pos + 1) + "");//因为pos是从0开始
         submit.submitChoiceFragment(inbasebean);
 
         notifyDataSetChanged();

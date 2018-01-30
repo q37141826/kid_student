@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 基类模型
  */
 
-public class QuestionModle extends BeBaseModle  implements Serializable {
+public class QuestionModle extends BeBaseModle implements Serializable {
 
     public QuestionModle() {
     }
@@ -25,6 +25,25 @@ public class QuestionModle extends BeBaseModle  implements Serializable {
     private int eachposition;//每个题对应数据源的索引
     private int choiceitemposition = -1;//记录选择题选的索引（用于翻页回来设置指定选项处于备选状态）
 
+    private String SourceFlag = "";//来源标记  区别是作业还是练习
+
+    private boolean Answer = false;//练习模块中  是否作答
+
+    public void setAnswer(boolean answer) {
+        Answer = answer;
+    }
+
+    public boolean isAnswer() {
+        return Answer;
+    }
+
+    public String getSourceFlag() {
+        return SourceFlag;
+    }
+
+    public void setSourceFlag(String sourceFlag) {
+        SourceFlag = sourceFlag;
+    }
 
     public int getCurrentpage() {
         return currentpage;
@@ -41,7 +60,6 @@ public class QuestionModle extends BeBaseModle  implements Serializable {
     public void setAnswerflag(String answerflag) {
         this.answerflag = answerflag;
     }
-
 
 
     public String getSubmitAnswer() {

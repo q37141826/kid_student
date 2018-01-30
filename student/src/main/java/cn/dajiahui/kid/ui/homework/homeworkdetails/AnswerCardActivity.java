@@ -7,6 +7,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.fxtx.framework.ui.FxActivity;
+import com.fxtx.framework.util.ActivityUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
+import cn.dajiahui.kid.util.DjhJumpUtil;
 
 /*
 * 答题卡
@@ -38,6 +40,7 @@ public class AnswerCardActivity extends FxActivity {
 //    private List<QuestionModle> listdata;
 
     private List<QuestionModle> listdata = new ArrayList<>();
+    private BeSaveAnswerCard beSaveAnswerCard;
 
 
     @Override
@@ -54,8 +57,7 @@ public class AnswerCardActivity extends FxActivity {
         initialize();
 
         Bundle bundle = getIntent().getExtras();
-        BeSaveAnswerCard beSaveAnswerCard =
-                (BeSaveAnswerCard) bundle.getSerializable("answerCard");
+        beSaveAnswerCard = (BeSaveAnswerCard) bundle.getSerializable("answerCard");
         HashMap<Integer, Object> pageMap = beSaveAnswerCard.getPageMap();
 
 
@@ -134,12 +136,12 @@ public class AnswerCardActivity extends FxActivity {
 
                     /*网络请求提交答案*/
 
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable("answerCard", answerCard);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("answerCard", beSaveAnswerCard);
 //
-//                    DjhJumpUtil.getInstance().startBaseActivity(AnswerCardActivity.this, HomedetailsActivity.class, bundle, ANSWERCARD);
-//                    ActivityUtil.getInstance().finishActivity(CheckHomeworkActivity.class);//结束指定的activity
-//                    finishActivity();
+                    DjhJumpUtil.getInstance().startBaseActivity(AnswerCardActivity.this, HomeWorkResultActivity.class, bundle, ANSWERCARD);
+                    ActivityUtil.getInstance().finishActivity(DoHomeworkActivity.class);//结束指定的activity
+                    finishActivity();
                     break;
 
                 default:

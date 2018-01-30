@@ -16,6 +16,7 @@ import cn.dajiahui.kid.ui.homework.adapter.ApChoice;
 import cn.dajiahui.kid.ui.homework.bean.BeChoiceOptions;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
+import cn.dajiahui.kid.util.Logger;
 
 
 /**
@@ -56,7 +57,7 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
 
                   /*判断是否已经上传后台 0 没答过题  1 答过题*/
         if (inbasebean.getIs_answer().equals("0")) {
-            apChoice = new ApChoice(getActivity(), options,inbasebean);
+            apChoice = new ApChoice(getActivity(), options, inbasebean);
 
             mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -76,11 +77,11 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
 //             /*回答正确*/
             if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
 
-                apChoice = new ApChoice(getActivity(), options, inbasebean,(Integer.parseInt(inbasebean.getMy_answer())-1));
+                apChoice = new ApChoice(getActivity(), options, inbasebean, (Integer.parseInt(inbasebean.getMy_answer()) - 1));
 
             } else {/*回答错误*/
 
-                apChoice = new ApChoice(getActivity(), options,  inbasebean ,(Integer.parseInt(inbasebean.getStandard_answer())-1));
+                apChoice = new ApChoice(getActivity(), options, inbasebean, (Integer.parseInt(inbasebean.getStandard_answer()) - 1));
             }
 
 
@@ -157,10 +158,29 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
     public void submitHomework(Object questionModle) {
         if (questionModle != null) {
             inbasebean = (ChoiceQuestionModle) questionModle;
-            if (inbasebean.getChoiceitemposition() >= 0) {
+
+            if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+                if (inbasebean.getChoiceitemposition() >= 0) {
                 /*刷新翻页回来后 上次答题情况*/
-                apChoice.changeitemState(inbasebean.getChoiceitemposition(), mListview);
+                    apChoice.changeitemState(inbasebean.getChoiceitemposition(), mListview);
+                }
+            } else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+
+
+                 /*更新UI  进行对错判断机制*/
+
+                  /*进行UI的样式书写  待续 imgtrue、 imgfasle 加遮罩层*/
+                 /*回答正确*/
+                if (inbasebean.getChoiceanswer().equals(inbasebean.getStandard_answer())) {
+                    Logger.d("判断题-------------------------------------回答正确");
+
+                } else {
+                    Logger.d("判断题-------------------------------------回答错误");
+
+                }
+                Logger.d("inbasebean.getSubmitAnswer()" + inbasebean.getChoiceanswer());
             }
+
 
         }
     }

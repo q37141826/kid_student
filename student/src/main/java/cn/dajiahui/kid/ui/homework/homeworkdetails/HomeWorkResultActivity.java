@@ -2,7 +2,6 @@ package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.RatingBar;
@@ -15,18 +14,17 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BeSerializableMap;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
-import cn.dajiahui.kid.util.DjhJumpUtil;
 
 /*
 *作业详情
 * */
-public class HomedetailsActivity extends FxActivity {
+public class HomeWorkResultActivity extends FxActivity {
 
     private TextView tvhometime;
     private RatingBar rbscore;
     private TextView tvcorrectrate;
     private TextView tvcompletiontime;
-    private Button mBtnCheck;
+    private Button btn_doagain;
     private List<QuestionModle> listdata;
     private BeSerializableMap answerCard;
     private GridView grildview;
@@ -41,7 +39,7 @@ public class HomedetailsActivity extends FxActivity {
 
     @Override
     protected void initView() {
-        setContentView(R.layout.activity_homedetails);
+        setContentView(R.layout.activity_homeworkresult);
         initialize();
         Intent intent = getIntent();
         int flags = intent.getFlags();
@@ -55,7 +53,7 @@ public class HomedetailsActivity extends FxActivity {
 //            mBtnCheck.setText("在练一次");
 //        }
 
-        mBtnCheck.setOnClickListener(onClick);
+//        btn_doagain.setOnClickListener(onClick);
 
     }
 
@@ -65,22 +63,21 @@ public class HomedetailsActivity extends FxActivity {
         rbscore = (RatingBar) findViewById(R.id.rb_score);
         tvcorrectrate = getView(R.id.tv_correctrate);
         tvcompletiontime = getView(R.id.tv_completiontime);
-        mBtnCheck = getView(R.id.btn_checkhomework);
+//        btn_doagain = getView(R.id.btn_doagain);
         grildview = getView(R.id.grildview);
     }
 
-    private View.OnClickListener onClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-
-                case R.id.btn_checkhomework:
-                    DjhJumpUtil.getInstance().startBaseActivity(HomedetailsActivity.this, CheckHomeworkActivity.class);
-                    finishActivity();
-                default:
-                    break;
-            }
-
-        }
-    };
+//    private View.OnClickListener onClick = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            switch (v.getId()) {
+//
+//                case R.id.btn_doagain:
+//
+//                default:
+//                    break;
+//            }
+//
+//        }
+//    };
 }

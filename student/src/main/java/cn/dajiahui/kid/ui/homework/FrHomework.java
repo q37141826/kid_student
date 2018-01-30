@@ -15,9 +15,8 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.adapter.ApHomework;
 import cn.dajiahui.kid.ui.homework.bean.BeHomework;
-import cn.dajiahui.kid.ui.homework.homeworkdetails.HomedetailsActivity;
+import cn.dajiahui.kid.ui.homework.homeworkdetails.HomeWorkDetailsActivity;
 import cn.dajiahui.kid.util.DjhJumpUtil;
-import cn.dajiahui.kid.util.Logger;
 
 /**
  * 作业
@@ -60,7 +59,7 @@ public class FrHomework extends FxFragment {
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), HomedetailsActivity.class);
+                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), HomeWorkDetailsActivity.class);
             }
         });
 

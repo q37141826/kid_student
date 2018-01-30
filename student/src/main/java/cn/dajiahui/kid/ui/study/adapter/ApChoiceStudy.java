@@ -2,7 +2,6 @@ package cn.dajiahui.kid.ui.study.adapter;
 
 import android.content.Context;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.fxtx.framework.adapter.CommonAdapter;
@@ -24,7 +23,7 @@ public class ApChoiceStudy extends CommonAdapter<BeChoiceStudy> {
     private ImageView iditemimage;
     private ProhibitMoveSeekbar seekitem;
     private TextView tvtypename;
-    private RatingBar rbscore;
+
 
 
     public ApChoiceStudy(Context context, List<BeChoiceStudy> mDatas) {
@@ -37,7 +36,7 @@ public class ApChoiceStudy extends CommonAdapter<BeChoiceStudy> {
         iditemimage = viewHolder.getView(R.id.id_itemimage);
         seekitem = viewHolder.getView(R.id.seek_item);
         tvtypename = viewHolder.getView(R.id.tv_typename);
-        rbscore = viewHolder.getView(R.id.rb_score);
+
 
         tvtypename.setText(item.getStudyname());
         seekitem.setProgress(Integer.parseInt(item.getStudyseekschedule()));

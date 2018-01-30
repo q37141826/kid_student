@@ -26,6 +26,17 @@ public class ChoiceQuestionModle extends QuestionModle{
     private String is_right;//是否正确
     private String is_auto;//
 
+
+    private  String choiceanswer="";//练习题 的check之后的选项
+
+    public String getChoiceanswer() {
+        return choiceanswer;
+    }
+
+    public void setChoiceanswer(String choiceanswer) {
+        this.choiceanswer = choiceanswer;
+    }
+
     public String getIs_answer() {
         return is_answer;
     }

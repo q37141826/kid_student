@@ -17,11 +17,11 @@ public class FirstActivity extends FxFirstActivity {
     @Override
     protected void handlerUpdate() {
 
-       UpdateApp manager = new UpdateApp(this, onUpdate);
+        UpdateApp manager = new UpdateApp(this, onUpdate);
         manager.checkUpdateOrNotAuto();
 
         /*fix 测试*/
-//        DjhJumpUtil.getInstance().startBaseActivity(FirstActivity.this, CardPracticeActivity.class);
+//        DjhJumpUtil.getInstance().startBaseActivity(FirstActivity.this, StudyDetailsActivity.class);
     }
 
     @Override
