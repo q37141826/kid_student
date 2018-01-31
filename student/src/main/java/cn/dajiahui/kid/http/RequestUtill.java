@@ -474,5 +474,30 @@ public class RequestUtill {
 //        getHttpBuilder(context, "user/boundPhone.json").params(params).post(callback);
     }
 
+
+    /**
+     * 根据班级码查询班级
+     * @param context
+     * @param callback
+     * @param classCode
+     */
+    public void  httpSearchClass(Context context, ResultCallback callback, String classCode) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("code", classCode);
+
+        getHttpBuilder(context, "student/classroom/get-class").params(params).post(callback);
+    }
+
+
+    public void  httpApplyClass(Context context, ResultCallback callback, String classId) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("class_id", classId);
+
+        getHttpBuilder(context, "student/classroom/add-class").params(params).post(callback);
+    }
+
+
 }
 

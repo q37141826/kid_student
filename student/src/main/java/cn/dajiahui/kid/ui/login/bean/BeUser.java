@@ -14,7 +14,8 @@ public class BeUser extends BeanObj {
     private String token;
     private String user_id;
     private String user_type;
-
+    private String nickname;
+    private String gender;
     /*注册*/
     private String telnum;
 
@@ -27,6 +28,8 @@ public class BeUser extends BeanObj {
     private String userName;
     private String birthday;
     private String pwd;
+
+
 
 
     public BeUserThrid getThird() {
