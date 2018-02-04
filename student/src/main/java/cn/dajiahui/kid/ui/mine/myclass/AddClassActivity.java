@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxActivity;
-
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 
@@ -19,6 +17,7 @@ import cn.dajiahui.kid.util.DjhJumpUtil;
 public class AddClassActivity extends FxActivity {
     private EditText edCode;
     private TextView tvSearch;
+    private String classCode;
 
     @Override
     protected void initView() {
@@ -38,41 +37,15 @@ public class AddClassActivity extends FxActivity {
     private View.OnClickListener onclick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String classCode = edCode.getText().toString().trim();
+            classCode = edCode.getText().toString().trim();
             if (StringUtil.isEmpty(classCode)) {
                 ToastUtil.showToast(context, R.string.input_code);
                 return;
             }
-            httpAddClass(classCode);
+            Bundle bundle = new Bundle();
+            bundle.putString("classCode", classCode);
+            DjhJumpUtil.getInstance().startBaseActivity(context, ClassDetailsActivity.class, bundle, 0);
+            finishActivity();
         }
     };
-
-    public void httpAddClass(String classNo) {
-
-        DjhJumpUtil.getInstance().startBaseActivity(context,  ClassDetailsActivity.class);
-        finishActivity();
-//        showfxDialog();
-//        ResultCallback callback = new ResultCallback() {
-//            @Override
-//            public void onError(Request request, Exception e) {
-//                dismissfxDialog();
-//                ToastUtil.showToast(context, ErrorCode.error(e));
-//            }
-//
-//            @Override
-//            public void onResponse(String response) {
-//                dismissfxDialog();
-//                HeadJson json = new HeadJson(response);
-//                if (json.getstatus()  == 1) {
-//                    //跳转到我的班级界面
-////                    DjhJumpUtil.getInstance().startBaseActivity(context, AuditListActivity.class);
-//                    ActivityUtil.getInstance().finishActivity(AddClassActivity.class);
-////                    ActivityUtil.getInstance().finishActivity(AuditListActivity.class);
-//                } else {
-//                    ToastUtil.showToast(context, json.getMsg());
-//                }
-//            }
-//        };
-//        RequestUtill.getInstance().httpAddClassAply(context, UserController.getInstance().getUserId(), classNo, callback);
-    }
 }
