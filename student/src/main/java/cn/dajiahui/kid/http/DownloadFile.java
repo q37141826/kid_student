@@ -23,6 +23,7 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.util.KidConfig;
+import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.MD5;
 import cn.dajiahui.kid.util.OpFileUtil;
 
@@ -47,39 +48,47 @@ public class DownloadFile {
         this.onDown = onDown;
         this.mContext = context;
         this.befile = befile;
-        if (befile.getFileType() == Constant.file_pointreading) {
-//            /*做跳转处理*/
-//            ArrayList<BePhoto> photos = new ArrayList<BePhoto>();
-//            photos.add(new BePhoto(befile.getFileUrl(), befile.getFileUrl(), befile.getFileUrl()));
-//            DjhJumpUtil.getInstance().startPhotoPageActivity(context, photos, 0, false);
-//
-//            return;
-        }
+
         if (StringUtil.isEmpty(befile.getFileUrl())) return;
         int index = befile.getFileUrl().lastIndexOf("/");
         if (index == -1) {
             this.fileName = MD5.getMD5(befile.getFileUrl());
 
         } else {
-            this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp3";
+
+            if (befile.getFileType() == Constant.file_pointreading) {
+                Logger.d("点读本类型");
+                this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp3";
+            } else if (befile.getFileType() == Constant.file_textbookplay) {
+                String pathTextbookPlay = KidConfig.getInstance().getPathTextbookPlay();
+                Logger.d("课本剧类型:"+pathTextbookPlay);
+                this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp4";
+
+            }
+
 
         }
         showfxDialog("下载中");
-        file = new File(KidConfig.getInstance().getPathTemp() + fileName);//参数文件名字
+        Logger.d("要下載文件的名字："+this.fileName);
+        file = new File(KidConfig.getInstance().getPathTemp() + this.fileName);//参数文件名字
         if (file.exists()) {
             if (isDownLoad) {
+                Logger.d("---------------------1" );
                 file.delete();
                 downLoad(befile.getFileUrl(), fileName);
                 return;
             }
+            Logger.d("---------------------2" );
             befile.setLocaUrl(KidConfig.getInstance().getPathTemp());
             if (onDown != null) {
+                Logger.d("---------------------3" );
                 onDown.onDownload(befile.getLocaUrl() + fileName, progressDialog);
             }
 //            else {
 //                OpFileUtil.openFile(mContext, befile);
 //            }
         } else {
+            Logger.d("---------------------4" );
             downLoad(befile.getFileUrl(), fileName);
         }
     }
@@ -109,17 +118,28 @@ public class DownloadFile {
                 dismissfxDialog(0);
                 if (file.exists()) file.delete();
                 ToastUtil.showToast(mContext, ErrorCode.error(e));
+                Logger.d("文件下载失败");
             }
 
             @Override
             public void onResponse(String response) {
-
+                Logger.d("文件下完成");
                 befile.setLocaUrl(KidConfig.getInstance().getPathTemp());
-                /*复制文件到 pathPointRedaing*/
-                FileUtil.copy(KidConfig.getInstance().getPathTemp(), KidConfig.getInstance().getPathPointRedaing());
+                if (befile.getFileType() == Constant.file_pointreading) {
+                      /*复制文件到 pathPointRedaing*/
+                    FileUtil.copy(KidConfig.getInstance().getPathTemp(), KidConfig.getInstance().getPathPointRedaing());
+                    Logger.d("点读本复制完成！");
+                } else if (befile.getFileType() == Constant.file_textbookplay) {
+                     /*复制文件到 PathTextbookPlay*/
+                    FileUtil.copy(KidConfig.getInstance().getPathTemp(), KidConfig.getInstance().getPathTextbookPlay());
+                    Logger.d("課本剧复制完成！");
+                }
+
                 if (onDown != null) {
+                    Logger.d("下载成功回调");
                     onDown.onDownload(befile.getLocaUrl() + fileName, progressDialog);
                 } else {
+                    Logger.d("直接打开！");
                     OpFileUtil.openFile(mContext, befile);
                 }
 //                dialog.dismiss();
@@ -129,7 +149,7 @@ public class DownloadFile {
             @Override
             public void inProgress(float progress) {
                 super.inProgress(progress);
-
+                Logger.d("文件下载中");
 //                if (progressBar != null)
 //                    progressBar.setProgress((int) (progress * 100.f));
             }

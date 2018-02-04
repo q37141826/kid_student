@@ -30,7 +30,9 @@ public class Constant {
     public static final int file_wps = 8; //wps
 
     /*魔耳点读*/
-    public static final int file_pointreading = 1; //点读一品
+    public static final int file_pointreading = 1; //点读本
+    /*课本剧*/
+    public static final int file_textbookplay = 2; //点读本
 
 
     /**

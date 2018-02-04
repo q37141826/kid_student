@@ -11,9 +11,9 @@ public class BeDownFile {
     private String name; //文件名字
     private String locaUrl;//本地路径
 
-    /*下载点读运品*/
-    public BeDownFile( int fileType,String fileUrl, String name, String locaUrl) {
-        this.fileType=fileType;
+    /*下载点读本 课本剧*/
+    public BeDownFile(int fileType, String fileUrl, String name, String locaUrl) {
+        this.fileType = fileType;
         this.fileUrl = fileUrl;
         this.name = name;
         this.locaUrl = locaUrl;

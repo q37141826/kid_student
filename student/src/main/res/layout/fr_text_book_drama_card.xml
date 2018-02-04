@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
+    android:background="#9EDBEE">
+
+
+    <TextView
+        android:id="@+id/tv_currentnum"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="11111"
+        android:textColor="@color/white"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/tv_english"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="课本剧卡片"
+        android:textColor="@color/white"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:id="@+id/tv_chinese"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_english"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:text="中文"
+        android:textColor="@color/white"
+        android:textSize="24sp"/>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/slide_right_empty"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/slide_right"/>
+
+    <cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar
+        android:id="@+id/record_seek"
+        android:layout_width="226dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_chinese"
+        android:layout_centerInParent="true"/>
+
+    <RatingBar
+        android:id="@+id/rb_score"
+        style="@style/myratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_chinese"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/tv_totaltime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_chinese"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@+id/record_seek"
+        android:text="shij"
+        android:textColor="@color/white"
+        android:textSize="14sp"/>
+</RelativeLayout>
+

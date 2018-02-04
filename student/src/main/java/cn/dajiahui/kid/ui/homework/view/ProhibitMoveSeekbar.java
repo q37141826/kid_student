@@ -7,7 +7,10 @@ import android.view.MotionEvent;
 import android.widget.SeekBar;
 
 /**
- * Created by lenovo on 2018/1/16.
+ * Created by mj on 2018/1/16.
+ * <p>
+ * <p>
+ * 禁止滑动的seekbar
  */
 
 @SuppressLint("AppCompatCustomView")

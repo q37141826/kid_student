@@ -38,7 +38,6 @@ public class MyWorksActivity extends FxActivity {
         setfxTtitle(R.string.myworks);
         onBackText();
         onRightBtn(R.drawable.ico_share, R.string.edit);
-
     }
 
     @Override

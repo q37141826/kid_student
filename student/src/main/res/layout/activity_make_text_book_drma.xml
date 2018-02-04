@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <cn.dajiahui.kid.ui.study.kinds.textbookdrama.JCVideoPlayerTextBook
+            android:id="@+id/videoplayer"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+        <!--可以选择是否禁止滑动的ViewPager-->
+        <cn.dajiahui.kid.ui.study.view.NoScrollViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_name"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:id="@+id/img_playrecoding"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="95dp"
+            android:src="@drawable/play_recoding"/>
+
+        <ImageView
+            android:id="@+id/img_recording"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/recoding"/>
+
+
+        <TextView
+            android:id="@+id/submit"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="95dp"
+            android:background="@drawable/textbook_submit"
+            android:gravity="center"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:visibility="invisible"
+            />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

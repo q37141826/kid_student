@@ -37,14 +37,12 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     /////////////////
     private List<HorizontallListViewAdapter> mAllList = new ArrayList<>();//装每个HorizontalListView的适配器
     private List<HorizontalListView> mAllHorizontalListView = new ArrayList<>();//装每个HorizontalListView的适配器
-    private Map<Integer, Map<Integer, Object>> mAllMap = new HashMap<>();//存所有答案的集合
+    private Map<Integer, Map<Integer, String>> mAllMap = new HashMap<>();//存所有答案的集合（key： 第几个listview  val：listview对应的数据）
 
     private int mTop = 0;//初始距离上端
-    private int mTop1 = 0;//初始距离上端
-    private Map<Integer, Object> integerObjectMap;
-    private List<CompletionQuestionModle> rightanswer = new ArrayList<>();
-    ;//正确答案
-    private List<String> myanswer = new ArrayList<>();
+    private List<CompletionQuestionModle> rightanswer = new ArrayList<>();//正确答案的集合
+
+    private List<String> myanswer = new ArrayList<>();//我的答案
 
 
     @Override
@@ -68,7 +66,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         /*解析正确答案（后台获取的正确答案）*/
         String standard_answer = inbasebean.getStandard_answer();
         String[] strs = standard_answer.split(",");
-       /*截取字符串*/
+       /*截取正确答案字符串  添加到rightanswer集合*/
         for (int i = 0, len = strs.length; i < len; i++) {
             String split = strs[i].toString();
             CompletionQuestionModle completionQuestionModle = new CompletionQuestionModle();
@@ -78,9 +76,8 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         }
 
 
-
            /*判断是否已经上传后台 0 没答过题  1 答过题*/
-        if (inbasebean.getIs_answer().equals("1")) {
+        if (DoHomeworkActivity.sourceFlag.equals("HomeWork") && inbasebean.getIs_answer().equals("1")) {
 
             inbasebean.setIsFocusable("false");
             inbasebean.setIsShowRightAnswer("yes");
@@ -94,7 +91,6 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         }
          /* size 填写有几道填空题 后台提供*/
         addHorizontalListView(3);
-
     }
 
     /*准备数据源*/
@@ -127,21 +123,9 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             mTop += 200;
 
             horizontalListView.setLayoutParams(params);
-            /*沒有翻过页 要新new出来*/
-            if (inbasebean.getmAllMap() == null) {
-                integerObjectMap = new HashMap<Integer, Object>();
 
-            } else {
-                if (inbasebean.getmAllMap().get(i) != null) {
-                    Logger.d("-------1---- " + inbasebean.getmAllMap().size());
-                    Logger.d("-------11---- " + inbasebean.getmAllMap().toString());
-                    integerObjectMap = inbasebean.getmAllMap().get(i);
+            Map<Integer, String> integerObjectMap = new HashMap();//每次都要new出来
 
-                } else {
-                    integerObjectMap = new HashMap<Integer, Object>();
-                }
-
-            }
             HorizontallListViewAdapter horizontallListViewAdapter = new HorizontallListViewAdapter(getActivity(), this, i, integerObjectMap, getData(), inbasebean);
             horizontalListView.setAdapter(horizontallListViewAdapter);
             mAllList.add(horizontallListViewAdapter);
@@ -226,9 +210,8 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     @Override
     public void submitEditextInfo(int selfposition) {
         if (inbasebean.isAnswer() == false) {
-
             inbasebean.setAnswerflag("true");
-            mAllMap.put(selfposition, mAllList.get(selfposition).getInputContainer());
+            mAllMap.put(selfposition, mAllList.get(selfposition).getInputContainer());//mAllList.get(selfposition).getInputContainer() 获取每个适配的editext的数据集合
             inbasebean.setmAllMap(mAllMap);
             submit.submitCompletionFragment(inbasebean);//通知activity这次的作答答案
         }
@@ -241,15 +224,50 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             inbasebean = (CompletionQuestionModle) questionModle;
             /*作业翻页回来会走 submitHomework*/
             if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
-//                Logger.d("-------33---- " + inbasebean.getmAllMap().size());
+//                Logger.d("-----------翻页回来之后的" + inbasebean.getmAllMap().toString());
+                /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/
+                for (int i = 0; i < mAllList.size(); i++) {
+                    Map<Integer, String> integerObjectMap = inbasebean.getmAllMap().get(i);
+                    mAllList.get(i).setInputContainer(integerObjectMap);
+
+                }
+
               /*判断是否已经上传后台 0 没答过题  1 答过题*/
             }
             /*练习check之后会走 submitHomework*/
-            else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
-                Logger.d("-------33---- " + inbasebean.getmAllMap().size());
+            else if (DoHomeworkActivity.sourceFlag.equals("Practice") && inbasebean.getAnswerflag().equals("true")) {
+
                 Logger.d("-------33---- " + inbasebean.getmAllMap().toString());
 
+                myanswer.clear();
+               /*取出我的答案*/
+                for (int i = 0; i < inbasebean.getmAllMap().size(); i++) {
+                    Map<Integer, String> integerStringMap = inbasebean.getmAllMap().get(i);
+                    for (int w = 0; w < integerStringMap.size(); w++) {
+                        myanswer.add(integerStringMap.get(w));
+                    }
+                }
 
+                Logger.d("myanswer:"+myanswer.toString());
+
+                Logger.d("rightanswer:"+rightanswer.toString());
+
+
+                for (int i = 0; i < mAllList.size(); i++) {
+
+                  ;
+
+                    for (int a = 0; a < myanswer.size(); a++) {
+                    /*填空对应的答案相等*/
+                        if (rightanswer.get(a).getAnalysisAnswer().equals(myanswer.get(a))) {
+                            rightanswer.get(a).setTextcolor("green");
+                        }
+                    }
+
+                    mAllList.get(i).setmList(getData());
+                    mAllList.get(i).notifyDataSetChanged();
+
+                }
 
 
             }

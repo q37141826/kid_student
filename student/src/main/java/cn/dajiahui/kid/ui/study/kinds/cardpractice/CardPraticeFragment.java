@@ -161,12 +161,14 @@ public class CardPraticeFragment extends LazyLoadFragment {
     @Override
     public void onStop() {
         super.onStop();
+        PlayMedia.getPlaying().StopMp3();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Logger.d("-------------onPause()");
+        PlayMedia.getPlaying().PauseMp3();
     }
 
 

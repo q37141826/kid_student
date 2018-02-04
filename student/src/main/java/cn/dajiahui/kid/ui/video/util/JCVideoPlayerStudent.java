@@ -10,7 +10,7 @@ import cn.dajiahui.kid.ui.mine.myworks.VideoActivity;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 public class JCVideoPlayerStudent extends JCVideoPlayerStandard {
-    private  OnDuration onDuration;
+    private OnDuration onDuration;
 
     public JCVideoPlayerStudent(Context context) {
         super(context);
@@ -34,9 +34,12 @@ public class JCVideoPlayerStudent extends JCVideoPlayerStandard {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        if(v.getId() == fm.jiecao.jcvideoplayer_lib.R.id.back){
+        if (v.getId() == fm.jiecao.jcvideoplayer_lib.R.id.back) {
             if (currentScreen != SCREEN_WINDOW_FULLSCREEN) {
+
+                    /*我的作品*/
                 ActivityUtil.getInstance().finishActivity(VideoActivity.class);
+
             }
         }
     }
@@ -45,17 +48,31 @@ public class JCVideoPlayerStudent extends JCVideoPlayerStandard {
     @Override
     public void setProgressAndText(int progress, int position, int duration) {
         super.setProgressAndText(progress, position, duration);
-            if(onDuration!=null){
-                onDuration.onDuration(totalTimeTextView.getText().toString());
-            }
+        if (onDuration != null) {
+            onDuration.onDuration(totalTimeTextView.getText().toString());
+        }
     }
 
     public void setOnDuration(OnDuration onDuration) {
         this.onDuration = onDuration;
     }
 
-    public interface  OnDuration{
+    public interface OnDuration {
         void onDuration(String duration);
     }
+
+    /*隐藏电池的视图*/
+    public void hideView() {
+
+        batteryTimeLayout.setVisibility(GONE);//隐藏电池
+        retryTextView.setVisibility(GONE);//
+        clarity.setVisibility(GONE);//
+
+    }
+
+    public void hideBackButton() {
+        backButton.setVisibility(GONE);//隐藏退出
+    }
+
 
 }

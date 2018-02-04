@@ -76,7 +76,7 @@ public class SortFragment extends BaseHomeworkFragment implements
     private TextView mLeft;/*我的答案*/
     private ImageView sort_img_play;//播放器按钮
 
-
+    public static boolean isLinecheck = false;//江湖救急  后续更改
     private Map<Integer, BeLocation> mMineAnswerMap = new HashMap<>();//（isanswer=0）
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -430,15 +430,12 @@ public class SortFragment extends BaseHomeworkFragment implements
                             mMineAnswerMap.put(a, beLocation);
                         }
                     }
-                } else {
-
-//                leftViews.get(a).lockMoveImage(inbasebean);
                 }
 
             }
             /*练习check之后会走 submitHomework*/
             else if (DoHomeworkActivity.sourceFlag.equals("Practice") && inbasebean.getAnswerflag().equals("true")) {
-
+                isLinecheck = true;
                 Map<Integer, BeLocation> mPsortAnswerMap = inbasebean.getSortAnswerMap();//练习模块我的答案
                     /*自己答题 非网络请求*/
                 for (int a = 0; a < leftViews.size(); a++) {
@@ -519,11 +516,13 @@ public class SortFragment extends BaseHomeworkFragment implements
     @Override
     public void onStop() {
         super.onStop();
+        isLinecheck=false;
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        isLinecheck=false;
     }
 
 }

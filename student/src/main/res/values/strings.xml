@@ -302,6 +302,7 @@
     <string name="card_imgage">cardimgage</string>
     <string name="card_textview">cardtextview</string>
     <string name="study_pratice">练习</string>
+    <string name="submit">提交</string>
     <!--我的 end -->
 
     <!--意见反馈start -->
@@ -404,7 +405,7 @@
     <string name="fx_report">学情报告</string>
     <string name="re_test">测评报告</string>
     <string name="re_session">结课报告</string>
-    <string name="not_submit">未提交</string>
+
     <string name="re_classroom">课堂报告</string>
     <string name="fx_see_list">观看记录</string>
     <string name="fx_student_num"><![CDATA[学生数:%1$s]]></string>

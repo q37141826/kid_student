@@ -41,7 +41,7 @@ public class VideoActivity extends FxActivity {
             title = "";
         }
 
-        jcVideoPlayerStandard.setUp("/storage/emulated/0/test.mp4", JCVideoPlayer.SCREEN_LAYOUT_LIST, title);
+        jcVideoPlayerStandard.setUp("/storage/emulated/0/qqqq.mp4", JCVideoPlayer.SCREEN_LAYOUT_LIST, title);
         jcVideoPlayerStandard.setOnDuration(new JCVideoPlayerStudent.OnDuration() {
             @Override
             public void onDuration(String duration) {

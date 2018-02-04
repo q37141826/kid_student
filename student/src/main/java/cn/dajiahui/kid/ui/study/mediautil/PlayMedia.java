@@ -56,7 +56,7 @@ public class PlayMedia {
     /*停止mp3 释放资源*/
     public void StopMp3() {
         mediaPlayer.stop();
-        mediaPlayer.release();
+//        mediaPlayer.release();
     }
 
 

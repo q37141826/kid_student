@@ -176,13 +176,12 @@
         </activity>
         <!-- 点读本 -->
         <activity android:name=".ui.study.kinds.readingbook.ReadingBookActivity"/>
-        <!--随身听-->
+        <!-- 随身听 -->
         <activity android:name=".ui.study.kinds.personalstereo.PersonalStereoActivity"/>
-        <!--卡片练习-->
+        <!-- 卡片练习 -->
         <activity android:name=".ui.study.kinds.cardpractice.CardPracticeActivity"/>
-        <!--做作业初级界面-->
+        <!-- 做作业初级界面 -->
         <activity android:name=".ui.homework.homeworkdetails.HomeWorkDetailsActivity"/>
-
         <activity
             android:name=".ui.mine.about.AllFounctionActivity"
             android:screenOrientation="portrait"
@@ -214,9 +213,6 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.chat.VoiceCallActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.mp3.Mp3Activity"
             android:screenOrientation="portrait"/>
 
         <!-- 显示下载大图页面 -->
@@ -415,6 +411,18 @@
             android:name="com.fxtx.framework.image.MyGlideMoudle"
             android:value="GlideModule"/>
 
+        <activity android:name=".ui.study.kinds.textbookdrama.TextBookDramaActivity">
+        </activity>
+        <activity
+            android:name=".ui.study.kinds.textbookdrama.MakeTextBookDrmaActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ui.study.kinds.textbookdrama.TextBookSuccessActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

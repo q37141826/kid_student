@@ -551,7 +551,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                     draw_root.addView(drawView, params);
 
                 }
-            } else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {// check之后要显示正确答案和我的答案
+            } else if (DoHomeworkActivity.sourceFlag.equals("Practice") && inbasebean.getAnswerflag().equals("true")) {// check之后要显示正确答案和我的答案
 
                 /*添加我的答案  和正确答案按钮*/
                 mLeft.setText("我的答案");
@@ -566,6 +566,8 @@ public class LineFragment extends BaseHomeworkFragment implements
 
         }
     }
+
+
 
     /*我的答案  ，正确答案的点击事件*/
     @Override
@@ -612,10 +614,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                     showRightAnswer();
                 } else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
                     draw_root.removeAllViews();
-
                     showRightAnswer();
-
-
                 }
 
                 break;

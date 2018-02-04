@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <cn.dajiahui.kid.ui.study.kinds.textbookdrama.JCVideoPlayerTextScuessBook
+            android:id="@+id/videoplayer"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="123dp"
+            android:padding="10dp">
+
+
+            <TextView
+                android:id="@+id/tv_unitname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="listen and say"/>
+
+            <ImageView
+                android:id="@+id/img_user"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_below="@+id/tv_unitname"
+                android:layout_marginTop="17dp"
+                android:src="@drawable/ic_launcher"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:layout_below="@+id/tv_unitname"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="17dp"
+                android:layout_toRightOf="@+id/img_user"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="lamar"/>
+
+                    <TextView
+                        android:id="@+id/tv_maketime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="2018.2.3"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_fraction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="90分"/>
+
+                    <RatingBar
+                        android:id="@+id/rb_score"
+                        style="@style/myratingbar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/tv_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="分享至"/>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_share"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_toLeftOf="@+id/tv_share">
+
+
+                <ImageView
+                    android:id="@+id/img_weixin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/icon_wechat"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/img_weixin"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="19dp"
+                    android:text="微信"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"/>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_share"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_toRightOf="@+id/tv_share">
+
+                <ImageView
+                    android:id="@+id/img_pengyouquan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/icon_pengyouquan"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/img_pengyouquan"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="19dp"
+                    android:text="朋友圈"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/tv_recordagain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/gray">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="重新录制"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tv_savemineworks"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/yellow">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="保存到我的作品"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

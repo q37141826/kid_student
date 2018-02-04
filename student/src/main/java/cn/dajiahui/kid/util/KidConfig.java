@@ -35,11 +35,22 @@ public class KidConfig {
     private String pathRoot = this.envConfig + File.separator + "kid_student" + File.separator;
     /*临时文件夹*/
     private String pathTemp = this.pathRoot + "temp" + File.separator;
-    /**/
+    /*点读本*/
     private String pathPointRedaing = this.pathRoot + "PointReading" + File.separator;
-
+    /*课本剧*/
+    private String pathTextbookPlay = this.pathRoot + "TextbookPlay" + File.separator;
+    /*课本剧*/
+    private String pathNoSoundVideo = this.pathRoot + "NoSoundVideo" + File.separator;
     //录音
-    private String pathSoundRecording = this.pathRoot + "SoundRecording" + File.separator;
+    private String pathRecordingAudio = this.pathRoot + "RecordingAudio" + File.separator;
+    /*背景音*/
+    private String pathBackgroundAudio = this.pathRoot + "BackgroundAudio" + File.separator;
+    /*混音 mp3*/
+    private String pathMixAudios = this.pathRoot + "MixAudios" + File.separator;
+    /*我的作品临时文件夹*/
+    private String pathMineWorksTemp = this.pathRoot + "MineWorksTemp" + File.separator;
+    /*我的作品*/
+    private String pathMineWorks = this.pathRoot + "MineWorks" + File.separator;
 
 
     public void init() {
@@ -56,7 +67,7 @@ public class KidConfig {
             folder.mkdir();
         }
 
-        folder = new File(this.pathSoundRecording);
+        folder = new File(this.pathRecordingAudio);
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -64,7 +75,30 @@ public class KidConfig {
         if (!folder.exists()) {
             folder.mkdir();
         }
-
+        folder = new File(this.pathTextbookPlay);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathBackgroundAudio);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathMixAudios);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathMineWorks);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathNoSoundVideo);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+ folder = new File(this.pathMineWorksTemp);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
 
     }
 
@@ -94,13 +128,34 @@ public class KidConfig {
         return pathTemp;
     }
 
-    public String getPathSoundRecording() {
-        return pathSoundRecording;
-    }
-
     public String getPathPointRedaing() {
         return pathPointRedaing;
     }
 
+    public String getPathTextbookPlay() {
+        return pathTextbookPlay;
+    }
 
+    public String getPathRecordingAudio() {
+        return pathRecordingAudio;
+    }
+
+    public String getPathBackgroundAudio() {
+        return pathBackgroundAudio;
+    }
+
+    public String getPathMixAudios() {
+        return pathMixAudios;
+    }
+
+    public String getPathMineWorks() {
+        return pathMineWorks;
+    }
+    public String getPathNoSoundVideo() {
+        return pathNoSoundVideo;
+    }
+
+    public String getPathMineWorksTemp() {
+        return pathMineWorksTemp;
+    }
 }

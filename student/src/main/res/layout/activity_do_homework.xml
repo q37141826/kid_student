@@ -38,7 +38,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <!--新布局-->
+        <!--可以选择是否禁止滑动的ViewPager-->
         <cn.dajiahui.kid.ui.study.view.NoScrollViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"

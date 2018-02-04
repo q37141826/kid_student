@@ -26,18 +26,31 @@ public class HorizontallListViewAdapter extends BaseAdapter {
     private final SubmitEditext submitEditext;
     private MyFoucus myFoucus;
     private EditChangedListener editChangedListener;//editext监听器
-    public Map<Integer, Object> inputContainer;// = new HashMap<Integer, Object>();//存editext的集合
-    private Map<Integer, CompletionQuestionModle> mList;
+    public Map<Integer, String> inputContainer;// = new HashMap<Integer, Object>();//存editext的集合
+
+    private Map<Integer, CompletionQuestionModle> mList;//数据源
     private int selfposition;//HorizontallList在碎片中的索引（用于取出当前的HorizontallList）
     private String haveFocus = "";//用于网络请求后清空editext所有焦点
-    private String IsShowRightAnswer = "";//是否显示editext
+    public String IsShowRightAnswer = "";//是否显示editext
+
+    public void setmList(Map<Integer, CompletionQuestionModle> mList) {
+        this.mList = mList;
+        this.IsShowRightAnswer ="yes";
+        haveFocus="false";
+    }
 
     /*获取答案的集合*/
     public Map getInputContainer() {
         return inputContainer;
     }
 
-    public HorizontallListViewAdapter(Context context, SubmitEditext submitEditext, int selfposition, Map<Integer, Object> inputContainer, Map<Integer, CompletionQuestionModle> list, CompletionQuestionModle inbasebean) {
+    public void setInputContainer(Map<Integer, String> inputContainer) {
+        this.inputContainer = inputContainer;
+
+        notifyDataSetChanged();
+    }
+
+    public HorizontallListViewAdapter(Context context, SubmitEditext submitEditext, int selfposition, Map<Integer, String> inputContainer, Map<Integer, CompletionQuestionModle> list, CompletionQuestionModle inbasebean) {
         this.mContext = context;
         this.mList = list;
         this.submitEditext = submitEditext;
@@ -103,9 +116,18 @@ public class HorizontallListViewAdapter extends BaseAdapter {
         holderView.editext.removeTextChangedListener(editChangedListener);
 
         if (inputContainer != null) {
+//            Logger.d("---------------inputContainer.get(position).toString():" + inputContainer.get(position).toString());
             if (inputContainer.containsKey(position)) {
+//                for (int i = 0; i < inputContainer.size(); i++) {
+//                    Logger.d("---------------inputContainer.get(position).toString():" + inputContainer.get(position).toString());
+//                }
+//                Logger.d("---------------1");
+
+                String s = inputContainer.get(position).toString();
+
                 holderView.editext.setText(inputContainer.get(position).toString());
             } else {
+
                 holderView.editext.setText("");
             }
         }

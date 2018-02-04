@@ -17,9 +17,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
-import cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity;
 import cn.dajiahui.kid.ui.homework.myinterface.MoveLocation;
 import cn.dajiahui.kid.util.Logger;
+
+import static cn.dajiahui.kid.ui.homework.homeworkdetails.SortFragment.isLinecheck;
 
 /**
  * Created by lenovo on 2018/1/16.
@@ -83,12 +84,6 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
 
                 break;
             case MotionEvent.ACTION_MOVE:
-                   /*如果是练习模式，已作答就锁定移动的view位置*/
-                if (DoHomeworkActivity.sourceFlag.equals("Practice") && inbasebean.getAnswerflag().equals("true")) {
-                    Logger.d("排序1111111111111111111111");
-
-                    break;
-                }
 
 
                 if (inbasebean.getIs_answer().equals("0")) {
@@ -104,8 +99,15 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
                     int r = this.getRight() + dx;
                     int t = this.getTop() + dy;
                     int b = this.getBottom() + dy;
+                    /*如果是练习模式，已作答就锁定移动的view位置*/
+                    if (isLinecheck == false) {
+                        Logger.d("-----------------------排序");
+                        Logger.d("-----------------------排序inbasebean.getAnswerflag()" + inbasebean.getAnswerflag());
                     /*移动刷新位置*/
-                    this.layout(l, t, r, b);
+
+                        this.layout(l, t, r, b);
+                    }
+
 
                     // 重新初始化起点坐标
                     startX = (int) motionEvent.getRawX();

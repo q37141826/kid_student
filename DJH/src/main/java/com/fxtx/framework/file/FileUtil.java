@@ -94,31 +94,53 @@ public class FileUtil {
      *
      * @param dirPath
      */
-    public void deleteAllFile(String dirPath) {
-        deleteAllFile(new File(dirPath));
-    }
+//    public void deleteAllFile(String dirPath) {
+//        deleteAllFile(new File(dirPath));
+//    }
+//
+//    public void deleteAllFile(File dirFile) {
+//        if (!dirFile.exists()) {
+//            return;
+//        }
+//        if (dirFile.isFile()) {
+//            dirFile.delete();
+//            return;
+//        }
+//        if (dirFile.isDirectory()) {
+//            File[] files = dirFile.listFiles();
+//            if (files == null || files.length == 0) {
+//                dirFile.delete();
+//                return;
+//            }
+//            for (File file : files) {
+//                deleteAllFile(file);
+//            }
+//            dirFile.delete();
+//        }
+//    }
 
-    public void deleteAllFile(File dirFile) {
-        if (!dirFile.exists()) {
-            return;
-        }
-        if (dirFile.isFile()) {
-            dirFile.delete();
-            return;
-        }
-        if (dirFile.isDirectory()) {
-            File[] files = dirFile.listFiles();
-            if (files == null || files.length == 0) {
-                dirFile.delete();
-                return;
+    //清空文件 不删除文件夹
+    public void deleteAllFiles(File root) {
+        File files[] = root.listFiles();
+        if (files != null)
+            for (File f : files) {
+                if (f.isDirectory()) { // 判断是否为文件夹
+                    deleteAllFiles(f);
+                    try {
+                        f.delete();
+                    } catch (Exception e) {
+                    }
+                } else {
+                    if (f.exists()) { // 判断是否存在
+                        deleteAllFiles(f);
+                        try {
+                            f.delete();
+                        } catch (Exception e) {
+                        }
+                    }
+                }
             }
-            for (File file : files) {
-                deleteAllFile(file);
-            }
-            dirFile.delete();
-        }
     }
-
 
     /**
      * 保存信息到sd卡
@@ -203,9 +225,9 @@ public class FileUtil {
     }
 
 
-
     /**
      * 从sd卡获取图片资源
+     *
      * @return
      */
     public List<String> getImagePathFromSD(String filePath) {
@@ -215,14 +237,14 @@ public class FileUtil {
         // 得到该路径文件夹下所有的文件
         File fileAll = new File(filePath);
         File[] files = fileAll.listFiles();
-        if(files!=null){
-        // 将所有的文件存入ArrayList中,并过滤所有图片格式的文件
-        for (int i = 0; i < files.length; i++) {
-            File file = files[i];
-            if (checkIsImageFile(file.getPath())) {
-                imagePathList.add(file.getPath());
+        if (files != null) {
+            // 将所有的文件存入ArrayList中,并过滤所有图片格式的文件
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                if (checkIsImageFile(file.getPath())) {
+                    imagePathList.add(file.getPath());
+                }
             }
-        }
         }
         // 返回得到的图片列表
         return imagePathList;
@@ -230,7 +252,8 @@ public class FileUtil {
 
     /**
      * 检查扩展名，得到图片格式的文件
-     * @param fName  文件名
+     *
+     * @param fName 文件名
      * @return
      */
     @SuppressLint("DefaultLocale")
@@ -240,7 +263,7 @@ public class FileUtil {
         String FileEnd = fName.substring(fName.lastIndexOf(".") + 1,
                 fName.length()).toLowerCase();
         if (FileEnd.equals("jpg") || FileEnd.equals("png") || FileEnd.equals("gif")
-                || FileEnd.equals("jpeg")|| FileEnd.equals("bmp") ) {
+                || FileEnd.equals("jpeg") || FileEnd.equals("bmp")) {
             isImageFile = true;
         } else {
             isImageFile = false;
@@ -286,6 +309,7 @@ public class FileUtil {
         }
         return true;
     }
+
     //文件拷贝
     //要复制的目录下的所有非子目录(文件夹)文件拷贝
     public static boolean CopySdcardFile(String fromFile, String toFile) {
@@ -306,6 +330,7 @@ public class FileUtil {
             return false;
         }
     }
+
     /*判断文件是否存在*/
     public static boolean fileIsExists(String strFile) {
         try {
@@ -320,4 +345,6 @@ public class FileUtil {
 
         return true;
     }
+
+
 }

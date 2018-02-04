@@ -73,13 +73,13 @@ public class CompletionQuestionModle extends QuestionModle {
         this.isFocusable = isFocusable;
     }
 
-    private Map<Integer, Map<Integer, Object>> mAllMap = new HashMap<>();//保存自己答案的集合
+    private Map<Integer, Map<Integer, String>> mAllMap = new HashMap<>();//保存自己答案的集合
 
-    public Map<Integer, Map<Integer, Object>> getmAllMap() {
+    public Map<Integer, Map<Integer, String>> getmAllMap() {
         return mAllMap;
     }
 
-    public void setmAllMap(Map<Integer, Map<Integer, Object>> mAllMap) {
+    public void setmAllMap(Map<Integer, Map<Integer, String>> mAllMap) {
         this.mAllMap = mAllMap;
     }
 

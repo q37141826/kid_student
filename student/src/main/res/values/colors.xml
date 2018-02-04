@@ -21,4 +21,5 @@
     <color name="list_click">#f4f4f4</color>
     <color name="mp3_bg">#343434</color>
     <color name="mp3_line">#555555</color>
+    <color name="submit">#FEBF12</color>
 </resources>
