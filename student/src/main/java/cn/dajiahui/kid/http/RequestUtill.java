@@ -489,7 +489,12 @@ public class RequestUtill {
         getHttpBuilder(context, "student/classroom/get-class").params(params).post(callback);
     }
 
-
+    /**
+     * 申请加入班级
+     * @param context
+     * @param callback
+     * @param classId
+     */
     public void  httpApplyClass(Context context, ResultCallback callback, String classId) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
@@ -498,6 +503,21 @@ public class RequestUtill {
         getHttpBuilder(context, "student/classroom/add-class").params(params).post(callback);
     }
 
-
+    /**
+     *
+     * @param context
+     * @param callback
+     * @param showClassmates 是否显示同班同学
+     */
+    public void httpGetContactList(Context context, ResultCallback callback, boolean showClassmates) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        if (showClassmates) {
+            params.put("show_classmates", "1");
+        } else {
+            params.put("show_classmates", "0");
+        }
+        getHttpBuilder(context, "student/classroom/contact").params(params).post(callback);
+    }
 }
 

@@ -35,6 +35,7 @@ public class ClassDetailsActivity extends FxActivity {
         setfxTtitle(R.string.class_details);
         onBackText();
         classCode = getIntent().getStringExtra("classCode");
+        showfxDialog();
         httpData();
     }
 

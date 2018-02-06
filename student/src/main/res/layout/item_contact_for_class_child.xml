@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
-        android:drawableRight="@drawable/ico_to"
+        android:drawableRight="@drawable/ico_chat"
         android:textColor="@color/color5A"
         android:textSize="@dimen/text18" />
 </LinearLayout>

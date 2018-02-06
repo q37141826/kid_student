@@ -22,6 +22,7 @@ import java.util.List;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.UserController;
+import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.chat.adapter.ApConcactForClass;
 import cn.dajiahui.kid.ui.chat.bean.BeConcact;
 import cn.dajiahui.kid.ui.chat.bean.BeConcactClass;
@@ -35,8 +36,9 @@ public class ConcactForClassActivity extends FxActivity {
     private PinnedHeaderListView listviewConcact;
     private MaterialRefreshLayout refreshConcact;
     private TextView textNullConcact;
-    private ApConcactForClass adapter;
-    private List<BeConcactClass> datas = new ArrayList<BeConcactClass>();
+    private ApConcactForClass apConcactForClass;
+
+    private List<BeConcactClass> userList = new ArrayList<BeConcactClass>();
 
     @Override
     protected void initView() {
@@ -46,24 +48,26 @@ public class ConcactForClassActivity extends FxActivity {
         textNullConcact = getView(R.id.tv_null);
         initRefresh(refreshConcact);
         listviewConcact.setEmptyView(textNullConcact);
-        adapter = new ApConcactForClass(ConcactForClassActivity.this, datas);
-        listviewConcact.setAdapter(adapter);
+        apConcactForClass = new ApConcactForClass(ConcactForClassActivity.this, userList);
+        listviewConcact.setAdapter(apConcactForClass);
         listviewConcact.setOnItemClickListener(new PinnedHeaderListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int section, int position, long id) {
-                BeConcact beConcact = datas.get(section).getList().get(position);
-                if(StringUtil.isEmpty(beConcact.getObjectId()))
+                BeConcact beConcact = userList.get(section).getTeacher_list().get(position);
+                if(StringUtil.isEmpty(beConcact.getEasemob_username())) {
+                    ToastUtil.showToast(ConcactForClassActivity.this, "数据错误，无法聊天");
                     return;
-                if (beConcact.getObjectId().equals(UserController.getInstance().getUserId())) {
+                }
+                if (beConcact.getId().equals(UserController.getInstance().getUserId())) {
                     ToastUtil.showToast(context, R.string.Cant_chat_with_yourself);
                     return;
                 }
-                if (!StringUtil.isEmpty(beConcact.getHxId())) {
-                    EaseUser user = new EaseUser(beConcact.getHxId());
-                    user.setAvatar(beConcact.getAvator());
-                    user.setNick(beConcact.getRealName());
+                if (!StringUtil.isEmpty(beConcact.getEasemob_nikname())) {
+                    EaseUser user = new EaseUser(beConcact.getEasemob_nikname());
+                    user.setAvatar(beConcact.getAvatar());
+                    user.setNick(beConcact.getNickname());
                     DemoDBManager.getInstance().saveContact(user);
-                    DjhJumpUtil.getInstance().startChatActivity(ConcactForClassActivity.this, beConcact.getHxId(), beConcact.getPhone());
+                    DjhJumpUtil.getInstance().startChatActivity(ConcactForClassActivity.this, beConcact.getEasemob_username(), beConcact.getPhone());
                 } else {
                     ToastUtil.showToast(ConcactForClassActivity.this, "环信账号不存在");
                 }
@@ -98,24 +102,32 @@ public class ConcactForClassActivity extends FxActivity {
             public void onError(Request request, Exception e) {
                 dismissfxDialog();
                 ToastUtil.showToast(ConcactForClassActivity.this, ErrorCode.error(e));
-                finishRefreshAndLoadMoer(refreshConcact, 0);
+//                finishRefreshAndLoadMoer(refreshConcact, 0);
             }
 
             @Override
             public void onResponse(String response) {
                 dismissfxDialog();
-                finishRefreshAndLoadMoer(refreshConcact, 1);
-                HeadJson headJson = new HeadJson(response);
-                if (headJson.getstatus()  == 0) {
-                    datas = headJson.parsingListArray(new GsonType<List<BeConcactClass>>() {
+//                finishRefreshAndLoadMoer(refreshConcact, 1);
+                HeadJson json = new HeadJson(response);
+                if (json.getstatus()  == 0) {
+//                    userList = headJson.parsingListArray(new GsonType<List<BeConcactClass>>() {
+//                    });
+//                    if (userList !=null)
+//                    apConcactForClass.reFreshList(ConcactForClassActivity.this, userList);
+
+                    /* 解析通讯录信息 */
+                    List<BeConcactClass> temp = json.parsingListArray("data", new GsonType<List<BeConcactClass>>() {
                     });
-                    if (datas!=null)
-                    adapter.reFreshList(ConcactForClassActivity.this, datas);
+                    userList.clear();
+                    userList.addAll(temp);
+                    apConcactForClass.notifyDataSetChanged();
+
                 } else {
-                    ToastUtil.showToast(ConcactForClassActivity.this, headJson.getMsg());
+                    ToastUtil.showToast(ConcactForClassActivity.this, json.getMsg());
                 }
             }
         };
-//        RequestUtill.getInstance().httpContactDetail(ConcactForClassActivity.this, callback, UserController.getInstance().getUserId());
+        RequestUtill.getInstance().httpGetContactList(ConcactForClassActivity.this, callback, false);
     }
 }

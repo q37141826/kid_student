@@ -37,7 +37,7 @@ public class ApConcactForClass extends SectionedBaseAdapter {
 
     @Override
     public Object getItem(int section, int position) {
-        return datas.get(section).getList().get(position);
+        return datas.get(section).getTeacher_list().get(position);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ApConcactForClass extends SectionedBaseAdapter {
 
     @Override
     public int getCountForSection(int section) {
-        return datas!=null?datas.get(section).getList()!=null?datas.get(section).getList().size():0:0;
+        return datas!=null?datas.get(section).getTeacher_list()!=null?datas.get(section).getTeacher_list().size():0:0;
     }
 
     /**
@@ -67,12 +67,12 @@ public class ApConcactForClass extends SectionedBaseAdapter {
     @Override
     public View getItemView(int section, int position, View convertView, ViewGroup parent) {
         ViewHolder holder = ViewHolder.getHolder(context, convertView, parent, R.layout.item_contact_for_class_child, 1);
-        ImageView userAvtor = holder.getView(R.id.user_avtor);
+        ImageView userAvtar = holder.getView(R.id.user_avtor);
         TextView userName = holder.getView(R.id.user_name);
-        if (datas.get(section).getList().get(position).getAvator() != null) {
-            GlideUtil.showRoundImage(context, datas.get(section).getList().get(position).getAvator(), userAvtor, R.drawable.ico_default_user, true);
+        if (datas.get(section).getTeacher_list().get(position).getAvatar() != null) {
+            GlideUtil.showRoundImage(context, datas.get(section).getTeacher_list().get(position).getAvatar(), userAvtar, R.drawable.ico_default_user, true);
         }
-        userName.setText(datas.get(section).getList().get(position).getRealName());
+        userName.setText(datas.get(section).getTeacher_list().get(position).getNickname());
         return holder.getConvertView();
     }
 
@@ -80,7 +80,7 @@ public class ApConcactForClass extends SectionedBaseAdapter {
     public View getSectionHeaderView(int section, View convertView, ViewGroup parent) {
         ViewHolder holder = ViewHolder.getHolder(context, convertView, parent, R.layout.contact_item_first, 0);
         TextView tvName = holder.getView(R.id.contact_item_first);
-        tvName.setText(datas.get(section).getClassName());
+        tvName.setText(datas.get(section).getClass_name());
         return holder.getConvertView();
     }
 }
