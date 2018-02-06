@@ -423,6 +423,10 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".ui.study.kinds.karaoke.KaraOkeActivity">
+        </activity>
+        <activity android:name=".ui.study.kinds.karaoke.MakeKraoOkeActivity">
+        </activity>
     </application>
 
 </manifest>

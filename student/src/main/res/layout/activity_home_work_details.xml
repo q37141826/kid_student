@@ -62,8 +62,7 @@
                 android:id="@+id/tv_endtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="12月25日24:00"/>
+                android:layout_alignParentRight="true"/>
 
         </RelativeLayout>
 
@@ -102,10 +101,10 @@
 
         <Button
             android:id="@+id/btn_dohomework"
-            android:background="@color/yellow"
-            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="继续作业"/>
+            android:background="@color/yellow"
+            android:text="继续作业"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </LinearLayout>

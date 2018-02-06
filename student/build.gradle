@@ -81,6 +81,7 @@ dependencies {
     compile project(':easemob3.3.7')
     compile 'fm.jiecao:jiecaovideoplayer:5.8.1'
     compile 'com.android.support:multidex:1.0.1'
-    /*视频混音*/
+    /*视频混音 ffmpeg*/
     compile 'com.writingminds:FFmpegAndroid:0.3.2'
+
 }

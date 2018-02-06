@@ -22,6 +22,7 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.study.bean.BeCradPratice;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.ui.study.view.CardView;
+import cn.dajiahui.kid.ui.study.view.LazyLoadFragment;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.MD5;

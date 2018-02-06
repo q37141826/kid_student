@@ -32,20 +32,20 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="@dimen/textmarginleft"
-                android:text=" 12月22日作业"
-                android:textSize="@dimen/text18"/>
+                android:textSize="15sp"
+                android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/task_endtime"
-                android:layout_width="wrap_content"
+            <RatingBar
+                android:id="@+id/rb_score"
+                style="@style/myratingbar"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/textmarginleft"
-                android:drawablePadding="@dimen/textmarginleft"
-                android:padding="@dimen/textmarginleft"
-                android:text="截止时间：12月20号 14:00"
-                android:textSize="@dimen/text13"/>
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:clickable="false"
+                android:focusable="false"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -70,6 +70,14 @@
                     android:textSize="@dimen/text18"/>
 
                 <TextView
+                    android:id="@+id/tv_homecontent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="内容： unit 1"
+                    android:textSize="@dimen/text18"/>
+
+                <TextView
                     android:id="@+id/tv_homename"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,18 +85,21 @@
                     android:text="教材：move up 1"
                     android:textSize="@dimen/text18"/>
 
+
                 <TextView
-                    android:id="@+id/tv_homecontent"
+                    android:id="@+id/task_endtime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="内容： unit 1"
-                    android:textSize="@dimen/text18"/>
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/textmarginleft"
+                    android:drawablePadding="@dimen/textmarginleft"
+                    android:textSize="@dimen/text13"/>
             </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -96,21 +107,14 @@
                     android:id="@+id/tv_flag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rb_score"
+                    android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="23dp"
+                    android:background="@color/yellow"
                     android:gravity="center"
-                    android:text="做作业"/>
-
-                <RatingBar
-                    android:id="@+id/rb_score"
-                    style="@style/myratingbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
-                    android:clickable="false"
-                    android:focusable="false"/>
+                    android:text="做作业"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"/>
 
 
             </RelativeLayout>

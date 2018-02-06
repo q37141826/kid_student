@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.study.kinds.textbookdrama;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,8 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 *
 * 课本剧制作成功后
 *
+* 课本剧和卡拉ok成功录制的activity共用一个
+*
 * */
 public class TextBookSuccessActivity extends FxActivity {
 
@@ -37,6 +40,7 @@ public class TextBookSuccessActivity extends FxActivity {
     private TextView tvrecordagain;//重新录制
     private TextView tvsavemineworks;//保存我的作品
     private BeGoTextBookSuccess beGoTextBookSuccess;
+    private String makeTextBookDrma;
 
 
     @Override
@@ -49,8 +53,18 @@ public class TextBookSuccessActivity extends FxActivity {
     protected void initView() {
         setContentView(R.layout.activity_text_book_success);
         initialize();
-        beGoTextBookSuccess = (BeGoTextBookSuccess) this.getIntent().getSerializableExtra("BeGoTextBookSuccess");
+        Intent intent = this.getIntent();
+        makeTextBookDrma = intent.getStringExtra("MakeFlag");
+
+        if (makeTextBookDrma.equals("MakeTextBookDrma")) {
+
+            beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
+        } else if (makeTextBookDrma.equals("MakeKraoOke")) {
+            beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
+        }
+
         mVideoplayer.setUp(beGoTextBookSuccess.getMineWorksTempPath(), JCVideoPlayer.SCREEN_LAYOUT_LIST);
+        mVideoplayer.onStatePreparingChangingUrl(0, 100);
 //        mVideoplayer.setOnDuration(new JCVideoPlayerTextScuessBook.OnDuration() {
 //            @Override
 //            public void onDuration(String duration) {
@@ -104,15 +118,35 @@ public class TextBookSuccessActivity extends FxActivity {
 
                     break;
                 case R.id.tv_recordagain:
-                    setResult(1);
+
+                    if (makeTextBookDrma.equals("MakeTextBookDrma")) {
+                        setResult(1);
+                    } else if (makeTextBookDrma.equals("MakeKraoOke")) {
+                        setResult(2);
+                    }
+
                     finishActivity();
                    /*再录一次*/
                     break;
                 case R.id.tv_savemineworks:
-
                     Toast.makeText(context, "保存至我的作品", Toast.LENGTH_SHORT).show();
-                    /*复制文件到 PathMineWorks*/
-                    FileUtil.copy(KidConfig.getInstance().getPathMineWorksTemp(), KidConfig.getInstance().getPathMineWorks());
+
+                    String mineWorksTempPath = beGoTextBookSuccess.getMineWorksTempPath();
+
+                    if (makeTextBookDrma.equals("MakeTextBookDrma")) {
+                        Logger.d("课本剧------：" + mineWorksTempPath);
+
+                        String sTextBookDrma = mineWorksTempPath.substring(mineWorksTempPath.lastIndexOf("/"));
+                        /*复制文件到 PathMineWorks*/
+                        FileUtil.copyFile(beGoTextBookSuccess.getMineWorksTempPath(), KidConfig.getInstance().getPathMineWorksTextBookDrama() + sTextBookDrma);
+
+                    } else if (makeTextBookDrma.equals("MakeKraoOke")) {
+                        Logger.d("卡拉ok -----：" + mineWorksTempPath);
+                        String sKraoOke = mineWorksTempPath.substring(mineWorksTempPath.lastIndexOf("/"));
+                       /*复制文件到 PathMineWorks*/
+                        FileUtil.copyFile(beGoTextBookSuccess.getMineWorksTempPath(), KidConfig.getInstance().getPathMineWorksKaraOke() + sKraoOke);
+                    }
+
                     break;
                 default:
                     break;

@@ -25,7 +25,6 @@ import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.MD5;
-import cn.dajiahui.kid.util.OpFileUtil;
 
 
 /**
@@ -59,36 +58,41 @@ public class DownloadFile {
             if (befile.getFileType() == Constant.file_pointreading) {
                 Logger.d("点读本类型");
                 this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp3";
-            } else if (befile.getFileType() == Constant.file_textbookplay) {
-                String pathTextbookPlay = KidConfig.getInstance().getPathTextbookPlay();
-                Logger.d("课本剧类型:"+pathTextbookPlay);
+            } else if (befile.getFileType() == Constant.file_textbookplay_mp4) {
+                Logger.d("课本剧类型:");
                 this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp4";
 
+            } else if (befile.getFileType() == Constant.file_kaoraok_mp4) {
+                Logger.d("kalaok类型下载mp4:");
+                this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp4";
+            } else if (befile.getFileType() == Constant.file_kaoraok_bgAudio) {
+                Logger.d("kalaok类型下载mp3:");
+                this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp3";
             }
 
 
         }
         showfxDialog("下载中");
-        Logger.d("要下載文件的名字："+this.fileName);
+        Logger.d("要下載文件的名字：" + this.fileName);
         file = new File(KidConfig.getInstance().getPathTemp() + this.fileName);//参数文件名字
         if (file.exists()) {
             if (isDownLoad) {
-                Logger.d("---------------------1" );
+                Logger.d("---------------------1");
                 file.delete();
                 downLoad(befile.getFileUrl(), fileName);
                 return;
             }
-            Logger.d("---------------------2" );
+            Logger.d("---------------------2");
             befile.setLocaUrl(KidConfig.getInstance().getPathTemp());
             if (onDown != null) {
-                Logger.d("---------------------3" );
+                Logger.d("---------------------3");
                 onDown.onDownload(befile.getLocaUrl() + fileName, progressDialog);
             }
 //            else {
 //                OpFileUtil.openFile(mContext, befile);
 //            }
         } else {
-            Logger.d("---------------------4" );
+            Logger.d("---------------------4");
             downLoad(befile.getFileUrl(), fileName);
         }
     }
@@ -127,21 +131,34 @@ public class DownloadFile {
                 befile.setLocaUrl(KidConfig.getInstance().getPathTemp());
                 if (befile.getFileType() == Constant.file_pointreading) {
                       /*复制文件到 pathPointRedaing*/
-                    FileUtil.copy(KidConfig.getInstance().getPathTemp(), KidConfig.getInstance().getPathPointRedaing());
+                    FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathPointRedaing() + fileName);
+                    onDown.onDownload(KidConfig.getInstance().getPathPointRedaing() + fileName, progressDialog);
                     Logger.d("点读本复制完成！");
-                } else if (befile.getFileType() == Constant.file_textbookplay) {
+                } else if (befile.getFileType() == Constant.file_textbookplay_mp4) {
                      /*复制文件到 PathTextbookPlay*/
-                    FileUtil.copy(KidConfig.getInstance().getPathTemp(), KidConfig.getInstance().getPathTextbookPlay());
-                    Logger.d("課本剧复制完成！");
+                    FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathTextbookPlayMp4() + fileName);
+                    onDown.onDownload(KidConfig.getInstance().getPathTextbookPlayMp4() + fileName, progressDialog);
+                    Logger.d("課本剧复制mp4完成！");
+                } else if (befile.getFileType() == Constant.file_kaoraok_mp4) {
+                    FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathKaraOkeMp4() + fileName);
+                    onDown.onDownload(KidConfig.getInstance().getPathKaraOkeMp4() + fileName, progressDialog);
+                    Logger.d("Kalaokmp4复制完成！");
+                } else if (befile.getFileType() == Constant.file_kaoraok_bgAudio) {
+
+                    FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + fileName);
+                    onDown.onDownload(KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + fileName, progressDialog);
+                    Logger.d("Kalao背景音复制完成！");
                 }
 
-                if (onDown != null) {
-                    Logger.d("下载成功回调");
-                    onDown.onDownload(befile.getLocaUrl() + fileName, progressDialog);
-                } else {
-                    Logger.d("直接打开！");
-                    OpFileUtil.openFile(mContext, befile);
-                }
+                /*下载成功后删除temp文件内容*/
+                deleteTemp(befile.getLocaUrl() + fileName);
+//                if (onDown != null) {
+//                    Logger.d("下载成功回调");
+//
+//                } else {
+//                    Logger.d("直接打开！");
+//                    OpFileUtil.openFile(mContext, befile);
+//                }
 //                dialog.dismiss();
 //                ToastUtil.showToast(mContext, "下载成功保存到" + KidConfig.getInstance().getPathTemp());
             }
@@ -149,11 +166,16 @@ public class DownloadFile {
             @Override
             public void inProgress(float progress) {
                 super.inProgress(progress);
-                Logger.d("文件下载中");
+//                Logger.d("文件下载中");
 //                if (progressBar != null)
 //                    progressBar.setProgress((int) (progress * 100.f));
             }
         });
+    }
+
+    /*清空临时文件*/
+    private void deleteTemp(String name) {
+        FileUtil.deleteFile(new File(name));
     }
 
     private FxProgressDialog progressDialog;

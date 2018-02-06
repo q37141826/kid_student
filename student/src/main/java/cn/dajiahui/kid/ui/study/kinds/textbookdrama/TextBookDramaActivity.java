@@ -19,6 +19,7 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDrama;
 import cn.dajiahui.kid.ui.study.view.NoScrollViewPager;
+import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
 
 /*
@@ -47,12 +48,12 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
         setContentView(R.layout.activity_text_book_drama);
         initialize();
         mViewpager.setNoScroll(false);
-             /*模拟数据源*/
+        /*模拟数据源*/
         mDatalist = new ArrayList<>();
 
-        BeTextBookDrama b1 = new BeTextBookDrama("课本剧1", "/storage/emulated/0/kid_student/TextbookPlay/65de873463721ee842870c319d26e79a.mp4");
+        BeTextBookDrama b1 = new BeTextBookDrama("课本剧1", KidConfig.getInstance().getPathTextbookPlayMp4() + "9be4e9ac79b22104096d7b78f8dd4bd9.mp4");
         BeTextBookDrama b2 = new BeTextBookDrama("课本剧2", "/storage/emulated/0/qqqq2.mp4");
-        BeTextBookDrama b3 = new BeTextBookDrama("课本剧3", "/storage/emulated/0/kid_student/TextbookPlay/65de873463721ee842870c319d26e79a.mp4");
+        BeTextBookDrama b3 = new BeTextBookDrama("课本剧3", KidConfig.getInstance().getPathTextbookPlayMp4() + "9be4e9ac79b22104096d7b78f8dd4bd9.mp4");
         BeTextBookDrama b4 = new BeTextBookDrama("课本剧4", "/storage/emulated/0/qqqq4.mp4");
 
         mDatalist.add(b1);
@@ -96,7 +97,7 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
             TextBookDramaFragment dramaFragment = new TextBookDramaFragment();
             Bundle bundle = new Bundle();
 
-            bundle.putSerializable("BeTextBookDrama",mDatalist.get(position));
+            bundle.putSerializable("BeTextBookDrama", mDatalist.get(position));
             dramaFragment.setArguments(bundle);
             return dramaFragment;
 

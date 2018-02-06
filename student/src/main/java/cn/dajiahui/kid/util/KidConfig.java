@@ -37,20 +37,42 @@ public class KidConfig {
     private String pathTemp = this.pathRoot + "temp" + File.separator;
     /*点读本*/
     private String pathPointRedaing = this.pathRoot + "PointReading" + File.separator;
+
     /*课本剧*/
     private String pathTextbookPlay = this.pathRoot + "TextbookPlay" + File.separator;
-    /*课本剧*/
-    private String pathNoSoundVideo = this.pathRoot + "NoSoundVideo" + File.separator;
-    //录音
-    private String pathRecordingAudio = this.pathRoot + "RecordingAudio" + File.separator;
-    /*背景音*/
-    private String pathBackgroundAudio = this.pathRoot + "BackgroundAudio" + File.separator;
+
+    /*课本剧无声视频*/
+    private String pathTextbookPlayNoSoundVideo = this.pathTextbookPlay + "TextbookPlayNoSoundVideo" + File.separator;
+    /*课本剧背景音*/
+    private String pathTextbookPlayBackgroundAudio = this.pathTextbookPlay + "TextbookPlayBackgroundAudio" + File.separator;
+    /*课本剧Mp4*/
+    private String pathTextbookPlayMp4 = this.pathTextbookPlay + "TextbookPlayMp4" + File.separator;
+
+
     /*混音 mp3*/
     private String pathMixAudios = this.pathRoot + "MixAudios" + File.separator;
+    //录音
+    private String pathRecordingAudio = this.pathRoot + "RecordingAudio" + File.separator;
     /*我的作品临时文件夹*/
     private String pathMineWorksTemp = this.pathRoot + "MineWorksTemp" + File.separator;
+
+
+    /*卡拉ok*/
+    private String pathKaraOke = this.pathRoot + "KaraOke" + File.separator;
+    /*卡拉ok的Mp3 背景音*/
+    private String pathKaraOkeBackgroundAudio = this.pathKaraOke + "KaraOkeBackgroundAudio" + File.separator;
+    /*卡拉ok的Mp4*/
+    private String pathKaraOkeMp4 = this.pathKaraOke + "KaraOkeMp4" + File.separator;
+    /*卡拉ok的无声Mp4*/
+    private String pathKaraOkeNoSoundVideo = this.pathKaraOke + "KaraOkeNoSoundVideo" + File.separator;
+
+
     /*我的作品*/
     private String pathMineWorks = this.pathRoot + "MineWorks" + File.separator;
+    /*我的作品中的课本剧*/
+    private String pathMineWorksTextBookDrama = this.pathMineWorks + "TextBookDrama" + File.separator;
+    /*我的作品中的卡拉ok*/
+    private String pathMineWorksKaraOke = this.pathMineWorks + "KaraOke" + File.separator;
 
 
     public void init() {
@@ -79,7 +101,7 @@ public class KidConfig {
         if (!folder.exists()) {
             folder.mkdir();
         }
-        folder = new File(this.pathBackgroundAudio);
+        folder = new File(this.pathTextbookPlayBackgroundAudio);
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -91,11 +113,39 @@ public class KidConfig {
         if (!folder.exists()) {
             folder.mkdir();
         }
-        folder = new File(this.pathNoSoundVideo);
+        folder = new File(this.pathTextbookPlayNoSoundVideo);
         if (!folder.exists()) {
             folder.mkdir();
         }
- folder = new File(this.pathMineWorksTemp);
+        folder = new File(this.pathMineWorksTemp);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathKaraOke);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathKaraOkeBackgroundAudio);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathKaraOkeMp4);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathMineWorksTextBookDrama);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathMineWorksKaraOke);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathTextbookPlayMp4);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathKaraOkeNoSoundVideo);
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -140,8 +190,8 @@ public class KidConfig {
         return pathRecordingAudio;
     }
 
-    public String getPathBackgroundAudio() {
-        return pathBackgroundAudio;
+    public String getPathTextbookPlayBackgroundAudio() {
+        return pathTextbookPlayBackgroundAudio;
     }
 
     public String getPathMixAudios() {
@@ -151,11 +201,40 @@ public class KidConfig {
     public String getPathMineWorks() {
         return pathMineWorks;
     }
-    public String getPathNoSoundVideo() {
-        return pathNoSoundVideo;
+
+    public String getPathTextbookPlayNoSoundVideo() {
+        return pathTextbookPlayNoSoundVideo;
     }
 
     public String getPathMineWorksTemp() {
         return pathMineWorksTemp;
+    }
+
+    public String getPathKaraOke() {
+        return pathKaraOke;
+    }
+
+    public String getPathKaraOkeBackgroundAudio() {
+        return pathKaraOkeBackgroundAudio;
+    }
+
+    public String getPathKaraOkeMp4() {
+        return pathKaraOkeMp4;
+    }
+
+    public String getPathMineWorksTextBookDrama() {
+        return pathMineWorksTextBookDrama;
+    }
+
+    public String getPathMineWorksKaraOke() {
+        return pathMineWorksKaraOke;
+    }
+
+    public String getPathTextbookPlayMp4() {
+        return pathTextbookPlayMp4;
+    }
+
+    public String getPathKaraOkeNoSoundVideo() {
+        return pathKaraOkeNoSoundVideo;
     }
 }

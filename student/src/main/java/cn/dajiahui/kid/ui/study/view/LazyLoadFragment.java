@@ -1,4 +1,4 @@
-package cn.dajiahui.kid.ui.study.kinds.cardpractice;
+package cn.dajiahui.kid.ui.study.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

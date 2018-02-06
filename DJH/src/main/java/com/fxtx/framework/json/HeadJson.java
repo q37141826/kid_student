@@ -121,13 +121,13 @@ public class HeadJson {
     }
 
 
-
     public <T> T parsingListArray(GsonType type) {
         return parsingListArray("options", type);
     }
 
+    /*解析K拉ok*/
     public <T> T parsingListArraydata(GsonType type) {
-        return parsingListArray("data", type);
+        return parsingListArray("page_data", type);
     }
 
     /**

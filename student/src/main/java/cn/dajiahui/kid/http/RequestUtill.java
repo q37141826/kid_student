@@ -18,6 +18,7 @@ import java.util.IdentityHashMap;
 import cn.dajiahui.kid.BuildConfig;
 import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.util.KidConfig;
+import cn.dajiahui.kid.util.Logger;
 
 
 /**
@@ -249,7 +250,6 @@ public class RequestUtill {
     }
 
 
-
     /**
      * 意见反馈
      *
@@ -466,6 +466,7 @@ public class RequestUtill {
 
         getHttpBuilder(context, "site/find-passwd").params(params).post(callback);
     }
+
     public void httpboundPhone(Context context, ResultCallback callback, String userId, String telnum, String captcha) {
         IdentityHashMap params = new IdentityHashMap<>();
 //        params.put("userId", userId);
@@ -477,11 +478,12 @@ public class RequestUtill {
 
     /**
      * 根据班级码查询班级
+     *
      * @param context
      * @param callback
      * @param classCode
      */
-    public void  httpSearchClass(Context context, ResultCallback callback, String classCode) {
+    public void httpSearchClass(Context context, ResultCallback callback, String classCode) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
         params.put("code", classCode);
@@ -495,7 +497,9 @@ public class RequestUtill {
      * @param callback
      * @param classId
      */
-    public void  httpApplyClass(Context context, ResultCallback callback, String classId) {
+
+    public void httpApplyClass(Context context, ResultCallback callback, String classId) {
+
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
         params.put("class_id", classId);
@@ -519,5 +523,46 @@ public class RequestUtill {
         }
         getHttpBuilder(context, "student/classroom/contact").params(params).post(callback);
     }
+    /*卡拉ok*/
+    public void httpGetKaraOke(Context context, ResultCallback callback, String bookId, String unitId) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("book_id", bookId);
+        params.put("unit_id", unitId);
+        getHttpBuilder(context, "class-book/get-karaoke").params(params).post(callback);
+    }
+
+
+    /*首页获取学生作业列表*/
+    public void httpGetStudentHomeWork(Context context, ResultCallback callback, String pageSize, String page) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        Logger.d("UserController.getInstance().getUser().getToken():" + UserController.getInstance().getUser().getToken());
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("pageSize", pageSize);//分页显示数目
+        params.put("page", page);//当前页数
+        getHttpBuilder(context, "student/homework/list").params(params).post(callback);
+    }
+
+    /*首页获取学生作业列表详情*/
+    public void httpGetStudentHomeWorkDetails(Context context, ResultCallback callback, String homework_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        Logger.d("UserController.getInstance().getUser().getToken():" + UserController.getInstance().getUser().getToken());
+        Logger.d("homework_id:" + homework_id);
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("homework_id", homework_id);//分页显示数目
+
+        getHttpBuilder(context, "/student/homework/detail").params(params).post(callback);
+    }
+
+    /*获取学生作业所有题*/
+    public void httpGetStudentHomeWorkhomeworkContinue(Context context, ResultCallback callback, String homework_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("homework_id", homework_id);//分页显示数目
+        getHttpBuilder(context, "student/homework/continue").params(params).post(callback);
+
+    }
+
+
 }
 

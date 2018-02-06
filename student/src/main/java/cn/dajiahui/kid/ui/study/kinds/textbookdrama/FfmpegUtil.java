@@ -5,13 +5,21 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
+import com.coremedia.iso.boxes.Container;
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
+import com.googlecode.mp4parser.authoring.Movie;
+import com.googlecode.mp4parser.authoring.Track;
+import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
+import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Map;
 
 import cn.dajiahui.kid.util.KidConfig;
@@ -43,16 +51,18 @@ public class FfmpegUtil {
 
     }
 
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MESSAGE_MIX_V_T_A:
                     Toast.makeText(context, "混音成功！", Toast.LENGTH_SHORT).show();
-                    audioVideoSyn(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3"), mOutputFile);
+                        audioVideoSyn(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3"), mOutputFile);
+
+//                    mergeaudiovideo(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3"), mOutputFile);
+
                     break;
-
-
                 case MESSAGE_SYNTHETIC_VIDEO:
                     mHandler.sendEmptyMessage(3);
                     break;
@@ -70,6 +80,7 @@ public class FfmpegUtil {
      * @param audioList  音频列表
      * @param outputFile 输出文件
      */
+
     public void mixAudiosToVideo(File videoFile, Map<Integer, Map<String, Object>> audioList, File outputFile) {
         mOriginVideo = videoFile;
         mOutputFile = outputFile;
@@ -202,10 +213,10 @@ public class FfmpegUtil {
 
 
     // 分离视频  直接分离到课本剧的文件夹下
-    public void getNoSoundVideo(String VideoPath) {
+    public void getNoSoundVideo(String VideoPath,String outPath) {
         String cmd;
         //-i input_file -vcodec copy -an output_file_video     //分离视频流 MlecConfig.getInstance().getPathSeparateVideoAudio() + "/out_video.mp4"
-        cmd = "-i " + VideoPath + " -vcodec copy -an " + KidConfig.getInstance().getPathNoSoundVideo() + "out_nosound_video.mp4";
+        cmd = "-i " + VideoPath + " -vcodec copy -an " + outPath + "out_nosound_video.mp4";
         separateVideo(cmd);
 
     }
@@ -284,4 +295,48 @@ public class FfmpegUtil {
 
         }
     }
+
+
+    public void mergeaudiovideo(File videoFile, File audioFile, File outputFile) {//iscover=false （修改录音时 没有点击完成按钮）
+
+        String video = videoFile.getPath();//视频
+        String audio = audioFile.getPath();//音频
+        Movie countVideo = null;
+        try {
+            if (video != "") {
+                countVideo = MovieCreator.build(video);
+            }
+//
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Movie countAudioEnglish = null;
+
+        if (audio != "") {
+
+            try {
+                countAudioEnglish = MovieCreator.build(audio);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        Track audioTrackEnglish = countAudioEnglish.getTracks().get(0);
+        countVideo.addTrack(audioTrackEnglish);
+        Container out = new DefaultMp4Builder().build(countVideo);
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(outputFile);
+            out.writeContainer(fos.getChannel());
+            fos.close();//关闭资源
+            Logger.d("222222222222");
+            handler.sendEmptyMessage(MESSAGE_SYNTHETIC_VIDEO);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

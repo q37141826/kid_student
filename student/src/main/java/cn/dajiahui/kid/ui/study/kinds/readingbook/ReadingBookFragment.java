@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.ui.FxFragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -351,5 +352,14 @@ public class ReadingBookFragment extends FxFragment implements View.OnTouchListe
         }
         return true;
     }
+
+
+
+    /*清空临时文件*/
+    private void deleteTemp(String name) {
+        FileUtil fileUtil = new FileUtil();
+        fileUtil.deleteFile(new File(name));
+    }
+
 }
 

@@ -222,5 +222,52 @@ public final class DateUtils {
             }
         }
     }
+    /**
+     * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"2014年06月14日16时09分00秒"）
+     *
+     * @param time
+     * @return
+     */
+    public static String times(String time) {
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+        @SuppressWarnings("unused")
+        long lcc = Long.valueOf(time);
+        int i = Integer.parseInt(time);
+        String times = sdr.format(new Date(i * 1000L));
+        return times;
+
+    }
+
+    /**
+     * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"2014-06-14  16:09:00"）
+     *
+     * @param time
+     * @return
+     */
+    public static String timedate(String time) {
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressWarnings("unused")
+        long lcc = Long.valueOf(time);
+        int i = Integer.parseInt(time);
+        String times = sdr.format(new Date(i * 1000L));
+        return times;
+
+    }
+
+    /**
+     * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"2014年06月14日16:09"）
+     *
+     * @param time
+     * @return
+     */
+    public static String time(String time) {
+        SimpleDateFormat sdr = new SimpleDateFormat("MM月dd日  HH:mm");
+        @SuppressWarnings("unused")
+        long lcc = Long.valueOf(time);
+        int i = Integer.parseInt(time);
+        String times = sdr.format(new Date(i * 1000L));
+        return times;
+
+    }
 
 }

@@ -3,86 +3,82 @@ package cn.dajiahui.kid.ui.homework.bean;
 import cn.dajiahui.kid.util.BeanObj;
 
 /**
- * 作业
+ * 作业列表中的每个Item
  */
 
 public class BeHomework extends BeanObj {
 
-    public BeHomework(String hometime, String endtime, String class_name, String completion, String homename, String homecontent, String homeflag) {
-        this.hometime = hometime;
-        this.endtime = endtime;
-        this.class_name = class_name;
-        this.completion = completion;
-        this.homename = homename;
-        this.homecontent = homecontent;
-        this.homeflag = homeflag;
+    private String book_id;
+    private String book_name;
+    private String class_id;
+    private String class_name;
+    private String correct_rate;
+    private String end_time;//截止时间
+    private String id;
+    private String is_checked;//是否提交
+    private String name;//单元名字
+    private String start_time;//开始时间
+    private String unit_id;
+
+
+    public String getBook_id() {
+        return book_id;
     }
 
-    private String hometime;//作业时间
-    private String endtime;//截止时间
-    private String class_name;//班级名称
-    private String completion;//小星星（完成度）
-
-    private String homename;//作业名字
-    private String homecontent;//内容
-    private String homeflag;//作业标志：在（未开始，未完成，已完成，已过期）
-
-
-    public String getHometime() {
-        return hometime;
+    public String getBook_name() {
+        return book_name;
     }
 
-    public void setHometime(String hometime) {
-        this.hometime = hometime;
-    }
-
-    public String getEndtime() {
-        return endtime;
-    }
-
-    public void setEndtime(String endtime) {
-        this.endtime = endtime;
+    public String getClass_id() {
+        return class_id;
     }
 
     public String getClass_name() {
         return class_name;
     }
 
-    public void setClass_name(String class_name) {
-        this.class_name = class_name;
+    public String getCorrect_rate() {
+        return correct_rate;
     }
 
-    public String getCompletion() {
-        return completion;
+    public String getEnd_time() {
+        return end_time;
     }
 
-    public void setCompletion(String completion) {
-        this.completion = completion;
+    public String getId() {
+        return id;
     }
 
-    public String getHomename() {
-        return homename;
+    public String getIs_checked() {
+        return is_checked;
     }
 
-    public void setHomename(String homename) {
-        this.homename = homename;
+    public String getName() {
+        return name;
     }
 
-    public String getHomecontent() {
-        return homecontent;
+    public String getStart_time() {
+        return start_time;
     }
 
-    public void setHomecontent(String homecontent) {
-        this.homecontent = homecontent;
+    public String getUnit_id() {
+        return unit_id;
     }
 
-    public String getHomeflag() {
-        return homeflag;
+    @Override
+    public String toString() {
+        return "BeHomework{" +
+                "book_id='" + book_id + '\'' +
+                ", book_name='" + book_name + '\'' +
+                ", class_id='" + class_id + '\'' +
+                ", class_name='" + class_name + '\'' +
+                ", correct_rate='" + correct_rate + '\'' +
+                ", end_time='" + end_time + '\'' +
+                ", id='" + id + '\'' +
+                ", is_checked='" + is_checked + '\'' +
+                ", name='" + name + '\'' +
+                ", start_time='" + start_time + '\'' +
+                ", unit_id='" + unit_id + '\'' +
+                '}';
     }
-
-    public void setHomeflag(String homeflag) {
-        this.homeflag = homeflag;
-    }
-
-
 }

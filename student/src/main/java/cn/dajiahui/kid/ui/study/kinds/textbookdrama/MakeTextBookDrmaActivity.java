@@ -69,10 +69,11 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
     private StringBuilder mFormatBuilder = new StringBuilder();
     private Formatter mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
 
-    private Map<Integer, Map<String, Object>> audiosList = new HashMap<>();//录音的list
+    private Map<Integer, Map<String, Object>> audiosList = new HashMap<>();//背景音+录音的list
     private Map<Integer, String> mPlayRecordMap = new HashMap<>();//有录音情况下 翻页时播放录音的集合
     private AudioManager audioManager;
     private TextView submit;//提交按钮
+
 
     private BeGoTextBookSuccess beGoTextBookSuccess;       /*向合成功后进入的activity带的数据*/
 
@@ -129,8 +130,7 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
                     Logger.d("关闭进度条");
                     dismissfxDialog();
                     Bundle bundle = new Bundle();
-
-
+                    bundle.putString("MakeFlag", "MakeTextBookDrma");
                     bundle.putSerializable("BeGoTextBookSuccess", beGoTextBookSuccess);
                     DjhJumpUtil.getInstance().startBaseActivityForResult(context, TextBookSuccessActivity.class, bundle, 0);
 
@@ -417,7 +417,7 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
                         mVideoplayer.videoSeekTo(mDataList.get(mCurrentPosition).getStart_time());
                         mVideoplayer.getMediaPlayer().start();
                         Logger.d("录音地址：" + mPlayRecordMap.get(mCurrentPosition));
-                               /*关闭视频的声音*/
+                        /*关闭视频的声音*/
                         closeVideoviewSound();
                         PlayMedia.getPlaying().StartMp3(mPlayRecordMap.get(mCurrentPosition));
 
@@ -429,20 +429,20 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
 //                    judgeFile();
                     cleanEnvironment();
 //                    /*分离视频 保存无声视频*/
-                    new FfmpegUtil(MakeTextBookDrmaActivity.this, mHandler).getNoSoundVideo(bookDrama.getVideo_url());
+                    new FfmpegUtil(MakeTextBookDrmaActivity.this, mHandler).getNoSoundVideo(bookDrama.getVideo_url(), KidConfig.getInstance().getPathTextbookPlayNoSoundVideo());
 
                     /*混音的背景音*/
                     Map<String, Object> mRecordMap = new HashMap();
-                    File video = new File(KidConfig.getInstance().getPathBackgroundAudio() + "backgroundAudio.mp3");
+                    File video = new File(KidConfig.getInstance().getPathTextbookPlayBackgroundAudio() + "backgroundAudio.mp3");
                     mRecordMap.put("filePathName", video);
                     mRecordMap.put("startTime", "0");
                     audiosList.put(0, mRecordMap);
                     /*准备传入的数据*/
                     beGoTextBookSuccess = new BeGoTextBookSuccess(KidConfig.getInstance().getPathMineWorksTemp() + "listen_and_Say.mp4", "listen and  Say", "", "LAMAR", DateUtils.formatDate(new Date(), "M月d日 HH:mm"), "90");
 
-                    new FfmpegUtil(MakeTextBookDrmaActivity.this, mHandler).mixAudiosToVideo(new File(KidConfig.getInstance().getPathNoSoundVideo() + "out_nosound_video.mp4"), audiosList,
+                    new FfmpegUtil(MakeTextBookDrmaActivity.this, mHandler).mixAudiosToVideo(new File(KidConfig.getInstance().getPathTextbookPlayNoSoundVideo() + "out_nosound_video.mp4"), audiosList,
                             new File(beGoTextBookSuccess.getMineWorksTempPath()));//作品名称
-
+                    Toast.makeText(context, "输出地址"+beGoTextBookSuccess.getMineWorksTempPath(), Toast.LENGTH_SHORT).show();
 //                    Bundle bundle = new Bundle();
 //                    BeGoTextBookSuccess beGoTextBookSuccess = new BeGoTextBookSuccess(KidConfig.getInstance().getPathMineWorks() + "minework.mp4", "listen and  Say", "", "LAMAR", DateUtils.formatDate(new Date(), "M月d日 HH:mm"), "90");
 //                    bundle.putSerializable("BeGoTextBookSuccess", beGoTextBookSuccess);
@@ -478,11 +478,9 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
 
     /*清空环境*/
     private void cleanEnvironment() {
-        FileUtil fileUtil = new FileUtil();
-        fileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathMixAudios()));
-        fileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathMineWorksTemp()));
-        fileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathNoSoundVideo()));
-
+        FileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathMixAudios()));
+        FileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathMineWorksTemp()));
+        FileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathTextbookPlayNoSoundVideo()));
 
     }
 
@@ -551,4 +549,6 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
         mVideoplayer.getMediaPlayer().setVolume(1, 1);
 
     }
+
+
 }

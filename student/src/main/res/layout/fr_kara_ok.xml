@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
+    android:background="#9EDBEE"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/tv_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="64dp"
+        android:text="Listen and say"
+        android:textSize="18dp"/>
+
+    <RelativeLayout
+        android:id="@+id/videoplayerroot"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/tv_unit"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="51dp">
+
+        <cn.dajiahui.kid.ui.study.kinds.karaoke.JCVideoPlayerStudentFragment
+            android:id="@+id/videoplayer"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btn_look"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/videoplayerroot"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="79dp"
+        android:background="@color/yellow"
+        android:text="查看"/>
+
+</RelativeLayout>
+

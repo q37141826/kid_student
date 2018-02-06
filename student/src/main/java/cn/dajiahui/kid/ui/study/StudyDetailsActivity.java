@@ -22,6 +22,7 @@ import cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity;
 import cn.dajiahui.kid.ui.study.adapter.ApChoiceStudy;
 import cn.dajiahui.kid.ui.study.bean.BeChoiceStudy;
 import cn.dajiahui.kid.ui.study.kinds.cardpractice.CardPracticeActivity;
+import cn.dajiahui.kid.ui.study.kinds.karaoke.KaraOkeActivity;
 import cn.dajiahui.kid.ui.study.kinds.personalstereo.PersonalStereoActivity;
 import cn.dajiahui.kid.ui.study.kinds.readingbook.ReadingBookActivity;
 import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookDramaActivity;
@@ -78,7 +79,7 @@ public class StudyDetailsActivity extends FxActivity {
                         initDownMp3();
                         break;
                     case Constant.TEXTBOOKPLAY:
-                        deleteTemp();
+//                        deleteTemp();
 
                          /*进行判断后在跳转*/
                         DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, TextBookDramaActivity.class);
@@ -86,6 +87,8 @@ public class StudyDetailsActivity extends FxActivity {
 //                        downloadTextBookPlayData();
                         break;
                     case Constant.KARAOKE:
+
+                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, KaraOkeActivity.class);
 
                         break;
                     case Constant.CAREDPRATICE:
@@ -115,7 +118,8 @@ public class StudyDetailsActivity extends FxActivity {
 
     /*下载课本剧资源*/
     private void downloadTextBookPlayData() {
-        BeDownFile file = new BeDownFile(Constant.file_textbookplay, "http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/media/JNxwSTSBAW.mp4", "", KidConfig.getInstance().getPathTemp());
+
+        BeDownFile file = new BeDownFile(Constant.file_textbookplay_mp4, "http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/test/hDTD2i2Yxy.mp4", "", KidConfig.getInstance().getPathTemp());
           /*下载成功后跳转 ReadingBookActivity*/
         new DownloadFile(this, file, false, new OnDownload() {
             @Override
@@ -166,7 +170,7 @@ public class StudyDetailsActivity extends FxActivity {
     /*清空临时文件*/
     private void deleteTemp() {
         FileUtil fileUtil = new FileUtil();
-        fileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathMixAudios()));
+        fileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathTemp()));
 
     }
 }

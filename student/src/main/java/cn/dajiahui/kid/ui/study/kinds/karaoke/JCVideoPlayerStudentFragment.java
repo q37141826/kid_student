@@ -1,4 +1,4 @@
-package cn.dajiahui.kid.ui.video.util;
+package cn.dajiahui.kid.ui.study.kinds.karaoke;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -11,14 +11,14 @@ import cn.dajiahui.kid.ui.mine.myworks.VideoActivity;
 import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
-public class JCVideoPlayerStudent extends JCVideoPlayerStandard {
+public class JCVideoPlayerStudentFragment extends JCVideoPlayerStandard {
     private OnDuration onDuration;
 
-    public JCVideoPlayerStudent(Context context) {
+    public JCVideoPlayerStudentFragment(Context context) {
         super(context);
     }
 
-    public JCVideoPlayerStudent(Context context, AttributeSet attrs) {
+    public JCVideoPlayerStudentFragment(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -81,15 +81,26 @@ public class JCVideoPlayerStudent extends JCVideoPlayerStandard {
     }
 
 
-//    public void onPause() {
-//        getMediaPlayer().pause();
-//        changeUiToPauseShow();
-//        cancelDismissControlViewTimer();
-//    }
+    public int getCurrentPosition() {
+
+        int currentPosition = JCMediaManager.instance().mediaPlayer.getCurrentPosition();
+
+        return currentPosition;
+    }
 
 
     @Override
     public void startVideo() {
         super.startVideo();
     }
+
+
+    /*暂停时*/
+    @Override
+    public void onStatePause() {
+        super.onStatePause();
+        cancelDismissControlViewTimer();
+        JCMediaManager.instance().mediaPlayer.pause();
+    }
+
 }
