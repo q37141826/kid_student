@@ -427,6 +427,25 @@
         </activity>
         <activity android:name=".ui.study.kinds.karaoke.MakeKraoOkeActivity">
         </activity>
+
+
+        <!--驰声测试用start-->
+        <activity
+            android:name=".ui.chivox.ChivoxMainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".ui.chivox.SelectActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".ui.chivox.WordSentPred"
+            android:screenOrientation="portrait">
+        </activity>
+        <!--驰声测试用end-->
+
     </application>
 
 </manifest>

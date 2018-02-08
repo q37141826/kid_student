@@ -415,4 +415,41 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <!-- 驰声测试用###################################################################  start -->
+    <string name="btnRecord">开始录音</string>
+    <string name="StartRecord">开始录音</string>
+    <string name="StopRecord">结束录音</string>
+    <string name="hello">Hello</string>
+    <string name="btnPred">段落评测</string>
+    <string name="btnWord">单词评测</string>
+    <string name="btnsent">句子评测</string>
+    <string name="result">评测结果</string>
+    <string name="Cloud">体验云评测</string>
+    <string name="replay">回放录音</string>
+    <string name="benGetPinyin">获取拼音</string>
+    <string name="Refresh">刷新</string>
+    <string name="startWordSentPred">体验单词句子段落</string>
+    <string name="startCloud">体验云端评分</string>
+    <string name="btnNext">下一场景</string>
+    <string name="startStoryRepeat">体验故事复述</string>
+    <string name="startConversation">体验交际应用</string>btnStartPicTalk
+    <string name="startPicTalk">体验看图说话</string>
+    <string name="startOralWriting">体验口头作文</string>
+    <string name="startNative">体验本地评分</string>
+    <string name="startCNWordSent">体验中文评分</string>
+    <string name="startSentRec">体验英文有限分支识别</string>
+    <string name="cbisvadload">是否加载vad</string>
+    <string name="testBorderless">无边框测试</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="tvEnSentRec">When you see your teacher in the morning, you will say:\nGood Morning, teacher.|Good afternoon, teacher.|Good night,teacher.</string>
+    <string name="tvStoryRepeat">Please repeat below story, you have 5 seconds to prepare.\nAs we all know, different countries have their own special body language. If you don\'t know the differences, maybe you will misunderstand them. Jack is a good case in point.\nOne day, he was travelling on a train to a small town in India. Next to him was a young man, who was a native. Jack was a talkative person and soon they became familiar to each other. \"Are you from India?\" asked Jack, the young man smiled and shook his head.\nSo where are you from? Jack asked again. To Jack\'s surprise, the young man said that he was indeed a native. But why did you shake your head? Jack was a little confused. Luckily, the young man was very smart, he suddenly became aware that Jack must misunderstand him because he knew a little body language in different countries when expressing agree or disagree.\nAfter explaining to Jack, Jack\'s confusion had been melted. With time going on, Jack wanted to go to the restroom, he asked the young man, \"Is it the right way to the restroom\", and the young man nodded his head this time. \"Oh, I understand, it is on the opposite side.\"</string>
+    <string name="tvConversation">You are looking for Tom, unfortunately he is not home. His father answered the phone and you asked his father to leave a message to Tom.\nA: Hello, is that Tom?\nB:Hello,______1.(I\'m Tom\'s father)\nA: May I speak to Tom?\nB:______2.(Sorry, he is not home)\nA:I have something to tell him.\nB:______3.(Can I leave a message to him?)\nA:Ok, please tell him I want to play football with him this Sunday\n______4.(Anything else?)\nA: No, thanks.</string>
+    <string name="tvPicTalkHint">Hint:\nLucy and Kate are neighbors. They have a good relationship. They often get together to kill time and help each other to do the homework. They do the sports together. They often go out together they walk the babies. Sometimes when the weather is bad, they will visit each other and enjoy a cup of tea in each other\'s home. At this time, their babies will stay together and have a good time, too.</string>
+    <string name="tvOralWriting">1.地震开始时我正在电影院里；\n2.地面开始猛烈地摇晃；我试图往外跑，但玻璃碎片和砖头砸了下来，墙开始坍塌；\n3.最后，响声和摇动都停了下来；\n4.我意识到我的一条腿被卡住了；我尖声呼救，担心没人会听到我；好在一条狗发现了我，有人把我拉了出去。</string>
+    <string name="tvOralWritingHint">Hint:\nI was in the cinema when the earthquake started. The earth started to shake hard. I tried to run out side, but pieces of glass and bricks fell down, and the walls began to come down. Finally, the noise and shaking ended. I realized my leg was trapped. I screamed for help. I was afraid that no one would hear me. Luckily, a dog found me and someone pulled me out.</string>
+    <string name="tvSentRec">Suppose you are in a StarBucks store, the waiter asked:\"How can I help you\".\nYou should response:\nA:I need a pair of size 8 shoe.\nB: I need a cup of coffe.\nC:I need fried chicken wings and chips.\nD: I need a ticket for \"The lord of the Ring\"</string>
+    <string name="tvSentRec1">Imagine you are looking for Jim, Her mother said he is not home, but you need to talk to hime right now.\n What would you say at the moment?\n 1.How many people are there?\n 2.Do you have a pen?\n 3. Can you call him? </string>
+    <string name="tvSentRec2">Congratulations, Now let\'s go shopping! You are looking for size 8 running shoes.\n the Waitress said \"How can I help you sir?\"\n You woud reply:\n 1.I\'m looking for the map of China.\n 2.I\'m looking for some shoes.\n 3.You look nice, do you have a boyfriend? </string>
+    <!-- 驰声测试用###################################################################  end-->
 </resources>

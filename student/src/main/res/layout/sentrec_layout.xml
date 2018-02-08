@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--驰声测试用-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvSentRec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tvSentRec" />
+    <TextView
+        android:id="@+id/tvSentRecResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnSentRecRecord"
+        />
+    <Button
+        android:id="@+id/btnSentRecRecord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/StartRecord"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/btnSentRecNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnNext"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

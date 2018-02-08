@@ -13,6 +13,7 @@ import com.fxtx.framework.ui.FxFragment;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.UserController;
+import cn.dajiahui.kid.ui.chivox.ChivoxMainActivity;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.ui.mine.about.AboutActivity;
 import cn.dajiahui.kid.ui.mine.myclass.MyClassActivity;
@@ -119,6 +120,7 @@ public class FrMine extends FxFragment {
                 case R.id.tvAbout: //关于
                     Toast.makeText(activity, "关于", Toast.LENGTH_SHORT).show();
                     DjhJumpUtil.getInstance().startBaseActivity(getActivity(),  AboutActivity.class);
+//                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), ChivoxMainActivity.class); // 驰声测试用
                     break;
                 case R.id.tvNotice: //通知
                     Toast.makeText(activity, "通知", Toast.LENGTH_SHORT).show();

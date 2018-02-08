@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--驰声测试用-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:voiceView="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textRefText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:text="@string/hello" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        
+        <Button 
+            android:id="@+id/btnPred"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="@string/btnPred"
+            />
+
+        <Button
+            android:id="@+id/btnSent"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="@string/btnsent" />
+
+        <Button
+            android:id="@+id/btnWord"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="@string/btnWord" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/btnRecord"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="@string/btnRecord" />
+
+        <Button
+        android:id="@+id/btnReplay"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/btnRecord"
+        android:layout_toRightOf="@+id/btnRecord"
+        android:text="@string/replay" />
+        <TextView
+            android:id="@+id/tvWordPhoneFromciba"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnReplay"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvOverall"
+            android:layout_below="@+id/tvWordPhoneFromciba"/>
+
+        <TextView
+            android:id="@+id/textResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvOverall"
+            android:maxLines="25"
+            android:scrollbars="none"
+            android:text="@string/result" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ctrlContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <!--<chivox.example.chivoxdemo.util.VoiceLineView-->
+            <!--android:id="@+id/voicLine"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginRight="20dp"-->
+            <!--android:visibility="gone"-->
+            <!--voiceView:fineness="three"-->
+            <!--voiceView:lineSpeed="100"-->
+            <!--voiceView:maxVolume="100"-->
+            <!--voiceView:middleLine="@android:color/white"-->
+            <!--voiceView:middleLineHeight="0dp"-->
+            <!--voiceView:rectSpace="2dp"-->
+            <!--voiceView:rectWidth="5dp"-->
+            <!--voiceView:sensibility="four"-->
+            <!--voiceView:viewMode="line"-->
+            <!--voiceView:voiceLine="@android:color/holo_blue_bright" />-->
+    </RelativeLayout>
+
+</LinearLayout>
