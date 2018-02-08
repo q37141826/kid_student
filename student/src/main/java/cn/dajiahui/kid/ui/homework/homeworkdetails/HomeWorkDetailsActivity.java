@@ -16,7 +16,6 @@ import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.homework.bean.BeHomeWorkDetails;
 import cn.dajiahui.kid.util.DateUtils;
 import cn.dajiahui.kid.util.DjhJumpUtil;
-import cn.dajiahui.kid.util.Logger;
 
 /*
 *
@@ -52,7 +51,12 @@ public class HomeWorkDetailsActivity extends FxActivity {
         btn_dohomework.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestUtill.getInstance().httpGetStudentHomeWorkhomeworkContinue(HomeWorkDetailsActivity.this, callHomeWorkContinue, homework_id);
+                Bundle bundle = new Bundle();
+                bundle.putString("SourceFlag", "HomeWork");
+                bundle.putString("homework_id", homework_id);
+                /*先跳转 在网络请请求获取数据*/
+                DjhJumpUtil.getInstance().startBaseActivity(HomeWorkDetailsActivity.this, DoHomeworkActivity.class, bundle, 0);
+                finishActivity();
             }
         });
     }
@@ -71,8 +75,9 @@ public class HomeWorkDetailsActivity extends FxActivity {
         super.httpData();
         showfxDialog();
         RequestUtill.getInstance().httpGetStudentHomeWorkDetails(HomeWorkDetailsActivity.this, callHomeWorkDetails, homework_id);
-
+//        JSONArray jsonArray = headJson.getObject().getJSONObject("data").getJSONArray("question_list");
     }
+
     /**
      * 学生作业列表详情callback函数
      */
@@ -90,10 +95,8 @@ public class HomeWorkDetailsActivity extends FxActivity {
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
                 BeHomeWorkDetails beHomeWorkDetails = json.parsingObject(BeHomeWorkDetails.class);
-                Logger.d("解析学生作业 :" + beHomeWorkDetails.toString());
                 tvhomeworkname.setText(beHomeWorkDetails.getName());
                 tvendtime.setText(DateUtils.time(beHomeWorkDetails.getEnd_time()));
-//                Logger.d("beHomeWorkDetails.getCompelete_students():"+beHomeWorkDetails.getCompelete_students());
                 tvcompletecount.setText(beHomeWorkDetails.getComplete_students() + "/" + beHomeWorkDetails.getAll_students());
 
             } else {
@@ -102,29 +105,5 @@ public class HomeWorkDetailsActivity extends FxActivity {
         }
     };
 
-    /**
-     * 学生作业所有题callback函数
-     */
-    ResultCallback callHomeWorkContinue = new ResultCallback() {
-        @Override
-        public void onError(Request request, Exception e) {
-            dismissfxDialog();
-        }
 
-        @Override
-        public void onResponse(String response) {
-            dismissfxDialog();
-            HeadJson json = new HeadJson(response);
-            Logger.d("callHomeWorkContinue  response :" + response.toString());
-            if (json.getstatus() == 0) {
-
-                Bundle bundle = new Bundle();
-                bundle.putString("SourceFlag", "HomeWork");
-                DjhJumpUtil.getInstance().startBaseActivity(HomeWorkDetailsActivity.this, DoHomeworkActivity.class, bundle, 0);
-                finishActivity();
-            } else {
-                ToastUtil.showToast(HomeWorkDetailsActivity.this, json.getMsg());
-            }
-        }
-    };
 }

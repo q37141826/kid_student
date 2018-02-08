@@ -14,9 +14,17 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fxtx.framework.json.GsonType;
+import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
+import com.fxtx.framework.widgets.dialog.FxDialog;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.squareup.okhttp.Request;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,6 +34,7 @@ import java.util.Map;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
+import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.homework.bean.BeSaveAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
@@ -52,14 +61,15 @@ public class DoHomeworkActivity extends FxActivity
     private int currentposition = 0;//当前页面的索引
     private int praticeCurrentPosition = 0;//当前页面的索引
     private List<Integer> pagelist = new ArrayList<>();//保存页数的集合（check过的页）
-    private Map<Integer, BaseHomeworkFragment> frMap = new HashMap();
+    private Map<Integer, BaseHomeworkFragment> frMap = new HashMap();//保存每个不同类型的Fragment
     private HashMap<Integer, Object> PageMap = new HashMap();//保存每一页的页数和数据
 
     private List<QuestionModle> mdata;//模拟数据元
     private List<Object> mDatalist;
 
     private Button btncheck;
-//    private TextView mRightBtn;
+    private String homework_id;
+    //    private TextView mRightBtn;
 
 
     @Override
@@ -68,71 +78,94 @@ public class DoHomeworkActivity extends FxActivity
         Intent intent = getIntent();
           /* sourceFlag=Practice 练习  sourceFlag=HomeWork作业*/
         sourceFlag = intent.getStringExtra("SourceFlag");
-
         if (sourceFlag.equals("Practice")) {
             btncheck.setVisibility(View.VISIBLE);
             mViewpager.setNoScroll(true);//练习禁止滑动
 
-        } else if (sourceFlag.equals("HomeWork")){
+        } else if (sourceFlag.equals("HomeWork")) {
             mViewpager.setNoScroll(false);//作业可以滑动
+            homework_id = intent.getStringExtra("homework_id");
             setfxTtitle(R.string.checkhomework);
             onRightBtn(R.drawable.ic_launcher, R.string.AnswerCard);
 
         }
-        onBackText();
-
+        onBackTextShowProgress();
+        httpData();
     }
 
     @Override
     protected void initView() {
         setContentView(R.layout.activity_do_homework);
-
         initialize();
         mDatalist = new ArrayList<>();
-            /*OK 判断 连线*/
-            /* isanswer 1*/
-//          String qq = "{    \"data\": [        {            \"book_id\": 8,            \"id\": 4,            \"is_answer\": 1,            \"is_auto\": \"\",            \"is_right\": \"\",            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"my_answer\": \"{3:7,2:8,1:6,4:5}\",            \"options\": {                \"left\": [                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0109y5aih34p.png\",                        \"label\": \"头部label\",                        \"type\": \"1\",                        \"val\": \"1\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0109sge2pcdz.png\",                        \"label\": \"颈部label\",                        \"type\": \"1\",                        \"val\": \"2\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01099mnygtvk.png\",                        \"label\": \"胸部label\",                        \"type\": \"1\",                        \"val\": \"3\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01099p4ryhvt.png\",                        \"label\": \"尾部label\",                        \"type\": \"1\",                        \"val\": \"4\"                    }                ],                \"right\": [                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01098rwcvhz7.png\",                        \"label\": \"head label\",                        \"type\": \"1\",                        \"val\": \"5\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0109xvkfimpt.png\",                        \"label\": \"neck label\",                        \"type\": \"1\",                        \"val\": \"6\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0109fxrt53uw.png\",                        \"label\": \"chest label\",                        \"type\": \"1\",                        \"val\": \"7\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0109vp24bntc.png\",                        \"label\": \"foot label\",                        \"type\": \"1\",                        \"val\": \"8\"                    }                ]            },            \"org_id\": 100,            \"question_cate_id\": 4,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 3,            \"standard_answer\": \"{3:5,2:6,1:7,4:8}\",            \"title\": \"连线题的示例\",            \"unit_id\": 7        },        {            \"book_id\": 5,            \"id\": 5,            \"is_answer\": 1,            \"is_auto\": \"\",            \"is_right\": \"\",            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"my_answer\": \"\",            \"options\": \"<p>nice to [[m]] [[e]] [[e]] [[t]] you</p>\",            \"org_id\": 100,            \"question_cate_id\": 5,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 2,            \"standard_answer\": \"m,e,e,t\",            \"title\": \"填空题示例\",            \"unit_id\": 6        },        {            \"book_id\": 0,            \"id\": 4,            \"is_answer\": 1,            \"is_auto\": \"\",            \"is_right\": \"\",            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"my_answer\": \"1\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01089rty6ais.jpg\",                    \"label\": \"正确\",                    \"type\": \"1\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"错误\",                    \"type\": \"1\",                    \"val\": \"2\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 1,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 0,            \"standard_answer\": \"1\",            \"title\": \"第一个判断题\",            \"unit_id\": 0        },        {            \"book_id\": 5,            \"id\": 3,            \"is_answer\": 1,            \"is_auto\": \"\",            \"is_right\": \"\",            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"my_answer\": \"3,5,4,1,2\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容1\",                    \"type\": \"1\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容2\",                    \"type\": \"1\",                    \"val\": \"2\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容3\",                    \"type\": \"1\",                    \"val\": \"3\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容4\",                    \"type\": \"1\",                    \"val\": \"4\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容5\",                    \"type\": \"1\",                    \"val\": \"5\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 3,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 2,            \"standard_answer\": \"4,5,3,2,1\",            \"title\": \"排序题示例\",            \"unit_id\": 6        },        {            \"book_id\": 5,            \"id\": 6,            \"is_answer\": 1,            \"is_auto\": \"\",            \"is_right\": \"\",            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"my_answer\": \"1\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项A\",                    \"type\": \"2\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项B\",                    \"type\": \"1\",                    \"val\": \"2\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项Cqeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\",                    \"type\": \"1\",                    \"val\": \"3\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项D\",                    \"type\": \"2\",                    \"val\": \"4\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 2,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 2,            \"standard_answer\": \"2\",            \"title\": \"选择题\",            \"unit_id\": 6        }    ],    \"msg\": \"成功\",    \"status\": \"0\"}";
-//          /*连线isanswer 0   填空 isanswer 0   */
-        String qq = "{    \"data\": [        {            \"book_id\": 5,            \"id\": 5,            \"is_answer\": 0,            \"is_auto\": \"\",            \"is_right\": \"\",            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"my_answer\": \"\",            \"options\": \"<p>nice to [[m]] [[e]] [[e]] [[t]] you</p>\",            \"org_id\": 100,            \"question_cate_id\": 5,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 2,            \"standard_answer\": \"m,e,e,t\",            \"title\": \"填空题示例\",            \"unit_id\": 6        },        {            \"book_id\": 8,            \"id\": 4,            \"is_answer\": 0,            \"is_auto\": \"\",            \"is_right\": \"\",            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"my_answer\": \"{3:7,2:8,1:6,4:5}\",            \"options\": {                \"left\": [                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0109y5aih34p.png\",                        \"label\": \"头部label\",                        \"type\": \"1\",                        \"val\": \"1\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0109sge2pcdz.png\",                        \"label\": \"颈部label\",                        \"type\": \"1\",                        \"val\": \"2\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01099mnygtvk.png\",                        \"label\": \"胸部label\",                        \"type\": \"1\",                        \"val\": \"3\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01099p4ryhvt.png\",                        \"label\": \"尾部label\",                        \"type\": \"1\",                        \"val\": \"4\"                    }                ],                \"right\": [                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01098rwcvhz7.png\",                        \"label\": \"head label\",                        \"type\": \"1\",                        \"val\": \"5\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0109xvkfimpt.png\",                        \"label\": \"neck label\",                        \"type\": \"1\",                        \"val\": \"6\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0109fxrt53uw.png\",                        \"label\": \"chest label\",                        \"type\": \"1\",                        \"val\": \"7\"                    },                    {                        \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0109vp24bntc.png\",                        \"label\": \"foot label\",                        \"type\": \"1\",                        \"val\": \"8\"                    }                ]            },            \"org_id\": 100,            \"question_cate_id\": 4,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 3,            \"standard_answer\": \"{3:5,2:6,1:7,4:8}\",            \"title\": \"连线题的示例\",            \"unit_id\": 7        },        {            \"book_id\": 5,            \"id\": 3,            \"is_answer\": 0,            \"is_auto\": \"\",            \"is_right\": \"\",            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"my_answer\": \"3,5,4,1,2\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容1\",                    \"type\": \"1\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容2\",                    \"type\": \"1\",                    \"val\": \"2\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容3\",                    \"type\": \"1\",                    \"val\": \"3\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容4\",                    \"type\": \"1\",                    \"val\": \"4\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"内容5\",                    \"type\": \"1\",                    \"val\": \"5\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 3,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 2,            \"standard_answer\": \"4,5,3,2,1\",            \"title\": \"排序题示例\",            \"unit_id\": 6        },        {            \"book_id\": 0,            \"id\": 4,            \"is_answer\": 0,            \"is_auto\": \"\",            \"is_right\": \"\",            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"my_answer\": \"1\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01089rty6ais.jpg\",                    \"label\": \"正确\",                    \"type\": \"1\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"错误\",                    \"type\": \"1\",                    \"val\": \"2\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 1,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 0,            \"standard_answer\": \"1\",            \"title\": \"第一个判断题\",            \"unit_id\": 0        },        {            \"book_id\": 5,            \"id\": 6,            \"is_answer\": 0,            \"is_auto\": \"\",            \"is_right\": \"\",            \"media\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3\",            \"my_answer\": \"1\",            \"options\": [                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项A\",                    \"type\": \"2\",                    \"val\": \"1\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项B\",                    \"type\": \"1\",                    \"val\": \"2\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项Cqeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\",                    \"type\": \"1\",                    \"val\": \"3\"                },                {                    \"content\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg\",                    \"label\": \"选项D\",                    \"type\": \"2\",                    \"val\": \"4\"                }            ],            \"org_id\": 100,            \"question_cate_id\": 2,            \"question_stem\": \"http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108bg2e8n6j.jpg\",            \"school_id\": 2,            \"standard_answer\": \"2\",            \"title\": \"选择题\",            \"unit_id\": 6        }    ],    \"msg\": \"成功\",    \"status\": \"0\"}";
-        HeadJson headJson = new HeadJson(qq);
-
-        /*解析数组*/
-        mdata = headJson.parsingListArray("data", new GsonType<List<QuestionModle>>() {
-        });
-        seek.setMax(mdata.size() - 1);
-        seek.setProgress((currentposition));
-        mSchedule.setText((currentposition + 1) + "/" + mdata.size());
-        Adapter adapter = new Adapter(getSupportFragmentManager(), mdata);
-        mViewpager.setAdapter(adapter);
-        mViewpager.setOnPageChangeListener(onPageChangeListener);
-
-        /*解析json数据*/
-        for (int i = 0; i < mdata.size(); i++) {
-            switch (mdata.get(i).getQuestion_cate_id()) {
-                case Constant.Judje:
-                    mDatalist.add(headJson.parsingListArrayByIndex("data", i, JudjeQuestionModle.class));
-                    break;
-                case Constant.Choice:
-                    mDatalist.add(headJson.parsingListArrayByIndex("data", i, ChoiceQuestionModle.class));
-                    break;
-                case Constant.Sort:
-                    mDatalist.add(headJson.parsingListArrayByIndex("data", i, SortQuestionModle.class));
-                    break;
-                case Constant.Line:
-                    mDatalist.add(headJson.parsingListArrayByIndex("data", i, LineQuestionModle.class));
-                    break;
-                case Constant.Completion:
-                    mDatalist.add(headJson.parsingListArrayByIndex("data", i, CompletionQuestionModle.class));
-                    break;
-                default:
-                    break;
-
-            }
+    }
 
 
+    @Override
+    public void httpData() {
+        super.httpData();
+        RequestUtill.getInstance().httpGetStudentHomeWorkhomeworkContinue(DoHomeworkActivity.this, callHomeWorkContinue, homework_id);
+    }
+
+    /**
+     * 学生作业所有题callback函数
+     */
+    ResultCallback callHomeWorkContinue = new ResultCallback() {
+        @Override
+        public void onError(Request request, Exception e) {
+            dismissfxDialog();
         }
 
-    }
+        @Override
+        public void onResponse(String response) {
+//            Logger.d("作业返回json：" + response);
+            dismissfxDialog();
+            HeadJson headJson = new HeadJson(response);
+            if (headJson.getstatus() == 0) {
+                try {
+                    JSONArray jsonArray = headJson.getObject().getJSONObject("data").getJSONArray("question_list");
+                    mdata = new Gson().fromJson(jsonArray.toString(), new TypeToken<List<QuestionModle>>() {
+                    }.getType());
+
+                      /*解析json数据*/
+                    for (int i = 0; i < mdata.size(); i++) {
+                        switch (mdata.get(i).getQuestion_cate_id()) {
+                            case Constant.Judje:
+                                mDatalist.add(new Gson().fromJson(jsonArray.get(i).toString(), JudjeQuestionModle.class));
+                                break;
+                            case Constant.Choice:
+                                mDatalist.add(new Gson().fromJson(jsonArray.get(i).toString(), ChoiceQuestionModle.class));
+                                break;
+                            case Constant.Sort:
+                                mDatalist.add(new Gson().fromJson(jsonArray.get(i).toString(), SortQuestionModle.class));
+                                break;
+                            case Constant.Line:
+                                mDatalist.add(new Gson().fromJson(jsonArray.get(i).toString(), LineQuestionModle.class));
+                                break;
+                            case Constant.Completion:
+                                mDatalist.add(new Gson().fromJson(jsonArray.get(i).toString(), CompletionQuestionModle.class));
+                                break;
+                            default:
+                                break;
+
+                        }
+                    }
+
+                    seek.setMax(mdata.size() - 1);
+                    seek.setProgress((currentposition));
+                    mSchedule.setText((currentposition + 1) + "/" + mdata.size());
+                    Adapter adapter = new Adapter(getSupportFragmentManager(), mdata);
+                    mViewpager.setAdapter(adapter);
+                    mViewpager.setOnPageChangeListener(onPageChangeListener);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                ToastUtil.showToast(DoHomeworkActivity.this, headJson.getMsg());
+            }
+        }
+    };
 
     /*初始化*/
     private void initialize() {
@@ -146,16 +179,47 @@ public class DoHomeworkActivity extends FxActivity
 
     }
 
+    private FxDialog submitDialog;
+
+    @Override
+    public void onBackShowProgress(View view) {
+        super.onRightBtnClick(view);
+        if (submitDialog == null) {
+            submitDialog = new FxDialog(context) {
+                @Override
+                public void onRightBtn(int flag) {
+
+
+                    SubmitHomeWorkAnswer submitHomeWorkAnswer = new SubmitHomeWorkAnswer(DoHomeworkActivity.this, new BeSaveAnswerCard(PageMap, homework_id, mdata.size()));
+
+                    submitHomeWorkAnswer.submitAnswerCard("-1");
+
+                    submitDialog.dismiss();
+                    finishActivity();
+                }
+
+                @Override
+                public void onLeftBtn(int flag) {
+
+                    finishActivity();
+                    submitDialog.dismiss();
+                }
+            };
+            submitDialog.getTitle().setVisibility(View.GONE);
+        }
+        submitDialog.setMessage("确定要提交试卷么？");
+        submitDialog.show();
+
+    }
+
     /*答题卡*/
     @Override
     public void onRightBtnClick(View view) {
-
         Intent intent = new Intent(DoHomeworkActivity.this, AnswerCardActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("answerCard", new BeSaveAnswerCard(PageMap));
+        bundle.putSerializable("answerCard", new BeSaveAnswerCard(PageMap, homework_id, mdata.size()));
         intent.putExtras(bundle);
         startActivity(intent);
-
     }
 
 
@@ -197,7 +261,6 @@ public class DoHomeworkActivity extends FxActivity
                                 //通知判断题碎片
                                 judgeFragment.submitHomework(questionModle);
 
-
                             }
                             /*选择*/
                             else if (questionModle.getQuestion_cate_id().equals(Constant.Choice)) {
@@ -220,7 +283,7 @@ public class DoHomeworkActivity extends FxActivity
 
 
                             }
-//                           /*填空题*/
+                          /*填空题*/
                             else if (questionModle.getQuestion_cate_id().equals(Constant.Completion)) {
 
                                 CompletionFragment completionFragment = (CompletionFragment) frMap.get(currentposition);
@@ -232,10 +295,8 @@ public class DoHomeworkActivity extends FxActivity
                             Toast.makeText(context, "请作答第" + (currentposition + 1) + "题", Toast.LENGTH_SHORT).show();
                         }
 
-
                         break;
                     default:
-
                         break;
 
                 }
@@ -260,7 +321,7 @@ public class DoHomeworkActivity extends FxActivity
             seek.setProgress(currentposition);
             mSchedule.setText((currentposition + 1) + "/" + mdata.size());
             /*滑动停止音频*/
-            if (mediaPlayer != null) {
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
             }
 
@@ -359,18 +420,16 @@ public class DoHomeworkActivity extends FxActivity
                 judgeModle.setEachposition(position);//每个题对应数据源的索引
                 judgeModle.setQuestion_cate_id(subjectype);//保存当前的题型
                 judgeModle.setIs_answer(((JudjeQuestionModle) mDatalist.get(position)).getIs_answer());
-                judgeModle.setStandard_answer(((JudjeQuestionModle) mDatalist.get(position)).getStandard_answer());//保存当前题的正确答案
-                judgeModle.setId(((JudjeQuestionModle) mDatalist.get(position)).getId());//保存第几题
-
-//                Logger.d("JudjeQuestionModle getItem getAnswerflag. "+questionModle.getAnswerflag());
-//                Logger.d("JudjeQuestionModle getItem getQuestion_cate_id. "+ ((JudjeQuestionModle) mDatalist.get(position)).getQuestion_cate_id());
+                judgeModle.setStandard_answer(((JudjeQuestionModle) mDatalist.get(position)).getStandard_answer());//保存判断题的正确答案
+                judgeModle.setId(((JudjeQuestionModle) mDatalist.get(position)).getId());//判断题的ID
 
                 if (PageMap.get(position) != null) {
                     judgeModle.setAnswerflag(((JudjeQuestionModle) PageMap.get(position)).getAnswerflag());//学生作答标记
-                    judgeModle.setSubmitAnswer(((JudjeQuestionModle) PageMap.get(position)).getSubmitAnswer());//学生作答答案
-                    judgeModle.setJudgeAnswerFlag(((JudjeQuestionModle) PageMap.get(position)).getJudgeAnswerFlag());//获取判断题选择答案的标记（mtrue 正确 mfalse 错误）
+                    judgeModle.setMy_answer(((JudjeQuestionModle) PageMap.get(position)).getMy_answer());//学生作答答案
                     judgeModle.setAnswer(((JudjeQuestionModle) PageMap.get(position)).isAnswer());//学生是否提交(练习)
+                    judgeModle.setCurrentAnswerPosition(((JudjeQuestionModle) PageMap.get(position)).getCurrentAnswerPosition());//当前选择答案的索引
                 }
+
                 Bundle judgeBundle = new Bundle();
                 judgeBundle.putSerializable("JudgeQuestionModle", (Serializable) mDatalist.get(position));
                 fr1.setArguments(judgeBundle);
@@ -383,15 +442,14 @@ public class DoHomeworkActivity extends FxActivity
                 ChoiceQuestionModle choiceModle = new ChoiceQuestionModle();
 
                 choiceModle.setEachposition(position);//每个题对应数据源的索引
-
                 choiceModle.setQuestion_cate_id(subjectype);
                 choiceModle.setIs_answer(((ChoiceQuestionModle) mDatalist.get(position)).getIs_answer());
-                choiceModle.setStandard_answer(((ChoiceQuestionModle) mDatalist.get(position)).getStandard_answer());//保存当前题的正确答案
-//              questionModle.setId((((ChoiceQuestionModle) mDatalist.get(position)).getId()));//保存
+                choiceModle.setStandard_answer(((ChoiceQuestionModle) mDatalist.get(position)).getStandard_answer());//保存选择题的正确答案
+                choiceModle.setId(((ChoiceQuestionModle) mDatalist.get(position)).getId());//选择题的ID
 
                 if (PageMap.get(position) != null) {
                     choiceModle.setAnswerflag(((ChoiceQuestionModle) PageMap.get(position)).getAnswerflag());//学生作答标记
-                    choiceModle.setSubmitAnswer(((ChoiceQuestionModle) PageMap.get(position)).getSubmitAnswer());//学生作答答案
+                    choiceModle.setMy_answer(((ChoiceQuestionModle) PageMap.get(position)).getMy_answer());//学生作答答案
                     choiceModle.setChoiceitemposition(((ChoiceQuestionModle) PageMap.get(position)).getChoiceitemposition());//记录选择题选的索引
                     choiceModle.setAnswer(((ChoiceQuestionModle) PageMap.get(position)).isAnswer());//学生是否提交
                 }
@@ -461,6 +519,7 @@ public class DoHomeworkActivity extends FxActivity
                 compleModle.setEachposition(position);//每个题对应数据源的索引
                 compleModle.setQuestion_cate_id(subjectype);
                 compleModle.setIs_answer(((CompletionQuestionModle) mDatalist.get(position)).getIs_answer());
+                compleModle.setId(((CompletionQuestionModle) mDatalist.get(position)).getId());//填空题的ID
 
                 if (PageMap.get(position) != null) {
                     compleModle.setAnswerflag(((CompletionQuestionModle) PageMap.get(position)).getAnswerflag());//学生作答标记
@@ -499,25 +558,16 @@ public class DoHomeworkActivity extends FxActivity
     public void submitJudgeFragment(JudjeQuestionModle questionModle) {
         JudjeQuestionModle qm = (JudjeQuestionModle) PageMap.get(currentposition);
 
-
-//        qm.setQuestion_cate_id(questionModle.getQuestion_cate_id());
-
-        qm.setSubmitAnswer(questionModle.getSubmitAnswer());//保存学作答答案
+        qm.setMy_answer(questionModle.getMy_answer());//保存学作答答案
         qm.setAnswerflag(questionModle.getAnswerflag());//学生作答标记
         qm.setEachposition(questionModle.getEachposition());//存储每个题对应数据源的索引
         qm.setCurrentpage(currentposition + 1);//当前是第几页
+        qm.setIs_right(questionModle.getIs_right());
+        qm.setCurrentAnswerPosition(questionModle.getCurrentAnswerPosition());
 
         if (sourceFlag.equals("Practice")) {
             qm.setPratice_answer(questionModle.getPratice_answer());
         }
-
-        qm.setJudgeAnswerFlag(questionModle.getJudgeAnswerFlag());//获取判断题选择答案的标记（mtrue 正确 mfalse 错误）
-
-//        Logger.d("判断题回调接口.getAnswerflag()"+questionModle.getAnswerflag());
-//        Logger.d("判断题回调接口.getQuestion_cate_id()"+questionModle.getQuestion_cate_id());
-
-//        qm.setStandard_answer(questionModle.getStandard_answer());//保存当前题的正确答案
-//        qm.setId(questionModle.getId());//第几题
     }
 
     /*选择题回调接口*/
@@ -525,20 +575,15 @@ public class DoHomeworkActivity extends FxActivity
     public void submitChoiceFragment(ChoiceQuestionModle questionModle) {
         ChoiceQuestionModle qm = (ChoiceQuestionModle) PageMap.get(currentposition);
 
-
-//        qm.setQuestion_cate_id(questionModle.getQuestion_cate_id());
-
-        qm.setSubmitAnswer(questionModle.getSubmitAnswer());//保存学学生作答答案
+        qm.setMy_answer(questionModle.getMy_answer());//保存学学生作答答案
         qm.setAnswerflag(questionModle.getAnswerflag());//学生作答标记
         qm.setEachposition(questionModle.getEachposition());//存储每个题对应数据源的索引
         qm.setCurrentpage(currentposition + 1);//当前是第几页
+        qm.setIs_right(questionModle.getIs_right());
 
         qm.setChoiceitemposition(questionModle.getChoiceitemposition());//保存选择题的索引 用于翻页回来后更新选项状态
 
-//        Logger.d("ChoiceQuestionModle.getAnswerflag()" + questionModle.getAnswerflag());
-//        Logger.d("ChoiceQuestionModle.getQuestion_cate_id()" + questionModle.getQuestion_cate_id());
-//        qm.setId(questionModle.getId());//第几题
-//        qm.setStandard_answer(questionModle.getStandard_answer());//保存当前题的正确答案
+
     }
 
 
@@ -623,4 +668,5 @@ public class DoHomeworkActivity extends FxActivity
         super.onPause();
         sourceFlag = "";
     }
+
 }

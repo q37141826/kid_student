@@ -76,7 +76,7 @@ public class ApChoice extends BaseAdapter {
             holder = new ViewHolder();
 
             /*区别答案的类型*/
-            if (mPptions.get(position).getType().equals("1")) {//文字答案
+            if (mPptions.get(position).getType().equals("2")) {//文字答案
                 convertView = mInflater.inflate(R.layout.item_choicetext, null);
                 //把convertView中的控件保存到viewHolder中
 //            holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
@@ -94,8 +94,8 @@ public class ApChoice extends BaseAdapter {
                 holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
             }
 
-            if (mPptions.get(position).getType().equals("1")) {//文字答案
-                holder.tv_answer.setText(mPptions.get(position).getLabel());
+            if (mPptions.get(position).getType().equals("2")) {//文字答案
+                holder.tv_answer.setText(mPptions.get(position).getContent());
 
             } else {
                 Glide.with(context)
@@ -142,13 +142,19 @@ public class ApChoice extends BaseAdapter {
     public void changeState(Context context, ChoiceFragment.SubmitChoiseFragment submit, int pos, ChoiceQuestionModle inbasebean) {
         selectorPosition = pos;
         Toast.makeText(context, "选择：" + mPptions.get(pos).getLabel(), Toast.LENGTH_SHORT).show();
+
         inbasebean.setAnswerflag("true");//学生作答标记
-        inbasebean.setSubmitAnswer(mPptions.get(pos).getLabel());//学生作答答案
+        inbasebean.setMy_answer(mPptions.get(pos).getVal());//学生作答答案
         inbasebean.setChoiceitemposition(pos);//保存选择题答案的索引（用于翻页回来后给选择的条目赋予背景颜色）
 
         inbasebean.setChoiceanswer((pos + 1) + "");//因为pos是从0开始
+        /*回答正确*/
+        if (mPptions.get(pos).getVal().equals(inbasebean.getStandard_answer())) {
+            inbasebean.setIs_right("1");
+        } else {/*回答错误*/
+            inbasebean.setIs_right("0");
+        }
         submit.submitChoiceFragment(inbasebean);
-
         notifyDataSetChanged();
     }
 

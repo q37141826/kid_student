@@ -493,6 +493,7 @@ public class RequestUtill {
 
     /**
      * 申请加入班级
+     *
      * @param context
      * @param callback
      * @param classId
@@ -508,7 +509,6 @@ public class RequestUtill {
     }
 
     /**
-     *
      * @param context
      * @param callback
      * @param showClassmates 是否显示同班同学
@@ -523,6 +523,7 @@ public class RequestUtill {
         }
         getHttpBuilder(context, "student/classroom/contact").params(params).post(callback);
     }
+
     /*卡拉ok*/
     public void httpGetKaraOke(Context context, ResultCallback callback, String bookId, String unitId) {
         IdentityHashMap params = new IdentityHashMap<>();
@@ -560,6 +561,17 @@ public class RequestUtill {
         params.put("token", UserController.getInstance().getUser().getToken());
         params.put("homework_id", homework_id);//分页显示数目
         getHttpBuilder(context, "student/homework/continue").params(params).post(callback);
+
+    }
+
+    /*提交答题卡*/
+    public void httpSubmitAnswerCard(Context context, ResultCallback callback, String homework_id, String is_complete, String json) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("homework_id", homework_id);
+        params.put("is_complete", is_complete);//-1 未开始 0 未完成 1 已完成
+        params.put("json", json);
+        getHttpBuilder(context, "student/homework/submit").params(params).post(callback);
 
     }
 

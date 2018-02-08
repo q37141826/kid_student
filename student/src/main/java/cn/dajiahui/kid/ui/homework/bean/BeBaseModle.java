@@ -18,10 +18,4 @@ public class BeBaseModle implements Serializable {
         this.question_cate_id = question_cate_id;
     }
 
-    @Override
-    public String toString() {
-        return "BeBaseModle{" +
-                "question_cate_id='" + question_cate_id + '\'' +
-                '}';
-    }
 }

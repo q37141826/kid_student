@@ -1,28 +1,19 @@
 package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.content.Context;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.GsonUtil;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
-import com.fxtx.framework.ui.FxActivity;
 import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.http.RequestUtill;
-import cn.dajiahui.kid.ui.homework.adapter.ApAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.BeSaveAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.BeSubmitAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
@@ -34,45 +25,30 @@ import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.ToAnswerCardJson;
 import cn.dajiahui.kid.util.Logger;
 
-/*
-* 答题卡
-* */
-public class AnswerCardActivity extends FxActivity {
-    private int ANSWERCARD = 3;
-    private TextView tvtrue;
-    private TextView tvfalse;
-    private TextView tvnoanswer;
-    private TextView tvanswer;
-    private GridView grildview;
-    private Button mBtnsubmit;
-    private int answernum;
-//    private List<QuestionModle> listdata;
+/**
+ * Created by majin on 2018/2/8.
+ * <p>
+ * 按返回时候的提交答案
+ */
+
+public class SubmitHomeWorkAnswer {
 
     private List<QuestionModle> listdata = new ArrayList<>();//显示答题卡的集合
-    private BeSaveAnswerCard beSaveAnswerCard;
+    private List<BeSubmitAnswerCard> submitAnswerCardList = new ArrayList<>();
+    private Context context;
     private String homework_id;
-
-    List<BeSubmitAnswerCard> submitAnswerCardList = new ArrayList<>();
-    private int allNum;
+    private BeSaveAnswerCard beSaveAnswerCard;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setfxTtitle(R.string.AnswerCard);
-        onBackText();
-
+    public SubmitHomeWorkAnswer(Context context, BeSaveAnswerCard beSaveAnswerCard) {
+        this.context = context;
+        this.beSaveAnswerCard = beSaveAnswerCard;
     }
 
-    @Override
-    protected void initView() {
-        setContentView(R.layout.activity_answer_card);
-        initialize();
+    /*提交答案*/
+    public void submitAnswerCard(String submitState) {
 
-        Bundle bundle = getIntent().getExtras();
-        beSaveAnswerCard = (BeSaveAnswerCard) bundle.getSerializable("answerCard");
         homework_id = beSaveAnswerCard.getHomework_id();
-        allNum = beSaveAnswerCard.getAllNum();
 
         HashMap<Integer, Object> pageMap = beSaveAnswerCard.getPageMap();
 
@@ -90,12 +66,12 @@ public class AnswerCardActivity extends FxActivity {
                     }
                     listdata.add(new QuestionModle(jude.getCurrentpage()));
 
-//                    Logger.d("---------------------------------------------------------------");
-//                    Logger.d("判断 question_id:----" + jude.getId());
-//                    Logger.d("判断 question_cate_id:----" + jude.getQuestion_cate_id());
-//                    Logger.d("判断 my_answer:----" + jude.getMy_answer());
-//                    Logger.d("判断 is_right:----" + jude.getIs_right());
-//                    Logger.d("判断 is_auto:----" + jude.getIs_auto());
+                    Logger.d("---------------------------------------------------------------");
+                    Logger.d("判断 question_id:----" + jude.getId());
+                    Logger.d("判断 question_cate_id:----" + jude.getQuestion_cate_id());
+                    Logger.d("判断 my_answer:----" + jude.getMy_answer());
+                    Logger.d("判断 is_right:----" + jude.getIs_right());
+                    Logger.d("判断 is_auto:----" + jude.getIs_auto());
 //
 
                     submitAnswerCardList.add(new BeSubmitAnswerCard(jude.getId(), jude.getQuestion_cate_id(), jude.getMy_answer(), jude.getIs_right(), jude.getIs_auto()));
@@ -111,12 +87,12 @@ public class AnswerCardActivity extends FxActivity {
                     }
 
                     listdata.add(new QuestionModle(choice.getCurrentpage()));
-//                    Logger.d("---------------------------------------------------------------");
-//                    Logger.d("选择 question_id:----" + choice.getId());
-//                    Logger.d("选择 question_cate_id:----" + choice.getQuestion_cate_id());
-//                    Logger.d("选择 my_answer:----" + choice.getMy_answer());
-//                    Logger.d("选择 is_right:----" + choice.getIs_right());
-//                    Logger.d("选择 is_auto:----" + choice.getIs_auto());
+                    Logger.d("---------------------------------------------------------------");
+                    Logger.d("选择 question_id:----" + choice.getId());
+                    Logger.d("选择 question_cate_id:----" + choice.getQuestion_cate_id());
+                    Logger.d("选择 my_answer:----" + choice.getMy_answer());
+                    Logger.d("选择 is_right:----" + choice.getIs_right());
+                    Logger.d("选择 is_auto:----" + choice.getIs_auto());
 
                     submitAnswerCardList.add(new BeSubmitAnswerCard(choice.getId(), choice.getQuestion_cate_id(), choice.getMy_answer(), choice.getIs_right(), choice.getIs_auto()));
 
@@ -156,20 +132,15 @@ public class AnswerCardActivity extends FxActivity {
                     break;
                 case Constant.Completion:
                     CompletionQuestionModle completion = (CompletionQuestionModle) pageMap.get(i);
-                    Map<Integer, Map<Integer, String>> integerMapMap = completion.getmAllMap();
-                    Logger.d("---------------------------------------------------------------integerMapMap.size()"+integerMapMap.size());
-
-//                    for () {
-//
-//                    }
+                    String ancompletion = completion.getAnswerflag();
 
                     listdata.add(new QuestionModle(completion.getCurrentpage()));
-                    Logger.d("---------------------------------------------------------------");
-                    Logger.d("填空 question_id:----" + completion.getId());
-                    Logger.d("填空 question_cate_id:----" + completion.getQuestion_cate_id());
-                    Logger.d("填空 my_answer:----" + completion.getMy_answer());
-                    Logger.d("填空 is_right:----" + completion.getIs_right());
-                    Logger.d("填空 is_auto:----" + completion.getIs_auto());
+//                    Logger.d("---------------------------------------------------------------");
+//                    Logger.d("填空 question_id:----" + completion.getId());
+//                    Logger.d("填空 question_cate_id:----" + completion.getQuestion_cate_id());
+//                    Logger.d("填空 my_answer:----" + completion.getMy_answer());
+//                    Logger.d("填空 is_right:----" + completion.getIs_right());
+//                    Logger.d("填空 is_auto:----" + completion.getIs_auto());
 
 //                    submitAnswerCardList.add(new BeSubmitAnswerCard("5", "1", "我的答案", "0", ""));
 
@@ -183,46 +154,8 @@ public class AnswerCardActivity extends FxActivity {
 
         }
 
-//      tvanswer.setText(answernum + "/" + listdata.size());
-        Toast.makeText(context, "答题卡", Toast.LENGTH_SHORT).show();
 
-        ApAnswerCard apAnswerCard = new ApAnswerCard(context, listdata, allNum);
-
-        grildview.setAdapter(apAnswerCard);
-
-
-    }
-
-
-    private void initialize() {
-        tvnoanswer = getView(R.id.tv_noanswer);
-        tvanswer = getView(R.id.tv_answer);
-        grildview = getView(R.id.grildview);
-        mBtnsubmit = getView(R.id.btn_submit);
-        mBtnsubmit.setOnClickListener(onClick);
-    }
-
-    private View.OnClickListener onClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_submit:
-                     /*网络请求提交答案*/
-                    httpData();
-                    break;
-
-                default:
-                    break;
-            }
-
-        }
-    };
-
-    @Override
-    public void httpData() {
-        super.httpData();
-
-        RequestUtill.getInstance().httpSubmitAnswerCard(AnswerCardActivity.this, callSubmitAnswerCard, homework_id, "-1",
+        RequestUtill.getInstance().httpSubmitAnswerCard(context, callSubmitAnswerCard, homework_id, submitState + "",
                 new GsonUtil().getJsonElement(new ToAnswerCardJson(submitAnswerCardList)).toString());
 
     }
@@ -230,17 +163,17 @@ public class AnswerCardActivity extends FxActivity {
     ResultCallback callSubmitAnswerCard = new ResultCallback() {
         @Override
         public void onError(Request request, Exception e) {
-            dismissfxDialog();
+
+            Logger.d("测试答题一半返回错误：" + e.toString());
         }
 
         @Override
         public void onResponse(String response) {
 
-            Logger.d("测试返回json：" + response.toString());
-            dismissfxDialog();
+            Logger.d("测试答题一半返回json：" + response.toString());
+
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
-
 
                 //    Bundle bundle = new Bundle();
 //                    bundle.putSerializable("answerCard", beSaveAnswerCard);
@@ -248,8 +181,9 @@ public class AnswerCardActivity extends FxActivity {
 //                    ActivityUtil.getInstance().finishActivity(DoHomeworkActivity.class);//结束指定的activity
 //                    finishActivity();
             } else {
-                ToastUtil.showToast(AnswerCardActivity.this, json.getMsg());
+                ToastUtil.showToast(context, json.getMsg());
             }
         }
     };
+
 }

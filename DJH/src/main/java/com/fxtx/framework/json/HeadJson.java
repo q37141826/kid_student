@@ -108,7 +108,6 @@ public class HeadJson {
             String s = "";
             if (status != -1 && !object.isNull(key)) {
                 jarray = object.optJSONArray(key);
-//                String zzz = jarray.toString();
                 JSONObject jsonObject = (JSONObject) jarray.get(index);
                 s = jsonObject.toString();
                 GsonUtil gson = new GsonUtil();

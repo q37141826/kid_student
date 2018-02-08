@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/choice_root"
+    android:background="#F4F4F4"
     android:layout_width="match_parent"
     android:layout_height="50dp">
 
@@ -19,7 +20,7 @@
     <TextView
         android:id="@+id/tv_answer"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:singleLine="false"
         android:layout_alignParentBottom="true"
         android:padding="12dp"
@@ -30,7 +31,7 @@
     <ImageView
         android:id="@+id/img_rightchoice"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:padding="12dp"

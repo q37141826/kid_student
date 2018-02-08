@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
@@ -26,13 +31,14 @@ import cn.dajiahui.kid.util.Logger;
 public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomework {
 
 
-    private cn.dajiahui.kid.ui.homework.view.OpenListView mListview;
+    private ListView mListview;
     private ChoiceQuestionModle inbasebean;//当前
     private TextView tv_choice;
 
-    private ImageView img_play;
+    private ImageView img_play, img_conment;
     private SubmitChoiseFragment submit;
     private ApChoice apChoice;
+    private String mediaUrl;
 
 
     @Override
@@ -43,17 +49,21 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
     @Override
     public void setArguments(Bundle bundle) {
         inbasebean = (ChoiceQuestionModle) bundle.get("ChoiceQuestionModle");
+        mediaUrl = inbasebean.getMedia();
+
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialize();
-//        tv_choice.setText(inbasebean.getId() + "");
+        tv_choice.setText(inbasebean.getTitle());
+       /*加载内容图片*/
+        Glide.with(getActivity()).load(inbasebean.getQuestion_stem()).asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(img_conment);
 
         List<BeChoiceOptions> options = inbasebean.getOptions();
-
-
 
                   /*判断是否已经上传后台 0 没答过题  1 答过题*/
         if (inbasebean.getIs_answer().equals("0")) {
@@ -63,10 +73,8 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(getActivity(), "选择" + (position + 1) + "答案", Toast.LENGTH_SHORT).show();
-
                     inbasebean.setChoiceitemposition(position);//保存选择题当前item的索引 用于 翻页回来后指定某个item选择状态
                     apChoice.changeState(getActivity(), submit, position, inbasebean);
-
 
                 }
             });
@@ -74,7 +82,7 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
             /*上传答案回答过题了*/
 
 
-//             /*回答正确*/
+             /*回答正确*/
             if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
 
                 apChoice = new ApChoice(getActivity(), options, inbasebean, (Integer.parseInt(inbasebean.getMy_answer()) - 1));
@@ -88,14 +96,33 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         }
 
         mListview.setAdapter(apChoice);
-
+        /*设置listview的高度*/
+        setHeight();
     }
+
+    /*设置高度*/
+    public void setHeight() {
+        int height = 0;
+        int count = apChoice.getCount();
+        for (int i = 0; i < count; i++) {
+            View temp = apChoice.getView(i, null, mListview);
+            temp.measure(0, 0);
+            height += temp.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = this.mListview.getLayoutParams();
+        params.width = ViewGroup.LayoutParams.FILL_PARENT;
+        params.height = height;
+        mListview.setLayoutParams(params);
+    }
+
 
     /*初始化*/
     private void initialize() {
         mListview = getView(R.id.listview);
         tv_choice = getView(R.id.tv_choice);
         img_play = getView(R.id.img_play);
+        img_conment = getView(R.id.img_conment);
+//        scrollView = getView(R.id.srcllview);
            /*判断是否已经上传后台 0 没答过题  1 答过题*/
         if (inbasebean.getIs_answer().equals("0")) {
             img_play.setOnClickListener(onClick);
@@ -111,7 +138,7 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
             switch (v.getId()) {
                 case R.id.img_play:
                     Toast.makeText(activity, "播放音频", Toast.LENGTH_SHORT).show();
-                    playMp3("/storage/emulated/0/test.mp3");
+                    playMp3(mediaUrl);
 
                     break;
 
@@ -173,7 +200,6 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
                  /*回答正确*/
                 if (inbasebean.getChoiceanswer().equals(inbasebean.getStandard_answer())) {
                     Logger.d("判断题-------------------------------------回答正确");
-
                 } else {
                     Logger.d("判断题-------------------------------------回答错误");
 

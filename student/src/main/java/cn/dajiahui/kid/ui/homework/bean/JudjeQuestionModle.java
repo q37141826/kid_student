@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by lenovo on 2018/1/11.
  * <p>
- * 连线题模型
+ * 题模型
  */
 
 public class JudjeQuestionModle extends QuestionModle {
@@ -26,9 +26,9 @@ public class JudjeQuestionModle extends QuestionModle {
     private String is_auto;//
 
 
-    private String  judgeAnswerFlag="";//判断题答案标志
 
-    private String pratice_answer="";//练习题自己作答答案
+
+    private String pratice_answer = "";//练习题自己作答答案
 
     public String getPratice_answer() {
         return pratice_answer;
@@ -40,13 +40,6 @@ public class JudjeQuestionModle extends QuestionModle {
 
 
 
-    public String getJudgeAnswerFlag() {
-        return judgeAnswerFlag;
-    }
-
-    public void setJudgeAnswerFlag(String judgeAnswerFlag) {
-        this.judgeAnswerFlag = judgeAnswerFlag;
-    }
 
     public String getIs_answer() {
         return is_answer;
@@ -160,4 +153,25 @@ public class JudjeQuestionModle extends QuestionModle {
         this.unit_id = unit_id;
     }
 
+    @Override
+    public String toString() {
+        return "JudjeQuestionModle{" +
+                "book_id='" + book_id + '\'' +
+                ", id='" + id + '\'' +
+                ", media='" + media + '\'' +
+                ", options=" + options +
+                ", org_id='" + org_id + '\'' +
+                ", question_stem='" + question_stem + '\'' +
+                ", school_id='" + school_id + '\'' +
+                ", standard_answer='" + standard_answer + '\'' +
+                ", title='" + title + '\'' +
+                ", unit_id='" + unit_id + '\'' +
+                ", is_answer='" + is_answer + '\'' +
+                ", my_answer='" + my_answer + '\'' +
+                ", is_right='" + is_right + '\'' +
+                ", is_auto='" + is_auto + '\'' +
+
+                ", pratice_answer='" + pratice_answer + '\'' +
+                '}';
+    }
 }

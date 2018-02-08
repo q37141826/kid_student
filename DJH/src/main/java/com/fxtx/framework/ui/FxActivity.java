@@ -183,6 +183,24 @@ public abstract class FxActivity extends AppCompatActivity {
         }
     }
 
+    /*显示弹框*/
+    public void onBackTextShowProgress() {
+        if (toolbar != null) {
+            TextView tv = getView(R.id.tool_left);
+            tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ico_back, 0, 0, 0);
+            tv.setText(R.string.back_text);
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackShowProgress(v);
+                }
+            });
+        }
+    }
+
+    public void onBackShowProgress(View view) {
+
+    }
 
     public void onBackText() {
         if (toolbar != null) {
@@ -197,6 +215,7 @@ public abstract class FxActivity extends AppCompatActivity {
             });
         }
     }
+
     /*右上角 加图片*/
     public void onRightBtn(int drawableId, int textId) {
         if (toolbar != null) {

@@ -2,12 +2,16 @@ package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +37,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     private TextView tvcompletion;
     private ImageView imgplay;
     private ImageView imgconment;
-    private RelativeLayout horlistviewroot;
+    private RelativeLayout horlistviewroot, stemroot;
     /////////////////
     private List<HorizontallListViewAdapter> mAllList = new ArrayList<>();//装每个HorizontalListView的适配器
     private List<HorizontalListView> mAllHorizontalListView = new ArrayList<>();//装每个HorizontalListView的适配器
@@ -43,6 +47,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     private List<CompletionQuestionModle> rightanswer = new ArrayList<>();//正确答案的集合
 
     private List<String> myanswer = new ArrayList<>();//我的答案
+    private String mediaUrl;
 
 
     @Override
@@ -55,6 +60,12 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         super.onViewCreated(view, savedInstanceState);
 
         initialize();
+        tvcompletion.setText(inbasebean.getTitle());
+       /*加载内容图片*/
+        Glide.with(getActivity()).load(inbasebean.getQuestion_stem()).asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imgconment);
+
         /*模拟我的答案数据*/
         myanswer.add("m");
         myanswer.add("a");
@@ -89,8 +100,18 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             }
 
         }
+        /*添加题干*/
+        addQuestionStem();
+
          /* size 填写有几道填空题 后台提供*/
-        addHorizontalListView(3);
+        addHorizontalListView(1);
+    }
+
+    /*添加填空题题干*/
+    private void addQuestionStem() {
+        TextView textView = new TextView(getActivity());
+        textView.setText("1." + Html.fromHtml( inbasebean.getOptions()));
+        stemroot.addView(textView);
     }
 
     /*准备数据源*/
@@ -157,6 +178,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     @Override
     public void setArguments(Bundle bundle) {
         inbasebean = (CompletionQuestionModle) bundle.get("CompletionQuestionModle");
+        mediaUrl = inbasebean.getMedia();
     }
 
 
@@ -201,8 +223,8 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         tvcompletion = getView(R.id.tv_completion);
         imgplay = getView(R.id.img_play);
         imgconment = getView(R.id.img_conment);
-
         horlistviewroot = getView(R.id.horlistviewroot);
+        stemroot = getView(R.id.stemroot);
         imgplay.setOnClickListener(this);
     }
 
@@ -248,14 +270,14 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
                     }
                 }
 
-                Logger.d("myanswer:"+myanswer.toString());
+                Logger.d("myanswer:" + myanswer.toString());
 
-                Logger.d("rightanswer:"+rightanswer.toString());
+                Logger.d("rightanswer:" + rightanswer.toString());
 
 
                 for (int i = 0; i < mAllList.size(); i++) {
 
-                  ;
+                    ;
 
                     for (int a = 0; a < myanswer.size(); a++) {
                     /*填空对应的答案相等*/

@@ -17,24 +17,35 @@
             android:text="听音频对话，去判断正确错误！"
             android:textSize="20dp"/>
 
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tv_judge"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#E0E0E0"/>
+
         <ImageView
             android:id="@+id/img_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_1"
+            android:layout_below="@+id/line"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/ring"/>
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ring3"/>
 
         <ImageView
             android:id="@+id/img_conment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="295dp"
+            android:layout_height="222dp"
             android:layout_below="@+id/img_play"
             android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
             android:src="@drawable/conment"/>
 
         <RelativeLayout
+            android:id="@+id/choice_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_conment"
@@ -42,30 +53,27 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/img_true"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="30dp"
-                android:layout_toLeftOf="@+id/centerline"
-                android:padding="3dp"
-                />
-            <!-- android:src="@drawable/mtrue"-->
+            <!--<ImageView-->
+                <!--android:id="@+id/img_true"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginRight="30dp"-->
+                <!--android:layout_toLeftOf="@+id/centerline"-->
+                <!--android:padding="3dp"/>-->
+
             <TextView
                 android:id="@+id/centerline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"/>
 
-            <ImageView
-                android:id="@+id/img_fasle"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="30dp"
-                android:layout_toRightOf="@+id/centerline"
-                android:padding="3dp"
-                />
-            <!--   android:src="@drawable/mfalse"-->
+            <!--<ImageView-->
+                <!--android:id="@+id/img_fasle"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginLeft="30dp"-->
+                <!--android:layout_toRightOf="@+id/centerline"-->
+                <!--android:padding="3dp"/>-->
         </RelativeLayout>
 
     </RelativeLayout>

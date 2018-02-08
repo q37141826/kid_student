@@ -16,7 +16,8 @@ import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
  * 作业列表
  */
 public class ApAnswerCard extends CommonAdapter<QuestionModle> {
-    public ApAnswerCard(Context context, List<QuestionModle> mDatas) {
+
+    public ApAnswerCard(Context context, List<QuestionModle> mDatas, int allNum) {
         super(context, mDatas, R.layout.item_answercard);
     }
 
@@ -25,15 +26,13 @@ public class ApAnswerCard extends CommonAdapter<QuestionModle> {
     public void convert(ViewHolder viewHolder, int position, QuestionModle item) {
         TextView tv_circle = viewHolder.getView(R.id.tv_circle);
 
-        tv_circle.setText(item.getCurrentpage()+"");
+        tv_circle.setText(((item.getEachposition() + 1) + ""));
 
         if (item.getAnswerflag().equals("true")) {
-            tv_circle.setTextColor(R.color.black);
-            tv_circle.setBackgroundResource(R.color.btn_green_noraml);
+            tv_circle.setBackgroundResource(R.drawable.answer_card_yesanswer_bg);
 
         } else {
-            tv_circle.setTextColor(R.color.black);
-            tv_circle.setBackgroundResource(R.color.red);
+            tv_circle.setBackgroundResource(R.drawable.answer_card_noanswer_bg);
         }
     }
 }
