@@ -1,24 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
+    <include layout="@layout/layout_tool_fragment"/>
 
-    <LinearLayout
+    <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <include layout="@layout/layout_tool_text"/>
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/gray_F5F5F5"
+        app:isLoadMore="false"
+        app:overlay="false"
+        app:wave_color="@color/app_bg_a"
+        app:wave_show="false">
 
         <ListView
-            android:id="@+id/mlistview"
+            android:id="@+id/listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="0px"
-            android:overScrollMode="never"/>
-    </LinearLayout>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:divider="@null"
+            android:dividerHeight="10dp"
+            android:fadeScrollbars="false"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            android:overScrollMode="never"
+            android:scrollbars="none"/>
 
-</RelativeLayout>
+        <TextView style="@style/text_null"/>
+
+    </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
+
+
+</LinearLayout>

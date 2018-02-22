@@ -62,7 +62,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/yellow"
+            android:background="@color/yellow_FEBF12"
             android:text="Check"
             android:textColor="@color/white"
             android:visibility="gone"/>

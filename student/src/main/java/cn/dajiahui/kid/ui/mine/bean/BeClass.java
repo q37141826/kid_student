@@ -124,4 +124,23 @@ public class BeClass extends BeanObj {
     public void setIs_in_class_msg(String is_in_class_msg) {
         this.is_in_class_msg = is_in_class_msg;
     }
+
+    @Override
+    public String toString() {
+        return "BeClass{" +
+                "id='" + id + '\'' +
+                ", org_id='" + org_id + '\'' +
+                ", school_id='" + school_id + '\'' +
+                ", class_name='" + class_name + '\'' +
+                ", max_students_num='" + max_students_num + '\'' +
+                ", students_num='" + students_num + '\'' +
+                ", grade='" + grade + '\'' +
+                ", teacher_id='" + teacher_id + '\'' +
+                ", teacher_name='" + teacher_name + '\'' +
+                ", code='" + code + '\'' +
+                ", school_name='" + school_name + '\'' +
+                ", is_in_class='" + is_in_class + '\'' +
+                ", is_in_class_msg='" + is_in_class_msg + '\'' +
+                '}';
+    }
 }

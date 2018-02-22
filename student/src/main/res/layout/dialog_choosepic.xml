@@ -28,6 +28,7 @@
             android:id="@+id/btn_cancle"
             style="@style/btn_style"
             android:background="@drawable/btn_gray"
+
             android:text="@string/cancle"/>
     </LinearLayout>
 </FrameLayout>

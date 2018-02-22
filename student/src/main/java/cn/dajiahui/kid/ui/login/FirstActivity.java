@@ -20,8 +20,9 @@ public class FirstActivity extends FxFirstActivity {
         UpdateApp manager = new UpdateApp(this, onUpdate);
         manager.checkUpdateOrNotAuto();
 
-        /*fix 测试*/
-//        DjhJumpUtil.getInstance().startBaseActivity(FirstActivity.this, StudyDetailsActivity.class);
+        /*测试专用*/
+//        DjhJumpUtil.getInstance().startBaseActivity(context, MainActivity.class);
+
     }
 
     @Override

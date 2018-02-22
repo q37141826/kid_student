@@ -1,27 +1,21 @@
 package cn.dajiahui.kid.ui.mine.personalinformation;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.fxtx.framework.http.ErrorCode;
-import com.fxtx.framework.http.callback.ResultCallback;
-import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.pickerview.TimePickerView;
 import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.time.TimeUtil;
 import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.widgets.dialog.FxDialog;
-import com.squareup.okhttp.Request;
 
 import java.util.Date;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.UserController;
-import cn.dajiahui.kid.http.RequestUtill;
 
 
 /**
@@ -58,7 +52,7 @@ public class FrSetBirth extends FxFragment {
         FxDialog dialg = new FxDialog(getContext()) {
             @Override
             public void onRightBtn(int flag) {
-                httpBirth(tvBirth.getText().toString().trim());
+//                httpBirth(tvBirth.getText().toString().trim());
             }
 
             @Override
@@ -71,30 +65,30 @@ public class FrSetBirth extends FxFragment {
         dialg.show();
     }
 
-    private void httpBirth(final String birth) {
-        showfxDialog(R.string.submiting);
-        RequestUtill.getInstance().httpUserMessage(getContext(), new ResultCallback() {
-            @Override
-            public void onError(Request request, Exception e) {
-                dismissfxDialog();
-                ToastUtil.showToast(getContext(), ErrorCode.error(e));
-            }
-
-            @Override
-            public void onResponse(String response) {
-                dismissfxDialog();
-                HeadJson headJson = new HeadJson(response);
-                if (headJson.getstatus()  == 1) {
-                    UserController.getInstance().getUser().setBirthday(TimeUtil.dateToLong(birth) + "");
-                    getActivity().setResult(Activity.RESULT_OK);
-                    finishActivity();
-                    ToastUtil.showToast(getContext(), R.string.save_ok);
-                } else {
-                    ToastUtil.showToast(getContext(), headJson.getMsg());
-                }
-            }
-        }, UserController.getInstance().getUserId(), null, null, birth, null);
-    }
+//    private void httpBirth(final String birth) {
+//        showfxDialog(R.string.submiting);
+//        RequestUtill.getInstance().httpUserMessage(getContext(), new ResultCallback() {
+//            @Override
+//            public void onError(Request request, Exception e) {
+//                dismissfxDialog();
+//                ToastUtil.showToast(getContext(), ErrorCode.error(e));
+//            }
+//
+//            @Override
+//            public void onResponse(String response) {
+//                dismissfxDialog();
+//                HeadJson headJson = new HeadJson(response);
+//                if (headJson.getstatus()  == 1) {
+//                    UserController.getInstance().getUser().setBirthday(TimeUtil.dateToLong(birth) + "");
+//                    getActivity().setResult(Activity.RESULT_OK);
+//                    finishActivity();
+//                    ToastUtil.showToast(getContext(), R.string.save_ok);
+//                } else {
+//                    ToastUtil.showToast(getContext(), headJson.getMsg());
+//                }
+//            }
+//        }, UserController.getInstance().getUserId(), null, null, birth, null);
+//    }
 
     private View.OnClickListener onclick = new View.OnClickListener() {
         @Override

@@ -20,12 +20,12 @@ import com.fxtx.framework.R;
 import com.fxtx.framework.util.BaseUtil;
 
 
-
 public class MaterialRefreshLayout extends FrameLayout {
 
 
     private MaterialHeadView materialHeadView;
     private boolean isHeadView;//是否显示HeadView  可以屏蔽下拉刷新
+
     private MaterialFoodView materialFoodView;
 
     private boolean isOverlay;
@@ -371,6 +371,10 @@ public class MaterialRefreshLayout extends FrameLayout {
 
     public void setWaveShow(boolean isShowWave) {
         this.isShowWave = isShowWave;
+    }
+
+    public void setHeadView(boolean headView) {
+        isHeadView = headView;
     }
 
     public void setIsOverLay(boolean isOverLay) {

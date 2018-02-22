@@ -18,7 +18,6 @@ import com.squareup.okhttp.Request;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.UserController;
-import cn.dajiahui.kid.http.RequestUtill;
 
 /**
  * Created by wdj on 2016/4/12.
@@ -111,6 +110,7 @@ public class FrSetSex extends FxFragment {
                 }
             }
         };
-        RequestUtill.getInstance().httpUserSex(getContext(), callback, UserController.getInstance().getUserId(),sex);
+
+//        RequestUtill.getInstance().httpUserSex(getContext(), callback, UserController.getInstance().getUserId(),sex);
     }
 }

@@ -37,10 +37,12 @@
 
         <ImageView
             android:id="@+id/img_conment"
-            android:layout_width="295dp"
+            android:layout_width="match_parent"
             android:layout_height="222dp"
             android:layout_below="@+id/img_play"
             android:layout_centerInParent="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_marginTop="35dp"
             android:src="@drawable/conment"/>
 
@@ -48,14 +50,18 @@
             android:id="@+id/stemroot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/img_conment">
+            android:layout_below="@+id/img_conment"
+            android:layout_marginLeft="57dp"
+            android:layout_marginTop="16dp">
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/horlistviewroot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/stemroot">
+            android:layout_below="@+id/stemroot"
+            android:layout_marginLeft="57dp"
+            android:orientation="horizontal">
         </RelativeLayout>
 
     </RelativeLayout>

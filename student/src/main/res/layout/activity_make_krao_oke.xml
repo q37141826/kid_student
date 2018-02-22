@@ -56,7 +56,7 @@
             android:id="@+id/btn_startRecord"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/yellow"
+            android:background="@color/yellow_FEBF12"
             android:text="开始录制"
             android:textColor="@color/white"
             android:textSize="16sp"/>

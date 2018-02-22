@@ -80,6 +80,11 @@ public class JCVideoPlayerMakeKaraOke extends JCVideoPlayerStandard {
         battery_level.setVisibility(GONE);
         fullscreenButton.setVisibility(GONE);//全屏按钮
 
+        startButton.setVisibility(GONE);
+        retryTextView.setVisibility(GONE);
+
+
+
         seetingloadingProgressBarUncheck();//禁止progressBar触摸
     }
 
@@ -112,7 +117,8 @@ public class JCVideoPlayerMakeKaraOke extends JCVideoPlayerStandard {
     @Override
     public void onStatePreparingChangingUrl(int urlMapIndex, int seekToInAdvance) {
         super.onStatePreparingChangingUrl(urlMapIndex, seekToInAdvance);
-
+        hideView();
+        setAllControlsVisible(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
     }
 
 

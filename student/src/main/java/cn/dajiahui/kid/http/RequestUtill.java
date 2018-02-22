@@ -10,7 +10,6 @@ import com.fxtx.framework.http.request.OkHttpDownloadRequest;
 import com.fxtx.framework.http.request.OkHttpRequest;
 import com.fxtx.framework.image.util.ImageUtil;
 import com.fxtx.framework.log.ToastUtil;
-import com.fxtx.framework.text.StringUtil;
 
 import java.io.File;
 import java.util.IdentityHashMap;
@@ -238,17 +237,6 @@ public class RequestUtill {
 //        getHttpBuilder(context, "user/modifyAccount.json").params(params).post(callback);
     }
 
-    public void httpModifyPwd(Context context, ResultCallback callback, String access_token, String username, String oldPassword, String xinPassword, String confirmPassword) {
-        IdentityHashMap params = new IdentityHashMap<>();
-//        params.put("userId", access_token);
-//        params.put("username", username);
-//        params.put("oldPassword", oldPassword);
-//        params.put("xinPassword", xinPassword);
-//        params.put("confirmPassword", confirmPassword);
-//        getHttpBuilder(context, "user/modifyPassword.json").params(params).post(callback);
-
-    }
-
 
     /**
      * 意见反馈
@@ -281,105 +269,34 @@ public class RequestUtill {
         getHttpBuilder(context, "index/aboutUs.json").get(callback);
     }
 
-    /**
-     * @param context
-     * @param callback
-     */
-    public void httpTest(Context context, ResultCallback callback, String userId, String type) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("userId", userId);
-        params.put("type", type);
-        getHttpBuilder(context, "classPaper/getMyClassTestForStudent.json").params(params).post(callback);
-    }
 
+//    public void httpUserMessage(Context context, ResultCallback callback, String userId, String realName, String email, String birthday, String signature) {
+//        IdentityHashMap params = new IdentityHashMap<>();
+//        params.put("userId", userId);
+//        params.put("realName", realName);
+//        params.put("email", email);
+//        params.put("birthday", birthday);
+//        params.put("signature", signature);
+//        getHttpBuilder(context, "user/updateUserInfo.json").params(params).post(callback);
+//    }
+//
+//
+//    // 扫码添加班级
+//    public void httpAddClassAply(Context context, String userId, String classNo, ResultCallback callback) {
+//        IdentityHashMap params = new IdentityHashMap<>();
+//        params.put("userId", userId);
+//        params.put("classNo", classNo);
+//        getHttpBuilder(context, "classApply/addClassApply.json").params(params).post(callback);
+//    }
 
-    /**
-     * 上传头像
-     *
-     * @param context
-     * @param callback
-     * @param files
-     * @param userId
-     */
-    public void uploadUserIcon(Context context, ResultCallback callback, File files, String userId) {
-        Bitmap map = ImageUtil.uriToBitmap(Uri.fromFile(files), context);
-        map = ImageUtil.centerSquareScaleBitmap(map, 400);
-        File file = ImageUtil.bitmapToFile(map, UserController.getInstance().getUserImageFile(context) + System.currentTimeMillis() + ".jpg", -1);
-        if (file == null) {
-            ToastUtil.showToast(context, "文件错误无法提交");
-            callback.onError(null, null);
-        } else {
-            IdentityHashMap params = new IdentityHashMap<>();
-            params.put("userId", userId);
-            new OkHttpRequest.Builder().tag(context).url(getFileUrl() + "user/uploadAvator.json").files(new Pair<String, File>("file", file)).params(params).upload(callback);
-        }
+//
+//    public void httpUserSex(Context context, ResultCallback callback, String userId, String sex) {
+//        IdentityHashMap params = new IdentityHashMap<>();
+//        params.put("userId", userId);
+//        params.put("sex", sex);
+//        getHttpBuilder(context, "user/updateUserInfo.json").params(params).post(callback);
+//    }
 
-    }
-
-    public void httpUserMessage(Context context, ResultCallback callback, String userId, String realName, String email, String birthday, String signature) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("userId", userId);
-        params.put("realName", realName);
-        params.put("email", email);
-        params.put("birthday", birthday);
-        params.put("signature", signature);
-        getHttpBuilder(context, "user/updateUserInfo.json").params(params).post(callback);
-    }
-
-    /**
-     * 获取消息类型
-     *
-     * @param context
-     * @param type     1教师端消息类型 2学生端消息类型
-     * @param callback
-     */
-    public void httpMessageType(Context context, String type, String userId, ResultCallback callback) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("type", type);
-        params.put("userId", userId);
-        getHttpBuilder(context, "caseMsg/getCaseMsgType.json").params(params).post(callback);
-
-    }
-
-    public void httpMessageByType(Context context, String userId, String type, ResultCallback callback, String pageSize, String pageNum) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("userId", userId);
-        params.put("pageSize", pageSize);
-        params.put("pageNum", pageNum);
-        if (!StringUtil.isEmpty(type)) {
-            params.put("type", type);
-        }
-
-        getHttpBuilder(context, "caseMsg/findMsgs.json").params(params).post(callback);
-    }
-
-    public void httpReApply(Context context, String classApplyId, ResultCallback callback) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("classApplyId", classApplyId);
-        getHttpBuilder(context, "classApply/reApply.json").params(params).post(callback);
-    }
-
-    // 扫码添加班级
-    public void httpAddClassAply(Context context, String userId, String classNo, ResultCallback callback) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("userId", userId);
-        params.put("classNo", classNo);
-        getHttpBuilder(context, "classApply/addClassApply.json").params(params).post(callback);
-    }
-
-
-    public void httpUserSex(Context context, ResultCallback callback, String userId, String sex) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("userId", userId);
-        params.put("sex", sex);
-        getHttpBuilder(context, "user/updateUserInfo.json").params(params).post(callback);
-    }
-
-    public void httpReadMsg(Context context, ResultCallback callback, String caseMsgId) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("caseMsgId", caseMsgId);
-        getHttpBuilder(context, "caseMsg/readMsg.json").params(params).post(callback);
-    }
 
     /**
      * 上传作业答题时的图片
@@ -393,20 +310,6 @@ public class RequestUtill {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("userId", userId);
         new OkHttpRequest.Builder().tag(context).url(getFileUrl() + "picture/uploadNoticeImg.json").files(new Pair<String, File>("file", file)).params(params).upload(callback);
-    }
-
-
-    /**
-     * 批改
-     *
-     * @param context
-     * @param callback
-     * @param myTestDetail
-     */
-    public void getpgContent(Context context, ResultCallback callback, String myTestDetail) {
-        IdentityHashMap params = new IdentityHashMap<>();
-        params.put("myTestDetailId", myTestDetail);
-        getHttpBuilder(context, "classPaper/getMyTestDetailById.json").params(params).post(callback);
     }
 
 
@@ -467,7 +370,8 @@ public class RequestUtill {
         getHttpBuilder(context, "site/find-passwd").params(params).post(callback);
     }
 
-    public void httpboundPhone(Context context, ResultCallback callback, String userId, String telnum, String captcha) {
+    /*修改手机号*/
+    public void httpModifyPhone(Context context, ResultCallback callback, String userId, String telnum, String captcha) {
         IdentityHashMap params = new IdentityHashMap<>();
 //        params.put("userId", userId);
 //        params.put("telnum", telnum);
@@ -475,6 +379,17 @@ public class RequestUtill {
 //        getHttpBuilder(context, "user/boundPhone.json").params(params).post(callback);
     }
 
+    /*修改密码*/
+    public void httpModifyPwd(Context context, ResultCallback callback, String access_token, String username, String oldPassword, String xinPassword, String confirmPassword) {
+        IdentityHashMap params = new IdentityHashMap<>();
+//        params.put("userId", access_token);
+//        params.put("username", username);
+//        params.put("oldPassword", oldPassword);
+//        params.put("xinPassword", xinPassword);
+//        params.put("confirmPassword", confirmPassword);
+//        getHttpBuilder(context, "user/modifyPassword.json").params(params).post(callback);
+
+    }
 
     /**
      * 根据班级码查询班级
@@ -575,6 +490,95 @@ public class RequestUtill {
 
     }
 
+    /*选择教材*/
+    public void httpChoiceTeachingMaterial(Context context, ResultCallback callback, int pageSize, int page) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("pageSize", pageSize + "");
+        params.put("page", page + "");
+        getHttpBuilder(context, "student/book/series").params(params).post(callback);
+    }
+
+    /*我的*/
+    public void httpMine(Context context, ResultCallback callback) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+
+        getHttpBuilder(context, "student/").params(params).post(callback);
+    }
+
+    /*我的班级*/
+    public void httpMyClass(Context context, ResultCallback callback, String pageSize, String page) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("pageSize", UserController.getInstance().getUser().getToken());
+        params.put("page", UserController.getInstance().getUser().getToken());
+
+        getHttpBuilder(context, "student/classroom/list").params(params).post(callback);
+    }
+
+    /*班级详情*/
+    public void httpClassDetail(Context context, ResultCallback callback, String class_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("class_id", class_id);
+
+        getHttpBuilder(context, "student/classroom/detail").params(params).post(callback);
+    }
+
+    /*退出班级*/
+    public void httpQuitClass(Context context, ResultCallback callback, String class_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+//        params.put("class_id", class_id);
+//        params.put("class_id", class_id);
+
+        getHttpBuilder(context, "student/ ").params(params).post(callback);
+    }
+
+    /*班级空间*/
+    public void httpClassSpace(Context context, ResultCallback callback, String class_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+//        params.put("class_id", class_id);
+//        params.put("class_id", class_id);
+
+        getHttpBuilder(context, "student/ ").params(params).post(callback);
+    }
+
+    /*摩尔通知*/
+    public void httpNotice(Context context, ResultCallback callback ) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+//        params.put("class_id", class_id);
+//        params.put("class_id", class_id);
+
+        getHttpBuilder(context, "student/ ").params(params).post(callback);
+    }
+
+
+    /**
+     * 上传头像
+     *
+     * @param context
+     * @param callback
+     * @param files
+     * @param userId
+     */
+    public void uploadUserIcon(Context context, ResultCallback callback, File files, String userId) {
+        Bitmap map = ImageUtil.uriToBitmap(Uri.fromFile(files), context);
+        map = ImageUtil.centerSquareScaleBitmap(map, 400);
+        File file = ImageUtil.bitmapToFile(map, UserController.getInstance().getUserImageFile(context) + System.currentTimeMillis() + ".jpg", -1);
+        if (file == null) {
+            ToastUtil.showToast(context, "文件错误无法提交");
+            callback.onError(null, null);
+        } else {
+            IdentityHashMap params = new IdentityHashMap<>();
+            params.put("userId", userId);//需要修改参数
+            new OkHttpRequest.Builder().tag(context).url(getFileUrl() + "user/uploadAvator.json").files(new Pair<String, File>("file", file)).params(params).upload(callback);
+        }
+
+    }
 
 }
 

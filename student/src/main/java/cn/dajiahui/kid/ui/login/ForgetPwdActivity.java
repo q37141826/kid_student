@@ -53,10 +53,10 @@ public class ForgetPwdActivity extends FxActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isBtnCode) {
                     if (edLoginPhone.getText().toString().trim().length() == 11) {
-                        btnCode.setBackgroundResource(R.drawable.select_btn_bg);
+                        btnCode.setBackgroundResource(R.color.white);
                         btnCode.setClickable(true);
                     } else {
-                        btnCode.setBackgroundResource(R.color.whilte_gray);
+                        btnCode.setBackgroundResource(R.color.white);
                         btnCode.setClickable(false);
                     }
                 }

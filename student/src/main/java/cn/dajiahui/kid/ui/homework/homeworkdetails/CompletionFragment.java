@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Html;
@@ -38,12 +39,14 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     private ImageView imgplay;
     private ImageView imgconment;
     private RelativeLayout horlistviewroot, stemroot;
+    //    private LinearLayout ;
     /////////////////
     private List<HorizontallListViewAdapter> mAllList = new ArrayList<>();//装每个HorizontalListView的适配器
     private List<HorizontalListView> mAllHorizontalListView = new ArrayList<>();//装每个HorizontalListView的适配器
     private Map<Integer, Map<Integer, String>> mAllMap = new HashMap<>();//存所有答案的集合（key： 第几个listview  val：listview对应的数据）
 
     private int mTop = 0;//初始距离上端
+    private int mToptv = 0;//初始距离上端
     private List<CompletionQuestionModle> rightanswer = new ArrayList<>();//正确答案的集合
 
     private List<String> myanswer = new ArrayList<>();//我的答案
@@ -76,18 +79,21 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
         /*解析正确答案（后台获取的正确答案）*/
         String standard_answer = inbasebean.getStandard_answer();
-        String[] strs = standard_answer.split(",");
+        String[] strs = standard_answer.split("۞");
        /*截取正确答案字符串  添加到rightanswer集合*/
         for (int i = 0, len = strs.length; i < len; i++) {
             String split = strs[i].toString();
             CompletionQuestionModle completionQuestionModle = new CompletionQuestionModle();
             completionQuestionModle.setAnalysisAnswer(split);
             completionQuestionModle.setAnalysisMineAnswer(myanswer.get(i));
+
+            Logger.d("split:" + split);
+
             rightanswer.add(completionQuestionModle);
         }
 
 
-           /*判断是否已经上传后台 0 没答过题  1 答过题*/
+//           /*判断是否已经上传后台 0 没答过题  1 答过题*/
         if (DoHomeworkActivity.sourceFlag.equals("HomeWork") && inbasebean.getIs_answer().equals("1")) {
 
             inbasebean.setIsFocusable("false");
@@ -100,17 +106,22 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             }
 
         }
+
         /*添加题干*/
-        addQuestionStem();
+        addQuestionStem(1);
 
          /* size 填写有几道填空题 后台提供*/
         addHorizontalListView(1);
     }
 
     /*添加填空题题干*/
-    private void addQuestionStem() {
+    private void addQuestionStem(int size) {
         TextView textView = new TextView(getActivity());
-        textView.setText("1." + Html.fromHtml( inbasebean.getOptions()));
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,21);
+//        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+//        textView.setLayoutParams(params);
+        textView.setTextSize(15);
+        textView.setText(size + ". " + Html.fromHtml(inbasebean.getOptions()));
         stemroot.addView(textView);
     }
 
@@ -132,16 +143,27 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     }
 
     /*添加布局*/
+    @SuppressLint("ResourceType")
     private void addHorizontalListView(int size) {
 
         for (int i = 0; i < size; i++) {
+            TextView tv = new TextView(getActivity());
+            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);
+            params1.weight = 1;
+            params1.topMargin = mToptv;
+
+            tv.setTextSize(15);
+            mToptv += 150;
+            tv.setText((i + 1) + ". ");
+            horlistviewroot.addView(tv);
+
             HorizontalListView horizontalListView = new HorizontalListView(getActivity());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300);
             params.weight = 1;
             params.topMargin = mTop;
-            params.leftMargin = 50;
-            params.rightMargin = 50;
-            mTop += 200;
+            params.leftMargin = 30;
+//            params.rightMargin = 50;
+            mTop += 150;
 
             horizontalListView.setLayoutParams(params);
 
@@ -151,6 +173,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             horizontalListView.setAdapter(horizontallListViewAdapter);
             mAllList.add(horizontallListViewAdapter);
             mAllHorizontalListView.add(horizontalListView);
+
             horlistviewroot.addView(horizontalListView); //动态添加图片
         }
 

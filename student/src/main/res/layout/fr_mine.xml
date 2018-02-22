@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whilte_line"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -15,6 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -22,16 +23,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="30dp">
 
                 <ImageView
                     android:id="@+id/iv_user"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/ico_portrait"
                     android:padding="10dp"
-                    android:src="@drawable/ic_launcher"/>
+                    android:src="@drawable/ico_default_user"/>
 
                 <TextView
                     android:id="@+id/tv_user_name"
@@ -39,37 +40,35 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/iv_edit"
                     android:layout_toEndOf="@+id/iv_user"
-                    android:drawablePadding="5dp"
                     android:text="@string/user_name"
-                    android:textColor="@color/black"
-                    android:textSize="22sp"/>
+                    android:textColor="@color/gray_333333"
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/tv_sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_user_name"
+                    android:layout_below="@+id/iv_edit"
                     android:layout_toEndOf="@+id/iv_user"
-                    android:drawablePadding="5dp"
                     android:text="@string/sex"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"/>
+                    android:textColor="@color/gray_666666"
+                    android:textSize="13sp"/>
 
                 <ImageView
                     android:id="@+id/iv_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_margin="15dp"
-                    android:padding="4dp"
-                    android:src="@drawable/ico_edit"/>
+                    android:src="@drawable/go_right"/>
             </RelativeLayout>
 
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -79,153 +78,174 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/tv_stars"
+                        android:id="@+id/tv_studylength"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
+                        android:layout_centerHorizontal="true"
                         android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_launcher"
                         android:gravity="center"
-                        android:text="0"/>
+                        android:text="360min"
+                        android:textColor="@color/yellow_FEBF12"
+                        android:textSize="15sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_stars"
+                        android:layout_below="@+id/tv_studylength"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:text="我的星星"/>
+                        android:text="我的学习时长"
+                        android:textSize="11sp"/>
                 </RelativeLayout>
+
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="21dp"
+                    android:layout_gravity="center"
+                    android:background="@color/whilte_gray"
+                    android:gravity="center"/>
+
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:gravity="center">
-
-                    <TextView
-
-                        android:id="@+id/tv_studytime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_launcher"
-                        android:gravity="center"
-                        android:text="0"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_studytime"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/apptitle"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-
                     android:gravity="center">
 
                     <TextView
                         android:id="@+id/tv_goodhomework"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
+                        android:layout_centerHorizontal="true"
                         android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_launcher"
                         android:gravity="center"
-                        android:text="0"/>
+                        android:text="20"
+                        android:textColor="@color/yellow_FEBF12"
+                        android:textSize="15sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_goodhomework"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:text="@string/apptitle"/>
+                        android:text="优秀作业"
+                        android:textSize="11sp"/>
                 </RelativeLayout>
             </LinearLayout>
-            >
+
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/tvMyclass"
-                style="@style/mine_view"
-                android:text="@string/my_class"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/tvMyworks"
-                style="@style/mine_view"
-                android:text="@string/myworks"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/tvNotice"
-                style="@style/mine_view"
-                android:text="@string/text_notice"/>
-
-            <TextView
-                android:id="@+id/tv_noticecount"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tvNotice"
-                android:layout_alignBottom="@+id/tvNotice"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/shape"
-                android:gravity="center"
-                android:text="1"
-                android:textColor="@color/white"/>
-        </RelativeLayout>
-
+            android:layout_height="20dp"
+            android:background="@color/gray_F5F5F5"
+            android:orientation="vertical">
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvAbout"
-                style="@style/mine_view"
-                android:text="@string/mine_text_about"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvMyclass"
+                    style="@style/mine_view"
+                    android:drawableLeft="@drawable/mine_myclass"
+                    android:text="@string/my_class"/>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
+                android:layout_marginLeft="10dp"
                 android:background="@color/line_gray"/>
 
-            <TextView
-                android:id="@+id/tvSet_up"
-                style="@style/mine_view"
-                android:text="@string/text_set_up"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvMyworks"
+                    style="@style/mine_view"
+                    android:drawableLeft="@drawable/mine_myworks"
+                    android:text="@string/myworks"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="@color/line_gray"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvNotice"
+                    style="@style/mine_view"
+                    android:drawableLeft="@drawable/mine_notice"
+                    android:text="@string/text_notice"/>
+
+                <TextView
+                    android:id="@+id/tv_noticecount"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tvNotice"
+                    android:layout_alignBottom="@+id/tvNotice"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/notice_bg"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/white"
+                    android:visibility="invisible"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="@color/line_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvAbout"
+                    style="@style/mine_view"
+                    android:drawableLeft="@drawable/mine_about"
+                    android:text="@string/mine_text_about"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/line_gray"/>
+
+                <TextView
+                    android:id="@+id/tvSet_up"
+                    style="@style/mine_view"
+                    android:drawableLeft="@drawable/mine_mysetting"
+                    android:text="@string/text_set_up"/>
+            </LinearLayout>
+
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:background="@color/line_gray"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_bg">#ff7306</color>
+    <color name="app_bg">#FFFFFF</color>
     <color name="app_bg_a">#A8E9E1</color>
     <color name="transparent">#00000000</color>
     <color name="subtransparent">#30000000</color>
     <color name="transparent1">#bb000000</color>
     <color name="tr_black">#70000000</color>
-    <color name="yellow">#FEBF12</color>
     <!--暗灰色  -->
     <color name="gray_light">#999999</color>
-    <color name="gray_line">#e3e3e3</color>
+    <color name="gray_line">#EDEDED</color>
     <color name="whilte_line">#FFF9F7F7</color>
     <color name="gray">#777777</color>
     <color name="perplu">#FFBA54CF</color>
     <color name="diskRed">#FFDD457D</color>
-    <color name="whilte_gray">#cccccc</color>
+    <color name="login_hint">#FFE1A7</color>
+    <color name="whilte_gray">#e3e3e3</color>
     <color name="white">#FFFFFF</color>
+    <color name="yellow_light">#FECD33</color>
+
+
     <color name="black">#000000</color>
     <color name="line_gray">#dedede</color>
     <color name="line_gray_wideing">#eeeeec</color>
@@ -32,15 +35,27 @@
     <!-- photo-->
     <color name="orange">#CC6600</color>
     <color name="pink">#FFE6E6</color>
-    <color name="blue">#00AED6</color>
+    <color name="blue">#009DE8</color>
     <color name="blue_wk">#A9EDE5</color>
     <color name="red">#D80000</color>
     <!-- actiondialog-->
 
     <color name="pickerview_timebtn_nor">#057dff</color>
     <color name="pickerview_timebtn_pre">#c2daf5</color>
-
     <color name="pickerview_wheelview_textcolor_out">#a8a8a8</color>
     <color name="pickerview_wheelview_textcolor_center">#2a2a2a</color>
     <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
+
+    <color name="gray_E0E0E0">#E0E0E0</color>
+    <color name="gray_E9E9E9">#E9E9E9</color>
+    <color name="gray_DCDCDC">#DCDCDC</color>
+    <color name="gray_DBDBDB">#DBDBDB</color>
+    <color name="gray_F5F5F5">#F5F5F5</color>
+    <color name="gray_666666">#666666</color>
+    <color name="gray_333333">#333333</color>
+    <color name="gray_C4C4C6">#C4C4C6</color>
+
+    <color name="yellow_FEBF12">#FEBF12</color>
+    <color name="blue_50D9B6">#50D9B6</color>
+
 </resources>

@@ -1,13 +1,12 @@
 package cn.dajiahui.kid.ui.login;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.fxtx.framework.http.ErrorCode;
@@ -33,10 +32,10 @@ import cn.dajiahui.kid.util.StudentTextWatcher;
  */
 public class RegistActivity extends FxActivity {
     private EditText edRealName, edPwd, edPhone, edVerificationCode;
-    private TextView btnCode, tvBirth;
-    private RadioButton radio_boy, radio_girl;
+    private TextView btnCode, tvBirth, tvBoy, tvGirl;
+    //    private RadioButton radio_boy, radio_girl;
     private TimePickerView timePickerView;
-    private RadioGroup radioGroup;
+    //    private RadioGroup radioGroup;
     private TimeCount time;
     private String sex = "1";
     private boolean isBtnCode = true;
@@ -50,24 +49,28 @@ public class RegistActivity extends FxActivity {
         edRealName = getView(R.id.edRealName);
         edVerificationCode = getView(R.id.edCode);
         tvBirth = getView(R.id.tvBirth);
-        radioGroup = getView(R.id.radio_sex);
-        radio_boy = getView(R.id.sex_boy);
-        radio_girl = getView(R.id.sex_girl);
+        tvBoy = getView(R.id.tv_boy);
+        tvGirl = getView(R.id.tv_girl);
+//        radioGroup = getView(R.id.radio_sex);
+//        radio_boy = getView(R.id.sex_boy);
+//        radio_girl = getView(R.id.sex_girl);
         btnCode.setOnClickListener(onClick);
         tvBirth.setOnClickListener(onClick);
+        tvBoy.setOnClickListener(onClick);
+        tvGirl.setOnClickListener(onClick);
 
         getView(R.id.btn_sure).setOnClickListener(onClick);
-        radioGroup.setOnCheckedChangeListener(oncheckchanged);
+//        radioGroup.setOnCheckedChangeListener(oncheckchanged);
         btnCode.setClickable(false);
         edPhone.addTextChangedListener(new StudentTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isBtnCode) {
                     if (edPhone.getText().toString().trim().length() == 11) {
-                        btnCode.setBackgroundResource(R.drawable.select_btn_bg);
+                        btnCode.setBackgroundResource(R.color.white);
                         btnCode.setClickable(true);
                     } else {
-                        btnCode.setBackgroundResource(R.color.whilte_gray);
+                        btnCode.setBackgroundResource(R.color.white);
                         btnCode.setClickable(false);
                     }
                 }
@@ -75,29 +78,43 @@ public class RegistActivity extends FxActivity {
         });
     }
 
-    private RadioGroup.OnCheckedChangeListener oncheckchanged = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId) {
-                case R.id.sex_boy:
-                    sex = "1";
-                    radio_boy.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ico_sex_check, 0, 0, 0);
-                    radio_girl.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ico_sex_unchecked, 0, 0, 0);
-                    break;
-                case R.id.sex_girl:
-                    sex = "2";
-                    radio_girl.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ico_sex_check, 0, 0, 0);
-                    radio_boy.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ico_sex_unchecked, 0, 0, 0);
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
+    //    private RadioGroup.OnCheckedChangeListener oncheckchanged = new RadioGroup.OnCheckedChangeListener() {
+//        @Override
+//        public void onCheckedChanged(RadioGroup group, int checkedId) {
+//            switch (checkedId) {
+//                case R.id.sex_boy:
+//                    sex = "1";
+//                    radio_boy.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ico_sex_check, 0, 0, 0);
+//                    radio_girl.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ico_sex_unchecked, 0, 0, 0);
+//                    break;
+//                case R.id.sex_girl:
+//                    sex = "2";
+//                    radio_girl.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ico_sex_check, 0, 0, 0);
+//                    radio_boy.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ico_sex_unchecked, 0, 0, 0);
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//    };
     private View.OnClickListener onClick = new View.OnClickListener() {
+        @SuppressLint({"ResourceAsColor", "ResourceType"})
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.tv_code) {
+            if (v.getId() == R.id.tv_boy) {
+                sex = "1";
+                tvBoy.setTextColor(getResources().getColor(R.color.white));
+                tvGirl.setTextColor(getResources().getColor(R.color.text_gray));
+                tvBoy.setBackgroundResource( R.drawable.select_btn_yellowbg);
+                tvGirl.setBackgroundResource( R.drawable.select_btn_graybg);
+
+            } else if (v.getId() == R.id.tv_girl) {
+                tvBoy.setTextColor(getResources().getColor(R.color.text_gray));
+                tvGirl.setTextColor(getResources().getColor(R.color.white));
+                tvBoy.setBackgroundResource(R.drawable.select_btn_graybg);
+                tvGirl.setBackgroundResource(R.drawable.select_btn_yellowbg);
+                sex = "2";
+            } else if (v.getId() == R.id.tv_code) {
                 String PhoneCode = edPhone.getText().toString().trim();
                 if (!StringUtil.isEmpty(PhoneCode)) {
                     showfxDialog("获取验证码");
@@ -174,7 +191,7 @@ public class RegistActivity extends FxActivity {
             @Override
             public void onResponse(String response) {
                 dismissfxDialog();
-                Logger.d( "注册返回json:" + response.toString());
+                Logger.d("注册返回json:" + response.toString());
                 HeadJson json = new HeadJson(response);
 //                Logger.d( "注册返回json:" + json.toString());
                 if (json.getstatus() == 0) {
@@ -241,10 +258,10 @@ public class RegistActivity extends FxActivity {
             isBtnCode = true;
             if (edPhone.getText().toString().trim().length() == 11) {
                 btnCode.setClickable(true);
-                btnCode.setBackgroundResource(R.drawable.select_btn_bg);
+                btnCode.setBackgroundResource(R.color.white);
             } else {
                 btnCode.setClickable(false);
-                btnCode.setBackgroundResource(R.color.whilte_gray);
+                btnCode.setBackgroundResource(R.color.white);
             }
         }
 

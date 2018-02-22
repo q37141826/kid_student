@@ -1,7 +1,6 @@
 package com.fxtx.framework;
 
 /**
- * Created by z on 2016/1/18.
  * 框架控制器 公共属性控制器
  */
 public class FxtxConstant {
@@ -23,6 +22,6 @@ public class FxtxConstant {
      */
     public static float IMAGE_DEFAULT_RATION = 15f; //圆角默认大小
     public static int IMAGE_RESIZE = 100;//压缩 图片的 压缩宽高
-    public static final String ImageFile="ata/camera/";//图片存放路径
+    public static final String ImageFile = "djh/camera/";//图片存放路径
 
 }

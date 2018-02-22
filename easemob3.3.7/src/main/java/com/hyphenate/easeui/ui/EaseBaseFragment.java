@@ -1,5 +1,6 @@
 package com.hyphenate.easeui.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.fxtx.framework.ui.FxFragment;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.widget.EaseTitleBar;
+
 /*
 * 基础Fragment
 * */
@@ -43,9 +45,12 @@ public abstract class EaseBaseFragment extends FxFragment {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     protected void setfxTtitle(int res) {
         if (titleView != null) {
             titleView.setText(res);
+            titleView.setTextColor(R.color.black);
+
         }
     }
 
@@ -53,17 +58,6 @@ public abstract class EaseBaseFragment extends FxFragment {
         if (titleView != null)
             titleView.setText(title);
     }
-//    public void showTitleBar(){
-//        if(titleBar != null){
-//            titleBar.setVisibility(View.VISIBLE);
-//        }
-//    }
-
-    //    public void hideTitleBar(){
-//        if(titleBar != null){
-//            titleBar.setVisibility(View.GONE);
-//        }
-//    }
 
 
     @Override
@@ -90,10 +84,12 @@ public abstract class EaseBaseFragment extends FxFragment {
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     protected void onRightBtn(int drawableId, int textId) {
         if (toolbar != null) {
             TextView tv = getView(R.id.tool_right);
             tv.setText(textId);
+            tv.setTextColor(R.color.black);
             tv.setVisibility(View.VISIBLE);
             tv.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
             tv.setOnClickListener(new View.OnClickListener() {

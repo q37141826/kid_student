@@ -43,7 +43,7 @@ public class FixedImagview extends RelativeLayout {
         textView.setLayoutParams(params);
         textView.setText("第" + (position + 1) + "个");
         this.addView(textView);
-        this.setBackgroundColor(R.color.yellow);
+        this.setBackgroundColor(R.color.yellow_FEBF12);
 
     }
 

@@ -8,17 +8,18 @@ import com.fxtx.framework.json.GsonUtil;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
 
 /**
- *  SharedPreferences
+ * SharedPreferences
  */
 public class SpUtil {
     private final String key_wel = "sp_welcome";
     private final String keyLogU = "log_u";
     private final String keyLogP = "log_p";
 
+
     private SharedPreferences sp;
 
     public SpUtil(Context c) {
-        sp = c.getApplicationContext().getSharedPreferences("atateacher",
+        sp = c.getApplicationContext().getSharedPreferences("djhStudent",
                 Context.MODE_PRIVATE);
     }
 
@@ -37,6 +38,25 @@ public class SpUtil {
         edit.putString(keyLogP, pwd);
         edit.putString(keyLogU, user);
         edit.commit();
+    }
+
+    /*
+    * @params
+    *
+    * 作品名称
+    * 作品制作间
+    *
+    * */
+    /*保存作品信息*/
+    public void setWorks(String worksName, String makeTime) {
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString(worksName, makeTime);
+        edit.commit();
+    }
+
+    /*获取作品制作时间*/
+    public String getWorksTime(String worksName) {
+        return sp.getString(worksName, "");
     }
 
     public String getKeyLogU() {

@@ -36,8 +36,6 @@ public class DjhJumpUtil extends JumpUtil {
 
     public final int activtiy_SelectPhoto = 3001;
     public final int activtiy_UserSet = 5001;
-    public final int activity_mp3 = 8001; //录音回调
-    public final int activity_textquest = 8002; //录音回调
 
 
     private DjhJumpUtil() {
@@ -108,8 +106,6 @@ public class DjhJumpUtil extends JumpUtil {
     }
 
 
-
-
     /**
      * 访问网页
      *
@@ -120,6 +116,7 @@ public class DjhJumpUtil extends JumpUtil {
     public void startWebActivity(Context context, String title, String Url, Boolean type) {
         startBaseWebActivity(context, title, Url, type, WebActivity.class);
     }
+
     /**
      * 访问网页
      *

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/ico_t_chat" android:state_checked="true" />
-    <item android:drawable="@drawable/ico_t_chat_h" android:state_checked="false" />
-    <item android:drawable="@drawable/ico_t_chat_h" />
+    <item android:drawable="@drawable/chat_h" android:state_checked="true" />
+    <item android:drawable="@drawable/chat" android:state_checked="false" />
+    <item android:drawable="@drawable/chat" />
 
 </selector>

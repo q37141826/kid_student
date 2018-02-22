@@ -43,7 +43,7 @@
         android:layout_below="@+id/videoplayerroot"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="79dp"
-        android:background="@color/yellow"
+        android:background="@color/yellow_FEBF12"
         android:text="查看"/>
 
 </RelativeLayout>

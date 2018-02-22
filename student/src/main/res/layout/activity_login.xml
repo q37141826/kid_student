@@ -1,65 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/whilte_line"
-                android:orientation="vertical">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bglogin2"
+    android:orientation="vertical">
 
-    <include
-        android:id="@+id/login_title"
-        layout="@layout/layout_tool_text"/>
+    <ImageView
+        android:id="@+id/img_icon"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="101dp"
+        android:gravity="center"
+        android:src="@drawable/logo"/>
 
 
-
-
-    <TextView
+    <ImageView
         android:id="@+id/apptitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_title"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="50dp"
+        android:layout_below="@+id/img_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
         android:gravity="center"
-        android:text="@string/apptitle"
-        android:textSize="@dimen/text25"
-        />
+        android:src="@drawable/smalltitle"
+        android:textSize="22sp"/>
+
 
     <RelativeLayout
         android:id="@+id/root"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="335dp"
+        android:layout_height="244dp"
         android:layout_below="@+id/apptitle"
-        android:layout_marginTop="30dp"
-        >
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp">
 
         <ImageView
             android:id="@+id/image1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/image"
-            android:layout_marginLeft="25dp"
-            android:src="@drawable/ico_user"/>
+            android:layout_width="12dp"
+            android:layout_height="18dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/textView4"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/ico_phone"/>
 
         <EditText
             android:id="@+id/edUser"
-            android:layout_width="match_parent"
+            android:layout_width="306dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/image1"
             android:layout_marginLeft="8dp"
             android:layout_toEndOf="@id/image1"
             android:layout_toRightOf="@id/image1"
             android:background="@null"
+            android:cursorVisible="true"
             android:hint="@string/input_user"
             android:lineSpacingExtra="8dp"
             android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:textColorHint="@color/login_hint"
             android:textCursorDrawable="@drawable/sp_while"
             android:textSize="@dimen/text18"/>
 
         <TextView
+            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/edUser"
@@ -85,13 +91,14 @@
             android:layout_alignStart="@id/edUser"
             android:layout_alignTop="@id/image2"
             android:background="@null"
+            android:cursorVisible="true"
             android:hint="@string/input_pwd"
             android:lineSpacingExtra="8dp"
             android:password="true"
             android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/gray"
-            android:textCursorDrawable="@drawable/sp_while"
+            android:textColor="@color/white"
+            android:textColorHint="@color/login_hint"
+            android:textCursorDrawable="@null"
             android:textSize="@dimen/text18"/>
 
         <TextView
@@ -111,7 +118,8 @@
             android:layout_below="@+id/textView2"
             android:layout_marginTop="15dp"
             android:text="@string/forget_pwd"
-            android:textColor="@color/app_bg"/>
+            android:textColor="@color/white"
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/regisTv"
@@ -121,27 +129,21 @@
             android:layout_below="@+id/textView2"
             android:layout_marginTop="15dp"
             android:text="@string/tv_regist"
-            android:textColor="@color/app_bg"/>
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/root">
+            android:textColor="@color/white"
+            android:textSize="13sp"/>
 
         <Button
             android:id="@+id/btn_login"
             style="@style/btn_style"
-            android:layout_marginBottom="56dp"
+            android:layout_below="@+id/regisTv"
+            android:layout_marginBottom="23dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/select_btn_whilebg"
             android:text="@string/login"
-            android:textColor="@color/white"/>
-
+            android:textColor="@color/yellow_FEBF12"/>
     </RelativeLayout>
+
 
 </RelativeLayout>

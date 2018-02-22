@@ -205,7 +205,8 @@ public class LineFragment extends BaseHomeworkFragment implements
                         mLeft.setText("我的答案");
                     }
                             /*获取json解析的我的答案*/
-                    if (ponitViewXY.size() == (leftViews.size() * 2) && inbasebean.getMy_answer() != null) {
+                    if (ponitViewXY.size() == (leftViews.size() * 2) && inbasebean.getMy_answer() != null
+                            && inbasebean.getMy_answer().length() > 0) { // 要判断json传过来的数据是“”的情况
                         String my_answer = inbasebean.getMy_answer();
 
                         String substringmyanswer = my_answer.substring(1, (my_answer.length() - 1));
@@ -566,7 +567,6 @@ public class LineFragment extends BaseHomeworkFragment implements
 
         }
     }
-
 
 
     /*我的答案  ，正确答案的点击事件*/

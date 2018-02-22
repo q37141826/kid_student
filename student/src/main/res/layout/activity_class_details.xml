@@ -1,90 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fx="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
+    android:gravity="center_vertical"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_tool_text" />
+    <include layout="@layout/layout_tool_text"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:layout_height="match_parent"
+        android:background="@color/gray_F5F5F5">
 
-
-        <com.fxtx.framework.widgets.TasksCompletedView
-            android:id="@+id/vTask"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginRight="10dp"
-            fx:task_circleColor="@color/white"
-            fx:task_radius="30dp"
-            fx:task_ringColor="@color/yellow"
-            fx:task_ringColor_bg="@color/whilte_gray"
-            fx:task_strokeWidth="4dp" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/re_task_second"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="right"
-            android:layout_marginTop="8dp"
-            android:layout_toEndOf="@+id/vTask"
-            android:layout_toRightOf="@+id/vTask"
-            android:textColor="@color/color5A"
-            android:textSize="@dimen/text20" />
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/textpadding"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/textpadding">
 
-        <TextView
-            android:id="@+id/tvMsg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/vTask"
-            android:layout_alignLeft="@+id/tvTitle"
-            android:layout_alignStart="@+id/tvTitle"
-            android:layout_gravity="right"
-            android:layout_marginBottom="8dp"
-            android:textColor="@color/color5A"
-            android:textSize="@dimen/text13" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/tv_class_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="二年级7班"
+                    android:textColor="@color/yellow_FEBF12"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tv_school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_weight="1"
+                    android:text="学   校：魔耳国贸校区"
+                    android:textColor="@color/gray_666666"
+                    android:textSize="13sp"/>
+
+                <TextView
+                    android:id="@+id/tv_teacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="老师： keven"
+                    android:textColor="@color/gray_666666"
+                    android:textSize="13sp"/>
+
+                <TextView
+                    android:id="@+id/tv_classcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="班级码：123456"
+                    android:textColor="@color/gray_666666"
+                    android:textSize="13sp"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_addclass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/round_bgyellow_homwwork"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/audit_class"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+            </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
-
-    <RadioGroup
-        android:id="@+id/radiogroup"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/app_bg"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:visibility="gone"
-            android:id="@+id/rdLesson"
-            style="@style/FxRadioButton"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
-            android:checked="true"
-            android:text="@string/text_lesson" />
-
-        <RadioButton
-            android:visibility="gone"
-            android:id="@+id/rdPhoto"
-            style="@style/FxRadioButton"
-            android:layout_margin="1dp"
-            android:text="@string/tv_photo" />
-
-        <RadioButton
-            android:visibility="gone"
-            android:id="@+id/rdStudent"
-            style="@style/FxRadioButton"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
-            android:text="@string/tv_attence" />
-    </RadioGroup>
-
-    <FrameLayout
-        android:id="@+id/tab_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
 </LinearLayout>

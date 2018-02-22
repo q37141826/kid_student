@@ -158,6 +158,7 @@ public class AnswerCardActivity extends FxActivity {
                     CompletionQuestionModle completion = (CompletionQuestionModle) pageMap.get(i);
                     Map<Integer, Map<Integer, String>> integerMapMap = completion.getmAllMap();
                     Logger.d("---------------------------------------------------------------integerMapMap.size()"+integerMapMap.size());
+                    Logger.d("---------------------------------------------------------------integerMapMap.tostring"+integerMapMap.toString());
 
 //                    for () {
 //

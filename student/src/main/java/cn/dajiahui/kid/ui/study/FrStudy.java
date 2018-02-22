@@ -13,12 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fxtx.framework.ui.FxFragment;
+import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.study.adapter.ApChooseUtils;
 import cn.dajiahui.kid.ui.study.bean.BeStudy;
 import cn.dajiahui.kid.ui.study.bean.ChooseUtils;
 import cn.dajiahui.kid.util.DjhJumpUtil;
@@ -38,7 +38,9 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
     private TextView tvchoiceMaterial;
     private ListView mListview;
     private LinearLayout tabfragment;
-
+    private TextView tvNUll;
+    private MaterialRefreshLayout refresh;
+    List<ChooseUtils> list = new ArrayList<>();
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -50,16 +52,19 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
         super.onViewCreated(view, savedInstanceState);
 
         initialize();
+        tvNUll.setText("暂无数据");
           /*模拟数据*/
-
-        final List<ChooseUtils> list = new ArrayList<>();
-
-        for (int a = 0; a < 20; a++) {
-            list.add(new ChooseUtils("", "Until+" + a + "frist to schoo", (a + 20) + ""));
+        if (!isCreateView) {
+            isCreateView = true;
+            studyHttp();
         }
 
-        final ApChooseUtils apChooseUtils = new ApChooseUtils(getActivity(), list);
-        mListview.setAdapter(apChooseUtils);
+//        for (int a = 0; a < 20; a++) {
+//            list.add(new ChooseUtils("", "Until+" + a + "frist to schoo", (a + 20) + ""));
+//        }
+//
+//        final ApChooseUtils apChooseUtils = new ApChooseUtils(getActivity(), list);
+//        mListview.setAdapter(apChooseUtils);
 
         //选择单元学习
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -79,6 +84,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
             switch (v.getId()) {
                 case R.id.tv_choiceMaterial:
                     Toast.makeText(activity, "选择教材", Toast.LENGTH_SHORT).show();
+
                     Bundle b = new Bundle();
 
                     DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), ChoiceTeachingMaterialActivity.class, b, GOCHOICETEACHINGMATERIAL);
@@ -88,6 +94,9 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
                 case R.id.im_user:
 
 
+                    break;
+                case R.id.tv_null:
+                    studyHttp();
                     break;
                 default:
                     break;
@@ -99,17 +108,27 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-
+        if (!hidden) {
+            //显示
+            if (list.size() == 0) {
+                studyHttp();
+            }
+        }
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-
         Logger.d("FrStudy-------------------------onResume()");
-
     }
+
+    private void studyHttp() {
+        pagNum = 1;
+        showfxDialog();
+        httpData();
+    }
+
 
     /*初始化*/
     private void initialize() {
@@ -119,7 +138,11 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
         tvchoiceMaterial = getView(R.id.tv_choiceMaterial);
         mListview = getView(R.id.listview);
         tabfragment = getView(R.id.tab_fragment);
-
+        tvNUll = getView(R.id.tv_null);
+        refresh = getView(R.id.refresh);
+        tvNUll.setOnClickListener(onClick);
+        mListview.setEmptyView(tvNUll);
+        initRefresh(refresh);
         tvchoiceMaterial.setOnClickListener(onClick);
     }
 

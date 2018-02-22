@@ -8,6 +8,11 @@
 
     <include layout="@layout/layout_tool_text"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray_line"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,6 +34,14 @@
                 android:orientation="horizontal"
                 android:padding="14dp">
 
+                <ImageView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ico_regist_user"/>
+
                 <EditText
                     android:id="@+id/edRealName"
                     android:layout_width="match_parent"
@@ -42,7 +55,9 @@
                     android:textColor="@color/gray"
                     android:textSize="@dimen/text16">
                 </EditText>
+
             </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -56,6 +71,13 @@
                 android:orientation="horizontal"
                 android:padding="14dp">
 
+                <ImageView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ico_regist_birthday"/>
 
                 <TextView
                     android:id="@+id/tvBirth"
@@ -64,7 +86,6 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:drawablePadding="8dp"
-                    android:drawableRight="@drawable/ico_to"
                     android:gravity="left|center"
                     android:hint="@string/inputebirth"
                     android:singleLine="true"
@@ -77,42 +98,63 @@
                 android:layout_height="1px"
                 android:background="@color/gray_line"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:padding="14dp">
 
-
-                <RadioGroup
-                    android:id="@+id/radio_sex"
+                <TextView
+                    android:id="@+id/tv_boy"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="horizontal">
+                    android:layout_height="30dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/select_btn_yellowbg"
+                    android:gravity="center"
+                    android:text="男生"
+                    android:textColor="@color/white"/>
 
-                    <RadioButton
-                        android:id="@+id/sex_boy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:button="@null"
-                        android:checked="true"
-                        android:drawableLeft="@drawable/ico_sex_check"
-                        android:drawablePadding="8dp"
-                        android:text="@string/boy"
-                        android:textColor="@color/color5A"/>
+                <TextView
+                    android:id="@+id/tv_girl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/select_btn_graybg"
+                    android:gravity="center"
+                    android:text="女生"
+                    android:textColor="@color/text_gray"/>
+                <!--<RadioGroup-->
+                <!--android:id="@+id/radio_sex"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:orientation="horizontal">-->
 
-                    <RadioButton
-                        android:id="@+id/sex_girl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:button="@null"
-                        android:drawableLeft="@drawable/ico_sex_unchecked"
-                        android:drawablePadding="8dp"
-                        android:text="@string/girl"
-                        android:textColor="@color/color5A"/>
-                </RadioGroup>
-            </RelativeLayout>
+                <!--<RadioButton-->
+                <!--android:id="@+id/sex_boy"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:button="@null"-->
+                <!--android:checked="true"-->
+                <!--android:drawableLeft="@drawable/ico_sex_check"-->
+                <!--android:drawablePadding="8dp"-->
+                <!--android:text="@string/boy"-->
+                <!--android:textColor="@color/color5A"/>-->
+
+                <!--<RadioButton-->
+                <!--android:id="@+id/sex_girl"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:button="@null"-->
+                <!--android:drawableLeft="@drawable/ico_sex_unchecked"-->
+                <!--android:drawablePadding="8dp"-->
+                <!--android:text="@string/girl"-->
+                <!--android:textColor="@color/color5A"/>-->
+                <!--</RadioGroup>-->
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -126,13 +168,13 @@
                 android:orientation="horizontal"
                 android:padding="14dp">
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/tv_user_phone"
-                    android:textColor="@color/color5A"
-                    android:textSize="@dimen/text18"/>
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ico_regist_phone"/>
+
 
                 <EditText
                     android:id="@+id/edPhone"
@@ -141,7 +183,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:gravity="right|center"
+                    android:gravity="left|center"
                     android:hint="@string/input_regit_phone"
                     android:inputType="number"
                     android:singleLine="true"
@@ -160,6 +202,13 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ico_regist_code"/>
 
                 <EditText
                     android:id="@+id/edCode"
@@ -182,14 +231,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="2dp"
-                    android:background="@color/whilte_gray"
+                    android:background="@color/white"
                     android:gravity="center"
                     android:paddingBottom="8dp"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="8dp"
                     android:text="@string/sendcode"
-                    android:textColor="@color/white"
+                    android:textColor="#FEBF12"
                     android:textSize="@dimen/text13"/>
             </LinearLayout>
 
@@ -204,6 +253,13 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ico_regist_lock"/>
 
                 <EditText
                     android:id="@+id/edPwd"
@@ -223,7 +279,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/app_bg_a"/>
+                android:background="@color/gray_line"/>
 
 
             <LinearLayout
@@ -273,17 +329,15 @@
                     android:textSize="@dimen/text13"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/app_bg_a"
-                android:visibility="gone"/>
-
 
             <Button
                 android:id="@+id/btn_sure"
                 style="@style/btn_style"
-                android:layout_margin="20dp"
+                android:layout_below="@+id/edPwd"
+                android:layout_marginBottom="56dp"
+
+                android:layout_marginTop="20dp"
+                android:background="@drawable/select_btn_yellowbg"
                 android:text="@string/tv_registok"/>
         </LinearLayout>
     </ScrollView>

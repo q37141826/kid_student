@@ -10,14 +10,10 @@
         android:id="@+id/re_task_second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/textpadding"
-        android:layout_marginLeft="@dimen/textpadding"
-        android:layout_marginRight="@dimen/textpadding"
-        android:layout_marginTop="@dimen/textpadding"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="20dp">
+        android:orientation="horizontal">
+
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -34,8 +30,8 @@
 
             <ImageView
                 android:id="@+id/img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="101dp"
+                android:layout_height="57dp"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/checkbox"
                 android:src="@drawable/ic_launcher"/>

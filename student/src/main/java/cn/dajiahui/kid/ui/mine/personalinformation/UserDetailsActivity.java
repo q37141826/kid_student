@@ -7,10 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fxtx.framework.http.ErrorCode;
+import com.fxtx.framework.http.callback.ResultCallback;
+import com.fxtx.framework.image.util.GlideUtil;
 import com.fxtx.framework.image.util.ImageUtil;
+import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.dialog.BottomDialog;
+import com.squareup.okhttp.Request;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,8 +25,11 @@ import java.util.ArrayList;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.controller.UserController;
+import cn.dajiahui.kid.http.RequestUtill;
+import cn.dajiahui.kid.ui.chat.constant.PreferenceManager;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.util.DjhJumpUtil;
+import cn.dajiahui.kid.util.Logger;
 
 
 /*
@@ -41,17 +51,17 @@ public class UserDetailsActivity extends FxActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.activity_user_details);
-        getView(R.id.re_user_icon).setOnClickListener(onclick);
-        getView(R.id.re_user_name).setOnClickListener(onclick);
-        getView(R.id.re_user_age).setOnClickListener(onclick);
-        getView(R.id.re_user_sex).setOnClickListener(onclick);
+        getView(R.id.re_user_icon).setOnClickListener(onClick);
+        getView(R.id.re_user_name).setOnClickListener(onClick);
+        getView(R.id.re_user_age).setOnClickListener(onClick);
+        getView(R.id.re_user_sex).setOnClickListener(onClick);
 
         userIcon = getView(R.id.img_user_icon);
         tv_name = getView(R.id.tv_user_name_right);
 
         tvAge = getView(R.id.tv_user_age_right);
         tvSex = getView(R.id.tv_user_sex_right);
-//        initData();
+        initData();
         dialog = new BottomDialog(context, R.layout.dialog_choosepic) {
             @Override
             public void initView() {
@@ -61,7 +71,7 @@ public class UserDetailsActivity extends FxActivity {
             }
         };
 
-        initData();
+
     }
 
     private void initData() {
@@ -82,7 +92,7 @@ public class UserDetailsActivity extends FxActivity {
 //        }
     }
 
-    private View.OnClickListener onclick = new View.OnClickListener() {
+    private View.OnClickListener onClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -94,31 +104,18 @@ public class UserDetailsActivity extends FxActivity {
 
                 case R.id.re_user_name:
                     //点击用户姓名行
-                    DjhJumpUtil.getInstance().startUserSetActivity(context, Constant.user_edit_name);
+//                    DjhJumpUtil.getInstance().startUserSetActivity(context, Constant.user_edit_name);
+                    Toast.makeText(context, "姓名UI样式未确定，需要沟通！", Toast.LENGTH_SHORT).show();
                     break;
-
                 case R.id.re_user_sex:
-
-                    DjhJumpUtil.getInstance().startUserSetActivity(context, Constant.user_edit_sex);
+                    Toast.makeText(context, "性别UI样式未确定，需要沟通！", Toast.LENGTH_SHORT).show();
+//                    DjhJumpUtil.getInstance().startUserSetActivity(context, Constant.user_edit_sex);
                     break;
                 case R.id.re_user_age:
+                    Toast.makeText(context, "年龄UI样式未确定，需要沟通！", Toast.LENGTH_SHORT).show();
+//                    DjhJumpUtil.getInstance().startUserSetActivity(context, Constant.user_edit_age);
 
-                    DjhJumpUtil.getInstance().startUserSetActivity(context, Constant.user_edit_age);
                     break;
-
-                default:
-                    break;
-            }
-        }
-    };
-    public static int TAKE_CAMERA_PICTURE = 1000;
-    private String path;
-    private String imagename;
-    private View.OnClickListener onClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            dialog.dismiss();
-            switch (v.getId()) {
                 case R.id.btn_cancle:
                     //取消
                     if (dialog != null && dialog.isShowing())
@@ -139,21 +136,30 @@ public class UserDetailsActivity extends FxActivity {
             }
         }
     };
+    public static int TAKE_CAMERA_PICTURE = 1000;
+    private String path;
+    private String imagename;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Logger.d("-------------------------------------1");
         if (resultCode == RESULT_OK) {
-            //用户信息修改
-            if (requestCode == DjhJumpUtil.getInstance().activtiy_UserSet)
-//                initData();
-                if (requestCode == DjhJumpUtil.getInstance().activtiy_SelectPhoto) {
-                    //上传选择的照片
-                    ArrayList<String> strings = data.getStringArrayListExtra(Constant.bundle_obj);
-                    File file = new File(strings.get(0));
-//                httpUserIcon(file);
-                }
+//            //用户信息修改
+//            if (requestCode == DjhJumpUtil.getInstance().activtiy_UserSet)
+//                Logger.d("-------------------------------------2");
+////               initData();
+            if (requestCode == DjhJumpUtil.getInstance().activtiy_SelectPhoto) {
+                Logger.d("-------------------------------------3");
+                //上传选择的照片
+                ArrayList<String> strings = data.getStringArrayListExtra(Constant.bundle_obj);
+                File file = new File(strings.get(0));
+                /*上传相册头像*/
+                httpUserIcon(file);
+            }
             if (requestCode == TAKE_CAMERA_PICTURE) {
+                Logger.d("-------------------------------------4");
                 Bitmap map = ImageUtil.uriToBitmap(Uri.fromFile(new File(path + imagename)), context);
                 int degree = ImageUtil.readPictureDegree(path + imagename);
                 if (degree != 0) {
@@ -161,7 +167,9 @@ public class UserDetailsActivity extends FxActivity {
                 }
                 ImageUtil.bitmapToFile(map, path + imagename, 4096);
                 File file = new File(path + imagename);
-//                httpUserIcon(file);
+
+                /*上传拍照头像*/
+                httpUserIcon(file);
             }
         }
     }
@@ -172,30 +180,31 @@ public class UserDetailsActivity extends FxActivity {
         return imageName;
     }
 
-//    public void httpUserIcon(File file) {
-//        showfxDialog(R.string.submiting);
-//        RequestUtill.getInstance().uploadUserIcon(context, new ResultCallback() {
-//            @Override
-//            public void onError(Request request, Exception e) {
-//                dismissfxDialog();
-//                ToastUtil.showToast(context, ErrorCode.error(e));
-//            }
-//
-//            @Override
-//            public void onResponse(String response) {
-//                dismissfxDialog();
-//                HeadJson headJson = new HeadJson(response);
-//                if (headJson.getstatus() == 1) {
-//                    UserController.getInstance().getUser().setAvator(headJson.parsingString("avator"));
-//                    PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvator());
-//                    GlideUtil.showNoneImage(UserDetailsActivity.this, UserController.getInstance().getUser().getAvator(), userIcon, R.drawable.ico_default_user, mtrue);
-////                    initData();
-//                    ToastUtil.showToast(context, R.string.save_ok);
-//                    setResult(PICSETSULT);
-//                } else {
-//                    ToastUtil.showToast(context, headJson.getMsg());
-//                }
-//            }
-//        }, file, UserController.getInstance().getUserId());
-//    }
+    public void httpUserIcon(File file) {
+        showfxDialog(R.string.submiting);
+        RequestUtill.getInstance().uploadUserIcon(context, new ResultCallback() {
+            @Override
+            public void onError(Request request, Exception e) {
+                dismissfxDialog();
+                ToastUtil.showToast(context, ErrorCode.error(e));
+            }
+
+            @Override
+            public void onResponse(String response) {
+                dismissfxDialog();
+                HeadJson headJson = new HeadJson(response);
+                if (headJson.getstatus() == 1) {
+                    UserController.getInstance().getUser().setAvator(headJson.parsingString("avator"));
+                    PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvator());
+                    /*显示图片  第二个参数是网址url  需要修改*/
+                    GlideUtil.showNoneImage(UserDetailsActivity.this, UserController.getInstance().getUser().getAvator(), userIcon, R.drawable.ico_default_user, true);
+                    initData();
+                    ToastUtil.showToast(context, R.string.save_ok);
+                    setResult(PICSETSULT);
+                } else {
+                    ToastUtil.showToast(context, headJson.getMsg());
+                }
+            }
+        }, file, UserController.getInstance().getUserId());
+    }
 }

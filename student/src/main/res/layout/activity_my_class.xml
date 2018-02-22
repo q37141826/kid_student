@@ -1,70 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/whilte_line"
-              android:gravity="center_vertical"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:fitsSystemWindows="true"
               android:orientation="vertical">
 
     <include layout="@layout/layout_tool_text"/>
 
-    <LinearLayout
-        android:id="@+id/lin_root"
+
+    <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/textpadding"
-        android:layout_marginLeft="@dimen/textpadding"
-        android:layout_marginRight="@dimen/textpadding"
-        android:layout_marginTop="@dimen/textpadding"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="@dimen/textpadding">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/gray_F5F5F5"
+        app:isLoadMore="false"
+        app:overlay="false"
+        app:wave_color="@color/app_bg_a"
+        app:wave_show="false">
 
-        <LinearLayout
+        <ListView
+            android:id="@+id/listview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:divider="@null"
+            android:dividerHeight="10dp"
+            android:fadeScrollbars="false"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            android:overScrollMode="never"
+            android:scrollbars="none"/>
 
-            <TextView
-                android:id="@+id/tv_classname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="二年级7班"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text18"/>
-        </LinearLayout>
+        <TextView style="@style/text_null"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
 
-            <TextView
-                android:id="@+id/tv_classcode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:text="班级码"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text18"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_school"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="学校 :魔耳国贸校区"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text14"/>
-        </LinearLayout>
-    </LinearLayout>
 </LinearLayout>

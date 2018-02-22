@@ -1,5 +1,8 @@
 package cn.dajiahui.kid.ui.study.bean;
 
+import java.util.List;
+
+import cn.dajiahui.kid.ui.homework.bean.BeChoiceTeachingMaterialLists;
 import cn.dajiahui.kid.util.BeanObj;
 
 /**
@@ -8,27 +11,23 @@ import cn.dajiahui.kid.util.BeanObj;
  */
 
 public class BeChoiceTeachingMaterial extends BeanObj {
-    private String teachingMaterialName;
-    private String teachingMaterialCount;
+    private List<BeChoiceTeachingMaterialLists> lists;
+    private String totalRows;
 
-    public BeChoiceTeachingMaterial(String teachingMaterialName, String teachingMaterialCount) {
-        this.teachingMaterialName = teachingMaterialName;
-        this.teachingMaterialCount = teachingMaterialCount;
+
+    public String getTotalRows() {
+        return totalRows;
     }
 
-    public String getTeachingMaterialName() {
-        return teachingMaterialName;
+    public List<BeChoiceTeachingMaterialLists> getLists() {
+        return lists;
     }
 
-    public void setTeachingMaterialName(String teachingMaterialName) {
-        this.teachingMaterialName = teachingMaterialName;
-    }
-
-    public String getTeachingMaterialCount() {
-        return teachingMaterialCount;
-    }
-
-    public void setTeachingMaterialCount(String teachingMaterialCount) {
-        this.teachingMaterialCount = teachingMaterialCount;
+    @Override
+    public String toString() {
+        return "BeChoiceTeachingMaterial{" +
+                "lists=" + lists +
+                ", totalRows='" + totalRows + '\'' +
+                '}';
     }
 }

@@ -28,7 +28,11 @@ public class ApNotice extends CommonAdapter<BeNotice> {
 
         TextView tv_updatecontent = viewHolder.getView(R.id.tv_updatecontent);
         TextView tv_deadline = viewHolder.getView(R.id.tv_deadline);
+        TextView tv_redpoint = viewHolder.getView(R.id.tv_redpoint);
 
+//        if (position == 0) {
+//            tv_redpoint.setVisibility(View.VISIBLE);
+//        }
         tv_updatecontent.setText(item.getUpdateContent());
         tv_deadline.setText(item.getDeadline());
 

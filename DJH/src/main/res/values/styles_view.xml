@@ -31,19 +31,20 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:visibility">gone</item>
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/gray_DCDCDC</item>
         <item name="android:drawablePadding">10dp</item>
         <item name="android:drawableTop">@drawable/ico_null</item>
         <item name="android:layout_centerInParent">true</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:id">@id/tv_null</item>
     </style>
 
     <style name="btn_style">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">300dp</item>
+        <item name="android:layout_height">41dp</item>
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:background">@drawable/select_btn_bg</item>

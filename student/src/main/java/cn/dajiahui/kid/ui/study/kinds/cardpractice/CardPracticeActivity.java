@@ -135,7 +135,7 @@ public class CardPracticeActivity extends FxActivity implements
     public void NoticeCheck(boolean ischeck, int position) {
         if (ischeck) {
             Logger.d("1 ischeck:" + ischeck);
-            btnnext.setBackgroundResource(R.color.yellow);
+            btnnext.setBackgroundResource(R.color.yellow_FEBF12);
             btnnext.setClickable(true);
 
         } else {

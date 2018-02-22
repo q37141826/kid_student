@@ -1,40 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/layout_tool_text"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_gray"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
+            android:layout_height="wrap_content">
 
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="作业名称"/>
+                android:layout_centerHorizontal="true"
+                android:text="作业名称"
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/tv_homeworkname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="The first uint"/>
+                android:text="The first uint"
+                android:textSize="13sp"/>
 
 
         </RelativeLayout>
@@ -42,17 +47,17 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:layout_marginTop="10dp"
             android:background="@color/line_gray"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
 
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -62,24 +67,24 @@
                 android:id="@+id/tv_endtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"
+                />
 
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:layout_marginTop="10dp"
             android:background="@color/line_gray"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -90,9 +95,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+
                 android:text="13/40"/>
         </RelativeLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="10dp"
+            android:background="@color/line_gray"/>
     </LinearLayout>
 
     <LinearLayout
@@ -103,7 +114,7 @@
             android:id="@+id/btn_dohomework"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/yellow"
+            android:background="@color/yellow_FEBF12"
             android:text="继续作业"
             android:textColor="@color/white"/>
     </LinearLayout>

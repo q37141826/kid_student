@@ -1,127 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/whilte_line"
-              android:descendantFocusability="blocksDescendants"
-              android:gravity="center_vertical"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/homework_bg"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/re_task_second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/textpadding"
-        android:layout_marginLeft="@dimen/textpadding"
-        android:layout_marginRight="@dimen/textpadding"
-        android:layout_marginTop="@dimen/textpadding"
-        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="@dimen/textpadding">
+        android:padding="10dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tv_hometime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="@dimen/textmarginleft"
+                android:text="02月"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
 
             <RatingBar
                 android:id="@+id/rb_score"
                 style="@style/myratingbar"
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp"
-                android:clickable="false"
-                android:focusable="false"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:numStars="5"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_below="@+id/tv_hometime"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-
-                <TextView
-                    android:id="@+id/tv_classname"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="@dimen/textmarginleft"
-                    android:text="二年级7班"
-                    android:textSize="@dimen/text18"/>
-
-                <TextView
-                    android:id="@+id/tv_homecontent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="内容： unit 1"
-                    android:textSize="@dimen/text18"/>
-
-                <TextView
-                    android:id="@+id/tv_homename"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="教材：move up 1"
-                    android:textSize="@dimen/text18"/>
+                    android:orientation="vertical">
 
 
-                <TextView
-                    android:id="@+id/task_endtime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/textmarginleft"
-                    android:drawablePadding="@dimen/textmarginleft"
-                    android:textSize="@dimen/text13"/>
+                    <TextView
+                        android:id="@+id/tv_classname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="二年级7班"
+                        android:textSize="@dimen/text18"/>
+
+                    <TextView
+                        android:id="@+id/tv_homecontent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_weight="1"
+                        android:text="内容： unit 1"
+                        android:textSize="@dimen/text18"/>
+
+                    <TextView
+                        android:id="@+id/tv_homename"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="教材：move up 1"
+                        android:textSize="@dimen/text18"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="12dp">
+
+                        <TextView
+                            android:id="@+id/task_endtime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/textmarginleft"
+                            android:text="截止时间"
+                            android:textColor="@color/gray_333333"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_flag"
+                            android:layout_width="65dp"
+                            android:layout_height="27dp"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/round_bgyellow_homwwork"
+                            android:gravity="center"
+                            android:text="做作业"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"/>
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_flag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="23dp"
-                    android:background="@color/yellow"
-                    android:gravity="center"
-                    android:text="做作业"
-                    android:textColor="@color/white"
-                    android:textSize="13sp"/>
-
-
-            </RelativeLayout>
-        </LinearLayout>
-
-
+        </RelativeLayout>
     </LinearLayout>
-
-
 </LinearLayout>
+
+

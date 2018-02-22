@@ -3,22 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/whilte_line"
+    android:background="@color/white"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="10dp">
 
     <LinearLayout
         android:id="@+id/re_task_second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/textpadding"
-        android:layout_marginLeft="@dimen/textpadding"
-        android:layout_marginRight="@dimen/textpadding"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:layout_marginTop="@dimen/textpadding"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/textpadding">
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -30,16 +30,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Move up 系列"
-                android:textSize="@dimen/text18"/>
+                android:textColor="@color/black"
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/tv_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="共计8本"
-
-                android:textColor="@color/black"
-                android:textSize="@dimen/text18"/>
+                android:textColor="@color/gray_666666"
+                android:textSize="13sp"/>
 
         </LinearLayout>
 

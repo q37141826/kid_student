@@ -10,16 +10,36 @@
     <include
         layout="@layout/layout_tool_text"/>
 
-    <LinearLayout
-        android:id="@+id/line_task"
+    <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/whilte_line"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:background="@color/gray_F5F5F5"
+        app:isLoadMore="false"
+        app:overlay="false"
+        app:wave_color="@color/app_bg_a"
+        app:wave_show="false">
 
-        <include layout="@layout/child_listview"/>
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:divider="@null"
+            android:dividerHeight="10dp"
+            android:fadeScrollbars="false"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            android:overScrollMode="never"
+            android:scrollbars="none"/>
 
-        <TextView style="@style/text_null"/>
+        <TextView
+            style="@style/text_null"/>
 
-    </LinearLayout>
+    </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
+
 </LinearLayout>

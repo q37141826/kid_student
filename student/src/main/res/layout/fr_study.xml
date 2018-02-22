@@ -2,88 +2,69 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tab_fragment"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="@color/whilte_line"
-
+    android:background="@color/gray_F5F5F5"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <!--<include layout="@layout/layout_tool_text"/>-->
-
-
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/textpadding"
-        android:layout_marginLeft="@dimen/textpadding"
-        android:layout_marginRight="@dimen/textpadding"
-        android:layout_marginTop="30dp"
-        android:background="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="146dp"
+
+        android:background="@drawable/study_bg"
         android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="@dimen/textpadding">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/img_supplementary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="74dp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/textpadding"
             android:padding="@dimen/textpadding"
-            android:src="@drawable/ic_launcher"/>
+            android:src="@drawable/default_null"/>
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/textpadding"
-            android:layout_toRightOf="@+id/img_supplementary"
-            android:text="Move up 系列"/>
+            android:layout_above="@+id/tv_unit"
+            android:layout_alignStart="@+id/tv_unit"
+            android:text="Move up 系列"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tv_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_title"
+            android:layout_below="@+id/tv_choiceMaterial"
             android:layout_marginLeft="@dimen/textpadding"
-            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/img_supplementary"
-            android:text="Move up 1"/>
+            android:text="Move up 1"
+            android:textColor="@color/white"
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/tv_choiceMaterial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:text="教材选择"/>
+            android:text="教材选择"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
 
     </RelativeLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_marginBottom="@dimen/textpadding"
-        android:layout_marginLeft="@dimen/textpadding"
-        android:layout_marginRight="@dimen/textpadding"
-        android:layout_weight="1"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="@dimen/textpadding">
-
-        <ListView
-            android:id="@+id/listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/textpadding"
-            android:dividerHeight="0px"
-            android:overScrollMode="never"
-            android:scrollbars="none"/>
-
-    </LinearLayout>
+    <include
+        layout="@layout/layout_refresh"/>
 
 </LinearLayout>
 

@@ -349,7 +349,7 @@ public class MainActivity extends FxTabActivity {
             updateUnreadLabel();
             ImHelper sdkHelper = ImHelper.getInstance();
             sdkHelper.pushActivity(this);
-//            EMClient.getInstance().chatManager().addMessageListener(messageListener);
+            EMClient.getInstance().chatManager().addMessageListener(messageListener);
         }
         super.onResume();
     }
@@ -357,7 +357,7 @@ public class MainActivity extends FxTabActivity {
     @Override
     protected void onStop() {
         if (UserController.getInstance().getUserAuth().isMsn) {
-//            EMClient.getInstance().chatManager().removeMessageListener(messageListener);
+            EMClient.getInstance().chatManager().removeMessageListener(messageListener);
             ImHelper sdkHelper = ImHelper.getInstance();
             sdkHelper.popActivity(this);
         }

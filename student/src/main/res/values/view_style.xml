@@ -20,22 +20,28 @@
         <item name="android:drawablePadding">10dp</item>
         <item name="android:textColor">@color/color79</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:drawableRight">@drawable/ico_to</item>
+        <item name="android:drawableRight">@drawable/go_right</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentLeft">true</item>
     </style>
 
 
-    <style name="myratingbar" parent="@android:style/Widget.RatingBar">
-        <item name="android:maxWidth">30dp</item>
-        <item name="android:minWidth">30dp</item>
+    <!--<style name="myratingbar" parent="@android:style/Widget.RatingBar">-->
+        <!--<item name="android:maxWidth">30dp</item>-->
+        <!--<item name="android:minWidth">30dp</item>-->
+        <!--<item name="android:progressDrawable">@drawable/ratingbar_bg</item>-->
+        <!--<item name="android:minHeight">30dip</item>-->
+        <!--<item name="android:maxHeight">30dip</item>-->
+        <!--<item name="android:stepSize">1</item>-->
+    <!--</style>-->
+    <!--五星控件 start-->
+    <style name="myratingbar" parent="@android:style/Widget.Holo.RatingBar.Small">
         <item name="android:progressDrawable">@drawable/ratingbar_bg</item>
-        <item name="android:minHeight">30dip</item>
-        <item name="android:maxHeight">30dip</item>
-        <item name="android:stepSize">1</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:maxHeight">40dp</item>
     </style>
-
+    <!--五星控件 end-->
     <style name="FxRadioButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>

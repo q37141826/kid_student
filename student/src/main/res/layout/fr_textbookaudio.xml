@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+
+    <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/gray_F5F5F5"
+        app:isLoadMore="false"
+        app:overlay="false"
+        app:wave_color="@color/app_bg_a"
+        app:wave_show="false">
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:divider="@null"
+            android:dividerHeight="10dp"
+            android:fadeScrollbars="false"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            android:overScrollMode="never"
+            android:scrollbars="none"/>
+
+        <TextView style="@style/text_null"/>
+
+    </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/delete_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/allCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="全选"/>
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/whilte_line"
+            android:text="@string/delete"
+            android:textColor="@color/gray"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

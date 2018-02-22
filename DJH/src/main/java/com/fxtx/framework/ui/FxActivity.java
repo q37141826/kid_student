@@ -32,6 +32,7 @@ public abstract class FxActivity extends AppCompatActivity {
     public Activity context;
     private SparseArray<View> mViews = new SparseArray<View>();
     public int mPageNum = 1; //分页
+    protected boolean isCreateView = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public abstract class FxActivity extends AppCompatActivity {
     }
 
     public void setStatusBar(Toolbar title) {
+        StatusBarCompat.compatMain(this);
         StatusBarCompat.compat(this, getResources().getColor(R.color.app_bg));
     }
 
@@ -206,7 +208,7 @@ public abstract class FxActivity extends AppCompatActivity {
         if (toolbar != null) {
             TextView tv = getView(R.id.tool_left);
             tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ico_back, 0, 0, 0);
-            tv.setText(R.string.back_text);
+//            tv.setText(R.string.back_text);
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -292,6 +294,8 @@ public abstract class FxActivity extends AppCompatActivity {
     protected void setfxTtitle(int res) {
         if (titleView != null) {
             titleView.setText(res);
+            titleView.setTextColor(getResources().getColor(R.color.gray_333333));
+
         }
     }
 

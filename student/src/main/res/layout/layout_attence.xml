@@ -73,7 +73,7 @@
             android:gravity="center"
             android:layout_marginRight="1px"
             android:layout_marginLeft="1px"
-            android:textColor="@color/yellow"
+            android:textColor="@color/yellow_FEBF12"
             android:textSize="@dimen/text16" />
 
         <TextView

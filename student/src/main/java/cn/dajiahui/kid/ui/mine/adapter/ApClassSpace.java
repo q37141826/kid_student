@@ -14,7 +14,7 @@ import cn.dajiahui.kid.ui.mine.bean.BeClassSpace;
 
 
 /**
- * 我的班级
+ * 班级空间
  */
 public class ApClassSpace extends CommonAdapter<BeClassSpace> {
 
@@ -29,6 +29,7 @@ public class ApClassSpace extends CommonAdapter<BeClassSpace> {
         TextView tv_classname = viewHolder.getView(R.id.tv_classname);
         TextView tv_endtime = viewHolder.getView(R.id.tv_endtime);
         TextView tv_content = viewHolder.getView(R.id.tv_content);
+
         ImageView img_1 = viewHolder.getView(R.id.img_1);
         ImageView img_2 = viewHolder.getView(R.id.img_2);
         ImageView img_3 = viewHolder.getView(R.id.img_3);

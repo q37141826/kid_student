@@ -4,14 +4,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.fxtx.framework.http.callback.ResultCallback;
+import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
+import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
+import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.http.RequestUtill;
+import cn.dajiahui.kid.ui.homework.bean.BeHomeWorkList;
 import cn.dajiahui.kid.ui.mine.adapter.ApNotice;
 import cn.dajiahui.kid.ui.mine.bean.BeNotice;
 
@@ -22,16 +28,16 @@ import cn.dajiahui.kid.ui.mine.bean.BeNotice;
 public class NoticeActivity extends FxActivity {
 
     private ListView mListview;
-    private List<BeNotice> list;
+    private List<BeNotice> noticeList = new ArrayList();
     private ApNotice apNotice;
     private TextView mTvnull;
+    private MaterialRefreshLayout refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setfxTtitle(R.string.mine_notice);
         onBackText();
-        onRightBtn(R.drawable.ico_share, R.string.mine_clear);
     }
 
     @Override
@@ -39,33 +45,59 @@ public class NoticeActivity extends FxActivity {
         setContentView(R.layout.activity_notice);
         mListview = getView(R.id.listview);
         mTvnull = getView(R.id.tv_null);
-        list = new ArrayList();
+        refresh = getView(R.id.refresh);
+        mTvnull.setText(R.string.e_notice_null);
+        mTvnull.setVisibility(View.VISIBLE);
+        mListview.setEmptyView(mTvnull);
+        refresh.setHeadView(false);
+
+//        httpData();
 
         for (int i = 0; i < 20; i++) {
-
-            list.add(new BeNotice("更新内容：" + i, "更新时间201" + i));
-
+            noticeList.add(new BeNotice("更新内容：" + i, "更新时间201" + i));
         }
 
-
-        apNotice = new ApNotice(this, list);
+        apNotice = new ApNotice(this, noticeList);
 
         mListview.setAdapter(apNotice);
 
     }
 
+
     @Override
-    public void onRightBtnClick(View view) {
-        list.clear();
+    public void httpData() {
+        super.httpData();
+        /*接口未定*/
+        RequestUtill.getInstance().httpNotice(NoticeActivity.this, callNotice);
 
-        apNotice.notifyDataSetChanged();
-        if (list.size() == 0) {
-            mTvnull.setText(R.string.e_class_null);
-            mTvnull.setVisibility(View.VISIBLE);
-            mListview.setEmptyView(mTvnull);
-        }
-
-        Toast.makeText(context, "清空通知", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * 通知callback函数
+     */
+    ResultCallback callNotice = new ResultCallback() {
+
+
+        @Override
+        public void onError(Request request, Exception e) {
+            dismissfxDialog();
+            finishRefreshAndLoadMoer(refresh, 1);
+        }
+
+        @Override
+        public void onResponse(String response) {
+            dismissfxDialog();
+            HeadJson json = new HeadJson(response);
+            if (json.getstatus() == 0) {
+                BeHomeWorkList beHomeWorkList = json.parsingObject(BeHomeWorkList.class);
+                noticeList.clear();
+//                noticeList.addAll(beHomeWorkList.getLists());
+                apNotice.notifyDataSetChanged();
+            } else {
+                ToastUtil.showToast(NoticeActivity.this, json.getMsg());
+            }
+            finishRefreshAndLoadMoer(refresh, 1);
+        }
+
+    };
 }

@@ -3,44 +3,44 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/whilte_line"
+    android:background="@color/white"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/textpadding"
-        android:layout_marginLeft="@dimen/textpadding"
-        android:layout_marginRight="@dimen/textpadding"
-        android:layout_marginTop="@dimen/textpadding"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:padding="@dimen/textpadding">
 
+        <TextView
+            android:id="@+id/tv_redpoint"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/notice_item_bg"
+            android:text="111111"
+            android:visibility="gone"
+            android:textSize="14sp"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_updatecontent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_toEndOf="@+id/tv_redpoint"
+            android:text="更新的内容"
+            android:textColor="@color/black"
+            android:textSize="14sp"/>
 
-            <TextView
-                android:id="@+id/tv_updatecontent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="更新的内容"/>
-
-            <TextView
-                android:id="@+id/tv_deadline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="deadline"
-                android:textSize="@dimen/text12"/>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tv_deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:text="deadline"
+            android:textColor="@color/gray_666666"
+            android:textSize="13sp"/>
+    </RelativeLayout>
 </LinearLayout>

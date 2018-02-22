@@ -3,8 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+
+    <include layout="@layout/layout_tool_text"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray_E9E9E9"/>
 
     <LinearLayout
         android:id="@+id/content"
@@ -13,31 +21,57 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <include layout="@layout/layout_tool_text"/>
 
-        <TextView
+        <RelativeLayout
             android:id="@+id/tvSecurity"
-            style="@style/mine_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            android:text="@string/mine_text_userphone"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/textmarginleft"
+                android:text="@string/mine_text_userphone"
+                android:textSize="@dimen/text18"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/textmarginleft"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/ico_to"
+                android:text="13051152997"
+                android:textSize="@dimen/text16"/>
+
+        </RelativeLayout>
+
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/line_gray"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gray_E9E9E9"/>
 
-        <TextView
+        <RelativeLayout
             android:id="@+id/tvFixpass"
-            style="@style/mine_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            android:text="@string/mine_text_fixpass"/>
+            <TextView
+                style="@style/mine_view"
+                android:text="@string/mine_text_fixpass"/>
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/line_gray"/>
-
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gray_E9E9E9"/>
         <RelativeLayout
             android:id="@+id/tvclean"
             android:layout_width="match_parent"
@@ -60,12 +94,16 @@
                 android:layout_marginRight="@dimen/textmarginleft"
                 android:drawablePadding="10dp"
                 android:drawableRight="@drawable/ico_to"
-                android:text="110M"
                 android:textSize="@dimen/text16"/>
 
         </RelativeLayout>
 
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gray_E9E9E9"/>
     </LinearLayout>
 
 
@@ -75,19 +113,21 @@
         android:gravity="bottom"
         android:orientation="vertical">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray_E9E9E9"/>
+
         <Button
             android:id="@+id/btn_Exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="40dp"
             android:background="@color/white"
             android:text="@string/btn_exit"
-            android:textColor="@color/gray_line"/>
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
     </LinearLayout>
-
 
 
 </LinearLayout>

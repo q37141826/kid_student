@@ -3,21 +3,21 @@
 
     <!-- 红色点击 效果 -->
 
-    <item android:drawable="@drawable/round_bg1" android:state_pressed="true">
+    <item android:drawable="@drawable/round_bgwhite1" android:state_pressed="true">
 
     </item>
     <!-- pressed -->
-    <item android:drawable="@drawable/round_bg1" android:state_focused="true">
+    <item android:drawable="@drawable/round_bgwhite1" android:state_focused="true">
 
     </item>
     <!-- focused -->
-    <item android:drawable="@drawable/round_bg">
+    <item android:drawable="@drawable/round_bgwhite">
 
     </item>
     <!-- default -->
 
     <item
-        android:drawable="@drawable/round_bg"
+        android:drawable="@drawable/round_bgwhite"
         android:state_checked="true"
         android:state_enabled="false">
     </item>

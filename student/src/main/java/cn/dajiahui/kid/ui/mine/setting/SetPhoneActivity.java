@@ -71,12 +71,12 @@ public class SetPhoneActivity extends FxActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //输入中
-                if (isBtnCode) {
+                if (isBtnCode && mPhonenum.getText().toString().length() <= 11) {
                     if (mPhonenum.getText().toString().length() == 11) {
-                        btnCode.setBackgroundResource(R.drawable.select_btn_bg);
+                        btnCode.setBackgroundResource(R.color.white);
                         btnCode.setClickable(true);
                     } else {
-                        btnCode.setBackgroundResource(R.color.whilte_gray);
+                        btnCode.setBackgroundResource(R.color.white);
                         btnCode.setClickable(false);
                     }
                 }
@@ -123,7 +123,7 @@ public class SetPhoneActivity extends FxActivity {
         FxDialog dialg = new FxDialog(SetPhoneActivity.this) {
             @Override
             public void onRightBtn(int flag) {
-                httpPhone(Phonenum, code);
+                httpModifyPhone(Phonenum, code);
             }
 
             @Override
@@ -134,15 +134,15 @@ public class SetPhoneActivity extends FxActivity {
         dialg.setTitle(R.string.prompt);
         dialg.setMessage("是否要修改手机号？");
         dialg.show();
-        //执行保存操作
     }
 
     /**
-     * 修改账户手机号
+     * 修改手机号
      */
-    private void httpPhone(final String newPhone, String captcha) {
+    private void httpModifyPhone(final String newPhone, String code) {
         showfxDialog(R.string.submiting);
-        RequestUtill.getInstance().httpboundPhone(SetPhoneActivity.this, new ResultCallback() {
+
+        RequestUtill.getInstance().httpModifyPhone(SetPhoneActivity.this, new ResultCallback() {
             @Override
             public void onError(Request request, Exception e) {
                 dismissfxDialog();
@@ -162,11 +162,11 @@ public class SetPhoneActivity extends FxActivity {
                     ToastUtil.showToast(SetPhoneActivity.this, json.getMsg());
                 }
             }
-        }, UserController.getInstance().getUserId(), newPhone, captcha);
+        }, UserController.getInstance().getUserId(), newPhone, code);
     }
 
     /**
-     * 验证码
+     * 获取验证码
      */
     private void httpCode() {
         String newPhone = mPhonenum.getText().toString().trim();
@@ -214,10 +214,10 @@ public class SetPhoneActivity extends FxActivity {
             isBtnCode = true;
             if (mPhonenum.getText().toString().length() == 11) {
                 btnCode.setClickable(true);
-                btnCode.setBackgroundResource(R.drawable.select_btn_bg);
+                btnCode.setBackgroundResource(R.color.white);
             } else {
                 btnCode.setClickable(false);
-                btnCode.setBackgroundResource(R.color.whilte_gray);
+                btnCode.setBackgroundResource(R.color.white);
             }
         }
 
@@ -226,7 +226,7 @@ public class SetPhoneActivity extends FxActivity {
             // TODO Auto-generated method stub
             isBtnCode = false;
             btnCode.setClickable(false);
-            btnCode.setBackgroundResource(R.color.whilte_gray);
+            btnCode.setBackgroundResource(R.color.white);
             btnCode.setText(millisUntilFinished / 1000 + "秒");
         }
     }

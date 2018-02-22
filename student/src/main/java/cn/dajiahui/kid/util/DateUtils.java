@@ -21,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * 日期工具类
@@ -75,8 +76,8 @@ public final class DateUtils {
      * @param type    日期字符串格式
      * @return Date对象
      */
-    public static Date parseDate(String dateStr, String type) {
-        SimpleDateFormat df = new SimpleDateFormat(type);
+    public static Date parseDate(String dateStr) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
             date = df.parse(dateStr);
@@ -222,6 +223,7 @@ public final class DateUtils {
             }
         }
     }
+
     /**
      * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"2014年06月14日16时09分00秒"）
      *
@@ -261,7 +263,7 @@ public final class DateUtils {
      * @return
      */
     public static String time(String time) {
-        SimpleDateFormat sdr = new SimpleDateFormat("MM月dd日  HH:mm");
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy年MM月dd日");
         @SuppressWarnings("unused")
         long lcc = Long.valueOf(time);
         int i = Integer.parseInt(time);
@@ -270,4 +272,66 @@ public final class DateUtils {
 
     }
 
+
+    public static void contrastTime(String end_time) {
+        try {
+
+            //第二种是把这个日期字符串转换成long：
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateCurrent = sdf.parse(System.currentTimeMillis() + "");
+            Date dateEnd = sdf.parse(end_time);
+
+            long result = dateCurrent.getTime() - dateEnd.getTime();
+
+            Logger.d("当前时间：" + dateCurrent);
+            Logger.d("截止时间：" + dateEnd);
+            Logger.d("result：" + result);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+//        /*当前时间小于截止时间  返回 true  */
+//        if (dateCurrent.getTime() < dateEnd.getTime()) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+
+    }
+
+    /**
+     * 计算两个日期型的时间相差多少时间
+     *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @return
+     */
+    public static String twoDateDistance(Date startDate, Date endDate) {
+
+        if (startDate == null || endDate == null) {
+            return null;
+        }
+        long timeLong = endDate.getTime() - startDate.getTime();
+        if (timeLong < 60 * 1000)
+            return timeLong / 1000 + "秒前";
+        else if (timeLong < 60 * 60 * 1000) {
+            timeLong = timeLong / 1000 / 60;
+            return timeLong + "分钟前";
+        } else if (timeLong < 60 * 60 * 24 * 1000) {
+            timeLong = timeLong / 60 / 60 / 1000;
+            return timeLong + "小时前";
+        } else if (timeLong < 60 * 60 * 24 * 1000 * 7) {
+            timeLong = timeLong / 1000 / 60 / 60 / 24;
+            return timeLong + "天前";
+        } else if (timeLong < 60 * 60 * 24 * 1000 * 7 * 4) {
+            timeLong = timeLong / 1000 / 60 / 60 / 24 / 7;
+            return timeLong + "周前";
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
+            return sdf.format(startDate);
+        }
+    }
 }

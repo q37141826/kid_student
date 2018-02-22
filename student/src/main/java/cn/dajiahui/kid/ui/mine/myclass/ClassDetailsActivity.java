@@ -14,6 +14,7 @@ import com.squareup.okhttp.Request;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.mine.bean.BeClass;
+import cn.dajiahui.kid.util.Logger;
 
 /*
 * 班级详情
@@ -41,25 +42,28 @@ public class ClassDetailsActivity extends FxActivity {
 
     @Override
     protected void initView() {
-        setContentView(R.layout.activity_class_details2);
+        setContentView(R.layout.activity_class_details);
         initialize();
         tvaddclass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 httpData();
 //                Toast.makeText(context, "申请加入班级", Toast.LENGTH_SHORT).show();
+                  /*添加班級后跳转页面待定*/
 //                finishActivity();
             }
         });
     }
 
+    /*初始化*/
     private void initialize() {
+        tvaddclass = getView(R.id.tv_addclass);
         tvclasscode = getView(R.id.tv_classcode);
         tvschool = getView(R.id.tv_school);
-        tvaddclass = getView(R.id.tv_addclass);
         tvclassname = getView(R.id.tv_class_name);
         tvteacher = getView(R.id.tv_teacher);
     }
+
 
     @Override
     public void httpData() {
@@ -68,7 +72,7 @@ public class ClassDetailsActivity extends FxActivity {
             RequestUtill.getInstance().httpSearchClass(context, callSearch, classCode); // 根据班级码查询班级
         } else {
             if (!classID.equals("")) {
-                RequestUtill.getInstance().httpApplyClass(context, callApply, classID); // 根据班级码查询班级
+                RequestUtill.getInstance().httpApplyClass(context, callApply, classID); // 申请加入班级
             }
         }
     }
@@ -85,18 +89,21 @@ public class ClassDetailsActivity extends FxActivity {
         @Override
         public void onResponse(String response) {
             dismissfxDialog();
+            Logger.d("班级详情：" + response);
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
-                    /* 解析班级信息 */
+
+                /* 解析班级信息 */
                 classInfo = json.parsingObject(BeClass.class);
                 if (classInfo != null) {
-                    tvclasscode.setText(classInfo.getCode());
-                    tvschool.setText(classInfo.getSchool_name());
+                    tvclasscode.setText("班级码：" + classInfo.getCode());
+                    tvschool.setText("学校：" + classInfo.getSchool_name());
+                    /*已经加入的班级隐藏了加入班级按钮*/
                     if (!classInfo.getIs_in_class().equals("0")) {
                         tvaddclass.setVisibility(View.INVISIBLE);
                     }
                     tvclassname.setText(classInfo.getClass_name());
-                    tvteacher.setText(classInfo.getTeacher_name());
+                    tvteacher.setText("老师：" + classInfo.getTeacher_name());
                     classID = classInfo.getId();
                 }
 
