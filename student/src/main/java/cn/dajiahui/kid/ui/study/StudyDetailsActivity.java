@@ -35,11 +35,15 @@ import cn.dajiahui.kid.util.Logger;
 public class StudyDetailsActivity extends FxActivity {
 
     private OpenGrildView mGrildview;
+    private Bundle studyDetailsBundle;
+    private String book_id;
+    private String unit_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setfxTtitle(11111);
+
+        setfxTtitle(studyDetailsBundle.getString("UNIT_NAME"));
         onBackText();
 
     }
@@ -47,16 +51,19 @@ public class StudyDetailsActivity extends FxActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.activity_study_details);
+        studyDetailsBundle = getIntent().getExtras();
+        book_id = studyDetailsBundle.getString("BOOK_ID");
+        unit_id = studyDetailsBundle.getString("UNIT_ID");
         initialize();
 
         final List<BeChoiceStudy> list = new ArrayList<>();
 
-        list.add(new BeChoiceStudy("1", "", (20) + "", "点读本", ""));
-        list.add(new BeChoiceStudy("2", "", (50) + "", "课本剧", ""));
-        list.add(new BeChoiceStudy("3", "", (80) + "", "K拉OK", ""));
-        list.add(new BeChoiceStudy("4", "", (10) + "", "卡片练习", ""));
-        list.add(new BeChoiceStudy("5", "", (30) + "", "随身听", ""));
-        list.add(new BeChoiceStudy("6", "", (50) + "", "练习", ""));
+        list.add(new BeChoiceStudy("1", R.drawable.readingbook, "", "点读本", ""));
+        list.add(new BeChoiceStudy("2", R.drawable.textbookplay, "", "课本剧", ""));
+        list.add(new BeChoiceStudy("3", R.drawable.cardpratice, "", "K拉OK", ""));
+        list.add(new BeChoiceStudy("4", R.drawable.karaoke, "", "卡片练习", ""));
+        list.add(new BeChoiceStudy("5", R.drawable.personalstereo, "", "随身听", ""));
+        list.add(new BeChoiceStudy("6", R.drawable.pratice, "", "练习", ""));
 
         ApChoiceStudy apChooseSupplementary = new ApChoiceStudy(StudyDetailsActivity.this, list);
         mGrildview.setAdapter(apChooseSupplementary);
@@ -68,42 +75,45 @@ public class StudyDetailsActivity extends FxActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(context, list.get(position).getStudyname(), Toast.LENGTH_SHORT).show();
 
+                Bundle bundle = new Bundle();
+                bundle.putString("BOOK_ID",book_id);
+                bundle.putString("UNIT_ID",unit_id);
                 /*点读*/
                 /*网络请求  下载音频*/
-
 
                 switch (list.get(position).getType()) {
 
                     case Constant.READINGBOOK:
-                        deleteTemp();
-                        initDownMp3();
+//                        deleteTemp();
+//                        initDownMp3();
+                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, ReadingBookActivity.class,bundle,0);
                         break;
                     case Constant.TEXTBOOKPLAY:
 //                        deleteTemp();
 
                          /*进行判断后在跳转*/
-                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, TextBookDramaActivity.class);
+                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, TextBookDramaActivity.class,bundle,0);
                         /*  应该改成先跳转  然后现用现下载 */
 //                        downloadTextBookPlayData();
                         break;
                     case Constant.KARAOKE:
 
-                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, KaraOkeActivity.class);
+                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, KaraOkeActivity.class,bundle,0);
 
                         break;
                     case Constant.CAREDPRATICE:
 
-                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, CardPracticeActivity.class);
+                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, CardPracticeActivity.class,bundle,0);
 
                         break;
                     case Constant.PERSONALSTEREO:
-                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, PersonalStereoActivity.class);
+                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, PersonalStereoActivity.class,bundle,0);
 
                         break;
                     case Constant.PRATICE:
                         /*练习与作业复用一个activity*/
 
-                        Bundle bundle = new Bundle();
+//                        Bundle bundle = new Bundle();
                         bundle.putString("SourceFlag", "Practice");
                         DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, DoHomeworkActivity.class, bundle, 0);
 
@@ -154,7 +164,7 @@ public class StudyDetailsActivity extends FxActivity {
             @Override
             public void onDownload(String fileurl, FxProgressDialog progressDialog) {
                 /*进行判断后在跳转*/
-                DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, ReadingBookActivity.class);
+//                DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, ReadingBookActivity.class,bundle,0);
                 Logger.d("majin-------------fileurl" + fileurl);
                 Logger.d("majin-------------点读本" + fileurl);
                   /*关闭下载dialog*/

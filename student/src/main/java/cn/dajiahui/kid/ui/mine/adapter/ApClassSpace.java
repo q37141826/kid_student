@@ -1,7 +1,6 @@
 package cn.dajiahui.kid.ui.mine.adapter;
 
 import android.content.Context;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fxtx.framework.adapter.CommonAdapter;
@@ -10,32 +9,40 @@ import com.fxtx.framework.adapter.ViewHolder;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.mine.bean.BeClassSpace;
+import cn.dajiahui.kid.ui.mine.bean.BeClassSpaceList;
+import cn.dajiahui.kid.util.DateUtils;
+import cn.dajiahui.kid.view.NoSlideGrildView;
 
 
 /**
  * 班级空间
  */
-public class ApClassSpace extends CommonAdapter<BeClassSpace> {
+public class ApClassSpace extends CommonAdapter<BeClassSpaceList> {
 
-    public ApClassSpace(Context context, List<BeClassSpace> mDatas) {
+    private NoSlideGrildView grildview;
+    private Context context;
+
+    public ApClassSpace(Context context, List<BeClassSpaceList> mDatas) {
         super(context, mDatas, R.layout.item_classspace);
+        this.context = context;
     }
 
 
     @Override
-    public void convert(ViewHolder viewHolder, final int position, BeClassSpace item) {
+    public void convert(ViewHolder viewHolder, final int position, BeClassSpaceList item) {
+
 
         TextView tv_classname = viewHolder.getView(R.id.tv_classname);
         TextView tv_endtime = viewHolder.getView(R.id.tv_endtime);
         TextView tv_content = viewHolder.getView(R.id.tv_content);
+        grildview = viewHolder.getView(R.id.grildview);
 
-        ImageView img_1 = viewHolder.getView(R.id.img_1);
-        ImageView img_2 = viewHolder.getView(R.id.img_2);
-        ImageView img_3 = viewHolder.getView(R.id.img_3);
+        ApClassSpacepicture apClassSpacepicture = new ApClassSpacepicture(this.context, item.getImg_url());
 
-        tv_classname.setText(item.getMyclass());
-        tv_endtime.setText(item.getMytime());
-        tv_content.setText(item.getComment());
+        grildview.setAdapter(apClassSpacepicture);
+
+        tv_classname.setText(item.getClass_name() + "班动态");
+        tv_endtime.setText("发表于：" + DateUtils.timeHour(item.getCreated_at()));
+        tv_content.setText(item.getContent());
     }
 }

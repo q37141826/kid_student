@@ -32,6 +32,10 @@ public class ReadingBookActivity extends FxActivity {
     private RelativeLayout scoll;
     private PlayAll playAll;
     private Map<Integer, ReadingBookFragment> mReadingBookMap = new HashMap();
+    private Bundle mReadingBookBundle;
+    private String book_id;
+    private String unit_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,9 @@ public class ReadingBookActivity extends FxActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.activity_reading_book);
+        mReadingBookBundle = getIntent().getExtras();
+        book_id = mReadingBookBundle.getString("BOOK_ID");
+        unit_id = mReadingBookBundle.getString("UNIT_ID");
         initialize();
 
         List<String> imagePathFromSD = new FileUtil().getImagePathFromSD("/storage/emulated/0/diandu/");
@@ -83,7 +90,6 @@ public class ReadingBookActivity extends FxActivity {
 
         });
     }
-
 
 
     @Override

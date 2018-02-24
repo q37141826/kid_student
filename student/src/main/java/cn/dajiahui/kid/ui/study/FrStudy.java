@@ -12,15 +12,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fxtx.framework.http.callback.ResultCallback;
+import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
+import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.http.RequestUtill;
+import cn.dajiahui.kid.ui.study.adapter.ApChooseUtils;
 import cn.dajiahui.kid.ui.study.bean.BeStudy;
 import cn.dajiahui.kid.ui.study.bean.ChooseUtils;
+import cn.dajiahui.kid.ui.study.bean.ChooseUtilsLists;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.Logger;
 
@@ -40,8 +47,9 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
     private LinearLayout tabfragment;
     private TextView tvNUll;
     private MaterialRefreshLayout refresh;
-    List<ChooseUtils> list = new ArrayList<>();
-
+    private List<ChooseUtilsLists> mChooseUtilsList = new ArrayList();
+    private ApChooseUtils apChooseUtils;
+    private String mBookId;
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
         return inflater.inflate(R.layout.fr_study, null);
@@ -59,21 +67,23 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
             studyHttp();
         }
 
-//        for (int a = 0; a < 20; a++) {
-//            list.add(new ChooseUtils("", "Until+" + a + "frist to schoo", (a + 20) + ""));
-//        }
-//
-//        final ApChooseUtils apChooseUtils = new ApChooseUtils(getActivity(), list);
-//        mListview.setAdapter(apChooseUtils);
+        apChooseUtils = new ApChooseUtils(getActivity(), mChooseUtilsList);
+        mListview.setAdapter(apChooseUtils);
+
 
         //选择单元学习
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(), "选择学习模式", Toast.LENGTH_SHORT).show();
-                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), StudyDetailsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("UNIT_NAME", mChooseUtilsList.get(position).getName());
+                bundle.putString("BOOK_ID",mBookId);
+                bundle.putString("UNIT_ID",mChooseUtilsList.get(position).getId());
+                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), StudyDetailsActivity.class, bundle, 0);
             }
         });
+
 
     }
 
@@ -85,9 +95,10 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
                 case R.id.tv_choiceMaterial:
                     Toast.makeText(activity, "选择教材", Toast.LENGTH_SHORT).show();
 
-                    Bundle b = new Bundle();
+                    Bundle bundle = new Bundle();
 
-                    DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), ChoiceTeachingMaterialActivity.class, b, GOCHOICETEACHINGMATERIAL);
+
+                    DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), ChoiceTeachingMaterialActivity.class, bundle, GOCHOICETEACHINGMATERIAL);
 
 
                     break;
@@ -109,10 +120,8 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            //显示
-            if (list.size() == 0) {
-                studyHttp();
-            }
+            studyHttp();
+
         }
     }
 
@@ -129,6 +138,42 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
         httpData();
     }
 
+    @Override
+    public void httpData() {
+        super.httpData();
+        RequestUtill.getInstance().httpStudyHomePage(getActivity(), callStudyHomePage); // 请求取得教辅列表
+
+    }
+
+    /*自学首页*/
+    ResultCallback callStudyHomePage = new ResultCallback() {
+
+
+
+        @Override
+        public void onError(Request request, Exception e) {
+            dismissfxDialog();
+            finishRefreshAndLoadMoer(refresh, 0);
+        }
+
+        @Override
+        public void onResponse(String response) {
+
+            Logger.d("自学首页：" + response);
+            dismissfxDialog();
+            HeadJson json = new HeadJson(response);
+            if (json.getstatus() == 0) {
+                ChooseUtils chooseUtils = json.parsingObject(ChooseUtils.class);
+                mBookId = chooseUtils.getId();
+                mChooseUtilsList.clear();
+                mChooseUtilsList.addAll(chooseUtils.getLists());
+                apChooseUtils.notifyDataSetChanged();
+            } else {
+                ToastUtil.showToast(getActivity(), json.getMsg());
+            }
+            finishRefreshAndLoadMoer(refresh, pagNum); // 要自己判断是否为最后一页
+        }
+    };
 
     /*初始化*/
     private void initialize() {

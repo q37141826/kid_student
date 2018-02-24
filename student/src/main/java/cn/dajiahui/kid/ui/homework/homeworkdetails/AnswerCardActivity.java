@@ -23,6 +23,7 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.homework.adapter.ApAnswerCard;
+import cn.dajiahui.kid.ui.homework.bean.BeAnswerCArd;
 import cn.dajiahui.kid.ui.homework.bean.BeSaveAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.BeSubmitAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
@@ -46,14 +47,15 @@ public class AnswerCardActivity extends FxActivity {
     private GridView grildview;
     private Button mBtnsubmit;
     private int answernum;
-//    private List<QuestionModle> listdata;
 
-    private List<QuestionModle> listdata = new ArrayList<>();//显示答题卡的集合
+
+    //    private List<QuestionModle> listdata = new ArrayList<>();//显示答题卡的集合
     private BeSaveAnswerCard beSaveAnswerCard;
     private String homework_id;
 
     List<BeSubmitAnswerCard> submitAnswerCardList = new ArrayList<>();
-    private int allNum;
+    private List<BeAnswerCArd> beAnswerCArds;
+    private StringBuilder append;
 
 
     @Override
@@ -72,7 +74,10 @@ public class AnswerCardActivity extends FxActivity {
         Bundle bundle = getIntent().getExtras();
         beSaveAnswerCard = (BeSaveAnswerCard) bundle.getSerializable("answerCard");
         homework_id = beSaveAnswerCard.getHomework_id();
-        allNum = beSaveAnswerCard.getAllNum();
+        beAnswerCArds = beSaveAnswerCard.getmAnswerCardList();
+
+
+        Logger.d("答题卡的数据：" + beAnswerCArds.toString());
 
         HashMap<Integer, Object> pageMap = beSaveAnswerCard.getPageMap();
 
@@ -87,8 +92,15 @@ public class AnswerCardActivity extends FxActivity {
                     /*如果答过题 自动提交答案的标记默认是0*/
                     if (jude.getMy_answer() != null) {
                         jude.setIs_auto("0");
+                        for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
+                            if (beAnswerCArds.get(ij).getQuestion_id().equals(jude.getId())) {
+                                int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
+                                beAnswerCArds.get(indexOf).setAnswerFlag("true");
+                            }
+                        }
+                    } else {
+                        jude.setMy_answer("");
                     }
-                    listdata.add(new QuestionModle(jude.getCurrentpage()));
 
 //                    Logger.d("---------------------------------------------------------------");
 //                    Logger.d("判断 question_id:----" + jude.getId());
@@ -105,12 +117,22 @@ public class AnswerCardActivity extends FxActivity {
                     break;
                 case Constant.Choice:
                     ChoiceQuestionModle choice = (ChoiceQuestionModle) pageMap.get(i);
+
                       /*如果答过题 自动提交答案的标记默认是0*/
                     if (choice.getMy_answer() != null) {
                         choice.setIs_auto("0");
+                        for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
+
+                            if (beAnswerCArds.get(ij).getQuestion_id().equals(choice.getId())) {
+                                int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
+                                beAnswerCArds.get(indexOf).setAnswerFlag("true");
+
+                            }
+                        }
+                    } else {
+                        choice.setMy_answer("");
                     }
 
-                    listdata.add(new QuestionModle(choice.getCurrentpage()));
 //                    Logger.d("---------------------------------------------------------------");
 //                    Logger.d("选择 question_id:----" + choice.getId());
 //                    Logger.d("选择 question_cate_id:----" + choice.getQuestion_cate_id());
@@ -125,7 +147,6 @@ public class AnswerCardActivity extends FxActivity {
                 case Constant.Sort:
                     SortQuestionModle sort = (SortQuestionModle) pageMap.get(i);
 
-                    listdata.add(new QuestionModle(sort.getCurrentpage()));
 //                    Logger.d("---------------------------------------------------------------");
 //                    Logger.d("排序 question_id:----" + sort.getId());
 //                    Logger.d("排序 question_cate_id:----" + sort.getQuestion_cate_id());
@@ -141,7 +162,7 @@ public class AnswerCardActivity extends FxActivity {
                 case Constant.Line:
                     LineQuestionModle line = (LineQuestionModle) pageMap.get(i);
                     String anline = line.getAnswerflag();
-                    listdata.add(new QuestionModle(line.getCurrentpage()));
+
 //                    Logger.d("---------------------------------------------------------------");
 //                    Logger.d("连线 question_id:----" + line.getId());
 //                    Logger.d("连线 question_cate_id:----" + line.getQuestion_cate_id());
@@ -157,14 +178,39 @@ public class AnswerCardActivity extends FxActivity {
                 case Constant.Completion:
                     CompletionQuestionModle completion = (CompletionQuestionModle) pageMap.get(i);
                     Map<Integer, Map<Integer, String>> integerMapMap = completion.getmAllMap();
-                    Logger.d("---------------------------------------------------------------integerMapMap.size()"+integerMapMap.size());
-                    Logger.d("---------------------------------------------------------------integerMapMap.tostring"+integerMapMap.toString());
 
-//                    for () {
-//
-//                    }
+                    List<Map<Integer, String>> completeList = new ArrayList<>();
 
-                    listdata.add(new QuestionModle(completion.getCurrentpage()));
+                    for (int c = 0; c < integerMapMap.size(); c++) {
+                        if (integerMapMap.get(c) != null) {
+                            Map<Integer, String> integerStringMap = integerMapMap.get(c);
+                            completeList.add(integerStringMap);
+                        }
+                    }
+
+                    Logger.d("填空我的答案：" + completeList.toString());
+                    /*需要和后台商量填空题的提交答案的形式*/
+
+                    /*没有作答答案自动提交*/
+                    if (integerMapMap.size() >= 0) {
+                        completion.setIs_auto("0");
+                        completion.setMy_answer(completeList.toString());
+
+//                        for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
+//                            if (beAnswerCArds.get(ij).getQuestion_id().equals(completion.getId())) {
+//                                int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
+//                                beAnswerCArds.get(indexOf).setAnswerFlag("true");
+//                            }
+//                        }
+
+                    } else {
+                        completion.setIs_auto("1");
+                        completion.setMy_answer("");
+                    }
+
+//                    Logger.d("---------------------------------------------------------------integerMapMap.size()" + integerMapMap.size());
+//                    Logger.d("---------------------------------------------------------------integerMapMap.tostring" + integerMapMap.toString());
+
                     Logger.d("---------------------------------------------------------------");
                     Logger.d("填空 question_id:----" + completion.getId());
                     Logger.d("填空 question_cate_id:----" + completion.getQuestion_cate_id());
@@ -184,10 +230,11 @@ public class AnswerCardActivity extends FxActivity {
 
         }
 
-//      tvanswer.setText(answernum + "/" + listdata.size());
+        tvanswer.setText(answernum + "/" + beAnswerCArds.size());
+
         Toast.makeText(context, "答题卡", Toast.LENGTH_SHORT).show();
 
-        ApAnswerCard apAnswerCard = new ApAnswerCard(context, listdata, allNum);
+        ApAnswerCard apAnswerCard = new ApAnswerCard(context, beAnswerCArds);
 
         grildview.setAdapter(apAnswerCard);
 

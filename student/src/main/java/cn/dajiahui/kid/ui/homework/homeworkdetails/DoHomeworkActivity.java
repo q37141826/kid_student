@@ -35,6 +35,7 @@ import java.util.Map;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.http.RequestUtill;
+import cn.dajiahui.kid.ui.homework.bean.BeAnswerCArd;
 import cn.dajiahui.kid.ui.homework.bean.BeSaveAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
@@ -42,6 +43,7 @@ import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
+import cn.dajiahui.kid.util.Logger;
 
 /*
 * 做作业Activity
@@ -69,7 +71,11 @@ public class DoHomeworkActivity extends FxActivity
 
     private Button btncheck;
     private String homework_id;
+    private String book_id;
+    private String unit_id;
     //    private TextView mRightBtn;
+
+    private List<BeAnswerCArd> mAnswerCardList = new ArrayList();
 
 
     @Override
@@ -79,14 +85,17 @@ public class DoHomeworkActivity extends FxActivity
           /* sourceFlag=Practice 练习  sourceFlag=HomeWork作业*/
         sourceFlag = intent.getStringExtra("SourceFlag");
         if (sourceFlag.equals("Practice")) {
+            Bundle mDoHomeworkbundle = getIntent().getExtras();
+            book_id = mDoHomeworkbundle.getString("BOOK_ID");
+            unit_id = mDoHomeworkbundle.getString("UNIT_ID");
             btncheck.setVisibility(View.VISIBLE);
             mViewpager.setNoScroll(true);//练习禁止滑动
 
         } else if (sourceFlag.equals("HomeWork")) {
             mViewpager.setNoScroll(false);//作业可以滑动
             homework_id = intent.getStringExtra("homework_id");
-            setfxTtitle(R.string.checkhomework);
-            onRightBtn(R.drawable.ic_launcher, R.string.AnswerCard);
+            setfxTtitle(intent.getStringExtra("UNIT_NAME"));
+            onRightBtn(R.string.AnswerCard);
 
         }
         onBackTextShowProgress();
@@ -110,7 +119,7 @@ public class DoHomeworkActivity extends FxActivity
     @Override
     protected void onRestart() {
         super.onRestart();
-        httpData();
+//        httpData();
     }
 
     /**
@@ -134,23 +143,39 @@ public class DoHomeworkActivity extends FxActivity
                     mdata = new Gson().fromJson(jsonArray.toString(), new TypeToken<List<QuestionModle>>() {
                     }.getType());
 
+                    Logger.d("mdata:" + mdata.toString());
                       /*解析json数据*/
                     for (int i = 0; i < mdata.size(); i++) {
+
+
                         switch (mdata.get(i).getQuestion_cate_id()) {
                             case Constant.Judje:
-                                mDatalist.add(new Gson().fromJson(jsonArray.get(i).toString(), JudjeQuestionModle.class));
+//                                Logger.d("判断："+jsonArray.get(i).toString());
+                                JudjeQuestionModle judjeQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), JudjeQuestionModle.class);
+                                mDatalist.add(judjeQuestionModle);
+                                mAnswerCardList.add(new BeAnswerCArd("1", "", "", mdata.get(i).getQuestion_cate_id(), judjeQuestionModle.getId(), i));
                                 break;
                             case Constant.Choice:
-                                mDatalist.add(new Gson().fromJson(jsonArray.get(i).toString(), ChoiceQuestionModle.class));
+                                ChoiceQuestionModle choiceQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), ChoiceQuestionModle.class);
+                                mDatalist.add(choiceQuestionModle);
+                                mAnswerCardList.add(new BeAnswerCArd("1", "", "", mdata.get(i).getQuestion_cate_id(), choiceQuestionModle.getId(), i));
                                 break;
                             case Constant.Sort:
-                                mDatalist.add(new Gson().fromJson(jsonArray.get(i).toString(), SortQuestionModle.class));
+                                SortQuestionModle sortQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), SortQuestionModle.class);
+                                mDatalist.add(sortQuestionModle);
+                                mAnswerCardList.add(new BeAnswerCArd("1", "", "", mdata.get(i).getQuestion_cate_id(), sortQuestionModle.getId(), i));
                                 break;
                             case Constant.Line:
-                                mDatalist.add(new Gson().fromJson(jsonArray.get(i).toString(), LineQuestionModle.class));
+//                                Logger.d("连线：" + jsonArray.get(i).toString());
+                                LineQuestionModle lineQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), LineQuestionModle.class);
+                                mDatalist.add(lineQuestionModle);
+                                mAnswerCardList.add(new BeAnswerCArd("1", "", "", mdata.get(i).getQuestion_cate_id(), lineQuestionModle.getId(), i));
                                 break;
                             case Constant.Completion:
-                                mDatalist.add(new Gson().fromJson(jsonArray.get(i).toString(), CompletionQuestionModle.class));
+                                Logger.d("填空："+jsonArray.get(i).toString());
+                                CompletionQuestionModle completionQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), CompletionQuestionModle.class);
+                                mDatalist.add(completionQuestionModle);
+                                mAnswerCardList.add(new BeAnswerCArd("1", "", "", mdata.get(i).getQuestion_cate_id(), completionQuestionModle.getId(), i));
                                 break;
                             default:
                                 break;
@@ -188,43 +213,41 @@ public class DoHomeworkActivity extends FxActivity
 
     private FxDialog submitDialog;
 
-    @Override
-    public void onBackShowProgress(View view) {
-        super.onRightBtnClick(view);
-        if (submitDialog == null) {
-            submitDialog = new FxDialog(context) {
-                @Override
-                public void onRightBtn(int flag) {
-
-
-                    SubmitHomeWorkAnswer submitHomeWorkAnswer = new SubmitHomeWorkAnswer(DoHomeworkActivity.this, new BeSaveAnswerCard(PageMap, homework_id, mdata.size()));
-
-                    submitHomeWorkAnswer.submitAnswerCard("-1");
-
-                    submitDialog.dismiss();
-                    finishActivity();
-                }
-
-                @Override
-                public void onLeftBtn(int flag) {
-
-                    finishActivity();
-                    submitDialog.dismiss();
-                }
-            };
-            submitDialog.getTitle().setVisibility(View.GONE);
-        }
-        submitDialog.setMessage("确定要提交试卷么？");
-        submitDialog.show();
-
-    }
+//    /*半路退出答题*/
+//    @Override
+//    public void onBackShowProgress(View view) {
+//        super.onRightBtnClick(view);
+//        if (submitDialog == null) {
+//            submitDialog = new FxDialog(context) {
+//                @Override
+//                public void onRightBtn(int flag) {
+//
+//                    SubmitHomeWorkAnswer submitHomeWorkAnswer = new SubmitHomeWorkAnswer(DoHomeworkActivity.this, new BeSaveAnswerCard(PageMap, homework_id, mAnswerCardList));
+//                    submitHomeWorkAnswer.submitAnswerCard("-1");
+//                    submitDialog.dismiss();
+//                    finishActivity();
+//                }
+//
+//                @Override
+//                public void onLeftBtn(int flag) {
+//
+//                    finishActivity();
+//                    submitDialog.dismiss();
+//                }
+//            };
+//            submitDialog.getTitle().setVisibility(View.GONE);
+//        }
+//        submitDialog.setMessage("确定要提交试卷么？");
+//        submitDialog.show();
+//
+//    }
 
     /*答题卡*/
     @Override
     public void onRightBtnClick(View view) {
         Intent intent = new Intent(DoHomeworkActivity.this, AnswerCardActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("answerCard", new BeSaveAnswerCard(PageMap, homework_id, mdata.size()));
+        bundle.putSerializable("answerCard", new BeSaveAnswerCard(PageMap, homework_id, mAnswerCardList));
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -258,7 +281,7 @@ public class DoHomeworkActivity extends FxActivity
                             return;
                         }
 
-                        if (questionModle.isAnswer() == false && questionModle.getAnswerflag().equals("true")) {
+                        if (questionModle != null && questionModle.isAnswer() == false && questionModle.getAnswerflag().equals("true")) {
                             Toast.makeText(context, "保存第" + (currentposition + 1) + "题数据", Toast.LENGTH_SHORT).show();
                             pagelist.add(currentposition);
                             questionModle.setAnswer(true);//设置提交答案  true 答过 false 未作答
@@ -475,8 +498,7 @@ public class DoHomeworkActivity extends FxActivity
                 sortModle.setIs_answer(((SortQuestionModle) mDatalist.get(position)).getIs_answer());
                 sortModle.setQuestion_cate_id(subjectype);
                 sortModle.setStandard_answer(((SortQuestionModle) mDatalist.get(position)).getStandard_answer());//保存当前题的正确答案
-
-//                questionModle.setId((((SortQuestionModle) mDatalist.get(position)).getId()));//保存
+                sortModle.setId((((SortQuestionModle) mDatalist.get(position)).getId()));//排序题ID
 
                 if (PageMap.get(position) != null) {
                     sortModle.setAnswerflag(((SortQuestionModle) PageMap.get(position)).getAnswerflag());//学生作答标记
@@ -497,13 +519,10 @@ public class DoHomeworkActivity extends FxActivity
                 LineQuestionModle lineModle = new LineQuestionModle();
 
                 lineModle.setEachposition(position);//每个题对应数据源的索引
-
                 lineModle.setQuestion_cate_id(subjectype);//保存当前题型
                 lineModle.setIs_answer(((LineQuestionModle) mDatalist.get(position)).getIs_answer());
                 lineModle.setStandard_answer(((LineQuestionModle) mDatalist.get(position)).getStandard_answer());//保存当前题的正确答案
-
-//                Logger.d("LineQuestionModle getItem getAnswerflag. "+questionModle.getAnswerflag());
-//                Logger.d("LineQuestionModle getItem getQuestion_cate_id. "+ ((LineQuestionModle) mDatalist.get(position)).getQuestion_cate_id());
+                lineModle.setId((((LineQuestionModle) mDatalist.get(position)).getId()));//连线题ID
 
                 if (PageMap.get(position) != null) {
                     lineModle.setAnswerflag(((LineQuestionModle) PageMap.get(position)).getAnswerflag());//学生作答标记
@@ -666,7 +685,7 @@ public class DoHomeworkActivity extends FxActivity
     public void changeBtnY() {
         isClickable = true;
         btncheck.setText("Check");
-        btncheck.setBackgroundResource(R.color .yellow_FEBF12);
+        btncheck.setBackgroundResource(R.color.yellow_FEBF12);
 
     }
 

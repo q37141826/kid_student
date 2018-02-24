@@ -37,6 +37,8 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
     private ImageView[] tips;//裝小点点的数组
     private BeKaraOk beKaraOk;//网络请求数据源
     private KaraoKeOkAdapter karaoKeOkAdapter;
+    private String book_id;
+    private String unit_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,9 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
     @Override
     protected void initView() {
         setContentView(R.layout.activity_kara_oke);
+        Bundle mKaraOkebundle = getIntent().getExtras();
+        book_id = mKaraOkebundle.getString("BOOK_ID");
+        unit_id = mKaraOkebundle.getString("UNIT_ID");
         initialize();
         httpData();
 

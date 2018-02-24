@@ -10,12 +10,12 @@ import cn.dajiahui.kid.util.BeanObj;
 
 public class BeChoiceStudy extends BeanObj {
     private String type;
-    private String studypic;//图片
+    private int studypic;//图片
     private String studyseekschedule;//进度
     private String studyname;//名称
     private String studyratingBarschedule;//小星星
 
-    public BeChoiceStudy(String type, String studypic, String studyseekschedule, String studyname, String studyratingBarschedule) {
+    public BeChoiceStudy(String type, int studypic, String studyseekschedule, String studyname, String studyratingBarschedule) {
         this.type = type;
         this.studypic = studypic;
         this.studyseekschedule = studyseekschedule;
@@ -23,11 +23,11 @@ public class BeChoiceStudy extends BeanObj {
         this.studyratingBarschedule = studyratingBarschedule;
     }
 
-    public String getStudypic() {
+    public int getStudypic() {
         return studypic;
     }
 
-    public void setStudypic(String studypic) {
+    public void setStudypic(int studypic) {
         this.studypic = studypic;
     }
 

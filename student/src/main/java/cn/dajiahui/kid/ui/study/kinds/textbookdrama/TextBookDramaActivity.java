@@ -34,6 +34,10 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
     private List<BeTextBookDrama> mDatalist;
     private ImageView[] tips;//裝小点点的数组
 
+    private String book_id;
+    private String unit_id;
+    private Bundle mTextBookDramaBundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,9 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
     @Override
     protected void initView() {
         setContentView(R.layout.activity_text_book_drama);
+        mTextBookDramaBundle = getIntent().getExtras();
+        book_id = mTextBookDramaBundle.getString("BOOK_ID");
+        unit_id = mTextBookDramaBundle.getString("UNIT_ID");
         initialize();
         mViewpager.setNoScroll(false);
         /*模拟数据源*/

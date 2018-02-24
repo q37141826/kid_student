@@ -73,24 +73,27 @@ public class MyClassActivity extends FxActivity {
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Bundle bundle = new Bundle();
-                bundle.putString("CLASSNAME", myClassLists.get(position).getClass_name());
-                bundle.putString("CLASSID", myClassLists.get(position).getId());
+                bundle.putString("CLASS_ID",  myClassLists.get(position).getId());
+                bundle.putString("CLASS_NAME", myClassLists.get(position).getClass_name());
+
                 DjhJumpUtil.getInstance().startBaseActivity(MyClassActivity.this, ClassInfoActivity.class, bundle, 0);
 
             }
-        });
-    }
+            });
+        }
 
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
+        @Override
+        protected void onRestart () {
+            super.onRestart();
         /*我的班级*/
-        myclassHttp();
-    }
+            myclassHttp();
+        }
 
     /*我的网络请求*/
+
     private void myclassHttp() {
         mPageNum = 1;
         showfxDialog();
@@ -100,11 +103,14 @@ public class MyClassActivity extends FxActivity {
     @Override
     public void httpData() {
         super.httpData();
-        RequestUtill.getInstance().httpMyClass(this, callMyClass, "10", mPageNum + "");
+        RequestUtill.getInstance().httpMyClass(this, callMyClass, mPageSize + "", mPageNum + "");
     }
 
 
     ResultCallback callMyClass = new ResultCallback() {
+
+
+
         @Override
         public void onError(Request request, Exception e) {
             dismissfxDialog();

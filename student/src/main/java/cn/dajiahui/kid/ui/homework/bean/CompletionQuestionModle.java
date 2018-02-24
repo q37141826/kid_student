@@ -25,13 +25,22 @@ public class CompletionQuestionModle extends QuestionModle {
     private String is_answer = "";//是否作答
     private String my_answer;//已经上传的作答答案
     private String is_right;//是否正确
-    private String is_auto;//
+    private String is_auto;//自动提交是1  不自动提交是0
 
     private String analysisAnswer = "";//解析的正确答案
     private String analysisMineAnswer = "";//解析的我的答案
     private String isFocusable = "";//editext焦点标记  yes 有焦点  no无焦点
     private String isShowRightAnswer = "";//显示正确答案 yes 显示正确答案  no不显示正确答案
     private String textcolor = "";//设置字体和边框颜色
+    private int letterNum;//字母数量
+
+    public int getLetterNum() {
+        return letterNum;
+    }
+
+    public void setLetterNum(int letterNum) {
+        this.letterNum = letterNum;
+    }
 
     public String getAnalysisMineAnswer() {
         return analysisMineAnswer;

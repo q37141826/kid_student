@@ -101,7 +101,7 @@ public class LineFragment extends BaseHomeworkFragment implements
         /*应该判断是否是从check过 从网上获取的答案*/
         /*不是从网上*/
         for (int i = 0; i < size; i++) {
-            LineImagePointView mView = new LineImagePointView(getActivity(), this, R.drawable.ic_launcher, i, inbasebean, direction);
+            LineImagePointView mView = new LineImagePointView(getActivity(), this,  i, inbasebean, direction);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
 
             if (direction == Dir.left) {

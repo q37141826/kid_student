@@ -16,15 +16,20 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/whilte_line">
+            android:layout_height="match_parent">
 
             <cn.dajiahui.kid.ui.study.view.OpenGrildView
                 android:id="@+id/grildview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/gray_F5F5F5"
+                android:listSelector="@null"
                 android:numColumns="2"
-                android:scrollbars="none"/>
+                android:scrollbars="none"
+
+                />
+           <!-- android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"-->
         </RelativeLayout>
 
     </ScrollView>

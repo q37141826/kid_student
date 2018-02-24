@@ -32,14 +32,23 @@ public class CardPracticeActivity extends FxActivity implements
 
     private int currentPositinon = 0;
     private List<BeCradPratice> mCardList;
+    private String book_id;
+    private String unit_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setfxTtitle("111111111");
         onBackText();
 
+    }
+
+    @Override
+    protected void initView() {
+        setContentView(R.layout.activity_card_practice);
+        Bundle mCardPracticeBundle = getIntent().getExtras();
+        book_id = mCardPracticeBundle.getString("BOOK_ID");
+        unit_id = mCardPracticeBundle.getString("UNIT_ID");
 
         initialize();
 
@@ -64,12 +73,6 @@ public class CardPracticeActivity extends FxActivity implements
         CardAdapter adapter = new CardAdapter(getSupportFragmentManager(), mCardList);
         mCardpager.setAdapter(adapter);
 
-
-    }
-
-    @Override
-    protected void initView() {
-        setContentView(R.layout.activity_card_practice);
     }
 
     /*初始化数据*/

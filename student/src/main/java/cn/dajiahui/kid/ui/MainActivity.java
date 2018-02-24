@@ -12,10 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.widget.RadioGroup;
 
-import com.fxtx.framework.http.ErrorCode;
-import com.fxtx.framework.http.callback.ResultCallback;
-import com.fxtx.framework.image.util.GlideUtil;
-import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxFragment;
@@ -29,19 +25,15 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chatui.ImConstant;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.squareup.okhttp.Request;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.controller.UserController;
-import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.chat.FrChat;
 import cn.dajiahui.kid.ui.chat.constant.ImHelper;
-import cn.dajiahui.kid.ui.chat.constant.PreferenceManager;
 import cn.dajiahui.kid.ui.chat.db.DemoDBManager;
 import cn.dajiahui.kid.ui.chat.db.UserDao;
 import cn.dajiahui.kid.ui.homework.FrHomework;
@@ -196,36 +188,6 @@ public class MainActivity extends FxTabActivity {
 //                GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frMine.imUser, R.drawable.ico_default_user, mtrue);
             }
         }
-    }
-
-    public void httpUserIcon(File file) {
-        showfxDialog(R.string.submiting);
-        RequestUtill.getInstance().uploadUserIcon(context, new ResultCallback() {
-            @Override
-            public void onError(Request request, Exception e) {
-                dismissfxDialog();
-                ToastUtil.showToast(context, ErrorCode.error(e));
-            }
-
-            @Override
-            public void onResponse(String response) {
-                dismissfxDialog();
-                HeadJson headJson = new HeadJson(response);
-                if (headJson.getstatus()  == 0) {
-                    UserController.getInstance().getUser().setAvator(headJson.parsingString("avator"));
-                    PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvator());
-                    ToastUtil.showToast(context, R.string.save_ok);
-                    if (frHomework != null) {
-//                        GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frHomework.imUer, R.drawable.ico_default_user, mtrue);
-                    }
-                    if (frMine != null) {
-                        GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frMine.imUser, R.drawable.ico_default_user, true);
-                    }
-                } else {
-                    ToastUtil.showToast(context, headJson.getMsg());
-                }
-            }
-        }, file, UserController.getInstance().getUserId());
     }
 
     EMMessageListener messageListener = new EMMessageListener() {

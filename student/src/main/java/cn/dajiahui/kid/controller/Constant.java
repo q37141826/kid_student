@@ -133,6 +133,7 @@ public class Constant {
     /*选择教材*/
     public static final int GOCHOICETEACHINGMATERIAL = 9;
     public static final int CHOICETEACHINGMATERIAL = 10;
+    public static final int CHOICETEACHINGMATERIALRESULT = 11;
     /*6大题型*/
 
     public static final String READINGBOOK = "1";//点读本

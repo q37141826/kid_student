@@ -10,7 +10,6 @@ import com.fxtx.framework.adapter.ViewHolder;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar;
 import cn.dajiahui.kid.ui.study.bean.BeChoiceStudy;
 
 
@@ -20,8 +19,8 @@ import cn.dajiahui.kid.ui.study.bean.BeChoiceStudy;
 public class ApChoiceStudy extends CommonAdapter<BeChoiceStudy> {
 
 
-    private ImageView iditemimage;
-    private ProhibitMoveSeekbar seekitem;
+    private ImageView itemimage;
+    private cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar seekitem;
     private TextView tvtypename;
 
 
@@ -33,13 +32,13 @@ public class ApChoiceStudy extends CommonAdapter<BeChoiceStudy> {
     @Override
     public void convert(ViewHolder viewHolder, int position, BeChoiceStudy item) {
 
-        iditemimage = viewHolder.getView(R.id.id_itemimage);
-        seekitem = viewHolder.getView(R.id.seek_item);
+        itemimage = viewHolder.getView(R.id.itemimage);
+//        seekitem = viewHolder.getView(R.id.seek_item);
         tvtypename = viewHolder.getView(R.id.tv_typename);
 
-
         tvtypename.setText(item.getStudyname());
-        seekitem.setProgress(Integer.parseInt(item.getStudyseekschedule()));
+        itemimage.setImageResource(item.getStudypic());
+//        seekitem.setProgress(Integer.parseInt(item.getStudyseekschedule()));
 
     }
 

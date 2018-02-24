@@ -53,40 +53,22 @@
                 android:textSize="13dp"/>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/img_1"
-                android:layout_width="101dp"
-                android:layout_height="134dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_launcher"/>
+            <cn.dajiahui.kid.view.NoSlideGrildView
+                android:id="@+id/grildview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:horizontalSpacing="5dp"
+                android:numColumns="3"
+                android:verticalSpacing="5dp">
 
-            <ImageView
-                android:id="@+id/img_2"
-                android:layout_width="101dp"
-                android:layout_height="134dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_launcher"/>
-
-            <ImageView
-                android:id="@+id/img_3"
-                android:layout_width="101dp"
-                android:layout_height="134dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_launcher"/>
-
-        </LinearLayout>
+            </cn.dajiahui.kid.view.NoSlideGrildView>
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

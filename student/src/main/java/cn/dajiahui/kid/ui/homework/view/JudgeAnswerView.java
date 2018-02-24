@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -23,7 +25,7 @@ import cn.dajiahui.kid.ui.homework.homeworkdetails.JudgeFragment;
  */
 
 @SuppressLint("AppCompatCustomView")
-public class JudgeAnswerView extends ImageView implements View.OnClickListener {
+public class JudgeAnswerView extends RelativeLayout implements View.OnClickListener {
     private Context context;
     private JudjeQuestionModle inbasebean;
     private int position;
@@ -38,7 +40,16 @@ public class JudgeAnswerView extends ImageView implements View.OnClickListener {
         this.submit = submit;
         this.AnswerViewList = AnswerViewList;
         this.setPadding(10, 10, 10, 10);
-        addContentPic();
+        String content = inbasebean.getOptions().get(position).getContent();
+        String substring = content.substring(0, 2);
+        if (substring.equals("ht")) {
+            /*添加图片*/
+            addView(addContentPic());
+        } else {
+             /*添加文字*/
+            addView(addContentText());
+        }
+
         /*判断题  只有没答过题才注册点击事件*/
         if (inbasebean.getIs_answer().equals("0")) {
             this.setOnClickListener(this);
@@ -50,18 +61,22 @@ public class JudgeAnswerView extends ImageView implements View.OnClickListener {
     }
 
 
-    private void addContentPic() {
+    private ImageView addContentPic() {
+        ImageView imageView = new ImageView(context);
            /*加载正确答案按钮图片*/
         Glide.with(context)
                 .load(inbasebean.getOptions().get(position).getContent())
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(this);
+                .into(imageView);
+        return imageView;
     }
 
     /*添加文字*/
-    private void addContentText() {
-
+    private TextView addContentText() {
+        TextView textView = new TextView(context);
+        textView.setText(inbasebean.getOptions().get(position).getContent());
+        return textView;
     }
 
     @Override

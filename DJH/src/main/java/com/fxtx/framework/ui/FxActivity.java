@@ -33,6 +33,7 @@ public abstract class FxActivity extends AppCompatActivity {
     private SparseArray<View> mViews = new SparseArray<View>();
     public int mPageNum = 1; //分页
     protected boolean isCreateView = false;
+    public int mPageSize = 10; //默认一页10个条目
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

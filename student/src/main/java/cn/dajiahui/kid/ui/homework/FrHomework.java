@@ -77,6 +77,8 @@ public class FrHomework extends FxFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("homework_id", lists.get(position).getId());
                 bundle.putString("starttime", lists.get(position).getStart_time());
+                bundle.putString("UNIT_NAME", lists.get(position).getName());
+
                 DjhJumpUtil.getInstance().startBaseActivity(getActivity(), HomeWorkDetailsActivity.class, bundle, 0);
 
             }
@@ -146,6 +148,7 @@ public class FrHomework extends FxFragment {
 
         @Override
         public void onResponse(String response) {
+//            Logger.d("做作业：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {

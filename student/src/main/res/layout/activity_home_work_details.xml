@@ -115,7 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/yellow_FEBF12"
-            android:text="继续作业"
+            android:text="开始做作业"
             android:textColor="@color/white"/>
     </LinearLayout>
 </LinearLayout>

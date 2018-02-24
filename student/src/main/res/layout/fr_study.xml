@@ -12,7 +12,6 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="146dp"
-
         android:background="@drawable/study_bg"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -32,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/tv_unit"
             android:layout_alignStart="@+id/tv_unit"
-            android:text="Move up 系列"
+
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"/>
@@ -44,7 +43,7 @@
             android:layout_below="@+id/tv_choiceMaterial"
             android:layout_marginLeft="@dimen/textpadding"
             android:layout_toRightOf="@+id/img_supplementary"
-            android:text="Move up 1"
+
             android:textColor="@color/white"
             android:textSize="13sp"/>
 
@@ -62,9 +61,33 @@
 
     </RelativeLayout>
 
+    <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/gray_F5F5F5"
+        app:isLoadMore="false"
+        app:overlay="false"
+        app:wave_color="@color/app_bg_a"
+        app:wave_show="false">
 
-    <include
-        layout="@layout/layout_refresh"/>
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="10dp"
+            android:fadeScrollbars="false"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            android:overScrollMode="never"
+            android:scrollbars="none"/>
+
+        <TextView style="@style/text_null"/>
+
+    </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
 
 </LinearLayout>
 

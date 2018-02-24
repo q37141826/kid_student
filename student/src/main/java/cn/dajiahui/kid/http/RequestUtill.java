@@ -490,6 +490,14 @@ public class RequestUtill {
 
     }
 
+    /*自学首页*/
+    public void httpStudyHomePage(Context context, ResultCallback callback) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+
+        getHttpBuilder(context, "student/book/self-study").params(params).post(callback);
+    }
+
     /*选择教材*/
     public void httpChoiceTeachingMaterial(Context context, ResultCallback callback, int pageSize, int page) {
         IdentityHashMap params = new IdentityHashMap<>();
@@ -498,6 +506,28 @@ public class RequestUtill {
         params.put("page", page + "");
         getHttpBuilder(context, "student/book/series").params(params).post(callback);
     }
+
+    /*选择教材系列下的列表*/
+    public void httpChoiceTeachingMaterialInfo(Context context, ResultCallback callback, String org_id, String series, String pageSize, String page) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("org_id", org_id);
+        params.put("series", series);
+        params.put("pageSize", page);
+        params.put("page", page);
+        getHttpBuilder(context, "student/book/list").params(params).post(callback);
+    }
+
+    /*选择教材系列下的列表*/
+    public void ChoiceTeachingMaterialBook(Context context, ResultCallback callback, String org_id, String book_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("org_id", org_id);
+        params.put("book_id", book_id);
+
+        getHttpBuilder(context, "student/book/select").params(params).post(callback);
+    }
+
 
     /*我的*/
     public void httpMine(Context context, ResultCallback callback) {
@@ -536,18 +566,19 @@ public class RequestUtill {
         getHttpBuilder(context, "student/ ").params(params).post(callback);
     }
 
-    /*班级空间*/
-    public void httpClassSpace(Context context, ResultCallback callback, String class_id) {
+    /*班级空间 接口暂时用教师端的接口*/
+    public void httpClassSpace(Context context, ResultCallback callback, String class_id, String pageSize, String page) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
-//        params.put("class_id", class_id);
-//        params.put("class_id", class_id);
+        params.put("class_id", class_id);
+        params.put("pageSize", pageSize);
+        params.put("page", page);
 
-        getHttpBuilder(context, "student/ ").params(params).post(callback);
+        getHttpBuilder(context, "teacher/classroom/dynamic").params(params).post(callback);
     }
 
     /*摩尔通知*/
-    public void httpNotice(Context context, ResultCallback callback ) {
+    public void httpNotice(Context context, ResultCallback callback) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
 //        params.put("class_id", class_id);
@@ -563,9 +594,8 @@ public class RequestUtill {
      * @param context
      * @param callback
      * @param files
-     * @param userId
      */
-    public void uploadUserIcon(Context context, ResultCallback callback, File files, String userId) {
+    public void uploadUserIcon(Context context, ResultCallback callback, File files) {
         Bitmap map = ImageUtil.uriToBitmap(Uri.fromFile(files), context);
         map = ImageUtil.centerSquareScaleBitmap(map, 400);
         File file = ImageUtil.bitmapToFile(map, UserController.getInstance().getUserImageFile(context) + System.currentTimeMillis() + ".jpg", -1);
@@ -574,8 +604,9 @@ public class RequestUtill {
             callback.onError(null, null);
         } else {
             IdentityHashMap params = new IdentityHashMap<>();
-            params.put("userId", userId);//需要修改参数
-            new OkHttpRequest.Builder().tag(context).url(getFileUrl() + "user/uploadAvator.json").files(new Pair<String, File>("file", file)).params(params).upload(callback);
+            params.put("token", UserController.getInstance().getUser().getToken());
+
+            new OkHttpRequest.Builder().tag(context).url(getFileUrl() + "uploader/image").files(new Pair<String, File>("file", file)).params(params).upload(callback);
         }
 
     }

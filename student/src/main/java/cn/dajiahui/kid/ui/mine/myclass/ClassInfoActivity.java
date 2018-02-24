@@ -14,7 +14,6 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.mine.bean.BeClassDetail;
 import cn.dajiahui.kid.util.DjhJumpUtil;
-import cn.dajiahui.kid.util.Logger;
 
 
 /*
@@ -33,8 +32,8 @@ public class ClassInfoActivity extends FxActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle classInfobundle = this.getIntent().getExtras();
-        classId = (String) classInfobundle.get("CLASSID");
-        setfxTtitle((String) classInfobundle.get("CLASSNAME"));
+        classId = (String) classInfobundle.get("CLASS_ID");
+        setfxTtitle((String) classInfobundle.get("CLASS_NAME"));
         onBackText();
         onRightBtn(R.string.mine_class_space);
         httpClassDetail();
@@ -44,7 +43,7 @@ public class ClassInfoActivity extends FxActivity {
     @Override
     public void onRightBtnClick(View view) {
         Bundle bundle = new Bundle();
-        bundle.putString("CLASSID", classId);
+        bundle.putString("CLASS_ID", classId);
         DjhJumpUtil.getInstance().startBaseActivity(ClassInfoActivity.this, ClassSpaceActivity.class, bundle, 0);
     }
 
@@ -98,12 +97,13 @@ public class ClassInfoActivity extends FxActivity {
         @Override
         public void onResponse(String response) {
 
-            Logger.d("退出班级 ：" + response);
-
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
-
+                BeClassDetail beClassDetail = json.parsingObject(BeClassDetail.class);
+                mTeacher.setText("老师：" + beClassDetail.getTeacher_name());
+                mCount.setText("人数：" + beClassDetail.getStudents_num());
+                mCode.setText("班级码：" + beClassDetail.getCode());
 
             } else {
                 ToastUtil.showToast(ClassInfoActivity.this, json.getMsg());
@@ -124,15 +124,12 @@ public class ClassInfoActivity extends FxActivity {
         @Override
         public void onResponse(String response) {
 
-            Logger.d("班级详情：" + response);
+
 
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
-                BeClassDetail beClassDetail = json.parsingObject(BeClassDetail.class);
-                mTeacher.setText("老师：" + beClassDetail.getTeacher_name());
-                mCount.setText("人数：" + beClassDetail.getStudents_num());
-                mCode.setText("班级码：" + beClassDetail.getCode());
+
 
             } else {
                 ToastUtil.showToast(ClassInfoActivity.this, json.getMsg());

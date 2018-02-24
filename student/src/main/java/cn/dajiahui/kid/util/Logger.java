@@ -3,7 +3,7 @@ package cn.dajiahui.kid.util;
 import android.util.Log;
 
 /**
- * Created by efan on 2017/4/13.
+ * Created by mj .
  */
 
 public class Logger {

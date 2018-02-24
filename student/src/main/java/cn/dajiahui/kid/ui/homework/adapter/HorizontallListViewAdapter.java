@@ -12,11 +12,13 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
+import cn.dajiahui.kid.util.Logger;
 
 /*填空题 横划listview适配器*/
 public class HorizontallListViewAdapter extends BaseAdapter {
@@ -26,17 +28,18 @@ public class HorizontallListViewAdapter extends BaseAdapter {
     private final SubmitEditext submitEditext;
     private MyFoucus myFoucus;
     private EditChangedListener editChangedListener;//editext监听器
-    public Map<Integer, String> inputContainer;// = new HashMap<Integer, Object>();//存editext的集合
+    public Map<Integer, String> inputContainer = new HashMap();//存editext的集合
 
-    private Map<Integer, CompletionQuestionModle> mList;//数据源
+    //    private Map<Integer, CompletionQuestionModle> mList;//数据源
+    private int letterNum;//每个横划listview的item的数量
     private int selfposition;//HorizontallList在碎片中的索引（用于取出当前的HorizontallList）
     private String haveFocus = "";//用于网络请求后清空editext所有焦点
     public String IsShowRightAnswer = "";//是否显示editext
 
     public void setmList(Map<Integer, CompletionQuestionModle> mList) {
-        this.mList = mList;
-        this.IsShowRightAnswer ="yes";
-        haveFocus="false";
+//        this.mList = mList;
+        this.IsShowRightAnswer = "yes";
+        haveFocus = "false";
     }
 
     /*获取答案的集合*/
@@ -45,17 +48,30 @@ public class HorizontallListViewAdapter extends BaseAdapter {
     }
 
     public void setInputContainer(Map<Integer, String> inputContainer) {
-        this.inputContainer = inputContainer;
-
+        if (inputContainer != null) {
+            if (this.inputContainer == null) {
+                this.inputContainer = new HashMap();
+            }
+            for (int a = 0; a < inputContainer.size(); a++) {
+                this.inputContainer.put(a, inputContainer.get(a));
+            }
+            Logger.d(this.inputContainer.toString());
+        }
         notifyDataSetChanged();
     }
 
-    public HorizontallListViewAdapter(Context context, SubmitEditext submitEditext, int selfposition, Map<Integer, String> inputContainer, Map<Integer, CompletionQuestionModle> list, CompletionQuestionModle inbasebean) {
+
+    public HorizontallListViewAdapter(Context context, SubmitEditext submitEditext, int selfposition, Map<Integer, String> inputContainer, int letterNum, CompletionQuestionModle inbasebean) {
         this.mContext = context;
-        this.mList = list;
+        this.letterNum = letterNum;
         this.submitEditext = submitEditext;
         this.selfposition = selfposition;
-        this.inputContainer = inputContainer;
+        if (inputContainer != null) {
+            for (int a = 0; a < inputContainer.size(); a++) {
+                this.inputContainer.put(a, inputContainer.get(a));
+            }
+        }
+
         this.haveFocus = inbasebean.getIsFocusable();
         this.IsShowRightAnswer = inbasebean.getIsShowRightAnswer();
         myFoucus = new MyFoucus();
@@ -65,12 +81,12 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mList.size();
+        return letterNum;
     }
 
     @Override
     public Object getItem(int position) {
-        return mList.get(position);
+        return letterNum;
     }
 
     @Override
@@ -91,8 +107,16 @@ public class HorizontallListViewAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.match_league_round_item, parent, false);
 
             holderView.editext = (EditText) convertView.findViewById(R.id.editext);
-            holderView.textView = (TextView) convertView.findViewById(R.id.textView);
-//            holderView.match_league_roung_item_ll = (LinearLayout) convertView.findViewById(R.id.match_league_roung_item_ll);
+            holderView.tv_rightanswer = (TextView) convertView.findViewById(R.id.tv_rightanswer);
+            holderView.tv_num = (TextView) convertView.findViewById(R.id.tv_num);
+
+            if (position == 0) {
+                holderView.tv_num.setVisibility(View.VISIBLE);
+                holderView.tv_num.setText((this.selfposition + 1) + ".");
+            } else {
+                holderView.tv_num.setVisibility(View.GONE);
+            }
+
             // 注册上自己写的焦点监听
             holderView.editext.setOnFocusChangeListener(myFoucus);
 
@@ -115,42 +139,34 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
         holderView.editext.removeTextChangedListener(editChangedListener);
 
-        if (inputContainer != null) {
-//            Logger.d("---------------inputContainer.get(position).toString():" + inputContainer.get(position).toString());
-            if (inputContainer.containsKey(position)) {
-//                for (int i = 0; i < inputContainer.size(); i++) {
-//                    Logger.d("---------------inputContainer.get(position).toString():" + inputContainer.get(position).toString());
-//                }
-//                Logger.d("---------------1");
-
-                String s = inputContainer.get(position).toString();
-
-                holderView.editext.setText(inputContainer.get(position).toString());
-            } else {
-
-                holderView.editext.setText("");
+        if (this.inputContainer.containsKey(position)) {
+            if (this.inputContainer.get(position) != null) {
+                holderView.editext.setText(this.inputContainer.get(position).toString());
             }
+        } else {
+            holderView.editext.setText("");
         }
+
 
         if (IsShowRightAnswer.equals("no")) {
             /*不显示正确答案*/
-            holderView.textView.setText("");
+            holderView.tv_rightanswer.setText("");
 
         } else if (IsShowRightAnswer.equals("yes")) {
-              /*显示正确答案*/
-            holderView.textView.setText(mList.get(position).getAnalysisAnswer());
-            /*字颜色是绿色*/
-//            holderView.textView.setTextColor( );
-            holderView.editext.setText(mList.get(position).getAnalysisMineAnswer());
-
-               /*更改边框颜色*/
-            if (mList.get(position).getTextcolor().equals("green")) {
-
-                holderView.editext.setBackgroundResource(R.drawable.select_completion_editext);
-            } else {
-                holderView.editext.setBackgroundResource(R.drawable.select_judge_image);
-
-            }
+//              /*显示正确答案*/
+//            holderView.textView.setText(mList.get(position).getAnalysisAnswer());
+//            /*字颜色是绿色*/
+////            holderView.textView.setTextColor( );
+//            holderView.editext.setText(mList.get(position).getAnalysisMineAnswer());
+//
+//               /*更改边框颜色*/
+//            if (mList.get(position).getTextcolor().equals("green")) {
+//
+//                holderView.editext.setBackgroundResource(R.drawable.select_completion_editext);
+//            } else {
+//                holderView.editext.setBackgroundResource(R.drawable.select_judge_image);
+//
+//            }
         }
 
 
@@ -166,8 +182,8 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
     class HolderView {
         EditText editext;
-        TextView textView;
-//        LinearLayout match_league_roung_item_ll;
+        TextView tv_rightanswer;
+        TextView tv_num;
     }
 
     class EditChangedListener implements TextWatcher {
@@ -193,7 +209,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
         @Override
         public void afterTextChanged(Editable s) {
             inputContainer.put(position, s.toString());
-//            /** 得到光标开始和结束位置 ,超过最大数后记录刚超出的数字索引进行控制 */
+//            /*得到光标开始和结束位置 ,超过最大数后记录刚超出的数字索引进行控制 */
             editStart = this.editText.getSelectionStart();
             editEnd = this.editText.getSelectionEnd();
 

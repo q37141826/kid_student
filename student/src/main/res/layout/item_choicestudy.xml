@@ -1,44 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:background="@color/white"
-    android:descendantFocusability="blocksDescendants"
-    android:gravity="center"
-    android:padding="30dp">
+    android:background="@color/gray_F5F5F5">
 
-
-    <cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar
-        android:id="@+id/seek_item"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:max="100"/>
-
-
-    <ImageView
-        android:id="@+id/id_itemimage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/seek_item"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_launcher"/>
-
-
-    <TextView
-        android:id="@+id/tv_typename"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/id_itemimage"
-        android:layout_centerHorizontal="true"
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:singleLine="true"
-        android:text="点读本"
-        android:textColor="@color/color5A"
-        android:textSize="@dimen/text18"/>
+        android:background="@drawable/round_bgyellow_study"
+        android:gravity="center"
+        android:padding="10dp">
 
 
+        <RelativeLayout
+            android:id="@+id/shedul"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/study"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="学习进度"/>
+
+            <!--<cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar-->
+            <!--android:id="@+id/seek_item"-->
+            <!--android:layout_width="200dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_toEndOf="@+id/study"-->
+            <!--android:max="100"/>-->
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/itemimageroot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shedul"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/round_bgwhite"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/itemimage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:src="@drawable/ic_launcher"/>
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_typename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/itemimageroot"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:text="点读本"
+            android:textColor="@color/color5A"
+            android:textSize="@dimen/text18"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
 </RelativeLayout>

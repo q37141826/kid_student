@@ -63,6 +63,8 @@ public class PersonalStereoActivity extends FxActivity {
 
         }
     };
+    private String book_id;
+    private String unit_id;
 
 
     @Override
@@ -70,6 +72,10 @@ public class PersonalStereoActivity extends FxActivity {
         super.onCreate(savedInstanceState);
         setfxTtitle("随身听");
         onBackText();
+        Bundle mPersonalStereoBundle = getIntent().getExtras();
+        book_id = mPersonalStereoBundle.getString("BOOK_ID");
+        unit_id = mPersonalStereoBundle.getString("UNIT_ID");
+
         initialize();
         BePersonalStereo bePersonalStereo = new BePersonalStereo("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3");
 

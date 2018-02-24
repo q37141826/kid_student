@@ -1,23 +1,21 @@
 package cn.dajiahui.kid.ui.study.bean;
 
-
-import java.util.List;
-
-import cn.dajiahui.kid.util.BeanObj;
-
 /**
- * 选择单元
+ * Created by mj on 2018/2/23.
+ * <p>
+ * 选择教材系列下的列表集合
  */
 
-public class ChooseUtils extends BeanObj {
+public class BeChoiceTeachingMaterialInfoLists {
 
     private String book_type;
     private String id;
-    private List<ChooseUtilsLists> lists;
     private String logo;
     private String name;
     private String org_id;
     private String series;
+    private String updated_at;
+
 
     public String getBook_type() {
         return book_type;
@@ -33,14 +31,6 @@ public class ChooseUtils extends BeanObj {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public List<ChooseUtilsLists> getLists() {
-        return lists;
-    }
-
-    public void setLists(List<ChooseUtilsLists> lists) {
-        this.lists = lists;
     }
 
     public String getLogo() {
@@ -75,16 +65,24 @@ public class ChooseUtils extends BeanObj {
         this.series = series;
     }
 
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
+
     @Override
     public String toString() {
-        return "ChooseUtils{" +
+        return "BeChoiceTeachingMaterialInfoLists{" +
                 "book_type='" + book_type + '\'' +
                 ", id='" + id + '\'' +
-                ", lists=" + lists +
                 ", logo='" + logo + '\'' +
                 ", name='" + name + '\'' +
                 ", org_id='" + org_id + '\'' +
                 ", series='" + series + '\'' +
+                ", updated_at='" + updated_at + '\'' +
                 '}';
     }
 }

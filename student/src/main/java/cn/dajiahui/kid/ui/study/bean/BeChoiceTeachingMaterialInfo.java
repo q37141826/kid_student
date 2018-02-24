@@ -1,5 +1,7 @@
 package cn.dajiahui.kid.ui.study.bean;
 
+import java.util.List;
+
 import cn.dajiahui.kid.util.BeanObj;
 
 /**
@@ -8,39 +10,32 @@ import cn.dajiahui.kid.util.BeanObj;
  */
 
 public class BeChoiceTeachingMaterialInfo extends BeanObj {
-    private String teachingMaterialInfopic;
-    private String teachingMaterialInfoName;
-    private String teachingMaterialInfoState;
+    private List<BeChoiceTeachingMaterialInfoLists> lists;
+    private String totalRows;
 
-
-    public BeChoiceTeachingMaterialInfo(String teachingMaterialInfopic, String teachingMaterialInfoName) {
-        this.teachingMaterialInfopic = teachingMaterialInfopic;
-        this.teachingMaterialInfoName = teachingMaterialInfoName;
-
+    public List<BeChoiceTeachingMaterialInfoLists> getLists() {
+        return lists;
     }
 
-    public String getTeachingMaterialInfopic() {
-        return teachingMaterialInfopic;
+    public void setLists(List<BeChoiceTeachingMaterialInfoLists> lists) {
+        this.lists = lists;
     }
 
-    public void setTeachingMaterialInfopic(String teachingMaterialInfopic) {
-        this.teachingMaterialInfopic = teachingMaterialInfopic;
+    public String getTotalRows() {
+        return totalRows;
     }
 
-    public String getTeachingMaterialInfoName() {
-        return teachingMaterialInfoName;
+    public void setTotalRows(String totalRows) {
+        this.totalRows = totalRows;
     }
 
-    public void setTeachingMaterialInfoName(String teachingMaterialInfoName) {
-        this.teachingMaterialInfoName = teachingMaterialInfoName;
-    }
 
-    public String getTeachingMaterialInfoState() {
-        return teachingMaterialInfoState;
-    }
-
-    public void setTeachingMaterialInfoState(String teachingMaterialInfoState) {
-        this.teachingMaterialInfoState = teachingMaterialInfoState;
+    @Override
+    public String toString() {
+        return "BeChoiceTeachingMaterialInfo{" +
+                "lists=" + lists +
+                ", totalRows='" + totalRows + '\'' +
+                '}';
     }
 }
 

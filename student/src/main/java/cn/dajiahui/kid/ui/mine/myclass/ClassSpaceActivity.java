@@ -20,6 +20,7 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.mine.adapter.ApClassSpace;
 import cn.dajiahui.kid.ui.mine.bean.BeClassSpace;
+import cn.dajiahui.kid.ui.mine.bean.BeClassSpaceList;
 import cn.dajiahui.kid.util.Logger;
 
 
@@ -29,7 +30,7 @@ import cn.dajiahui.kid.util.Logger;
 public class ClassSpaceActivity extends FxActivity {
     private ListView mListview;
     private MaterialRefreshLayout refresh;
-    private List<BeClassSpace> classSpacesList = new ArrayList<>();
+    private List<BeClassSpaceList> classSpacesList = new ArrayList<>();
     private String classId;
     private ApClassSpace apClassSpace;
 
@@ -38,13 +39,14 @@ public class ClassSpaceActivity extends FxActivity {
         super.onCreate(savedInstanceState);
         setfxTtitle(R.string.mine_class_space);
         onBackText();
-        Bundle classInfobundle = this.getIntent().getExtras();
-        classId = (String) classInfobundle.get("CLASSID");
+
     }
 
     @Override
     protected void initView() {
         setContentView(R.layout.activity_class_space);
+        Bundle classSpacebundle = this.getIntent().getExtras();
+        classId = (String) classSpacebundle.get("CLASS_ID");
 
         mListview = getView(R.id.listview);
         refresh = getView(R.id.refresh);
@@ -79,12 +81,17 @@ public class ClassSpaceActivity extends FxActivity {
 
     /*班级空间*/
     private void httpClassSpace() {
-
-        RequestUtill.getInstance().httpClassSpace(ClassSpaceActivity.this, callClassSpace, classId);
+        httpData();
     }
 
 
-    /*班级详情*/
+    @Override
+    public void httpData() {
+        super.httpData();
+        RequestUtill.getInstance().httpClassSpace(ClassSpaceActivity.this, callClassSpace, classId, mPageSize + "", mPageNum + "");
+    }
+
+    /*班级空间*/
     ResultCallback callClassSpace = new ResultCallback() {
         @Override
         public void onError(Request request, Exception e) {
@@ -94,14 +101,16 @@ public class ClassSpaceActivity extends FxActivity {
         @Override
         public void onResponse(String response) {
 
-            Logger.d("班级空间 ：" + response);
+            Logger.d("学生端班级空间 ：" + response);
 
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
-//                classSpacesList.clear();
-//                classSpacesList.add();
 
+                BeClassSpace beClassSpace = json.parsingObject(BeClassSpace.class);
+                List<BeClassSpaceList> list = beClassSpace.getList();
+                classSpacesList.clear();
+                classSpacesList.addAll(list);
                 apClassSpace.notifyDataSetChanged();
             } else {
                 ToastUtil.showToast(ClassSpaceActivity.this, json.getMsg());

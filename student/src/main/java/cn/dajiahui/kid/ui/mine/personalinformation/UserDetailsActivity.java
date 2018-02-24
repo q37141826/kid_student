@@ -16,6 +16,7 @@ import com.fxtx.framework.image.util.ImageUtil;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
+import com.fxtx.framework.util.BaseUtil;
 import com.fxtx.framework.widgets.dialog.BottomDialog;
 import com.squareup.okhttp.Request;
 
@@ -28,6 +29,7 @@ import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.chat.constant.PreferenceManager;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
+import cn.dajiahui.kid.ui.mine.bean.BeUpUserIcon;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.Logger;
 
@@ -102,16 +104,23 @@ public class UserDetailsActivity extends FxActivity {
                         dialog.show();
                     break;
 
-                case R.id.re_user_name:
-                    //点击用户姓名行
-//                    DjhJumpUtil.getInstance().startUserSetActivity(context, Constant.user_edit_name);
-                    Toast.makeText(context, "姓名UI样式未确定，需要沟通！", Toast.LENGTH_SHORT).show();
+//                case R.id.re_user_name:
+//                    //点击用户姓名行
+////                    DjhJumpUtil.getInstance().startUserSetActivity(context, Constant.user_edit_name);
+//                    Toast.makeText(context, "姓名UI样式未确定，需要沟通！", Toast.LENGTH_SHORT).show();
+//                    break;
+
+                case R.id.tv_user_name_right:
+
+
                     break;
                 case R.id.re_user_sex:
+                    BaseUtil.hideSoftInput(UserDetailsActivity.this);
                     Toast.makeText(context, "性别UI样式未确定，需要沟通！", Toast.LENGTH_SHORT).show();
 //                    DjhJumpUtil.getInstance().startUserSetActivity(context, Constant.user_edit_sex);
                     break;
                 case R.id.re_user_age:
+                    BaseUtil.hideSoftInput(UserDetailsActivity.this);
                     Toast.makeText(context, "年龄UI样式未确定，需要沟通！", Toast.LENGTH_SHORT).show();
 //                    DjhJumpUtil.getInstance().startUserSetActivity(context, Constant.user_edit_age);
 
@@ -144,14 +153,8 @@ public class UserDetailsActivity extends FxActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Logger.d("-------------------------------------1");
         if (resultCode == RESULT_OK) {
-//            //用户信息修改
-//            if (requestCode == DjhJumpUtil.getInstance().activtiy_UserSet)
-//                Logger.d("-------------------------------------2");
-////               initData();
             if (requestCode == DjhJumpUtil.getInstance().activtiy_SelectPhoto) {
-                Logger.d("-------------------------------------3");
                 //上传选择的照片
                 ArrayList<String> strings = data.getStringArrayListExtra(Constant.bundle_obj);
                 File file = new File(strings.get(0));
@@ -159,7 +162,6 @@ public class UserDetailsActivity extends FxActivity {
                 httpUserIcon(file);
             }
             if (requestCode == TAKE_CAMERA_PICTURE) {
-                Logger.d("-------------------------------------4");
                 Bitmap map = ImageUtil.uriToBitmap(Uri.fromFile(new File(path + imagename)), context);
                 int degree = ImageUtil.readPictureDegree(path + imagename);
                 if (degree != 0) {
@@ -180,11 +182,14 @@ public class UserDetailsActivity extends FxActivity {
         return imageName;
     }
 
+    /*上传头像*/
     public void httpUserIcon(File file) {
         showfxDialog(R.string.submiting);
         RequestUtill.getInstance().uploadUserIcon(context, new ResultCallback() {
             @Override
             public void onError(Request request, Exception e) {
+                Logger.d("头像上传失败！");
+                dialog.dismiss();
                 dismissfxDialog();
                 ToastUtil.showToast(context, ErrorCode.error(e));
             }
@@ -192,19 +197,18 @@ public class UserDetailsActivity extends FxActivity {
             @Override
             public void onResponse(String response) {
                 dismissfxDialog();
+                dialog.dismiss();
                 HeadJson headJson = new HeadJson(response);
-                if (headJson.getstatus() == 1) {
-                    UserController.getInstance().getUser().setAvator(headJson.parsingString("avator"));
+                if (headJson.getstatus() == 0) {
+                    UserController.getInstance().getUser().setAvator(headJson.parsingObject(BeUpUserIcon.class).getUrl());
                     PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvator());
-                    /*显示图片  第二个参数是网址url  需要修改*/
-                    GlideUtil.showNoneImage(UserDetailsActivity.this, UserController.getInstance().getUser().getAvator(), userIcon, R.drawable.ico_default_user, true);
-                    initData();
+                    GlideUtil.showRoundImage(UserDetailsActivity.this, UserController.getInstance().getUser().getAvator(), userIcon, R.drawable.ico_default_user, true);
                     ToastUtil.showToast(context, R.string.save_ok);
                     setResult(PICSETSULT);
                 } else {
                     ToastUtil.showToast(context, headJson.getMsg());
                 }
             }
-        }, file, UserController.getInstance().getUserId());
+        }, file);
     }
 }

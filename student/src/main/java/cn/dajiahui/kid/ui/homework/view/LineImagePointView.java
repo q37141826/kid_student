@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -27,9 +28,12 @@ import cn.dajiahui.kid.ui.homework.myinterface.Sublineinfo;
  */
 
 
-public class LineImagePointView extends RelativeLayout implements View.OnClickListener  {
+public class LineImagePointView extends RelativeLayout implements View.OnClickListener {
     private Context context;
-    private final ImageView imageView;
+    private ImageView imageViewL;
+    private ImageView imageViewR;
+    private TextView textViewL;
+    private TextView textViewR;
     public CricleTextView pointview;
     private int cLeftposiion = 0;
     private LineQuestionModle inbasebean;
@@ -37,6 +41,8 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     public String value;
     public List<BeLineLeft> lefts = new ArrayList<>();
     public List<BeLineRight> rights = new ArrayList<>();
+    private String showLeftFlag = "";
+    private String showRightFlag = "";
 
 
     public void selected(boolean flag) {
@@ -75,7 +81,7 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     }
 
     @SuppressLint("ResourceType")
-    public LineImagePointView(Context context, Sublineinfo sublineinfo, int pic, int cLeftposiion, LineQuestionModle inbasebean, Dir direction) {
+    public LineImagePointView(Context context, Sublineinfo sublineinfo, int cLeftposiion, LineQuestionModle inbasebean, Dir direction) {
         super(context);
         this.sublineinfo = sublineinfo;
         this.context = context;
@@ -88,46 +94,117 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
         LayoutParams lp = new LayoutParams(200, 100);
         lp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 
-        imageView = new ImageView(context);
 
-        imageView.setImageResource(pic);
-        imageView.setId(R.string.show_pointleft);
         if (direction == Dir.left) {//左边
+            String content = inbasebean.getOptions().getLeft().get(cLeftposiion).getContent();
+            String substring = content.substring(0, 2);
+            if (substring.equals("ht")) {
+                showLeftFlag = "IMG";
+                imageViewL = addLImageView();
+                imageViewL.setId(R.string.show_pointleft);
 
-            Glide.with(context)
-                    .load(inbasebean.getOptions().getRight().get(cLeftposiion).getContent())
-                    .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(imageView);
+                imageViewL.setLayoutParams(lp);
+                this.addView(imageViewL);
+            } else {
+                showLeftFlag = "TXT";
+                textViewL = addLTextView();
+                textViewL.setId(R.string.show_pointleft);
+
+                textViewL.setLayoutParams(lp);
+                this.addView(textViewL);
+            }
             this.value = inbasebean.getOptions().getLeft().get(cLeftposiion).getVal();
-
             addPointLeft();//添加左边小黑点
-            imageView.setLayoutParams(lp);
-
-            this.addView(imageView);
-
 
         } else {//右边
-            Glide.with(context)
-                    .load(inbasebean.getOptions().getRight().get(cLeftposiion).getContent())
-                    .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(imageView);
+
             this.value = inbasebean.getOptions().getRight().get(cLeftposiion).getVal();
-            lp.leftMargin = 30;
             addPointRight();//添加右边小黑点
-            imageView.setLayoutParams(lp);
-            this.addView(imageView);
+
+
+            String content = inbasebean.getOptions().getRight().get(cLeftposiion).getContent();
+            String substring = content.substring(0, 2);
+            if (substring.equals("ht")) {
+                showRightFlag = "IMG";
+                imageViewR = addRImageView();
+                lp.leftMargin = 30;
+                imageViewR.setLayoutParams(lp);
+
+                this.addView(imageViewR);
+
+            } else {
+                showRightFlag = "TXT";
+                textViewR = addRTextView();
+                textViewR.setId(R.string.show_pointright);
+
+                textViewR.setLayoutParams(lp);
+                this.addView(textViewR);
+
+            }
+
+
         }
         this.selected(false);
 
     }
 
+
+    /*添加左侧图片*/
+    private ImageView addLImageView() {
+        ImageView imageView = new ImageView(context);
+        Glide.with(context)
+                .load(inbasebean.getOptions().getLeft().get(cLeftposiion).getContent())
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+
+        return imageView;
+    }
+
+    /*添加左侧文字*/
+    private TextView addLTextView() {
+        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        lp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+
+        TextView textView = new TextView(context);
+        textView.setText(inbasebean.getOptions().getLeft().get(cLeftposiion).getContent());
+        textView.setLayoutParams(lp);
+        return textView;
+    }
+
+
+    /*添加右侧图片*/
+    private ImageView addRImageView() {
+        ImageView imageView = new ImageView(context);
+        Glide.with(context)
+                .load(inbasebean.getOptions().getRight().get(cLeftposiion).getContent())
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+
+        return imageView;
+    }
+
+    /*添加右侧文字*/
+    private TextView addRTextView() {
+        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        lp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+        lp.addRule(LEFT_OF, pointview.getId());
+
+        TextView textView = new TextView(context);
+        textView.setText(inbasebean.getOptions().getRight().get(cLeftposiion).getContent());
+        textView.setLayoutParams(lp);
+        return textView;
+    }
+
+
     /*添加小黑点 右*/
+    @SuppressLint("ResourceType")
     public void addPointRight() {
         pointview = new CricleTextView(context);
         LayoutParams lp = new LayoutParams(30, 30);
         lp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+        pointview.setId(R.string.show_pointright);
 
         pointview.setLayoutParams(lp);
         this.addView(pointview);
@@ -142,7 +219,11 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
         LayoutParams lp = new LayoutParams(30, 30);
         lp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
         lp.addRule(CENTER_VERTICAL, TRUE);
-        lp.addRule(RIGHT_OF, imageView.getId());
+        if (showLeftFlag.equals("IMG")) {
+            lp.addRule(RIGHT_OF, imageViewL.getId());
+        } else {
+            lp.addRule(RIGHT_OF, textViewL.getId());
+        }
         pointview.setLayoutParams(lp);
         this.addView(pointview);
 
