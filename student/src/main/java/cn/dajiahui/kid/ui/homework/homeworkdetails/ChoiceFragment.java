@@ -112,9 +112,9 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         img_conment = getView(R.id.img_conment);
 //        scrollView = getView(R.id.srcllview);
            /*判断是否已经上传后台 0 没答过题  1 答过题*/
-        if (inbasebean.getIs_answer().equals("0")) {
+//        if (inbasebean.getIs_answer().equals("0")) {
             img_play.setOnClickListener(onClick);
-        }
+//        }
 
     }
 

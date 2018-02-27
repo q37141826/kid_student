@@ -78,6 +78,7 @@ public class LineFragment extends BaseHomeworkFragment implements
 
 
     private Map<String, Integer> myanswerMap = new HashMap<>();//我的答案集合（val对应）
+    private String media;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -87,6 +88,7 @@ public class LineFragment extends BaseHomeworkFragment implements
     @Override
     public void setArguments(Bundle bundle) {
         inbasebean = (LineQuestionModle) bundle.get("LineQuestionModle");
+        media = inbasebean.getMedia();
     }
 
     /*添加左右侧图片*/
@@ -584,7 +586,7 @@ public class LineFragment extends BaseHomeworkFragment implements
         switch (v.getId()) {
 
             case R.id.img_play:
-                playMp3(inbasebean.getMedia());
+                playMp3(media);
                 break;
             case R.id.mLeft:
                 if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {

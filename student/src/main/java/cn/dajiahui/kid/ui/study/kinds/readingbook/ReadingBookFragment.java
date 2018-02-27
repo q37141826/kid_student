@@ -75,7 +75,6 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
 
         private double loadWidth, loadHeight, selfHeight, selfWidth;
 
-
         @Override
         public void handleMessage(android.os.Message msg) {
             if (msg.what == 0 && PlayMedia.getPlaying().mediaPlayer != null) {
@@ -102,18 +101,15 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
                 Logger.d("实时：" + currentPosition);
             }
             if (msg.what == 1) {
-                imgSelf_W_H imgW_h = (imgSelf_W_H) msg.obj;
+                ImgSelf_W_H imgW_h = (ImgSelf_W_H) msg.obj;
                 selfWidth = imgW_h.getWidth();
                 selfHeight = imgW_h.getHeight();
-//                Message message = Message.obtain();
-//                message.what = 3;
-//                handler.sendMessage(message);
-
             }
             if (msg.what == 2) {
-                imgLoad_W_H imgW_h = (imgLoad_W_H) msg.obj;
+                ImgLoad_W_H imgW_h = (ImgLoad_W_H) msg.obj;
                 loadWidth = imgW_h.getWidth();
                 loadHeight = imgW_h.getHeight();
+                Logger.d("加载之后的:  loadWidth" + loadWidth + "  loadHeight:" + loadHeight);
                 Message message = Message.obtain();
                 message.what = 3;
                 handler.sendMessage(message);
@@ -121,7 +117,8 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
             }
             if (msg.what == 3) {
                 double phoneWidth = BaseUtil.getPhoneWidth(getActivity());
-                double f1 = selfWidth / phoneWidth;
+                Logger.d("phoneWidth:" + phoneWidth);
+                double f1 = selfWidth / loadWidth;
                 double f2 = selfHeight / loadHeight;
                 Logger.d("selfWidth:" + selfWidth + "  selfHeight:" + selfHeight + "  loadWidth:" + loadWidth + "  loadHeight:" + loadHeight);
                 Logger.d("f1:" + f1 + "  f2:" + f2);
@@ -133,12 +130,14 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
                     double vw = v1 / f1;
                     double v2 = Integer.parseInt(beReadingBookPageData.getItem().get(i).getHeight());
                     double vh = v2 / f2;
+                    Logger.d("框框宽 getWidth :" + v1 + "  框框高getHeight:" + v2);
+                    Logger.d("变形后------框框宽 getWidth :" + v1 + "  框框高getHeight:" + v2);
                     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int) vw, (int) vh);
                     double x = Double.parseDouble(beReadingBookPageData.getItem().get(i).getPoint_x());
                     double y = Double.parseDouble(beReadingBookPageData.getItem().get(i).getPoint_y());
-                    double vx = x / f1;
-                    double vy = y / f2;
-
+                    double vx = x * loadWidth / selfWidth;
+                    double vy = y * loadHeight / selfHeight;
+                    Logger.d("变形后------框框X点  :" + x + "  框框Y点 :" + y);
                     params.setMargins((int) vx, (int) vy, 0, 0);
                     pointReadView.setLayoutParams(params);
                     mPointReadViewList.add(pointReadView);
@@ -152,33 +151,8 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
     private int position;
     private String media_url;
 
-//
-//    @Override
-//    protected View initinitLayout(LayoutInflater inflater) {
-//
-////        bundle = getArguments();
-////        page_data = (List<BeReadingBookPageData>) bundle.getSerializable("page_data");
-////        position = bundle.getInt("position");
-////        beReadingBookPageData = page_data.get(position);
-////
-////        media_url = beReadingBookPageData.getMedia_url();
-////         /*获取Mp4视频名称和背景音名称*/
-////
-////        String sMp3 = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
-////
-////       /*判断mp3文件是否下载过*/
-////        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + sMp3)) {
-////
-////            downloadKaraOkeMp4();
-////        } else {
-////
-////        }
-//
-//        return inflater.inflate(R.layout.fr_read, null);
-//    }
-
-    /*下载卡拉okmp4*/
-    private void downloadKaraOkeMp4() {
+    /*下载点读本mp3*/
+    private void downloadReadingBook() {
         Logger.d("下载----downloadKaraOkeMp3----");
 
         BeDownFile file = new BeDownFile(Constant.file_pointreading, media_url, "", KidConfig.getInstance().getPathTemp());
@@ -192,63 +166,6 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
         });
     }
 
-//    @Override
-//    public void onViewCreated(View view, Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        readingBookFragment = this;
-//
-//        //获取图片真正的宽高
-//        Glide.with(this)
-//                .load(beReadingBookPageData.getPage_url())
-//                .asBitmap()//强制Glide返回一个Bitmap对象
-//                .into(new SimpleTarget<Bitmap>() {
-//                    @Override
-//                    public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
-//                        int mSelfWidth = bitmap.getWidth();
-//                        int mSelfHeight = bitmap.getHeight();
-//
-//                        Message msg = Message.obtain();
-//                        msg.obj = new imgSelf_W_H((float) mSelfWidth, (float) mSelfHeight);
-//                        msg.what = 1;
-//                        handler.sendMessage(msg);
-//
-//                    }
-//                });
-//
-//        //获取图片显示在ImageView后的宽高
-//        Glide.with(this)
-//                .load(beReadingBookPageData.getPage_url())
-//                .asBitmap()//强制Glide返回一个Bitmap对象
-//                .listener(new RequestListener<String, Bitmap>() {
-//                    @Override
-//                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-//                        Logger.d("onException " + e.toString());
-//                        return false;
-//                    }
-//
-//                    @Override
-//                    public boolean onResourceReady(Bitmap bitmap, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                        int mReallyWidth = bitmap.getWidth();
-//                        int mReallyHeight = bitmap.getHeight();
-//                        Message msg = Message.obtain();
-//                        msg.obj = new imgLoad_W_H((float) mReallyWidth, (float) mReallyHeight);
-//                        msg.what = 2;
-//                        handler.sendMessage(msg);
-//                        return false;
-//                    }
-//                }).into(img_readbook_bg);
-//
-//
-//        //参数2：延迟200毫秒发送，参数3：每隔200毫秒秒发送一下
-//        if (timer == null) {
-//            timer = new Timer();
-//            timer.schedule(timerTask, 200, 200);
-//
-//        }
-//
-//
-//    }
 
     TimerTask timerTask = new TimerTask() {
         @Override
@@ -303,7 +220,7 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
                         int mReallyWidth = bitmap.getWidth();
                         int mReallyHeight = bitmap.getHeight();
                         Message msg = Message.obtain();
-                        msg.obj = new imgLoad_W_H((float) mReallyWidth, (float) mReallyHeight);
+                        msg.obj = new ImgLoad_W_H((float) mReallyWidth, (float) mReallyHeight);
                         msg.what = 2;
                         handler.sendMessage(msg);
                         return false;
@@ -325,9 +242,7 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
        /*判断mp3文件是否下载过*/
         if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + sMp3)) {
 
-            downloadKaraOkeMp4();
-        } else {
-
+            downloadReadingBook();
         }
         readingBookFragment = this;
 
@@ -342,7 +257,7 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
                         int mSelfHeight = bitmap.getHeight();
 
                         Message msg = Message.obtain();
-                        msg.obj = new imgSelf_W_H((float) mSelfWidth, (float) mSelfHeight);
+                        msg.obj = new ImgSelf_W_H((float) mSelfWidth, (float) mSelfHeight);
                         msg.what = 1;
                         handler.sendMessage(msg);
 
@@ -452,8 +367,6 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
 
                   /*文件名以MD5加密*/
             String mp3Name = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
-
-
             if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
                /*读取本地*/
                 PlayMedia.getPlaying().Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(mPointReadViewList.get(readingFlag).getBePlayReadingBook().getStart_time()));
@@ -548,11 +461,11 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
     }
 
     /*网络图片自己的宽高*/
-    class imgSelf_W_H {
+    class ImgSelf_W_H {
         double Width = 0;
         double height = 0;
 
-        public imgSelf_W_H(float width, float height) {
+        public ImgSelf_W_H(float width, float height) {
             Width = width;
             this.height = height;
         }
@@ -566,11 +479,12 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
         }
     }
 
-    class imgLoad_W_H {
+    /*加载之后的宽高*/
+    class ImgLoad_W_H {
         double Width = 0;
         double height = 0;
 
-        public imgLoad_W_H(float width, float height) {
+        public ImgLoad_W_H(float width, float height) {
             Width = width;
             this.height = height;
         }

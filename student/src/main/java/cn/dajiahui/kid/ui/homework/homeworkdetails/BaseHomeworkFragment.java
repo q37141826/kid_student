@@ -50,7 +50,6 @@ public abstract class BaseHomeworkFragment extends FxFragment {
     public void onStop() {
         super.onStop();
         mediaPlayer.stop();
-//        Log.d("majin", " ReadingBookFragment onStop");
     }
 
     @Override
@@ -58,7 +57,6 @@ public abstract class BaseHomeworkFragment extends FxFragment {
         super.onPause();
 
         mediaPlayer.stop();
-//        Log.d("majin", " ReadingBookFragment onPause  ;
     }
 
     public void playMp3(String mp3path) {

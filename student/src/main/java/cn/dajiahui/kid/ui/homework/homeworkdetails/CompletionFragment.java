@@ -222,7 +222,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
         switch (v.getId()) {
             case R.id.img_play:
-                playMp3(inbasebean.getMedia());
+                playMp3(mediaUrl);
                 break;
             default:
                 break;

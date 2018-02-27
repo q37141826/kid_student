@@ -9,6 +9,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.util.List;
+
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 
@@ -23,29 +28,37 @@ public class FixedImagview extends RelativeLayout {
     private Context context;
 
     @SuppressLint("ResourceAsColor")
-    public FixedImagview(Context context, int pic, int position,SortQuestionModle inbasebean) {
+    public FixedImagview(Context context, int pic, int position, List<String> mContentList, SortQuestionModle inbasebean) {
         super(context);
         this.context = context;
         ImageView imageView = new ImageView(context);
         LayoutParams iparams = new LayoutParams(150, 150);
         imageView.setLayoutParams(iparams);
-        imageView.setImageResource(pic);
-//        Glide.with(context)
-//                .load(inbasebean.getOptions().get(position).getContent())
-//                .asBitmap()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(imageView);
-//        imageView.setImageResource(R.drawable.wof);
-        this.addView(imageView);
-        TextView textView = new TextView(context);
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
-        textView.setLayoutParams(params);
-        textView.setText("第" + (position + 1) + "个");
-        this.addView(textView);
-        this.setBackgroundColor(getResources().getColor(R.color.yellow_FEBF12));
+        if (inbasebean.getIs_answer().equals("0")) {
+            imageView.setImageResource(pic);
+            this.addView(imageView);
+            this.setBackgroundColor(getResources().getColor(R.color.yellow_FEBF12));
+        } else {
 
+            String content = inbasebean.getOptions().get(position).getContent();
+            if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
+                Glide.with(context).load(mContentList.get(position)).asBitmap()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+                this.addView(imageView);
+            } else {
+                TextView textView = new TextView(context);
+                LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
+                textView.setLayoutParams(params);
+                textView.setText((position + 1) + "");
+                this.addView(textView);
+            }
+
+
+
+        }
     }
 
     public FixedImagview(Context context, @Nullable AttributeSet attrs) {

@@ -43,6 +43,7 @@ import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
+import cn.dajiahui.kid.util.Logger;
 
 /*
 * 做作业Activity
@@ -84,7 +85,6 @@ public class DoHomeworkActivity extends FxActivity
         Intent intent = getIntent();
           /* sourceFlag=Practice 练习  sourceFlag=HomeWork作业*/
         sourceFlag = intent.getStringExtra("SourceFlag");
-        httpData();
 
         if (sourceFlag.equals("Practice")) {
             Bundle mDoHomeworkbundle = getIntent().getExtras();
@@ -101,6 +101,7 @@ public class DoHomeworkActivity extends FxActivity
             onRightBtn(R.string.AnswerCard);
 
         }
+        httpData();
         onBackTextShowProgress();
 
     }
@@ -130,6 +131,7 @@ public class DoHomeworkActivity extends FxActivity
     ResultCallback callHomeWorkContinue = new ResultCallback() {
         @Override
         public void onError(Request request, Exception e) {
+            Logger.d("作业返回失败json：" + e.toString());
             dismissfxDialog();
         }
 
@@ -162,7 +164,7 @@ public class DoHomeworkActivity extends FxActivity
 //                                Logger.d("选择：" + jsonArray.get(i).toString());
                                 break;
                             case Constant.Sort:
-//                                Logger.d("排序：" + jsonArray.get(i).toString());
+                                Logger.d("排序：" + jsonArray.get(i).toString());
                                 SortQuestionModle sortQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), SortQuestionModle.class);
                                 mDatalist.add(sortQuestionModle);
                                 mAnswerCardList.add(new BeAnswerCArd("1", "", "", mdata.get(i).getQuestion_cate_id(), sortQuestionModle.getId(), i));
@@ -279,7 +281,6 @@ public class DoHomeworkActivity extends FxActivity
 //                            if (praticeCurrentPosition == mDatalist.size()) {
                             changeBtnY();
 //                            }
-
                             return;
                         }
 

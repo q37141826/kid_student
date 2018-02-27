@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.List;
+
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
@@ -39,7 +41,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     private SortQuestionModle inbasebean;//数据模型
     private MoveLocation moveLocation;//接口实例
     public String val;//当前拖动图片的val值
-
+    private List<String> mRightContentList;
 
     /*构造*/
     public MoveImagview(Context context, @Nullable AttributeSet attrs) {
@@ -47,7 +49,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     }
 
     /*构造*/
-    public MoveImagview(Context context, MoveLocation moveLocation, int position, SortQuestionModle inbasebean) {
+    public MoveImagview(Context context, MoveLocation moveLocation, int position, List<String> mRightContentList, SortQuestionModle inbasebean) {
         super(context);
         this.context = context;
         this.setOnTouchListener(this);
@@ -55,9 +57,11 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
         this.moveLocation = moveLocation;
         this.position = position;
         this.val = inbasebean.getOptions().get(position).getVal();
-        /*添加图片*/
-
+        if (inbasebean.getIs_answer().equals("1")) {
+            this.mRightContentList = mRightContentList;
+        }
         addview();
+
     }
 
     /*正确答案构造（后台返回数据后需重新加载一遍排序的图片）*/
@@ -66,11 +70,8 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
         this.context = context;
         this.inbasebean = inbasebean;
         this.position = position;
-
-          /*添加图片*/
+        /*添加图片*/
         addRightview();
-
-
     }
 
 
@@ -144,9 +145,58 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     /*添加视图*/
     private void addview() {
 
-
         LayoutParams params = new LayoutParams(150, 150);
         String content = inbasebean.getOptions().get(position).getContent();
+
+        if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
+            ImageView imageView = new ImageView(context);
+
+            imageView.setLayoutParams(params);
+            this.addView(imageView);
+            if (inbasebean.getIs_answer().equals("0")) {
+                Glide.with(context)
+                        .load(inbasebean.getOptions().get(position).getContent())
+                        .asBitmap()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(imageView);
+            } else {
+                Glide.with(context)
+                        .load(mRightContentList.get(position))
+                        .asBitmap()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(imageView);
+
+                /*正确答案 添加遮罩*/
+                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(150, 150);
+                paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
+                ImageView imageViewT = new ImageView(context);
+                imageViewT.setLayoutParams(paramsT);
+                imageViewT.setBackgroundResource(R.drawable.answer_true_bg);
+                this.addView(imageViewT);
+            }
+
+        } else {
+
+            TextView textView = new TextView(context);
+            LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textView.setTextColor(getResources().getColor(R.color.blue));
+            params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
+            textView.setLayoutParams(tparams);
+            if (inbasebean.getIs_answer().equals("0")) {
+                textView.setText(inbasebean.getOptions().get(position).getContent());
+            } else {
+                textView.setText(mRightContentList.get(position));
+            }
+            addView(textView);
+        }
+
+
+    }
+
+    /*添加视图*/
+    private void addRightview() {
+        String content = inbasebean.getOptions().get(position).getContent();
+        LayoutParams params = new LayoutParams(150, 150);
 
         if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
             ImageView imageView = new ImageView(context);
@@ -158,46 +208,16 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
                     .asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView);
-
         } else {
             TextView textView = new TextView(context);
             LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             textView.setTextColor(getResources().getColor(R.color.blue));
             params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
             textView.setLayoutParams(tparams);
-            textView.setText(inbasebean.getOptions().get(position).getContent());
+            textView.setText("第" + (position + 1) + "个");
             addView(textView);
         }
 
-
-    }
-
-    /*添加视图*/
-    private void addRightview() {
-        ImageView imageView = new ImageView(context);
-        LayoutParams params = new LayoutParams(150, 150);
-//        imageView.setImageResource(R.drawable.ic_launcher);
-        imageView.setLayoutParams(params);
-        this.addView(imageView);
-        Glide.with(context)
-                .load(inbasebean.getOptions().get(position).getContent())
-                .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imageView);
-        TextView textView = new TextView(context);
-
-        LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        textView.setTextColor(getResources().getColor(R.color.blue));
-        params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
-        textView.setLayoutParams(tparams);
-        textView.setText("第" + (position + 1) + "个");
-        addView(textView);
-    }
-
-    /*锁定移动图片*/
-    public void lockMoveImage(SortQuestionModle inbasebean) {
-        /*用 inbasebean.getIs_answer().equals("0") 控制图片是否能滑动 0 没打过题 能划  1 已经答过 锁定位置*/
-        this.inbasebean = inbasebean;
     }
 
     /*显示我的答案*/
