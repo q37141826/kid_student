@@ -587,6 +587,26 @@ public class RequestUtill {
         getHttpBuilder(context, "student/ ").params(params).post(callback);
     }
 
+    /*点读本*/
+    public void httpReadingBook(Context context, ResultCallback callback, String book_id, String unit_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("book_id", book_id);
+        params.put("unit_id", unit_id);
+
+        getHttpBuilder(context, "class-book/get-touch-and-read").params(params).post(callback);
+    }
+
+    /*课本剧*/
+    public void httpTextBookDrama(Context context, ResultCallback callback, String book_id, String unit_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("book_id", book_id);
+        params.put("unit_id", unit_id);
+
+        getHttpBuilder(context, "class-book/get-textbook-play").params(params).post(callback);
+    }
+
 
     /**
      * 上传头像

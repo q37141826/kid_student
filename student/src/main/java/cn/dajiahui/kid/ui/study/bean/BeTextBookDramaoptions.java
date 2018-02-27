@@ -8,7 +8,7 @@ import java.io.Serializable;
  * 课本剧里的list
  */
 
-public class BeTextBookDramaoptions implements Serializable{
+public class BeTextBookDramaoptions implements Serializable {
 
     private int start_time;//起始时间
     private int end_time;    //终止时间

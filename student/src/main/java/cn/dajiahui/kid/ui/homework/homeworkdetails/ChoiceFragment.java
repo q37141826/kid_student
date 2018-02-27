@@ -34,7 +34,6 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
     private ListView mListview;
     private ChoiceQuestionModle inbasebean;//当前
     private TextView tv_choice;
-
     private ImageView img_play, img_conment;
     private SubmitChoiseFragment submit;
     private ApChoice apChoice;
@@ -65,7 +64,7 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
 
         List<BeChoiceOptions> options = inbasebean.getOptions();
 
-                  /*判断是否已经上传后台 0 没答过题  1 答过题*/
+        /*判断是否已经上传后台 0 没答过题  1 答过题*/
         if (inbasebean.getIs_answer().equals("0")) {
             apChoice = new ApChoice(getActivity(), options, inbasebean);
 
@@ -78,23 +77,12 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
 
                 }
             });
-        } else {
-            /*上传答案回答过题了*/
-
-
-             /*回答正确*/
-            if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
-
-                apChoice = new ApChoice(getActivity(), options, inbasebean, (Integer.parseInt(inbasebean.getMy_answer()) - 1));
-
-            } else {/*回答错误*/
-
-                apChoice = new ApChoice(getActivity(), options, inbasebean, (Integer.parseInt(inbasebean.getStandard_answer()) - 1));
-            }
-
-
+        } else if (inbasebean.getIs_answer().equals("1")) {
+            /*上传答案回答过题了 显示自己的答案样式和错误答案的样式*/
+            apChoice = new ApChoice(getActivity(), options, inbasebean);
         }
 
+        /*设置适配器*/
         mListview.setAdapter(apChoice);
         /*设置listview的高度*/
         setHeight();

@@ -13,10 +13,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
+import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionadapterItemModle;
 import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
 import cn.dajiahui.kid.util.Logger;
 
@@ -31,10 +33,14 @@ public class HorizontallListViewAdapter extends BaseAdapter {
     public Map<Integer, String> inputContainer = new HashMap();//存editext的集合
 
     //    private Map<Integer, CompletionQuestionModle> mList;//数据源
-    private int letterNum;//每个横划listview的item的数量
+//    private int letterNum;//每个横划listview的item的数量
+    private List<List<CompletionQuestionadapterItemModle>> showRightList;
     private int selfposition;//HorizontallList在碎片中的索引（用于取出当前的HorizontallList）
     private String haveFocus = "";//用于网络请求后清空editext所有焦点
     public String IsShowRightAnswer = "";//是否显示editext
+
+
+    private CompletionQuestionModle inbasebean;
 
     public void setmList(Map<Integer, CompletionQuestionModle> mList) {
 //        this.mList = mList;
@@ -61,9 +67,9 @@ public class HorizontallListViewAdapter extends BaseAdapter {
     }
 
 
-    public HorizontallListViewAdapter(Context context, SubmitEditext submitEditext, int selfposition, Map<Integer, String> inputContainer, int letterNum, CompletionQuestionModle inbasebean) {
+    public HorizontallListViewAdapter(Context context, SubmitEditext submitEditext, int selfposition, Map<Integer, String> inputContainer, List<List<CompletionQuestionadapterItemModle>> rightList, CompletionQuestionModle inbasebean) {
         this.mContext = context;
-        this.letterNum = letterNum;
+        this.showRightList = rightList;
         this.submitEditext = submitEditext;
         this.selfposition = selfposition;
         if (inputContainer != null) {
@@ -74,6 +80,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
         this.haveFocus = inbasebean.getIsFocusable();
         this.IsShowRightAnswer = inbasebean.getIsShowRightAnswer();
+        this.inbasebean = inbasebean;
         myFoucus = new MyFoucus();
         editChangedListener = new EditChangedListener();
 
@@ -81,12 +88,12 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return letterNum;
+        return showRightList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return letterNum;
+        return showRightList.size();
     }
 
     @Override
@@ -147,14 +154,23 @@ public class HorizontallListViewAdapter extends BaseAdapter {
             holderView.editext.setText("");
         }
 
-
         if (IsShowRightAnswer.equals("no")) {
             /*不显示正确答案*/
             holderView.tv_rightanswer.setText("");
+        }
+          /*显示正确答案*/
+        else if (IsShowRightAnswer.equals("yes")) {
 
-        } else if (IsShowRightAnswer.equals("yes")) {
-//              /*显示正确答案*/
-//            holderView.textView.setText(mList.get(position).getAnalysisAnswer());
+            if (inbasebean.getIs_answer().equals("1")) {
+                List<CompletionQuestionadapterItemModle> cm = showRightList.get(position);
+
+                for (int i = 0; i < cm.size(); i++) {
+                    /*显示正确答案*/
+                    holderView.editext.setText(cm.get(i).getShowItemMy());
+                    holderView.tv_rightanswer.setText(cm.get(i).getShowItemright());
+                }
+            }
+
 //            /*字颜色是绿色*/
 ////            holderView.textView.setTextColor( );
 //            holderView.editext.setText(mList.get(position).getAnalysisMineAnswer());
@@ -239,6 +255,4 @@ public class HorizontallListViewAdapter extends BaseAdapter {
             }
         }
     }
-
-
 }

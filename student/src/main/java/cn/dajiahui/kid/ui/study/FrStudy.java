@@ -50,6 +50,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
     private List<ChooseUtilsLists> mChooseUtilsList = new ArrayList();
     private ApChooseUtils apChooseUtils;
     private String mBookId;
+
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
         return inflater.inflate(R.layout.fr_study, null);
@@ -78,8 +79,8 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
                 Toast.makeText(getActivity(), "选择学习模式", Toast.LENGTH_SHORT).show();
                 Bundle bundle = new Bundle();
                 bundle.putString("UNIT_NAME", mChooseUtilsList.get(position).getName());
-                bundle.putString("BOOK_ID",mBookId);
-                bundle.putString("UNIT_ID",mChooseUtilsList.get(position).getId());
+                bundle.putString("BOOK_ID", mBookId);
+                bundle.putString("UNIT_ID", mChooseUtilsList.get(position).getId());
                 DjhJumpUtil.getInstance().startBaseActivity(getActivity(), StudyDetailsActivity.class, bundle, 0);
             }
         });
@@ -94,12 +95,8 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
             switch (v.getId()) {
                 case R.id.tv_choiceMaterial:
                     Toast.makeText(activity, "选择教材", Toast.LENGTH_SHORT).show();
-
                     Bundle bundle = new Bundle();
-
-
                     DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), ChoiceTeachingMaterialActivity.class, bundle, GOCHOICETEACHINGMATERIAL);
-
 
                     break;
                 case R.id.im_user:
@@ -149,7 +146,6 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
     ResultCallback callStudyHomePage = new ResultCallback() {
 
 
-
         @Override
         public void onError(Request request, Exception e) {
             dismissfxDialog();
@@ -164,10 +160,12 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
                 ChooseUtils chooseUtils = json.parsingObject(ChooseUtils.class);
-                mBookId = chooseUtils.getId();
-                mChooseUtilsList.clear();
-                mChooseUtilsList.addAll(chooseUtils.getLists());
-                apChooseUtils.notifyDataSetChanged();
+                if (chooseUtils != null) {
+                    mBookId = chooseUtils.getId();
+                    mChooseUtilsList.clear();
+                    mChooseUtilsList.addAll(chooseUtils.getLists());
+                    apChooseUtils.notifyDataSetChanged();
+                }
             } else {
                 ToastUtil.showToast(getActivity(), json.getMsg());
             }

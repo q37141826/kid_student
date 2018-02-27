@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.study.bean.BePlayReadingBook;
+import cn.dajiahui.kid.ui.study.bean.BeReadingBookPageDataItem;
 
 /**
  * Created by lenovo on 2018/1/23.
@@ -18,15 +18,15 @@ public class PointReadView extends RelativeLayout implements View.OnClickListene
 
     private Context context;
     private int position;
-    private BePlayReadingBook bePlayReadingBook;
+    private BeReadingBookPageDataItem bePlayReadingBook;
     private GetPointReadView pointReadView;
 
 
-    public BePlayReadingBook getBePlayReadingBook() {
+    public BeReadingBookPageDataItem getBePlayReadingBook() {
         return bePlayReadingBook;
     }
 
-    public PointReadView(Context context, GetPointReadView pointReadView, int position, BePlayReadingBook bePlayReadingBook) {
+    public PointReadView(Context context, GetPointReadView pointReadView, int position, BeReadingBookPageDataItem bePlayReadingBook) {
         super(context);
         this.context = context;
         this.position = position;
@@ -51,6 +51,6 @@ public class PointReadView extends RelativeLayout implements View.OnClickListene
 
 
     public interface GetPointReadView {
-        public void getPointReadView(PointReadView pointReadView, BePlayReadingBook bePlayReadingBook);
+        public void getPointReadView(PointReadView pointReadView, BeReadingBookPageDataItem bePlayReadingBook);
     }
 }

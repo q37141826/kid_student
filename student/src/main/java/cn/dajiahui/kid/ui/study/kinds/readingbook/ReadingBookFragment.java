@@ -2,20 +2,24 @@ package cn.dajiahui.kid.ui.study.kinds.readingbook;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.fxtx.framework.file.FileUtil;
-import com.fxtx.framework.ui.FxFragment;
+import com.fxtx.framework.util.BaseUtil;
+import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,8 +28,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.study.bean.BePlayReadingBook;
+import cn.dajiahui.kid.controller.Constant;
+import cn.dajiahui.kid.http.DownloadFile;
+import cn.dajiahui.kid.http.OnDownload;
+import cn.dajiahui.kid.http.bean.BeDownFile;
+import cn.dajiahui.kid.ui.study.bean.BeReadingBookPageData;
+import cn.dajiahui.kid.ui.study.bean.BeReadingBookPageDataItem;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
+import cn.dajiahui.kid.ui.study.view.LazyLoadFragment;
 import cn.dajiahui.kid.ui.study.view.PointReadView;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
@@ -36,8 +46,9 @@ import cn.dajiahui.kid.util.MD5;
  * 点读本
  */
 
+/*点读本 读的句子的时间对不上 */
 
-public class ReadingBookFragment extends FxFragment implements View.OnTouchListener,
+public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouchListener,
         PointReadView.GetPointReadView,
         ReadingBookActivity.PlayAll {
 
@@ -52,24 +63,30 @@ public class ReadingBookFragment extends FxFragment implements View.OnTouchListe
     private TextView mTranslate;
     private boolean isPointRead = false;// false 点读 true 连读
 
+    private BeReadingBookPageData beReadingBookPageData;
+    private ImageView img_readbook_bg;
+    public List<PointReadView> mPointReadViewList = new ArrayList<>();
 
-    private List<PointReadView> mPointReadViewList;
+    public ReadingBookFragment readingBookFragment;
 
 
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
+
+        private double loadWidth, loadHeight, selfHeight, selfWidth;
+
+
         @Override
         public void handleMessage(android.os.Message msg) {
             if (msg.what == 0 && PlayMedia.getPlaying().mediaPlayer != null) {
                 int endtime = msg.arg1;
                 int currentPosition = PlayMedia.getPlaying().mediaPlayer.getCurrentPosition();
                /*实时在endtime区间内 停止音频播放*/
-                if (((endtime - 500) < (currentPosition)) && ((currentPosition) < (endtime + 500))) {
+                if (((endtime - 200) < (currentPosition)) && ((currentPosition) < (endtime + 200))) {
                     PlayMedia.getPlaying().mediaPlayer.stop();
                     PlayMedia.getPlaying().mediaPlayer.reset();
                     /*播放完毕背景置成红色*/
                     currentPointReadView.setBackgroundResource(R.drawable.select_readingbook_bg_red);
-
 
                     if (isPointRead == false) {
                         readingFlag++;
@@ -84,64 +101,154 @@ public class ReadingBookFragment extends FxFragment implements View.OnTouchListe
                 }
                 Logger.d("实时：" + currentPosition);
             }
+            if (msg.what == 1) {
+                imgSelf_W_H imgW_h = (imgSelf_W_H) msg.obj;
+                selfWidth = imgW_h.getWidth();
+                selfHeight = imgW_h.getHeight();
+//                Message message = Message.obtain();
+//                message.what = 3;
+//                handler.sendMessage(message);
+
+            }
+            if (msg.what == 2) {
+                imgLoad_W_H imgW_h = (imgLoad_W_H) msg.obj;
+                loadWidth = imgW_h.getWidth();
+                loadHeight = imgW_h.getHeight();
+                Message message = Message.obtain();
+                message.what = 3;
+                handler.sendMessage(message);
+
+            }
+            if (msg.what == 3) {
+                double phoneWidth = BaseUtil.getPhoneWidth(getActivity());
+                double f1 = selfWidth / phoneWidth;
+                double f2 = selfHeight / loadHeight;
+                Logger.d("selfWidth:" + selfWidth + "  selfHeight:" + selfHeight + "  loadWidth:" + loadWidth + "  loadHeight:" + loadHeight);
+                Logger.d("f1:" + f1 + "  f2:" + f2);
+
+                for (int i = 0; i < beReadingBookPageData.getItem().size(); i++) {
+
+                    PointReadView pointReadView = new PointReadView(getActivity(), readingBookFragment, i, beReadingBookPageData.getItem().get(i));
+                    double v1 = Integer.parseInt(beReadingBookPageData.getItem().get(i).getWidth());
+                    double vw = v1 / f1;
+                    double v2 = Integer.parseInt(beReadingBookPageData.getItem().get(i).getHeight());
+                    double vh = v2 / f2;
+                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int) vw, (int) vh);
+                    double x = Double.parseDouble(beReadingBookPageData.getItem().get(i).getPoint_x());
+                    double y = Double.parseDouble(beReadingBookPageData.getItem().get(i).getPoint_y());
+                    double vx = x / f1;
+                    double vy = y / f2;
+
+                    params.setMargins((int) vx, (int) vy, 0, 0);
+                    pointReadView.setLayoutParams(params);
+                    mPointReadViewList.add(pointReadView);
+                    fr_read_show.addView(pointReadView);
+                }
+            }
         }
 
     };
+    private List<BeReadingBookPageData> page_data;
+    private int position;
+    private String media_url;
 
+//
+//    @Override
+//    protected View initinitLayout(LayoutInflater inflater) {
+//
+////        bundle = getArguments();
+////        page_data = (List<BeReadingBookPageData>) bundle.getSerializable("page_data");
+////        position = bundle.getInt("position");
+////        beReadingBookPageData = page_data.get(position);
+////
+////        media_url = beReadingBookPageData.getMedia_url();
+////         /*获取Mp4视频名称和背景音名称*/
+////
+////        String sMp3 = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
+////
+////       /*判断mp3文件是否下载过*/
+////        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + sMp3)) {
+////
+////            downloadKaraOkeMp4();
+////        } else {
+////
+////        }
+//
+//        return inflater.inflate(R.layout.fr_read, null);
+//    }
 
-    @Override
-    protected View initinitLayout(LayoutInflater inflater) {
+    /*下载卡拉okmp4*/
+    private void downloadKaraOkeMp4() {
+        Logger.d("下载----downloadKaraOkeMp3----");
 
-        bundle = getArguments();
-        String path = (String) bundle.get("path");
-        if (!path.equals("")) {
-            bitmapItem = BitmapFactory.decodeFile(path);
-        }
-        return inflater.inflate(R.layout.fr_read, null);
+        BeDownFile file = new BeDownFile(Constant.file_pointreading, media_url, "", KidConfig.getInstance().getPathTemp());
+
+        new DownloadFile((ReadingBookActivity) getActivity(), file, false, new OnDownload() {
+            @Override
+            public void onDownload(String fileurl, FxProgressDialog progressDialog) {
+                progressDialog.dismiss();
+                Logger.d("fileurl:" + fileurl);
+            }
+        });
     }
 
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        fr_read_show = getView(R.id.fm_read_show);
-        mTranslate = getView(R.id.tv_translate);
-        (rootView).setBackground(new BitmapDrawable(this.bitmapItem));
-
-//      ((LinearLayout) rootView).setOnTouchListener(this);
-        List<PointReadView> mPointReadViewList = new ArrayList<>();
-        /*模拟数据*/
-        List<BePlayReadingBook> mData = new ArrayList<>();//
-        BePlayReadingBook b1 = new BePlayReadingBook("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3", 10000, 13000, 100, 100, 300, 200);
-        BePlayReadingBook b2 = new BePlayReadingBook("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3", 15000, 19000, 400, 400, 300, 200);
-        BePlayReadingBook b3 = new BePlayReadingBook("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3", 20000, 25000, 700, 700, 300, 200);
-        mData.add(b1);
-        mData.add(b2);
-        mData.add(b3);
-
-
-        for (int i = 0; i < mData.size(); i++) {
-
-            PointReadView pointReadView = new PointReadView(getActivity(), this, i, mData.get(i));
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mData.get(i).getWidth(), mData.get(i).getHeight());
-            params.setMargins(mData.get(i).getStartX(), mData.get(i).getStartY(), 0, 0);
-            pointReadView.setLayoutParams(params);
-            mPointReadViewList.add(pointReadView);
-            fr_read_show.addView(pointReadView);
-
-        }
-        this.mPointReadViewList = mPointReadViewList;
-
-        //参数2：延迟300毫秒发送，参数3：每隔300毫秒秒发送一下
-        if (timer == null) {
-            timer = new Timer();
-            timer.schedule(timerTask, 200, 200);
-
-        }
-
-
-    }
+//    @Override
+//    public void onViewCreated(View view, Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        readingBookFragment = this;
+//
+//        //获取图片真正的宽高
+//        Glide.with(this)
+//                .load(beReadingBookPageData.getPage_url())
+//                .asBitmap()//强制Glide返回一个Bitmap对象
+//                .into(new SimpleTarget<Bitmap>() {
+//                    @Override
+//                    public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+//                        int mSelfWidth = bitmap.getWidth();
+//                        int mSelfHeight = bitmap.getHeight();
+//
+//                        Message msg = Message.obtain();
+//                        msg.obj = new imgSelf_W_H((float) mSelfWidth, (float) mSelfHeight);
+//                        msg.what = 1;
+//                        handler.sendMessage(msg);
+//
+//                    }
+//                });
+//
+//        //获取图片显示在ImageView后的宽高
+//        Glide.with(this)
+//                .load(beReadingBookPageData.getPage_url())
+//                .asBitmap()//强制Glide返回一个Bitmap对象
+//                .listener(new RequestListener<String, Bitmap>() {
+//                    @Override
+//                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+//                        Logger.d("onException " + e.toString());
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(Bitmap bitmap, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+//                        int mReallyWidth = bitmap.getWidth();
+//                        int mReallyHeight = bitmap.getHeight();
+//                        Message msg = Message.obtain();
+//                        msg.obj = new imgLoad_W_H((float) mReallyWidth, (float) mReallyHeight);
+//                        msg.what = 2;
+//                        handler.sendMessage(msg);
+//                        return false;
+//                    }
+//                }).into(img_readbook_bg);
+//
+//
+//        //参数2：延迟200毫秒发送，参数3：每隔200毫秒秒发送一下
+//        if (timer == null) {
+//            timer = new Timer();
+//            timer.schedule(timerTask, 200, 200);
+//
+//        }
+//
+//
+//    }
 
     TimerTask timerTask = new TimerTask() {
         @Override
@@ -150,7 +257,7 @@ public class ReadingBookFragment extends FxFragment implements View.OnTouchListe
                 if (PlayMedia.getPlaying().mediaPlayer.isPlaying()) {
                     Message msg = Message.obtain();
                     if (currentPointReadView != null) {
-                        msg.arg1 = currentPointReadView.getBePlayReadingBook().getEndtime();
+                        msg.arg1 = Integer.parseInt(currentPointReadView.getBePlayReadingBook().getEnd_time()) * 1000;
                     }
                     msg.what = 0;
                     handler.sendMessage(msg); // 发送消息
@@ -159,12 +266,97 @@ public class ReadingBookFragment extends FxFragment implements View.OnTouchListe
         }
     };
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        bitmapItem.recycle();
-
         System.gc();
+    }
+
+    @Override
+    protected int setContentView() {
+        return R.layout.fr_read;
+    }
+
+    @Override
+    protected void lazyLoad() {
+        bundle = getArguments();
+        initialize();//获取图片显示在ImageView后的宽高
+        page_data = (List<BeReadingBookPageData>) bundle.getSerializable("page_data");
+        position = bundle.getInt("position");
+        beReadingBookPageData = page_data.get(position);
+
+        media_url = beReadingBookPageData.getMedia_url();
+
+        Glide.with(this)
+                .load(beReadingBookPageData.getPage_url())
+                .asBitmap()//强制Glide返回一个Bitmap对象
+                .listener(new RequestListener<String, Bitmap>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                        Logger.d("onException " + e.toString());
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Bitmap bitmap, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        int mReallyWidth = bitmap.getWidth();
+                        int mReallyHeight = bitmap.getHeight();
+                        Message msg = Message.obtain();
+                        msg.obj = new imgLoad_W_H((float) mReallyWidth, (float) mReallyHeight);
+                        msg.what = 2;
+                        handler.sendMessage(msg);
+                        return false;
+                    }
+                }).into(img_readbook_bg);
+
+
+        //参数2：延迟200毫秒发送，参数3：每隔200毫秒秒发送一下
+        if (timer == null) {
+            timer = new Timer();
+            timer.schedule(timerTask, 200, 200);
+
+        }
+
+
+         /*获取Mp3视频名称*/
+        String sMp3 = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
+
+       /*判断mp3文件是否下载过*/
+        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + sMp3)) {
+
+            downloadKaraOkeMp4();
+        } else {
+
+        }
+        readingBookFragment = this;
+
+        //获取图片真正的宽高
+        Glide.with(this)
+                .load(beReadingBookPageData.getPage_url())
+                .asBitmap()//强制Glide返回一个Bitmap对象
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                        int mSelfWidth = bitmap.getWidth();
+                        int mSelfHeight = bitmap.getHeight();
+
+                        Message msg = Message.obtain();
+                        msg.obj = new imgSelf_W_H((float) mSelfWidth, (float) mSelfHeight);
+                        msg.what = 1;
+                        handler.sendMessage(msg);
+
+                    }
+                });
+
+
+    }
+
+    /*初始化*/
+    private void initialize() {
+        fr_read_show = findViewById(R.id.fm_read_show);
+        mTranslate = findViewById(R.id.tv_translate);
+        img_readbook_bg = findViewById(R.id.img_readbook_bg);
     }
 
     @Override
@@ -202,7 +394,9 @@ public class ReadingBookFragment extends FxFragment implements View.OnTouchListe
 
     /*点读点击事件*/
     @Override
-    public void getPointReadView(PointReadView pointReadView, BePlayReadingBook bePlayReadingBook) {
+    public void getPointReadView(PointReadView pointReadView, BeReadingBookPageDataItem bePlayReadingBook) {
+
+        Toast.makeText(getActivity(), "点读", Toast.LENGTH_SHORT).show();
 
         isPointRead = true;
         for (int i = 0; i < mPointReadViewList.size(); i++) {
@@ -210,7 +404,7 @@ public class ReadingBookFragment extends FxFragment implements View.OnTouchListe
                 this.currentPointReadView = pointReadView;
                 this.currentPointReadView.setBackgroundResource(R.drawable.select_readingbook_bg_green);
                 /*放中文翻译*/
-                mTranslate.setText("翻译："+this.currentPointReadView.getBePlayReadingBook().getStartX() + "");
+                mTranslate.setText("翻译：" + this.currentPointReadView.getBePlayReadingBook().getChinese());
             } else {
                 mPointReadViewList.get(i).setBackgroundResource(R.drawable.select_readingbook_bg_red);
             }
@@ -218,15 +412,15 @@ public class ReadingBookFragment extends FxFragment implements View.OnTouchListe
         }
 
         /*文件名以MD5加密*/
-        String mp3Name = MD5.getMD5(bePlayReadingBook.getAudio_url().substring(bePlayReadingBook.getAudio_url().lastIndexOf("/"))) + ".mp3";
+        String mp3Name = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
 
         if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
             /*读取本地*/
-            PlayMedia.getPlaying().Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, bePlayReadingBook.getStarttime());
+            PlayMedia.getPlaying().Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(bePlayReadingBook.getStart_time()) * 1000);
 
         } else {
              /*读取网络*/
-            PlayMedia.getPlaying().Mp3seekTo(bePlayReadingBook.getAudio_url(), bePlayReadingBook.getStarttime());
+            PlayMedia.getPlaying().Mp3seekTo(media_url, Integer.parseInt(bePlayReadingBook.getStart_time()));
         }
 
     }
@@ -257,21 +451,21 @@ public class ReadingBookFragment extends FxFragment implements View.OnTouchListe
         if (readingFlag < mPointReadViewList.size()) {
 
                   /*文件名以MD5加密*/
-            String mp3Name = MD5.getMD5(mPointReadViewList.get(readingFlag).getBePlayReadingBook().getAudio_url().substring(mPointReadViewList.get(readingFlag).getBePlayReadingBook().getAudio_url().lastIndexOf("/"))) + ".mp3";
+            String mp3Name = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
 
 
             if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
                /*读取本地*/
-                PlayMedia.getPlaying().Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, mPointReadViewList.get(readingFlag).getBePlayReadingBook().getStarttime());
+                PlayMedia.getPlaying().Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(mPointReadViewList.get(readingFlag).getBePlayReadingBook().getStart_time()));
 
             } else {
               /*读取网络*/
-                PlayMedia.getPlaying().Mp3seekTo(mPointReadViewList.get(readingFlag).getBePlayReadingBook().getAudio_url(), mPointReadViewList.get(readingFlag).getBePlayReadingBook().getStarttime());
+                PlayMedia.getPlaying().Mp3seekTo(media_url, Integer.parseInt(mPointReadViewList.get(readingFlag).getBePlayReadingBook().getStart_time()));
             }
 
             this.currentPointReadView = mPointReadViewList.get(readingFlag);
             /*放中文翻译*/
-            mTranslate.setText("翻译："+mPointReadViewList.get(readingFlag).getBePlayReadingBook().getStartX() + "");
+            mTranslate.setText("翻译：" + mPointReadViewList.get(readingFlag).getBePlayReadingBook().getChinese());
             Toast.makeText(getActivity(), mPointReadViewList.get(readingFlag) + "", Toast.LENGTH_SHORT).show();
             this.currentPointReadView.setBackgroundResource(R.drawable.select_readingbook_bg_green);
 
@@ -353,13 +547,47 @@ public class ReadingBookFragment extends FxFragment implements View.OnTouchListe
         return true;
     }
 
+    /*网络图片自己的宽高*/
+    class imgSelf_W_H {
+        double Width = 0;
+        double height = 0;
 
+        public imgSelf_W_H(float width, float height) {
+            Width = width;
+            this.height = height;
+        }
+
+        public double getWidth() {
+            return Width;
+        }
+
+        public double getHeight() {
+            return height;
+        }
+    }
+
+    class imgLoad_W_H {
+        double Width = 0;
+        double height = 0;
+
+        public imgLoad_W_H(float width, float height) {
+            Width = width;
+            this.height = height;
+        }
+
+        public double getWidth() {
+            return Width;
+        }
+
+        public double getHeight() {
+            return height;
+        }
+    }
 
     /*清空临时文件*/
     private void deleteTemp(String name) {
         FileUtil fileUtil = new FileUtil();
         fileUtil.deleteFile(new File(name));
     }
-
 }
 

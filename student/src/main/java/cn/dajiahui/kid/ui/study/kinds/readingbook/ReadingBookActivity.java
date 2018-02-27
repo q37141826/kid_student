@@ -11,15 +11,23 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
-import com.fxtx.framework.file.FileUtil;
+import com.fxtx.framework.http.callback.ResultCallback;
+import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
+import com.squareup.okhttp.Request;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.http.RequestUtill;
+import cn.dajiahui.kid.ui.study.bean.BeReadingBook;
+import cn.dajiahui.kid.ui.study.bean.BeReadingBookPageData;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
+import cn.dajiahui.kid.util.Logger;
 
 /*
 点读本
@@ -40,7 +48,7 @@ public class ReadingBookActivity extends FxActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /*标题是活的*/
-//        setfxTtitle( );
+        setfxTtitle(mReadingBookBundle.getString("UNIT_NAME"));
         onBackText();
 //        HideNavigationBar();
         onBackText();
@@ -50,21 +58,29 @@ public class ReadingBookActivity extends FxActivity {
     }
 
     @Override
+    public void httpData() {
+        super.httpData();
+        RequestUtill.getInstance().httpReadingBook(ReadingBookActivity.this, callReadingBook, book_id, unit_id);
+
+    }
+
+    @Override
     protected void initView() {
         setContentView(R.layout.activity_reading_book);
         mReadingBookBundle = getIntent().getExtras();
         book_id = mReadingBookBundle.getString("BOOK_ID");
         unit_id = mReadingBookBundle.getString("UNIT_ID");
+        Logger.d("book_id:" + book_id);
+        Logger.d("unit_id:" + unit_id);
+        /*获取点读本资源*/
+        httpData();
         initialize();
 
-        List<String> imagePathFromSD = new FileUtil().getImagePathFromSD("/storage/emulated/0/diandu/");
-        if (imagePathFromSD.size() > 0) {
-            ReadAdapter adapter = new ReadAdapter(getSupportFragmentManager(), imagePathFromSD);
-            mReadViewPager.setAdapter(adapter);
-
-        }
+//        List<String> imagePathFromSD = new FileUtil().getImagePathFromSD("/storage/emulated/0/diandu/");
+//        if (imagePathFromSD.size() > 0) {
 
 
+//        }
 
        /*监听viewpager滑动*/
         mReadViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -109,16 +125,16 @@ public class ReadingBookActivity extends FxActivity {
     * */
     private class ReadAdapter extends FragmentStatePagerAdapter {
 
-        private List<String> imagePathFromSD;
+        private List<BeReadingBookPageData> page_data;
 
-        private ReadAdapter(FragmentManager fragmentManager, List<String> imagePathFromSD) {
+        private ReadAdapter(FragmentManager fragmentManager, List<BeReadingBookPageData> page_data) {
             super(fragmentManager);
-            this.imagePathFromSD = imagePathFromSD;
+            this.page_data = page_data;
         }
 
         @Override
         public int getCount() {
-            return imagePathFromSD.size();
+            return page_data.size();
         }
 
         @Override
@@ -131,14 +147,16 @@ public class ReadingBookActivity extends FxActivity {
 
 
         @Override
-        public Fragment getItem(int arg0) {
+        public Fragment getItem(int position) {
 
             ReadingBookFragment fr = new ReadingBookFragment();
-            mReadingBookMap.put(arg0, fr);
+            mReadingBookMap.put(position, fr);
 
             Bundle bundle = new Bundle();
-            bundle.putString("path", imagePathFromSD.get(arg0));
-            bundle.putString("arg0", arg0 + "");
+
+            bundle.putSerializable("page_data", (Serializable) page_data);
+
+            bundle.putInt("position", position);
             fr.setArguments(bundle);
 
             return fr;
@@ -162,6 +180,36 @@ public class ReadingBookActivity extends FxActivity {
         window.setAttributes(params);
     }
 
+    /**
+     * 点读本callback函数
+     */
+    ResultCallback callReadingBook = new ResultCallback() {
+
+        @Override
+        public void onError(Request request, Exception e) {
+            dismissfxDialog();
+        }
+
+        @Override
+        public void onResponse(String response) {
+            Logger.d("点读本：" + response);
+            dismissfxDialog();
+            HeadJson json = new HeadJson(response);
+            if (json.getstatus() == 0) {
+
+                BeReadingBook beReadingBook = json.parsingObject(BeReadingBook.class);
+                List<BeReadingBookPageData> page_data = beReadingBook.getPage_data();
+
+                ReadAdapter adapter = new ReadAdapter(getSupportFragmentManager(), page_data);
+                mReadViewPager.setAdapter(adapter);
+
+            } else {
+                ToastUtil.showToast(ReadingBookActivity.this, json.getMsg());
+            }
+
+        }
+
+    };
 
     public interface PlayAll {
         public void playAll();

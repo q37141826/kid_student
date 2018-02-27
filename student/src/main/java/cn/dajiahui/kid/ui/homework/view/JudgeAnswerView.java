@@ -41,8 +41,8 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
         this.AnswerViewList = AnswerViewList;
         this.setPadding(10, 10, 10, 10);
         String content = inbasebean.getOptions().get(position).getContent();
-        String substring = content.substring(0, 2);
-        if (substring.equals("ht")) {
+
+        if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
             /*添加图片*/
             addView(addContentPic());
         } else {
@@ -54,7 +54,13 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
         if (inbasebean.getIs_answer().equals("0")) {
             this.setOnClickListener(this);
         }
+        /*只有答过题之后 submit之后才添加遮罩*/
+        if (inbasebean.getIs_answer().equals("1")) {
+
+        }
+
     }
+
 
     public JudgeAnswerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);

@@ -18,7 +18,6 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.MoveLocation;
-import cn.dajiahui.kid.util.Logger;
 
 import static cn.dajiahui.kid.ui.homework.homeworkdetails.SortFragment.isLinecheck;
 
@@ -39,6 +38,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     private int position;//移动图片的索引值（从0开始）
     private SortQuestionModle inbasebean;//数据模型
     private MoveLocation moveLocation;//接口实例
+    public String val;//当前拖动图片的val值
 
 
     /*构造*/
@@ -54,7 +54,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
         this.inbasebean = inbasebean;
         this.moveLocation = moveLocation;
         this.position = position;
-
+        this.val = inbasebean.getOptions().get(position).getVal();
         /*添加图片*/
 
         addview();
@@ -101,10 +101,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
                     int b = this.getBottom() + dy;
                     /*如果是练习模式，已作答就锁定移动的view位置*/
                     if (isLinecheck == false) {
-                        Logger.d("-----------------------排序");
-                        Logger.d("-----------------------排序inbasebean.getAnswerflag()" + inbasebean.getAnswerflag());
-                    /*移动刷新位置*/
-
+                        /*移动刷新位置*/
                         this.layout(l, t, r, b);
                     }
 
@@ -146,8 +143,40 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
 
     /*添加视图*/
     private void addview() {
+
+
+        LayoutParams params = new LayoutParams(150, 150);
+        String content = inbasebean.getOptions().get(position).getContent();
+
+        if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
+            ImageView imageView = new ImageView(context);
+
+            imageView.setLayoutParams(params);
+            this.addView(imageView);
+            Glide.with(context)
+                    .load(inbasebean.getOptions().get(position).getContent())
+                    .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imageView);
+
+        } else {
+            TextView textView = new TextView(context);
+            LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textView.setTextColor(getResources().getColor(R.color.blue));
+            params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
+            textView.setLayoutParams(tparams);
+            textView.setText(inbasebean.getOptions().get(position).getContent());
+            addView(textView);
+        }
+
+
+    }
+
+    /*添加视图*/
+    private void addRightview() {
         ImageView imageView = new ImageView(context);
         LayoutParams params = new LayoutParams(150, 150);
+//        imageView.setImageResource(R.drawable.ic_launcher);
         imageView.setLayoutParams(params);
         this.addView(imageView);
         Glide.with(context)
@@ -155,27 +184,6 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
-        TextView textView = new TextView(context);
-        LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        textView.setTextColor(getResources().getColor(R.color.blue));
-        params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
-        textView.setLayoutParams(tparams);
-        textView.setText("第" + (position + 1) + "个");
-        addView(textView);
-    }
-
-    /*添加视图*/
-    private void addRightview() {
-        ImageView imageView = new ImageView(context);
-        LayoutParams params = new LayoutParams(150, 150);
-        imageView.setImageResource(R.drawable.ic_launcher);
-        imageView.setLayoutParams(params);
-        this.addView(imageView);
-//        Glide.with(context)
-//                .load(inbasebean.getOptions().get(position).getContent())
-//                .asBitmap()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(imageView);
         TextView textView = new TextView(context);
 
         LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

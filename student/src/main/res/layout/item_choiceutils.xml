@@ -39,14 +39,14 @@
             android:textColor="@color/color5A"
             android:textSize="14sp"/>
 
-        <ProgressBar
-            android:id="@+id/seek_item"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="100dp"
-            android:layout_height="5dp"
-            android:max="100"
-            android:progress="20"
-            android:progressDrawable="@drawable/layer_list_progress_drawable"/>
+        <!--<ProgressBar-->
+            <!--android:id="@+id/seek_item"-->
+            <!--style="@android:style/Widget.ProgressBar.Horizontal"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="5dp"-->
+            <!--android:max="100"-->
+            <!--android:progress="20"-->
+            <!--android:progressDrawable="@drawable/layer_list_progress_drawable"/>-->
 
     </LinearLayout>
 

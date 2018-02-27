@@ -13,6 +13,10 @@
             android:id="@+id/fm_read_show"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/img_readbook_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </FrameLayout>
     </RelativeLayout>
 
@@ -21,6 +25,5 @@
         android:id="@+id/tv_translate"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/whilte_line"
-       />
+        android:background="@color/whilte_line"/>
 </LinearLayout>

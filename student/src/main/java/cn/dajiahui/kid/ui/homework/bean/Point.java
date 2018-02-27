@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 
 public class Point implements Serializable {
-    public int x;
-    public int y;
+    public int x=0;
+    public int y=0;
 
     public Point() {
     }

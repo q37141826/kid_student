@@ -1,7 +1,6 @@
 package cn.dajiahui.kid.ui.study.adapter;
 
 import android.content.Context;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.fxtx.framework.adapter.CommonAdapter;
@@ -31,9 +30,9 @@ public class ApChooseUtils extends CommonAdapter<ChooseUtilsLists> {
 
         TextView itemcurrent = viewHolder.getView(R.id.itemcurrent);
         TextView utilsname = viewHolder.getView(R.id.tv_utilName);
-        TextView utilstudy = viewHolder.getView(R.id.tv_utilstudy);//学到这里
+//        TextView utilstudy = viewHolder.getView(R.id.tv_utilstudy);//学到这里
 
-        ProgressBar seek_item = viewHolder.getView(R.id.seek_item);
+//        ProgressBar seek_item = viewHolder.getView(R.id.seek_item);
         itemcurrent.setText((position + 1) + "");
         utilsname.setText(item.getName());
 

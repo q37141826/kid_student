@@ -15,7 +15,7 @@ public class DrawPath implements Serializable {
     cn.dajiahui.kid.ui.homework.bean.Point leftPoint = Constant.PointZero;
     cn.dajiahui.kid.ui.homework.bean.Point rightPoint = Constant.PointZero;
 
-    private Map<String, String> answerMap = new HashMap<>();
+    private Map<String, String> myanswerMap = new HashMap<>();
 
 
     /*记录坐标点*/
@@ -25,14 +25,13 @@ public class DrawPath implements Serializable {
 
     }
 
-    public Map<String, String> getAnswerMap() {
-        return answerMap;
+    public Map<String, String> getMyanswerMap() {
+        return myanswerMap;
     }
 
-    public void setAnswerMap(Map<String, String> answerMap) {
-        this.answerMap = answerMap;
+    public void setMyanswerMap(Map<String, String> myanswerMap) {
+        this.myanswerMap = myanswerMap;
     }
-
 
     public int getPathColor() {
         return pathColor;
@@ -62,9 +61,9 @@ public class DrawPath implements Serializable {
     public String toString() {
         return "DrawPath{" +
                 "pathColor=" + pathColor +
-                ", answerMap=" + answerMap +
                 ", leftPoint=" + leftPoint +
                 ", rightPoint=" + rightPoint +
+                ", myanswerMap=" + myanswerMap +
                 '}';
     }
 }

@@ -30,6 +30,7 @@ public class HomeWorkDetailsActivity extends FxActivity {
     private Button btn_dohomework;
     private String homework_id;
     private String unit_name;
+    private String is_check;
 
     @Override
     protected void initView() {
@@ -43,6 +44,7 @@ public class HomeWorkDetailsActivity extends FxActivity {
         Bundle bundle = getIntent().getExtras();
         String starttime = bundle.getString("starttime");
         unit_name = bundle.getString("UNIT_NAME");
+        is_check = bundle.getString("IS_CHECK");
         setfxTtitle(DateUtils.time(starttime));//12月22日作业
         onBackText();
         initialize();
@@ -57,6 +59,7 @@ public class HomeWorkDetailsActivity extends FxActivity {
                 bundle.putString("SourceFlag", "HomeWork");
                 bundle.putString("homework_id", homework_id);
                 bundle.putString("UNIT_NAME", unit_name);
+                bundle.putString("IS_CHECK", is_check);
                 /*先跳转 在网络请请求获取数据*/
                 DjhJumpUtil.getInstance().startBaseActivity(HomeWorkDetailsActivity.this, DoHomeworkActivity.class, bundle, 0);
                 finishActivity();

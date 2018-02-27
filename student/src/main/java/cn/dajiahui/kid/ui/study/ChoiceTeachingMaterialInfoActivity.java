@@ -76,12 +76,8 @@ public class ChoiceTeachingMaterialInfoActivity extends FxActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 book_id = mInfoListsList.get(position).getId();
 
-
                 RequestUtill.getInstance().ChoiceTeachingMaterialBook(context, callChoiceTeachingMaterialBook, org_id, book_id);
-//                BeStudy beStudy = new BeStudy("", list.get(position).getTeachingMaterialInfoName(), myBundelForGetName.getString("unit"));
-//                assignment.assignment(beStudy);
 
-//                finishActivity();
                 Toast.makeText(context, "开始学习", Toast.LENGTH_SHORT).show();
 
             }

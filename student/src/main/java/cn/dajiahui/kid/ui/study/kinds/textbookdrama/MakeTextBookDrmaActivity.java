@@ -171,7 +171,7 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
         bookDrama = (BeTextBookDrama) this.getIntent().getSerializableExtra("BeTextBookDrama");
 
 
-        mVideoplayer.setUp(bookDrama.getVideo_url(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, "");
+//        mVideoplayer.setUp(bookDrama.getVideo_url(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, "");
         mVideoplayer.startVideo();
         /*跳到指定播放时间*/
         mVideoplayer.onStatePreparingChangingUrl(0, mDataList.get(0).getStart_time());
@@ -329,7 +329,7 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
         dismissfxDialog();
         Logger.d("MakeTextBookDrmaActivity onRestart()");
         /*activity重新显示时要从新加载数据*/
-        mVideoplayer.setUp(bookDrama.getVideo_url(), JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
+//        mVideoplayer.setUp(bookDrama.getVideo_url(), JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
         mVideoplayer.startVideo();
         /*跳到指定播放时间*/
         mVideoplayer.onStatePreparingChangingUrl(0, mDataList.get(mCurrentPosition).getStart_time());
@@ -429,7 +429,7 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
 //                    judgeFile();
                     cleanEnvironment();
 //                    /*分离视频 保存无声视频*/
-                    new FfmpegUtil(MakeTextBookDrmaActivity.this, mHandler).getNoSoundVideo(bookDrama.getVideo_url(), KidConfig.getInstance().getPathTextbookPlayNoSoundVideo());
+//                    new FfmpegUtil(MakeTextBookDrmaActivity.this, mHandler).getNoSoundVideo(bookDrama.getVideo_url(), KidConfig.getInstance().getPathTextbookPlayNoSoundVideo());
 
                     /*混音的背景音*/
                     Map<String, Object> mRecordMap = new HashMap();

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -73,7 +74,6 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         super.onViewCreated(view, savedInstanceState);
         initialize();
         tv_judge.setText(inbasebean.getTitle());
-
         addGroupImage(inbasebean.getOptions().size());
 
           /*加载内容图片*/
@@ -81,19 +81,73 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgconment);
 
-        /*作业模式*/
+//        /*作业模式*/
         if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
             if (inbasebean.getIs_answer().equals("1")) {
-                for (int i = 0; i < mAnswerViewList.size(); i++) {
-                    if (mAnswerViewList.get(i) != null) {
-                        /*回答正确  需要增加遮罩  */
-                        if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
-                            mAnswerViewList.get(i).setBackgroundResource(R.drawable.select_judge_image);
-                            return;
-                        } else {
-                            mAnswerViewList.get(i).setBackgroundResource(R.drawable.noselect_judge_image);
+                addMaskView();
+            }
+        }
+    }
+
+
+    /*添加遮罩  添加遮罩  */
+    private void addMaskView() {
+
+        for (int i = 0; i < mAnswerViewList.size(); i++) {
+            if (mAnswerViewList.get(i) != null) {
+                /*参考答案与当前view的值相同 就是设置黄色边框*/
+                /* 设置我的答案遮罩  回答正确*/
+                if (inbasebean.getMy_answer().equals(inbasebean.getOptions().get(i).getVal())) {
+                    /*黄色边框表示自己选的答案*/
+                    mAnswerViewList.get(i).setBackgroundResource(R.drawable.select_judge_image);
+
+                    /*回答正确就跳出循环 我的答案与参考答案相等就跳出循环*/
+                    if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
+                        RelativeLayout reT = new RelativeLayout(getActivity());
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+                        ImageView imageView = new ImageView(getActivity());
+                        imageView.setLayoutParams(params);
+                        reT.addView(imageView);
+                        imageView.setImageResource(R.drawable.answer_true);
+                        reT.setBackgroundResource(R.drawable.answer_true_bg);
+                        mAnswerViewList.get(i).addView(reT);
+
+                    } else {
+                        /*回答错误就把我的答案加上红色遮罩*/
+                        RelativeLayout reF = new RelativeLayout(getActivity());
+                        RelativeLayout.LayoutParams paramsF = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        paramsF.addRule(RelativeLayout.CENTER_IN_PARENT);
+                        ImageView imageViewF = new ImageView(getActivity());
+                        imageViewF.setLayoutParams(paramsF);
+                        reF.addView(imageViewF);
+                        imageViewF.setImageResource(R.drawable.answer_false);
+                        reF.setBackgroundResource(R.drawable.answer_false_bg);
+                        mAnswerViewList.get(i).addView(reF);
+
+
+                       /*把正确答案加上绿色遮罩 中间显示对号*/
+                        RelativeLayout reT = new RelativeLayout(getActivity());
+                        RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
+                        ImageView imageViewT = new ImageView(getActivity());
+                        imageViewT.setLayoutParams(paramsT);
+                        reT.addView(imageViewT);
+                        imageViewT.setImageResource(R.drawable.answer_true);
+                        reT.setBackgroundResource(R.drawable.answer_true_bg);
+
+                        /*判断当前的View的在集合中的索引 利用索引找到另一个view*/
+                        int indexOf = mAnswerViewList.indexOf(mAnswerViewList.get(i));
+                        if (indexOf == 0) {
+                            mAnswerViewList.get(indexOf + 1).addView(reT);
+                        } else if (indexOf == 1) {
+                            mAnswerViewList.get(indexOf - 1).addView(reT);
                         }
+
                     }
+                } else {
+                      /*白色边框表示非选的答案*/
+                    mAnswerViewList.get(i).setBackgroundResource(R.drawable.noselect_judge_image);
                 }
             }
         }
@@ -110,39 +164,10 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
     /*初始化数据*/
     private void initialize() {
         answerRoot = getView(R.id.choice_root);
-
         tv_judge = getView(R.id.tv_judge);
         imgconment = getView(R.id.img_conment);
         img_play = getView(R.id.img_play);
         img_play.setOnClickListener(onClick);
-
-
-
-        /*判断是否已经上传后台 0 没答过题  1 答过题*/
-        if (inbasebean.getIs_answer().equals("0")) {
-
-        } else {// 更改两个选择按钮的样式
-            /*获取我的答案 后台提供*/
-            String my_answer = inbasebean.getMy_answer();
-            /*我的答案与正确答案一致 回答正确*/
-            if (my_answer.equals("1")) {
-
-                //回答正确   正确答案的遮罩层是绿色的  而且右上角有绿色的对√图片
-                /*正确按钮设置图片*/
-
-
-                   /*正确按钮设置背景*/
-//                imgtrue.setBackgroundResource();
-
-            } else {   /*我的答案与正确答案不一致 回答错误*/
-                //回答错误 自己回答的遮罩层是红色的    正确答案的遮罩层是绿色的  而且右上角有绿色的对√图片
-
-
-//               imgtrue.setBackgroundResource();
-            }
-
-
-        }
 
     }
 

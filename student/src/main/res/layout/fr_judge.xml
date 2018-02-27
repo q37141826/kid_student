@@ -14,8 +14,11 @@
             android:id="@+id/tv_judge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:text="听音频对话，去判断正确错误！"
-            android:textSize="20dp"/>
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/line"
@@ -54,12 +57,12 @@
             android:padding="10dp">
 
             <!--<ImageView-->
-                <!--android:id="@+id/img_true"-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:layout_marginRight="30dp"-->
-                <!--android:layout_toLeftOf="@+id/centerline"-->
-                <!--android:padding="3dp"/>-->
+            <!--android:id="@+id/img_true"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginRight="30dp"-->
+            <!--android:layout_toLeftOf="@+id/centerline"-->
+            <!--android:padding="3dp"/>-->
 
             <TextView
                 android:id="@+id/centerline"
@@ -68,12 +71,12 @@
                 android:layout_centerInParent="true"/>
 
             <!--<ImageView-->
-                <!--android:id="@+id/img_fasle"-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:layout_marginLeft="30dp"-->
-                <!--android:layout_toRightOf="@+id/centerline"-->
-                <!--android:padding="3dp"/>-->
+            <!--android:id="@+id/img_fasle"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_toRightOf="@+id/centerline"-->
+            <!--android:padding="3dp"/>-->
         </RelativeLayout>
 
     </RelativeLayout>

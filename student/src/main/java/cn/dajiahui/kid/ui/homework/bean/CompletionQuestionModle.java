@@ -1,6 +1,8 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,6 +35,26 @@ public class CompletionQuestionModle extends QuestionModle {
     private String isShowRightAnswer = "";//显示正确答案 yes 显示正确答案  no不显示正确答案
     private String textcolor = "";//设置字体和边框颜色
     private int letterNum;//字母数量
+
+    private List<List<CompletionQuestionadapterItemModle>> showRightList = new ArrayList();
+
+    private List<CompletionQuestionadapterItemModle> showRightItemList=new ArrayList();
+
+    public List<List<CompletionQuestionadapterItemModle>> getShowRightList() {
+        return showRightList;
+    }
+
+    public void setShowRightList(List<List<CompletionQuestionadapterItemModle>> showRightList) {
+        this.showRightList = showRightList;
+    }
+
+    public List<CompletionQuestionadapterItemModle> getShowRightItemList() {
+        return showRightItemList;
+    }
+
+    public void setShowRightItemList(List<CompletionQuestionadapterItemModle> showRightItemList) {
+        this.showRightItemList = showRightItemList;
+    }
 
     public int getLetterNum() {
         return letterNum;

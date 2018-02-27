@@ -11,15 +11,19 @@ import java.util.List;
  */
 
 public class BeTextBookDrama implements Serializable {
+    private List<BeTextBookDramaPageData> page_data;
+    private String unit_id;
+    private String title;
 
-    public BeTextBookDrama(String title, String video_url) {
-        this.title = title;
-        this.video_url = video_url;
+
+    public String getUnit_id() {
+        return unit_id;
     }
 
-    private String title;
-    private String video_url;
-    private List<BeTextBookDramaoptions> list;
+    public void setUnit_id(String unit_id) {
+        this.unit_id = unit_id;
+    }
+
 
     public String getTitle() {
         return title;
@@ -29,19 +33,11 @@ public class BeTextBookDrama implements Serializable {
         this.title = title;
     }
 
-    public String getVideo_url() {
-        return video_url;
+    public List<BeTextBookDramaPageData> getPage_data() {
+        return page_data;
     }
 
-    public void setVideo_url(String video_url) {
-        this.video_url = video_url;
-    }
-
-    public List<BeTextBookDramaoptions> getList() {
-        return list;
-    }
-
-    public void setList(List<BeTextBookDramaoptions> list) {
-        this.list = list;
+    public void setPage_data(List<BeTextBookDramaPageData> page_data) {
+        this.page_data = page_data;
     }
 }

@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 
-def BuildVersion = 'b171123'
+def BuildVersion = 'b18026'
 
 android {
     signingConfigs {

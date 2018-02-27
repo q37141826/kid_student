@@ -10,15 +10,19 @@
         android:layout_height="match_parent"
         android:background="@color/whilte_line">
 
+
         <TextView
             android:id="@+id/tv_completion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"/>
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="听音频对话，去填空！"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/line"
-
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/tv_completion"

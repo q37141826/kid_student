@@ -78,7 +78,7 @@ public class DrawView extends View {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(10);
 
-        if (path != null) {
+        if (path != null && mPaint != null) {
             mPaint.setColor(getResources().getColor(R.color.black));
             canvas.drawLine(path.getLeftPoint().x, path.getLeftPoint().y, path.getRightPoint().x, path.getRightPoint().y, mPaint);
         }

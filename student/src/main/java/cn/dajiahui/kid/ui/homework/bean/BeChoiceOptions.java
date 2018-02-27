@@ -26,4 +26,14 @@ public class BeChoiceOptions {
     public String getVal() {
         return val;
     }
+
+    @Override
+    public String toString() {
+        return "BeChoiceOptions{" +
+                "content='" + content + '\'' +
+                ", label='" + label + '\'' +
+                ", type='" + type + '\'' +
+                ", val='" + val + '\'' +
+                '}';
+    }
 }

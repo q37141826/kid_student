@@ -29,12 +29,13 @@ public class FixedImagview extends RelativeLayout {
         ImageView imageView = new ImageView(context);
         LayoutParams iparams = new LayoutParams(150, 150);
         imageView.setLayoutParams(iparams);
+        imageView.setImageResource(pic);
 //        Glide.with(context)
 //                .load(inbasebean.getOptions().get(position).getContent())
 //                .asBitmap()
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)
 //                .into(imageView);
-        imageView.setImageResource(R.drawable.wof);
+//        imageView.setImageResource(R.drawable.wof);
         this.addView(imageView);
         TextView textView = new TextView(context);
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -43,7 +44,7 @@ public class FixedImagview extends RelativeLayout {
         textView.setLayoutParams(params);
         textView.setText("第" + (position + 1) + "个");
         this.addView(textView);
-        this.setBackgroundColor(R.color.yellow_FEBF12);
+        this.setBackgroundColor(getResources().getColor(R.color.yellow_FEBF12));
 
     }
 

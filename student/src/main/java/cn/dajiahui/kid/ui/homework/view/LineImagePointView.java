@@ -42,7 +42,6 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     public List<BeLineLeft> lefts = new ArrayList<>();
     public List<BeLineRight> rights = new ArrayList<>();
     private String showLeftFlag = "";
-    private String showRightFlag = "";
 
 
     public void selected(boolean flag) {
@@ -96,9 +95,10 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
 
 
         if (direction == Dir.left) {//左边
+
             String content = inbasebean.getOptions().getLeft().get(cLeftposiion).getContent();
-            String substring = content.substring(0, 2);
-            if (substring.equals("ht")) {
+
+            if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
                 showLeftFlag = "IMG";
                 imageViewL = addLImageView();
                 imageViewL.setId(R.string.show_pointleft);
@@ -120,12 +120,10 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
 
             this.value = inbasebean.getOptions().getRight().get(cLeftposiion).getVal();
             addPointRight();//添加右边小黑点
-
-
             String content = inbasebean.getOptions().getRight().get(cLeftposiion).getContent();
-            String substring = content.substring(0, 2);
-            if (substring.equals("ht")) {
-                showRightFlag = "IMG";
+
+            if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
+
                 imageViewR = addRImageView();
                 lp.leftMargin = 30;
                 imageViewR.setLayoutParams(lp);
@@ -133,7 +131,7 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
                 this.addView(imageViewR);
 
             } else {
-                showRightFlag = "TXT";
+
                 textViewR = addRTextView();
                 textViewR.setId(R.string.show_pointright);
 
@@ -233,7 +231,10 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     @Override
     public void onClick(View v) {
         this.setBackgroundResource(R.drawable.btnline);
-        sublineinfo.submitlininfo(this);
+        /*0 未作答  1 已经提交过了*/
+        if (inbasebean.getIs_answer().equals("0")) {
+            sublineinfo.submitlininfo(this);
+        }
     }
 
 

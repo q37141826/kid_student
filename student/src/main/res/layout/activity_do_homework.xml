@@ -8,6 +8,11 @@
 
     <include layout="@layout/layout_tool_text"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/line_gray"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

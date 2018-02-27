@@ -78,6 +78,7 @@ public class FrHomework extends FxFragment {
                 bundle.putString("homework_id", lists.get(position).getId());
                 bundle.putString("starttime", lists.get(position).getStart_time());
                 bundle.putString("UNIT_NAME", lists.get(position).getName());
+                bundle.putString("IS_CHECK", lists.get(position).getIs_checked());
 
                 DjhJumpUtil.getInstance().startBaseActivity(getActivity(), HomeWorkDetailsActivity.class, bundle, 0);
 

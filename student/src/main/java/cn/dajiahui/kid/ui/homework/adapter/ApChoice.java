@@ -15,13 +15,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BeChoiceOptions;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
 import cn.dajiahui.kid.ui.homework.homeworkdetails.ChoiceFragment;
-import cn.dajiahui.kid.util.Logger;
 
 /**
  * 选择题
@@ -33,7 +34,8 @@ public class ApChoice extends BaseAdapter {
     private Context context;
     private LayoutInflater mInflater;
     private ChoiceQuestionModle inbasebean;
-    int currentposition = -1;
+    private Map<Integer, ShowAnswer> posttionMap = new HashMap<>();
+
 
     /*is_answer=0*/
     public ApChoice(Context context, List<BeChoiceOptions> mPptions, ChoiceQuestionModle inbasebean) {
@@ -43,14 +45,14 @@ public class ApChoice extends BaseAdapter {
         mInflater = LayoutInflater.from(context);
     }
 
-    /*is_answer=1*/
-    public ApChoice(Context context, List<BeChoiceOptions> mPptions, ChoiceQuestionModle inbasebean, int currentposition) {
-        this.mPptions = mPptions;
-        this.context = context;
-        this.currentposition = currentposition;
-        this.inbasebean = inbasebean;
-        this.mInflater = LayoutInflater.from(context);
-    }
+//    /*is_answer=1*/
+//    public ApChoice(Context context, List<BeChoiceOptions> mPptions, ChoiceQuestionModle inbasebean, int currentposition) {
+//        this.mPptions = mPptions;
+//        this.context = context;
+////        this.currentposition = currentposition;
+//        this.inbasebean = inbasebean;
+//        this.mInflater = LayoutInflater.from(context);
+//    }
 
 
     @Override
@@ -71,6 +73,7 @@ public class ApChoice extends BaseAdapter {
     @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
@@ -78,17 +81,12 @@ public class ApChoice extends BaseAdapter {
             /*区别答案的类型*/
             if (mPptions.get(position).getType().equals("2")) {//文字答案
                 convertView = mInflater.inflate(R.layout.item_choicetext, null);
-                //把convertView中的控件保存到viewHolder中
-//            holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
                 holder.img_rightchoice = (ImageView) convertView.findViewById(R.id.img_rightchoice);
                 holder.tv_answer = (TextView) convertView.findViewById(R.id.tv_answer);
                 holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
 
             } else {//图片答案
                 convertView = mInflater.inflate(R.layout.item_choicepic, null);
-                //把convertView中的控件保存到viewHolder中
-//                holder.img_choice = (ImageView) convertView.findViewById(R.id.img_choice);
-                //item右边的对勾控件
                 holder.img_rightchoice = (ImageView) convertView.findViewById(R.id.img_rightchoice);
                 holder.img_answer = (ImageView) convertView.findViewById(R.id.img_answer);
                 holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
@@ -103,8 +101,9 @@ public class ApChoice extends BaseAdapter {
                         .asBitmap()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(holder.img_answer);
-            }
 
+            }
+            posttionMap.put(position, new ShowAnswer(position, holder.img_rightchoice));
             convertView.setTag(holder);
         } else {
             //通过调用缓冲视图convertView，然后就可以调用到viewHolder,viewHolder中已经绑定了各个控件，省去了findViewById的步骤
@@ -121,19 +120,28 @@ public class ApChoice extends BaseAdapter {
             holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);
         }
 
-
         if (inbasebean.getIs_answer().equals("1")) {
-            Logger.d("");
-            if (currentposition == position) {
-                   /*正確的*/
+            if (mPptions.get(position).getVal().equals(inbasebean.getMy_answer())) {
+                /*我的答案加黄色边框*/
                 holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);
+//                /*判断自己的答案与参考答案是否相同  相同 当前view 加绿色对号  不相同就红色×*/
+                if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
+                    holder.img_rightchoice.setImageResource(R.drawable.answer_true);
+                } else {
+                    holder.img_rightchoice.setImageResource(R.drawable.answer_false);
+                    /*找出正确答案的item   把正确答案的item画个绿色对勾*/
+                }
             } else {
-                /*错误的*/
-                holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);
+
+                /*判断当前条目是是不是自己选的答案  是加绿色对号  不相同就红色× */
+                /*获取当前条目的答案*/
+                if (mPptions.get(position).getVal().equals(inbasebean.getStandard_answer())) {
+                    holder.img_rightchoice.setImageResource(R.drawable.answer_true);
+                }
+//                /*不是我的答案加白色边框*/
+//                holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);
             }
-
         }
-
         return convertView;
     }
 
@@ -174,9 +182,7 @@ public class ApChoice extends BaseAdapter {
             holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);//给正确答案外边画个框框
 
         } else {
-
             holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);//给正确答案外边画个框框
-
         }
 
 
@@ -189,5 +195,30 @@ public class ApChoice extends BaseAdapter {
         public RelativeLayout choice_root;
     }
 
+    class ShowAnswer {
+        int position;
+        ImageView img_rightchoice;
+
+        public ShowAnswer(int position, ImageView img_rightchoice) {
+            this.position = position;
+            this.img_rightchoice = img_rightchoice;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public ImageView getImg_rightchoice() {
+            return img_rightchoice;
+        }
+
+        @Override
+        public String toString() {
+            return "ShowAnswer{" +
+                    "position=" + position +
+                    ", img_rightchoice=" + img_rightchoice +
+                    '}';
+        }
+    }
 
 }

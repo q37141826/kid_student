@@ -38,12 +38,13 @@ public class StudyDetailsActivity extends FxActivity {
     private Bundle studyDetailsBundle;
     private String book_id;
     private String unit_id;
+    private String unit_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setfxTtitle(studyDetailsBundle.getString("UNIT_NAME"));
+        unit_name = studyDetailsBundle.getString("UNIT_NAME");
+        setfxTtitle(unit_name);
         onBackText();
 
     }
@@ -86,6 +87,7 @@ public class StudyDetailsActivity extends FxActivity {
                     case Constant.READINGBOOK:
 //                        deleteTemp();
 //                        initDownMp3();
+                        bundle.putString("UNIT_NAME",unit_name );
                         DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, ReadingBookActivity.class,bundle,0);
                         break;
                     case Constant.TEXTBOOKPLAY:
@@ -126,28 +128,28 @@ public class StudyDetailsActivity extends FxActivity {
 
     }
 
-    /*下载课本剧资源*/
-    private void downloadTextBookPlayData() {
-
-        BeDownFile file = new BeDownFile(Constant.file_textbookplay_mp4, "http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/test/hDTD2i2Yxy.mp4", "", KidConfig.getInstance().getPathTemp());
-          /*下载成功后跳转 ReadingBookActivity*/
-        new DownloadFile(this, file, false, new OnDownload() {
-            @Override
-            public void onDownload(String fileurl, FxProgressDialog progressDialog) {
-
-                    /*关闭下载dialog*/
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-                /*进行判断后在跳转*/
-                DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, TextBookDramaActivity.class);
-
-                Logger.d("majin-------------课本剧" + fileurl);
-
-
-            }
-        });
-    }
+//    /*下载课本剧资源*/
+//    private void downloadTextBookPlayData() {
+//
+//        BeDownFile file = new BeDownFile(Constant.file_textbookplay_mp4, "http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/test/hDTD2i2Yxy.mp4", "", KidConfig.getInstance().getPathTemp());
+//          /*下载成功后跳转 ReadingBookActivity*/
+//        new DownloadFile(this, file, false, new OnDownload() {
+//            @Override
+//            public void onDownload(String fileurl, FxProgressDialog progressDialog) {
+//
+//                    /*关闭下载dialog*/
+//                if (progressDialog != null && progressDialog.isShowing()) {
+//                    progressDialog.dismiss();
+//                }
+//                /*进行判断后在跳转*/
+//                DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, TextBookDramaActivity.class);
+//
+//                Logger.d("majin-------------课本剧" + fileurl);
+//
+//
+//            }
+//        });
+//    }
 
     /*初始化*/
     private void initialize() {

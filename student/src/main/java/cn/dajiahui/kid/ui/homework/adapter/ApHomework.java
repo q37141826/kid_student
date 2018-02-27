@@ -63,10 +63,7 @@ public class ApHomework extends CommonAdapter<BeHomework> {
         tv_hometime.setText(DateUtils.time(item.getStart_time()) + "作业");//作业时间
         task_endtime.setText("截止时间：" + DateUtils.time(item.getEnd_time()));//作业时间
 
-
-
         if (TimeCompare(item)) {
-
             if (item.getIs_checked().equals("0")) {
                 tv_dohomework.setText("做作业");
             } else {

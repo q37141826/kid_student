@@ -2,7 +2,9 @@ package cn.dajiahui.kid.ui.homework.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lenovo on 2018/1/11.
@@ -30,6 +32,16 @@ public class LineQuestionModle extends QuestionModle implements Serializable {
     private String is_right;//是否正确
     private String is_auto;//
 
+    private Map<String, Integer> myanswerMap = new HashMap<>();//我的答案集合（val对应）
+
+
+    public Map<String, Integer> getMyanswerMap() {
+        return myanswerMap;
+    }
+
+    public void setMyanswerMap(Map<String, Integer> myanswerMap) {
+        this.myanswerMap = myanswerMap;
+    }
 
     /*连线题保存答案的坐标点*/
     private List<DrawPath> drawPathList = new ArrayList();
