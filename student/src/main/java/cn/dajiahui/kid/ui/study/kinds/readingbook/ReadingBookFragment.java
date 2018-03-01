@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -18,6 +20,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.fxtx.framework.file.FileUtil;
+import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.util.BaseUtil;
 import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 
@@ -35,7 +38,6 @@ import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.ui.study.bean.BeReadingBookPageData;
 import cn.dajiahui.kid.ui.study.bean.BeReadingBookPageDataItem;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
-import cn.dajiahui.kid.ui.study.view.LazyLoadFragment;
 import cn.dajiahui.kid.ui.study.view.PointReadView;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
@@ -48,7 +50,7 @@ import cn.dajiahui.kid.util.MD5;
 
 /*点读本 读的句子的时间对不上 */
 
-public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouchListener,
+public class ReadingBookFragment extends FxFragment implements View.OnTouchListener,
         PointReadView.GetPointReadView,
         ReadingBookActivity.PlayAll {
 
@@ -81,7 +83,7 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
                 int endtime = msg.arg1;
                 int currentPosition = PlayMedia.getPlaying().mediaPlayer.getCurrentPosition();
                /*实时在endtime区间内 停止音频播放*/
-                if (((endtime - 200) < (currentPosition)) && ((currentPosition) < (endtime + 200))) {
+                if (((endtime - 500) < (currentPosition)) && ((currentPosition) < (endtime + 500))) {
                     PlayMedia.getPlaying().mediaPlayer.stop();
                     PlayMedia.getPlaying().mediaPlayer.reset();
                     /*播放完毕背景置成红色*/
@@ -118,9 +120,7 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
             if (msg.what == 3) {
                 double phoneWidth = BaseUtil.getPhoneWidth(getActivity());
                 Logger.d("phoneWidth:" + phoneWidth);
-
                 Logger.d("selfWidth:" + selfWidth + "  selfHeight:" + selfHeight + "  loadWidth:" + loadWidth + "  loadHeight:" + loadHeight);
-
 
                 for (int i = 0; i < beReadingBookPageData.getItem().size(); i++) {
 
@@ -184,25 +184,28 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
 
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        System.gc();
+    protected View initinitLayout(LayoutInflater inflater) {
+        return inflater.inflate(R.layout.fr_read, null);
     }
 
     @Override
-    protected int setContentView() {
-        return R.layout.fr_read;
-    }
-
-    @Override
-    protected void lazyLoad() {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         bundle = getArguments();
         initialize();//获取图片显示在ImageView后的宽高
         page_data = (List<BeReadingBookPageData>) bundle.getSerializable("page_data");
         position = bundle.getInt("position");
         beReadingBookPageData = page_data.get(position);
-
         media_url = beReadingBookPageData.getMedia_url();
+
+         /*获取Mp3视频名称*/
+        String sMp3 = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
+
+       /*判断mp3文件是否下载过*/
+        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + sMp3)) {
+            downloadReadingBook();
+        }
+
 
         Glide.with(this)
                 .load(beReadingBookPageData.getPage_url())
@@ -234,15 +237,6 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
 
         }
 
-
-         /*获取Mp3视频名称*/
-        String sMp3 = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
-
-       /*判断mp3文件是否下载过*/
-        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + sMp3)) {
-
-            downloadReadingBook();
-        }
         readingBookFragment = this;
 
         //获取图片真正的宽高
@@ -263,14 +257,19 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
                     }
                 });
 
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        System.gc();
     }
 
     /*初始化*/
     private void initialize() {
-        fr_read_show = findViewById(R.id.fm_read_show);
-        mTranslate = findViewById(R.id.tv_translate);
-        img_readbook_bg = findViewById(R.id.img_readbook_bg);
+        fr_read_show = getView(R.id.fm_read_show);
+        mTranslate = getView(R.id.tv_translate);
+        img_readbook_bg = getView(R.id.img_readbook_bg);
     }
 
     @Override
@@ -499,8 +498,8 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
 
     /*清空临时文件*/
     private void deleteTemp(String name) {
-        FileUtil fileUtil = new FileUtil();
-        fileUtil.deleteFile(new File(name));
+
+        FileUtil.deleteFile(new File(name));
     }
 }
 

@@ -62,17 +62,26 @@ public class DownloadFile {
                 Logger.d("课本剧类型:");
                 this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp4";
 
+            } else if (befile.getFileType() == Constant.file_textbookplay_bgAudio) {
+                Logger.d("课本剧类型背景音:");
+                this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp3";
+
             } else if (befile.getFileType() == Constant.file_kaoraok_mp4) {
                 Logger.d("kalaok类型下载mp4:");
                 this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp4";
             } else if (befile.getFileType() == Constant.file_kaoraok_bgAudio) {
                 Logger.d("kalaok类型下载mp3:");
                 this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp3";
+            } else if (befile.getFileType() == Constant.file_personal_stereo) {
+                Logger.d("随身听类型下载mp3:");
+                this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp3";
             }
 
 
         }
-        showfxDialog("下载中");
+        if (befile.getFileType() != Constant.file_textbookplay_bgAudio)
+            showfxDialog("下载中");
+
         Logger.d("要下載文件的名字：" + this.fileName);
         file = new File(KidConfig.getInstance().getPathTemp() + this.fileName);//参数文件名字
         if (file.exists()) {
@@ -130,15 +139,19 @@ public class DownloadFile {
                 Logger.d("文件下完成");
                 befile.setLocaUrl(KidConfig.getInstance().getPathTemp());
                 if (befile.getFileType() == Constant.file_pointreading) {
-                      /*复制文件到 pathPointRedaing*/
                     FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathPointRedaing() + fileName);
                     onDown.onDownload(KidConfig.getInstance().getPathPointRedaing() + fileName, progressDialog);
                     Logger.d("点读本复制完成！");
                 } else if (befile.getFileType() == Constant.file_textbookplay_mp4) {
-                     /*复制文件到 PathTextbookPlay*/
                     FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathTextbookPlayMp4() + fileName);
                     onDown.onDownload(KidConfig.getInstance().getPathTextbookPlayMp4() + fileName, progressDialog);
                     Logger.d("課本剧复制mp4完成！");
+
+                } else if (befile.getFileType() == Constant.file_textbookplay_bgAudio) {
+
+                    FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathTextbookPlayBackgroundAudio() + fileName);
+                    onDown.onDownload(KidConfig.getInstance().getPathTextbookPlayMp4() + fileName, progressDialog);
+                    Logger.d("課本剧背景音复制mp3完成！");
                 } else if (befile.getFileType() == Constant.file_kaoraok_mp4) {
                     FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathKaraOkeMp4() + fileName);
                     onDown.onDownload(KidConfig.getInstance().getPathKaraOkeMp4() + fileName, progressDialog);
@@ -148,6 +161,11 @@ public class DownloadFile {
                     FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + fileName);
                     onDown.onDownload(KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + fileName, progressDialog);
                     Logger.d("Kalao背景音复制完成！");
+                } else if (befile.getFileType() == Constant.file_personal_stereo) {
+
+                    FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathPersonalStereo() + fileName);
+                    onDown.onDownload(KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + fileName, progressDialog);
+                    Logger.d("随身听背景音复制完成！");
                 }
 
                 /*下载成功后删除temp文件内容*/

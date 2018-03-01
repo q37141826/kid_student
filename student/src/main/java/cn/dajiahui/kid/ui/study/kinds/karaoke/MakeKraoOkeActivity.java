@@ -66,8 +66,6 @@ public class MakeKraoOkeActivity extends FxActivity {
             if (msg.what == 0 && mVideoplayer.getMediaPlayer() != null) {
                 int startTime = msg.arg1;
                 int currentPosition = mVideoplayer.getCurrentPosition();
-//                Logger.d("startTime：" + startTime);
-//                Logger.d("实时：" + currentPosition);
 
                /*实时在start区间内 显示中英文*/
                 if (((startTime - 600) < (currentPosition)) && ((currentPosition) < (startTime + 600))) {

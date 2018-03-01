@@ -86,7 +86,6 @@ public class JCVideoPlayerTextBook extends JCVideoPlayerStandard {
 
     public void videoSeekTo(int time) {
         if (JCMediaManager.instance().mediaPlayer != null) {
-
             JCMediaManager.instance().mediaPlayer.seekTo(time);
         }
     }
@@ -129,7 +128,6 @@ public class JCVideoPlayerTextBook extends JCVideoPlayerStandard {
         cancelDismissControlViewTimer();
         JCMediaManager.instance().mediaPlayer.pause();
     }
-
 
 
 }

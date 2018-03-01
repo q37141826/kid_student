@@ -56,9 +56,8 @@ public class LoginHttp {
 
             @Override
             public void onResponse(String response) {
+                Logger.d( "登录成功：" + response);
                 HeadJson json = new HeadJson(response);
-                Logger.d( "登录成功：" + json);
-
                 if (json.getstatus() == 0) {
                     BeUser temp = json.parsingObject(BeUser.class);
 

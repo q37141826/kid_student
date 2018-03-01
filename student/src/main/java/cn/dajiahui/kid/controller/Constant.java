@@ -32,13 +32,15 @@ public class Constant {
     /*魔耳点读*/
     public static final int file_pointreading = 1; //点读本
     /*课本剧*/
-    public static final int file_textbookplay_mp4 = 2;
+    public static final int file_textbookplay_mp4 = 2;//课本剧
     /*课本剧*/
-    public static final int file_textbookplay_bgAudio = 3;
+    public static final int file_textbookplay_bgAudio = 3;//课本剧背景音
     /*卡拉OK mp4*/
     public static final int file_kaoraok_mp4 = 5; //k拉ok
     /*卡拉OK mp3*/
     public static final int file_kaoraok_bgAudio = 6; //k拉ok
+
+    public static final int file_personal_stereo = 7; //随身听
 
 
     /**

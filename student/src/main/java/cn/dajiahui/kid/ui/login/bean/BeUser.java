@@ -154,12 +154,22 @@ public class BeUser extends BeanObj {
         setObjectId(objectId);
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
     @Override
     public String toString() {
         return "BeUser{" +
                 "token='" + token + '\'' +
                 ", user_id='" + user_id + '\'' +
                 ", user_type='" + user_type + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", gender='" + gender + '\'' +
                 ", telnum='" + telnum + '\'' +
                 ", third=" + third +
                 ", avator='" + avator + '\'' +

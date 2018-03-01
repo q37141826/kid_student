@@ -1,10 +1,12 @@
 package cn.dajiahui.kid.ui.study.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by lenovo on 2018/2/27.
  */
 
-public class BeTextBookDramaPageDataItem {
+public class BeTextBookDramaPageDataItem implements Serializable {
     private String chinese;
     private String english;
     private String tag_index;

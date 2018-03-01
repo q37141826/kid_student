@@ -36,21 +36,18 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
 
     private NoScrollViewPager mViewpager;
     private LinearLayout point_root;
-    //    private List<BeTextBookDrama> mDatalist;
     private ImageView[] tips;//裝小点点的数组
 
     private String book_id;
     private String unit_id;
     private Bundle mTextBookDramaBundle;
-    List<BeTextBookDramaPageData> page_data;
+    private List<BeTextBookDramaPageData> page_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("课本剧");
         onBack();
-
-
     }
 
     @Override
@@ -62,29 +59,14 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
         initialize();
         httpData();
         mViewpager.setNoScroll(false);
-
-//        /*模拟数据源*/
-//        mDatalist = new ArrayList<>();
-//
-//        BeTextBookDrama b1 = new BeTextBookDrama("课本剧1", KidConfig.getInstance().getPathTextbookPlayMp4() + "38e1ad62eb24bd971a62a79ed1b533db.mp4");
-//        BeTextBookDrama b2 = new BeTextBookDrama("课本剧2", "/storage/emulated/0/qqqq2.mp4");
-//        BeTextBookDrama b3 = new BeTextBookDrama("课本剧3", KidConfig.getInstance().getPathTextbookPlayMp4() + "9be4e9ac79b22104096d7b78f8dd4bd9.mp4");
-//        BeTextBookDrama b4 = new BeTextBookDrama("课本剧4", "/storage/emulated/0/qqqq4.mp4");
-//
-//        mDatalist.add(b1);
-//        mDatalist.add(b2);
-//        mDatalist.add(b3);
-//        mDatalist.add(b4);
-
-
-
-
     }
 
     @Override
     public void httpData() {
         super.httpData();
-        RequestUtill.getInstance().httpTextBookDrama(TextBookDramaActivity.this, callTextBookDrama, book_id, unit_id);
+//        RequestUtill.getInstance().httpTextBookDrama(TextBookDramaActivity.this, callTextBookDrama, book_id, unit_id);
+        /*测试写死*/
+        RequestUtill.getInstance().httpTextBookDrama(TextBookDramaActivity.this, callTextBookDrama, "6", "14");
 
     }
 
@@ -92,7 +74,6 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
      * 点读本callback函数
      */
     ResultCallback callTextBookDrama = new ResultCallback() {
-
         @Override
         public void onError(Request request, Exception e) {
             dismissfxDialog();
@@ -105,16 +86,14 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
                 BeTextBookDrama beTextBookDrama = json.parsingObject(BeTextBookDrama.class);
-
-                page_data = beTextBookDrama.getPage_data();
-                /*下载成功后 加载 viewpager*/
-                TextBookDramAdapter textBookDramAdapter = new TextBookDramAdapter(getSupportFragmentManager(), page_data);
-
-                mViewpager.setAdapter(textBookDramAdapter);
-                setTips();
-
-                mViewpager.setOnPageChangeListener(TextBookDramaActivity.this);
-//                downloadTextBookPlayData(beTextBookDrama);
+                if (beTextBookDrama != null) {
+                    page_data = beTextBookDrama.getPage_data();
+                    TextBookDramAdapter textBookDramAdapter = new TextBookDramAdapter(getSupportFragmentManager(), page_data);
+                    mViewpager.setAdapter(textBookDramAdapter);
+                    /*设置小点点*/
+                    setTips();
+                    mViewpager.setOnPageChangeListener(TextBookDramaActivity.this);
+                }
             } else {
                 ToastUtil.showToast(TextBookDramaActivity.this, json.getMsg());
             }
@@ -123,22 +102,6 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
 
     };
 
-//    /*下载课本剧资源*/
-//    private void downloadTextBookPlayData(BeTextBookDrama beTextBookDrama) {
-//        BeDownFile file = new BeDownFile(Constant.file_textbookplay_mp4, beTextBookDrama.getPage_data().get(0).getPage_url(), "", KidConfig.getInstance().getPathTemp());
-//        new DownloadFile(this, file, false, new OnDownload() {
-//            @Override
-//            public void onDownload(String fileurl, FxProgressDialog progressDialog) {
-//
-//                    /*关闭下载dialog*/
-//                if (progressDialog != null && progressDialog.isShowing()) {
-//                    progressDialog.dismiss();
-//                }
-//
-//                Logger.d("majin-------------课本剧" + fileurl);
-//            }
-//        });
-//    }
 
     /*初始化*/
     private void initialize() {
@@ -167,9 +130,7 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
 
             TextBookDramaFragment dramaFragment = new TextBookDramaFragment();
             Bundle bundle = new Bundle();
-
             bundle.putSerializable("page_data", (Serializable) page_data);
-
             bundle.putInt("position", position);
             dramaFragment.setArguments(bundle);
             return dramaFragment;
@@ -181,8 +142,6 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        Logger.d("onPageScrolled");
     }
 
     @Override

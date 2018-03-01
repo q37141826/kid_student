@@ -1,12 +1,13 @@
 package cn.dajiahui.kid.ui.study.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lenovo on 2018/2/27.
  */
 
-public class BeTextBookDramaPageData {
+public class BeTextBookDramaPageData implements Serializable {
 
     private  List<BeTextBookDramaPageDataItem> item;
     private String music_name;

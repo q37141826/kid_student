@@ -43,7 +43,6 @@ public class KaraOkeFragment extends LazyLoadFragment {
         return R.layout.fr_kara_ok;
     }
 
-
     @Override
     protected void lazyLoad() {
         Bundle bundle = getArguments();

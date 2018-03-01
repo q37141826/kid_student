@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.fxtx.framework.ui.FxFragment;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaoptions;
+import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageDataItem;
 import cn.dajiahui.kid.ui.video.util.JCVideoPlayerStudent;
 import cn.dajiahui.kid.util.Logger;
 
@@ -29,7 +29,7 @@ import cn.dajiahui.kid.util.Logger;
 public class TextBookDramaCardFragment extends FxFragment implements MakeTextBookDrmaActivity.RefreshWidget {
 
 
-    private BeTextBookDramaoptions beTextBookDrama;
+    private BeTextBookDramaPageDataItem beTextBookDramaPageDataItem;
     private TextView tvunit;
     private JCVideoPlayerStudent mVideoplayer;
     private RelativeLayout videoplayerroot;
@@ -52,23 +52,15 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialize();
-        beTextBookDrama = (BeTextBookDramaoptions) bundle.get("BeTextBookDramaoptions");
+        beTextBookDramaPageDataItem = (BeTextBookDramaPageDataItem) bundle.get("BeTextBookDramaPageDataItem");
         totalsize = bundle.getString("size");
-        tvenglish.setText(beTextBookDrama.getEnglish());
-        tvchinese.setText(beTextBookDrama.getChinese());
+        tvenglish.setText(beTextBookDramaPageDataItem.getEnglish());
+        tvchinese.setText(beTextBookDramaPageDataItem.getChinese());
         tvtotaltime.setText("时间");
 
         tvcurrentnum.setText("1/" + totalsize);
     }
 
-
-//    private View.OnClickListener onClick = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//
-//
-//        }
-//    };
 
     @Override
     public void onPause() {

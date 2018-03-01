@@ -76,11 +76,6 @@ public class ReadingBookActivity extends FxActivity {
         httpData();
         initialize();
 
-//        List<String> imagePathFromSD = new FileUtil().getImagePathFromSD("/storage/emulated/0/diandu/");
-//        if (imagePathFromSD.size() > 0) {
-
-
-//        }
 
        /*监听viewpager滑动*/
         mReadViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -103,7 +98,6 @@ public class ReadingBookActivity extends FxActivity {
 
             }
 
-
         });
     }
 
@@ -115,7 +109,6 @@ public class ReadingBookActivity extends FxActivity {
 
     /*初始化*/
     private void initialize() {
-
         mReadViewPager = getView(R.id.read_pager);
         scoll = getView(R.id.scoll);
     }
@@ -140,11 +133,9 @@ public class ReadingBookActivity extends FxActivity {
         @Override
         public int getItemPosition(Object object) {
 
-
             return super.getItemPosition(object);
 
         }
-
 
         @Override
         public Fragment getItem(int position) {
@@ -153,7 +144,6 @@ public class ReadingBookActivity extends FxActivity {
             mReadingBookMap.put(position, fr);
 
             Bundle bundle = new Bundle();
-
             bundle.putSerializable("page_data", (Serializable) page_data);
 
             bundle.putInt("position", position);

@@ -39,11 +39,14 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
     private KaraoKeOkAdapter karaoKeOkAdapter;
     private String book_id;
     private String unit_id;
+    private String unit_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setfxTtitle(unit_name);
+        onBackText();
 
     }
 
@@ -53,6 +56,7 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
         Bundle mKaraOkebundle = getIntent().getExtras();
         book_id = mKaraOkebundle.getString("BOOK_ID");
         unit_id = mKaraOkebundle.getString("UNIT_ID");
+        unit_name = mKaraOkebundle.getString("UNIT_NAME");
         initialize();
         httpData();
 
@@ -153,7 +157,7 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
 
         @Override
         public void onResponse(String response) {
-//            Logger.d("K拉Okresponse:" + response);
+            Logger.d("K拉Okresponse:" + response);
             dismissfxDialog();
 
             HeadJson json = new HeadJson(response);

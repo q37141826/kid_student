@@ -9,7 +9,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.fxtx.framework.file.FileUtil;
+import com.fxtx.framework.http.callback.ResultCallback;
+import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
+import com.fxtx.framework.widgets.dialog.FxProgressDialog;
+import com.squareup.okhttp.Request;
 
 import java.util.Formatter;
 import java.util.Locale;
@@ -17,7 +22,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.controller.Constant;
+import cn.dajiahui.kid.http.DownloadFile;
+import cn.dajiahui.kid.http.OnDownload;
+import cn.dajiahui.kid.http.RequestUtill;
+import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.ui.study.bean.BePersonalStereo;
+import cn.dajiahui.kid.ui.study.bean.BePersonalStereoPageData;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
@@ -40,6 +51,7 @@ public class PersonalStereoActivity extends FxActivity {
     private Formatter mFormatter;
     private int mOnpausePosition = 0;
     private Timer timer = null;
+    private BePersonalStereoPageData bePersonalStereoPageData;
 
     private Handler mHandler = new Handler() {
 
@@ -70,32 +82,91 @@ public class PersonalStereoActivity extends FxActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setfxTtitle("随身听");
+//        setfxTtitle("随身听");
         onBackText();
         Bundle mPersonalStereoBundle = getIntent().getExtras();
         book_id = mPersonalStereoBundle.getString("BOOK_ID");
         unit_id = mPersonalStereoBundle.getString("UNIT_ID");
-
         initialize();
-        BePersonalStereo bePersonalStereo = new BePersonalStereo("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3");
+        httpData();
 
-        /*文件名以MD5加密*/
-        String mp3Name = MD5.getMD5(bePersonalStereo.getAudio_url().substring(bePersonalStereo.getAudio_url().lastIndexOf("/"))) + ".mp3";
 
-        if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
-            /*读取本地*/
-            PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathPointRedaing() + mp3Name);
-
-        } else {
-             /*读取网络*/
-            PlayMedia.getPlaying().StartMp3(bePersonalStereo.getAudio_url());
-        }
-        setProgress(true);//设置进度
-        startTimer();//启动计时器
-
-        tvcontent.setText("这里是内容");
     }
 
+    @Override
+    public void httpData() {
+        super.httpData();
+        RequestUtill.getInstance().httpPersonalStereo(PersonalStereoActivity.this, callPersonalStereo, book_id, unit_id);
+    }
+
+    /**
+     * callback函数
+     */
+    ResultCallback callPersonalStereo = new ResultCallback() {
+
+
+        @Override
+        public void onError(Request request, Exception e) {
+            dismissfxDialog();
+        }
+
+        @Override
+        public void onResponse(String response) {
+            Logger.d("随身听：" + response);
+            dismissfxDialog();
+            HeadJson json = new HeadJson(response);
+            if (json.getstatus() == 0) {
+                BePersonalStereo bePersonalStereo = json.parsingObject(BePersonalStereo.class);
+
+                bePersonalStereoPageData = bePersonalStereo.getPage_data().get(0);
+                if (bePersonalStereoPageData != null) {
+                    setfxTtitle(bePersonalStereoPageData.getTitle());
+
+                   /*文件名以MD5加密*/
+                    String mp3Name = MD5.getMD5(bePersonalStereoPageData.getMusic_oss_name().substring(bePersonalStereoPageData.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
+
+                    if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPersonalStereo() + mp3Name)) {
+                    /*读取本地*/
+                        PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathPersonalStereo() + mp3Name);
+
+                    } else {
+                    /*网络下载*/
+                        downloadPersonalStereo();
+
+                    }
+                    setProgress(true);//设置进度
+                    startTimer();//启动计时器
+
+                    tvcontent.setText(bePersonalStereoPageData.getInfo());
+                }
+            } else {
+                ToastUtil.showToast(PersonalStereoActivity.this, json.getMsg());
+            }
+
+        }
+
+    };
+
+    /*随身听mp3*/
+    private void downloadPersonalStereo() {
+        Logger.d("下载----download随身听Mp3----");
+
+        BeDownFile file = new BeDownFile(Constant.file_personal_stereo, bePersonalStereoPageData.getMusic_oss_name(), "", KidConfig.getInstance().getPathTemp());
+
+        new DownloadFile(PersonalStereoActivity.this, file, false, new OnDownload() {
+            @Override
+            public void onDownload(String fileurl, FxProgressDialog progressDialog) {
+                progressDialog.dismiss();
+
+                String mp3Name = MD5.getMD5(bePersonalStereoPageData.getMusic_oss_name().
+                        substring(bePersonalStereoPageData.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
+                  /*读取本地*/
+                PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathPersonalStereo() + mp3Name);
+
+                Logger.d("fileurl:" + fileurl);
+            }
+        });
+    }
 
     /*设置进度*/
     private void setProgress(boolean totaltime) {
@@ -188,7 +259,7 @@ public class PersonalStereoActivity extends FxActivity {
 
                         /*如果是播放完成*/
                         if (PlayMedia.getPlaying().setOnCompletionListener(0)) {
-                            PlayMedia.getPlaying().StartMp3("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/0108qbkaj98s.mp3");
+                            PlayMedia.getPlaying().StartMp3(bePersonalStereoPageData.getMusic_oss_name());
                             setProgress(true);
                             startTimer();//启动计时器
                             PlayMedia.getPlaying().complete = false;

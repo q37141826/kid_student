@@ -19,7 +19,8 @@ public class BeGoTextBookSuccess implements Serializable {
     private String score;
 
     /*课本剧*/
-    public BeGoTextBookSuccess(String mineWorksTempPath, String mineWorksName, String userUrl, String userName, String makeTime, String score) {
+    public BeGoTextBookSuccess(String mineWorksTempPath, String mineWorksName,
+                               String userUrl, String userName, String makeTime, String score) {
         this.mineWorksTempPath = mineWorksTempPath;
         this.mineWorksName = mineWorksName;
         this.userUrl = userUrl;

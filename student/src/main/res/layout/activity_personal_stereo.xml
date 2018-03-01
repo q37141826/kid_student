@@ -3,74 +3,94 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include
         layout="@layout/layout_tool_text"/>
 
-    <LinearLayout
-        android:id="@+id/llProgress"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/title"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:padding="20dp">
+        android:layout_height="2px"
+        android:background="@color/gray_E0E0E0"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray_E7E7E7"
+        android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/img_play"
+        <LinearLayout
+            android:id="@+id/llProgress"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/title"
+
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher"/>
-        </RelativeLayout>
+                android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/img_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ring3"/>
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_unitname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="First day to school"/>
-
-            <SeekBar
-                android:id="@+id/pbDuration"
-                style="?android:attr/progressBarStyleHorizontal"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_unitname"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:progressDrawable="@drawable/progress_style"
-                android:secondaryProgress="0"
-                android:thumb="@drawable/seekbar_thumb"
-                android:thumbOffset="0dip"/>
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tvTimeElapsed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/pbDuration"
-                android:text="00:00"/>
+                <TextView
+                    android:id="@+id/tv_unitname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="First day to school"/>
+
+                <SeekBar
+                    android:id="@+id/pbDuration"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_unitname"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:progressDrawable="@drawable/progress_style"
+                    android:secondaryProgress="0"
+                    android:thumb="@drawable/seekbar_thumb"
+                    android:thumbOffset="0dip"/>
+
+                <TextView
+                    android:id="@+id/tvTimeElapsed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/pbDuration"
+                    android:text="00:00"/>
 
 
-            <TextView
-                android:id="@+id/tvDuration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/pbDuration"
-                android:text="00:00"/>
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/pbDuration"
+                    android:text="00:00"/>
+            </RelativeLayout>
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -79,9 +99,9 @@
 
         <TextView
             android:id="@+id/tv_content"
-            android:text="内容"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:text="内容"/>
     </RelativeLayout>
 
 </LinearLayout>

@@ -10,12 +10,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fxtx.framework.http.callback.ResultCallback;
+import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
+import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.study.bean.BeCradPratice;
 import cn.dajiahui.kid.util.Logger;
 
@@ -52,6 +57,7 @@ public class CardPracticeActivity extends FxActivity implements
 
         initialize();
 
+        httpData();
         /*模拟数据*/
         mCardList = new ArrayList<>();
 
@@ -74,6 +80,38 @@ public class CardPracticeActivity extends FxActivity implements
         mCardpager.setAdapter(adapter);
 
     }
+
+    @Override
+    public void httpData() {
+        super.httpData();
+        RequestUtill.getInstance().httpReadingBook(CardPracticeActivity.this, callCardPratice, "6", "14");
+
+    }
+
+    /**
+     * 卡片练习callback函数
+     */
+    ResultCallback callCardPratice = new ResultCallback() {
+
+        @Override
+        public void onError(Request request, Exception e) {
+            dismissfxDialog();
+        }
+
+        @Override
+        public void onResponse(String response) {
+            Logger.d("卡片练习：" + response);
+            dismissfxDialog();
+            HeadJson json = new HeadJson(response);
+            if (json.getstatus() == 0) {
+
+            } else {
+                ToastUtil.showToast(CardPracticeActivity.this, json.getMsg());
+            }
+
+        }
+
+    };
 
     /*初始化数据*/
     private void initialize() {

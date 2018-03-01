@@ -66,6 +66,8 @@ public class KidConfig {
     /*卡拉ok的无声Mp4*/
     private String pathKaraOkeNoSoundVideo = this.pathKaraOke + "KaraOkeNoSoundVideo" + File.separator;
 
+    /*随身听*/
+    private String pathPersonalStereo = this.pathRoot + "PersonalStereo" + File.separator;
 
     /*我的作品*/
     private String pathMineWorks = this.pathRoot + "MineWorks" + File.separator;
@@ -146,6 +148,10 @@ public class KidConfig {
             folder.mkdir();
         }
         folder = new File(this.pathKaraOkeNoSoundVideo);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathPersonalStereo);
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -236,5 +242,9 @@ public class KidConfig {
 
     public String getPathKaraOkeNoSoundVideo() {
         return pathKaraOkeNoSoundVideo;
+    }
+
+    public String getPathPersonalStereo() {
+        return pathPersonalStereo;
     }
 }

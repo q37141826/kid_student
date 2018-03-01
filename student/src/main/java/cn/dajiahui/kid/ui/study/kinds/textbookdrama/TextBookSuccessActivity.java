@@ -65,14 +65,8 @@ public class TextBookSuccessActivity extends FxActivity {
 
         mVideoplayer.setUp(beGoTextBookSuccess.getMineWorksTempPath(), JCVideoPlayer.SCREEN_LAYOUT_LIST);
         mVideoplayer.onStatePreparingChangingUrl(0, 100);
-//        mVideoplayer.setOnDuration(new JCVideoPlayerTextScuessBook.OnDuration() {
-//            @Override
-//            public void onDuration(String duration) {
-//                Logger.d("duration" + duration);
-//            }
-//        });
+
         mVideoplayer.startVideo();
-        mVideoplayer.onStatePreparingChangingUrl(0, 0);
         mVideoplayer.hideView();//隐藏不需要的view
 
         tvniitname.setText(beGoTextBookSuccess.getMineWorksName());

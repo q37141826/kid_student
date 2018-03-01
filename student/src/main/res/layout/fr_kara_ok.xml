@@ -3,11 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="10dp"
-    android:background="#9EDBEE"
     android:fitsSystemWindows="true">
 
     <TextView
@@ -17,6 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="64dp"
         android:text="Listen and say"
+        android:textColor="@color/white"
         android:textSize="18dp"/>
 
     <RelativeLayout
@@ -42,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/videoplayerroot"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="79dp"
+        android:layout_marginTop="49dp"
         android:background="@color/yellow_FEBF12"
         android:text="查看"/>
 

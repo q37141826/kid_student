@@ -606,6 +606,25 @@ public class RequestUtill {
 
         getHttpBuilder(context, "class-book/get-textbook-play").params(params).post(callback);
     }
+    /*随身听*/
+    public void httpPersonalStereo(Context context, ResultCallback callback, String book_id, String unit_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("book_id", book_id);
+        params.put("unit_id", unit_id);
+
+        getHttpBuilder(context, "class-book/get-walkman").params(params).post(callback);
+    }
+
+    /*点读本*/
+    public void httpCardPratice(Context context, ResultCallback callback, String book_id, String unit_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("book_id", book_id);
+        params.put("unit_id", unit_id);
+
+        getHttpBuilder(context, "class-book/get-word-card").params(params).post(callback);
+    }
 
 
     /**

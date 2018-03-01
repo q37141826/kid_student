@@ -3,7 +3,6 @@ package cn.dajiahui.kid.ui.study.kinds.textbookdrama;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.Toast;
 
 import com.coremedia.iso.boxes.Container;
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
@@ -57,11 +56,8 @@ public class FfmpegUtil {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MESSAGE_MIX_V_T_A:
-                    Toast.makeText(context, "混音成功！", Toast.LENGTH_SHORT).show();
                         audioVideoSyn(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3"), mOutputFile);
-
 //                    mergeaudiovideo(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3"), mOutputFile);
-
                     break;
                 case MESSAGE_SYNTHETIC_VIDEO:
                     mHandler.sendEmptyMessage(3);

@@ -126,7 +126,6 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
     @Override
     public void onResume() {
         super.onResume();
-        Logger.d("FrStudy-------------------------onResume()");
     }
 
     private void studyHttp() {
@@ -155,7 +154,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
         @Override
         public void onResponse(String response) {
 
-            Logger.d("自学首页：" + response);
+//            Logger.d("自学首页：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
