@@ -12,12 +12,18 @@ public class BeSaveAnswerCard implements Serializable {
 
     private HashMap<Integer, Object> PageMap;
     private String homework_id;
+    private String is_complete;
+    private List<BeAnswerCArd> mAnswerCardList;
 
-    List<BeAnswerCArd> mAnswerCardList;
-    public BeSaveAnswerCard(HashMap<Integer, Object> pageMap, String homework_id, List<BeAnswerCArd> mAnswerCardList ) {
+    public BeSaveAnswerCard(HashMap<Integer, Object> pageMap, String homework_id, List<BeAnswerCArd> mAnswerCardList, String is_complete) {
         PageMap = pageMap;
         this.homework_id = homework_id;
         this.mAnswerCardList = mAnswerCardList;
+        this.is_complete = is_complete;
+    }
+
+    public String getIs_complete() {
+        return is_complete;
     }
 
     public String getHomework_id() {

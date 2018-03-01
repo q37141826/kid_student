@@ -33,17 +33,19 @@
             android:background="@drawable/edit_bg"
             android:gravity="center"
             android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/back_up_val"
-            android:padding="5dp"/>
+            android:nextFocusForward="@+id/back_up_val"/>
 
         <TextView
             android:id="@+id/tv_rightanswer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/right_answer_bg"
             android:gravity="center"
-            android:padding="5dp"
             android:textColor="#f0f0"
-            android:textSize="15dp"/>
+            android:textSize="15sp"
+            android:visibility="invisible"/>
     </LinearLayout>
 
 </RelativeLayout>

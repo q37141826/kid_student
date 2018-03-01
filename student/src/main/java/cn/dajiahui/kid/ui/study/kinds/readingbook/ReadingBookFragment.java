@@ -118,18 +118,17 @@ public class ReadingBookFragment extends LazyLoadFragment implements View.OnTouc
             if (msg.what == 3) {
                 double phoneWidth = BaseUtil.getPhoneWidth(getActivity());
                 Logger.d("phoneWidth:" + phoneWidth);
-                double f1 = selfWidth / loadWidth;
-                double f2 = selfHeight / loadHeight;
+
                 Logger.d("selfWidth:" + selfWidth + "  selfHeight:" + selfHeight + "  loadWidth:" + loadWidth + "  loadHeight:" + loadHeight);
-                Logger.d("f1:" + f1 + "  f2:" + f2);
+
 
                 for (int i = 0; i < beReadingBookPageData.getItem().size(); i++) {
 
                     PointReadView pointReadView = new PointReadView(getActivity(), readingBookFragment, i, beReadingBookPageData.getItem().get(i));
                     double v1 = Integer.parseInt(beReadingBookPageData.getItem().get(i).getWidth());
-                    double vw = v1 / f1;
+                    double vw = v1 * loadWidth / selfWidth;
                     double v2 = Integer.parseInt(beReadingBookPageData.getItem().get(i).getHeight());
-                    double vh = v2 / f2;
+                    double vh = v2 * loadHeight / selfHeight;
                     Logger.d("框框宽 getWidth :" + v1 + "  框框高getHeight:" + v2);
                     Logger.d("变形后------框框宽 getWidth :" + v1 + "  框框高getHeight:" + v2);
                     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int) vw, (int) vh);

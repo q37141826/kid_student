@@ -11,7 +11,6 @@ import android.view.View;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.Dir;
 import cn.dajiahui.kid.ui.homework.bean.DrawPath;
 
@@ -27,6 +26,14 @@ public class DrawView extends View {
     LineImagePointView currentSelectedView;
     LineImagePointView lineImagePointView;
     private Paint mPaint;
+
+    public DrawView(Context context, int color) {
+        super(context);
+        this.context = context;
+        this.mPaint = new Paint();
+        mPaint.setColor(color);
+
+    }
 
     public DrawView(Context context) {
         super(context);
@@ -79,7 +86,7 @@ public class DrawView extends View {
         mPaint.setStrokeWidth(10);
 
         if (path != null && mPaint != null) {
-            mPaint.setColor(getResources().getColor(R.color.black));
+//            mPaint.setColor(getResources().getColor(R.color.black));
             canvas.drawLine(path.getLeftPoint().x, path.getLeftPoint().y, path.getRightPoint().x, path.getRightPoint().y, mPaint);
         }
     }

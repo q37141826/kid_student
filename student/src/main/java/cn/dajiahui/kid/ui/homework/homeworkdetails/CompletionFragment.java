@@ -26,7 +26,6 @@ import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionadapterItemModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
 import cn.dajiahui.kid.ui.homework.view.HorizontalListView;
-import cn.dajiahui.kid.util.Logger;
 
 
 /**
@@ -78,7 +77,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
                 /*多个空*/
                 if (my_answer.contains("۞")) {
                     String[] strs = my_answer.split("۞");
-               /*截取我的答案  添加到mRightanswer集合*/
+                      /*截取我的答案  添加到mRightanswer集合*/
                     for (int i = 0, len = strs.length; i < len; i++) {
                         myAnswerList.add(strs[i].toString());
                     }
@@ -99,7 +98,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             standardAnswerList.add(split);
         }
 
-        /*拆解每个单词的字母*/
+        /*拆解正确答案每个单词的字母*/
         for (int a = 0; a < standardAnswerList.size(); a++) {
             /*填空题数据模型*/
             CompletionQuestionModle completionQuestionModle = new CompletionQuestionModle();
@@ -109,9 +108,16 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
                 List<CompletionQuestionadapterItemModle> rightItemList = new ArrayList();
 
                 if (inbasebean.getIs_answer().equals("1") && !inbasebean.getMy_answer().equals("") && myAnswerList.size() > 0) {
-                    rightItemList.add(new CompletionQuestionadapterItemModle(String.valueOf(standardAnswerList.get(a).charAt(q)), String.valueOf(myAnswerList.get(a).charAt(q))));
+                    CompletionQuestionadapterItemModle cqim = new CompletionQuestionadapterItemModle(String.valueOf(standardAnswerList.get(a).charAt(q)), String.valueOf(myAnswerList.get(a).charAt(q)));
+                    /*如果所对应的值相等*/
+                    if (String.valueOf(standardAnswerList.get(a).charAt(q)).equals(String.valueOf(myAnswerList.get(a).charAt(q)))) {
+                        cqim.setShowItemRightColor(0);
+                    } else {
+                        cqim.setShowItemRightColor(1);
+                    }
+                    rightItemList.add(cqim);
                 }
-                completionQuestionModle.setLetterNum(standardAnswerList.get(a).length());
+
                 rightList.add(rightItemList);
                 completionQuestionModle.setShowRightList(rightList);
 
@@ -148,9 +154,6 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     /*添加填空题题干*/
     private void addQuestionStem() {
         TextView textView = new TextView(getActivity());
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 21);
-//       params.addRule(RelativeLayout.CENTER_IN_PARENT);
-//        textView.setLayoutParams(params);
         textView.setTextSize(15);
         textView.setText(Html.fromHtml(inbasebean.getOptions()));
         stemroot.addView(textView);
@@ -199,13 +202,11 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             params.weight = 1;
             params.topMargin = mTop;
             params.leftMargin = 30;
-            mTop += 150;
+            mTop += 200;
 
             horizontalListView.setLayoutParams(params);
 
             Map<Integer, String> integerObjectMap = new HashMap();//每次都要new出来
-            List<List<CompletionQuestionadapterItemModle>> showRightList = mRightanswer.get(i).getShowRightList();
-            Logger.d("showRightList:" + showRightList.toString());
             HorizontallListViewAdapter horizontallListViewAdapter = new HorizontallListViewAdapter(getActivity(), this, i, integerObjectMap, mRightanswer.get(i).getShowRightList(), inbasebean);
             horizontalListView.setAdapter(horizontallListViewAdapter);
             mAllList.add(horizontallListViewAdapter);
@@ -315,12 +316,11 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
                     mAllList.get(i).setInputContainer(integerObjectMap);
                 }
 
-              /*判断是否已经上传后台 0 没答过题  1 答过题*/
+
             }
             /*练习check之后会走 submitHomework*/
             else if (DoHomeworkActivity.sourceFlag.equals("Practice") && inbasebean.getAnswerflag().equals("true")) {
 
-                Logger.d("-------33---- " + inbasebean.getmAllMap().toString());
 
 //                myAnswerList.clear();
 //               /*取出我的答案*/

@@ -11,15 +11,28 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/tv_sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="听录音给图片排序"/>
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tv_sort"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#E0E0E0"/>
 
         <ImageView
             android:id="@+id/sort_img_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_1"
+            android:layout_below="@+id/line"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"

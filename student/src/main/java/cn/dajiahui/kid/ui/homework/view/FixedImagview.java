@@ -40,23 +40,22 @@ public class FixedImagview extends RelativeLayout {
             this.addView(imageView);
             this.setBackgroundColor(getResources().getColor(R.color.yellow_FEBF12));
         } else {
+            if (mContentList.size() > 0) {
+                String content = inbasebean.getOptions().get(position).getContent();
+                if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
+                    Glide.with(context).load(mContentList.get(position)).asBitmap()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+                    this.addView(imageView);
+                } else {
+                    TextView textView = new TextView(context);
+                    LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            String content = inbasebean.getOptions().get(position).getContent();
-            if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
-                Glide.with(context).load(mContentList.get(position)).asBitmap()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
-                this.addView(imageView);
-            } else {
-                TextView textView = new TextView(context);
-                LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
-                textView.setLayoutParams(params);
-                textView.setText((position + 1) + "");
-                this.addView(textView);
+                    params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
+                    textView.setLayoutParams(params);
+                    textView.setText(mContentList.get(position));
+                    this.addView(textView);
+                }
             }
-
-
 
         }
     }

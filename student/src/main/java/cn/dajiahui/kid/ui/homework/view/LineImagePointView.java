@@ -2,8 +2,10 @@ package cn.dajiahui.kid.ui.homework.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,15 +43,17 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     public String value;
     public List<BeLineLeft> lefts = new ArrayList<>();
     public List<BeLineRight> rights = new ArrayList<>();
-    private String showLeftFlag = "";
+
+    private final LinearLayout linRoot;//imageview或者textview 和小点的父亲布局
+    public RelativeLayout mContentView;//左边的view添加遮罩的父view
 
 
     public void selected(boolean flag) {
         if (flag) {
-            this.setBackgroundResource(R.color.red);//设置选中状态背景色
+            mContentView.setBackgroundResource(R.color.red);//设置选中状态背景色
         } else {
 
-            this.setBackgroundResource(R.color.whilte_gray);//设置选中状态背景色//
+            mContentView.setBackgroundResource(R.color.whilte_gray);//设置选中状态背景色//
         }
     }
 
@@ -89,9 +93,13 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
         this.inbasebean = inbasebean;
         this.lefts = inbasebean.getOptions().getLeft();
         this.rights = inbasebean.getOptions().getRight();
-        this.setOnClickListener(this);
-        LayoutParams lp = new LayoutParams(200, 100);
-        lp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+        if (inbasebean.getIs_answer().equals("0")) {
+            this.setOnClickListener(this);
+        }
+        /*imageview和textview的大小*/
+        LayoutParams lp = new LayoutParams(200, 200);
+
+        linRoot = new LinearLayout(context);
 
 
         if (direction == Dir.left) {//左边
@@ -99,19 +107,23 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
             String content = inbasebean.getOptions().getLeft().get(cLeftposiion).getContent();
 
             if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
-                showLeftFlag = "IMG";
+
                 imageViewL = addLImageView();
-                imageViewL.setId(R.string.show_pointleft);
-
                 imageViewL.setLayoutParams(lp);
-                this.addView(imageViewL);
-            } else {
-                showLeftFlag = "TXT";
-                textViewL = addLTextView();
-                textViewL.setId(R.string.show_pointleft);
+                mContentView = new RelativeLayout(context);
+                mContentView.addView(imageViewL);
+                linRoot.addView(mContentView);
 
+            } else {
+
+                mContentView = new RelativeLayout(context);
+                textViewL = addLTextView();
+                lp.addRule(CENTER_IN_PARENT);
                 textViewL.setLayoutParams(lp);
-                this.addView(textViewL);
+                mContentView.addView(textViewL);
+
+                linRoot.addView(mContentView);
+
             }
             this.value = inbasebean.getOptions().getLeft().get(cLeftposiion).getVal();
             addPointLeft();//添加左边小黑点
@@ -123,27 +135,25 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
             String content = inbasebean.getOptions().getRight().get(cLeftposiion).getContent();
 
             if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
+                mContentView = new RelativeLayout(context);
 
                 imageViewR = addRImageView();
-                lp.leftMargin = 30;
                 imageViewR.setLayoutParams(lp);
-
-                this.addView(imageViewR);
+                mContentView.addView(imageViewR);
+                linRoot.addView(mContentView);
 
             } else {
-
+                mContentView = new RelativeLayout(context);
                 textViewR = addRTextView();
-                textViewR.setId(R.string.show_pointright);
-
+                lp.addRule(CENTER_IN_PARENT);
+                mContentView.addView(textViewR);
                 textViewR.setLayoutParams(lp);
-                this.addView(textViewR);
-
+                linRoot.addView(mContentView);
             }
-
-
         }
         this.selected(false);
 
+        this.addView(linRoot);
     }
 
 
@@ -162,8 +172,6 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     /*添加左侧文字*/
     private TextView addLTextView() {
         LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        lp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-
         TextView textView = new TextView(context);
         textView.setText(inbasebean.getOptions().getLeft().get(cLeftposiion).getContent());
         textView.setLayoutParams(lp);
@@ -186,8 +194,6 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     /*添加右侧文字*/
     private TextView addRTextView() {
         LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        lp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-        lp.addRule(LEFT_OF, pointview.getId());
 
         TextView textView = new TextView(context);
         textView.setText(inbasebean.getOptions().getRight().get(cLeftposiion).getContent());
@@ -200,12 +206,13 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     @SuppressLint("ResourceType")
     public void addPointRight() {
         pointview = new CricleTextView(context);
-        LayoutParams lp = new LayoutParams(30, 30);
-        lp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-        pointview.setId(R.string.show_pointright);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(30, 30);
 
+        pointview.setId(R.string.show_pointright);
+        //设置居中显示：
+        lp.gravity = Gravity.CENTER;
         pointview.setLayoutParams(lp);
-        this.addView(pointview);
+        linRoot.addView(pointview);
 
 
     }
@@ -214,16 +221,11 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     public void addPointLeft() {
 
         pointview = new CricleTextView(context);
-        LayoutParams lp = new LayoutParams(30, 30);
-        lp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-        lp.addRule(CENTER_VERTICAL, TRUE);
-        if (showLeftFlag.equals("IMG")) {
-            lp.addRule(RIGHT_OF, imageViewL.getId());
-        } else {
-            lp.addRule(RIGHT_OF, textViewL.getId());
-        }
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(30, 30);
+        //设置居中显示：
+        lp.gravity = Gravity.CENTER;
         pointview.setLayoutParams(lp);
-        this.addView(pointview);
+        linRoot.addView(pointview);
 
     }
 

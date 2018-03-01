@@ -31,22 +31,12 @@ public class HorizontallListViewAdapter extends BaseAdapter {
     private MyFoucus myFoucus;
     private EditChangedListener editChangedListener;//editext监听器
     public Map<Integer, String> inputContainer = new HashMap();//存editext的集合
-
-    //    private Map<Integer, CompletionQuestionModle> mList;//数据源
-//    private int letterNum;//每个横划listview的item的数量
     private List<List<CompletionQuestionadapterItemModle>> showRightList;
     private int selfposition;//HorizontallList在碎片中的索引（用于取出当前的HorizontallList）
     private String haveFocus = "";//用于网络请求后清空editext所有焦点
     public String IsShowRightAnswer = "";//是否显示editext
-
-
     private CompletionQuestionModle inbasebean;
 
-    public void setmList(Map<Integer, CompletionQuestionModle> mList) {
-//        this.mList = mList;
-        this.IsShowRightAnswer = "yes";
-        haveFocus = "false";
-    }
 
     /*获取答案的集合*/
     public Map getInputContainer() {
@@ -167,22 +157,19 @@ public class HorizontallListViewAdapter extends BaseAdapter {
                 for (int i = 0; i < cm.size(); i++) {
                     /*显示正确答案*/
                     holderView.editext.setText(cm.get(i).getShowItemMy());
-                    holderView.tv_rightanswer.setText(cm.get(i).getShowItemright());
+                    /*字母显示绿色 框显示绿色*/
+                    if (cm.get(i).getShowItemRightColor() == 0) {
+                        holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_green);
+                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.green));
+                    } else {
+                        holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_red);
+                        holderView.tv_rightanswer.setText(cm.get(i).getShowItemright());
+                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.red));
+                        holderView.tv_rightanswer.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
-//            /*字颜色是绿色*/
-////            holderView.textView.setTextColor( );
-//            holderView.editext.setText(mList.get(position).getAnalysisMineAnswer());
-//
-//               /*更改边框颜色*/
-//            if (mList.get(position).getTextcolor().equals("green")) {
-//
-//                holderView.editext.setBackgroundResource(R.drawable.select_completion_editext);
-//            } else {
-//                holderView.editext.setBackgroundResource(R.drawable.select_judge_image);
-//
-//            }
         }
 
 
@@ -213,9 +200,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             temp = s;
-
         }
 
         @Override

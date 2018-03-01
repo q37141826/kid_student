@@ -22,6 +22,7 @@ import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.homework.adapter.ApHomework;
 import cn.dajiahui.kid.ui.homework.bean.BeHomeWorkList;
 import cn.dajiahui.kid.ui.homework.bean.BeHomework;
+import cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity;
 import cn.dajiahui.kid.ui.homework.homeworkdetails.HomeWorkDetailsActivity;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 
@@ -36,7 +37,7 @@ public class FrHomework extends FxFragment {
     private TextView tvNUll;
     private ApHomework apHomework;//作业列表适配器
 
-    private List<BeHomework> lists = new ArrayList<BeHomework>();
+    private List<BeHomework> mHomeWorklists = new ArrayList<BeHomework>();
     private MaterialRefreshLayout refresh;
 
     @Override
@@ -59,7 +60,7 @@ public class FrHomework extends FxFragment {
         mListview.setEmptyView(tvNUll);
         initRefresh(refresh);
 
-        apHomework = new ApHomework(getActivity(), lists);//
+        apHomework = new ApHomework(getActivity(), mHomeWorklists);//
         mListview.setAdapter(apHomework);
         if (!isCreateView) {
             isCreateView = true;
@@ -74,14 +75,24 @@ public class FrHomework extends FxFragment {
                         return;
                     }
                 }
-                Bundle bundle = new Bundle();
-                bundle.putString("homework_id", lists.get(position).getId());
-                bundle.putString("starttime", lists.get(position).getStart_time());
-                bundle.putString("UNIT_NAME", lists.get(position).getName());
-                bundle.putString("IS_CHECK", lists.get(position).getIs_checked());
+                if (mHomeWorklists.get(position).getIs_complete().equals("1")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("SourceFlag", "HomeWork");
+                    bundle.putString("homework_id", mHomeWorklists.get(position).getId());
+                    bundle.putString("UNIT_NAME", mHomeWorklists.get(position).getName());
+                    bundle.putString("IS_COMPLETE", mHomeWorklists.get(position).getIs_complete());
+                    /*跳转查看已经完成的作业  在网络请请求获取数据*/
+                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), DoHomeworkActivity.class, bundle, 0);
 
-                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), HomeWorkDetailsActivity.class, bundle, 0);
-
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("homework_id", mHomeWorklists.get(position).getId());
+                    bundle.putString("starttime", mHomeWorklists.get(position).getStart_time());
+                    bundle.putString("UNIT_NAME", mHomeWorklists.get(position).getName());
+                    bundle.putString("IS_COMPLETE", mHomeWorklists.get(position).getIs_complete());
+                      /*跳转作业详情 在网络请请求获取数据*/
+                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), HomeWorkDetailsActivity.class, bundle, 0);
+                }
             }
         });
     }
@@ -111,7 +122,7 @@ public class FrHomework extends FxFragment {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             //显示
-            if (lists.size() == 0) {
+            if (mHomeWorklists.size() == 0) {
                 homeworkHttp();
             }
         }
@@ -154,8 +165,8 @@ public class FrHomework extends FxFragment {
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
                 BeHomeWorkList beHomeWorkList = json.parsingObject(BeHomeWorkList.class);
-                lists.clear();
-                lists.addAll(beHomeWorkList.getLists());
+                mHomeWorklists.clear();
+                mHomeWorklists.addAll(beHomeWorkList.getLists());
                 apHomework.notifyDataSetChanged();
             } else {
                 ToastUtil.showToast(getContext(), json.getMsg());

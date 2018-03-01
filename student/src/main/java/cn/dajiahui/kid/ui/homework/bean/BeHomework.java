@@ -19,7 +19,16 @@ public class BeHomework extends BeanObj {
     private String name;//单元名字
     private String start_time;//开始时间
     private String unit_id;
+    private String is_complete;//未开始 0:进行中 1:已完成
 
+
+    public String getIs_complete() {
+        return is_complete;
+    }
+
+    public void setIs_complete(String is_complete) {
+        this.is_complete = is_complete;
+    }
 
     public String getBook_id() {
         return book_id;

@@ -32,14 +32,14 @@ public class LineQuestionModle extends QuestionModle implements Serializable {
     private String is_right;//是否正确
     private String is_auto;//
 
-    private Map<String, Integer> myanswerMap = new HashMap<>();//我的答案集合（val对应）
+    private Map<String, String> myanswerMap = new HashMap<>();//我的答案集合（val对应）
 
 
-    public Map<String, Integer> getMyanswerMap() {
+    public Map<String, String> getMyanswerMap() {
         return myanswerMap;
     }
 
-    public void setMyanswerMap(Map<String, Integer> myanswerMap) {
+    public void setMyanswerMap(Map<String, String> myanswerMap) {
         this.myanswerMap = myanswerMap;
     }
 

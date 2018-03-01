@@ -138,8 +138,6 @@ public class ApChoice extends BaseAdapter {
                 if (mPptions.get(position).getVal().equals(inbasebean.getStandard_answer())) {
                     holder.img_rightchoice.setImageResource(R.drawable.answer_true);
                 }
-//                /*不是我的答案加白色边框*/
-//                holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);
             }
         }
         return convertView;

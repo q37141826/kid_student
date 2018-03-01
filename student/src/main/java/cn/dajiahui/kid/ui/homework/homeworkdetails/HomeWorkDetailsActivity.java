@@ -30,7 +30,7 @@ public class HomeWorkDetailsActivity extends FxActivity {
     private Button btn_dohomework;
     private String homework_id;
     private String unit_name;
-    private String is_check;
+    private String is_complete;
 
     @Override
     protected void initView() {
@@ -44,12 +44,16 @@ public class HomeWorkDetailsActivity extends FxActivity {
         Bundle bundle = getIntent().getExtras();
         String starttime = bundle.getString("starttime");
         unit_name = bundle.getString("UNIT_NAME");
-        is_check = bundle.getString("IS_CHECK");
-        setfxTtitle(DateUtils.time(starttime));//12月22日作业
+        is_complete = bundle.getString("IS_COMPLETE");
+        homework_id = bundle.getString("homework_id");
+        setfxTtitle(DateUtils.time(starttime));
         onBackText();
         initialize();
-
-        homework_id = bundle.getString("homework_id");
+        if (is_complete.equals("0")) {
+            btn_dohomework.setText("继续做作业");
+        } else {
+            btn_dohomework.setText("开始做作业");
+        }
 
         httpData();
         btn_dohomework.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +63,7 @@ public class HomeWorkDetailsActivity extends FxActivity {
                 bundle.putString("SourceFlag", "HomeWork");
                 bundle.putString("homework_id", homework_id);
                 bundle.putString("UNIT_NAME", unit_name);
-                bundle.putString("IS_CHECK", is_check);
+                bundle.putString("IS_COMPLETE", is_complete);
                 /*先跳转 在网络请请求获取数据*/
                 DjhJumpUtil.getInstance().startBaseActivity(HomeWorkDetailsActivity.this, DoHomeworkActivity.class, bundle, 0);
                 finishActivity();

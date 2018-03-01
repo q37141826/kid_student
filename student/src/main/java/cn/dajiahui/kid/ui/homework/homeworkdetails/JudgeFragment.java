@@ -197,7 +197,6 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
             inbasebean = (JudjeQuestionModle) questionModle;
 
             if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
-                /*确保回答了*/
                 if (inbasebean.getAnswerflag().equals("true")) {
                     for (int i = 0; i < mAnswerViewList.size(); i++) {
                         /*翻頁回來之后保持之前选择的状态*/

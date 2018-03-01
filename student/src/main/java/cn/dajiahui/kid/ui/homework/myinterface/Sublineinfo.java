@@ -7,6 +7,5 @@ import cn.dajiahui.kid.ui.homework.view.LineImagePointView;
  */
 
 public interface Sublineinfo {
-//    public void submitlininfo(BeAnswer beLine);
     public void submitlininfo(LineImagePointView lineImagePointView);
 }

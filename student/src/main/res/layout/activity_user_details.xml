@@ -86,7 +86,17 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:padding="@dimen/textmarginleft"
-                android:textSize="@dimen/text16"/>
+                android:textSize="@dimen/text16"
+                android:layout_alignTop="@id/image1"
+                android:layout_marginLeft="8dp"
+                android:layout_toEndOf="@id/image1"
+                android:layout_toRightOf="@id/image1"
+                android:cursorVisible="true"
+                android:lineSpacingExtra="8dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@drawable/sp_while"
+               />
         </RelativeLayout>
 
         <View

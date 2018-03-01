@@ -101,7 +101,7 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
             }
 
             inbasebean.setCurrentAnswerPosition(position);//保存当前选择的position （用于翻页回来之后恢复选择状态使用）
-            inbasebean.setAnswerflag("true");
+            inbasebean.setAnswerflag("true");//答题标记
             inbasebean.setMy_answer(inbasebean.getOptions().get(position).getVal());//作答答案
 
             /*选择正确*/

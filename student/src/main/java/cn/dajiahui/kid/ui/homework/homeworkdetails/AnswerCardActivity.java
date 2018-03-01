@@ -1,7 +1,9 @@
 package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -75,38 +77,40 @@ public class AnswerCardActivity extends FxActivity {
         beSaveAnswerCard = (BeSaveAnswerCard) bundle.getSerializable("answerCard");
         homework_id = beSaveAnswerCard.getHomework_id();
         beAnswerCArds = beSaveAnswerCard.getmAnswerCardList();
-
+        if (beSaveAnswerCard.getIs_complete().equals("1")) {
+            mBtnsubmit.setVisibility(View.GONE);
+        }
         HashMap<Integer, Object> pageMap = beSaveAnswerCard.getPageMap();
 
         for (int i = 0; i < pageMap.size(); i++) {
 
             QuestionModle questionModle = (QuestionModle) pageMap.get(i);
+            if (questionModle != null)
+                switch (questionModle.getQuestion_cate_id()) {
 
-            switch (questionModle.getQuestion_cate_id()) {
-
-                case Constant.Judje:
-                    JudjeQuestionModle jude = (JudjeQuestionModle) pageMap.get(i);
+                    case Constant.Judje:
+                        JudjeQuestionModle jude = (JudjeQuestionModle) pageMap.get(i);
                     /*如果答过题 自动提交答案的标记默认是0*/
-                    if (jude.getMy_answer() != null) {
-                        jude.setIs_auto("0");
+                        if (jude.getMy_answer() != null) {
+                            jude.setIs_auto("0");
 
-                        for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
-                            if (beAnswerCArds.get(ij).getQuestion_id().equals(jude.getId())) {
-                                int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
-                                beAnswerCArds.get(indexOf).setAnswerFlag("true");
+                            for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
+                                if (beAnswerCArds.get(ij).getQuestion_id().equals(jude.getId())) {
+                                    int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
+                                    beAnswerCArds.get(indexOf).setAnswerFlag("true");
+                                }
                             }
-                        }
                          /*回答正确*/
-                        if (jude.getMy_answer().equals(jude.getStandard_answer())) {
-                            jude.setIs_right("0");
+                            if (jude.getMy_answer().equals(jude.getStandard_answer())) {
+                                jude.setIs_right("0");
+                            } else {
+                                jude.setIs_right("1");
+                            }
                         } else {
+                            jude.setMy_answer("");
+                            jude.setIs_auto("1");
                             jude.setIs_right("1");
                         }
-                    } else {
-                        jude.setMy_answer("");
-                        jude.setIs_auto("1");
-                        jude.setIs_right("1");
-                    }
 
 //                    Logger.d("---------------------------------------------------------------");
 //                    Logger.d("判断 question_id:----" + jude.getId());
@@ -114,38 +118,36 @@ public class AnswerCardActivity extends FxActivity {
 //                    Logger.d("判断 my_answer:----" + jude.getMy_answer());
 //                    Logger.d("判断 is_right:----" + jude.getIs_right());
 //                    Logger.d("判断 is_auto:----" + jude.getIs_auto());
-//
-
-                    submitAnswerCardList.add(new BeSubmitAnswerCard(jude.getId(), jude.getQuestion_cate_id(), jude.getMy_answer(), jude.getIs_right(), jude.getIs_auto()));
+                        submitAnswerCardList.add(new BeSubmitAnswerCard(jude.getId(), jude.getQuestion_cate_id(), jude.getMy_answer(), jude.getIs_right(), jude.getIs_auto()));
 
 //                    Logger.d( "AnswerCardActivity-----判断getSubjectype :" + questionModle.getQuestion_cate_id() );
 //                    Logger.d( "AnswerCardActivity-----判断getAnswerflag:" + anJudje );
-                    break;
-                case Constant.Choice:
-                    ChoiceQuestionModle choice = (ChoiceQuestionModle) pageMap.get(i);
+                        break;
+                    case Constant.Choice:
+                        ChoiceQuestionModle choice = (ChoiceQuestionModle) pageMap.get(i);
 
                       /*如果答过题 自动提交答案的标记默认是0*/
-                    if (choice.getMy_answer() != null) {
-                        choice.setIs_auto("0");
-                        for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
+                        if (choice.getMy_answer() != null) {
+                            choice.setIs_auto("0");
+                            for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
 
-                            if (beAnswerCArds.get(ij).getQuestion_id().equals(choice.getId())) {
-                                int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
-                                beAnswerCArds.get(indexOf).setAnswerFlag("true");
+                                if (beAnswerCArds.get(ij).getQuestion_id().equals(choice.getId())) {
+                                    int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
+                                    beAnswerCArds.get(indexOf).setAnswerFlag("true");
 
+                                }
                             }
-                        }
                         /*回答正确*/
-                        if (choice.getMy_answer().equals(choice.getStandard_answer())) {
-                            choice.setIs_right("0");
+                            if (choice.getMy_answer().equals(choice.getStandard_answer())) {
+                                choice.setIs_right("0");
+                            } else {
+                                choice.setIs_right("1");
+                            }
                         } else {
+                            choice.setMy_answer("");
+                            choice.setIs_auto("1");
                             choice.setIs_right("1");
                         }
-                    } else {
-                        choice.setMy_answer("");
-                        choice.setIs_auto("1");
-                        choice.setIs_right("1");
-                    }
 //                    Logger.d("选择   :正确答案----" + choice.getStandard_answer());
 //                    Logger.d("---------------------------------------------------------------");
 //                    Logger.d("选择 question_id:----" + choice.getId());
@@ -154,41 +156,41 @@ public class AnswerCardActivity extends FxActivity {
 //                    Logger.d("选择 is_right:----" + choice.getIs_right());
 //                    Logger.d("选择 is_auto:----" + choice.getIs_auto());
 
-                    submitAnswerCardList.add(new BeSubmitAnswerCard(choice.getId(), choice.getQuestion_cate_id(), choice.getMy_answer(), choice.getIs_right(), choice.getIs_auto()));
+                        submitAnswerCardList.add(new BeSubmitAnswerCard(choice.getId(), choice.getQuestion_cate_id(), choice.getMy_answer(), choice.getIs_right(), choice.getIs_auto()));
 
 
-                    break;
-                case Constant.Sort:
-                    SortQuestionModle sort = (SortQuestionModle) pageMap.get(i);
-                    StringBuffer append = null;
-                    StringBuffer SortstringBuffer = new StringBuffer();
-                    for (int q = 1; q < sort.getInitMyanswerList().size(); q++) {
-                        append = SortstringBuffer.append("," + sort.getInitMyanswerList().get(q));
-                    }
+                        break;
+                    case Constant.Sort:
+                        SortQuestionModle sort = (SortQuestionModle) pageMap.get(i);
+                        StringBuffer append = null;
+                        StringBuffer SortstringBuffer = new StringBuffer();
+                        for (int q = 1; q < sort.getInitMyanswerList().size(); q++) {
+                            append = SortstringBuffer.append("," + sort.getInitMyanswerList().get(q));
+                        }
 
 
-                    if (sort.getInitMyanswerList().size() > 0) {
-                        sort.setIs_auto("0");
-                        sort.setMy_answer(sort.getInitMyanswerList().get(0) + append.toString());
+                        if (sort.getInitMyanswerList().size() > 0) {
+                            sort.setIs_auto("0");
+                            sort.setMy_answer(sort.getInitMyanswerList().get(0) + append.toString());
 
                             /*回答正确*/
-                        if (sort.getMy_answer().equals(sort.getStandard_answer())) {
-                            sort.setIs_right("0");
-                        } else {
-                            sort.setIs_right("1");
-                        }
-
-                        for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
-                            if (beAnswerCArds.get(ij).getQuestion_id().equals(sort.getId())) {
-                                int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
-                                beAnswerCArds.get(indexOf).setAnswerFlag("true");
+                            if (sort.getMy_answer().equals(sort.getStandard_answer())) {
+                                sort.setIs_right("0");
+                            } else {
+                                sort.setIs_right("1");
                             }
+
+                            for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
+                                if (beAnswerCArds.get(ij).getQuestion_id().equals(sort.getId())) {
+                                    int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
+                                    beAnswerCArds.get(indexOf).setAnswerFlag("true");
+                                }
+                            }
+                        } else {
+                            sort.setIs_auto("1");
+                            sort.setIs_right("1");
+                            sort.setMy_answer("");
                         }
-                    } else {
-                        sort.setIs_auto("1");
-                        sort.setIs_right("1");
-                        sort.setMy_answer("");
-                    }
 
 
 //                    Logger.d("---------------------------------------------------------------");
@@ -199,141 +201,150 @@ public class AnswerCardActivity extends FxActivity {
 //                    Logger.d("排序 is_right:----" + sort.getIs_right());
 //                    Logger.d("排序 is_auto:----" + sort.getIs_auto());
 
-                    submitAnswerCardList.add(new BeSubmitAnswerCard(sort.getId(), sort.getQuestion_cate_id(), sort.getMy_answer(), sort.getIs_right(), sort.getIs_auto()));
+                        submitAnswerCardList.add(new BeSubmitAnswerCard(sort.getId(), sort.getQuestion_cate_id(), sort.getMy_answer(), sort.getIs_right(), sort.getIs_auto()));
 
 //                    Logger.d( "AnswerCardActivity-----排序getSubjectype :" + questionModle.getQuestion_cate_id() );
 //                    Logger.d( "AnswerCardActivity-----排序getAnswerflag:" + ansort );
-                    break;
-                case Constant.Line:
-                    LineQuestionModle line = (LineQuestionModle) pageMap.get(i);
-                    Map<String, Integer> myanswerMap = line.getMyanswerMap();
+                        break;
+                    case Constant.Line:
+                        LineQuestionModle line = (LineQuestionModle) pageMap.get(i);
+                        Map<String, String> myanswerMap = line.getMyanswerMap();
 
-                    JsonElement jsonElement = new GsonUtil().getJsonElement(myanswerMap);
-                    line.setMy_answer(jsonElement.toString());
-                    List mSnList = new ArrayList();
-                    String subSN = line.getStandard_answer().substring(1, line.getStandard_answer().length() - 1);
-                    String[] spSn = subSN.split(",");
+                    /*要先判断是不是回答正确  */
+                        JsonElement jsonElement = new GsonUtil().getJsonElement(myanswerMap);
+                        line.setMy_answer(jsonElement.toString());
+//                    Logger.d("jsonElement.toString():" + jsonElement.toString());
+                        List mSnList = new ArrayList();
+                        String subSN = line.getStandard_answer().substring(1, line.getStandard_answer().length() - 1);
+                        String[] spSn = subSN.split(",");
 
 
-                    Map<String, Integer> standanserMap = new HashMap<>();
+                        Map<String, Integer> standanserMap = new HashMap<>();
                     /*截取字符串 正确答案*/
-                    for (int m = 0, len = spSn.length; m < len; m++) {
-                        String s = spSn[m].toString();
-                        mSnList.add(s);
+                        for (int m = 0, len = spSn.length; m < len; m++) {
+                            String s = spSn[m].toString();
+                            mSnList.add(s);
 
-                    }
+                        }
 
                     /*二次截取 获取答案 获取 */
-                    for (int l = 0; l < mSnList.size(); l++) {
-                        String split1 = mSnList.get(l).toString().substring(1, 2);
-                        String split2 = mSnList.get(l).toString().substring(4);
-                        standanserMap.put(split1, Integer.parseInt(split2));
-                    }
-                    int num = 0;
-                    /*循环对比正确答案*/
-                    if (myanswerMap.size() > 0) {
-                        for (int m = 0; m < myanswerMap.size(); m++) {
-                            /*取出val值*/
-                            if ((standanserMap.get((m + 1) + "")).equals((myanswerMap.get((m + 1) + "")))) {
-                                num++;
+                        for (int l = 0; l < mSnList.size(); l++) {
+                            String split1 = mSnList.get(l).toString().substring(1, 2);
+                            String s = mSnList.get(l).toString();
+                            String split2 = null;
+                            if (s.length() == 5) {/*配合测试后台数据*/
+                                split2 = mSnList.get(l).toString().toString().substring(4);
                             } else {
-                                line.setIs_right("1");
+                                split2 = mSnList.get(l).toString().substring(5, 6);
                             }
+                            standanserMap.put(split1, Integer.parseInt(split2));
                         }
+                        int num = 0;
+                    /*循环对比正确答案 */
+                        if (myanswerMap.size() > 0) {
+                            for (int m = 0; m < myanswerMap.size(); m++) {
+                            /*取出val值*/
+                                if ((standanserMap.get((m + 1) + "")).equals((myanswerMap.get((m + 1) + "")))) {
+                                    num++;
+                                } else {
+                                    line.setIs_right("1");
+                                }
+                            }
                         /*判断是否回答正确*/
-                        if (num == myanswerMap.size()) {
-                            line.setIs_right("0");
-                        }
-                        line.setIs_auto("0");
-                        line.setMy_answer(jsonElement.toString());
+                            if (num == myanswerMap.size()) {
+                                line.setIs_right("0");
+                            }
+                         /*1代表自动提交  0 手动提交*/
+                            line.setIs_auto("0");
+                            line.setMy_answer(jsonElement.toString());
 
                         /*确定答题*/
-                        for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
-                            if (beAnswerCArds.get(ij).getQuestion_id().equals(line.getId())) {
-                                int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
-                                beAnswerCArds.get(indexOf).setAnswerFlag("true");
-                            }
-                        }
-                    } else {
-                        line.setIs_auto("1");
-                        line.setIs_right("1");
-                        line.setMy_answer("");
-                    }
-
-
-//                    Logger.d("连线 getStandard_answer():----" + line.getStandard_answer());
-//                    Logger.d("连线 getMyanswerMap:----" + line.getMyanswerMap());
-//                    Logger.d("---------------------------------------------------------------");
-//                    Logger.d("连线 question_id:----" + line.getId());
-//                    Logger.d("连线 question_cate_id:----" + line.getQuestion_cate_id());
-//                    Logger.d("连线 my_answer:----" + line.getMy_answer());
-//                    Logger.d("连线 is_right:----" + line.getIs_right());
-//                    Logger.d("连线 is_auto:----" + line.getIs_auto());
-
-                    submitAnswerCardList.add(new BeSubmitAnswerCard(line.getId(), line.getQuestion_cate_id(), line.getMy_answer(), line.getIs_right(), line.getIs_auto()));
-
-
-                    break;
-                case Constant.Completion:
-                    CompletionQuestionModle completion = (CompletionQuestionModle) pageMap.get(i);
-
-                    Map<Integer, Map<Integer, String>> integerMapMap = completion.getmAllMap();
-
-                    StringBuffer sbAll = new StringBuffer();
-                    String appendAll = "";
-                    if (integerMapMap.size() > 0) {
-                        for (int c = 0; c < integerMapMap.size(); c++) {
-                            if (integerMapMap.get(c) != null) {
-                                Map<Integer, String> integerStringMap = integerMapMap.get(c);
-                                StringBuffer stringBuffer = new StringBuffer();
-                                for (int d = 0; d < integerStringMap.size(); d++) {
-                                    StringBuffer sb1 = stringBuffer.append(integerStringMap.get(d).toString());
-                                    if (c == 0 && d + 1 == integerStringMap.size()) {
-                                        append1 = sb1;
-                                        break;
-                                    } else if (c > 0 && d + 1 == integerStringMap.size()) {
-                                        append2 = sbAll.append("۞" + sb1);
-                                    }
-                                }
-
-                                if (c + 1 == integerMapMap.size()) {
-                                    if (integerMapMap.size() == 1) {
-                                        appendAll = append1.toString();
-                                    } else {
-                                        appendAll = append1.toString() + append2.toString();
-                                    }
-
-                                }
-                            }
-
-                        }
-                    /*没有作答答案自动提交*/
-                        if (integerMapMap.size() > 0) {
-                            completion.setIs_auto("0");
-                            if (!appendAll.equals("")) {
-                                completion.setMy_answer(appendAll.toString());
-                                if (appendAll.equals(completion.getStandard_answer())) {
-                                    completion.setIs_right("0");
-                                } else {
-                                    completion.setIs_right("1");
-                                }
-                            }
-                       /*确定答题*/
                             for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
-                                if (beAnswerCArds.get(ij).getQuestion_id().equals(completion.getId())) {
+                                if (beAnswerCArds.get(ij).getQuestion_id().equals(line.getId())) {
                                     int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
                                     beAnswerCArds.get(indexOf).setAnswerFlag("true");
                                 }
                             }
+                        } else {
+                            line.setIs_auto("1");
+                            line.setIs_right("1");
+                            line.setMy_answer("");
                         }
-                    } else {
-                        completion.setMy_answer("");
-                        completion.setIs_auto("1");
-                        completion.setIs_right("1");
 
-                    }
 
-                    submitAnswerCardList.add(new BeSubmitAnswerCard(completion.getId(), completion.getQuestion_cate_id(), completion.getMy_answer(), completion.getIs_right(), completion.getIs_auto()));
+                        Logger.d("连线 getStandard_answer():----" + line.getStandard_answer());
+                        Logger.d("连线 getMyanswerMap:----" + line.getMyanswerMap());
+                        Logger.d("---------------------------------------------------------------");
+                        Logger.d("连线 question_id:----" + line.getId());
+                        Logger.d("连线 question_cate_id:----" + line.getQuestion_cate_id());
+                        Logger.d("连线 my_answer:----" + line.getMy_answer());
+                        Logger.d("连线 is_right:----" + line.getIs_right());
+                        Logger.d("连线 is_auto:----" + line.getIs_auto());
+
+                        submitAnswerCardList.add(new BeSubmitAnswerCard(line.getId(), line.getQuestion_cate_id(), line.getMy_answer(), line.getIs_right(), line.getIs_auto()));
+
+
+                        break;
+                    case Constant.Completion:
+                        CompletionQuestionModle completion = (CompletionQuestionModle) pageMap.get(i);
+
+                        Map<Integer, Map<Integer, String>> integerMapMap = completion.getmAllMap();
+
+                        StringBuffer sbAll = new StringBuffer();
+                        String appendAll = "";
+                        if (integerMapMap.size() > 0) {
+                            for (int c = 0; c < integerMapMap.size(); c++) {
+                                if (integerMapMap.get(c) != null) {
+                                    Map<Integer, String> integerStringMap = integerMapMap.get(c);
+                                    StringBuffer stringBuffer = new StringBuffer();
+                                    for (int d = 0; d < integerStringMap.size(); d++) {
+                                        StringBuffer sb1 = stringBuffer.append(integerStringMap.get(d).toString());
+                                        if (c == 0 && d + 1 == integerStringMap.size()) {
+                                            append1 = sb1;
+                                            break;
+                                        } else if (c > 0 && d + 1 == integerStringMap.size()) {
+                                            append2 = sbAll.append("۞" + sb1);
+                                        }
+                                    }
+
+                                    if (c + 1 == integerMapMap.size()) {
+                                        if (integerMapMap.size() == 1) {
+                                            appendAll = append1.toString();
+                                        } else {
+                                            appendAll = append1.toString() + append2.toString();
+                                        }
+
+                                    }
+                                }
+
+                            }
+                       /*没有作答答案自动提交*/
+                            if (integerMapMap.size() > 0) {
+                                completion.setIs_auto("0");
+                                if (!appendAll.equals("")) {
+                                    completion.setMy_answer(appendAll.toString());
+                                    if (appendAll.equals(completion.getStandard_answer())) {
+                                        completion.setIs_right("0");
+                                    } else {
+                                        completion.setIs_right("1");
+                                    }
+                                }
+                           /*确定答题*/
+                                for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
+                                    if (beAnswerCArds.get(ij).getQuestion_id().equals(completion.getId())) {
+                                        int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
+                                        beAnswerCArds.get(indexOf).setAnswerFlag("true");
+                                    }
+                                }
+                            }
+                        } else {
+                            completion.setMy_answer("");
+                            completion.setIs_auto("1");
+                            completion.setIs_right("1");
+
+                        }
+
+                        submitAnswerCardList.add(new BeSubmitAnswerCard(completion.getId(), completion.getQuestion_cate_id(), completion.getMy_answer(), completion.getIs_right(), completion.getIs_auto()));
 
 //                    Logger.d("---------------------------------------------------------------");
 //                    Logger.d("填空 question_id:----" + completion.getId());
@@ -343,11 +354,11 @@ public class AnswerCardActivity extends FxActivity {
 //                    Logger.d("填空 is_right:----" + completion.getIs_right());
 //                    Logger.d("填空 is_auto:----" + completion.getIs_auto());
 
-                    break;
+                        break;
 
-                default:
-                    break;
-            }
+                    default:
+                        break;
+                }
 
         }
 
@@ -359,6 +370,17 @@ public class AnswerCardActivity extends FxActivity {
 
         grildview.setAdapter(apAnswerCard);
 
+        grildview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                int current_num = beAnswerCArds.get(position).getCurrent_num();
+                intent.putExtra("current_num", current_num);
+                Logger.d("current_num:" + current_num);
+                setResult(1, intent);
+                finishActivity();
+            }
+        });
 
     }
 

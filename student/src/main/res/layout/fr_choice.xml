@@ -15,7 +15,10 @@
             android:id="@+id/tv_choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"/>
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/line"
@@ -45,6 +48,7 @@
 
         <ListView
             android:id="@+id/listview"
+            android:background="@color/white"
             android:layout_width="280dp"
             android:layout_height="match_parent"
             android:layout_below="@+id/img_conment"

@@ -148,7 +148,7 @@ public class HeadJson {
      * @return
      */
     public <T> T parsingObject(Class<T> classs) {
-        if (status != -1 && !object.isNull(mObj) && object.optJSONObject(mObj).toString() != "") {
+        if (status != -1 && !object.isNull(mObj) && object.optJSONObject(mObj) != null) {
             GsonUtil gson = new GsonUtil();
             return gson.getJsonObject(object.optJSONObject(mObj).toString(), classs);
         }

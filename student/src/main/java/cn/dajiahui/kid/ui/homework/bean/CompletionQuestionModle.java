@@ -34,7 +34,7 @@ public class CompletionQuestionModle extends QuestionModle {
     private String isFocusable = "";//editext焦点标记  yes 有焦点  no无焦点
     private String isShowRightAnswer = "";//显示正确答案 yes 显示正确答案  no不显示正确答案
     private String textcolor = "";//设置字体和边框颜色
-    private int letterNum;//字母数量
+
 
     private List<List<CompletionQuestionadapterItemModle>> showRightList = new ArrayList();
 
@@ -56,13 +56,7 @@ public class CompletionQuestionModle extends QuestionModle {
         this.showRightItemList = showRightItemList;
     }
 
-    public int getLetterNum() {
-        return letterNum;
-    }
 
-    public void setLetterNum(int letterNum) {
-        this.letterNum = letterNum;
-    }
 
     public String getAnalysisMineAnswer() {
         return analysisMineAnswer;
