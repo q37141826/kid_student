@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.study.bean.BeCradPratice;
+import cn.dajiahui.kid.ui.study.bean.BeCradPraticePageData;
 
 /**
  * Created by lenovo on 2018/1/25.
@@ -23,17 +23,18 @@ import cn.dajiahui.kid.ui.study.bean.BeCradPratice;
 public class CardView extends RelativeLayout {
 
     private Context context;
-    private BeCradPratice beCradPratice;
+    private BeCradPraticePageData beCradPratice;
     public ImageView imageView;
-    public TextView textView;
+
+    public RelativeLayout linearLayout;
 
     @SuppressLint("ResourceAsColor")
-    public CardView(Context context, BeCradPratice beCradPratice) {
+    public CardView(Context context, BeCradPraticePageData beCradPraticePageData) {
         super(context);
         this.context = context;
-        this.beCradPratice = beCradPratice;
+        this.beCradPratice = beCradPraticePageData;
         addImageView();
-        this.setBackgroundColor(R.color.red);
+//        this.setBackgroundColor(getResources().getColor(R.color.gray));
         addTextView();
     }
 
@@ -51,8 +52,7 @@ public class CardView extends RelativeLayout {
         lp.addRule(CENTER_IN_PARENT, TRUE);
         imageView.setId(R.string.card_imgage);
         Glide.with(context)
-//                .load(beCradPratice.getImg_url())
-                .load("http://img.zcool.cn/community/018d4e554967920000019ae9df1533.jpg@900w_1l_2o_100sh.jpg")
+                .load(beCradPratice.getPage_url())
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
@@ -64,16 +64,36 @@ public class CardView extends RelativeLayout {
     /*添加文字*/
     @SuppressLint("ResourceType")
     private void addTextView() {
+        linearLayout = new RelativeLayout(context);
 
-        textView = new TextView(context);
-        LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        textView.setLayoutParams(tparams);
-        tparams.topMargin = 300;
-        tparams.addRule(CENTER_IN_PARENT, TRUE);
-        textView.setId(R.string.card_textview);
-        textView.setText(beCradPratice.getChinese());
+        TextView tvCh = new TextView(context);
+        LayoutParams tparamsCh = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tvCh.setLayoutParams(tparamsCh);
+        tparamsCh.topMargin = 300;
+        tparamsCh.addRule(CENTER_IN_PARENT, TRUE);
+        tvCh.setId(R.string.card_textview);
+        tvCh.setText(beCradPratice.getItem().get(0).getChinese());
+        tvCh.setTextColor(getResources().getColor(R.color.red));
 
-        this.addView(textView);
+        linearLayout.addView(tvCh);
+
+//        TextView tvEn = new TextView(context);
+//        LayoutParams tparamsEn = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        tvCh.setLayoutParams(tparamsEn);
+//        tparamsEn.topMargin = 300;
+//        tparamsEn.addRule(CENTER_IN_PARENT, TRUE);
+//        tvCh.setId(R.string.card_textview);
+//        tvCh.setText(beCradPratice.getItem().get(0).getEnglish());
+//        tvCh.setTextColor(getResources().getColor(R.color.red));
+//
+//        linearLayout.addView(tvEn);
+
+        LayoutParams tparamRoot = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        linearLayout.setLayoutParams(tparamRoot);
+//        tparamRoot.topMargin = 330;
+        tparamRoot.addRule(CENTER_IN_PARENT, TRUE);
+
+        this.addView(linearLayout);
     }
 
 

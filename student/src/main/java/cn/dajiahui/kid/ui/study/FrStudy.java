@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fxtx.framework.http.callback.ResultCallback;
+import com.fxtx.framework.image.util.GlideUtil;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxFragment;
@@ -29,7 +30,6 @@ import cn.dajiahui.kid.ui.study.bean.BeStudy;
 import cn.dajiahui.kid.ui.study.bean.ChooseUtils;
 import cn.dajiahui.kid.ui.study.bean.ChooseUtilsLists;
 import cn.dajiahui.kid.util.DjhJumpUtil;
-import cn.dajiahui.kid.util.Logger;
 
 import static cn.dajiahui.kid.controller.Constant.GOCHOICETEACHINGMATERIAL;
 
@@ -88,16 +88,15 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
 
     }
 
-
+    private boolean isRefresh = false;
     private View.OnClickListener onClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tv_choiceMaterial:
-                    Toast.makeText(activity, "选择教材", Toast.LENGTH_SHORT).show();
                     Bundle bundle = new Bundle();
                     DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), ChoiceTeachingMaterialActivity.class, bundle, GOCHOICETEACHINGMATERIAL);
-
+                    isRefresh = true;
                     break;
                 case R.id.im_user:
 
@@ -114,20 +113,16 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
 
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            studyHttp();
-
-        }
-    }
-
-
-    @Override
     public void onResume() {
         super.onResume();
+        if (isRefresh) {
+            studyHttp();
+            isRefresh = !isRefresh;
+        }
+
     }
 
+    /*网络请求*/
     private void studyHttp() {
         pagNum = 1;
         showfxDialog();
@@ -153,13 +148,15 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
 
         @Override
         public void onResponse(String response) {
-
 //            Logger.d("自学首页：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
                 ChooseUtils chooseUtils = json.parsingObject(ChooseUtils.class);
                 if (chooseUtils != null) {
+                    GlideUtil.showNoneImage(getActivity(), chooseUtils.getLogo(), imgsupplementary);
+                    tvtitle.setText(chooseUtils.getSeries());
+                    tvunit.setText(chooseUtils.getName());
                     mBookId = chooseUtils.getId();
                     mChooseUtilsList.clear();
                     mChooseUtilsList.addAll(chooseUtils.getLists());
@@ -188,6 +185,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
         tvchoiceMaterial.setOnClickListener(onClick);
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -196,8 +194,6 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
 
     @Override
     public void assignment(BeStudy beStudy) {
-
-//      imgsupplementary.setImageResource();
         tvtitle.setText(beStudy.getTv_title());
         tvunit.setText(beStudy.getTv_unit());
     }

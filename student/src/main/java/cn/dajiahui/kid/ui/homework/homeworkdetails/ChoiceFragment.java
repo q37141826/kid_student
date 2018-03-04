@@ -57,30 +57,25 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         super.onViewCreated(view, savedInstanceState);
         initialize();
         tv_choice.setText(inbasebean.getTitle());
+
        /*加载内容图片*/
         Glide.with(getActivity()).load(inbasebean.getQuestion_stem()).asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(img_conment);
+                .diskCacheStrategy(DiskCacheStrategy.ALL).into(img_conment);
 
         List<BeChoiceOptions> options = inbasebean.getOptions();
+        apChoice = new ApChoice(getActivity(), options, inbasebean);
 
-        /*判断是否已经上传后台 0 没答过题  1 答过题*/
-        if (inbasebean.getIs_answer().equals("0")) {
-            apChoice = new ApChoice(getActivity(), options, inbasebean);
+        /*listview的点击事件*/
+        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(), "选择" + (position + 1) + "答案", Toast.LENGTH_SHORT).show();
+                inbasebean.setChoiceitemposition(position);//保存选择题当前item的索引 用于 翻页回来后指定某个item选择状态
+              /*刷新ui*/
+                apChoice.changeState(getActivity(), submit, position, inbasebean);
 
-            mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(getActivity(), "选择" + (position + 1) + "答案", Toast.LENGTH_SHORT).show();
-                    inbasebean.setChoiceitemposition(position);//保存选择题当前item的索引 用于 翻页回来后指定某个item选择状态
-                    apChoice.changeState(getActivity(), submit, position, inbasebean);
-
-                }
-            });
-        } else if (inbasebean.getIs_answer().equals("1")) {
-            /*上传答案回答过题了 显示自己的答案样式和错误答案的样式*/
-            apChoice = new ApChoice(getActivity(), options, inbasebean);
-        }
+            }
+        });
 
         /*设置适配器*/
         mListview.setAdapter(apChoice);
@@ -110,12 +105,7 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         tv_choice = getView(R.id.tv_choice);
         img_play = getView(R.id.img_play);
         img_conment = getView(R.id.img_conment);
-//        scrollView = getView(R.id.srcllview);
-           /*判断是否已经上传后台 0 没答过题  1 答过题*/
-//        if (inbasebean.getIs_answer().equals("0")) {
-            img_play.setOnClickListener(onClick);
-//        }
-
+        img_play.setOnClickListener(onClick);
     }
 
     private View.OnClickListener onClick = new View.OnClickListener() {
@@ -129,7 +119,6 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
                     playMp3(mediaUrl);
 
                     break;
-
                 default:
                     break;
             }
@@ -147,7 +136,6 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
         System.gc();
     }
 
@@ -182,7 +170,7 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
             } else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
 
 
-                 /*更新UI  进行对错判断机制*/
+                  /*更新UI  进行对错判断机制*/
 
                   /*进行UI的样式书写  待续 imgtrue、 imgfasle 加遮罩层*/
                  /*回答正确*/

@@ -452,7 +452,6 @@ public class RequestUtill {
     /*首页获取学生作业列表*/
     public void httpGetStudentHomeWork(Context context, ResultCallback callback, String pageSize, String page) {
         IdentityHashMap params = new IdentityHashMap<>();
-        Logger.d("UserController.getInstance().getUser().getToken():" + UserController.getInstance().getUser().getToken());
         params.put("token", UserController.getInstance().getUser().getToken());
         params.put("pageSize", pageSize);//分页显示数目
         params.put("page", page);//当前页数
@@ -467,15 +466,15 @@ public class RequestUtill {
         params.put("token", UserController.getInstance().getUser().getToken());
         params.put("homework_id", homework_id);//分页显示数目
 
-        getHttpBuilder(context, "/student/homework/detail").params(params).post(callback);
+        getHttpBuilder(context, "/student/homework/answersheet").params(params).post(callback);
     }
 
     /*获取学生作业所有题*/
     public void httpGetStudentHomeWorkhomeworkContinue(Context context, ResultCallback callback, String homework_id) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
-        params.put("homework_id", homework_id);//分页显示数目
-        getHttpBuilder(context, "student/homework/continue").params(params).post(callback);
+        params.put("homework_id", homework_id);
+        getHttpBuilder(context, "student/homework/questions").params(params).post(callback);
 
     }
 
@@ -513,12 +512,12 @@ public class RequestUtill {
         params.put("token", UserController.getInstance().getUser().getToken());
         params.put("org_id", org_id);
         params.put("series", series);
-        params.put("pageSize", page);
+//        params.put("pageSize", pageSize);
         params.put("page", page);
         getHttpBuilder(context, "student/book/list").params(params).post(callback);
     }
 
-    /*选择教材系列下的列表*/
+    /*选择教材系列下的列表 点击开始学习*/
     public void ChoiceTeachingMaterialBook(Context context, ResultCallback callback, String org_id, String book_id) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
@@ -606,6 +605,7 @@ public class RequestUtill {
 
         getHttpBuilder(context, "class-book/get-textbook-play").params(params).post(callback);
     }
+
     /*随身听*/
     public void httpPersonalStereo(Context context, ResultCallback callback, String book_id, String unit_id) {
         IdentityHashMap params = new IdentityHashMap<>();
@@ -626,6 +626,22 @@ public class RequestUtill {
         getHttpBuilder(context, "class-book/get-word-card").params(params).post(callback);
     }
 
+    /*练习*/
+    public void httpExercise(Context context, ResultCallback callback, String book_id, String unit_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("book_id", book_id);
+        params.put("unit_id", unit_id);
+
+        getHttpBuilder(context, "class-book/exercise").params(params).post(callback);
+    }
+
+    /*展示用户信息*/
+    public void httpShowUserProfileInfo(Context context, ResultCallback callback) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        getHttpBuilder(context, "teacher/member/index").params(params).post(callback);
+    }
 
     /**
      * 上传头像
@@ -647,7 +663,28 @@ public class RequestUtill {
 
             new OkHttpRequest.Builder().tag(context).url(getFileUrl() + "uploader/image").files(new Pair<String, File>("file", file)).params(params).upload(callback);
         }
+    }
 
+    /*真正修改头像*/
+    public void httpChangeUserInfo(Context context, ResultCallback callback, int type, String info) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        switch (type) {
+            case 0://修改头像
+                params.put("avatar", info);
+                break;
+            case 1://修改姓名
+                params.put("nickname", info);
+                break;
+            case 2://修改性别
+                params.put("gender", info);
+                break;
+            case 3://生日
+                params.put("birthday", info);
+                break;
+
+        }
+        getHttpBuilder(context, "teacher/member/update").params(params).post(callback);
     }
 
 }

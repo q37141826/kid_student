@@ -75,11 +75,14 @@ public class DownloadFile {
             } else if (befile.getFileType() == Constant.file_personal_stereo) {
                 Logger.d("随身听类型下载mp3:");
                 this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp3";
+            } else if (befile.getFileType() == Constant.file_card_pratice) {
+                Logger.d("卡片练习下载mp3:");
+                this.fileName = MD5.getMD5(befile.getFileUrl().substring(befile.getFileUrl().lastIndexOf("/"))) + ".mp3";
             }
 
 
         }
-        if (befile.getFileType() != Constant.file_textbookplay_bgAudio)
+        if (befile.getFileType() != Constant.file_textbookplay_bgAudio || befile.getFileType() != Constant.file_card_pratice)
             showfxDialog("下载中");
 
         Logger.d("要下載文件的名字：" + this.fileName);
@@ -146,7 +149,6 @@ public class DownloadFile {
                     FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathTextbookPlayMp4() + fileName);
                     onDown.onDownload(KidConfig.getInstance().getPathTextbookPlayMp4() + fileName, progressDialog);
                     Logger.d("課本剧复制mp4完成！");
-
                 } else if (befile.getFileType() == Constant.file_textbookplay_bgAudio) {
 
                     FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathTextbookPlayBackgroundAudio() + fileName);
@@ -166,6 +168,11 @@ public class DownloadFile {
                     FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathPersonalStereo() + fileName);
                     onDown.onDownload(KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + fileName, progressDialog);
                     Logger.d("随身听背景音复制完成！");
+                } else if (befile.getFileType() == Constant.file_card_pratice) {
+
+                    FileUtil.copyFile(file.getPath(), KidConfig.getInstance().getPathCardPratice() + fileName);
+                    onDown.onDownload(KidConfig.getInstance().getPathCardPratice() + fileName, progressDialog);
+                    Logger.d("卡片练习复制完成！");
                 }
 
                 /*下载成功后删除temp文件内容*/

@@ -36,14 +36,15 @@
                 android:textSize="@dimen/text18"/>
 
             <TextView
+                android:id="@+id/defealt_tel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/textmarginleft"
                 android:drawablePadding="10dp"
-                android:drawableRight="@drawable/ico_to"
-                android:text="13051152997"
+                android:drawableRight="@drawable/go_right"
+
                 android:textSize="@dimen/text16"/>
 
         </RelativeLayout>
@@ -72,6 +73,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/gray_E9E9E9"/>
+
         <RelativeLayout
             android:id="@+id/tvclean"
             android:layout_width="match_parent"
@@ -93,7 +95,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/textmarginleft"
                 android:drawablePadding="10dp"
-                android:drawableRight="@drawable/ico_to"
+                android:drawableRight="@drawable/go_right"
                 android:textSize="@dimen/text16"/>
 
         </RelativeLayout>

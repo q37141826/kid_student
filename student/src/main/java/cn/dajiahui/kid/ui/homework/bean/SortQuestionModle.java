@@ -1,6 +1,5 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,15 +28,6 @@ public class SortQuestionModle extends QuestionModle {
     private String is_auto = "";//
 
 
-    List<String> initMyanswerList=new ArrayList<>();//我的答案的集合（val值）
-
-    public List<String> getInitMyanswerList() {
-        return initMyanswerList;
-    }
-
-    public void setInitMyanswerList(List<String> initMyanswerList) {
-        this.initMyanswerList = initMyanswerList;
-    }
 
     /*保存答案集合 key：左边的顺序 vul：对应右边的坐标点*/
     public Map<Integer, BeLocation> sortAnswerMap = new HashMap<>();

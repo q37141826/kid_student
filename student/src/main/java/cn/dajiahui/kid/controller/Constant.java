@@ -42,6 +42,8 @@ public class Constant {
 
     public static final int file_personal_stereo = 7; //随身听
 
+    public static final int file_card_pratice = 8; //卡片练习
+
 
     /**
      * 通过我的班级列表进入的

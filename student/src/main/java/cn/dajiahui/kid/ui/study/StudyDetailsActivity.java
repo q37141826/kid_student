@@ -14,12 +14,12 @@ import java.util.List;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
-import cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity;
 import cn.dajiahui.kid.ui.study.adapter.ApChoiceStudy;
 import cn.dajiahui.kid.ui.study.bean.BeChoiceStudy;
 import cn.dajiahui.kid.ui.study.kinds.cardpractice.CardPracticeActivity;
 import cn.dajiahui.kid.ui.study.kinds.karaoke.KaraOkeActivity;
 import cn.dajiahui.kid.ui.study.kinds.personalstereo.PersonalStereoActivity;
+import cn.dajiahui.kid.ui.study.kinds.practice.DoPraticeActivity;
 import cn.dajiahui.kid.ui.study.kinds.readingbook.ReadingBookActivity;
 import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookDramaActivity;
 import cn.dajiahui.kid.ui.study.view.OpenGrildView;
@@ -74,6 +74,7 @@ public class StudyDetailsActivity extends FxActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("BOOK_ID", book_id);
                 bundle.putString("UNIT_ID", unit_id);
+                bundle.putString("UNIT_NAME", unit_name);
                 /*点读*/
                 /*网络请求  下载音频*/
                 deleteTemp();
@@ -81,14 +82,14 @@ public class StudyDetailsActivity extends FxActivity {
 
                     case Constant.READINGBOOK:
 
-                        bundle.putString("UNIT_NAME", unit_name);
                         DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, ReadingBookActivity.class, bundle, 0);
                         break;
                     case Constant.TEXTBOOKPLAY:
+
                         DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, TextBookDramaActivity.class, bundle, 0);
                         break;
                     case Constant.KARAOKE:
-                        bundle.putString("UNIT_NAME", unit_name);
+
                         DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, KaraOkeActivity.class, bundle, 0);
 
                         break;
@@ -101,43 +102,14 @@ public class StudyDetailsActivity extends FxActivity {
 
                         break;
                     case Constant.PRATICE:
-                        /*练习与作业复用一个activity*/
-
-//                        Bundle bundle = new Bundle();
-                        bundle.putString("SourceFlag", "Practice");
-                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, DoHomeworkActivity.class, bundle, 0);
+                        DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, DoPraticeActivity.class, bundle, 0);
 
                         break;
-
                 }
-
             }
         });
 
     }
-
-//    /*下载课本剧资源*/
-//    private void downloadTextBookPlayData() {
-//
-//        BeDownFile file = new BeDownFile(Constant.file_textbookplay_mp4, "http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/test/hDTD2i2Yxy.mp4", "", KidConfig.getInstance().getPathTemp());
-//          /*下载成功后跳转 ReadingBookActivity*/
-//        new DownloadFile(this, file, false, new OnDownload() {
-//            @Override
-//            public void onDownload(String fileurl, FxProgressDialog progressDialog) {
-//
-//                    /*关闭下载dialog*/
-//                if (progressDialog != null && progressDialog.isShowing()) {
-//                    progressDialog.dismiss();
-//                }
-//                /*进行判断后在跳转*/
-//                DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, TextBookDramaActivity.class);
-//
-//                Logger.d("majin-------------课本剧" + fileurl);
-//
-//
-//            }
-//        });
-//    }
 
     /*初始化*/
     private void initialize() {

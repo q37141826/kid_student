@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +41,9 @@ public class TextBookSuccessActivity extends FxActivity {
     private TextView tvrecordagain;//重新录制
     private TextView tvsavemineworks;//保存我的作品
     private BeGoTextBookSuccess beGoTextBookSuccess;
+    private LinearLayout bottomRoot;//底部重新录制，保存到我的作品的父布局
     private String makeTextBookDrma;
+    private String showBottom;
 
 
     @Override
@@ -55,9 +58,12 @@ public class TextBookSuccessActivity extends FxActivity {
         initialize();
         Intent intent = this.getIntent();
         makeTextBookDrma = intent.getStringExtra("MakeFlag");
+        /*表示有显示底部按钮的标志 只有制作卡拉OK 课本剧的时候才显示*/
+        if (intent.getStringExtra("ShowBottom").equals("SHOW")) {
+            bottomRoot.setVisibility(View.VISIBLE);
+        }
 
         if (makeTextBookDrma.equals("MakeTextBookDrma")) {
-
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
         } else if (makeTextBookDrma.equals("MakeKraoOke")) {
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
@@ -89,6 +95,7 @@ public class TextBookSuccessActivity extends FxActivity {
         tvfraction = getView(R.id.tv_fraction);
         rbscore = getView(R.id.rb_score);
         tvshare = getView(R.id.tv_share);
+        bottomRoot = getView(R.id.bottomRoot);
         getView(R.id.img_weixin).setOnClickListener(onClick);
         getView(R.id.img_pengyouquan).setOnClickListener(onClick);
         getView(R.id.tv_recordagain).setOnClickListener(onClick);

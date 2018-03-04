@@ -3,25 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:background="@color/black"
+        android:gravity="center">
 
-        <cn.dajiahui.kid.ui.study.kinds.karaoke.JCVideoPlayerMakeKaraOke
-            android:id="@+id/videoplayer"
+        <VideoView
+            android:id="@+id/makeVideoView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="30dp"
@@ -52,6 +59,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
+
         <Button
             android:id="@+id/btn_startRecord"
             android:layout_width="match_parent"
@@ -60,9 +68,5 @@
             android:text="开始录制"
             android:textColor="@color/white"
             android:textSize="16sp"/>
-
-
     </RelativeLayout>
-
-
 </LinearLayout>

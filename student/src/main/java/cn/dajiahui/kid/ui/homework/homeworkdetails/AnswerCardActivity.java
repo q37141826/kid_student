@@ -272,14 +272,14 @@ public class AnswerCardActivity extends FxActivity {
                         }
 
 
-                        Logger.d("连线 getStandard_answer():----" + line.getStandard_answer());
-                        Logger.d("连线 getMyanswerMap:----" + line.getMyanswerMap());
-                        Logger.d("---------------------------------------------------------------");
-                        Logger.d("连线 question_id:----" + line.getId());
-                        Logger.d("连线 question_cate_id:----" + line.getQuestion_cate_id());
-                        Logger.d("连线 my_answer:----" + line.getMy_answer());
-                        Logger.d("连线 is_right:----" + line.getIs_right());
-                        Logger.d("连线 is_auto:----" + line.getIs_auto());
+//                        Logger.d("连线 getStandard_answer():----" + line.getStandard_answer());
+//                        Logger.d("连线 getMyanswerMap:----" + line.getMyanswerMap());
+//                        Logger.d("---------------------------------------------------------------");
+//                        Logger.d("连线 question_id:----" + line.getId());
+//                        Logger.d("连线 question_cate_id:----" + line.getQuestion_cate_id());
+//                        Logger.d("连线 my_answer:----" + line.getMy_answer());
+//                        Logger.d("连线 is_right:----" + line.getIs_right());
+//                        Logger.d("连线 is_auto:----" + line.getIs_auto());
 
                         submitAnswerCardList.add(new BeSubmitAnswerCard(line.getId(), line.getQuestion_cate_id(), line.getMy_answer(), line.getIs_right(), line.getIs_auto()));
 
@@ -432,8 +432,8 @@ public class AnswerCardActivity extends FxActivity {
 
         String s = new GsonUtil().getJsonElement(new ToAnswerCardJson(submitAnswerCardList)).toString();
 
-        Logger.d("s：===" + s);
-        RequestUtill.getInstance().httpSubmitAnswerCard(AnswerCardActivity.this, callSubmitAnswerCard, homework_id, "-1",
+       /* 要自己判断是否已经完成作业 -1:未开始 0:进行中 1:已完成  */
+        RequestUtill.getInstance().httpSubmitAnswerCard(AnswerCardActivity.this, callSubmitAnswerCard, homework_id, "1",
                 new GsonUtil().getJsonElement(new ToAnswerCardJson(submitAnswerCardList)).toString());
 
     }

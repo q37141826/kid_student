@@ -82,7 +82,7 @@ public class PersonalStereoActivity extends FxActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setfxTtitle("随身听");
+        setfxTtitle("随身听");
         onBackText();
         Bundle mPersonalStereoBundle = getIntent().getExtras();
         book_id = mPersonalStereoBundle.getString("BOOK_ID");
@@ -117,27 +117,28 @@ public class PersonalStereoActivity extends FxActivity {
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
                 BePersonalStereo bePersonalStereo = json.parsingObject(BePersonalStereo.class);
-
-                bePersonalStereoPageData = bePersonalStereo.getPage_data().get(0);
-                if (bePersonalStereoPageData != null) {
-                    setfxTtitle(bePersonalStereoPageData.getTitle());
+                if (bePersonalStereo.getPage_data().size() > 0) {
+                    bePersonalStereoPageData = bePersonalStereo.getPage_data().get(0);
+                    if (bePersonalStereoPageData != null) {
+                        setfxTtitle(bePersonalStereoPageData.getTitle());
 
                    /*文件名以MD5加密*/
-                    String mp3Name = MD5.getMD5(bePersonalStereoPageData.getMusic_oss_name().substring(bePersonalStereoPageData.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
+                        String mp3Name = MD5.getMD5(bePersonalStereoPageData.getMusic_oss_name().substring(bePersonalStereoPageData.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
 
-                    if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPersonalStereo() + mp3Name)) {
+                        if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPersonalStereo() + mp3Name)) {
                     /*读取本地*/
-                        PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathPersonalStereo() + mp3Name);
+                            PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathPersonalStereo() + mp3Name);
 
-                    } else {
+                        } else {
                     /*网络下载*/
-                        downloadPersonalStereo();
+                            downloadPersonalStereo();
 
+                        }
+                        setProgress(true);//设置进度
+                        startTimer();//启动计时器
+
+                        tvcontent.setText(bePersonalStereoPageData.getInfo());
                     }
-                    setProgress(true);//设置进度
-                    startTimer();//启动计时器
-
-                    tvcontent.setText(bePersonalStereoPageData.getInfo());
                 }
             } else {
                 ToastUtil.showToast(PersonalStereoActivity.this, json.getMsg());

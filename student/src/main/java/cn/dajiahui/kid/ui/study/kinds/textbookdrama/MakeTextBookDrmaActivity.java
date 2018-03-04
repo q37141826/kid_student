@@ -15,8 +15,10 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.ui.FxActivity;
@@ -56,7 +58,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.OnPageChangeListener {
 
     private BeTextBookDramaPageData bookDrama;
-    private JCVideoPlayerTextBook mVideoplayer;
+    private VideoView mVideoView;
     private NoScrollViewPager mViewpager;
     private ImageView imgrecording;
     private ImageView imgplayrecoding;
@@ -76,7 +78,7 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
     private AudioManager audioManager;
     private TextView submit;//提交按钮
     private BeGoTextBookSuccess beGoTextBookSuccess;       /*向合成功后进入的activity带的数据*/
-
+    private Map<Integer, TextBookDramaCardFragment> mTextBookDramaCardMap = new HashMap<>();//保存当前Fragment的map
 
     @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
@@ -85,13 +87,12 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 0:
-                    if (mVideoplayer.getMediaPlayer() != null) {
-                        int currentPosition = mVideoplayer.getCurrentPosition();
+                    int currentPosition = mVideoView.getCurrentPosition();
                        /*实时在endtime区间内 停止音频播放*/
-                        if (((msg.arg1 - 100) < (currentPosition)) && ((currentPosition) < (msg.arg1 + 500))) {
-                            mVideoplayer.getMediaPlayer().pause();
-                        }
+                    if (((msg.arg1 - 100) < (currentPosition)) && ((currentPosition) < (msg.arg1 + 500))) {
+                        mVideoView.pause();
                     }
+
                     break;
                 case 1:
                     if (mRecordLength < -1) {
@@ -127,6 +128,7 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
                     dismissfxDialog();
                     Bundle bundle = new Bundle();
                     bundle.putString("MakeFlag", "MakeTextBookDrma");
+                    bundle.putString("ShowBottom", "SHOW");
                     bundle.putSerializable("BeGoTextBookSuccess", beGoTextBookSuccess);
                     DjhJumpUtil.getInstance().startBaseActivityForResult(context, TextBookSuccessActivity.class, bundle, 0);
                     break;
@@ -145,21 +147,11 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
         bookDrama = (BeTextBookDramaPageData) this.getIntent().getSerializableExtra("BeTextBookDramaPageData");
         mDataList = bookDrama.getItem();
          /*文件名以MD5加密*/
-//        String mp4Name = MD5.getMD5(bookDrama.getPage_url().substring(bookDrama.getPage_url().lastIndexOf("/"))) + ".mp4";
+        String mp4Name = MD5.getMD5(bookDrama.getPage_url().substring(bookDrama.getPage_url().lastIndexOf("/"))) + ".mp4";
 
-//        mVideoplayer.setUp(KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name, JCVideoPlayer.SCREEN_LAYOUT_NORMAL, bookDrama.getTitle());
-        mVideoplayer.setUp("/storage/emulated/0/1-1-001-tk1.mp4", JCVideoPlayer.SCREEN_LAYOUT_NORMAL, bookDrama.getTitle());
-//        File externalStorageDirectory = Environment.getExternalStorageDirectory();
-//        Logger.d("externalStorageDirectory:" + externalStorageDirectory.getPath());
-
-        mVideoplayer.startVideo();
-        /*跳到指定播放时间*/
-        mVideoplayer.onStatePreparingChangingUrl(0, Integer.parseInt(mDataList.get(0).getTime_start()) * 1000);
-
-        mVideoplayer.hideView();//隐藏不需要的view
+        playVideo(KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name);
 
         TextBookDramCardAdapter textBookDramCardAdapter = new TextBookDramCardAdapter(getSupportFragmentManager());
-
         mViewpager.setAdapter(textBookDramCardAdapter);
         mViewpager.setNoScroll(false);
         mViewpager.setOnPageChangeListener(this);
@@ -172,6 +164,41 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
 
     }
 
+    private MediaPlayer mCurrentMp;
+
+    private void playVideo(String path) {
+        /*设置本地路径*/
+        mVideoView.setVideoPath(path);
+//        mVideoView.start();
+//        mVideoView.seekTo(Integer.parseInt(mDataList.get(0).getTime_start()));
+        //播放完成回调
+        mVideoView.setOnCompletionListener(new MyPlayerOnCompletionListener());
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.seekTo(Integer.parseInt(mDataList.get(0).getTime_start()));
+                mp.start();
+            }
+        });
+        mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                mCurrentMp = mp;
+                return false;
+            }
+        });
+        //开始播放视频
+    }
+
+    /*视频完成监听*/
+    class MyPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
+
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            Logger.d("播放完成了");
+
+        }
+    }
 
     /*显示提交按钮的timer*/
     private void startShowSubmitTimer() {
@@ -199,12 +226,11 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if (mVideoplayer.getMediaPlayer() != null) {
-                        Message msg = Message.obtain();
-                        msg.arg1 = Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end()) * 1000;
-                        msg.what = 0;
-                        mHandler.sendMessage(msg); // 发送消息
-                    }
+                    Message msg = Message.obtain();
+                    msg.arg1 = Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end()) * 1000;
+                    msg.what = 0;
+                    mHandler.sendMessage(msg); // 发送消息
+
                 }
             }, 0, 300);
 
@@ -214,7 +240,7 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
 
 
     private void initialize() {
-        mVideoplayer = getView(R.id.videoplayer);
+        mVideoView = getView(R.id.makeVideoView);
         mViewpager = getView(R.id.viewpager);
         imgrecording = getView(R.id.img_recording);
         imgplayrecoding = getView(R.id.img_playrecoding);
@@ -223,10 +249,11 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
         imgplayrecoding.setOnClickListener(onClick);
         submit.setOnClickListener(onClick);
         audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+
+        mVideoView.setMediaController(new MediaController(this));
+
     }
 
-
-    private Map<Integer, TextBookDramaCardFragment> mTextBookDramaCardMap = new HashMap<>();
 
     /*课本剧适配器*/
     class TextBookDramCardAdapter extends FragmentStatePagerAdapter {
@@ -296,19 +323,12 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
     @Override
     protected void onResume() {
         super.onResume();
-//        Logger.d("MakeTextBookDrmaActivity onResume");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         dismissfxDialog();
-        /*activity重新显示时要从新加载数据*/
-//        mVideoplayer.setUp(bookDrama.getVideo_url(), JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
-//        mVideoplayer.startVideo();
-        /*跳到指定播放时间*/
-//        mVideoplayer.onStatePreparingChangingUrl(0, Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()) * 1000);
-//        startVideoPauseTimer();
     }
 
     @Override
@@ -337,14 +357,8 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
         int end_time = Integer.parseInt(mDataList.get(position).getTime_end()) * 1000;
 
         Logger.d("position:----" + position + "  videoSeekTo  start_time--:" + start_time + "    end_time--:" + end_time);
-        mVideoplayer.videoSeekTo(start_time);
-        mVideoplayer.getMediaPlayer().setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
-            @Override
-            public void onSeekComplete(MediaPlayer mp) {
-                mp.start();
-            }
-        });
-
+        mVideoView.seekTo(start_time);
+        mVideoView.start();
 
         /*打开系统声音*/
         openSound();
@@ -372,15 +386,21 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
                         Toast.makeText(context, "播放录音时不能配音", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
-                    mVideoplayer.videoSeekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()) * 1000);
-                    mVideoplayer.getMediaPlayer().start();
-
-                    closeSound();//关闭系统声音
-                    mViewpager.setNoScroll(true);//禁止滑动（录音时）
-                    recorderUtil.startRecording(mDataList.get(mCurrentPosition).getEnglish());
+                     /*点击录音同时视频要跳转到当前录音片段开始的时间点*/
+                    mVideoView.seekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()) * 1000);
+                    /*关闭系统声音*/
+                    closeSound();
+                    /*禁止滑动（录音时）*/
+                    mViewpager.setNoScroll(true);
+                    /*开始录音 传入的是录音片段的命名*/
+                    recorderUtil.startRecording(mDataList.get(mCurrentPosition).getTime_start());
+                    /*播放视频*/
+                    mVideoView.start();
+                    /*获取当前片段录音的长度*/
                     mRecordLength = ((Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end()) * 1000 - Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()) * 1000) / 1000);
-                    Logger.d("录音长度：" + mRecordLength);
+                   /*通知碎片中的进度条*/
+                    mTextBookDramaCardMap.get(mCurrentPosition).refreshProgress(mRecordLength);
+                    /*监听时间录音倒计时*/
                     if (timerRecoding == null) {
                         timerRecoding = new Timer();
                         timerRecoding.schedule(new TimerTask() {
@@ -395,13 +415,14 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
                         }, 0, 1000);
                     }
 
-                    Toast.makeText(context, "开始录音", Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(context, "开始录音", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.img_playrecoding:
 
                     if (mPlayRecordMap.get(mCurrentPosition) != null) {
-                        mVideoplayer.videoSeekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()) * 1000);
-                        mVideoplayer.getMediaPlayer().start();
+                        /*点击录音要跳转到当前片段的开始时间*/
+                        mVideoView.seekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()) * 1000);
                         /*关闭视频的声音*/
                         closeVideoviewSound();
                         PlayMedia.getPlaying().StartMp3(mPlayRecordMap.get(mCurrentPosition));
@@ -425,8 +446,13 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
                     mRecordMap.put("startTime", "0");
                     audiosList.put(0, mRecordMap);
                     /*准备传入的数据*/
-                    beGoTextBookSuccess = new BeGoTextBookSuccess(KidConfig.getInstance().getPathMineWorksTemp() + bookDrama.getPage_id() + ".mp4",
-                            bookDrama.getTitle() + ".mp4", "", UserController.getInstance().getUser().getNickname(), DateUtils.formatDate(new Date(), "M月d日 HH:mm"), "90");
+                    beGoTextBookSuccess = new BeGoTextBookSuccess(KidConfig.getInstance().getPathMineWorksTemp()
+                            + bookDrama.getPage_id() + ".mp4",
+                            bookDrama.getTitle() + ".mp4",
+                            UserController.getInstance().getUser().getAvatar(),
+                            UserController.getInstance().getUser().getNickname(),
+                            DateUtils.formatDate(new Date(), "M月d日 HH:mm"),
+                            "90");
 
                     new FfmpegUtil(MakeTextBookDrmaActivity.this, mHandler).mixAudiosToVideo(new File(KidConfig.getInstance().getPathTextbookPlayNoSoundVideo() + "out_nosound_video.mp4"), audiosList,
                             new File(beGoTextBookSuccess.getMineWorksTempPath()));//作品名称
@@ -457,8 +483,11 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
 
     /*清空环境*/
     private void cleanEnvironment() {
+        /*混音文件夹*/
         FileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathMixAudios()));
+        /*我的作品临时文件夹*/
         FileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathMineWorksTemp()));
+        /*无声视频文件夹*/
         FileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathTextbookPlayNoSoundVideo()));
 
     }
@@ -476,7 +505,7 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
 
     public void closeSound() {
         /*判断视频是否是播放状态 yes 关闭声音*/
-        if (mVideoplayer.getMediaPlayer().isPlaying()) {
+        if (mVideoView.isPlaying()) {
             audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);//关闭系统声音
         }
     }
@@ -494,14 +523,13 @@ public class MakeTextBookDrmaActivity extends FxActivity implements ViewPager.On
 
     /*关闭视频的声音*/
     public void closeVideoviewSound() {
-        mVideoplayer.getMediaPlayer().setVolume(0, 0);
+        mCurrentMp.setVolume(0, 0);
     }
 
     /*打开视频的声音*/
     public void openVideoviewSound() {
-        mVideoplayer.getMediaPlayer().setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mVideoplayer.getMediaPlayer().setVolume(1, 1);
-
+        mCurrentMp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mCurrentMp.setVolume(1, 1);
     }
 
 }

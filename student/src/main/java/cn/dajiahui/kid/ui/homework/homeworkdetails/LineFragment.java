@@ -594,12 +594,14 @@ public class LineFragment extends BaseHomeworkFragment implements
                         /*显示我的答案*/
                         showMineAnswer();
                     }
-                } else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
-                    draw_root.removeAllViews();
-                    if (!mOnclickAnswer) {
-                        showRightAnswer();
-                    }
                 }
+
+//                else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+//                    draw_root.removeAllViews();
+//                    if (!mOnclickAnswer) {
+//                        showRightAnswer();
+//                    }
+//                }
 
                 break;
 

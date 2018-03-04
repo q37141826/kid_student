@@ -1,6 +1,7 @@
 package cn.dajiahui.kid.ui.study.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by lenovo on 2018/1/25.
@@ -8,48 +9,40 @@ import java.io.Serializable;
 
 public class BeCradPratice implements Serializable {
 
-    private String img_url;
-    private String audio_url;
-    private String english;
-    private String chinese;
+    private List<BeCradPraticePageData> page_data;
+    private String title;
+    private String unit_id;
 
-
-    public BeCradPratice(String img_url, String audio_url, String english, String chinese) {
-        this.img_url = img_url;
-        this.audio_url = audio_url;
-        this.english = english;
-        this.chinese = chinese;
+    public List<BeCradPraticePageData> getPage_data() {
+        return page_data;
     }
 
-    public String getImg_url() {
-        return img_url;
+    public void setPage_data(List<BeCradPraticePageData> page_data) {
+        this.page_data = page_data;
     }
 
-    public void setImg_url(String img_url) {
-        this.img_url = img_url;
+    public String getTitle() {
+        return title;
     }
 
-    public String getAudio_url() {
-        return audio_url;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setAudio_url(String audio_url) {
-        this.audio_url = audio_url;
+    public String getUnit_id() {
+        return unit_id;
     }
 
-    public String getEnglish() {
-        return english;
+    public void setUnit_id(String unit_id) {
+        this.unit_id = unit_id;
     }
 
-    public void setEnglish(String english) {
-        this.english = english;
-    }
-
-    public String getChinese() {
-        return chinese;
-    }
-
-    public void setChinese(String chinese) {
-        this.chinese = chinese;
+    @Override
+    public String toString() {
+        return "BeCradPratice{" +
+                "page_data=" + page_data +
+                ", title='" + title + '\'' +
+                ", unit_id='" + unit_id + '\'' +
+                '}';
     }
 }

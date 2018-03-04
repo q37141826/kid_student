@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -36,6 +37,7 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.homework.bean.BeAnswerCArd;
+import cn.dajiahui.kid.ui.homework.bean.BeDohomeWork;
 import cn.dajiahui.kid.ui.homework.bean.BeSaveAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
@@ -71,11 +73,9 @@ public class DoHomeworkActivity extends FxActivity
 
     private Button btncheck;
     private String homework_id;
-    private String book_id;
-    private String unit_id;
-
+    private BeDohomeWork beDohomeWork;
     private List<BeAnswerCArd> mAnswerCardList = new ArrayList();
-    private String is_complete;
+    private String is_complete = "";
 
 
     @Override
@@ -84,22 +84,11 @@ public class DoHomeworkActivity extends FxActivity
         Intent intent = getIntent();
           /* sourceFlag=Practice 练习  sourceFlag=HomeWork作业*/
         sourceFlag = intent.getStringExtra("SourceFlag");
-
-        if (sourceFlag.equals("Practice")) {
-            Bundle mDoHomeworkbundle = getIntent().getExtras();
-            book_id = mDoHomeworkbundle.getString("BOOK_ID");
-            unit_id = mDoHomeworkbundle.getString("UNIT_ID");
-            btncheck.setVisibility(View.VISIBLE);
-            mViewpager.setNoScroll(true);//练习禁止滑动
-
-        } else if (sourceFlag.equals("HomeWork")) {
-            mViewpager.setNoScroll(false);//作业可以滑动
-            homework_id = intent.getStringExtra("homework_id");
-            is_complete = intent.getStringExtra("IS_COMPLETE");
-            setfxTtitle(intent.getStringExtra("UNIT_NAME"));
-            onRightBtn(R.string.AnswerCard);
-
-        }
+        mViewpager.setNoScroll(false);//作业可以滑动
+        homework_id = intent.getStringExtra("homework_id");
+        is_complete = intent.getStringExtra("IS_COMPLETE");
+        setfxTtitle(intent.getStringExtra("UNIT_NAME"));
+        onRightBtn(R.string.AnswerCard);
         httpData();
         onBackTextShowProgress();
 
@@ -116,6 +105,7 @@ public class DoHomeworkActivity extends FxActivity
     @Override
     public void httpData() {
         super.httpData();
+            /*作业请求*/
         RequestUtill.getInstance().httpGetStudentHomeWorkhomeworkContinue(DoHomeworkActivity.this, callHomeWorkContinue, homework_id);
     }
 
@@ -128,6 +118,7 @@ public class DoHomeworkActivity extends FxActivity
      * 学生作业所有题callback函数
      */
     ResultCallback callHomeWorkContinue = new ResultCallback() {
+
         @Override
         public void onError(Request request, Exception e) {
             Logger.d("作业返回失败json：" + e.toString());
@@ -136,10 +127,11 @@ public class DoHomeworkActivity extends FxActivity
 
         @Override
         public void onResponse(String response) {
-//            Logger.d("作业返回json：" + response);
+            Logger.d("作业返回json：" + response);
             dismissfxDialog();
             HeadJson headJson = new HeadJson(response);
             if (headJson.getstatus() == 0) {
+                beDohomeWork = headJson.parsingObject(BeDohomeWork.class);
                 try {
                     JSONArray jsonArray = headJson.getObject().getJSONObject("data").getJSONArray("question_list");
                     mdata = new Gson().fromJson(jsonArray.toString(), new TypeToken<List<QuestionModle>>() {
@@ -169,7 +161,7 @@ public class DoHomeworkActivity extends FxActivity
                                 mAnswerCardList.add(new BeAnswerCArd("1", "", "", mdata.get(i).getQuestion_cate_id(), sortQuestionModle.getId(), i));
                                 break;
                             case Constant.Line:
-                                Logger.d("连线：" + jsonArray.get(i).toString());
+//                                Logger.d("连线：" + jsonArray.get(i).toString());
                                 LineQuestionModle lineQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), LineQuestionModle.class);
                                 mDatalist.add(lineQuestionModle);
                                 mAnswerCardList.add(new BeAnswerCArd("1", "", "", mdata.get(i).getQuestion_cate_id(), lineQuestionModle.getId(), i));
@@ -220,29 +212,12 @@ public class DoHomeworkActivity extends FxActivity
     @Override
     public void onBackShowProgress(View view) {
         super.onRightBtnClick(view);
-        if (submitDialog == null) {
-            submitDialog = new FxDialog(context) {
-                @Override
-                public void onRightBtn(int flag) {
+        if (beDohomeWork.getIs_complete().equals("1")) {
+            finishActivity();
 
-                    SubmitHomeWorkAnswer submitHomeWorkAnswer = new SubmitHomeWorkAnswer(DoHomeworkActivity.this, new BeSaveAnswerCard(PageMap, homework_id, mAnswerCardList, is_complete));
-                    submitHomeWorkAnswer.submitAnswerCard("-1");
-                    submitDialog.dismiss();
-                    finishActivity();
-                }
-
-                @Override
-                public void onLeftBtn(int flag) {
-
-                    finishActivity();
-                    submitDialog.dismiss();
-                }
-            };
-            submitDialog.getTitle().setVisibility(View.GONE);
+        } else {
+            show();
         }
-        submitDialog.setMessage("确定要提交试卷么？");
-        submitDialog.show();
-
     }
 
     /*答题卡*/
@@ -322,6 +297,7 @@ public class DoHomeworkActivity extends FxActivity
                                 completionFragment.submitHomework(questionModle);
                             }
 
+                            /*改变按钮的颜色 变成灰色 再点击就是下一个题*/
                             changeBtnN();
                         } else {
                             Toast.makeText(context, "请作答第" + (currentposition + 1) + "题", Toast.LENGTH_SHORT).show();
@@ -349,7 +325,7 @@ public class DoHomeworkActivity extends FxActivity
         @Override
         public void onPageSelected(int position) {
             currentposition = position;//当前题的页数
-            sourceFlag="HomeWork";
+            sourceFlag = "HomeWork";
             seek.setProgress(currentposition);
             mSchedule.setText((currentposition + 1) + "/" + mdata.size());
             /*滑动停止音频*/
@@ -367,7 +343,7 @@ public class DoHomeworkActivity extends FxActivity
 
                         JudjeQuestionModle jude = (JudjeQuestionModle) PageMap.get(position);
                         JudgeFragment judgeFragment = (JudgeFragment) frMap.get(position);
-                        Logger.d("jude："+jude.getAnswerflag());
+                        Logger.d("jude：" + jude.getAnswerflag());
                         judgeFragment.submitHomework(jude);
 
                         break;
@@ -544,7 +520,7 @@ public class DoHomeworkActivity extends FxActivity
                 CompletionFragment fr5 = new CompletionFragment();
                 CompletionQuestionModle compleModle = new CompletionQuestionModle();
 
-//                Logger.d("CompletionFragment.subjectype"+subjectype);
+//                Logger.d("ExCompletionFragment.subjectype"+subjectype);
                 compleModle.setEachposition(position);//每个题对应数据源的索引
                 compleModle.setQuestion_cate_id(subjectype);
                 compleModle.setStandard_answer(((CompletionQuestionModle) mDatalist.get(position)).getStandard_answer());//填空题要传入正确答案
@@ -715,4 +691,48 @@ public class DoHomeworkActivity extends FxActivity
             finishActivity();
         }
     }
+
+    /*监听虚拟按键*/
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { //监控/拦截/屏蔽返回键
+              /*作业模式下*/
+            if (beDohomeWork.getIs_complete().equals("1")) {
+                finishActivity();
+            } else {
+                show();
+            }
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+
+    private void show() {
+
+        submitDialog = new FxDialog(context) {
+            @Override
+            public void onRightBtn(int flag) {
+                // 参数需要自己判断 is_complete   -1:未开始 0:进行中 1:已完成
+                SubmitHomeWorkAnswer submitHomeWorkAnswer = new SubmitHomeWorkAnswer(DoHomeworkActivity.this, new BeSaveAnswerCard(PageMap, homework_id, mAnswerCardList, is_complete));
+                submitHomeWorkAnswer.submitAnswerCard();
+                submitDialog.dismiss();
+                finishActivity();
+            }
+
+
+            @Override
+            public void onLeftBtn(int flag) {
+
+                finishActivity();
+                submitDialog.dismiss();
+            }
+        };
+        submitDialog.getTitle().setVisibility(View.GONE);
+        submitDialog.setMessage("确定要提交试卷么？");
+        submitDialog.show();
+
+    }
+
 }

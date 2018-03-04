@@ -21,6 +21,7 @@ import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.MD5;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by mj on 2018/2/05.
@@ -46,7 +47,7 @@ public class KaraOkeFragment extends LazyLoadFragment {
     @Override
     protected void lazyLoad() {
         Bundle bundle = getArguments();
-          /*先获取数据*/
+        /*先获取数据*/
         beKaraOkPageData = (BePageData) bundle.get("BePageData");
         initialize();
         /*获取Mp4视频名称和背景音名称*/
@@ -69,6 +70,7 @@ public class KaraOkeFragment extends LazyLoadFragment {
 
     }
 
+    /*播放卡拉OK*/
     private void playVideo(String path) {
          /*应该判断本地文件夹是否有文件*/
         mVideoplayer.setUp(path, JCVideoPlayer.SCREEN_LAYOUT_LIST);
@@ -125,7 +127,8 @@ public class KaraOkeFragment extends LazyLoadFragment {
     private View.OnClickListener onClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            /*点击跳转之后停止所有视频*/
+            JCVideoPlayerStandard.releaseAllVideos();
             Bundle bundle = new Bundle();
             bundle.putSerializable("BePageData", beKaraOkPageData);
             DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MakeKraoOkeActivity.class, bundle, 0);
@@ -133,19 +136,11 @@ public class KaraOkeFragment extends LazyLoadFragment {
         }
     };
 
-    public void continueStartVideo() {
-        mVideoplayer.startVideo();
-    }
-
-    int onPauseCurrent = 0;
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mVideoplayer != null) {
-            onPauseCurrent = mVideoplayer.getCurrentPosition();
-            mVideoplayer.onStatePause();
-        }
+        JCVideoPlayerStandard.releaseAllVideos();
     }
 
 

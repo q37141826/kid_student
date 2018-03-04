@@ -13,7 +13,7 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BeAnswerCArd;
 
 /**
- * 作业列表
+ * 作业答题卡
  */
 public class ApAnswerCard extends CommonAdapter<BeAnswerCArd> {
 

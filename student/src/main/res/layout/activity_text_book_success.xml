@@ -189,9 +189,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/bottomRoot"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <RelativeLayout
             android:id="@+id/tv_recordagain"

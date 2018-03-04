@@ -76,7 +76,7 @@
                 android:textSize="@dimen/text18"/>
 
             <EditText
-                android:id="@+id/tv_user_name_right"
+                android:id="@+id/ed_user_name_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -140,7 +140,7 @@
             android:background="@color/line_gray"/>
 
         <RelativeLayout
-            android:id="@+id/re_user_age"
+            android:id="@+id/re_user_birthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/textmarginleft"
-                android:text="@string/tv_user_age"
+                android:text="生日"
                 android:textSize="@dimen/text18"/>
 
 

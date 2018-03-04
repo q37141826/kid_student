@@ -20,13 +20,12 @@ import cn.dajiahui.kid.http.DownloadFile;
 import cn.dajiahui.kid.http.OnDownload;
 import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageData;
-import cn.dajiahui.kid.ui.video.util.JCVideoPlayerStudent;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.MD5;
-import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by mj on 2018/1/31.
@@ -44,12 +43,11 @@ public class TextBookDramaFragment extends FxFragment {
 
     private BeTextBookDramaPageData beTextBookDramaPageData;
     private TextView tvunit;
-    private JCVideoPlayerStudent mVideoplayer;
+    private cn.dajiahui.kid.ui.study.kinds.karaoke.JCVideoPlayerStudentFragment mVideoplayer;
     private RelativeLayout videoplayerroot;
     private Button btn_look;
     private Bundle bundle;
     private List<BeTextBookDramaPageData> page_data;
-
     private int position;
 
 
@@ -71,16 +69,14 @@ public class TextBookDramaFragment extends FxFragment {
 
         /*文件名以MD5加密*/
         String mp4Name = MD5.getMD5(page_url.substring(page_url.lastIndexOf("/"))) + ".mp4";
-        if (FileUtil.fileIsExists(KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name)) {
-            /*读取本地*/
-            playTextBook(KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name);
-
-        } else {
+        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name)) {
              /*网络下载Mp3*/
             downloadTextBookPlayBgAudio(beTextBookDramaPageData);
             /*网络下载Mp4*/
             downloadTextBookPlayData(beTextBookDramaPageData);
-
+        } else {
+            /*读取本地*/
+            playTextBook(KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name);
         }
     }
 
@@ -117,8 +113,8 @@ public class TextBookDramaFragment extends FxFragment {
     }
 
     /*播放课本剧*/
-    private void playTextBook(String textbookPath) {
-        mVideoplayer.setUp(textbookPath, JCVideoPlayer.SCREEN_LAYOUT_LIST);
+    private void playTextBook(String path) {
+        mVideoplayer.setUp(path, JCVideoPlayer.SCREEN_LAYOUT_LIST);
         mVideoplayer.startVideo();
         mVideoplayer.hideView();
         mVideoplayer.hideBackButton();
@@ -136,10 +132,10 @@ public class TextBookDramaFragment extends FxFragment {
     private View.OnClickListener onClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            /*点击跳转之后停止所有视频*/
+            JCVideoPlayerStandard.releaseAllVideos();
             Bundle bundle = new Bundle();
             bundle.putSerializable("BeTextBookDramaPageData", beTextBookDramaPageData);
-
             DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MakeTextBookDrmaActivity.class, bundle, 0);
 
         }
@@ -148,7 +144,8 @@ public class TextBookDramaFragment extends FxFragment {
     @Override
     public void onPause() {
         super.onPause();
-        JCMediaManager.instance().mediaPlayer.release();
+        JCVideoPlayerStandard.releaseAllVideos();
+//        JCMediaManager.instance().mediaPlayer.release();
     }
 
 

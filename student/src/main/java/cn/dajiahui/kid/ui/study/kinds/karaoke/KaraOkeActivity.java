@@ -25,6 +25,7 @@ import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.study.bean.BeKaraOk;
 import cn.dajiahui.kid.ui.study.view.NoScrollViewPager;
 import cn.dajiahui.kid.util.Logger;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /*
 *
@@ -53,6 +54,8 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
     @Override
     protected void initView() {
         setContentView(R.layout.activity_kara_oke);
+        /*播放器不保存进度*/
+        JCVideoPlayer.SAVE_PROGRESS = false;
         Bundle mKaraOkebundle = getIntent().getExtras();
         book_id = mKaraOkebundle.getString("BOOK_ID");
         unit_id = mKaraOkebundle.getString("UNIT_ID");
@@ -134,15 +137,13 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (map.get(mCurrentPosition) != null) {
-//            map.get(mCurrentPosition).continueStartVideo();
-        }
+
     }
 
     @Override
     public void httpData() {
         //网络请求
-        RequestUtill.getInstance().httpGetKaraOke(context, KaraOkeCallback, "6", "14"); // K啦ok数据申请
+        RequestUtill.getInstance().httpGetKaraOke(context, KaraOkeCallback, book_id, unit_id); // K啦ok数据申请
     }
 
     /**
@@ -223,20 +224,6 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
         }
     }
 
-//
-//
-//    @Override
-//    public boolean dispatchKeyEvent(KeyEvent event) {
-//        if (event.getKeyCode() == KeyEvent.KEYCODE_HOME) {//点击的是返回键
-//            if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {//按键的按下事件
-//                Toast.makeText(getApplicationContext(), "dispatchKeyEvent--Down", Toast.LENGTH_SHORT).show();
-////				 return false;
-//            } else if (event.getAction() == KeyEvent.ACTION_UP && event.getRepeatCount() == 0) {//按键的抬起事件
-//                Toast.makeText(getApplicationContext(), "dispatchKeyEvent--UP", Toast.LENGTH_SHORT).show();
-////				 return false;
-//            }
-//        }
-//        return super.dispatchKeyEvent(event);
-//    }
+
 
 }

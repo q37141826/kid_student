@@ -46,7 +46,7 @@ public class SubmitHomeWorkAnswer {
     }
 
     /*提交答案*/
-    public void submitAnswerCard(String submitState) {
+    public void submitAnswerCard( ) {
 
         homework_id = beSaveAnswerCard.getHomework_id();
 
@@ -155,7 +155,7 @@ public class SubmitHomeWorkAnswer {
         }
 
 
-        RequestUtill.getInstance().httpSubmitAnswerCard(context, callSubmitAnswerCard, homework_id, submitState + "",
+        RequestUtill.getInstance().httpSubmitAnswerCard(context, callSubmitAnswerCard, homework_id, beSaveAnswerCard.getIs_complete(),
                 new GsonUtil().getJsonElement(new ToAnswerCardJson(submitAnswerCardList)).toString());
 
     }
@@ -178,7 +178,7 @@ public class SubmitHomeWorkAnswer {
                 //    Bundle bundle = new Bundle();
 //                    bundle.putSerializable("answerCard", beSaveAnswerCard);
 //                    DjhJumpUtil.getInstance().startBaseActivity(AnswerCardActivity.this, HomeWorkResultActivity.class, bundle, ANSWERCARD);
-//                    ActivityUtil.getInstance().finishActivity(DoHomeworkActivity.class);//结束指定的activity
+//                    ActivityUtil.getInstance().finishActivity(DoPraticeActivity.class);//结束指定的activity
 //                    finishActivity();
             } else {
                 ToastUtil.showToast(context, json.getMsg());

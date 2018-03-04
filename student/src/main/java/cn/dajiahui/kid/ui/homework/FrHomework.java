@@ -22,9 +22,9 @@ import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.homework.adapter.ApHomework;
 import cn.dajiahui.kid.ui.homework.bean.BeHomeWorkList;
 import cn.dajiahui.kid.ui.homework.bean.BeHomework;
-import cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity;
 import cn.dajiahui.kid.ui.homework.homeworkdetails.HomeWorkDetailsActivity;
 import cn.dajiahui.kid.util.DjhJumpUtil;
+import cn.dajiahui.kid.util.Logger;
 
 /**
  * 作业
@@ -75,24 +75,14 @@ public class FrHomework extends FxFragment {
                         return;
                     }
                 }
-                if (mHomeWorklists.get(position).getIs_complete().equals("1")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("SourceFlag", "HomeWork");
-                    bundle.putString("homework_id", mHomeWorklists.get(position).getId());
-                    bundle.putString("UNIT_NAME", mHomeWorklists.get(position).getName());
-                    bundle.putString("IS_COMPLETE", mHomeWorklists.get(position).getIs_complete());
-                    /*跳转查看已经完成的作业  在网络请请求获取数据*/
-                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), DoHomeworkActivity.class, bundle, 0);
 
-                } else {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("homework_id", mHomeWorklists.get(position).getId());
-                    bundle.putString("starttime", mHomeWorklists.get(position).getStart_time());
-                    bundle.putString("UNIT_NAME", mHomeWorklists.get(position).getName());
-                    bundle.putString("IS_COMPLETE", mHomeWorklists.get(position).getIs_complete());
-                      /*跳转作业详情 在网络请请求获取数据*/
-                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), HomeWorkDetailsActivity.class, bundle, 0);
-                }
+                Bundle bundle = new Bundle();
+                bundle.putString("homework_id", mHomeWorklists.get(position).getId());
+                bundle.putString("starttime", mHomeWorklists.get(position).getStart_time());
+                bundle.putString("UNIT_NAME", mHomeWorklists.get(position).getName());
+                /*跳转作业详情 在网络请请求获取数据*/
+                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), HomeWorkDetailsActivity.class, bundle, 0);
+
             }
         });
     }
@@ -154,6 +144,7 @@ public class FrHomework extends FxFragment {
 
         @Override
         public void onError(Request request, Exception e) {
+            Logger.d("做作业失败：" + e);
             dismissfxDialog();
             finishRefreshAndLoadMoer(refresh, 1);
         }

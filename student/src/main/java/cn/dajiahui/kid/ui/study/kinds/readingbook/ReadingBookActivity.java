@@ -76,7 +76,6 @@ public class ReadingBookActivity extends FxActivity {
         httpData();
         initialize();
 
-
        /*监听viewpager滑动*/
         mReadViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

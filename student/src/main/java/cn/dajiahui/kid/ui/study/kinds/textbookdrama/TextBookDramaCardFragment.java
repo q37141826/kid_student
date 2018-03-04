@@ -1,7 +1,10 @@
 package cn.dajiahui.kid.ui.study.kinds.textbookdrama;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fxtx.framework.ui.FxFragment;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageDataItem;
@@ -89,4 +95,47 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
         tvtotaltime = getView(R.id.tv_totaltime);
         ratingBar = getView(R.id.rb_score);
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1) {
+                int arg1 = msg.arg1;
+                recordseek.setProgress(allSecond);
+                if (allSecond == arg1) {
+                    allSecond = 0;
+                    mProssTimer.cancel();
+                    mProssTimer = null;
+                }
+            }
+
+        }
+    };
+
+    Timer mProssTimer;
+    int allSecond = -1;
+
+    /*刷新进度条*/
+    public void refreshProgress(final int Second) {
+
+        tvtotaltime.setText(Second + "s");
+        recordseek.setMax(Second);
+
+        if (mProssTimer == null) {
+            mProssTimer = new Timer();
+            mProssTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Message msg = Message.obtain();
+                    allSecond += 1;
+                    msg.arg1 = Second;
+                    msg.what = 1;
+                    mHandler.sendMessage(msg); // 发送消息
+                }
+            }, 0, 1000);
+        }
+    }
+
 }

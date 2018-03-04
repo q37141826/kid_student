@@ -46,7 +46,7 @@ public class ApChoice extends BaseAdapter {
     }
 
 //    /*is_answer=1*/
-//    public ApChoice(Context context, List<BeChoiceOptions> mPptions, ChoiceQuestionModle inbasebean, int currentposition) {
+//    public ApExChoice(Context context, List<BeChoiceOptions> mPptions, ChoiceQuestionModle inbasebean, int currentposition) {
 //        this.mPptions = mPptions;
 //        this.context = context;
 ////        this.currentposition = currentposition;
@@ -161,7 +161,10 @@ public class ApChoice extends BaseAdapter {
             inbasebean.setIs_right("0");
         }
         submit.submitChoiceFragment(inbasebean);
-        notifyDataSetChanged();
+        if (inbasebean.getIs_answer().equals("0")) {
+
+            notifyDataSetChanged();
+        }
     }
 
 

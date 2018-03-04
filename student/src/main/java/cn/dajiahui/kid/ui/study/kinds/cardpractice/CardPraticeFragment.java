@@ -19,7 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.study.bean.BeCradPratice;
+import cn.dajiahui.kid.ui.study.bean.BeCradPraticePageData;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.ui.study.view.CardView;
 import cn.dajiahui.kid.ui.study.view.LazyLoadFragment;
@@ -35,7 +35,7 @@ import cn.dajiahui.kid.util.MD5;
 public class CardPraticeFragment extends LazyLoadFragment {
     private final int MUSIC_STOP = 0;
     protected Bundle bundle;// 用于保存信息以及标志
-    private BeCradPratice beCradPratice;
+    private BeCradPraticePageData beCradPratice;
     private ImageView imgpaly;
     private LinearLayout cardroot;
     private Timer timer;
@@ -79,6 +79,8 @@ public class CardPraticeFragment extends LazyLoadFragment {
 
 
     };
+    private int position;
+    private String music_oss_url;
 
 
     @Override
@@ -89,7 +91,7 @@ public class CardPraticeFragment extends LazyLoadFragment {
 
     /*启动计时器*/
     private void startTimer() {
-        //参数2：延迟0毫秒发送，参数3：每隔1000毫秒秒发送一下
+
         if (timer == null) {
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -104,7 +106,7 @@ public class CardPraticeFragment extends LazyLoadFragment {
                         }
                     }
                 }
-            }, 20, 20);
+            }, 0, 200);
         }
     }
 
@@ -129,24 +131,27 @@ public class CardPraticeFragment extends LazyLoadFragment {
     protected void lazyLoad() {
         Logger.d("lazyLoad:");
         bundle = getArguments();
-        beCradPratice = (BeCradPratice) bundle.getSerializable("BeCradPratice");
-        int position = (int) bundle.get("position");
+        beCradPratice = (BeCradPraticePageData) bundle.getSerializable("BeCradPraticePageData");
+        position = (int) bundle.get("position");
         noticeCheckButton.NoticeCheck(false, position);
         initialize();
-        Logger.d("进入播放：----------" + beCradPratice.getAudio_url());
-
+        music_oss_url = beCradPratice.getMusic_oss_url();
         playMedia();
         startTimer();
-
         cardView = new CardView(getActivity(), beCradPratice);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+        lp.topMargin = 100;
+        lp.leftMargin = 50;
+        lp.rightMargin = 50;
         cardView.setLayoutParams(lp);
-
+        cardView.setBackgroundResource(R.drawable.select_readingbook_bg_red);
         cardroot.addView(cardView);
 
 
     }
+
+
 
     @Override
     protected void stopLoad() {
@@ -182,7 +187,7 @@ public class CardPraticeFragment extends LazyLoadFragment {
     private View.OnClickListener onClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Logger.d("点击播放：----------" + beCradPratice.getAudio_url());
+
             playMedia();
             PlayMedia.getPlaying().setOnCompletionListener(1);
         }
@@ -212,7 +217,7 @@ public class CardPraticeFragment extends LazyLoadFragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                cardView.textView.setVisibility(View.GONE);
+                cardView.linearLayout.setVisibility(View.GONE);
                 cardView.imageView.setVisibility(View.VISIBLE);
 
                 //从270到360度，顺时针旋转视图，此时reverse参数为false，达到360度动画结束时视图变得可见
@@ -230,15 +235,15 @@ public class CardPraticeFragment extends LazyLoadFragment {
     /*播放音频*/
     private void playMedia() {
                /*文件名以MD5加密*/
-        String mp3Name = MD5.getMD5(beCradPratice.getAudio_url().substring(beCradPratice.getAudio_url().lastIndexOf("/"))) + ".mp3";
+        String mp3Name = MD5.getMD5(music_oss_url.substring(music_oss_url.lastIndexOf("/"))) + ".mp3";
 
-        if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
+        if (FileUtil.fileIsExists(KidConfig.getInstance().getPathCardPratice() + mp3Name)) {
             /*读取本地*/
-            PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathPointRedaing() + mp3Name);
+            PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathCardPratice() + mp3Name);
 
         } else {
              /*读取网络*/
-            PlayMedia.getPlaying().StartMp3(beCradPratice.getAudio_url());
+            PlayMedia.getPlaying().StartMp3(music_oss_url);
         }
 
     }

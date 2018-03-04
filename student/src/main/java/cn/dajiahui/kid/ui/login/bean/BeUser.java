@@ -21,15 +21,13 @@ public class BeUser extends BeanObj {
 
     private BeUserThrid third;//解析第三方注册登录信息
 
-    private String avator;
+    private String avatar;
     private String phone;
     private String realName;
     private String sex;
     private String userName;
     private String birthday;
     private String pwd;
-
-
 
 
     public BeUserThrid getThird() {
@@ -105,14 +103,13 @@ public class BeUser extends BeanObj {
     }
 
 
-    public String getAvator() {
-        return avator;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setAvator(String avator) {
-        this.avator = avator;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
-
 
     public String getPhone() {
         return phone;
@@ -162,24 +159,13 @@ public class BeUser extends BeanObj {
         return gender;
     }
 
-    @Override
-    public String toString() {
-        return "BeUser{" +
-                "token='" + token + '\'' +
-                ", user_id='" + user_id + '\'' +
-                ", user_type='" + user_type + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", gender='" + gender + '\'' +
-                ", telnum='" + telnum + '\'' +
-                ", third=" + third +
-                ", avator='" + avator + '\'' +
-                ", phone='" + phone + '\'' +
-                ", realName='" + realName + '\'' +
-                ", sex='" + sex + '\'' +
-                ", userName='" + userName + '\'' +
-                ", birthday='" + birthday + '\'' +
-                ", pwd='" + pwd + '\'' +
-                ", authList=" + authList +
-                '}';
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+
 }

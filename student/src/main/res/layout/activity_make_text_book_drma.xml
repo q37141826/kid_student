@@ -3,19 +3,28 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/black"
+        android:gravity="center">
+
+        <VideoView
+            android:id="@+id/makeVideoView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="vertical">
 
-        <cn.dajiahui.kid.ui.study.kinds.textbookdrama.JCVideoPlayerTextBook
-            android:id="@+id/videoplayer"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"/>
 
         <!--可以选择是否禁止滑动的ViewPager-->
         <cn.dajiahui.kid.ui.study.view.NoScrollViewPager

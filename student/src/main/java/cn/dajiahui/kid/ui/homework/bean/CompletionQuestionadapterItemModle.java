@@ -38,4 +38,13 @@ public class CompletionQuestionadapterItemModle {
     public void setShowItemright(String showItemright) {
         this.showItemright = showItemright;
     }
+
+    @Override
+    public String toString() {
+        return "CompletionQuestionadapterItemModle{" +
+                "showItemright='" + showItemright + '\'' +
+                ", showItemMy='" + showItemMy + '\'' +
+                ", showItemRightColor=" + showItemRightColor +
+                '}';
+    }
 }

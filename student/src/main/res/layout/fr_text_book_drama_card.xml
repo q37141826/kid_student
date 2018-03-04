@@ -58,9 +58,11 @@
     <cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar
         android:id="@+id/record_seek"
         android:layout_width="226dp"
-        android:layout_height="wrap_content"
+        android:layout_height="5dp"
         android:layout_below="@+id/tv_chinese"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:progressDrawable="@drawable/seekbar_style"/>
 
     <RatingBar
         android:id="@+id/rb_score"
@@ -71,6 +73,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:clickable="false"
         android:focusable="false"
         android:gravity="center"

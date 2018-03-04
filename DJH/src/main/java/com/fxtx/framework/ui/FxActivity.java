@@ -119,6 +119,7 @@ public abstract class FxActivity extends AppCompatActivity {
         showfxDialog(R.string.fx_login);
     }
 
+
     public void showfxDialog(Object title) {
         if (this.isFinishing())
             return;

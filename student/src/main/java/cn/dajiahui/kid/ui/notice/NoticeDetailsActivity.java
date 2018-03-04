@@ -234,7 +234,7 @@ public class NoticeDetailsActivity extends FxActivity {
                     tvNull.setVisibility(View.GONE);
                     BePhotoEval item = json.parsingObject(BePhotoEval.class);
                     if (item != null) {
-                        item.setAvator(UserController.getInstance().getUser().getAvator());
+                        item.setAvator(UserController.getInstance().getUser().getAvatar());
                         if (group == -1) {
                             opinionCount++;
                             tvEval.setText(getString(R.string.num, opinionCount));

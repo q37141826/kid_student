@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.image.util.GlideUtil;
@@ -33,10 +32,7 @@ import cn.dajiahui.kid.util.DjhJumpUtil;
 public class FrMine extends FxFragment {
     public static final int PICFPRRESULT = 9;
     private ImageView imSet;
-
     private TextView tv_userName, tv_sex, tv_studylength, tv_goodhomework; // 用户名
-
-
     public ImageView imUser;//头像
     private TextView tv_myclass;//我的班级
     private TextView tv_myworks;//我的作品
@@ -55,16 +51,11 @@ public class FrMine extends FxFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialize();
-
         /*获取网络数据*/
         mineHttp();
-
         /*网络请求后设置*/
-        GlideUtil.showRoundImage(getContext(), UserController.getInstance().getUser().getAvator(), imUser, R.drawable.ico_default_user, true);
-        tv_userName.setText("張三");
-        tv_sex.setText("男");
-        tv_studylength.setText("360min");
-        tv_goodhomework.setText("30");
+        GlideUtil.showRoundImage(getContext(), UserController.getInstance().getUser().getAvatar(), imUser, R.drawable.ico_default_user, true);
+        initData();
 
 
     }
@@ -107,12 +98,12 @@ public class FrMine extends FxFragment {
 
     private void initData() {
         BeUser user = UserController.getInstance().getUser();
-//        boolean isSex = StringUtil.isSex(user.getSex());
-//        if (isSex) {
-//            tv_userName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ico_boy, 0);
-//        } else {
-//            tv_userName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ico_girl, 0);
-//        }
+        tv_userName.setText(user.getNickname());
+        tv_sex.setText(user.getSex());
+        GlideUtil.showRoundImage(getActivity(), UserController.getInstance().getUser().getAvatar(), imUser, R.drawable.ico_default_user, true);
+
+        tv_studylength.setText("360min");
+        tv_goodhomework.setText("30");
     }
 
     @Override
@@ -145,16 +136,12 @@ public class FrMine extends FxFragment {
                     DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), UserDetailsActivity.class, null, PICFPRRESULT);
                     break;
                 case R.id.tvMyclass://我的班级
-                    Toast.makeText(activity, "我的班级", Toast.LENGTH_SHORT).show();
-
                     DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MyClassActivity.class);
                     break;
                 case R.id.tvMyworks: //我的作品
-                    Toast.makeText(activity, "我的作品", Toast.LENGTH_SHORT).show();
                     DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MyWorksActivity.class);
                     break;
                 case R.id.tvAbout: //关于
-                    Toast.makeText(activity, "关于", Toast.LENGTH_SHORT).show();
 //                  DjhJumpUtil.getInstance().startBaseActivity(getActivity(),  AboutActivity.class);
                     DjhJumpUtil.getInstance().startBaseActivity(getActivity(), ChivoxMainActivity.class); // 驰声测试用
                     break;
@@ -163,10 +150,8 @@ public class FrMine extends FxFragment {
 
                     break;
                 case R.id.tvSet_up: //设置
-
                     DjhJumpUtil.getInstance().startBaseActivity(getContext(), SettingActivity.class);
                     break;
-
 
                 default:
                     break;

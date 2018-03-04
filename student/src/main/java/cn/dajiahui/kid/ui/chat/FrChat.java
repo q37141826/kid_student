@@ -187,7 +187,7 @@ public class FrChat extends EaseConversationListFragment {
                 EMClient.getInstance().chatManager().loadAllConversations();
                 // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
                 //异步获取当前用户的昵称和头像(从自己服务器获取，demo使用的一个第三方服务)
-                PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvator());
+                PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvatar());
                 PreferenceManager.getInstance().setCurrentUserNick(beUser.getRealName());
                 PreferenceManager.getInstance().setCurrentUserName(beUser.getThird().getEasemob_username());
                 handler.sendEmptyMessage(1);

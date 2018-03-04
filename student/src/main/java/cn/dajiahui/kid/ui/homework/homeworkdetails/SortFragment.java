@@ -238,16 +238,16 @@ public class SortFragment extends BaseHomeworkFragment implements
 //            addGroupRightImage(inbasebean.getOptions().size(), relaroot);
 //        }
 
-        /*练习模块添加正确答案view  要隐藏*/
-        if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
-            addGroupRightImage(inbasebean.getOptions().size(), relaroot);
-            if (showRightViews.size() == inbasebean.getOptions().size()) {
-            /*隐藏左右view*/
-                for (int i = 0; i < showRightViews.size(); i++) {
-                    showRightViews.get(i).setVisibility(View.INVISIBLE);
-                }
-            }
-        }
+//        /*练习模块添加正确答案view  要隐藏*/
+//        if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
+//            addGroupRightImage(inbasebean.getOptions().size(), relaroot);
+//            if (showRightViews.size() == inbasebean.getOptions().size()) {
+//            /*隐藏左右view*/
+//                for (int i = 0; i < showRightViews.size(); i++) {
+//                    showRightViews.get(i).setVisibility(View.INVISIBLE);
+//                }
+//            }
+//        }
 
 
         /*监听 relaroot 上的子视图绘制完成*/

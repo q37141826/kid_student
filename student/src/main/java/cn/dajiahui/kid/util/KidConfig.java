@@ -40,14 +40,12 @@ public class KidConfig {
 
     /*课本剧*/
     private String pathTextbookPlay = this.pathRoot + "TextbookPlay" + File.separator;
-
     /*课本剧无声视频*/
     private String pathTextbookPlayNoSoundVideo = this.pathTextbookPlay + "TextbookPlayNoSoundVideo" + File.separator;
     /*课本剧背景音*/
     private String pathTextbookPlayBackgroundAudio = this.pathTextbookPlay + "TextbookPlayBackgroundAudio" + File.separator;
     /*课本剧Mp4*/
     private String pathTextbookPlayMp4 = this.pathTextbookPlay + "TextbookPlayMp4" + File.separator;
-
 
     /*混音 mp3*/
     private String pathMixAudios = this.pathRoot + "MixAudios" + File.separator;
@@ -68,6 +66,9 @@ public class KidConfig {
 
     /*随身听*/
     private String pathPersonalStereo = this.pathRoot + "PersonalStereo" + File.separator;
+    /*卡片练习*/
+    private String pathCardPratice = this.pathRoot + "CardPratice" + File.separator;
+
 
     /*我的作品*/
     private String pathMineWorks = this.pathRoot + "MineWorks" + File.separator;
@@ -152,6 +153,9 @@ public class KidConfig {
             folder.mkdir();
         }
         folder = new File(this.pathPersonalStereo);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }folder = new File(this.pathCardPratice);
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -246,5 +250,9 @@ public class KidConfig {
 
     public String getPathPersonalStereo() {
         return pathPersonalStereo;
+    }
+
+    public String getPathCardPratice() {
+        return pathCardPratice;
     }
 }

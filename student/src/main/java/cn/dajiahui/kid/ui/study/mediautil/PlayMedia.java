@@ -126,15 +126,13 @@ public class PlayMedia {
     /*监听setOnCompletionListener  返回false时就不可以翻转动画*/
     public boolean setOnCompletionListener(final int i) {
 
-                /*播放完成*/
+        /*播放完成*/
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-
                 complete = true;
                 /*释放资源*/
                 mediaPlayer.stop();
-
                 if (i == 1) complete = false;
             }
         });

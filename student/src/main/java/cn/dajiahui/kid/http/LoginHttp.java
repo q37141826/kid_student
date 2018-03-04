@@ -70,6 +70,7 @@ public class LoginHttp {
                     UserController.getInstance().savaUser(temp);
                     SpUtil spUtil = new SpUtil(context);
                     UserController.getInstance().getUser().setPwd(pwd);
+                    UserController.getInstance().getUser().setPwd(pwd);
                     spUtil.setLogin(user, pwd);
                     spUtil.setUser(temp);
                     KidConfig.getInstance().init();//初始化文件夹
@@ -125,7 +126,7 @@ public class LoginHttp {
                 String nickName = UserController.getInstance().getUser().getRealName();
 //                boolean updatenick = EMClient.getInstance().updateCurrentUserNick(nickName);
                 //异步获取当前用户的昵称和头像(从自己服务器获取，demo使用的一个第三方服务)
-                PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvator());
+                PreferenceManager.getInstance().setCurrentUserAvatar(UserController.getInstance().getUser().getAvatar());
                 PreferenceManager.getInstance().setCurrentUserNick(nickName);
                 PreferenceManager.getInstance().setCurrentUserName(user);
                 setStartActivity();

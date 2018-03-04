@@ -713,7 +713,7 @@ public class EaseChatFragment extends EaseBaseFragment {
         } else if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
             message.setChatType(ChatType.ChatRoom);
         }
-        message.setAttribute(UserDao.COLUMN_NAME_AVATAR, UserController.getInstance().getUser().getAvator());
+        message.setAttribute(UserDao.COLUMN_NAME_AVATAR, UserController.getInstance().getUser().getAvatar());
         message.setAttribute(UserDao.COLUMN_NAME_NICK, UserController.getInstance().getUser().getRealName());
         //发送消息
         EMClient.getInstance().chatManager().sendMessage(message);

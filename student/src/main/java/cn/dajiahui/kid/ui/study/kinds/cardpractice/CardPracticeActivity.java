@@ -8,21 +8,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
+import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 import com.squareup.okhttp.Request;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.controller.Constant;
+import cn.dajiahui.kid.http.DownloadFile;
+import cn.dajiahui.kid.http.OnDownload;
 import cn.dajiahui.kid.http.RequestUtill;
+import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.ui.study.bean.BeCradPratice;
+import cn.dajiahui.kid.ui.study.bean.BeCradPraticePageData;
+import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
+import cn.dajiahui.kid.util.MD5;
 
 /*
 * 单词卡
@@ -36,14 +43,15 @@ public class CardPracticeActivity extends FxActivity implements
     private Button btnnext;
 
     private int currentPositinon = 0;
-    private List<BeCradPratice> mCardList;
+
     private String book_id;
     private String unit_id;
+    private Bundle mCardPracticeBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setfxTtitle("111111111");
+        setfxTtitle(mCardPracticeBundle.getString("UNIT_NAME"));
         onBackText();
 
     }
@@ -51,47 +59,25 @@ public class CardPracticeActivity extends FxActivity implements
     @Override
     protected void initView() {
         setContentView(R.layout.activity_card_practice);
-        Bundle mCardPracticeBundle = getIntent().getExtras();
+        mCardPracticeBundle = getIntent().getExtras();
         book_id = mCardPracticeBundle.getString("BOOK_ID");
         unit_id = mCardPracticeBundle.getString("UNIT_ID");
-
         initialize();
-
         httpData();
-        /*模拟数据*/
-        mCardList = new ArrayList<>();
-
-        BeCradPratice b1 = new BeCradPratice("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg", "/storage/emulated/0/testsmall.mp3", "", "卡片练习1");
-        BeCradPratice b2 = new BeCradPratice("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg", "/storage/emulated/0/testsmall2.mp3", "", "卡片练习2");
-        BeCradPratice b3 = new BeCradPratice("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg", "/storage/emulated/0/testsmall.mp3", "", "卡片练习3");
-        BeCradPratice b4 = new BeCradPratice("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg", "/storage/emulated/0/testsmall2.mp3", "", "卡片练习4");
-        BeCradPratice b5 = new BeCradPratice("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg", "/storage/emulated/0/testsmall.mp3", "", "卡片练习5");
-        BeCradPratice b6 = new BeCradPratice("http://d-static.oss-cn-qingdao.aliyuncs.com/elearning/2018/01086vr8ufyg.jpg", "/storage/emulated/0/testsmall2.mp3", "", "卡片练习6");
-
-        mCardList.add(b1);
-        mCardList.add(b2);
-        mCardList.add(b3);
-        mCardList.add(b4);
-        mCardList.add(b5);
-        mCardList.add(b6);
-
-
-        CardAdapter adapter = new CardAdapter(getSupportFragmentManager(), mCardList);
-        mCardpager.setAdapter(adapter);
-
     }
 
     @Override
     public void httpData() {
         super.httpData();
-        RequestUtill.getInstance().httpReadingBook(CardPracticeActivity.this, callCardPratice, "6", "14");
-
+        RequestUtill.getInstance().httpCardPratice(CardPracticeActivity.this, callCardPratice, "6", "14");
     }
 
+    private List<BeCradPraticePageData> page_data;
     /**
      * 卡片练习callback函数
      */
     ResultCallback callCardPratice = new ResultCallback() {
+
 
         @Override
         public void onError(Request request, Exception e) {
@@ -104,7 +90,23 @@ public class CardPracticeActivity extends FxActivity implements
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
+                BeCradPratice beCradPratice = json.parsingObject(BeCradPratice.class);
+                if (beCradPratice != null) {
+                    page_data = beCradPratice.getPage_data();
+                     /*获取Mp3名称*/
+                    String sMp3 = MD5.getMD5(page_data.get(0).getMusic_oss_url().substring(page_data.get(0).getMusic_oss_url().lastIndexOf("/"))) + ".mp3";
 
+                        /*判断mp3文件是否下载过*/
+                    if (FileUtil.fileIsExists(KidConfig.getInstance().getPathCardPratice() + sMp3)) {
+                        CardAdapter adapter = new CardAdapter(getSupportFragmentManager(), page_data);
+                        mCardpager.setAdapter(adapter);
+
+                    } else {
+                        downloadCardPratice(page_data.get(0).getMusic_oss_url());
+                    }
+
+
+                }
             } else {
                 ToastUtil.showToast(CardPracticeActivity.this, json.getMsg());
             }
@@ -112,6 +114,24 @@ public class CardPracticeActivity extends FxActivity implements
         }
 
     };
+
+    /*下載*/
+    private void downloadCardPratice(String music_oss_url) {
+        Logger.d("下载----downloadKaraOkeMp3----");
+
+        BeDownFile file = new BeDownFile(Constant.file_card_pratice, music_oss_url, "", KidConfig.getInstance().getPathTemp());
+
+        new DownloadFile(CardPracticeActivity.this, file, false, new OnDownload() {
+            @Override
+            public void onDownload(String fileurl, FxProgressDialog progressDialog) {
+                CardAdapter adapter = new CardAdapter(getSupportFragmentManager(), page_data);
+                mCardpager.setAdapter(adapter);
+                progressDialog.dismiss();
+                Logger.d("fileurl:" + fileurl);
+            }
+        });
+
+    }
 
     /*初始化数据*/
     private void initialize() {
@@ -122,15 +142,17 @@ public class CardPracticeActivity extends FxActivity implements
         btnnext.setOnClickListener(onClick);
     }
 
+    private BeCradPraticePageData beCradPraticePageData;
 
     /*
    *卡片练习适配器
    * */
     private class CardAdapter extends FragmentStatePagerAdapter {
 
-        private List<BeCradPratice> mCardList;
+        private List<BeCradPraticePageData> mCardList;
 
-        private CardAdapter(FragmentManager fragmentManager, List<BeCradPratice> mCardList) {
+
+        private CardAdapter(FragmentManager fragmentManager, List<BeCradPraticePageData> mCardList) {
             super(fragmentManager);
             this.mCardList = mCardList;
         }
@@ -150,12 +172,11 @@ public class CardPracticeActivity extends FxActivity implements
 
         @Override
         public Fragment getItem(int arg0) {
-            Logger.d("arg0:" + arg0);
             currentPositinon = arg0;
             CardPraticeFragment fr = new CardPraticeFragment();
             Bundle bundle = new Bundle();
-            BeCradPratice beCradPratice = mCardList.get(arg0);
-            bundle.putSerializable("BeCradPratice", beCradPratice);
+            beCradPraticePageData = mCardList.get(arg0);
+            bundle.putSerializable("BeCradPraticePageData", beCradPraticePageData);
             bundle.putInt("position", arg0);
             fr.setArguments(bundle);
 
@@ -172,6 +193,7 @@ public class CardPracticeActivity extends FxActivity implements
         }
     }
 
+
     @Override
     public void NoticeCheck(boolean ischeck, int position) {
         if (ischeck) {
@@ -179,13 +201,18 @@ public class CardPracticeActivity extends FxActivity implements
             btnnext.setBackgroundResource(R.color.yellow_FEBF12);
             btnnext.setClickable(true);
 
+            if (tvnumber.getText().equals(page_data.size() + "/" + page_data.size())) {
+                btnnext.setVisibility(View.GONE);
+            }
+
+
         } else {
             Logger.d("2 ischeck:" + ischeck);
             btnnext.setBackgroundResource(R.color.gray);
             btnnext.setClickable(false);
 
             if (position >= 0) {
-                tvnumber.setText((position + 1) + "/" + mCardList.size());
+                tvnumber.setText((position + 1) + "/" + page_data.size());
             }
 
         }
@@ -197,9 +224,6 @@ public class CardPracticeActivity extends FxActivity implements
         public void onClick(View v) {
             Logger.d("currentPositinon:" + currentPositinon);
             mCardpager.setCurrentItem(currentPositinon);
-
-
-            Toast.makeText(context, "next", Toast.LENGTH_SHORT).show();
 
         }
     };

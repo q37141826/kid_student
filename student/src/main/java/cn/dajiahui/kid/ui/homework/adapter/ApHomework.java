@@ -58,8 +58,10 @@ public class ApHomework extends CommonAdapter<BeHomework> {
         tv_homename.setText(item.getBook_name());
         tv_homecontent.setText(item.getName());
 
+        /*打分的小星星*/
         rb_score.setMax(100);
-        rb_score.setRating(20);
+        /*打分的分数 有问题 待确定*/
+//        rb_score.setProgress(Integer.parseInt(item.getCorrect_rate())*100);
         tv_hometime.setText(DateUtils.time(item.getStart_time()) + "作业");//作业时间
         task_endtime.setText("截止时间：" + DateUtils.time(item.getEnd_time()));//作业时间
 

@@ -12,7 +12,7 @@ public class BeHomeWorkDetails {
 
 
     private String all_students;
-    private List<BeAnswer_sheet> answer_sheet;
+    private List<BeAnswerSheet> answer_sheet;
     private String complete_students;//学生完成人数
     private String complete_time;//完成时间
     private String correct_rate;//单个学生的准确率
@@ -28,7 +28,7 @@ public class BeHomeWorkDetails {
         return all_students;
     }
 
-    public List<BeAnswer_sheet> getAnswer_sheet() {
+    public List<BeAnswerSheet> getAnswer_sheet() {
         return answer_sheet;
     }
 

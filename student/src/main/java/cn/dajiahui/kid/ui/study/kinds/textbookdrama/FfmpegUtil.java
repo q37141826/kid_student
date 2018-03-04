@@ -56,7 +56,7 @@ public class FfmpegUtil {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MESSAGE_MIX_V_T_A:
-                        audioVideoSyn(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3"), mOutputFile);
+                    audioVideoSyn(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3"), mOutputFile);
 //                    mergeaudiovideo(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3"), mOutputFile);
                     break;
                 case MESSAGE_SYNTHETIC_VIDEO:
@@ -133,18 +133,18 @@ public class FfmpegUtil {
 
                 @Override
                 public void onFailure(String message) {
-                    Logger.d("FFmpeg onFailure 混合音频");
+                    Logger.d("FFmpeg onFailure 混合音频"+message);
                 }
 
                 @Override
                 public void onSuccess(String message) {
                     handler.sendEmptyMessage(MESSAGE_MIX_V_T_A);
-                    Logger.d("FFmpeg onSuccess 混合音频");
+//                    Logger.d("FFmpeg onSuccess 混合音频");
                 }
 
                 @Override
                 public void onFinish() {
-                    Logger.d("FFmpeg onFinish 混合音频 ");
+//                    Logger.d("FFmpeg onFinish 混合音频 ");
                 }
             });
         } catch (FFmpegCommandAlreadyRunningException e) {
@@ -171,7 +171,7 @@ public class FfmpegUtil {
         cmd.append(audioFile.getPath());
         cmd.append(" ");
         cmd.append(outputFile.getPath());
-        Logger.d("音视频合成cmd = " + cmd);
+//        Logger.d("音视频合成cmd = " + cmd);
         try {
             ffmpeg.execute(cmd.toString().split(" "), new ExecuteBinaryResponseHandler() {
 
@@ -199,17 +199,17 @@ public class FfmpegUtil {
 
                 @Override
                 public void onFinish() {
-                    Logger.d("FFmpeg onFinish ----音视频合成 ");
+//                    Logger.d("FFmpeg onFinish ----音视频合成 ");
                 }
             });
         } catch (FFmpegCommandAlreadyRunningException e) {
-            Logger.d("FFmpeg exception  ----音视频合成 = " + e);
+//            Logger.d("FFmpeg exception  ----音视频合成 = " + e);
         }
     }
 
 
     // 分离视频  直接分离到课本剧的文件夹下
-    public void getNoSoundVideo(String VideoPath,String outPath) {
+    public void getNoSoundVideo(String VideoPath, String outPath) {
         String cmd;
         //-i input_file -vcodec copy -an output_file_video     //分离视频流 MlecConfig.getInstance().getPathSeparateVideoAudio() + "/out_video.mp4"
         cmd = "-i " + VideoPath + " -vcodec copy -an " + outPath + "out_nosound_video.mp4";
@@ -232,6 +232,7 @@ public class FfmpegUtil {
 
                 @Override
                 public void onProgress(String message) {
+                    Logger.d("分离视频");
                 }
 
                 @Override
@@ -242,6 +243,10 @@ public class FfmpegUtil {
                 @Override
                 public void onSuccess(String message) {
                     Logger.d("分离视频成功");
+                    Message msg = Message.obtain();
+                    msg.what = 4;
+                    mHandler.sendMessage(msg);
+
                 }
 
                 @Override

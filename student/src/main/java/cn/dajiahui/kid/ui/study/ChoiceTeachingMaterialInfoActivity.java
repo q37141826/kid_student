@@ -78,6 +78,8 @@ public class ChoiceTeachingMaterialInfoActivity extends FxActivity {
 
                 RequestUtill.getInstance().ChoiceTeachingMaterialBook(context, callChoiceTeachingMaterialBook, org_id, book_id);
 
+                /*数据回传到自学首页*/
+                BeChoiceTeachingMaterialInfoLists beChoiceTeachingMaterialInfoLists = mInfoListsList.get(position);
                 Toast.makeText(context, "开始学习", Toast.LENGTH_SHORT).show();
 
             }
@@ -131,6 +133,7 @@ public class ChoiceTeachingMaterialInfoActivity extends FxActivity {
 
         @Override
         public void onResponse(String response) {
+            Logger.d("选择教材信息response:"+response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {

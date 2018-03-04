@@ -2,6 +2,7 @@ package cn.dajiahui.kid.ui.mine.setting;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fxtx.framework.http.ErrorCode;
@@ -42,7 +43,9 @@ public class SettingActivity extends FxActivity {
         getView(R.id.tvFixpass).setOnClickListener(onClick);
         getView(R.id.tvclean).setOnClickListener(onClick);
         getView(R.id.btn_Exit).setOnClickListener(onClick);
+        TextView defealt_tel = getView(R.id.defealt_tel);
 
+        defealt_tel.setText( UserController.getInstance().getUser().getTelnum());
     }
 
 

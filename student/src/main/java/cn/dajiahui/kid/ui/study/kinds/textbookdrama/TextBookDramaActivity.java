@@ -18,7 +18,9 @@ import com.fxtx.framework.widgets.tag.TagGroup;
 import com.squareup.okhttp.Request;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
@@ -26,6 +28,7 @@ import cn.dajiahui.kid.ui.study.bean.BeTextBookDrama;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageData;
 import cn.dajiahui.kid.ui.study.view.NoScrollViewPager;
 import cn.dajiahui.kid.util.Logger;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /*
 * 课本剧
@@ -42,20 +45,24 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
     private String unit_id;
     private Bundle mTextBookDramaBundle;
     private List<BeTextBookDramaPageData> page_data;
+    private String unit_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("课本剧");
+        setfxTtitle(unit_name);
         onBack();
     }
 
     @Override
     protected void initView() {
         setContentView(R.layout.activity_text_book_drama);
+        /*播放器不保存进度*/
+        JCVideoPlayer.SAVE_PROGRESS = false;
         mTextBookDramaBundle = getIntent().getExtras();
         book_id = mTextBookDramaBundle.getString("BOOK_ID");
         unit_id = mTextBookDramaBundle.getString("UNIT_ID");
+        unit_name = mTextBookDramaBundle.getString("UNIT_NAME");
         initialize();
         httpData();
         mViewpager.setNoScroll(false);
@@ -64,14 +71,12 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
     @Override
     public void httpData() {
         super.httpData();
-//        RequestUtill.getInstance().httpTextBookDrama(TextBookDramaActivity.this, callTextBookDrama, book_id, unit_id);
-        /*测试写死*/
-        RequestUtill.getInstance().httpTextBookDrama(TextBookDramaActivity.this, callTextBookDrama, "6", "14");
+        RequestUtill.getInstance().httpTextBookDrama(TextBookDramaActivity.this, callTextBookDrama, book_id, unit_id);
 
     }
 
     /**
-     * 点读本callback函数
+     * 课本剧callback函数
      */
     ResultCallback callTextBookDrama = new ResultCallback() {
         @Override
@@ -81,7 +86,7 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
 
         @Override
         public void onResponse(String response) {
-            Logger.d("课本剧：" + response);
+//            Logger.d("课本剧：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
@@ -109,7 +114,7 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
         point_root = getView(R.id.point_root);
     }
 
-
+    private Map<Integer, TextBookDramaFragment> map = new HashMap<>();
     /*课本剧适配器*/
     class TextBookDramAdapter extends FragmentStatePagerAdapter {
         List<BeTextBookDramaPageData> page_data;
@@ -129,6 +134,7 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
         public Fragment getItem(int position) {
 
             TextBookDramaFragment dramaFragment = new TextBookDramaFragment();
+            map.put(position,dramaFragment);
             Bundle bundle = new Bundle();
             bundle.putSerializable("page_data", (Serializable) page_data);
             bundle.putInt("position", position);
@@ -137,7 +143,14 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
 
         }
 
-
+        @Override/*销毁的是销毁当前的页数*/
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            //如果注释这行，那么不管怎么切换，page都不会被销毁
+            super.destroyItem(container, position, object);
+            map.remove(position);
+            //希望做一次垃圾回收
+            System.gc();
+        }
     }
 
     @Override

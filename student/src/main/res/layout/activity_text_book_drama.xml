@@ -8,30 +8,39 @@
 
     <include layout="@layout/layout_tool_text"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:background="@color/gray_F5F5F5">
 
-        <!--可以选择是否禁止滑动的ViewPager-->
-        <cn.dajiahui.kid.ui.study.view.NoScrollViewPager
-            android:id="@+id/viewpager"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tv_name"
-            android:layout_gravity="center"/>
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/round_bg_9edbef"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <!--可以选择是否禁止滑动的ViewPager-->
+            <cn.dajiahui.kid.ui.study.view.NoScrollViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tv_name"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/point_root"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center"
         android:layout_gravity="center"
+        android:gravity="center"
         android:orientation="horizontal">
-
     </LinearLayout>
 </LinearLayout>
 
