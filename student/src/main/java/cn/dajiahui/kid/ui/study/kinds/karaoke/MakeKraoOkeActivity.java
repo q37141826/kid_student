@@ -32,7 +32,6 @@ import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.ui.study.bean.BeGoTextBookSuccess;
 import cn.dajiahui.kid.ui.study.bean.BeItem;
 import cn.dajiahui.kid.ui.study.bean.BePageData;
-import cn.dajiahui.kid.ui.study.kinds.textbookdrama.FfmpegUtil;
 import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookSuccessActivity;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.util.DateUtils;
@@ -97,21 +96,23 @@ public class MakeKraoOkeActivity extends FxActivity {
                     audiosList.put(1, mRecordMap);
 
                     showfxDialog("视频制作中，请稍等...");//打开进度条
-
-                    new FfmpegUtil(MakeKraoOkeActivity.this, mHandler).mixAudiosToVideo(
-                            new File(KidConfig.getInstance().getPathKaraOkeNoSoundVideo() + "out_nosound_video.mp4"),
-                            audiosList,
-                            new File(KidConfig.getInstance().getPathMineWorksTemp() + bePageData.getTitle() + bePageData.getPage_id() + ".mp4"));//作品名称
+/*qqqqqqqqqqqqqq*/
+//                    new FfmpegUtil(MakeKraoOkeActivity.this, mHandler,bePageData.getPage_id(),).mixAudiosToVideo(
+//                            new File(KidConfig.getInstance().getPathKaraOkeNoSoundVideo() + "out_nosound_video.mp4"),
+//                            audiosList,
+//                            new File(KidConfig.getInstance().getPathMineWorksTemp() + bePageData.getTitle() + bePageData.getPage_id() + ".mp4"));//作品名称
 
                     Logger.d("录音地址：" + RecordPath);
                 }
             } else if (msg.what == 3) {
                 dismissfxDialog();
                 beGoTextBookSuccess = new BeGoTextBookSuccess(
-                        KidConfig.getInstance().getPathMineWorksTemp() + bePageData.getTitle() + bePageData.getPage_id() + ".mp4",
+                        KidConfig.getInstance().getPathMineWorksTemp() + "KraoOke" + bePageData.getPage_id() + ".mp4",
+                        bePageData.getPage_id(),
                         bePageData.getMusic_name() + bePageData.getPage_id(),
                         UserController.getInstance().getUser().getAvatar(),
-                        DateUtils.formatDate(new Date(), "M月d日 HH:mm"), "");
+                        UserController.getInstance().getUser().getUserName(),
+                        DateUtils.formatDate(new Date(), "M月d日 HH:mm"));
                 Bundle bundle = new Bundle();
                 bundle.putString("MakeFlag", "MakeKraoOke");
                 bundle.putString("ShowBottom", "SHOW");
@@ -314,10 +315,10 @@ public class MakeKraoOkeActivity extends FxActivity {
             if (!isOKOnclick) {
             /*清空文件temp夹里的文件 不删除文件夹*/
                 cleanEnvironment();
-            /*分离视频 保存无声视频*/
-                new FfmpegUtil(MakeKraoOkeActivity.this, mHandler).getNoSoundVideo(KidConfig.getInstance().getPathKaraOkeMp4() +
-                                MD5.getMD5(bePageData.getPage_url().substring(bePageData.getPage_url().lastIndexOf("/"))) + ".mp4",
-                        KidConfig.getInstance().getPathKaraOkeNoSoundVideo());
+//            /*分离视频 保存无声视频*/
+//                new FfmpegUtil(MakeKraoOkeActivity.this, mHandler, bePageData.getPage_id()).getNoSoundVideo(KidConfig.getInstance().getPathKaraOkeMp4() +
+//                                MD5.getMD5(bePageData.getPage_url().substring(bePageData.getPage_url().lastIndexOf("/"))) + ".mp4",
+//                        KidConfig.getInstance().getPathKaraOkeNoSoundVideo());
 
             } else {
                 Toast.makeText(context, "卡拉ok录制未完成！", Toast.LENGTH_SHORT).show();

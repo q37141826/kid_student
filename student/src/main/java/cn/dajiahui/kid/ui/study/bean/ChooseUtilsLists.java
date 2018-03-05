@@ -116,7 +116,7 @@ public class ChooseUtilsLists {
 
         @Override
         public String toString() {
-            return "BeTextBookDrama{" +
+            return "BeMineWorks{" +
                     "item=" + item +
                     ", music_name='" + music_name + '\'' +
                     ", music_oss_name='" + music_oss_name + '\'' +

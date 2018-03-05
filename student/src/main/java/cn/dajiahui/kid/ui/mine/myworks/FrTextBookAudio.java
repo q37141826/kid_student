@@ -3,25 +3,29 @@ package cn.dajiahui.kid.ui.mine.myworks;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fxtx.framework.http.callback.ResultCallback;
+import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
+import com.squareup.okhttp.Request;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.mine.adapter.ApMyWorks;
-import cn.dajiahui.kid.ui.mine.bean.BeMyWorks;
+import cn.dajiahui.kid.ui.mine.bean.BeMineWorks;
+import cn.dajiahui.kid.ui.mine.bean.BeMineWorksLists;
 import cn.dajiahui.kid.ui.mine.myinterface.ShowbtnDelete;
-import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
 
@@ -34,7 +38,8 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
     private ListView mListview;
 
     private TextView tvNUll;
-    private List<BeMyWorks> mTextBooklists = new ArrayList<BeMyWorks>();
+    private List<BeMineWorksLists> mTextBooklists = new ArrayList<>();
+
     private MaterialRefreshLayout refresh;
     private ApMyWorks apMyWorks;
     private File[] mVideos;
@@ -46,20 +51,21 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
         return inflater.inflate(R.layout.fr_textbookaudio, null);
     }
 
+
     /*得到数据源*/
     private void getWorkSource() {
         File folder = new File(KidConfig.getInstance().getPathMineWorksTextBookDrama());
 
-        mVideos = folder.listFiles();
+//        mVideos = folder.listFiles();
 
-        for (int i = 0; i < mVideos.length; i++) {
-            //获取当前文件名字
-            /*1參數我的作品本地路径*/
-            BeMyWorks beMyWorks = new BeMyWorks(mVideos[i].getName(), KidConfig.getInstance().getPathMineWorksTextBookDrama() + mVideos[i].getName(), "2018.2.21");
-            Logger.d(mVideos[i].getName());
-            Logger.d(KidConfig.getInstance().getPathMineWorksTextBookDrama() + mVideos[i].getName());
-            mTextBooklists.add(beMyWorks);
-        }
+//        for (int i = 0; i < mVideos.length; i++) {
+//            //获取当前文件名字
+//            /*1參數我的作品本地路径*/
+//            BeMyWorks beMyWorks = new BeMyWorks(mVideos[i].getName(), KidConfig.getInstance().getPathMineWorksTextBookDrama() + mVideos[i].getName(), "2018.2.21");
+//            Logger.d(mVideos[i].getName());
+//            Logger.d(KidConfig.getInstance().getPathMineWorksTextBookDrama() + mVideos[i].getName());
+//            mTextBooklists.add(beMyWorks);
+//        }
 
 
     }
@@ -93,26 +99,35 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
 
         }
 
-
-        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Bundle bundle = new Bundle();
-
-                bundle.putSerializable("WORKSDATA", mTextBooklists.get(position));
-                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), VideoActivity.class, bundle, 0);
-
-            }
-        });
+//
+//        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                Bundle bundle = new Bundle();
+//
+////                bundle.putSerializable("WORKSDATA", mTextBooklists.get(position));
+//
+//                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), VideoActivity.class, bundle, 0);
+//
+//            }
+//        });
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
+        httpData();
     }
 
+    /*获取列表*/
+    @Override
+    public void httpData() {
+        super.httpData();
+        RequestUtill.getInstance().httpGetMineWorksTextBookDrama(getActivity(), callMineWorksTextBook, 10, pagNum);
+
+    }
 
     @Override
     public void showbtnDelete(int position) {
@@ -124,7 +139,34 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
             apMyWorks.changeState(-2);
         }
         Toast.makeText(activity, "显示删除按钮课本剧", Toast.LENGTH_SHORT).show();
-
-
     }
+
+    /*获取我的作品课本剧*/
+    ResultCallback callMineWorksTextBook = new ResultCallback() {
+        @Override
+        public void onError(Request request, Exception e) {
+            dismissfxDialog();
+        }
+
+        @Override
+        public void onResponse(String response) {
+            dismissfxDialog();
+            Logger.d("获取课本剧" + response);
+            HeadJson json = new HeadJson(response);
+            if (json.getstatus() == 0) {
+                BeMineWorks beMineWorks = json.parsingObject(BeMineWorks.class);
+                if (beMineWorks != null) {
+                    mTextBooklists.addAll(beMineWorks.getLists());
+                    apMyWorks.notifyDataSetChanged();
+                }
+
+            } else {
+                ToastUtil.showToast(getActivity(), json.getMsg());
+            }
+
+
+        }
+
+
+    };
 }

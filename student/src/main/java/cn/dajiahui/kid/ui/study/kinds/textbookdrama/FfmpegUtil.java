@@ -1,19 +1,17 @@
 package cn.dajiahui.kid.ui.study.kinds.textbookdrama;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.MediaMetadataRetriever;
 import android.os.Handler;
 import android.os.Message;
 
-import com.coremedia.iso.boxes.Container;
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
-import com.googlecode.mp4parser.authoring.Movie;
-import com.googlecode.mp4parser.authoring.Track;
-import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
-import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,10 +37,18 @@ public class FfmpegUtil {
     private final int MESSAGE_MIX_V_T_A = 0;
     private final int MESSAGE_SYNTHETIC_VIDEO = 1;
     Handler mHandler;
+    private String page_id;//缩略图的名字 用page_id与课本剧好匹配
+    private String Page_url;
+    /*截取缩略图*/
+    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 
-    public FfmpegUtil(Activity context, Handler mHandler) {
+    public FfmpegUtil(Activity context, Handler mHandler, String page_id, String Page_url)
+
+    {
         this.context = context;
         this.mHandler = mHandler;
+        this.page_id = page_id;
+        this.Page_url = Page_url;
         if (ffmpeg == null) {
             ffmpeg = FFmpeg.getInstance(context);
             loadFFMpegLib();
@@ -128,12 +134,12 @@ public class FfmpegUtil {
 
                 @Override
                 public void onProgress(String message) {
-                    Logger.d("FFmpeg onProgress--- 混合音频");
+//                    Logger.d("FFmpeg onProgress--- 混合音频");
                 }
 
                 @Override
                 public void onFailure(String message) {
-                    Logger.d("FFmpeg onFailure 混合音频"+message);
+                    Logger.d("FFmpeg onFailure 混合音频" + message);
                 }
 
                 @Override
@@ -158,20 +164,43 @@ public class FfmpegUtil {
      * @param videoFile
      * @param audioFile
      * @param outputFile
+     * -i /sdcard/test/1-1-001.mp4
+     * -i
+     * /sdcard/test/output.mp3
+     * -map 0:0 -map 1:0 -vcodec
+     * copy
+     * -acodec
+     * copy /sdcard/test/out111.mp4
      */
-    public void audioVideoSyn(File videoFile, File audioFile, File outputFile) {
+    public void audioVideoSyn(File videoFile, File audioFile, final File outputFile) {
 //        String cmd = "-i /sdcard/test/video001a.mp4 -i /sdcard/test/output.mp3 /sdcard/test/output.mp4";  // 插入音频
         StringBuilder cmd = new StringBuilder();
         cmd.append("-i");
         cmd.append(" ");
-        cmd.append(videoFile.getPath());
+        cmd.append(KidConfig.getInstance().getPathTextbookPlayMp4()+"d5877e3bc4fecafeee8e123641cb78b8.mp4");/*应该修改成本地原视频的地址*/
         cmd.append(" ");
         cmd.append("-i");
         cmd.append(" ");
         cmd.append(audioFile.getPath());
         cmd.append(" ");
+        cmd.append("-map");
+        cmd.append(" ");
+        cmd.append("0:0");
+        cmd.append(" ");
+        cmd.append("-map");
+        cmd.append(" ");
+        cmd.append("1:0");
+        cmd.append(" ");
+        cmd.append("-vcodec");
+        cmd.append(" ");
+        cmd.append("copy");
+        cmd.append(" ");
+        cmd.append("-acodec");
+        cmd.append(" ");
+        cmd.append("copy");
+        cmd.append(" ");
         cmd.append(outputFile.getPath());
-//        Logger.d("音视频合成cmd = " + cmd);
+        Logger.d("音视频合成cmd = " + cmd);
         try {
             ffmpeg.execute(cmd.toString().split(" "), new ExecuteBinaryResponseHandler() {
 
@@ -187,12 +216,22 @@ public class FfmpegUtil {
 
                 @Override
                 public void onFailure(String message) {
-                    Logger.d("FFmpeg onFailure ----  ");
+                    Logger.d("FFmpeg onFailure ----  "+message);
                 }
 
                 @Override
                 public void onSuccess(String message) {
                     Logger.d("FFmpeg onSuccess ----  ");
+
+                    retriever.setDataSource(outputFile.getPath());
+                    String fileLength = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    // *获取视频某一帧
+                    Bitmap frameAtTime = retriever.getFrameAtTime(Long.parseLong(fileLength) * 5, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+                    String name = outputFile.getName();
+//                    Logger.d("outputFile.getName():" + outputFile.getName());
+
+                    saveThumbnailToSDCard(frameAtTime, outputFile.getName().substring(0, outputFile.getName().lastIndexOf(".")));
+
                     handler.sendEmptyMessage(MESSAGE_SYNTHETIC_VIDEO);
 
                 }
@@ -206,6 +245,72 @@ public class FfmpegUtil {
 //            Logger.d("FFmpeg exception  ----音视频合成 = " + e);
         }
     }
+
+//
+//    /**
+//     * 音视频合成
+//     *
+//     * @param videoFile
+//     * @param audioFile
+//     * @param outputFile
+//     */
+//    public void audioVideoSyn(File videoFile, File audioFile, final File outputFile) {
+////        String cmd = "-i /sdcard/test/video001a.mp4 -i /sdcard/test/output.mp3 /sdcard/test/output.mp4";  // 插入音频
+//        StringBuilder cmd = new StringBuilder();
+//        cmd.append("-i");
+//        cmd.append(" ");
+//        cmd.append(videoFile.getPath());
+//        cmd.append(" ");
+//        cmd.append("-i");
+//        cmd.append(" ");
+//        cmd.append(audioFile.getPath());
+//        cmd.append(" ");
+//        cmd.append(outputFile.getPath());
+//        Logger.d("音视频合成cmd = " + cmd);
+//        try {
+//            ffmpeg.execute(cmd.toString().split(" "), new ExecuteBinaryResponseHandler() {
+//
+//                @Override
+//                public void onStart() {
+//                    Logger.d("FFmpeg onStart  ---- ");
+//                }
+//
+//                @Override
+//                public void onProgress(String message) {
+////                    Logger.d("FFmpeg onProgress ----   音视频合成");
+//                }
+//
+//                @Override
+//                public void onFailure(String message) {
+//                    Logger.d("FFmpeg onFailure ----  ");
+//                }
+//
+//                @Override
+//                public void onSuccess(String message) {
+//                    Logger.d("FFmpeg onSuccess ----  ");
+//
+//                    retriever.setDataSource(outputFile.getPath());
+//                    String fileLength = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+//                    // *获取视频某一帧
+//                    Bitmap frameAtTime = retriever.getFrameAtTime(Long.parseLong(fileLength) * 5, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+//                    String name = outputFile.getName();
+//                    Logger.d("outputFile.getName():" + outputFile.getName());
+//
+//                    saveThumbnailToSDCard(frameAtTime, outputFile.getName().substring(0,outputFile.getName().lastIndexOf(".")));
+//
+//                    handler.sendEmptyMessage(MESSAGE_SYNTHETIC_VIDEO);
+//
+//                }
+//
+//                @Override
+//                public void onFinish() {
+////                    Logger.d("FFmpeg onFinish ----音视频合成 ");
+//                }
+//            });
+//        } catch (FFmpegCommandAlreadyRunningException e) {
+////            Logger.d("FFmpeg exception  ----音视频合成 = " + e);
+//        }
+//    }
 
 
     // 分离视频  直接分离到课本剧的文件夹下
@@ -298,46 +403,48 @@ public class FfmpegUtil {
     }
 
 
-    public void mergeaudiovideo(File videoFile, File audioFile, File outputFile) {//iscover=false （修改录音时 没有点击完成按钮）
+    private void saveThumbnailToSDCard(Bitmap mBitmap, String bitName) {
 
-        String video = videoFile.getPath();//视频
-        String audio = audioFile.getPath();//音频
-        Movie countVideo = null;
+        File f = new File(KidConfig.getInstance().getPathMineWorksThumbnail() + bitName + ".png");
+        FileOutputStream fOut = null;
         try {
-            if (video != "") {
-                countVideo = MovieCreator.build(video);
-            }
-//
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Movie countAudioEnglish = null;
-
-        if (audio != "") {
-
-            try {
-                countAudioEnglish = MovieCreator.build(audio);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        Track audioTrackEnglish = countAudioEnglish.getTracks().get(0);
-        countVideo.addTrack(audioTrackEnglish);
-        Container out = new DefaultMp4Builder().build(countVideo);
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(outputFile);
-            out.writeContainer(fos.getChannel());
-            fos.close();//关闭资源
-            Logger.d("222222222222");
-            handler.sendEmptyMessage(MESSAGE_SYNTHETIC_VIDEO);
+            fOut = new FileOutputStream(f);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+        Bitmap zoom = zoom(mBitmap, 300, 200);
+        if (zoom != null) {
+            zoom.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+        }
+        try {
+            fOut.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        try {
+            fOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * 放大缩小图片
+     *
+     * @param bitmap 源Bitmap
+     * @param w      宽
+     * @param h      高
+     * @return 目标Bitmap
+     */
+    private Bitmap zoom(Bitmap bitmap, int w, int h) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        Matrix matrix = new Matrix();
+        float scaleWidht = ((float) w / width);
+        float scaleHeight = ((float) h / height);
+        matrix.postScale(scaleWidht, scaleHeight);
+        Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, width, height,
+                matrix, true);
+        return newbmp;
+    }
 }

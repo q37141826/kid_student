@@ -257,6 +257,7 @@
     <string name="new_phone">新手机号</string>
     <string name="getcode">获取验证码</string>
     <string name="inputcode">短信验证码</string>
+    <string name="correct_phone">手机号输入错误</string>
     <string name="pwderror">密码输错</string>
     <string name="old_user">原帐号</string>
     <string name="new_user">新帐号</string>

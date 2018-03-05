@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.dajiahui.kid.util.KidConfig;
 
 
 /**
@@ -107,7 +108,8 @@ public abstract class ChivoxBasicActivity extends FxActivity {
         //config.setVadRes(FileHelper.getFilesDir(this).getAbsolutePath() + "/vad/bin/vad.0.12.20160802/vad.0.12.20160802.bin");
         config.setVadRes(FileHelper.getFilesDir(this).getAbsolutePath() + "/vad/bin/vad.0.9/vad.0.9.bin");
         //可以传绝对路径，如果路径不存在会自动创建文件夹
-        config.setRecordFilePath(FileHelper.getFilesDir(getBaseContext()).getAbsolutePath() + "/Records"); // 设置驰声音频文件存放地址
+//        config.setRecordFilePath(FileHelper.getFilesDir(getBaseContext()).getAbsolutePath() + "/Records"); // 设置驰声音频文件存放地址
+        config.setRecordFilePath(KidConfig.getInstance().getPathRecordingAudio()); // 设置驰声音频文件存放地址
         config.setResdirectory(FileHelper.getFilesDir(getBaseContext()).getAbsolutePath()+"/Resources");
     }
 

@@ -370,26 +370,6 @@ public class RequestUtill {
         getHttpBuilder(context, "site/find-passwd").params(params).post(callback);
     }
 
-    /*修改手机号*/
-    public void httpModifyPhone(Context context, ResultCallback callback, String userId, String telnum, String captcha) {
-        IdentityHashMap params = new IdentityHashMap<>();
-//        params.put("userId", userId);
-//        params.put("telnum", telnum);
-//        params.put("captcha", captcha);
-//        getHttpBuilder(context, "user/boundPhone.json").params(params).post(callback);
-    }
-
-    /*修改密码*/
-    public void httpModifyPwd(Context context, ResultCallback callback, String access_token, String username, String oldPassword, String xinPassword, String confirmPassword) {
-        IdentityHashMap params = new IdentityHashMap<>();
-//        params.put("userId", access_token);
-//        params.put("username", username);
-//        params.put("oldPassword", oldPassword);
-//        params.put("xinPassword", xinPassword);
-//        params.put("confirmPassword", confirmPassword);
-//        getHttpBuilder(context, "user/modifyPassword.json").params(params).post(callback);
-
-    }
 
     /**
      * 根据班级码查询班级
@@ -665,7 +645,7 @@ public class RequestUtill {
         }
     }
 
-    /*真正修改头像*/
+    /*修改用户信息*/
     public void httpChangeUserInfo(Context context, ResultCallback callback, int type, String info) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
@@ -687,5 +667,48 @@ public class RequestUtill {
         getHttpBuilder(context, "teacher/member/update").params(params).post(callback);
     }
 
+    /*修改手机号*/
+    public void httpModifyPhone(Context context, ResultCallback callback, String telnum, String telcode) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("telnum", telnum);
+        params.put("telcode", telcode);
+
+        getHttpBuilder(context, "teacher/setting/telnum").params(params).post(callback);
+    }
+
+    /*修改密码*/
+    public void httpModifyPwd(Context context, ResultCallback callback, String oldPassword, String new_password, String re_password) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("password", oldPassword);
+        params.put("new_password", new_password);
+        params.put("re_password", re_password);
+
+        getHttpBuilder(context, "teacher/setting/password").params(params).post(callback);
+
+    }
+
+    /*保存我的作品*/
+    public void httpSaveMineWorks(Context context, ResultCallback callback, String page_id, String date, String videoPath, String thumbnailPath) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("page_id", page_id);
+        params.put("date", date);
+        Pair<String, File> videofile = new Pair<String, File>("video", new File(videoPath));
+        Pair<String, File> thumbnailfile = new Pair<String, File>("thumbnail", new File(thumbnailPath));
+        new OkHttpRequest.Builder().tag(context).url(getUrl() + "student/work/save").
+                files(videofile, thumbnailfile).params(params).upload(callback);
+    }
+
+    /*获取课本剧*/
+    public void httpGetMineWorksTextBookDrama(Context context, ResultCallback callback, int pageSize, int page) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("pageSize", pageSize + "");
+        params.put("page", page + "");
+
+        getHttpBuilder(context, "student/work/textbook").params(params).post(callback);
+    }
 }
 

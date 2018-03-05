@@ -76,6 +76,8 @@ public class KidConfig {
     private String pathMineWorksTextBookDrama = this.pathMineWorks + "TextBookDrama" + File.separator;
     /*我的作品中的卡拉ok*/
     private String pathMineWorksKaraOke = this.pathMineWorks + "KaraOke" + File.separator;
+    /*我的作品缩略图*/
+    private String pathMineWorksThumbnail = this.pathMineWorks + "Thumbnail" + File.separator;
 
 
     public void init() {
@@ -155,7 +157,12 @@ public class KidConfig {
         folder = new File(this.pathPersonalStereo);
         if (!folder.exists()) {
             folder.mkdir();
-        }folder = new File(this.pathCardPratice);
+        }
+        folder = new File(this.pathCardPratice);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pathMineWorksThumbnail);
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -254,5 +261,9 @@ public class KidConfig {
 
     public String getPathCardPratice() {
         return pathCardPratice;
+    }
+
+    public String getPathMineWorksThumbnail() {
+        return pathMineWorksThumbnail;
     }
 }

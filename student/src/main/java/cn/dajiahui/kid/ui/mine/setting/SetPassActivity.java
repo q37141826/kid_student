@@ -149,7 +149,7 @@ public class SetPassActivity extends FxActivity {
                     ToastUtil.showToast(SetPassActivity.this, json.getMsg());
                 }
             }
-        }, UserController.getInstance().getUserId(), user.getUserName(), oldPwd, newPwd, tooPwd);
+        }, oldPwd, newPwd, tooPwd);
     }
 
     public void loginOut() {

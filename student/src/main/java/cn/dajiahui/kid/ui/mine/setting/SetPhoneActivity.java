@@ -111,14 +111,14 @@ public class SetPhoneActivity extends FxActivity {
             return;
         }
 
-        if (Phonenum.length() < 6 || Phonenum.length() > 16) {
-            ToastUtil.showToast(SetPhoneActivity.this, R.string.correct_pwd);
+        if (Phonenum.length() < 0 || Phonenum.length() >= 12) {
+            ToastUtil.showToast(SetPhoneActivity.this, R.string.correct_phone);
             return;
         }
-        if (!StringUtil.sameStr(Phonenum, user.getPwd())) {
-            ToastUtil.showToast(SetPhoneActivity.this, R.string.pwderror);
-            return;
-        }
+//        if (!StringUtil.sameStr(Phonenum, user.getTelnum())) {
+//            ToastUtil.showToast(SetPhoneActivity.this, R.string.pwderror);
+//            return;
+//        }
 
         FxDialog dialg = new FxDialog(SetPhoneActivity.this) {
             @Override
@@ -155,14 +155,14 @@ public class SetPhoneActivity extends FxActivity {
                 HeadJson json = new HeadJson(response);
                 if (json.getstatus() == 0) {
                     setResult(Activity.RESULT_OK);
-                    UserController.getInstance().getUser().setPhone(newPhone);
+                    UserController.getInstance().getUser().setTelnum(newPhone);
                     finishActivity();
                     ToastUtil.showToast(SetPhoneActivity.this, R.string.save_ok);
                 } else {
                     ToastUtil.showToast(SetPhoneActivity.this, json.getMsg());
                 }
             }
-        }, UserController.getInstance().getUserId(), newPhone, code);
+        }, newPhone, code);
     }
 
     /**

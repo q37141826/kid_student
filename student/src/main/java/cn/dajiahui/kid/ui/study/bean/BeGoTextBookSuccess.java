@@ -17,11 +17,15 @@ public class BeGoTextBookSuccess implements Serializable {
     private String userName;
     private String makeTime;
     private String score;
+    private String page_id;
 
     /*课本剧*/
-    public BeGoTextBookSuccess(String mineWorksTempPath, String mineWorksName,
-                               String userUrl, String userName, String makeTime, String score) {
+    public BeGoTextBookSuccess(String mineWorksTempPath, String page_id,
+                               String mineWorksName, String userUrl,
+                               String userName, String makeTime,
+                               String score) {
         this.mineWorksTempPath = mineWorksTempPath;
+        this.page_id = page_id;
         this.mineWorksName = mineWorksName;
         this.userUrl = userUrl;
         this.userName = userName;
@@ -32,12 +36,20 @@ public class BeGoTextBookSuccess implements Serializable {
 
     /*卡拉ok*/
 
-    public BeGoTextBookSuccess(String mineWorksTempPath, String mineWorksName, String userUrl, String userName, String makeTime) {
+    public BeGoTextBookSuccess(String mineWorksTempPath, String page_id,
+                               String mineWorksName, String userUrl,
+                               String userName, String makeTime) {
+
         this.mineWorksTempPath = mineWorksTempPath;
+        this.page_id = page_id;
         this.mineWorksName = mineWorksName;
         this.userUrl = userUrl;
         this.userName = userName;
         this.makeTime = makeTime;
+    }
+
+    public String getPage_id() {
+        return page_id;
     }
 
     public String getMineWorksTempPath() {

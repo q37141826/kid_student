@@ -1,8 +1,6 @@
 package cn.dajiahui.kid.ui.mine.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -10,17 +8,18 @@ import android.widget.TextView;
 
 import com.fxtx.framework.adapter.CommonAdapter;
 import com.fxtx.framework.adapter.ViewHolder;
+import com.fxtx.framework.image.util.GlideUtil;
 
 import java.util.List;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.mine.bean.BeMyWorks;
+import cn.dajiahui.kid.ui.mine.bean.BeMineWorksLists;
 
 /**
  * Created by majin on 2016/5/11.
  * 我的作品
  */
-public class ApMyWorks extends CommonAdapter<BeMyWorks> {
+public class ApMyWorks extends CommonAdapter<BeMineWorksLists> {
     int selectorPosition = -3;
     private CheckBox checkBox;
 
@@ -32,16 +31,15 @@ public class ApMyWorks extends CommonAdapter<BeMyWorks> {
     }
 
     @Override
-    public void convert(ViewHolder viewHolder, final int position, final BeMyWorks item) {
+    public void convert(ViewHolder viewHolder, final int position, final BeMineWorksLists item) {
         checkBox = viewHolder.getView(R.id.checkbox);
         ImageView img = viewHolder.getView(R.id.img);
         TextView tv_worksname = viewHolder.getView(R.id.tv_worksname);
         TextView tv_workstime = viewHolder.getView(R.id.tv_workstime);
 
-        tv_worksname.setText(item.getWorksName().substring(0, item.getWorksName().indexOf(".mp4")));
-        tv_workstime.setText(item.getWorkstime());
-        Bitmap videoBitmap = getVideoBitmap(item.getWorksLocalPath());
-        img.setImageBitmap(videoBitmap);
+        GlideUtil.showNoneImage(mContext, item.getThumbnail(), img);
+        tv_worksname.setText(item.getTitle());
+
         //如果当前的position等于传过来点击的position,就去改变他的状态
         if (selectorPosition == -1) {
             checkBox.setVisibility(View.VISIBLE);
@@ -66,20 +64,6 @@ public class ApMyWorks extends CommonAdapter<BeMyWorks> {
 //        });
     }
 
-    public Bitmap getVideoBitmap(String path) {
-
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        try {
-            retriever.setDataSource(path);
-            Bitmap frameAtTime = retriever.getFrameAtTime();
-            return frameAtTime;
-        } catch (Exception e) {
-            return null;
-        } finally {
-            retriever.release();
-        }
-
-    }
 
     public void changeState(int pos) {
         selectorPosition = pos;

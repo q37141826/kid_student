@@ -28,6 +28,8 @@ import cn.dajiahui.kid.util.DjhJumpUtil;
  */
 public class SettingActivity extends FxActivity {
 
+    private TextView defealt_tel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,7 @@ public class SettingActivity extends FxActivity {
         getView(R.id.tvFixpass).setOnClickListener(onClick);
         getView(R.id.tvclean).setOnClickListener(onClick);
         getView(R.id.btn_Exit).setOnClickListener(onClick);
-        TextView defealt_tel = getView(R.id.defealt_tel);
+        defealt_tel = getView(R.id.defealt_tel);
 
         defealt_tel.setText( UserController.getInstance().getUser().getTelnum());
     }
