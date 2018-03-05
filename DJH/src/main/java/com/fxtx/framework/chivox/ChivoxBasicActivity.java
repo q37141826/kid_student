@@ -43,14 +43,11 @@ public abstract class ChivoxBasicActivity extends FxActivity {
         super.onCreate(savedInstanceState);
         isOnline = getIntent().getBooleanExtra("isOnline", true);
         isVadLoad = getIntent().getBooleanExtra("isVadLoad", false);
-        Log.d("Extra", "isOnline :" + isOnline);
-        Log.d("Extra", "isVadLoad :" + isVadLoad);
-        Log.d(TAG,"SDK VERSION: "+service.getSdkVersion());
+//        Log.d("Extra", "isOnline :" + isOnline);
+//        Log.d("Extra", "isVadLoad :" + isVadLoad);
+//        Log.d("Extra","SDK VERSION: "+service.getSdkVersion());
     }
 
-    protected abstract void initView();
-    protected abstract void setCoreType();
-    protected abstract void setRefText();
     protected abstract void record();
     protected abstract void recordStop();
 
@@ -60,7 +57,7 @@ public abstract class ChivoxBasicActivity extends FxActivity {
         int connectTimeout = 20;
         int serverTimeout = 60;
         //boolean isVadLoaded = isVadLoad;
-        Log.d("initAIEngine","isVadLoad: "+isVadLoad);
+        Log.d("wangzhilog","isVadLoad: "+isVadLoad);
         //coreCreateParam = new CoreCreateParam(Config.serverUrl, connectTimeout, serverTimeout, isVadLoad);
         if (isOnline) {
             coreCreateParam = new CoreCreateParam(Config.serverUrl, connectTimeout, serverTimeout, isVadLoad);
@@ -110,7 +107,7 @@ public abstract class ChivoxBasicActivity extends FxActivity {
         //config.setVadRes(FileHelper.getFilesDir(this).getAbsolutePath() + "/vad/bin/vad.0.12.20160802/vad.0.12.20160802.bin");
         config.setVadRes(FileHelper.getFilesDir(this).getAbsolutePath() + "/vad/bin/vad.0.9/vad.0.9.bin");
         //可以传绝对路径，如果路径不存在会自动创建文件夹
-        config.setRecordFilePath(FileHelper.getFilesDir(getBaseContext()).getAbsolutePath() + "/Records");
+        config.setRecordFilePath(FileHelper.getFilesDir(getBaseContext()).getAbsolutePath() + "/Records"); // 设置驰声音频文件存放地址
         config.setResdirectory(FileHelper.getFilesDir(getBaseContext()).getAbsolutePath()+"/Resources");
     }
 

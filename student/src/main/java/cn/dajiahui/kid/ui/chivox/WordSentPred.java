@@ -83,12 +83,10 @@ public class WordSentPred extends ChivoxBasicActivity implements View.OnClickLis
         btnReplay.setClickable(false);
     }
 
-    @Override
     protected void setCoreType() {
         coretype = CoreType.en_word_score;
     }
 
-    @Override
     protected void setRefText() {
         tvReftext.setText(StringConfig.refTextWord[new Random().nextInt(StringConfig.refTextWord.length)]);
     }
