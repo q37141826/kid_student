@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +10,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.RadioGroup;
 
+import com.chivox.cube.util.FileHelper;
+import com.fxtx.framework.chivox.config.Config;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxFragment;
@@ -26,8 +30,11 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chatui.ImConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
@@ -42,6 +49,7 @@ import cn.dajiahui.kid.ui.login.bean.BeUserAuth;
 import cn.dajiahui.kid.ui.mine.FrMine;
 import cn.dajiahui.kid.ui.mine.personalinformation.UserDetailsActivity;
 import cn.dajiahui.kid.ui.study.FrStudy;
+import cn.dajiahui.kid.ui.study.kinds.textbookdrama.MakeTextBookDrmaActivity;
 
 
 public class MainActivity extends FxTabActivity {
@@ -93,6 +101,7 @@ public class MainActivity extends FxTabActivity {
         registerBroadcastReceiver();
         initFragment(savedInstanceState);
 //     BadgeController.getInstance().httpCommission();
+        loadAllResOncce(); // 下载驰声资源
     }
 
     @Override
@@ -342,6 +351,44 @@ public class MainActivity extends FxTabActivity {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    private void loadAllResOncce(){
+        loadProvisionFile();
+        unZipNativeRes();
+    }
+
+    /**
+     * 驰声资源下载
+     */
+    private void loadProvisionFile(){
+        File provisionFile = FileHelper.extractProvisionOnce(MainActivity.this, Config.provisionFilename);
+        Log.d("loadProvisionFile :", "provisionFile :"+provisionFile.getAbsolutePath());
+    }
+
+    /**
+     * 驰声资源解压
+     */
+    private void unZipNativeRes(){
+
+//        Log.d(TAG, "unzip start");
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.setMessage("unZipNativeRes...");
+//        pDialog.show();
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.submit(new Runnable() {
+            @Override
+            public void run()
+            {
+                File vadFile = FileHelper.extractResourceOnce(MainActivity.this, "vad.zip");
+                Log.d("vadFile :", "vadFile :"+vadFile.getAbsolutePath());
+                //native resource unzip process
+//                pDialog.dismiss();
+            }
+        }, true);
+//        Log.d(TAG, "unzip ended");
     }
 
 }
