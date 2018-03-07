@@ -37,7 +37,6 @@ import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.ToAnswerCardJson;
-import cn.dajiahui.kid.util.Logger;
 
 /*
 * 答题卡
@@ -48,9 +47,6 @@ public class AnswerCardActivity extends FxActivity {
     private GridView grildview;
     private Button mBtnsubmit;
     private int answernum;
-
-
-    //    private List<QuestionModle> listdata = new ArrayList<>();//显示答题卡的集合
     private BeSaveAnswerCard beSaveAnswerCard;
     private String homework_id;
 
@@ -90,10 +86,10 @@ public class AnswerCardActivity extends FxActivity {
 
                     case Constant.Judje:
                         JudjeQuestionModle jude = (JudjeQuestionModle) pageMap.get(i);
-                    /*如果答过题 自动提交答案的标记默认是0*/
+                    /*如果答过题 手动提交是0 自动提交是1*/
                         if (jude.getMy_answer() != null) {
                             jude.setIs_auto("0");
-
+                            jude.setIs_answered("1");
                             for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
                                 if (beAnswerCArds.get(ij).getQuestion_id().equals(jude.getId())) {
                                     int indexOf = beAnswerCArds.indexOf(beAnswerCArds.get(ij));
@@ -109,6 +105,7 @@ public class AnswerCardActivity extends FxActivity {
                         } else {
                             jude.setMy_answer("");
                             jude.setIs_auto("1");
+                            jude.setIs_answered("0");
                             jude.setIs_right("1");
                         }
 
@@ -118,7 +115,7 @@ public class AnswerCardActivity extends FxActivity {
 //                    Logger.d("判断 my_answer:----" + jude.getMy_answer());
 //                    Logger.d("判断 is_right:----" + jude.getIs_right());
 //                    Logger.d("判断 is_auto:----" + jude.getIs_auto());
-                        submitAnswerCardList.add(new BeSubmitAnswerCard(jude.getId(), jude.getQuestion_cate_id(), jude.getMy_answer(), jude.getIs_right(), jude.getIs_auto()));
+                        submitAnswerCardList.add(new BeSubmitAnswerCard(jude.getId(), jude.getQuestion_cate_id(), jude.getMy_answer(), jude.getIs_right(), jude.getIs_auto(), jude.getIs_answered()));
 
 //                    Logger.d( "AnswerCardActivity-----判断getSubjectype :" + questionModle.getQuestion_cate_id() );
 //                    Logger.d( "AnswerCardActivity-----判断getAnswerflag:" + anJudje );
@@ -129,6 +126,7 @@ public class AnswerCardActivity extends FxActivity {
                       /*如果答过题 自动提交答案的标记默认是0*/
                         if (choice.getMy_answer() != null) {
                             choice.setIs_auto("0");
+                            choice.setIs_answered("1");
                             for (int ij = 0; ij < beAnswerCArds.size(); ij++) {
 
                                 if (beAnswerCArds.get(ij).getQuestion_id().equals(choice.getId())) {
@@ -146,6 +144,7 @@ public class AnswerCardActivity extends FxActivity {
                         } else {
                             choice.setMy_answer("");
                             choice.setIs_auto("1");
+                            choice.setIs_answered("0");
                             choice.setIs_right("1");
                         }
 //                    Logger.d("选择   :正确答案----" + choice.getStandard_answer());
@@ -156,7 +155,7 @@ public class AnswerCardActivity extends FxActivity {
 //                    Logger.d("选择 is_right:----" + choice.getIs_right());
 //                    Logger.d("选择 is_auto:----" + choice.getIs_auto());
 
-                        submitAnswerCardList.add(new BeSubmitAnswerCard(choice.getId(), choice.getQuestion_cate_id(), choice.getMy_answer(), choice.getIs_right(), choice.getIs_auto()));
+                        submitAnswerCardList.add(new BeSubmitAnswerCard(choice.getId(), choice.getQuestion_cate_id(), choice.getMy_answer(), choice.getIs_right(), choice.getIs_auto(), choice.getIs_answered()));
 
 
                         break;
@@ -171,6 +170,7 @@ public class AnswerCardActivity extends FxActivity {
 
                         if (sort.getInitMyanswerList().size() > 0) {
                             sort.setIs_auto("0");
+                            sort.setIs_answered("1");
                             sort.setMy_answer(sort.getInitMyanswerList().get(0) + append.toString());
 
                             /*回答正确*/
@@ -188,6 +188,7 @@ public class AnswerCardActivity extends FxActivity {
                             }
                         } else {
                             sort.setIs_auto("1");
+                            sort.setIs_answered("0");
                             sort.setIs_right("1");
                             sort.setMy_answer("");
                         }
@@ -201,7 +202,7 @@ public class AnswerCardActivity extends FxActivity {
 //                    Logger.d("排序 is_right:----" + sort.getIs_right());
 //                    Logger.d("排序 is_auto:----" + sort.getIs_auto());
 
-                        submitAnswerCardList.add(new BeSubmitAnswerCard(sort.getId(), sort.getQuestion_cate_id(), sort.getMy_answer(), sort.getIs_right(), sort.getIs_auto()));
+                        submitAnswerCardList.add(new BeSubmitAnswerCard(sort.getId(), sort.getQuestion_cate_id(), sort.getMy_answer(), sort.getIs_right(), sort.getIs_auto(), sort.getIs_answered()));
 
 //                    Logger.d( "AnswerCardActivity-----排序getSubjectype :" + questionModle.getQuestion_cate_id() );
 //                    Logger.d( "AnswerCardActivity-----排序getAnswerflag:" + ansort );
@@ -256,6 +257,7 @@ public class AnswerCardActivity extends FxActivity {
                             }
                          /*1代表自动提交  0 手动提交*/
                             line.setIs_auto("0");
+                            line.setIs_answered("1");
                             line.setMy_answer(jsonElement.toString());
 
                         /*确定答题*/
@@ -267,6 +269,7 @@ public class AnswerCardActivity extends FxActivity {
                             }
                         } else {
                             line.setIs_auto("1");
+                            line.setIs_answered("0");
                             line.setIs_right("1");
                             line.setMy_answer("");
                         }
@@ -281,7 +284,7 @@ public class AnswerCardActivity extends FxActivity {
 //                        Logger.d("连线 is_right:----" + line.getIs_right());
 //                        Logger.d("连线 is_auto:----" + line.getIs_auto());
 
-                        submitAnswerCardList.add(new BeSubmitAnswerCard(line.getId(), line.getQuestion_cate_id(), line.getMy_answer(), line.getIs_right(), line.getIs_auto()));
+                        submitAnswerCardList.add(new BeSubmitAnswerCard(line.getId(), line.getQuestion_cate_id(), line.getMy_answer(), line.getIs_right(), line.getIs_auto(), line.getIs_answered()));
 
 
                         break;
@@ -321,6 +324,7 @@ public class AnswerCardActivity extends FxActivity {
                        /*没有作答答案自动提交*/
                             if (integerMapMap.size() > 0) {
                                 completion.setIs_auto("0");
+                                completion.setIs_answered("1");
                                 if (!appendAll.equals("")) {
                                     completion.setMy_answer(appendAll.toString());
                                     if (appendAll.equals(completion.getStandard_answer())) {
@@ -340,11 +344,12 @@ public class AnswerCardActivity extends FxActivity {
                         } else {
                             completion.setMy_answer("");
                             completion.setIs_auto("1");
+                            completion.setIs_answered("0");
                             completion.setIs_right("1");
 
                         }
 
-                        submitAnswerCardList.add(new BeSubmitAnswerCard(completion.getId(), completion.getQuestion_cate_id(), completion.getMy_answer(), completion.getIs_right(), completion.getIs_auto()));
+                        submitAnswerCardList.add(new BeSubmitAnswerCard(completion.getId(), completion.getQuestion_cate_id(), completion.getMy_answer(), completion.getIs_right(), completion.getIs_auto(), completion.getIs_answered()));
 
 //                    Logger.d("---------------------------------------------------------------");
 //                    Logger.d("填空 question_id:----" + completion.getId());
@@ -376,7 +381,7 @@ public class AnswerCardActivity extends FxActivity {
                 Intent intent = new Intent();
                 int current_num = beAnswerCArds.get(position).getCurrent_num();
                 intent.putExtra("current_num", current_num);
-                Logger.d("current_num:" + current_num);
+//                Logger.d("current_num:" + current_num);
                 setResult(1, intent);
                 finishActivity();
             }
@@ -384,9 +389,8 @@ public class AnswerCardActivity extends FxActivity {
 
     }
 
-
+    /*初始化*/
     private void initialize() {
-
         tvanswer = getView(R.id.tv_answer);
         grildview = getView(R.id.grildview);
         mBtnsubmit = getView(R.id.btn_submit);
@@ -447,7 +451,7 @@ public class AnswerCardActivity extends FxActivity {
         @Override
         public void onResponse(String response) {
 
-//            Logger.d("测试返回json：" + response.toString());
+//           Logger.d("测试返回json：" + response.toString());
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {

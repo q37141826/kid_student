@@ -7,17 +7,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.image.util.GlideUtil;
-import com.fxtx.framework.json.HeadJson;
-import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxFragment;
-import com.squareup.okhttp.Request;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.UserController;
-import cn.dajiahui.kid.http.RequestUtill;
-import cn.dajiahui.kid.ui.chivox.ChivoxMainActivity;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.ui.mine.myclass.MyClassActivity;
 import cn.dajiahui.kid.ui.mine.myworks.MyWorksActivity;
@@ -51,8 +45,8 @@ public class FrMine extends FxFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialize();
-        /*获取网络数据*/
-        mineHttp();
+//        /*获取网络数据*/
+//        mineHttp();
         /*网络请求后设置*/
         GlideUtil.showRoundImage(getContext(), UserController.getInstance().getUser().getAvatar(), imUser, R.drawable.ico_default_user, true);
         initData();
@@ -60,50 +54,57 @@ public class FrMine extends FxFragment {
 
     }
 
-    /*我的网络请求*/
-    private void mineHttp() {
-        httpData();
-    }
+//    /*我的网络请求*/
+//    private void mineHttp() {
+//        httpData();
+//    }
 
-    @Override
-    public void httpData() {
-        super.httpData();
-        RequestUtill.getInstance().httpMine(getActivity(), callMine);
+//    @Override
+//    public void httpData() {
+//        super.httpData();
+//        RequestUtill.getInstance().httpMine(getActivity(), callMine);
+//
+//    }
 
-    }
-
-    ResultCallback callMine = new ResultCallback() {
-
-
-        @Override
-        public void onError(Request request, Exception e) {
-            dismissfxDialog();
-
-        }
-
-        @Override
-        public void onResponse(String response) {
-            dismissfxDialog();
-            HeadJson json = new HeadJson(response);
-            if (json.getstatus() == 0) {
-
-
-            } else {
-                ToastUtil.showToast(getContext(), json.getMsg());
-            }
-
-        }
-
-    };
+//    ResultCallback callMine = new ResultCallback() {
+//
+//
+//        @Override
+//        public void onError(Request request, Exception e) {
+//            dismissfxDialog();
+//
+//        }
+//
+//        @Override
+//        public void onResponse(String response) {
+//            dismissfxDialog();
+//            HeadJson json = new HeadJson(response);
+//            if (json.getstatus() == 0) {
+//
+//
+//            } else {
+//                ToastUtil.showToast(getContext(), json.getMsg());
+//            }
+//
+//        }
+//
+//    };
 
     private void initData() {
         BeUser user = UserController.getInstance().getUser();
         tv_userName.setText(user.getNickname());
-        tv_sex.setText(user.getSex());
+        String gender = user.getGender();
+        if (gender.equals("1")) {
+            tv_sex.setText("女");
+        } else {
+            tv_sex.setText("男");
+        }
+
+        /*设置头像*/
         GlideUtil.showRoundImage(getActivity(), UserController.getInstance().getUser().getAvatar(), imUser, R.drawable.ico_default_user, true);
 
-        tv_studylength.setText("360min");
-        tv_goodhomework.setText("30");
+//        tv_studylength.setText("360min");
+//        tv_goodhomework.setText("30");
     }
 
     @Override
@@ -143,7 +144,7 @@ public class FrMine extends FxFragment {
                     break;
                 case R.id.tvAbout: //关于
 //                  DjhJumpUtil.getInstance().startBaseActivity(getActivity(),  AboutActivity.class);
-                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), ChivoxMainActivity.class); // 驰声测试用
+//                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), ChivoxMainActivity.class); // 驰声测试用
                     break;
                 case R.id.tvNotice: //通知
                     DjhJumpUtil.getInstance().startBaseActivity(getActivity(), NoticeActivity.class);
@@ -165,12 +166,10 @@ public class FrMine extends FxFragment {
         imUser.setOnClickListener(onClick);
         imSet = getView(R.id.iv_edit);
         imSet.setOnClickListener(onClick);
-
         tv_userName = getView(R.id.tv_user_name);
         tv_sex = getView(R.id.tv_sex);
         tv_studylength = getView(R.id.tv_studylength);
         tv_goodhomework = getView(R.id.tv_goodhomework);
-
         tv_myclass = getView(R.id.tvMyclass);
         tv_myclass.setOnClickListener(onClick);
         tv_myworks = getView(R.id.tvMyworks);

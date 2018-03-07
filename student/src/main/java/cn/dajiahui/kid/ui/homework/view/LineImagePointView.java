@@ -93,7 +93,7 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
         this.inbasebean = inbasebean;
         this.lefts = inbasebean.getOptions().getLeft();
         this.rights = inbasebean.getOptions().getRight();
-        if (inbasebean.getIs_answer().equals("0")) {
+        if (inbasebean.getIs_answered().equals("0")) {
             this.setOnClickListener(this);
         }
         /*imageview和textview的大小*/
@@ -234,7 +234,7 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     public void onClick(View v) {
         this.setBackgroundResource(R.drawable.btnline);
         /*0 未作答  1 已经提交过了*/
-        if (inbasebean.getIs_answer().equals("0")) {
+        if (inbasebean.getIs_answered().equals("0")) {
             sublineinfo.submitlininfo(this);
         }
     }

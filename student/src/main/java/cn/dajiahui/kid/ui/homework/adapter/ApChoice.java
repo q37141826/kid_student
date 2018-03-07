@@ -120,7 +120,7 @@ public class ApChoice extends BaseAdapter {
             holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);
         }
 
-        if (inbasebean.getIs_answer().equals("1")) {
+        if (inbasebean.getIs_answered().equals("1")) {
             if (mPptions.get(position).getVal().equals(inbasebean.getMy_answer())) {
                 /*我的答案加黄色边框*/
                 holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);
@@ -161,7 +161,7 @@ public class ApChoice extends BaseAdapter {
             inbasebean.setIs_right("0");
         }
         submit.submitChoiceFragment(inbasebean);
-        if (inbasebean.getIs_answer().equals("0")) {
+        if (inbasebean.getIs_answered().equals("0")) {
 
             notifyDataSetChanged();
         }

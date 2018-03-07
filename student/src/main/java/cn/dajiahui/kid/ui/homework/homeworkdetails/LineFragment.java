@@ -165,9 +165,9 @@ public class LineFragment extends BaseHomeworkFragment implements
             /*为点击正确答案准备数据*/
             if (msg.what == PREPARERIGHT) {
                 if (inbasebean != null) {
-                    if (inbasebean.getIs_answer().equals("1")) {
+                    if (inbasebean.getIs_answered().equals("1")) {
                         mRight.setText("我的答案");
-                        if (ponitViewXY.size() == (leftViews.size() * 2)) {// && inbasebean.getIs_answer().equals("1")&& inbasebean.getStandard_answer() != null
+                        if (ponitViewXY.size() == (leftViews.size() * 2)) {// && inbasebean.getIs_answered().equals("1")&& inbasebean.getStandard_answer() != null
                              /*获取正确答案的 坐标点*/
                             for (int m = 0; m < mLeftAnswerList.size(); m++) {
                                 Point pointL = ponitViewXY.get(mLeftAnswerList.get(m));
@@ -183,7 +183,7 @@ public class LineFragment extends BaseHomeworkFragment implements
             /*为我的答案准备数据*/
             if (msg.what == PREPMINEARERIGHT) {
                 if (inbasebean != null) {
-                    if (inbasebean.getIs_answer().equals("1")) {
+                    if (inbasebean.getIs_answered().equals("1")) {
                         mLeft.setText("正确答案");
 
                             /*获取json解析的我的答案*///&& inbasebean.getMy_answer().length() > 0 && inbasebean.getMy_answer() != null
@@ -196,7 +196,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                                 mMineRPonitList.add(pointR);
                             }
                             /*显示正确答案*/
-                            if (DoHomeworkActivity.sourceFlag.equals("HomeWork") && inbasebean.getIs_answer().equals("1")) {
+                            if (DoHomeworkActivity.sourceFlag.equals("HomeWork") && inbasebean.getIs_answered().equals("1")) {
                                 if (!mOnclickAnswer) {
                                     showRightAnswer();
                                 }
@@ -415,7 +415,7 @@ public class LineFragment extends BaseHomeworkFragment implements
         if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
         /*&&inbasebean.isAnswer()==false 是控制在 pratice中check过之后就不能点击了*/
          /*0 未作答  1 已经提交过了*/
-            if (inbasebean != null && inbasebean.getIs_answer().equals("0") && inbasebean.isAnswer() == false) {
+            if (inbasebean != null && inbasebean.getIs_answered().equals("0") && inbasebean.isAnswer() == false) {
                 //判断当前选择的view是否为空 若等于空把点击的view赋值给当前选择的view
                 if (currentSelectedView == null) {
                     lineImagePointView.selected(true);//设置为选中
@@ -511,7 +511,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                 }
                 drawPathList = inbasebean.getDrawPathList();
                 /*作业模式没有答过题*/
-                if (inbasebean.getIs_answer().equals("0")) {
+                if (inbasebean.getIs_answered().equals("0")) {
                     for (int i = 0; i < drawPathList.size(); i++) {
                         DrawPath drawPath = drawPathList.get(i);
                         drawPath.setPathColor(getResources().getColor(R.color.btn_green_noraml));
@@ -679,7 +679,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                     String s = showT_RMap.toString();
                     Logger.d("showT_RMap:" + showT_RMap);
                     /*正确答案添加遮罩*/
-                    if (inbasebean.getIs_answer().equals("1")) {
+                    if (inbasebean.getIs_answered().equals("1")) {
                         /*正确答案 左边的集合数和我的答案左边的集合数相等 改变画线的颜色*/
                         if ((mLeftMineAnswerList.get(n).equals(mLeftAnswerList.get(n))
                                 && mRightMineAnswerList.get(n).equals(mRightAnswerList.get(n)))) {
@@ -748,7 +748,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                 }
 
 
-                if (inbasebean.getIs_answer().equals("0")) {
+                if (inbasebean.getIs_answered().equals("0")) {
                     inbasebean.setDrawPathList(drawPathList);
                     submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
                 }
@@ -784,7 +784,7 @@ public class LineFragment extends BaseHomeworkFragment implements
             draw_root.addView(drawView, params);
 
                 /*正确答案添加遮罩*/
-            if (inbasebean.getIs_answer().equals("1")) {
+            if (inbasebean.getIs_answered().equals("1")) {
                 /*改变小点颜色*/
                 leftViews.get(n).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
                 rightViews.get(n).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
@@ -811,7 +811,7 @@ public class LineFragment extends BaseHomeworkFragment implements
         }
 
 
-        if (inbasebean.getIs_answer().equals("0")) {
+        if (inbasebean.getIs_answered().equals("0")) {
             inbasebean.setDrawPathList(drawPathList);//
             submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
         }
@@ -821,7 +821,7 @@ public class LineFragment extends BaseHomeworkFragment implements
     /*获取答案的方法  正确答案 2个 我的答案2个*/
 
     private void getAnswer() {
-        if (inbasebean != null && inbasebean.getIs_answer().equals("1")) {
+        if (inbasebean != null && inbasebean.getIs_answered().equals("1")) {
              /*我的答案start */
             String my_answer = inbasebean.getMy_answer();
             String substringmyanswer = my_answer.substring(1, (my_answer.length() - 1));

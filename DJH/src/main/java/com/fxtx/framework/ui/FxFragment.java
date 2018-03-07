@@ -30,7 +30,8 @@ public abstract class FxFragment extends Fragment {
     protected boolean isCreateView = false;
     private SparseArray<View> mViews = new SparseArray<View>();
     protected View rootView;
-    protected int pagNum = 1;
+    public int mPageNum = 1; //分页
+    public int mPageSize = 10; //默认一页10个条目
     public FxActivity activity;
 
     @Override
@@ -54,7 +55,7 @@ public abstract class FxFragment extends Fragment {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
                 mRefresh.setLoadMore(true);
-                pagNum = 1;
+                mPageNum = 1;
                 httpData();
             }
 
@@ -158,5 +159,22 @@ public abstract class FxFragment extends Fragment {
 
     public String getFxTag() {
         return getClass().getName();
+    }
+
+    /**
+     * 判断是否为最后一页
+     *
+     * @return 0 不是最后一页 1 是最后一页
+     */
+    public int itemNumber = 0;
+
+    public int isLastPage() {
+        int result = 0;
+
+        if ((mPageNum - 1) * mPageSize >= itemNumber) {
+            result = 1;
+        }
+
+        return result;
     }
 }

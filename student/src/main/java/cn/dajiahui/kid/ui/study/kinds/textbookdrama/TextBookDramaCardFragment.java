@@ -8,7 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,7 +39,7 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
     private TextView tvunit;
     private JCVideoPlayerStudent mVideoplayer;
     private RelativeLayout videoplayerroot;
-    private Button btn_look;
+
     private String totalsize;
     private TextView tvcurrentnum;
     private TextView tvenglish;
@@ -47,6 +47,7 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
     private cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar recordseek;
     private TextView tvtotaltime;
     private RatingBar ratingBar;
+    private LinearLayout seekroot;
 
 
     @Override
@@ -93,6 +94,7 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
         tvchinese = getView(R.id.tv_chinese);
         recordseek = getView(R.id.record_seek);
         tvtotaltime = getView(R.id.tv_totaltime);
+        seekroot = getView(R.id.seek_root);
         ratingBar = getView(R.id.rb_score);
     }
 
@@ -105,7 +107,7 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
                 int arg1 = msg.arg1;
                 recordseek.setProgress(allSecond);
                 if (allSecond == arg1) {
-                    allSecond = 0;
+                    allSecond = -1;
                     mProssTimer.cancel();
                     mProssTimer = null;
                 }
@@ -119,7 +121,8 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
 
     /*刷新进度条*/
     public void refreshProgress(final int Second) {
-
+        seekroot.setVisibility(View.VISIBLE);
+        ratingBar.setVisibility(View.INVISIBLE);
         tvtotaltime.setText(Second + "s");
         recordseek.setMax(Second);
 
@@ -136,6 +139,15 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
                 }
             }, 0, 1000);
         }
+    }
+
+    /*点亮小星星 打分*/
+    public void markScore(int fraction) {
+        seekroot.setVisibility(View.INVISIBLE);
+        ratingBar.setVisibility(View.VISIBLE);
+        ratingBar.setMax(100);
+        ratingBar.setProgress(fraction);
+
     }
 
 }

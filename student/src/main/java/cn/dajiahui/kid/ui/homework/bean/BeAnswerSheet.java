@@ -8,7 +8,7 @@ package cn.dajiahui.kid.ui.homework.bean;
 
 public class BeAnswerSheet {
     private String id;
-    private String is_answer;
+    private String is_answered;
     private String is_auto;    /*1代表自动提交  0 手动提交*/
     private String is_right;//0 正确
     private String my_answer;
@@ -22,12 +22,12 @@ public class BeAnswerSheet {
         this.id = id;
     }
 
-    public String getIs_answer() {
-        return is_answer;
+    public String getIs_answered() {
+        return is_answered;
     }
 
-    public void setIs_answer(String is_answer) {
-        this.is_answer = is_answer;
+    public void setIs_answered(String is_answered) {
+        this.is_answered = is_answered;
     }
 
     public String getIs_auto() {
@@ -66,7 +66,7 @@ public class BeAnswerSheet {
     public String toString() {
         return "BeAnswerSheet{" +
                 "id='" + id + '\'' +
-                ", is_answer='" + is_answer + '\'' +
+                ", is_answered='" + is_answered + '\'' +
                 ", is_auto='" + is_auto + '\'' +
                 ", is_right='" + is_right + '\'' +
                 ", my_answer='" + my_answer + '\'' +

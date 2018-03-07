@@ -3,6 +3,7 @@ package cn.dajiahui.kid.ui.study.kinds.karaoke;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,7 +15,7 @@ import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.http.DownloadFile;
 import cn.dajiahui.kid.http.OnDownload;
 import cn.dajiahui.kid.http.bean.BeDownFile;
-import cn.dajiahui.kid.ui.study.bean.BePageData;
+import cn.dajiahui.kid.ui.study.bean.BePageDataWork;
 import cn.dajiahui.kid.ui.study.view.LazyLoadFragment;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
@@ -36,7 +37,8 @@ public class KaraOkeFragment extends LazyLoadFragment {
     private cn.dajiahui.kid.ui.study.kinds.karaoke.JCVideoPlayerStudentFragment mVideoplayer;
     private RelativeLayout videoplayerroot;
     private Button btn_look;
-    private BePageData beKaraOkPageData;
+    private BePageDataWork beKaraOkPageData;
+    private LinearLayout singok_root;
 
 
     @Override
@@ -48,7 +50,7 @@ public class KaraOkeFragment extends LazyLoadFragment {
     protected void lazyLoad() {
         Bundle bundle = getArguments();
         /*先获取数据*/
-        beKaraOkPageData = (BePageData) bundle.get("BePageData");
+        beKaraOkPageData = (BePageDataWork) bundle.get("BePageData");
         initialize();
         /*获取Mp4视频名称和背景音名称*/
         String sMp4 = MD5.getMD5(beKaraOkPageData.getPage_url().substring(beKaraOkPageData.getPage_url().lastIndexOf("/"))) + ".mp4";
@@ -67,6 +69,10 @@ public class KaraOkeFragment extends LazyLoadFragment {
 
         tvunit.setText(beKaraOkPageData.getTitle());
 
+//        /*已经唱完*/
+//        if (beKaraOkPageData.getMy_work_status().equals("1")) {
+//            singok_root.setVisibility(View.VISIBLE);
+//        }
 
     }
 
@@ -120,6 +126,7 @@ public class KaraOkeFragment extends LazyLoadFragment {
         mVideoplayer = findViewById(R.id.videoplayer);
         videoplayerroot = findViewById(R.id.videoplayerroot);
         btn_look = findViewById(R.id.btn_look);
+        singok_root = findViewById(R.id.singok_root);
 
         btn_look.setOnClickListener(onClick);
     }
@@ -129,9 +136,22 @@ public class KaraOkeFragment extends LazyLoadFragment {
         public void onClick(View v) {
             /*点击跳转之后停止所有视频*/
             JCVideoPlayerStandard.releaseAllVideos();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("BePageData", beKaraOkPageData);
-            DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MakeKraoOkeActivity.class, bundle, 0);
+
+////                /*已经唱完*/
+//            if (beKaraOkPageData.getMy_work_status().equals("1")) {
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putString("my_work_status", beKaraOkPageData.getMy_work_status());
+//                bundle.putString("MakeFlag", "seedetails");
+//                bundle.putString("Look", "kalaok");
+////                bundle.putSerializable("BePageDataMyWork", beKaraOkPageData.getMy_work());
+//                DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), TextBookSuccessActivity.class, bundle, 2);
+//
+//            } else {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("BePageDataWork", beKaraOkPageData);
+                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MakeKraoOkeActivity.class, bundle, 0);
+//            }
 
         }
     };

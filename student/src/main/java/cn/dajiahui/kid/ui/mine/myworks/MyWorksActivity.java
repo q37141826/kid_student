@@ -22,11 +22,19 @@ public class MyWorksActivity extends FxTabActivity {
 
     private View lin_bookaudio, lin_caraok;
     private FrTextBookAudio frTextBookAudio;//课本剧
-    private boolean isShowcheckboxTextbook = false;//mfalse 不显示 mtrue 显示
-    private boolean isShowcheckboxaraok = false;//mfalse 不显示 mtrue 显示
+    public boolean isShowcheckboxTextbook = false;//mfalse 不显示 mtrue 显示
+    public boolean isShowcheckboxaraok = false;//mfalse 不显示 mtrue 显示
     private FrCaraOK frCaraOK;//卡拉OK
     private ShowbtnDelete showbtnDeleteTextbook;
     private ShowbtnDelete showbtnDeleteCaraok;
+
+    public void setShowcheckboxTextbook(boolean showcheckboxTextbook) {
+        isShowcheckboxTextbook = showcheckboxTextbook;
+    }
+
+    public void setShowcheckboxaraok(boolean showcheckboxaraok) {
+        isShowcheckboxaraok = showcheckboxaraok;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
+import com.fxtx.framework.text.ParseUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.squareup.okhttp.Request;
 
@@ -144,10 +145,8 @@ public class HomeWorkDetailsActivity extends FxActivity {
                         tv_completetime.setText("完成时间：" + DateUtils.time(beHomeWorkDetails.getComplete_time()));//完成时间
                         tv_correct_rate.setText("正确率：" + beHomeWorkDetails.getCorrect_rate() + "%");//正确率
                         rb_score.setMax(100);
-
-                        /*小星星打分 分数有问题*/
-//                        rb_score.setProgress(Integer.parseInt(beHomeWorkDetails.getCorrect_rate())*100);
-
+                         /*打分的分数 */
+                        rb_score.setProgress(getScore((int) (ParseUtil.parseFloat(beHomeWorkDetails.getCorrect_rate()) * 100)));
                         mBeAnswerSheetList.addAll(beHomeWorkDetails.getAnswer_sheet());
                         btn_dohomework.setText("查看作业");
                         apHomeWorkDetail.notifyDataSetChanged();
@@ -170,5 +169,24 @@ public class HomeWorkDetailsActivity extends FxActivity {
         tvhomeworkname.setText(beHomeWorkDetails.getName());
         tvendtime.setText(DateUtils.time(beHomeWorkDetails.getEnd_time()));
         tvcompletecount.setText(beHomeWorkDetails.getComplete_students() + "/" + beHomeWorkDetails.getAll_students());
+    }
+
+
+    /*评分算法 20分为一颗星*/
+    private int getScore(int score) {
+        if (0 == score) {
+            return 0;
+        } else if (0 < score && score <= 20) {
+            return 20;
+        } else if (20 < score && score <= 40) {
+            return 40;
+        } else if (40 < score && score <= 60) {
+            return 60;
+        } else if (60 < score && score <= 80) {
+            return 80;
+        } else if (80 < score && score <= 100) {
+            return 100;
+        }
+        return 0;
     }
 }

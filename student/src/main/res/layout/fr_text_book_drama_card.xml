@@ -55,14 +55,33 @@
         android:layout_centerVertical="true"
         android:src="@drawable/slide_right"/>
 
-    <cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar
-        android:id="@+id/record_seek"
-        android:layout_width="226dp"
-        android:layout_height="5dp"
+    <LinearLayout
+        android:id="@+id/seek_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tv_chinese"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
-        android:progressDrawable="@drawable/seekbar_style"/>
+        android:orientation="horizontal">
+
+        <cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar
+            android:id="@+id/record_seek"
+            android:layout_width="226dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="10dp"
+            android:progressDrawable="@drawable/seekbar_style"/>
+
+        <TextView
+            android:id="@+id/tv_totaltime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/record_seek"
+            android:text="shij"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
 
     <RatingBar
         android:id="@+id/rb_score"
@@ -78,16 +97,5 @@
         android:focusable="false"
         android:gravity="center"
         android:visibility="invisible"/>
-
-    <TextView
-        android:id="@+id/tv_totaltime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_chinese"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@+id/record_seek"
-        android:text="shij"
-        android:textColor="@color/white"
-        android:textSize="14sp"/>
 </RelativeLayout>
 

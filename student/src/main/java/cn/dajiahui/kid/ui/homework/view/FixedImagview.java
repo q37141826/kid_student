@@ -35,7 +35,7 @@ public class FixedImagview extends RelativeLayout {
         LayoutParams iparams = new LayoutParams(150, 150);
         imageView.setLayoutParams(iparams);
 
-        if (inbasebean.getIs_answer().equals("0")) {
+        if (inbasebean.getIs_answered().equals("0")) {
             imageView.setImageResource(pic);
             this.addView(imageView);
             this.setBackgroundColor(getResources().getColor(R.color.yellow_FEBF12));

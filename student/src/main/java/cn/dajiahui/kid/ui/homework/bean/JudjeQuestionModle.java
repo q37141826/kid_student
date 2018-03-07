@@ -20,12 +20,10 @@ public class JudjeQuestionModle extends QuestionModle {
     private String standard_answer;//参考答案
     private String title;
     private String unit_id;
-    private String is_answer;//是否作答(后台提供)
+    //    private String is_answer;//是否作答(后台提供)
     private String my_answer;//已经上传的作答答案
     private String is_right;//是否正确
     private String is_auto;//
-
-
 
 
     private String pratice_answer = "";//练习题自己作答答案
@@ -39,15 +37,13 @@ public class JudjeQuestionModle extends QuestionModle {
     }
 
 
-
-
-    public String getIs_answer() {
-        return is_answer;
-    }
-
-    public void setIs_answer(String is_answer) {
-        this.is_answer = is_answer;
-    }
+//    public String getIs_answer() {
+//        return is_answer;
+//    }
+//
+//    public void setIs_answer(String is_answer) {
+//        this.is_answer = is_answer;
+//    }
 
     public String getMy_answer() {
         return my_answer;
@@ -153,25 +149,4 @@ public class JudjeQuestionModle extends QuestionModle {
         this.unit_id = unit_id;
     }
 
-    @Override
-    public String toString() {
-        return "JudjeQuestionModle{" +
-                "book_id='" + book_id + '\'' +
-                ", id='" + id + '\'' +
-                ", media='" + media + '\'' +
-                ", options=" + options +
-                ", org_id='" + org_id + '\'' +
-                ", question_stem='" + question_stem + '\'' +
-                ", school_id='" + school_id + '\'' +
-                ", standard_answer='" + standard_answer + '\'' +
-                ", title='" + title + '\'' +
-                ", unit_id='" + unit_id + '\'' +
-                ", is_answer='" + is_answer + '\'' +
-                ", my_answer='" + my_answer + '\'' +
-                ", is_right='" + is_right + '\'' +
-                ", is_auto='" + is_auto + '\'' +
-
-                ", pratice_answer='" + pratice_answer + '\'' +
-                '}';
-    }
 }

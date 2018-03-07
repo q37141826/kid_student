@@ -51,11 +51,11 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
         }
 
         /*判断题  只有没答过题才注册点击事件*/
-        if (inbasebean.getIs_answer().equals("0")) {
+        if (inbasebean.getIs_answered().equals("0")) {
             this.setOnClickListener(this);
         }
         /*只有答过题之后 submit之后才添加遮罩*/
-        if (inbasebean.getIs_answer().equals("1")) {
+        if (inbasebean.getIs_answered().equals("1")) {
 
         }
 

@@ -57,7 +57,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
         this.moveLocation = moveLocation;
         this.position = position;
         this.val = inbasebean.getOptions().get(position).getVal();
-        if (inbasebean.getIs_answer().equals("1")) {
+        if (inbasebean.getIs_answered().equals("1")) {
             this.mRightContentList = mRightContentList;
         }
         addview();
@@ -87,7 +87,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
             case MotionEvent.ACTION_MOVE:
 
 
-                if (inbasebean.getIs_answer().equals("0")) {
+                if (inbasebean.getIs_answered().equals("0")) {
                     int endX = (int) motionEvent.getRawX();
                     int endY = (int) motionEvent.getRawY();
 
@@ -153,7 +153,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
 
             imageView.setLayoutParams(params);
             this.addView(imageView);
-            if (inbasebean.getIs_answer().equals("0")) {
+            if (inbasebean.getIs_answered().equals("0")) {
                 Glide.with(context)
                         .load(inbasebean.getOptions().get(position).getContent())
                         .asBitmap()
@@ -182,7 +182,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
             textView.setTextColor(getResources().getColor(R.color.blue));
             params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
             textView.setLayoutParams(tparams);
-            if (inbasebean.getIs_answer().equals("0")) {
+            if (inbasebean.getIs_answered().equals("0")) {
                 textView.setText(inbasebean.getOptions().get(position).getContent());
             } else {
                 textView.setText(mRightContentList.get(position));

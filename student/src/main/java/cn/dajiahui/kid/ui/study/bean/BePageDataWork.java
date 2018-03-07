@@ -7,7 +7,7 @@ import java.util.List;
  * Created by mj on 2018/2/5.
  */
 
-public class BePageData  implements Serializable {
+public class BePageDataWork implements Serializable {
 
     private List<BeItem> item;
     private String music_name;
@@ -16,6 +16,16 @@ public class BePageData  implements Serializable {
     private String page_no;
     private String page_url;
     private String title;
+    private BePageDataMyWork my_work;
+    private String my_work_status;
+
+    public String getMy_work_status() {
+        return my_work_status;
+    }
+
+    public BePageDataMyWork getMy_work() {
+        return my_work;
+    }
 
     public List<BeItem> getItem() {
         return item;
@@ -76,7 +86,7 @@ public class BePageData  implements Serializable {
 
     @Override
     public String toString() {
-        return "BePageData{" +
+        return "BePageDataWork{" +
                 "item=" + item +
                 ", music_name='" + music_name + '\'' +
                 ", music_oss_name='" + music_oss_name + '\'' +
@@ -84,6 +94,8 @@ public class BePageData  implements Serializable {
                 ", page_no='" + page_no + '\'' +
                 ", page_url='" + page_url + '\'' +
                 ", title='" + title + '\'' +
+//                ", my_work=" + my_work +
+//                ", my_work_status='" + my_work_status + '\'' +
                 '}';
     }
 }

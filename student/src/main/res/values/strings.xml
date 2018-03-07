@@ -40,6 +40,7 @@
 
     <!--通知start-->
     <string name="num">(%s)</string>
+    <string name="clean_notice">"清空通知"</string>
     <string name="notice_details">通知详情</string>
     <string name="class_notice">班级\n通知</string>
     <string name="school_notice">校园\n通知</string>

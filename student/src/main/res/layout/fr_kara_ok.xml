@@ -42,5 +42,25 @@
         android:background="@color/yellow_FEBF12"
         android:text="查看"/>
 
+    <LinearLayout
+        android:id="@+id/singok_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_look"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/singok"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已唱完"/>
+    </LinearLayout>
+
 </RelativeLayout>
 

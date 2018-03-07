@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="indexText" parent="text_base">
         <item name="android:gravity">center</item>
@@ -62,4 +62,11 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/white</item>
     </style>
+
+    <style name="My_CheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox" tools:ignore="NewApi">
+        <item name="android:colorControlActivated">@color/blue</item>
+        <item name="android:colorControlNormal">@color/blue</item>
+    </style>
+
+
 </resources>

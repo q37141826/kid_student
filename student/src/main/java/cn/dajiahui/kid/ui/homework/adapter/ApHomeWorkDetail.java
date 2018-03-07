@@ -27,7 +27,7 @@ public class ApHomeWorkDetail extends CommonAdapter<BeAnswerSheet> {
         TextView tv_circle = viewHolder.getView(R.id.tv_circle);
         tv_circle.setText((position + 1) + "");
         /*首先判断是否答过题*/
-        if (item.getIs_answer().equals("1")) {//自己作答
+        if (item.getIs_answered().equals("1")) {//自己作答
             if (item.getIs_right().equals("0")) {
                 tv_circle.setBackgroundResource(R.drawable.homewor_true_bg_green);
             } else {

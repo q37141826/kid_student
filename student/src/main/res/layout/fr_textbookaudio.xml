@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/gray_F5F5F5"
-        app:isLoadMore="false"
+        android:background="@color/white"
+        app:isLoadMore="true"
         app:overlay="false"
         app:wave_color="@color/app_bg_a"
         app:wave_show="false">
@@ -43,14 +43,16 @@
         android:layout_height="wrap_content"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:visibility="gone">
+       android:visibility="gone" >
 
         <CheckBox
             android:id="@+id/allCheck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="全选"/>
+            android:text="全选"
+            android:textSize="15sp"
+            android:theme="@style/My_CheckBox"/>
 
         <Button
             android:id="@+id/btn_delete"
@@ -58,9 +60,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_gravity="center_horizontal"
-            android:background="@color/whilte_line"
+            android:background="@color/gray"
             android:text="@string/delete"
-            android:textColor="@color/gray"
+            android:textColor="@color/white"
             />
     </RelativeLayout>
 

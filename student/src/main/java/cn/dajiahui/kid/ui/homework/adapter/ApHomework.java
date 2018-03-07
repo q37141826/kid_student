@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.fxtx.framework.adapter.CommonAdapter;
 import com.fxtx.framework.adapter.ViewHolder;
+import com.fxtx.framework.text.ParseUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,8 +61,8 @@ public class ApHomework extends CommonAdapter<BeHomework> {
 
         /*打分的小星星*/
         rb_score.setMax(100);
-        /*打分的分数 有问题 待确定*/
-//        rb_score.setProgress(Integer.parseInt(item.getCorrect_rate())*100);
+        /*打分的分数 */
+        rb_score.setProgress(getScore((int) (ParseUtil.parseFloat(item.getCorrect_rate()) * 100)));
         tv_hometime.setText(DateUtils.time(item.getStart_time()) + "作业");//作业时间
         task_endtime.setText("截止时间：" + DateUtils.time(item.getEnd_time()));//作业时间
 
@@ -109,5 +110,22 @@ public class ApHomework extends CommonAdapter<BeHomework> {
 
     }
 
+    /*评分算法 20分为一颗星*/
+    private int getScore(int score) {
+        if (0 == score) {
+            return 0;
+        } else if (0 < score && score <= 20) {
+            return 20;
+        } else if (20 < score && score <= 40) {
+            return 40;
+        } else if (40 < score && score <= 60) {
+            return 60;
+        } else if (60 < score && score <= 80) {
+            return 80;
+        } else if (80 < score && score <= 100) {
+            return 100;
+        }
+        return 0;
+    }
 
 }

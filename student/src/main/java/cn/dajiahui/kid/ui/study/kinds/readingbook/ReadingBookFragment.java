@@ -52,10 +52,7 @@ public class ReadingBookFragment extends FxFragment implements
         ReadingBookActivity.PlayAll {
 
     protected Bundle bundle;// 用于保存信息以及标志
-    private Bitmap bitmapItem;
     public FrameLayout fr_read_show;
-    public Bitmap ScaleBitmap;
-
     private Timer timer;
     private PointReadView currentPointReadView = null;
     private int readingFlag = 0;
@@ -89,13 +86,13 @@ public class ReadingBookFragment extends FxFragment implements
                         readingFlag++;
                         continuousReading();
                         if (readingFlag > mPointReadViewList.size()) {
-                            currentPointReadView = null;
+//                            currentPointReadView = null;
                             readingFlag = 0;
                             return;
                         }
                     }
                 }
-                Logger.d("实时：" + currentPosition);
+//                Logger.d("实时：" + currentPosition);
             }
             if (msg.what == 1) {/*获取图片原始的尺寸*/
                 ImgSelf_W_H imgW_h = (ImgSelf_W_H) msg.obj;
@@ -123,7 +120,8 @@ public class ReadingBookFragment extends FxFragment implements
                     /*计算框的位置 x y点坐标*/
                     double xPoint = Double.parseDouble(beReadingBookPageData.getItem().get(i).getPoint_x());
                     double yPoint = Double.parseDouble(beReadingBookPageData.getItem().get(i).getPoint_y());
-
+                    Logger.d("beReadingBookPageData.getItem().get(i).getPoint_x():" + beReadingBookPageData.getItem().get(i).getPoint_x());
+                    Logger.d("beReadingBookPageData.getItem().get(i).getPoint_y():" + beReadingBookPageData.getItem().get(i).getPoint_y());
                     params.setMargins(
                             (int) (xPoint * loadWidth / selfWidth),
                             (int) (yPoint * loadHeight / selfHeight), 0, 0);
@@ -160,7 +158,8 @@ public class ReadingBookFragment extends FxFragment implements
                 if (PlayMedia.getPlaying().mediaPlayer.isPlaying()) {
                     Message msg = Message.obtain();
                     if (currentPointReadView != null) {
-                        msg.arg1 = Integer.parseInt(currentPointReadView.getBePlayReadingBook().getEnd_time()) * 1000;
+                        msg.arg1 = Integer.parseInt(currentPointReadView.getBePlayReadingBook().getEnd_time());
+                        Logger.d("实时获取结束时间"+currentPointReadView.getBePlayReadingBook().getEnd_time());
                     }
                     msg.what = 0;
                     handler.sendMessage(msg); // 发送消息
@@ -315,7 +314,7 @@ public class ReadingBookFragment extends FxFragment implements
 
         if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
             /*读取本地*/
-            PlayMedia.getPlaying().Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(bePlayReadingBook.getStart_time()) * 1000);
+            PlayMedia.getPlaying().Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(bePlayReadingBook.getStart_time()));
 
         } else {
              /*读取网络*/
@@ -367,7 +366,7 @@ public class ReadingBookFragment extends FxFragment implements
 
 
         } else {
-            currentPointReadView = null;
+//            currentPointReadView = null;
             for (int i = 0; i < mPointReadViewList.size(); i++) {
                 /*解除view不可点击 */
                 mPointReadViewList.get(i).setClickable(true);

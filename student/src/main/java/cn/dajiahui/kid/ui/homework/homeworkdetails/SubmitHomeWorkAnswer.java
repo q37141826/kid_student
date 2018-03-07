@@ -46,7 +46,7 @@ public class SubmitHomeWorkAnswer {
     }
 
     /*提交答案*/
-    public void submitAnswerCard( ) {
+    public void submitAnswerCard() {
 
         homework_id = beSaveAnswerCard.getHomework_id();
 
@@ -74,7 +74,7 @@ public class SubmitHomeWorkAnswer {
                     Logger.d("判断 is_auto:----" + jude.getIs_auto());
 //
 
-                    submitAnswerCardList.add(new BeSubmitAnswerCard(jude.getId(), jude.getQuestion_cate_id(), jude.getMy_answer(), jude.getIs_right(), jude.getIs_auto()));
+//                    submitAnswerCardList.add(new BeSubmitAnswerCard(jude.getId(), jude.getQuestion_cate_id(), jude.getMy_answer(), jude.getIs_right(), jude.getIs_auto()));
 
 //                    Logger.d( "AnswerCardActivity-----判断getSubjectype :" + questionModle.getQuestion_cate_id() );
 //                    Logger.d( "AnswerCardActivity-----判断getAnswerflag:" + anJudje );
@@ -94,7 +94,7 @@ public class SubmitHomeWorkAnswer {
                     Logger.d("选择 is_right:----" + choice.getIs_right());
                     Logger.d("选择 is_auto:----" + choice.getIs_auto());
 
-                    submitAnswerCardList.add(new BeSubmitAnswerCard(choice.getId(), choice.getQuestion_cate_id(), choice.getMy_answer(), choice.getIs_right(), choice.getIs_auto()));
+//                    submitAnswerCardList.add(new BeSubmitAnswerCard(choice.getId(), choice.getQuestion_cate_id(), choice.getMy_answer(), choice.getIs_right(), choice.getIs_auto()));
 
 
                     break;

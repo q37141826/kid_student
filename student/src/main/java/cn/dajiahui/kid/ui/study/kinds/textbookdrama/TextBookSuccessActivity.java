@@ -18,6 +18,7 @@ import com.fxtx.framework.ui.FxActivity;
 import com.squareup.okhttp.Request;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.study.bean.BeGoTextBookSuccess;
 import cn.dajiahui.kid.ui.study.bean.BeUpdateMIneWorks;
@@ -53,7 +54,8 @@ public class TextBookSuccessActivity extends FxActivity {
     private RelativeLayout shareRoot;//分享父布局 //保存我的作品成功之后显示
     private String makeTextBookDrma;
     private String mineWorksTempPath;//我的作品临时文件夹
-    private String sTextBookDrma;//文件名称
+//    private BePageDataMyWork beKaraOkPageDataMyWork;
+
 
     @Override
     protected void initView() {
@@ -61,6 +63,9 @@ public class TextBookSuccessActivity extends FxActivity {
         initialize();
         Intent intent = this.getIntent();
         makeTextBookDrma = intent.getStringExtra("MakeFlag");
+
+        String my_work_status = intent.getStringExtra("my_work_status");
+
         /*表示有显示底部按钮的标志 只有制作卡拉OK 课本剧的时候才显示*/
         if (intent.getStringExtra("ShowBottom").equals("SHOW")) {
             bottomRoot.setVisibility(View.VISIBLE);
@@ -68,22 +73,57 @@ public class TextBookSuccessActivity extends FxActivity {
 
         if (makeTextBookDrma.equals("MakeTextBookDrma")) {
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
+            int score = 0;
+            for (int i = 0; i < beGoTextBookSuccess.getmScoreMap().size(); i++) {
+                score += beGoTextBookSuccess.getmScoreMap().get(i);
+            }
+            int average = score / beGoTextBookSuccess.getmScoreMap().size();
+            tvfraction.setText(average + "");
+            rbscore.setMax(100);
+            rbscore.setProgress(average);
+
+            playVideo(beGoTextBookSuccess.getMineWorksTempPath());
+            settingInfo(beGoTextBookSuccess.getMineWorksName(), UserController.getInstance().getUser().getAvatar(),
+                    UserController.getInstance().getUser().getNickname(), beGoTextBookSuccess.getMakeTime());
         } else if (makeTextBookDrma.equals("MakeKraoOke")) {
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
+
+            playVideo(beGoTextBookSuccess.getMineWorksTempPath());
+            settingInfo(beGoTextBookSuccess.getMineWorksName(), UserController.getInstance().getUser().getAvatar(),
+                    UserController.getInstance().getUser().getNickname(), beGoTextBookSuccess.getMakeTime());
+        } else if (makeTextBookDrma.equals("seedetails")) {/*卡拉ok已经唱完 查看详情*/
+
+//            beKaraOkPageDataMyWork = (BePageDataMyWork) intent.getSerializableExtra("BePageDataMyWork");
+//            String look = intent.getStringExtra("Look");
+//            if (look.equals("kalaok")) {/*已经唱完的kalaok*/
+//                playVideo(beKaraOkPageDataMyWork.getVideo());
+//                /*设置信息*/
+//                settingInfo(beKaraOkPageDataMyWork.getTitle(), UserController.getInstance().getUser().getAvatar(),
+//                        UserController.getInstance().getUser().getNickname(), DateUtils.time(beKaraOkPageDataMyWork.getDate()));
+//
+//            } else {/*已经制作玩的课本剧*/
+//
+//
+//            }
         }
+    }
 
-        mVideoplayer.setUp(beGoTextBookSuccess.getMineWorksTempPath(), JCVideoPlayer.SCREEN_LAYOUT_LIST);
-        mVideoplayer.onStatePreparingChangingUrl(0, 100);
-
+    /*播放視頻*/
+    private void playVideo(String videopath) {
+        mVideoplayer.setUp(videopath, JCVideoPlayer.SCREEN_LAYOUT_LIST);
+//        mVideoplayer.onStatePreparingChangingUrl(0, 100);
         mVideoplayer.startVideo();
         mVideoplayer.hideView();//隐藏不需要的view
 
-        tvniitname.setText(beGoTextBookSuccess.getMineWorksName());
+    }
+
+    /*設置信息*/
+    private void settingInfo(String unitName, String imgUrl, String author, String makeTime) {
+        tvniitname.setText(unitName);
         /*加载圆形图片*/
-        GlideUtil.showRoundImage(TextBookSuccessActivity.this, beGoTextBookSuccess.getUserUrl(), imguser, R.drawable.ico_default_user, true);
-        tv_username.setText(beGoTextBookSuccess.getUserName());
-        tvmaketime.setText(beGoTextBookSuccess.getMakeTime());
-        tvfraction.setText(beGoTextBookSuccess.getScore());
+        GlideUtil.showRoundImage(TextBookSuccessActivity.this, imgUrl, imguser, R.drawable.ico_default_user, true);
+        tv_username.setText(author);
+        tvmaketime.setText(makeTime);
 
     }
 
@@ -109,6 +149,8 @@ public class TextBookSuccessActivity extends FxActivity {
     /*点击事件*/
     private View.OnClickListener onClick = new View.OnClickListener() {
 
+
+        private StringBuffer append;
 
         @Override
         public void onClick(View v) {
@@ -145,17 +187,38 @@ public class TextBookSuccessActivity extends FxActivity {
                         /*复制文件到 PathMineWorks*/
                         FileUtil.copyFile(beGoTextBookSuccess.getMineWorksTempPath(), KidConfig.getInstance().getPathMineWorksTextBookDrama() + sTextBookDrma);
 
+                        StringBuffer sb = new StringBuffer();
+                        /*拼接分数 用逗号隔开，方便与以后拓展*/
+                        for (int i = 1; i < beGoTextBookSuccess.getmScoreMap().size(); i++) {
+                            append = sb.append("," + beGoTextBookSuccess.getmScoreMap().get(i));
+                        }
+
+                        /*上传卡本剧*/
                         RequestUtill.getInstance().httpSaveMineWorks(TextBookSuccessActivity.this, callMineWorksUp,
                                 beGoTextBookSuccess.getPage_id(),
                                 String.valueOf(System.currentTimeMillis()),
                                 KidConfig.getInstance().getPathMineWorksTextBookDrama() + sTextBookDrma,
-                                KidConfig.getInstance().getPathMineWorksThumbnail() + sTextBookDrma.substring(0, sTextBookDrma.lastIndexOf(".")) + ".png");
+                                KidConfig.getInstance().getPathMineWorksThumbnail() + sTextBookDrma.substring(0, sTextBookDrma.lastIndexOf(".")) + ".png",
+                                beGoTextBookSuccess.getmScoreMap().get(0) + append.toString(),
+                                "", beGoTextBookSuccess.getUserName());
 
                     } else if (makeTextBookDrma.equals("MakeKraoOke")) {
+                        showfxDialog("文件上传中，请稍等...");
 
+                        String sKraoOke = mineWorksTempPath.substring(mineWorksTempPath.lastIndexOf("/"));
 
+                        /*复制文件到 PathMineWorks*/
+                        FileUtil.copyFile(beGoTextBookSuccess.getMineWorksTempPath(), KidConfig.getInstance().getPathMineWorksKaraOke() + sKraoOke);
+
+                        /*上传卡拉OK*/
+                        RequestUtill.getInstance().httpSaveMineWorks(TextBookSuccessActivity.this, callMineWorksUp,
+                                beGoTextBookSuccess.getPage_id(),
+                                String.valueOf(System.currentTimeMillis()),
+                                KidConfig.getInstance().getPathMineWorksKaraOke() + sKraoOke,
+                                KidConfig.getInstance().getPathMineWorksThumbnail() + sKraoOke.substring(0, sKraoOke.lastIndexOf(".")) + ".png", "", "",
+                                beGoTextBookSuccess.getUserName());
                     }
-
+                    Toast.makeText(context, "保存至我的作品", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
@@ -186,18 +249,18 @@ public class TextBookSuccessActivity extends FxActivity {
                 Logger.d("beUpdateMIneWorks:" + beUpdateMIneWorks.toString());
 
                 if (makeTextBookDrma.equals("MakeTextBookDrma")) {
+                    Logger.d("课本剧上传成功" + response);
 
                 } else if (makeTextBookDrma.equals("MakeKraoOke")) {
-                    String sKraoOke = mineWorksTempPath.substring(mineWorksTempPath.lastIndexOf("/"));
-                    /*复制文件到 PathMineWorks*/
-                    FileUtil.copyFile(beGoTextBookSuccess.getMineWorksTempPath(), KidConfig.getInstance().getPathMineWorksKaraOke() + sKraoOke);
+
+                    Logger.d("卡拉OK上传成功" + response);
                 }
-                Toast.makeText(context, "保存至我的作品", Toast.LENGTH_SHORT).show();
+
             } else {
                 ToastUtil.showToast(TextBookSuccessActivity.this, json.getMsg());
             }
 
-            Logger.d("作品上传成功" + response);
+
         }
 
         @Override
@@ -232,7 +295,7 @@ public class TextBookSuccessActivity extends FxActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Logger.d("TextBookSuccessActivity onStop");
+//        Logger.d("TextBookSuccessActivity onStop");
     }
 
     @Override

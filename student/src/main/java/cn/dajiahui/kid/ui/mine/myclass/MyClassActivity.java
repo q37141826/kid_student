@@ -6,7 +6,6 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
@@ -107,9 +106,8 @@ public class MyClassActivity extends FxActivity {
     }
 
 
+    /*我的班級回掉函數*/
     ResultCallback callMyClass = new ResultCallback() {
-
-
 
         @Override
         public void onError(Request request, Exception e) {
@@ -138,7 +136,7 @@ public class MyClassActivity extends FxActivity {
     public void onRightBtnClick(View view) {
         DjhJumpUtil.getInstance().startBaseActivity(context, AddClassActivity.class);
 
-        Toast.makeText(context, "加入班级", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "加入班级", Toast.LENGTH_SHORT).show();
     }
 
     private View.OnClickListener onClick = new View.OnClickListener() {

@@ -21,7 +21,7 @@ import cn.dajiahui.kid.ui.mine.bean.BeMineWorksLists;
  */
 public class ApMyWorks extends CommonAdapter<BeMineWorksLists> {
     int selectorPosition = -3;
-    private CheckBox checkBox;
+    public CheckBox checkBox;
 
     private Context context;
 
@@ -39,7 +39,9 @@ public class ApMyWorks extends CommonAdapter<BeMineWorksLists> {
 
         GlideUtil.showNoneImage(mContext, item.getThumbnail(), img);
         tv_worksname.setText(item.getTitle());
-
+//        tv_workstime.setText(DateUtils.time(item.getDate()));
+        //显示checkBox
+        checkBox.setChecked(mDatas.get(position).getBo());
         //如果当前的position等于传过来点击的position,就去改变他的状态
         if (selectorPosition == -1) {
             checkBox.setVisibility(View.VISIBLE);
@@ -47,21 +49,7 @@ public class ApMyWorks extends CommonAdapter<BeMineWorksLists> {
             checkBox.setVisibility(View.GONE);
         }
 
-//        checkBox.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (checkBox.isChecked()) {
-//
-//                    mDatas.get(position).setIscheck(true);
-//
-//                } else {
-//
-//                    mDatas.get(position).setIscheck(true);
-//                    checkBox.setChecked(!mDatas.get(position).ischeck());
-//                }
-//
-//            }
-//        });
+
     }
 
 

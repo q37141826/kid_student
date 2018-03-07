@@ -31,12 +31,9 @@ import cn.dajiahui.kid.util.Logger;
  */
 public class FrHomework extends FxFragment {
 
-
     private ListView mListview;
-
     private TextView tvNUll;
     private ApHomework apHomework;//作业列表适配器
-
     private List<BeHomework> mHomeWorklists = new ArrayList<BeHomework>();
     private MaterialRefreshLayout refresh;
 
@@ -95,7 +92,7 @@ public class FrHomework extends FxFragment {
 
     /*网络请求*/
     private void homeworkHttp() {
-        pagNum = 1;
+        mPageNum = 1;
         showfxDialog();
         httpData();
     }
@@ -103,7 +100,7 @@ public class FrHomework extends FxFragment {
     @Override
     public void httpData() {
         super.httpData();
-        RequestUtill.getInstance().httpGetStudentHomeWork(getActivity(), callHomeWork, "20", pagNum + "");
+        RequestUtill.getInstance().httpGetStudentHomeWork(getActivity(), callHomeWork, mPageSize, mPageNum);
 
     }
 
@@ -141,7 +138,6 @@ public class FrHomework extends FxFragment {
      */
     ResultCallback callHomeWork = new ResultCallback() {
 
-
         @Override
         public void onError(Request request, Exception e) {
             Logger.d("做作业失败：" + e);
@@ -155,15 +151,24 @@ public class FrHomework extends FxFragment {
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
+
+                if (mPageNum == 1) {
+                    mHomeWorklists.clear();
+                }
+
                 BeHomeWorkList beHomeWorkList = json.parsingObject(BeHomeWorkList.class);
-                mHomeWorklists.clear();
-                mHomeWorklists.addAll(beHomeWorkList.getLists());
+                itemNumber = Integer.parseInt(beHomeWorkList.getTotalRows());
+                if (beHomeWorkList != null && beHomeWorkList.getLists().size() > 0) {
+                    mPageNum++;
+                    mHomeWorklists.addAll(beHomeWorkList.getLists());
+                }
                 apHomework.notifyDataSetChanged();
+
             } else {
                 ToastUtil.showToast(getContext(), json.getMsg());
             }
-            finishRefreshAndLoadMoer(refresh, 1);
+            finishRefreshAndLoadMoer(refresh, isLastPage());
         }
-
     };
+
 }

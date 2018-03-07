@@ -25,7 +25,7 @@ public class LineQuestionModle extends QuestionModle implements Serializable {
     private String title;
     private String unit_id;
 
-    private String is_answer;//是否作答(后台提供)
+//    private String is_answer;//是否作答(后台提供)
     private String my_answer;//已经上传的作答答案
     private String is_right;//是否正确
     private String is_auto;//
@@ -43,13 +43,13 @@ public class LineQuestionModle extends QuestionModle implements Serializable {
     }
 
 
-    public String getIs_answer() {
-        return is_answer;
-    }
-
-    public void setIs_answer(String is_answer) {
-        this.is_answer = is_answer;
-    }
+//    public String getIs_answer() {
+//        return is_answer;
+//    }
+//
+//    public void setIs_answer(String is_answer) {
+//        this.is_answer = is_answer;
+//    }
 
     public String getMy_answer() {
         return my_answer;

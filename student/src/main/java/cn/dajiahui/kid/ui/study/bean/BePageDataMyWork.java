@@ -1,37 +1,28 @@
-package cn.dajiahui.kid.ui.mine.bean;
+package cn.dajiahui.kid.ui.study.bean;
 
 import java.io.Serializable;
 
 /**
- * Created by mj on 2018/3/5.
- * <p>
- * 我的作品课本剧
+ * Created by mj on 2018/3/6.
  */
 
-public class BeMineWorksLists implements Serializable {
-    private String author;
-    private String book_id;
-    private String date;
-    private String description;
-    private String id;
-    private String page_no;
-    private String score;
-    private String share_url;
-    private String thumbnail;
-    private String title;
-    private String unit_id;
-    private String video;
+public class BePageDataMyWork implements Serializable {
+    private  String author;
+    private  String book_id;
+    private  String cate_id;
+    private  String date;
+    private  String description;
+    private  String id;
+    private  String page_id;
+    private  String page_no;
+    private  String score;
+    private  String share_url;
+    private  String thumbnail;
+    private  String title;
+    private  String unit_id;
+    private  String user_id;
+    private  String video;
 
-
-    private boolean bo;
-
-    public boolean getBo() {
-        return bo;
-    }
-
-    public void setBo(boolean bo) {
-        this.bo = bo;
-    }
 
     public String getAuthor() {
         return author;
@@ -39,6 +30,10 @@ public class BeMineWorksLists implements Serializable {
 
     public String getBook_id() {
         return book_id;
+    }
+
+    public String getCate_id() {
+        return cate_id;
     }
 
     public String getDate() {
@@ -51,6 +46,10 @@ public class BeMineWorksLists implements Serializable {
 
     public String getId() {
         return id;
+    }
+
+    public String getPage_id() {
+        return page_id;
     }
 
     public String getPage_no() {
@@ -77,24 +76,31 @@ public class BeMineWorksLists implements Serializable {
         return unit_id;
     }
 
+    public String getUser_id() {
+        return user_id;
+    }
+
     public String getVideo() {
         return video;
     }
 
     @Override
     public String toString() {
-        return "BeMineWorksLists{" +
+        return "BePageDataMyWork{" +
                 "author='" + author + '\'' +
                 ", book_id='" + book_id + '\'' +
+                ", cate_id='" + cate_id + '\'' +
                 ", date='" + date + '\'' +
                 ", description='" + description + '\'' +
                 ", id='" + id + '\'' +
+                ", page_id='" + page_id + '\'' +
                 ", page_no='" + page_no + '\'' +
                 ", score='" + score + '\'' +
                 ", share_url='" + share_url + '\'' +
                 ", thumbnail='" + thumbnail + '\'' +
                 ", title='" + title + '\'' +
                 ", unit_id='" + unit_id + '\'' +
+                ", user_id='" + user_id + '\'' +
                 ", video='" + video + '\'' +
                 '}';
     }

@@ -11,16 +11,16 @@ import java.util.List;
 
 public class BeKaraOk  implements Serializable{
 
-    private List<BePageData> page_data;
+    private List<BePageDataWork> page_data;
     private String title;
     private String unit_id;
 
 
-    public List<BePageData> getPage_data() {
+    public List<BePageDataWork> getPage_data() {
         return page_data;
     }
 
-    public void setPage_data(List<BePageData> page_data) {
+    public void setPage_data(List<BePageDataWork> page_data) {
         this.page_data = page_data;
     }
 
@@ -44,10 +44,8 @@ public class BeKaraOk  implements Serializable{
     @Override
     public String toString() {
         return "BeKaraOk{" +
-
-                ", page_data=" + page_data +
+                "page_data=" + page_data +
                 ", title='" + title + '\'' +
-
                 ", unit_id='" + unit_id + '\'' +
                 '}';
     }

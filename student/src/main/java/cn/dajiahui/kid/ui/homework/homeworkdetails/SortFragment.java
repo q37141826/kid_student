@@ -131,7 +131,7 @@ public class SortFragment extends BaseHomeworkFragment implements
                         for (int i = 0, len = strs.length; i < len; i++) {
                             String split = strs[i].toString();
                             substringRightList.add(split);
-                            if (inbasebean.getIs_answer().equals("1") && substringRightList.size() == inbasebean.getOptions().size()) {/*应该是1  测试用0*/
+                            if (inbasebean.getIs_answered().equals("1") && substringRightList.size() == inbasebean.getOptions().size()) {/*应该是1  测试用0*/
                                 Message msg3 = Message.obtain();
                                 msg3.what = GETRIGHTANSWER;
                                 handler.sendMessage(msg3);
@@ -154,7 +154,7 @@ public class SortFragment extends BaseHomeworkFragment implements
                         for (int i = 0, len = strs.length; i < len; i++) {
                             String split = strs[i].toString();
                             substringMineList.add(split);
-                            if (inbasebean.getIs_answer().equals("1") && substringMineList.size() == inbasebean.getOptions().size()) {
+                            if (inbasebean.getIs_answered().equals("1") && substringMineList.size() == inbasebean.getOptions().size()) {
                                 Message msg4 = Message.obtain();
                                 msg4.what = GETMINEANSWER;
                                 handler.sendMessage(msg4);
@@ -222,7 +222,7 @@ public class SortFragment extends BaseHomeworkFragment implements
         super.onViewCreated(view, savedInstanceState);
         initialize();
         tv_sort.setText(title);
-        if (inbasebean.getIs_answer().equals("1")) {
+        if (inbasebean.getIs_answered().equals("1")) {
             mRight.setText("正确答案");
             mLeft.setText("我的答案");
             getAnswerList();
@@ -300,7 +300,7 @@ public class SortFragment extends BaseHomeworkFragment implements
             paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
             ImageView imageViewT = new ImageView(getActivity());
             imageViewT.setLayoutParams(paramsT);
-            if (inbasebean.getIs_answer().equals("1")) {
+            if (inbasebean.getIs_answered().equals("1")) {
                 if (mMineContentList.size() > 0 && mRightContentList.size() > 0 &&
                         mRightContentList.get(i).equals(mMineContentList.get(i))) {
                 /*正确答案 添加遮罩*/
@@ -362,7 +362,7 @@ public class SortFragment extends BaseHomeworkFragment implements
     public BeLocation submitCenterPoint(MoveImagview mBeforeView, int position, float X, float Y) {
 
         /*未答题状态下*/
-        if (inbasebean.getIs_answer().equals("0")) {
+        if (inbasebean.getIs_answered().equals("0")) {
         /*循环便利右视图的集合  判断中心点是否在右视图某一个的范围内*/
             for (int i = 0; i < pointRightList.size(); i++) {
             /*算法  循环判断中心点是否在右边的view的范围内*/
@@ -460,7 +460,7 @@ public class SortFragment extends BaseHomeworkFragment implements
             if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
 
             /*条件换成后台的是否作答标记*/
-                if (inbasebean.getIs_answer().equals("0")) {
+                if (inbasebean.getIs_answered().equals("0")) {
 
                  /*获取复原的数据集合*/
                     Map<Integer, BeLocation> sortAnswerMap = inbasebean.getSortAnswerMap();

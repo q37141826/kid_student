@@ -1,6 +1,7 @@
 package cn.dajiahui.kid.ui.study.bean;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Created by mj on 2018/2/3.
@@ -16,36 +17,46 @@ public class BeGoTextBookSuccess implements Serializable {
     private String userUrl;
     private String userName;
     private String makeTime;
-    private String score;
+
     private String page_id;
+    private Map<Integer, Integer> mScoreMap;
 
     /*课本剧*/
     public BeGoTextBookSuccess(String mineWorksTempPath, String page_id,
                                String mineWorksName, String userUrl,
-                               String userName, String makeTime,
-                               String score) {
+                               String userName, String makeTime
+    ) {
         this.mineWorksTempPath = mineWorksTempPath;
         this.page_id = page_id;
         this.mineWorksName = mineWorksName;
         this.userUrl = userUrl;
         this.userName = userName;
         this.makeTime = makeTime;
-        this.score = score;
+
     }
 
 
     /*卡拉ok*/
 
-    public BeGoTextBookSuccess(String mineWorksTempPath, String page_id,
-                               String mineWorksName, String userUrl,
-                               String userName, String makeTime) {
+//    public BeGoTextBookSuccess(String mineWorksTempPath, String page_id,
+//                               String mineWorksName, String userUrl,
+//                               String userName, String makeTime) {
+//
+//        this.mineWorksTempPath = mineWorksTempPath;
+//        this.page_id = page_id;
+//        this.mineWorksName = mineWorksName;
+//        this.userUrl = userUrl;
+//        this.userName = userName;
+//        this.makeTime = makeTime;
+//    }
 
-        this.mineWorksTempPath = mineWorksTempPath;
-        this.page_id = page_id;
-        this.mineWorksName = mineWorksName;
-        this.userUrl = userUrl;
-        this.userName = userName;
-        this.makeTime = makeTime;
+
+    public Map<Integer, Integer> getmScoreMap() {
+        return mScoreMap;
+    }
+
+    public void setmScoreMap(Map<Integer, Integer> mScoreMap) {
+        this.mScoreMap = mScoreMap;
     }
 
     public String getPage_id() {
@@ -72,19 +83,15 @@ public class BeGoTextBookSuccess implements Serializable {
         return makeTime;
     }
 
-    public String getScore() {
-        return score;
-    }
-
     @Override
     public String toString() {
         return "BeGoTextBookSuccess{" +
-                "mineWorksPath='" + mineWorksTempPath + '\'' +
+                "mineWorksTempPath='" + mineWorksTempPath + '\'' +
                 ", mineWorksName='" + mineWorksName + '\'' +
                 ", userUrl='" + userUrl + '\'' +
                 ", userName='" + userName + '\'' +
                 ", makeTime='" + makeTime + '\'' +
-                ", score='" + score + '\'' +
+                ", page_id='" + page_id + '\'' +
                 '}';
     }
 }

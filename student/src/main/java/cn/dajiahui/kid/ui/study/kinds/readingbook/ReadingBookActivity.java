@@ -181,7 +181,7 @@ public class ReadingBookActivity extends FxActivity {
 
         @Override
         public void onResponse(String response) {
-            Logger.d("点读本：" + response);
+//            Logger.d("点读本：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {

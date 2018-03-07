@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.image.util.GlideUtil;
@@ -76,7 +75,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "选择学习模式", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "选择学习模式", Toast.LENGTH_SHORT).show();
                 Bundle bundle = new Bundle();
                 bundle.putString("UNIT_NAME", mChooseUtilsList.get(position).getName());
                 bundle.putString("BOOK_ID", mBookId);
@@ -124,7 +123,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
 
     /*网络请求*/
     private void studyHttp() {
-        pagNum = 1;
+        mPageNum = 1;
         showfxDialog();
         httpData();
     }
@@ -165,7 +164,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
             } else {
                 ToastUtil.showToast(getActivity(), json.getMsg());
             }
-            finishRefreshAndLoadMoer(refresh, pagNum); // 要自己判断是否为最后一页
+            finishRefreshAndLoadMoer(refresh, mPageNum); // 要自己判断是否为最后一页
         }
     };
 

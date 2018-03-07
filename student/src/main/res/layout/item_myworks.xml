@@ -26,6 +26,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:theme="@style/My_CheckBox"
                 android:visibility="gone"/>
 
             <ImageView

@@ -83,7 +83,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
 //        /*作业模式*/
         if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
-            if (inbasebean.getIs_answer().equals("1")) {
+            if (inbasebean.getIs_answered().equals("1")) {
                 addMaskView();
             }
         }

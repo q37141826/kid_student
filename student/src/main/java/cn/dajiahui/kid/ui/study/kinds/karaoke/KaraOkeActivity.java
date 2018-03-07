@@ -177,6 +177,7 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
         }
     };
 
+    /*初始化*/
     private void initialize() {
         mViewpager = (NoScrollViewPager) findViewById(R.id.viewpager);
         pointroot = (LinearLayout) findViewById(R.id.point_root);
@@ -223,7 +224,6 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
             }
         }
     }
-
 
 
 }

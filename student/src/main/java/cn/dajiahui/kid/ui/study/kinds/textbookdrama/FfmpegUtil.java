@@ -38,17 +38,17 @@ public class FfmpegUtil {
     private final int MESSAGE_SYNTHETIC_VIDEO = 1;
     Handler mHandler;
     private String page_id;//缩略图的名字 用page_id与课本剧好匹配
-    private String Page_url;
+
     /*截取缩略图*/
     MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 
-    public FfmpegUtil(Activity context, Handler mHandler, String page_id, String Page_url)
+    public FfmpegUtil(Activity context, Handler mHandler, String page_id)
 
     {
         this.context = context;
         this.mHandler = mHandler;
         this.page_id = page_id;
-        this.Page_url = Page_url;
+
         if (ffmpeg == null) {
             ffmpeg = FFmpeg.getInstance(context);
             loadFFMpegLib();
@@ -63,7 +63,6 @@ public class FfmpegUtil {
             switch (msg.what) {
                 case MESSAGE_MIX_V_T_A:
                     audioVideoSyn(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3"), mOutputFile);
-//                    mergeaudiovideo(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3"), mOutputFile);
                     break;
                 case MESSAGE_SYNTHETIC_VIDEO:
                     mHandler.sendEmptyMessage(3);
@@ -122,7 +121,7 @@ public class FfmpegUtil {
 //        String cmd = "-i /storage/emulated/0/kid_student/SoundRecording/pd1.mp3 -itsoffset 00:00:04 -i /storage/emulated/0/kid_student/SoundRecording/pd2.mp3 -itsoffset 00:00:14 -i /storage/emulated/0/kid_student/SoundRecording/pd3.mp3 -filter_complex amix=inputs=3:duration=first:dropout_transition=4 -async 1 /storage/emulated/0/kid_student/13051152997/hunyin.mp3";  // 混合音频
 
 //        executeFFMpeg(cmd);
-        Logger.d("多个音频混音然后合成到视频中 cmd = " + cmd);
+//        Logger.d("多个音频混音然后合成到视频中 cmd = " + cmd);
 
         try {
             ffmpeg.execute(cmd.toString().split(" "), new ExecuteBinaryResponseHandler() {
@@ -163,21 +162,20 @@ public class FfmpegUtil {
      *
      * @param videoFile
      * @param audioFile
-     * @param outputFile
-     * -i /sdcard/test/1-1-001.mp4
-     * -i
-     * /sdcard/test/output.mp3
-     * -map 0:0 -map 1:0 -vcodec
-     * copy
-     * -acodec
-     * copy /sdcard/test/out111.mp4
+     * @param outputFile -i /sdcard/test/1-1-001.mp4
+     *                   -i
+     *                   /sdcard/test/output.mp3
+     *                   -map 0:0 -map 1:0 -vcodec
+     *                   copy
+     *                   -acodec
+     *                   copy /sdcard/test/out111.mp4
      */
     public void audioVideoSyn(File videoFile, File audioFile, final File outputFile) {
 //        String cmd = "-i /sdcard/test/video001a.mp4 -i /sdcard/test/output.mp3 /sdcard/test/output.mp4";  // 插入音频
         StringBuilder cmd = new StringBuilder();
         cmd.append("-i");
         cmd.append(" ");
-        cmd.append(KidConfig.getInstance().getPathTextbookPlayMp4()+"d5877e3bc4fecafeee8e123641cb78b8.mp4");/*应该修改成本地原视频的地址*/
+        cmd.append(videoFile.getPath());/*应该修改成本地原视频的地址*/
         cmd.append(" ");
         cmd.append("-i");
         cmd.append(" ");
@@ -206,30 +204,27 @@ public class FfmpegUtil {
 
                 @Override
                 public void onStart() {
-                    Logger.d("FFmpeg onStart  ---- ");
+                    Logger.d("FFmpeg onStart 音视频合成  ---- ");
                 }
 
                 @Override
                 public void onProgress(String message) {
-                    Logger.d("FFmpeg onProgress ----   音视频合成");
+//                    Logger.d("FFmpeg onProgress ----   音视频合成");
                 }
 
                 @Override
                 public void onFailure(String message) {
-                    Logger.d("FFmpeg onFailure ----  "+message);
+                    Logger.d("FFmpeg onFailure ---- 音视频合成 " + message);
                 }
 
                 @Override
                 public void onSuccess(String message) {
-                    Logger.d("FFmpeg onSuccess ----  ");
+                    Logger.d("FFmpeg onSuccess ---- 音视频合成音视频合成 ");
 
                     retriever.setDataSource(outputFile.getPath());
                     String fileLength = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
                     // *获取视频某一帧
                     Bitmap frameAtTime = retriever.getFrameAtTime(Long.parseLong(fileLength) * 5, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-                    String name = outputFile.getName();
-//                    Logger.d("outputFile.getName():" + outputFile.getName());
-
                     saveThumbnailToSDCard(frameAtTime, outputFile.getName().substring(0, outputFile.getName().lastIndexOf(".")));
 
                     handler.sendEmptyMessage(MESSAGE_SYNTHETIC_VIDEO);
@@ -402,7 +397,7 @@ public class FfmpegUtil {
         }
     }
 
-
+    /*保存缩略图到sd卡*/
     private void saveThumbnailToSDCard(Bitmap mBitmap, String bitName) {
 
         File f = new File(KidConfig.getInstance().getPathMineWorksThumbnail() + bitName + ".png");

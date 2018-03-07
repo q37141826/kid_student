@@ -31,7 +31,8 @@ import cn.dajiahui.kid.http.OnDownload;
 import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.ui.study.bean.BeGoTextBookSuccess;
 import cn.dajiahui.kid.ui.study.bean.BeItem;
-import cn.dajiahui.kid.ui.study.bean.BePageData;
+import cn.dajiahui.kid.ui.study.bean.BePageDataWork;
+import cn.dajiahui.kid.ui.study.kinds.textbookdrama.FfmpegUtil;
 import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookSuccessActivity;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.util.DateUtils;
@@ -51,7 +52,7 @@ public class MakeKraoOkeActivity extends FxActivity {
     private TextView tv_english;
     private TextView tv_chinese;
     private Button startRecord;
-    private BePageData bePageData;
+    private BePageDataWork bePageDataWork;
     private Timer timer;
     private int mCurrentPosition = 0;//当前显示中英文数据源的角标
     private boolean isOKRecord = false;//完成录制标志
@@ -59,22 +60,24 @@ public class MakeKraoOkeActivity extends FxActivity {
     private Map<Integer, Map<String, Object>> audiosList = new HashMap<>();//背景音+录音的list
     private RecorderUtil recorderUtil;//录音工具类
     private String sBackground;//Md5加密后的卡拉ok背景音的名字
-
+    private String mVideoName;/*卡拉ok视频名称*/
     private BeGoTextBookSuccess beGoTextBookSuccess;
     @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
-            if (msg.what == 0 && PlayMedia.getPlaying().mediaPlayer != null) {
+            if (msg.what == 0 && mCurrentMp != null) {
                 int startTime = msg.arg1;
-                int currentPosition = PlayMedia.getPlaying().mediaPlayer.getCurrentPosition();
-
-               /*实时在start区间内 显示中英文*/
-                if (((startTime - 600) < (currentPosition)) && ((currentPosition) < (startTime + 600))) {
-                    mCurrentPosition++;
-                    BeItem beItem = (BeItem) msg.obj;
-                    tv_chinese.setText(beItem.getChinese());
-                    tv_english.setText(beItem.getEnglish());
+                if (mVideoView.isPlaying()) {
+                    int currentPosition = mCurrentMp.getCurrentPosition();
+                    Logger.d("startTime:" + startTime);
+                    /*实时在start区间内 显示中英文*/
+                    if (((startTime - 600) < (currentPosition)) && ((currentPosition) < (startTime + 600))) {
+                        mCurrentPosition++;
+                        BeItem beItem = (BeItem) msg.obj;
+                        tv_chinese.setText(beItem.getChinese());
+                        tv_english.setText(beItem.getEnglish());
+                    }
                 }
             } else if (msg.what == 1) {
                 /*录音倒计时*/
@@ -96,20 +99,20 @@ public class MakeKraoOkeActivity extends FxActivity {
                     audiosList.put(1, mRecordMap);
 
                     showfxDialog("视频制作中，请稍等...");//打开进度条
-/*qqqqqqqqqqqqqq*/
-//                    new FfmpegUtil(MakeKraoOkeActivity.this, mHandler,bePageData.getPage_id(),).mixAudiosToVideo(
-//                            new File(KidConfig.getInstance().getPathKaraOkeNoSoundVideo() + "out_nosound_video.mp4"),
-//                            audiosList,
-//                            new File(KidConfig.getInstance().getPathMineWorksTemp() + bePageData.getTitle() + bePageData.getPage_id() + ".mp4"));//作品名称
+
+                    new FfmpegUtil(MakeKraoOkeActivity.this, mHandler, bePageDataWork.getPage_id()).mixAudiosToVideo(
+                            new File(KidConfig.getInstance().getPathKaraOkeMp4() + mVideoName),
+                            audiosList,
+                            new File(KidConfig.getInstance().getPathMineWorksTemp() + "KraoOke" + bePageDataWork.getPage_id() + ".mp4"));//作品名称
 
                     Logger.d("录音地址：" + RecordPath);
                 }
             } else if (msg.what == 3) {
                 dismissfxDialog();
                 beGoTextBookSuccess = new BeGoTextBookSuccess(
-                        KidConfig.getInstance().getPathMineWorksTemp() + "KraoOke" + bePageData.getPage_id() + ".mp4",
-                        bePageData.getPage_id(),
-                        bePageData.getMusic_name() + bePageData.getPage_id(),
+                        KidConfig.getInstance().getPathMineWorksTemp() + "KraoOke" + bePageDataWork.getPage_id() + ".mp4",
+                        bePageDataWork.getPage_id(),
+                        bePageDataWork.getMusic_name() + bePageDataWork.getPage_id(),
                         UserController.getInstance().getUser().getAvatar(),
                         UserController.getInstance().getUser().getUserName(),
                         DateUtils.formatDate(new Date(), "M月d日 HH:mm"));
@@ -119,30 +122,10 @@ public class MakeKraoOkeActivity extends FxActivity {
                 bundle.putSerializable("BeGoTextBookSuccess", beGoTextBookSuccess);
                 DjhJumpUtil.getInstance().startBaseActivityForResult(context, TextBookSuccessActivity.class, bundle, 2);
                 isOKOnclick = !isOKOnclick;
+                /*打开声音视频*/
+                openVideoviewSound();
                 Toast.makeText(context, "合成完毕！", Toast.LENGTH_SHORT).show();
-            } else if (msg.what == 4) {/*点击开始录制按钮 分离无声视频之后  播放无声视频和背景音*/
-                 /*混音的背景音*/
-                Map<String, Object> mRecordMap = new HashMap();
-                File video = new File(KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + sBackground);
-                mRecordMap.put("filePathName", video);
-                mRecordMap.put("startTime", "0");
-                audiosList.put(0, mRecordMap);
-                /*开始录音*/
-                recorderUtil.startRecording(bePageData.getTitle() + bePageData.getPage_id());
-                /*播放无声视频Mp4*/
-                playVideo(KidConfig.getInstance().getPathKaraOkeNoSoundVideo() + "out_nosound_video.mp4");
-                /*播放背景音Mp3*/
-                PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + sBackground);
-                /*实时获取Mp3背景音播放进度*/
-                getCurrentBgAudioSchedule();
-                /*获取音频总时长Mp3*/
-                mRecordLength = ((PlayMedia.getPlaying().mediaPlayer.getDuration()) / 1000);
-                /*监听停止录音 录音倒计时*/
-                startMixA_To_VTimerRecoding();
-                isOKOnclick = !isOKOnclick;
-                Toast.makeText(context, "开始录音", Toast.LENGTH_SHORT).show();
             }
-
         }
     };
 
@@ -153,15 +136,14 @@ public class MakeKraoOkeActivity extends FxActivity {
 
         initialize();
         Bundle bundle = getIntent().getExtras();
-        bePageData = (BePageData) bundle.getSerializable("BePageData");
+        bePageDataWork = (BePageDataWork) bundle.getSerializable("BePageDataWork");
 
         /*获取Mp4视频名称和背景音名称*/
-        String sMp4 = MD5.getMD5(bePageData.getPage_url().substring(bePageData.getPage_url().lastIndexOf("/"))) + ".mp4";
-        sBackground = MD5.getMD5(bePageData.getMusic_oss_name().substring(bePageData.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
+        mVideoName = MD5.getMD5(bePageDataWork.getPage_url().substring(bePageDataWork.getPage_url().lastIndexOf("/"))) + ".mp4";
+        sBackground = MD5.getMD5(bePageDataWork.getMusic_oss_name().substring(bePageDataWork.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
 
-//        playVideo(KidConfig.getInstance().getPathKaraOkeMp4() + sMp4);
         /*判断mp4文件是否下载过*/
-        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathKaraOkeMp4() + sMp4)) {
+        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathKaraOkeMp4() + mVideoName)) {
             downloadKaraOkeMp4();
         }
         /*判断背景音文件是否下载过*/
@@ -171,52 +153,68 @@ public class MakeKraoOkeActivity extends FxActivity {
 
     }
 
-    /*视频完成监听*/
-    class MyPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
-
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            Logger.d("播放完成了");
-
-        }
-    }
 
     private void playVideo(String path) {
         /*设置本地路径*/
         mVideoView.setVideoPath(path);
         //播放完成回调
-        mVideoView.setOnCompletionListener(new MyPlayerOnCompletionListener());
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                 /*实时获取视频进度*/
+                getCurrentVideoSchedule();
+                /*获取音频总时长Mp3*/
+                mRecordLength = ((mVideoView.getDuration()) / 1000);
+                /*监听停止录音 录音倒计时*/
+                startMixA_To_VTimerRecoding();
+                mCurrentMp = mp;
+                /*关闭原声视频声音*/
+                closeVideoviewSound();
+            }
+        });
+        mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                return false;
+            }
+        });
+        mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                Logger.d("播放完成了");
+            }
+        });
         //开始播放视频
         mVideoView.start();
     }
 
     /*下载卡拉okmp4*/
     private void downloadKaraOkeMp4() {
-        BeDownFile file = new BeDownFile(Constant.file_kaoraok_mp4, bePageData.getPage_url(), "", KidConfig.getInstance().getPathTemp());
+        BeDownFile file = new BeDownFile(Constant.file_kaoraok_mp4, bePageDataWork.getPage_url(), "", KidConfig.getInstance().getPathTemp());
         new DownloadFile(MakeKraoOkeActivity.this, file, false, new OnDownload() {
             @Override
             public void onDownload(String fileurl, FxProgressDialog progressDialog) {
                 progressDialog.dismiss();
-                Logger.d("fileurl:" + fileurl);
-//                playVideo(fileurl);
+//                Logger.d("fileurl:" + fileurl);
             }
         });
     }
 
     /*下载卡拉okmp4*/
     private void downloadKaraOkeBackground() {
-        BeDownFile file = new BeDownFile(Constant.file_kaoraok_bgAudio, bePageData.getMusic_oss_name(), "", KidConfig.getInstance().getPathTemp());
+        BeDownFile file = new BeDownFile(Constant.file_kaoraok_bgAudio, bePageDataWork.getMusic_oss_name(), "", KidConfig.getInstance().getPathTemp());
         new DownloadFile(MakeKraoOkeActivity.this, file, false, new OnDownload() {
             @Override
             public void onDownload(String fileurl, FxProgressDialog progressDialog) {
                 progressDialog.dismiss();
-                Logger.d("fileurl:" + fileurl);
+//      Logger.d("fileurl:" + fileurl);
 
 
             }
         });
     }
 
+    /*初始哈*/
     private void initialize() {
         mVideoView = getView(R.id.makeVideoView);
         tv_english = getView(R.id.tv_english);
@@ -224,7 +222,7 @@ public class MakeKraoOkeActivity extends FxActivity {
         startRecord = getView(R.id.btn_startRecord);
         startRecord.setOnClickListener(onClick);
         recorderUtil = new RecorderUtil();
-
+//        mVideoView.setMediaController(new MediaController(this));
     }
 
     @Override
@@ -265,18 +263,31 @@ public class MakeKraoOkeActivity extends FxActivity {
         }
     }
 
+    private MediaPlayer mCurrentMp;
+
+    /*关闭视频的声音*/
+    public void closeVideoviewSound() {
+        mCurrentMp.setVolume(0, 0);/*关闭视频声音*/
+    }
+
+    /*打开视频的声音*/
+    public void openVideoviewSound() {
+//        mCurrentMp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mCurrentMp.setVolume(1, 1);
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
           /*activity重新显示时要从新加载数据*/
-//        mVideoView.setUp(KidConfig.getInstance().getPathKaraOkeMp4() + MD5.getMD5(bePageData.getPage_url().substring(bePageData.getPage_url().lastIndexOf("/"))) + ".mp4", JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
+//        mVideoView.setUp(KidConfig.getInstance().getPathKaraOkeMp4() + MD5.getMD5(bePageDataWork.getPage_url().substring(bePageDataWork.getPage_url().lastIndexOf("/"))) + ".mp4", JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
 //        mVideoView.startVideo();
 //        /*跳到指定播放时间*/
 //        mVideoView.onStatePreparingChangingUrl(0, onPauseCurrent);
 
     }
 
-    public void getCurrentBgAudioSchedule() {
+    public void getCurrentVideoSchedule() {
 
         //参数2：延迟0毫秒发送，参数3：每隔1000毫秒秒发送一下
         if (timer == null) {
@@ -284,10 +295,10 @@ public class MakeKraoOkeActivity extends FxActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if (mCurrentPosition < bePageData.getItem().size()) {
+                    if (mCurrentPosition < bePageDataWork.getItem().size()) {
                         Message msg = Message.obtain();
-                        msg.arg1 = Integer.parseInt((bePageData.getItem().get(mCurrentPosition).getTime_start())) * 1000;
-                        msg.obj = bePageData.getItem().get(mCurrentPosition);
+                        msg.arg1 = Integer.parseInt((bePageDataWork.getItem().get(mCurrentPosition).getTime_start())) * 1000;
+                        msg.obj = bePageDataWork.getItem().get(mCurrentPosition);
                         msg.what = 0;
                         mHandler.sendMessage(msg); // 发送消息
                     } else {
@@ -313,12 +324,22 @@ public class MakeKraoOkeActivity extends FxActivity {
                 return;
             }
             if (!isOKOnclick) {
-            /*清空文件temp夹里的文件 不删除文件夹*/
+                /*清空文件temp夹里的文件 不删除文件夹*/
                 cleanEnvironment();
-//            /*分离视频 保存无声视频*/
-//                new FfmpegUtil(MakeKraoOkeActivity.this, mHandler, bePageData.getPage_id()).getNoSoundVideo(KidConfig.getInstance().getPathKaraOkeMp4() +
-//                                MD5.getMD5(bePageData.getPage_url().substring(bePageData.getPage_url().lastIndexOf("/"))) + ".mp4",
-//                        KidConfig.getInstance().getPathKaraOkeNoSoundVideo());
+               /*混音的背景音*/
+                Map<String, Object> mRecordMap = new HashMap();
+                File video = new File(KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + sBackground);
+                mRecordMap.put("filePathName", video);
+                mRecordMap.put("startTime", "0");
+                audiosList.put(0, mRecordMap);
+                /*开始录音*/
+                recorderUtil.startRecording(bePageDataWork.getTitle() + bePageDataWork.getPage_id());
+                /*播放原声视频Mp4*/
+                playVideo(KidConfig.getInstance().getPathKaraOkeMp4() + mVideoName);
+                /*播放背景音Mp3*/
+                PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + sBackground);
+                isOKOnclick = !isOKOnclick;
+                Toast.makeText(context, "开始录音", Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(context, "卡拉ok录制未完成！", Toast.LENGTH_SHORT).show();
@@ -372,12 +393,13 @@ public class MakeKraoOkeActivity extends FxActivity {
         if (requestCode == 2 && resultCode == 2) {
             Logger.d("重新录制");
             isOKRecord = false;
+            isOKOnclick = !isOKOnclick;
             startRecord.setText("开始录制");
             /*重新录制*/
             audiosList.clear();//清空装录音文件的集合
-            mRecordLength = ((mVideoView.getDuration()) / 1000);
-            Logger.d("录音总时间：" + mRecordLength);
-            startMixA_To_VTimerRecoding();
+//            mRecordLength = ((mVideoView.getDuration()) / 1000);
+//            Logger.d("录音总时间：" + mRecordLength);
+//            startMixA_To_VTimerRecoding();
         }
 
     }

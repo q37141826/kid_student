@@ -1,6 +1,8 @@
 package cn.dajiahui.kid.ui.mine.bean;
 
 
+import java.util.List;
+
 import cn.dajiahui.kid.util.BeanObj;
 
 /**
@@ -9,29 +11,14 @@ import cn.dajiahui.kid.util.BeanObj;
 
 public class BeNotice extends BeanObj {
 
-    private String UpdateContent;//更新内容
-    private String deadline;//更新时间
+    private String totalRows;
+    private List<BeNoticeLists> lists;
 
-    public BeNotice(String updateContent, String deadline) {
-        UpdateContent = updateContent;
-        this.deadline = deadline;
+    public String getTotalRows() {
+        return totalRows;
     }
 
-    public String getUpdateContent() {
-        return UpdateContent;
+    public List<BeNoticeLists> getLists() {
+        return lists;
     }
-
-    public void setUpdateContent(String updateContent) {
-        UpdateContent = updateContent;
-    }
-
-    public String getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
-    }
-
-
 }

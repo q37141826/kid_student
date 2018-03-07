@@ -25,12 +25,11 @@ public class QuestionModle extends BeBaseModle implements Serializable {
     /////////////////////////////////////////////////////
     private int currentpage = 0;//记录当前的页数
     private String answerflag = "";//学生作答标记（是否 作答 true false ）
-    //    private String submitAnswer = "";//学生作答答案
     private int eachposition;//每个题对应数据源的索引
     private int choiceitemposition = -1;//记录选择题选的索引（用于翻页回来设置指定选项处于备选状态）
     private int allTotal = 0;//所有题的数量
     private String SourceFlag = "";//来源标记  区别是作业还是练习
-
+    private String is_answered;//0 未回答  1 已回答
     private boolean Answer = false;//练习模块中  是否作答
 
     /*排序题我的答案*/
@@ -57,6 +56,13 @@ public class QuestionModle extends BeBaseModle implements Serializable {
         this.initMyanswerList = initMyanswerList;
     }
 
+    public String getIs_answered() {
+        return is_answered;
+    }
+
+    public void setIs_answered(String is_answered) {
+        this.is_answered = is_answered;
+    }
 
     private int currentAnswerPosition = -1;
 

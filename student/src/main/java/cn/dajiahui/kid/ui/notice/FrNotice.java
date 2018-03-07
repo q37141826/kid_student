@@ -102,7 +102,7 @@ public class FrNotice extends FxFragment {
     }
 
     public void indexHttp() {
-        pagNum = 1;
+        mPageNum = 1;
         showfxDialog();
         httpData();
     }
@@ -134,6 +134,6 @@ public class FrNotice extends FxFragment {
                 }
                 finishRefreshAndLoadMoer(refresh, 1);
             }
-        }, UserController.getInstance().getUserId(), pagNum, "20");
+        }, UserController.getInstance().getUserId(), mPageNum, mPageSize);
     }
 }

@@ -13,14 +13,20 @@ public class BeSubmitAnswerCard {
     private String my_answer;//作答答案
     private String is_right;//是否正确
     private String is_auto;//自动提交（一共12道题  做到10道题就提交了  后两道题就自动提交  默认是0  自动提交时1）
+    private String is_answered;//0 未回答  1 已回答
 
 
-    public BeSubmitAnswerCard(String question_id, String question_cate_id, String my_answer, String is_right, String is_auto) {
+    public BeSubmitAnswerCard(String question_id, String question_cate_id, String my_answer, String is_right, String is_auto, String is_answered) {
         this.question_id = question_id;
         this.question_cate_id = question_cate_id;
         this.my_answer = my_answer;
         this.is_right = is_right;
         this.is_auto = is_auto;
+        this.is_answered = is_answered;
+    }
+
+    public String getIs_answered() {
+        return is_answered;
     }
 
     public String getQuestion_id() {

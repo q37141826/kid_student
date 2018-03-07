@@ -149,10 +149,10 @@ public class RequestUtill {
 
 
     //获取通知列表
-    public void httpNoticeList(Context context, ResultCallback callback, String userId, int num, String size) {
+    public void httpNoticeList(Context context, ResultCallback callback, String userId, int num, int size) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("userId", userId);
-        params.put("pageSize", size);
+        params.put("pageSize", size + "");
         params.put("pageNum", num + "");
         getHttpBuilder(context, "notice/getMyNoticeList.json").params(params).post(callback);
     }
@@ -340,7 +340,7 @@ public class RequestUtill {
         params.put("birthday", birthday);
         params.put("source", equipment);
 
-        getHttpBuilder(context, "site/register").params(params).post(callback);
+        getHttpBuilder(context, "student/public/register").params(params).post(callback);
     }
 
     /*登录*/
@@ -348,7 +348,7 @@ public class RequestUtill {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("username", userName);
         params.put("password", passowrd);
-        getHttpBuilder(context, "site/login").params(params).post(callback);
+        getHttpBuilder(context, "student/public/login").params(params).post(callback);
     }
 
 
@@ -356,7 +356,7 @@ public class RequestUtill {
     public void sendPhoneCode(Context context, ResultCallback callback, String phone) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("telnum", phone);
-        getHttpBuilder(context, "site/send-code").params(params).post(callback);
+        getHttpBuilder(context, "student/public/send-code").params(params).post(callback);
     }
 
     //忘记密码  提交信息接口
@@ -430,11 +430,11 @@ public class RequestUtill {
 
 
     /*首页获取学生作业列表*/
-    public void httpGetStudentHomeWork(Context context, ResultCallback callback, String pageSize, String page) {
+    public void httpGetStudentHomeWork(Context context, ResultCallback callback, int pageSize, int page) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
-        params.put("pageSize", pageSize);//分页显示数目
-        params.put("page", page);//当前页数
+        params.put("pageSize", pageSize + "");//分页显示数目
+        params.put("page", page + "");//当前页数
         getHttpBuilder(context, "student/homework/list").params(params).post(callback);
     }
 
@@ -557,13 +557,29 @@ public class RequestUtill {
     }
 
     /*摩尔通知*/
-    public void httpNotice(Context context, ResultCallback callback) {
+    public void httpNotice(Context context, ResultCallback callback, int pageSize, int page) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
-//        params.put("class_id", class_id);
-//        params.put("class_id", class_id);
+        params.put("pageSize", pageSize + "");
+        params.put("page", page + "");
 
-        getHttpBuilder(context, "student/ ").params(params).post(callback);
+        getHttpBuilder(context, "teacher/notice/index").params(params).post(callback);
+    }
+
+    /*已读通知*/
+    public void httpNoticeRead(Context context, ResultCallback callback, String notice_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("notice_id", notice_id);
+        getHttpBuilder(context, "teacher/notice/read").params(params).post(callback);
+    }
+
+    /*清空通知*/
+    public void httpCleanNotice(Context context, ResultCallback callback) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+
+        getHttpBuilder(context, "teacher/notice/clear").params(params).post(callback);
     }
 
     /*点读本*/
@@ -690,11 +706,19 @@ public class RequestUtill {
     }
 
     /*保存我的作品*/
-    public void httpSaveMineWorks(Context context, ResultCallback callback, String page_id, String date, String videoPath, String thumbnailPath) {
+    public void httpSaveMineWorks(Context context, ResultCallback callback,
+                                  String page_id, String date,
+                                  String videoPath, String thumbnailPath,
+                                  String score, String title,
+                                  String author) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
         params.put("page_id", page_id);
         params.put("date", date);
+        params.put("score", score);
+        params.put("title", title);
+        params.put("author", author);
+//        params.put("description", title);
         Pair<String, File> videofile = new Pair<String, File>("video", new File(videoPath));
         Pair<String, File> thumbnailfile = new Pair<String, File>("thumbnail", new File(thumbnailPath));
         new OkHttpRequest.Builder().tag(context).url(getUrl() + "student/work/save").
@@ -709,6 +733,16 @@ public class RequestUtill {
         params.put("page", page + "");
 
         getHttpBuilder(context, "student/work/textbook").params(params).post(callback);
+    }
+
+    /*获取卡拉OK*/
+    public void httpGetMineWorksKalaOke(Context context, ResultCallback callback, int pageSize, int page) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("pageSize", pageSize + "");
+        params.put("page", page + "");
+
+        getHttpBuilder(context, "student/work/karaoke").params(params).post(callback);
     }
 }
 
