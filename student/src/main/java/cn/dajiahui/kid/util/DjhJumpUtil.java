@@ -36,6 +36,7 @@ public class DjhJumpUtil extends JumpUtil {
 
     public final int activtiy_SelectPhoto = 3001;
     public final int activtiy_UserSet = 5001;
+    public final int activtiy_ClassInfo = 4002;  // 班级信息 1.进入班级空间 2.退出班级
 
 
     private DjhJumpUtil() {

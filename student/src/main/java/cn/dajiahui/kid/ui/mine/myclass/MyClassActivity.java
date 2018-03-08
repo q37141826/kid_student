@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.mine.myclass;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,6 +40,8 @@ public class MyClassActivity extends FxActivity {
     private List<BeMyclassLists> myClassLists = new ArrayList<BeMyclassLists>();
     private ApMyclass apMyclass;
 
+    private int itemNumber = 0; // 班级数据数
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,19 +80,12 @@ public class MyClassActivity extends FxActivity {
                 bundle.putString("CLASS_ID",  myClassLists.get(position).getId());
                 bundle.putString("CLASS_NAME", myClassLists.get(position).getClass_name());
 
-                DjhJumpUtil.getInstance().startBaseActivity(MyClassActivity.this, ClassInfoActivity.class, bundle, 0);
+                DjhJumpUtil.getInstance().startBaseActivityForResult(MyClassActivity.this, ClassInfoActivity.class, bundle, DjhJumpUtil.getInstance().activtiy_ClassInfo);
 
             }
             });
         }
 
-
-        @Override
-        protected void onRestart () {
-            super.onRestart();
-        /*我的班级*/
-            myclassHttp();
-        }
 
     /*我的网络请求*/
 
@@ -112,6 +108,7 @@ public class MyClassActivity extends FxActivity {
         @Override
         public void onError(Request request, Exception e) {
             dismissfxDialog();
+            finishRefreshAndLoadMoer(refresh, 0);
         }
 
         @Override
@@ -119,15 +116,22 @@ public class MyClassActivity extends FxActivity {
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
+                if (mPageNum == 1) {
+                    myClassLists.clear();
+                }
                 BeMyClass myClass = json.parsingObject(BeMyClass.class);
-                myClassLists.clear();
-                myClassLists.addAll(myClass.getLists());
+                itemNumber = Integer.parseInt(myClass.getTotalRows());
+                if (myClass != null && myClass.getLists().size() > 0) {
+                    mPageNum++;
+                    myClassLists.addAll(myClass.getLists());
+                }
+
                 apMyclass.notifyDataSetChanged();
 
             } else {
                 ToastUtil.showToast(MyClassActivity.this, json.getMsg());
             }
-            finishRefreshAndLoadMoer(refresh, 1);
+            finishRefreshAndLoadMoer(refresh, isLastPage()); // 要自己判断是否为最后一页
         }
 
     };
@@ -153,4 +157,27 @@ public class MyClassActivity extends FxActivity {
 
         }
     };
+
+
+    /**
+     * 判断是否为最后一页
+     * @return 0 不是最后一页 1 是最后一页
+     */
+    private int isLastPage() {
+        int result = 0;
+
+        if ((mPageNum - 1) * mPageSize >= itemNumber) {
+            result = 1;
+        }
+
+        return result;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == DjhJumpUtil.getInstance().activtiy_ClassInfo && resultCode == RESULT_OK) { // 布置作业成功返回
+            myclassHttp();
+        }
+    }
 }

@@ -123,14 +123,11 @@ public class ClassInfoActivity extends FxActivity {
 
         @Override
         public void onResponse(String response) {
-
-
-
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
-
-
+                setResult(RESULT_OK);
+                finishActivity();
             } else {
                 ToastUtil.showToast(ClassInfoActivity.this, json.getMsg());
             }

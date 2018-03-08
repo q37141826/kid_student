@@ -538,10 +538,9 @@ public class RequestUtill {
     public void httpQuitClass(Context context, ResultCallback callback, String class_id) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
-//        params.put("class_id", class_id);
-//        params.put("class_id", class_id);
+        params.put("class_id", class_id);
 
-        getHttpBuilder(context, "student/ ").params(params).post(callback);
+        getHttpBuilder(context, "/student/classroom/out").params(params).post(callback);
     }
 
     /*班级空间 接口暂时用教师端的接口*/
