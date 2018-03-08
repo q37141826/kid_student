@@ -113,7 +113,7 @@ public class MakeKraoOkeActivity extends FxActivity {
                         bePageDataWork.getMusic_name() + bePageDataWork.getPage_id(),
                         UserController.getInstance().getUser().getAvatar(),
                         UserController.getInstance().getUser().getUserName(),
-                        (System.currentTimeMillis()) + "");
+                        (System.currentTimeMillis()));
 
 
                 Bundle bundle = new Bundle();
@@ -292,7 +292,7 @@ public class MakeKraoOkeActivity extends FxActivity {
                 public void run() {
                     if (mCurrentPosition < bePageDataWork.getItem().size()) {
                         Message msg = Message.obtain();
-                        msg.arg1 = Integer.parseInt((bePageDataWork.getItem().get(mCurrentPosition).getTime_start())) * 1000;
+                        msg.arg1 = Integer.parseInt((bePageDataWork.getItem().get(mCurrentPosition).getTime_start()));
                         msg.obj = bePageDataWork.getItem().get(mCurrentPosition);
                         msg.what = 0;
                         mHandler.sendMessage(msg); // 发送消息

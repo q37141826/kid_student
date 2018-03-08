@@ -31,7 +31,6 @@ import com.chivox.cube.util.constant.ErrorCode;
 import com.fxtx.framework.chivox.ChivoxBasicActivity;
 import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.json.GsonUtil;
-import com.fxtx.framework.log.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -452,7 +451,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                             bookDrama.getPage_id(), bookDrama.getTitle() + ".mp4",
                             UserController.getInstance().getUser().getAvatar(),
                             UserController.getInstance().getUser().getNickname(),
-                            (System.currentTimeMillis()) + "");
+                            (System.currentTimeMillis()));
 
                     /*1.原音视频 2. 混音音频 3. 输出合成视频*/
                     new FfmpegUtil(MakeTextBookDrmaActivity.this, mHandler, bookDrama.getPage_id()).mixAudiosToVideo(
@@ -548,7 +547,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "引擎初始化成功", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "引擎初始化成功", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -599,7 +598,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ToastUtil.showToast(MakeTextBookDrmaActivity.this, "录音失败: ErrodCode:" + arg1.getErrorId() + "Desc :" + arg1.getDescription() + "\r\n" + "建议: " + arg1.getSuggest());
+//                                ToastUtil.showToast(MakeTextBookDrmaActivity.this, "录音失败: ErrodCode:" + arg1.getErrorId() + "Desc :" + arg1.getDescription() + "\r\n" + "建议: " + arg1.getSuggest());
                             }
                         });
                     }
@@ -628,7 +627,8 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
 
                                 /*打开视频声音*/
                                 openVideoviewSound();
-                                parseChivoxJsonResult(jsonResult);
+                                if (jsonResult != null)
+                                    parseChivoxJsonResult(jsonResult);
                                 /*获取评分分数*/
                                 String overall = chivoxEvaluateResult.getOverall();
                                 Logger.d("打分-----" + overall);
@@ -637,6 +637,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                                 mScoreMap.put(mCurrentPosition, Integer.parseInt(overall));
                             }
                         });
+
                     }
 
                     @Override
@@ -657,7 +658,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
     @Override
     protected void recordStop() {
 
-        Toast.makeText(context, "结束评分", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "结束评分", Toast.LENGTH_SHORT).show();
         if (engine.isRunning()) {
             service.recordStop(engine);
         }

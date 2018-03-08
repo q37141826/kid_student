@@ -11,7 +11,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +56,7 @@ public class DoHomeworkActivity extends FxActivity
         CompletionFragment.SubmitCompletionFragment {
     public static String sourceFlag;//区别是练习还是作业
 
-    private SeekBar seek;
+//    private SeekBar seek;
     private TextView mSchedule;
     private cn.dajiahui.kid.ui.study.view.NoScrollViewPager mViewpager;
     private String subjectype = "";//当前题型
@@ -127,7 +126,7 @@ public class DoHomeworkActivity extends FxActivity
 
         @Override
         public void onResponse(String response) {
-            Logger.d("作业返回json：" + response);
+//            Logger.d("作业返回json：" + response);
             dismissfxDialog();
             HeadJson headJson = new HeadJson(response);
             if (headJson.getstatus() == 0) {
@@ -167,7 +166,7 @@ public class DoHomeworkActivity extends FxActivity
                                 mAnswerCardList.add(new BeAnswerCArd("1", "", "", mdata.get(i).getQuestion_cate_id(), lineQuestionModle.getId(), i));
                                 break;
                             case Constant.Completion:
-//                                Logger.d("填空：" + jsonArray.get(i).toString());
+                                Logger.d("填空：" + jsonArray.get(i).toString());
                                 CompletionQuestionModle completionQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), CompletionQuestionModle.class);
                                 mDatalist.add(completionQuestionModle);
                                 mAnswerCardList.add(new BeAnswerCArd("1", "", "", mdata.get(i).getQuestion_cate_id(), completionQuestionModle.getId(), i));
@@ -178,8 +177,8 @@ public class DoHomeworkActivity extends FxActivity
                         }
                     }
 
-                    seek.setMax(mdata.size() - 1);
-                    seek.setProgress((currentposition));
+//                    seek.setMax(mdata.size() - 1);
+//                    seek.setProgress((currentposition));
                     mSchedule.setText((currentposition + 1) + "/" + mdata.size());
                     Adapter adapter = new Adapter(getSupportFragmentManager(), mdata);
                     mViewpager.setAdapter(adapter);
@@ -198,7 +197,7 @@ public class DoHomeworkActivity extends FxActivity
     private void initialize() {
 
         mViewpager = getView(R.id.viewpager);
-        seek = getView(R.id.seek);
+//        seek = getView(R.id.seek);
         mSchedule = getView(R.id.tv_schedule);
         btncheck = (Button) findViewById(R.id.btn_check);
         btncheck.setOnClickListener(onclick);
@@ -327,7 +326,7 @@ public class DoHomeworkActivity extends FxActivity
         public void onPageSelected(int position) {
             currentposition = position;//当前题的页数
             sourceFlag = "HomeWork";
-            seek.setProgress(currentposition);
+//            seek.setProgress(currentposition);
             mSchedule.setText((currentposition + 1) + "/" + mdata.size());
             /*滑动停止音频*/
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
@@ -523,7 +522,7 @@ public class DoHomeworkActivity extends FxActivity
                 compleModle.setEachposition(position);//每个题对应数据源的索引
                 compleModle.setQuestion_cate_id(subjectype);
                 compleModle.setStandard_answer(((CompletionQuestionModle) mDatalist.get(position)).getStandard_answer());//填空题要传入正确答案
-                compleModle.setIs_answer(((CompletionQuestionModle) mDatalist.get(position)).getIs_answer());
+                compleModle.setIs_answered(((CompletionQuestionModle) mDatalist.get(position)).getIs_answered());
                 compleModle.setId(((CompletionQuestionModle) mDatalist.get(position)).getId());//填空题的ID
 
                 if (PageMap.get(position) != null) {

@@ -19,16 +19,16 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar
-            android:id="@+id/seek"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/tv_schedule"
-            android:clickable="false"
-            android:focusable="false"
-            android:progressDrawable="@drawable/seekbar_style"/>
+        <!--<cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar-->
+            <!--android:id="@+id/seek"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_toStartOf="@+id/tv_schedule"-->
+            <!--android:clickable="false"-->
+            <!--android:focusable="false"-->
+            <!--android:progressDrawable="@drawable/seekbar_style"/>-->
 
         <TextView
             android:id="@+id/tv_schedule"

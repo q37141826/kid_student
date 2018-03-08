@@ -151,7 +151,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
           /*显示正确答案*/
         else if (IsShowRightAnswer.equals("yes")) {
 
-            if (inbasebean.getIs_answer().equals("1")) {
+            if (inbasebean.getIs_answered().equals("1")) {
                 List<CompletionQuestionadapterItemModle> cm = showRightList.get(position);
 
                 for (int i = 0; i < cm.size(); i++) {

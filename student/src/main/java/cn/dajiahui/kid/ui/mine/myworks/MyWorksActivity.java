@@ -60,25 +60,6 @@ public class MyWorksActivity extends FxTabActivity {
         setContentView(R.layout.activity_my_works);
         initialize();
 
-
-//        for (int i = 0; i < 20; i++) {
-//            data.add(new BeMyWorks("作品" + i, "2018.0" + i));
-//
-//        }
-//        apMyWorks = new ApMyWorks(context, data);
-//
-//        mListview.setAdapter(apMyWorks);
-//        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                //把点击的position传递到adapter里面去
-//                apMyWorks.changeState(position);
-//                Toast.makeText(context, "当前点击" + data.get(position).getWorksname(), Toast.LENGTH_SHORT).show();
-//                DjhJumpUtil.getInstance().startVideoActivity(MyWorksActivity.this, null);
-//
-//            }
-//        });
     }
 
     private void initialize() {

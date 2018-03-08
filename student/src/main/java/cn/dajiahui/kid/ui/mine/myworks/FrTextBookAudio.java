@@ -16,6 +16,7 @@ import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxFragment;
+import com.fxtx.framework.widgets.dialog.FxDialog;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
 import com.squareup.okhttp.Request;
 
@@ -131,13 +132,10 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
                         btn_delete.setBackgroundResource(R.color.red);
                     }
                 } else {
-
                     Toast.makeText(getActivity(), "播放视频", Toast.LENGTH_SHORT).show();
                     getTexBookDetails(mTextBooklists.get(position).getId());
 
-
                 }
-                Logger.d("mIdList---" + mIdList.toString());
             }
 
         });
@@ -146,22 +144,35 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.d("mIdList---" + mIdList.size());
-                Logger.d("mTextBooklists---" + mTextBooklists.size());
-                if (mIdList.size() > 0) {
-                    /*删除集合数据 更新UI*/
-                    for (int i = 0; i < mIdList.size(); i++) {
-                        mTextBooklists.remove(i);
+                FxDialog dialog = new FxDialog(getActivity()) {
+                    @Override
+                    public void onRightBtn(int flag) {
+                        if (mIdList.size() > 0) {
+                         /*删除集合数据 更新UI*/
+                            for (int i = 0; i < mIdList.size(); i++) {
+                                mTextBooklists.remove(i);
+                            }
+
+                        /*删除操作后隐藏  checkbox*/
+                            delete_view.setVisibility(View.GONE);
+                            apMyWorks.changeState(-2);
+                            MyWorksActivity activity = (MyWorksActivity) getActivity();
+                            activity.setShowcheckboxTextbook(false);
+                            /*删除网络请求*/
+                            deleteMyworks();
+                        }
                     }
 
-                     /*删除操作后隐藏  checkbox*/
-                    delete_view.setVisibility(View.GONE);
-                    apMyWorks.changeState(-2);
-                    MyWorksActivity activity = (MyWorksActivity) getActivity();
-                    activity.setShowcheckboxTextbook(false);
-                    /*删除网络请求*/
-                    deleteMyworks();
-                }
+                    @Override
+                    public void onLeftBtn(int flag) {
+
+                    }
+                };
+                dialog.setTitle(R.string.prompt);
+                dialog.setMessage(R.string.prompt_delete);
+                dialog.show();
+
+
             }
         });
 

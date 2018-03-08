@@ -65,7 +65,7 @@ public class PersonalStereoActivity extends FxActivity {
             if (msg.what == MUSIC_STOP) {
                 timer.cancel();
                 pbDuration.setProgress(0);
-                    /*播放完毕要置0*/
+                /*播放完毕要置0*/
                 mOnpausePosition = 0;
                 timer = null;
                 tvTimeElapsed.setText("00:00");
@@ -122,17 +122,16 @@ public class PersonalStereoActivity extends FxActivity {
                     if (bePersonalStereoPageData != null) {
                         setfxTtitle(bePersonalStereoPageData.getTitle());
 
-                   /*文件名以MD5加密*/
+                        /*文件名以MD5加密*/
                         String mp3Name = MD5.getMD5(bePersonalStereoPageData.getMusic_oss_name().substring(bePersonalStereoPageData.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
 
                         if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPersonalStereo() + mp3Name)) {
-                    /*读取本地*/
+                         /*读取本地*/
                             PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathPersonalStereo() + mp3Name);
 
                         } else {
-                    /*网络下载*/
+                         /*网络下载*/
                             downloadPersonalStereo();
-
                         }
                         setProgress(true);//设置进度
                         startTimer();//启动计时器

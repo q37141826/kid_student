@@ -94,13 +94,16 @@ public class TextBookSuccessActivity extends FxActivity {
 
             playVideo(beGoTextBookSuccess.getMineWorksTempPath());
             settingInfo(beGoTextBookSuccess.getMineWorksName(), UserController.getInstance().getUser().getAvatar(),
-                    UserController.getInstance().getUser().getNickname(), beGoTextBookSuccess.getMakeTime());
+                    UserController.getInstance().getUser().getNickname(), (beGoTextBookSuccess.getMakeTime()) + "");
         } else if (makeTextBookDrma.equals("MakeKraoOke")) {
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
 
+            /*隐藏打分*/
+            socre_root.setVisibility(View.GONE);
             playVideo(beGoTextBookSuccess.getMineWorksTempPath());
             settingInfo(beGoTextBookSuccess.getMineWorksName(), UserController.getInstance().getUser().getAvatar(),
-                    UserController.getInstance().getUser().getNickname(), beGoTextBookSuccess.getMakeTime());
+                    UserController.getInstance().getUser().getNickname(), (beGoTextBookSuccess.getMakeTime()) + "");
+
         } else if (makeTextBookDrma.equals("seedetails")) {/*卡拉ok已经唱完 查看详情*/
 
             /*卡拉OK查看*/
@@ -121,7 +124,7 @@ public class TextBookSuccessActivity extends FxActivity {
                 playVideo(beKaraOkPageData.getMy_work().getVideo());
                 /*设置信息*/
                 settingInfo(beKaraOkPageData.getMy_work().getTitle(), UserController.getInstance().getUser().getAvatar(),
-                        UserController.getInstance().getUser().getNickname(),  beKaraOkPageData.getMy_work().getDate() );//)
+                        UserController.getInstance().getUser().getNickname(), Long.parseLong(beKaraOkPageData.getMy_work().getDate()) * 1000 + "");//)
 
             } else if (look.equals("textbook")) {/*已经制作玩的课本剧*/
                 /*数据模型*/
@@ -134,7 +137,7 @@ public class TextBookSuccessActivity extends FxActivity {
                 playVideo(beTextBookDramaPageData.getMy_work().getVideo());
                 /*设置信息*/
                 settingInfo(beTextBookDramaPageData.getMy_work().getTitle(), UserController.getInstance().getUser().getAvatar(),
-                        UserController.getInstance().getUser().getNickname(), beTextBookDramaPageData.getMy_work().getDate());//DateUtils.time(beKaraOkPageDataMyWork.getDate())
+                        UserController.getInstance().getUser().getNickname(), Long.parseLong(beTextBookDramaPageData.getMy_work().getDate()) * 1000 + "");//DateUtils.time(beKaraOkPageDataMyWork.getDate())
                 /*获取平均分*/
                 tvscore.setText(getAverage(beTextBookDramaPageData.getMy_work().getScore()) + "分");
                 rbscore.setMax(100);
@@ -149,7 +152,7 @@ public class TextBookSuccessActivity extends FxActivity {
             playVideo(bePageDataMyWork.getVideo());
                 /*设置信息*/
             settingInfo(bePageDataMyWork.getTitle(), UserController.getInstance().getUser().getAvatar(),
-                    UserController.getInstance().getUser().getNickname(), bePageDataMyWork.getDate());
+                    UserController.getInstance().getUser().getNickname(), (Long.parseLong(bePageDataMyWork.getDate()) * 1000) + "");
                 /*获取平均分*/
             tvscore.setText(getAverage(bePageDataMyWork.getScore()) + "分");
             rbscore.setMax(100);
@@ -165,7 +168,7 @@ public class TextBookSuccessActivity extends FxActivity {
             playVideo(bePageDataMyWork.getVideo());
             /*设置信息*/
             settingInfo(bePageDataMyWork.getTitle(), UserController.getInstance().getUser().getAvatar(),
-                    UserController.getInstance().getUser().getNickname(), bePageDataMyWork.getDate());
+                    UserController.getInstance().getUser().getNickname(), (Long.parseLong(bePageDataMyWork.getDate()) * 1000 + ""));
 
         }
     }
@@ -184,6 +187,7 @@ public class TextBookSuccessActivity extends FxActivity {
         GlideUtil.showRoundImage(TextBookSuccessActivity.this, imgUrl, imguser, R.drawable.ico_default_user, true);
         tv_username.setText(author);
         tvmaketime.setText(DateUtils.getYyyyMMDD(makeTime));
+
     }
 
     /*初始化*/
@@ -276,7 +280,7 @@ public class TextBookSuccessActivity extends FxActivity {
                         /*上传卡本剧*/
                         RequestUtill.getInstance().httpSaveMineWorks(TextBookSuccessActivity.this, callMineWorksUp,
                                 beGoTextBookSuccess.getPage_id(),
-                                beGoTextBookSuccess.getMakeTime(),
+                                beGoTextBookSuccess.getMakeTime()/1000,
                                 KidConfig.getInstance().getPathMineWorksTextBookDrama() + sTextBookDrma,
                                 KidConfig.getInstance().getPathMineWorksThumbnail() + sTextBookDrma.substring(0, sTextBookDrma.lastIndexOf(".")) + ".png",
                                 beGoTextBookSuccess.getmScoreMap().get(0) + append.toString(),
@@ -293,7 +297,7 @@ public class TextBookSuccessActivity extends FxActivity {
                         /*上传卡拉OK*/
                         RequestUtill.getInstance().httpSaveMineWorks(TextBookSuccessActivity.this, callMineWorksUp,
                                 beGoTextBookSuccess.getPage_id(),
-                                beGoTextBookSuccess.getMakeTime(),
+                                beGoTextBookSuccess.getMakeTime()/1000,
                                 KidConfig.getInstance().getPathMineWorksKaraOke() + sKraoOke,
                                 KidConfig.getInstance().getPathMineWorksThumbnail() + sKraoOke.substring(0, sKraoOke.lastIndexOf(".")) + ".png", "", "",
                                 beGoTextBookSuccess.getUserName());

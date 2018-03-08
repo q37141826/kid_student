@@ -37,10 +37,10 @@ public class UmengShare implements ShareBoardlistener {
     //授权 分享平台
     public static void initSharePlat() {
         PlatformConfig.setWeixin(FxtxConstant.WEIXIN_APPID, FxtxConstant.WEIXIN_SECRET);
-        // QQ和Qzone appid appkey
-        PlatformConfig.setQQZone(FxtxConstant.QQ_APPID, FxtxConstant.QQ_APPKEY);
-        // QQ和Qzone appid appkey
-        PlatformConfig.setSinaWeibo(FxtxConstant.SINA, FxtxConstant.SINA_APPSECRET, "http://sns.whalecloud.com");
+//        // QQ和Qzone appid appkey
+//        PlatformConfig.setQQZone(FxtxConstant.QQ_APPID, FxtxConstant.QQ_APPKEY);
+//        // QQ和Qzone appid appkey
+//        PlatformConfig.setSinaWeibo(FxtxConstant.SINA, FxtxConstant.SINA_APPSECRET, "http://sns.whalecloud.com");
     }
 
     private UMShareListener umShareListener = new UMShareListener() {

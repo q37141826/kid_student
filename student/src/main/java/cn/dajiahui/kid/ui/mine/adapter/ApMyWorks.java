@@ -17,6 +17,7 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.mine.bean.BeMineWorksLists;
 import cn.dajiahui.kid.util.DateUtils;
+import cn.dajiahui.kid.util.Logger;
 
 /**
  * Created by majin on 2016/5/11.
@@ -42,7 +43,8 @@ public class ApMyWorks extends CommonAdapter<BeMineWorksLists> {
 
         GlideUtil.showNoneImage(mContext, item.getThumbnail(), img);
         tv_worksname.setText(item.getTitle());
-       tv_workstime.setText("作品时间："+ DateUtils.getYyyyMMDD(item.getDate()));
+        Logger.d("作品时间：item.getDate()" + item.getDate());
+        tv_workstime.setText("作品时间：" + DateUtils.getYyyyMMDD(item.getDate()));
 
         //显示checkBox
         checkBox.setChecked(mDatas.get(position).getBo());
@@ -62,7 +64,7 @@ public class ApMyWorks extends CommonAdapter<BeMineWorksLists> {
         notifyDataSetChanged();
     }
 
-    public   String getStrTime(String cc_time) {
+    public String getStrTime(String cc_time) {
         String re_StrTime = null;
         //同理也可以转为其它样式的时间格式.例如："yyyy/MM/dd HH:mm"
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

@@ -16,7 +16,7 @@ public class BeGoTextBookSuccess implements Serializable {
     private String mineWorksName;
     private String userUrl;
     private String userName;
-    private String makeTime;
+    private Long makeTime;
 
     private String page_id;
     private Map<Integer, Integer> mScoreMap;
@@ -24,7 +24,7 @@ public class BeGoTextBookSuccess implements Serializable {
     /*课本剧*/
     public BeGoTextBookSuccess(String mineWorksTempPath, String page_id,
                                String mineWorksName, String userUrl,
-                               String userName, String makeTime
+                               String userName, Long makeTime
     ) {
         this.mineWorksTempPath = mineWorksTempPath;
         this.page_id = page_id;
@@ -79,7 +79,7 @@ public class BeGoTextBookSuccess implements Serializable {
         return userName;
     }
 
-    public String getMakeTime() {
+    public Long getMakeTime() {
         return makeTime;
     }
 

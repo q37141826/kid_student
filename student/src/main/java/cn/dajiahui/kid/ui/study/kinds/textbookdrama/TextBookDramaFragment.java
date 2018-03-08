@@ -126,8 +126,6 @@ public class TextBookDramaFragment extends FxFragment {
         new DownloadFile((TextBookDramaActivity) getActivity(), file, false, new OnDownload() {
             @Override
             public void onDownload(String fileurl, FxProgressDialog progressDialog) {
-//                Logger.d("majin-------------课本剧背景音" + fileurl);
-//                String mp4Name = fileurl.substring(fileurl.lastIndexOf("/"));
 
             }
         });

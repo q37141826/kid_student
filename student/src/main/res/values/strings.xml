@@ -224,6 +224,7 @@
     <string name="tyle_data_null">类型分类不存在</string>
     <string name="subject_data_null">学科分类不存在</string>
     <string name="source_data_null">来源分类不存在</string>
+    <string name="prompt_delete">确定要删除么？</string>
     <!--我的资料 end-->
     <!--班级申请 start -->
     <string name="title_audit_class">审核学生</string>

@@ -71,7 +71,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
                 .into(imgconment);
 
         /*成功上传答案之后 查看状态*/
-        if (inbasebean.getIs_answer().equals("1")) {
+        if (inbasebean.getIs_answered().equals("1")) {
             String my_answer = inbasebean.getMy_answer();
             if (!my_answer.equals("")) {
                 /*多个空*/
@@ -107,7 +107,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
                 List<CompletionQuestionadapterItemModle> rightItemList = new ArrayList();
 
-                if (inbasebean.getIs_answer().equals("1") && !inbasebean.getMy_answer().equals("") && myAnswerList.size() > 0) {
+                if (inbasebean.getIs_answered().equals("1") && !inbasebean.getMy_answer().equals("") && myAnswerList.size() > 0) {
                     CompletionQuestionadapterItemModle cqim = new CompletionQuestionadapterItemModle(String.valueOf(standardAnswerList.get(a).charAt(q)), String.valueOf(myAnswerList.get(a).charAt(q)));
                     /*如果所对应的值相等*/
                     if (String.valueOf(standardAnswerList.get(a).charAt(q)).equals(String.valueOf(myAnswerList.get(a).charAt(q)))) {
@@ -126,21 +126,10 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         }
 
          /*判断是否已经上传后台 0 没答过题  1 答过题*/
-        if (DoHomeworkActivity.sourceFlag.equals("HomeWork") && inbasebean.getIs_answer().equals("1")) {
+        if (DoHomeworkActivity.sourceFlag.equals("HomeWork") && inbasebean.getIs_answered().equals("1")) {
 
             inbasebean.setIsFocusable("false");/*部顯示焦点*/
             inbasebean.setIsShowRightAnswer("yes");/*显示正确答案*/
-
-//            for (int a = 0; a < myAnswerList.size(); a++) {
-//                /*填空对应的答案相等*/
-//                if (mRightanswer.get(a).getAnalysisAnswer().equals(myAnswerList.get(a))) {
-//                    mRightanswer.get(a).setTextcolor("green");
-//                    Logger.d("回答正确 :");
-//                } else {
-//                    Logger.d("回答错误 :");
-//                }
-//            }
-
         }
 
          /*添加题干*/
@@ -187,19 +176,10 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     private void addHorizontalListView(int size) {
 
         for (int i = 0; i < size; i++) {
-            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300);
-            params1.weight = 1;
-            params1.topMargin = mToptv;
-
-            TextView tv = new TextView(getActivity());
-            tv.setTextSize(15);
-            mToptv += 150;
-
-            horlistviewroot.addView(tv);
 
             HorizontalListView horizontalListView = new HorizontalListView(getActivity());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300);
-            params.weight = 1;
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300);
+//            params.weight = 1;
             params.topMargin = mTop;
             params.leftMargin = 30;
             mTop += 200;
@@ -315,39 +295,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
                     Map<Integer, String> integerObjectMap = inbasebean.getmAllMap().get(i);
                     mAllList.get(i).setInputContainer(integerObjectMap);
                 }
-
-
             }
-            /*练习check之后会走 submitHomework*/
-            else if (DoHomeworkActivity.sourceFlag.equals("Practice") && inbasebean.getAnswerflag().equals("true")) {
-
-
-//                myAnswerList.clear();
-//               /*取出我的答案*/
-//                for (int i = 0; i < inbasebean.getmAllMap().size(); i++) {
-//                    Map<Integer, String> integerStringMap = inbasebean.getmAllMap().get(i);
-//                    for (int w = 0; w < integerStringMap.size(); w++) {
-//                        myAnswerList.add(integerStringMap.get(w));
-//                    }
-//                }
-
-//                for (int i = 0; i < mAllList.size(); i++) {
-//
-//                    for (int a = 0; a < myAnswerList.size(); a++) {
-//                    /*填空对应的答案相等*/
-//                        if (mRightanswer.get(a).getAnalysisAnswer().equals(myAnswerList.get(a))) {
-//                            mRightanswer.get(a).setTextcolor("green");
-//                        }
-//                    }
-//
-////                    mAllList.get(i).setmList(getData());
-////                    mAllList.get(i).notifyDataSetChanged();
-//
-//                }
-
-
-            }
-
         }
     }
 

@@ -705,14 +705,14 @@ public class RequestUtill {
 
     /*保存我的作品*/
     public void httpSaveMineWorks(Context context, ResultCallback callback,
-                                  String page_id, String date,
+                                  String page_id, Long date,
                                   String videoPath, String thumbnailPath,
                                   String score, String title,
                                   String author) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
         params.put("page_id", page_id);
-        params.put("date", date);
+        params.put("date", date + "");
         params.put("score", score);
         params.put("title", title);
         params.put("author", author);

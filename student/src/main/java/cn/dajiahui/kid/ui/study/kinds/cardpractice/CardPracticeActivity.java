@@ -69,7 +69,7 @@ public class CardPracticeActivity extends FxActivity implements
     @Override
     public void httpData() {
         super.httpData();
-        RequestUtill.getInstance().httpCardPratice(CardPracticeActivity.this, callCardPratice, "6", "14");
+        RequestUtill.getInstance().httpCardPratice(CardPracticeActivity.this, callCardPratice, book_id, unit_id);
     }
 
     private List<BeCradPraticePageData> page_data;

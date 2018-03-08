@@ -24,7 +24,7 @@ public class CompletionQuestionModle extends QuestionModle {
     private String standard_answer;//参考答案
     private String title;
     private String unit_id;
-    private String is_answer = "";//是否作答
+//    private String is_answer = "";//是否作答
     private String my_answer;//已经上传的作答答案
     private String is_right;//是否正确
     private String is_auto;//自动提交是1  不自动提交是0
@@ -109,13 +109,13 @@ public class CompletionQuestionModle extends QuestionModle {
     }
 
 
-    public String getIs_answer() {
-        return is_answer;
-    }
-
-    public void setIs_answer(String is_answer) {
-        this.is_answer = is_answer;
-    }
+//    public String getIs_answer() {
+//        return is_answer;
+//    }
+//
+//    public void setIs_answer(String is_answer) {
+//        this.is_answer = is_answer;
+//    }
 
     public String getMy_answer() {
         return my_answer;

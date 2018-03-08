@@ -1,5 +1,6 @@
 package com.fxtx.framework.http.request;
 
+import android.util.Log;
 import android.util.Pair;
 
 import com.fxtx.framework.http.OkHttpClientManager;
@@ -184,6 +185,7 @@ public abstract class OkHttpRequest {
         }
 
         public OkHttpRequest upload(ResultCallback callback) {
+            Log.d("majin", "url" + url + "  params:" + params);
             OkHttpRequest request = new OkHttpUploadRequest(url, tag, params, headers, files);
             request.invokeAsyn(callback);
             return request;
