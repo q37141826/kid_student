@@ -17,7 +17,6 @@ import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 
 import java.io.File;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -35,7 +34,6 @@ import cn.dajiahui.kid.ui.study.bean.BePageDataWork;
 import cn.dajiahui.kid.ui.study.kinds.textbookdrama.FfmpegUtil;
 import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookSuccessActivity;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
-import cn.dajiahui.kid.util.DateUtils;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
@@ -115,7 +113,9 @@ public class MakeKraoOkeActivity extends FxActivity {
                         bePageDataWork.getMusic_name() + bePageDataWork.getPage_id(),
                         UserController.getInstance().getUser().getAvatar(),
                         UserController.getInstance().getUser().getUserName(),
-                        DateUtils.formatDate(new Date(), "M月d日 HH:mm"));
+                        (System.currentTimeMillis()) + "");
+
+
                 Bundle bundle = new Bundle();
                 bundle.putString("MakeFlag", "MakeKraoOke");
                 bundle.putString("ShowBottom", "SHOW");
@@ -279,11 +279,6 @@ public class MakeKraoOkeActivity extends FxActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-          /*activity重新显示时要从新加载数据*/
-//        mVideoView.setUp(KidConfig.getInstance().getPathKaraOkeMp4() + MD5.getMD5(bePageDataWork.getPage_url().substring(bePageDataWork.getPage_url().lastIndexOf("/"))) + ".mp4", JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
-//        mVideoView.startVideo();
-//        /*跳到指定播放时间*/
-//        mVideoView.onStatePreparingChangingUrl(0, onPauseCurrent);
 
     }
 

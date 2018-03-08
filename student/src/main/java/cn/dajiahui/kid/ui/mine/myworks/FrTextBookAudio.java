@@ -28,6 +28,9 @@ import cn.dajiahui.kid.ui.mine.adapter.ApMyWorks;
 import cn.dajiahui.kid.ui.mine.bean.BeMineWorks;
 import cn.dajiahui.kid.ui.mine.bean.BeMineWorksLists;
 import cn.dajiahui.kid.ui.mine.myinterface.ShowbtnDelete;
+import cn.dajiahui.kid.ui.study.bean.BePageDataMyWork;
+import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookSuccessActivity;
+import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.Logger;
 
 /**
@@ -70,7 +73,7 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
         refresh = getView(R.id.refresh);
         initRefresh(refresh);
         mListview.setEmptyView(tvNUll);
-        tvNUll.setOnClickListener(onClick);
+//        tvNUll.setOnClickListener(onClick);
         apMyWorks = new ApMyWorks(getActivity(), mTextBooklists);
         mListview.setAdapter(apMyWorks);
 
@@ -121,7 +124,7 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
                         mIdList.remove(mTextBooklists.get(position).getId());
                         allCheck.setChecked(false);
                     }
-                /*设置删除按钮颜色*/
+                  /*设置删除按钮颜色*/
                     if (mIdList.size() == 0) {
                         btn_delete.setBackgroundResource(R.color.gray);
                     } else {
@@ -130,27 +133,34 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
                 } else {
 
                     Toast.makeText(getActivity(), "播放视频", Toast.LENGTH_SHORT).show();
-                    Bundle bundle = new Bundle();
-//
-////                bundle.putSerializable("WORKSDATA", mTextBooklists.get(position));
-//
-//                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), VideoActivity.class, bundle, 0);
+                    getTexBookDetails(mTextBooklists.get(position).getId());
+
 
                 }
+                Logger.d("mIdList---" + mIdList.toString());
             }
+
         });
 
         /*执行删除*/
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Logger.d("mIdList---" + mIdList.size());
+                Logger.d("mTextBooklists---" + mTextBooklists.size());
                 if (mIdList.size() > 0) {
-                    Logger.d("mIdList---" + mIdList.toString());
-                 /*删除操作后隐藏  checkbox*/
+                    /*删除集合数据 更新UI*/
+                    for (int i = 0; i < mIdList.size(); i++) {
+                        mTextBooklists.remove(i);
+                    }
+
+                     /*删除操作后隐藏  checkbox*/
                     delete_view.setVisibility(View.GONE);
                     apMyWorks.changeState(-2);
                     MyWorksActivity activity = (MyWorksActivity) getActivity();
                     activity.setShowcheckboxTextbook(false);
+                    /*删除网络请求*/
+                    deleteMyworks();
                 }
             }
         });
@@ -172,6 +182,17 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
 
     }
 
+    /*删除我的作品*/
+    private void deleteMyworks() {
+        RequestUtill.getInstance().httpDeleteMineWorks(getActivity(), callDeleteTextBook, mIdList);
+    }
+
+    /*获取作详情*/
+    private void getTexBookDetails(String work_id) {
+        showfxDialog();
+        RequestUtill.getInstance().httpGetTextBookDetails(getActivity(), callTextBookDetails, work_id);
+    }
+
     @Override
     public void showbtnDelete(int position) {
         if (position == 1) {
@@ -182,9 +203,6 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
             for (int i = 0; i < mTextBooklists.size(); i++) {
                 // 改变boolean
                 mTextBooklists.get(i).setBo(false);
-                if (mIdList.contains(mTextBooklists.get(i).getId())) {
-                    mIdList.remove(mTextBooklists.get(i).getId());
-                }
             }
             allCheck.setChecked(false);
             apMyWorks.changeState(-1);
@@ -225,6 +243,55 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
                 ToastUtil.showToast(getActivity(), json.getMsg());
             }
             finishRefreshAndLoadMoer(refresh, isLastPage());
+        }
+    };
+
+    /*删除我的作品*/
+    ResultCallback callDeleteTextBook = new ResultCallback() {
+        @Override
+        public void onError(Request request, Exception e) {
+            dismissfxDialog();
+        }
+
+        @Override
+        public void onResponse(String response) {
+            dismissfxDialog();
+            Logger.d("获取课本剧删除OK" + response);
+            HeadJson json = new HeadJson(response);
+            if (json.getstatus() == 0) {
+
+
+            } else {
+                ToastUtil.showToast(getActivity(), json.getMsg());
+            }
+
+        }
+    };
+
+    /*获取作品详情*/
+    ResultCallback callTextBookDetails = new ResultCallback() {
+        @Override
+        public void onError(Request request, Exception e) {
+            dismissfxDialog();
+        }
+
+        @Override
+        public void onResponse(String response) {
+            dismissfxDialog();
+//            Logger.d("获取作品详情" + response);
+            HeadJson json = new HeadJson(response);
+            if (json.getstatus() == 0) {
+                BePageDataMyWork bePageDataMyWork = json.parsingObject(BePageDataMyWork.class);
+                if (bePageDataMyWork != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("MakeFlag", "LookTextBookDrma");
+                    bundle.putSerializable("BePageDataMyWork", bePageDataMyWork);
+                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), TextBookSuccessActivity.class, bundle, 0);
+                }
+            } else {
+                ToastUtil.showToast(getActivity(), json.getMsg());
+            }
+
         }
     };
 

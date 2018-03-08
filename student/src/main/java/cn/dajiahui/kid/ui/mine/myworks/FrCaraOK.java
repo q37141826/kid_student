@@ -28,6 +28,9 @@ import cn.dajiahui.kid.ui.mine.adapter.ApMyWorks;
 import cn.dajiahui.kid.ui.mine.bean.BeMineWorks;
 import cn.dajiahui.kid.ui.mine.bean.BeMineWorksLists;
 import cn.dajiahui.kid.ui.mine.myinterface.ShowbtnDelete;
+import cn.dajiahui.kid.ui.study.bean.BePageDataMyWork;
+import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookSuccessActivity;
+import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.Logger;
 
 /**
@@ -132,12 +135,7 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
                 } else {
 
                     Toast.makeText(getActivity(), "播放视频", Toast.LENGTH_SHORT).show();
-                    Bundle bundle = new Bundle();
-//
-//                  bundle.putSerializable("WORKSDATA", mKalaokList.get(position));
-//
-//                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), VideoActivity.class, bundle, 0);
-
+                    getTexBookDetails(mKalaokList.get(position).getId());
                 }
             }
         });
@@ -147,20 +145,82 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
             @Override
             public void onClick(View v) {
                 if (mIdList.size() > 0) {
+                       /*删除集合数据 更新UI*/
+                    for (int i = 0; i < mIdList.size(); i++) {
+                        mKalaokList.remove(i);
+                    }
                     Logger.d("mIdList---" + mIdList.toString());
                  /*删除操作后隐藏  checkbox*/
                     delete_view.setVisibility(View.GONE);
                     apKalaoke.changeState(-2);
                     MyWorksActivity activity = (MyWorksActivity) getActivity();
                     activity.setShowcheckboxTextbook(false);
+                       /*删除网络请求*/
+                    deleteMyworks();
                 }
             }
         });
 
 
     }
+    /*删除我的作品*/
+    private void deleteMyworks() {
+        RequestUtill.getInstance().httpDeleteMineWorks(getActivity(), callDeleteTextBook, mIdList);
+    }
 
+    /*获取作详情*/
+    private void getTexBookDetails(String work_id) {
+        showfxDialog();
+        RequestUtill.getInstance().httpGetTextBookDetails(getActivity(), callTextBookDetails, work_id);
+    }
 
+    /*删除我的作品*/
+    ResultCallback callDeleteTextBook = new ResultCallback() {
+        @Override
+        public void onError(Request request, Exception e) {
+            dismissfxDialog();
+        }
+
+        @Override
+        public void onResponse(String response) {
+            dismissfxDialog();
+            Logger.d("kalaok 删除OK" + response);
+            HeadJson json = new HeadJson(response);
+            if (json.getstatus() == 0) {
+
+            } else {
+                ToastUtil.showToast(getActivity(), json.getMsg());
+            }
+
+        }
+    };
+
+    /*获取作品详情*/
+    ResultCallback callTextBookDetails = new ResultCallback() {
+        @Override
+        public void onError(Request request, Exception e) {
+            dismissfxDialog();
+        }
+
+        @Override
+        public void onResponse(String response) {
+            dismissfxDialog();
+//            Logger.d("获取作品详情" + response);
+            HeadJson json = new HeadJson(response);
+            if (json.getstatus() == 0) {
+                BePageDataMyWork bePageDataMyWork = json.parsingObject(BePageDataMyWork.class);
+                if (bePageDataMyWork != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("MakeFlag", "LookKalaOk");
+                    bundle.putSerializable("BePageDataMyWork", bePageDataMyWork);
+                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), TextBookSuccessActivity.class, bundle, 0);
+                }
+            } else {
+                ToastUtil.showToast(getActivity(), json.getMsg());
+            }
+
+        }
+    };
     @Override
     public void onResume() {
         super.onResume();

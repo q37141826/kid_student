@@ -38,7 +38,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +54,6 @@ import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageData;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageDataItem;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.ui.study.view.NoScrollViewPager;
-import cn.dajiahui.kid.util.DateUtils;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
@@ -359,7 +357,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         int start_time = Integer.parseInt(mDataList.get(position).getTime_start());
         int end_time = Integer.parseInt(mDataList.get(position).getTime_end());
 
-        Logger.d("position:----" + position + "  videoSeekTo  start_time--:" + start_time + "    end_time--:" + end_time);
+//        Logger.d("position:----" + position + "  videoSeekTo  start_time--:" + start_time + "    end_time--:" + end_time);
         mVideoView.seekTo(start_time);
         mVideoView.start();
 
@@ -424,22 +422,6 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                         }, 0, 1000);
                     }
                     Toast.makeText(context, "开始录音", Toast.LENGTH_SHORT).show();
-//
-//                    Toast.makeText(context, "跳转我的作品结果页", Toast.LENGTH_SHORT).show();
-//                    beGoTextBookSuccess = new BeGoTextBookSuccess(
-//                            KidConfig.getInstance().getPathMineWorksTemp() + "TextBook203.mp4",
-//                            bookDrama.getPage_id(), bookDrama.getTitle() + ".mp4",
-//                            UserController.getInstance().getUser().getAvatar(),
-//                            UserController.getInstance().getUser().getNickname(),
-//                            DateUtils.formatDate(new Date(), "M月d日 HH:mm"),
-//                            "90");
-//
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("MakeFlag", "MakeTextBookDrma");
-//                    bundle.putString("ShowBottom", "SHOW");
-//                    bundle.putSerializable("BeGoTextBookSuccess", beGoTextBookSuccess);
-//                    DjhJumpUtil.getInstance().startBaseActivityForResult(context, TextBookSuccessActivity.class, bundle, 0);
-
                     break;
                 case R.id.img_playrecoding:
 
@@ -470,7 +452,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                             bookDrama.getPage_id(), bookDrama.getTitle() + ".mp4",
                             UserController.getInstance().getUser().getAvatar(),
                             UserController.getInstance().getUser().getNickname(),
-                            DateUtils.formatDate(new Date(), "M月d日 HH:mm"));
+                            (System.currentTimeMillis()) + "");
 
                     /*1.原音视频 2. 混音音频 3. 输出合成视频*/
                     new FfmpegUtil(MakeTextBookDrmaActivity.this, mHandler, bookDrama.getPage_id()).mixAudiosToVideo(
@@ -531,7 +513,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
     }
 
     /*关闭视频的声音*/
-    public void  closeVideoviewSound() {
+    public void closeVideoviewSound() {
         if (mVideoView.isPlaying()) {
             mCurrentMp.setVolume(0, 0);/*关闭视频声音*/
         }

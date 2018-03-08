@@ -10,10 +10,13 @@ import com.fxtx.framework.adapter.CommonAdapter;
 import com.fxtx.framework.adapter.ViewHolder;
 import com.fxtx.framework.image.util.GlideUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.mine.bean.BeMineWorksLists;
+import cn.dajiahui.kid.util.DateUtils;
 
 /**
  * Created by majin on 2016/5/11.
@@ -39,7 +42,8 @@ public class ApMyWorks extends CommonAdapter<BeMineWorksLists> {
 
         GlideUtil.showNoneImage(mContext, item.getThumbnail(), img);
         tv_worksname.setText(item.getTitle());
-//        tv_workstime.setText(DateUtils.time(item.getDate()));
+       tv_workstime.setText("作品时间："+ DateUtils.getYyyyMMDD(item.getDate()));
+
         //显示checkBox
         checkBox.setChecked(mDatas.get(position).getBo());
         //如果当前的position等于传过来点击的position,就去改变他的状态
@@ -58,5 +62,14 @@ public class ApMyWorks extends CommonAdapter<BeMineWorksLists> {
         notifyDataSetChanged();
     }
 
+    public   String getStrTime(String cc_time) {
+        String re_StrTime = null;
+        //同理也可以转为其它样式的时间格式.例如："yyyy/MM/dd HH:mm"
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        // 例如：cc_time=1291778220
+        long lcc_time = Long.valueOf(cc_time);
+        re_StrTime = sdf.format(new Date(lcc_time * 1000L));
 
+        return re_StrTime;
+    }
 }

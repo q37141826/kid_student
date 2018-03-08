@@ -38,9 +38,63 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/videoplayerroot"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="20dp"
         android:background="@color/yellow_FEBF12"
         android:text="查看"/>
+
+
+    <RelativeLayout
+        android:id="@+id/info_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_look"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/img_head"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/tv_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/img_head"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="0分"
+                android:textColor="@color/white"
+                android:textSize="15sp"/>
+
+            <RatingBar
+                android:id="@+id/rb_score"
+                style="@style/myratingbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tv_score"
+                android:numStars="5"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
 

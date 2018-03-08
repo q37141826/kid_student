@@ -50,6 +50,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/info_root"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
@@ -78,6 +79,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/socre_root"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"

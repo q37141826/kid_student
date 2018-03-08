@@ -13,6 +13,7 @@ import com.fxtx.framework.log.ToastUtil;
 
 import java.io.File;
 import java.util.IdentityHashMap;
+import java.util.List;
 
 import cn.dajiahui.kid.BuildConfig;
 import cn.dajiahui.kid.controller.UserController;
@@ -441,8 +442,6 @@ public class RequestUtill {
     /*首页获取学生作业列表详情*/
     public void httpGetStudentHomeWorkDetails(Context context, ResultCallback callback, String homework_id) {
         IdentityHashMap params = new IdentityHashMap<>();
-        Logger.d("UserController.getInstance().getUser().getToken():" + UserController.getInstance().getUser().getToken());
-        Logger.d("homework_id:" + homework_id);
         params.put("token", UserController.getInstance().getUser().getToken());
         params.put("homework_id", homework_id);//分页显示数目
 
@@ -718,11 +717,14 @@ public class RequestUtill {
         params.put("score", score);
         params.put("title", title);
         params.put("author", author);
-//        params.put("description", title);
+        params.put("description", "");
+        Logger.d("score:" + score);
         Pair<String, File> videofile = new Pair<String, File>("video", new File(videoPath));
         Pair<String, File> thumbnailfile = new Pair<String, File>("thumbnail", new File(thumbnailPath));
         new OkHttpRequest.Builder().tag(context).url(getUrl() + "student/work/save").
                 files(videofile, thumbnailfile).params(params).upload(callback);
+
+        Logger.d("params:------" + params);
     }
 
     /*获取课本剧*/
@@ -733,6 +735,27 @@ public class RequestUtill {
         params.put("page", page + "");
 
         getHttpBuilder(context, "student/work/textbook").params(params).post(callback);
+    }
+
+    /*删除*/
+    public void httpDeleteMineWorks(Context context, ResultCallback callback, List<String> mIdList) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+
+        for (int i = 0; i < mIdList.size(); i++) {
+            params.put("work_ids[" + i + "]", mIdList.get(i));
+        }
+
+        getHttpBuilder(context, "student/work/delete").params(params).post(callback);
+    }
+
+    /*获取课本剧*/
+    public void httpGetTextBookDetails(Context context, ResultCallback callback, String work_id) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("work_id", work_id);
+
+        getHttpBuilder(context, "student/work/detail").params(params).post(callback);
     }
 
     /*获取卡拉OK*/

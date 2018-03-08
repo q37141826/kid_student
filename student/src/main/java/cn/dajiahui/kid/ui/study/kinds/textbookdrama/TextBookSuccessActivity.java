@@ -1,6 +1,7 @@
 package cn.dajiahui.kid.ui.study.kinds.textbookdrama;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,7 +22,13 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.study.bean.BeGoTextBookSuccess;
+import cn.dajiahui.kid.ui.study.bean.BePageDataMyWork;
+import cn.dajiahui.kid.ui.study.bean.BePageDataWork;
+import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageData;
 import cn.dajiahui.kid.ui.study.bean.BeUpdateMIneWorks;
+import cn.dajiahui.kid.ui.study.kinds.karaoke.MakeKraoOkeActivity;
+import cn.dajiahui.kid.util.DateUtils;
+import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.Logger;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
@@ -42,7 +49,7 @@ public class TextBookSuccessActivity extends FxActivity {
     private ImageView imguser;//头像
     private TextView tv_username;//名字
     private TextView tvmaketime;//制作时间
-    private TextView tvfraction;//评分
+    private TextView tvscore;//评分
     private RatingBar rbscore;//小星星
     private TextView tvshare;//
     private ImageView imgweixin;//微信
@@ -50,11 +57,15 @@ public class TextBookSuccessActivity extends FxActivity {
     private TextView tvrecordagain;//重新录制
     private TextView tvsavemineworks;//保存我的作品
     private BeGoTextBookSuccess beGoTextBookSuccess;
-    private LinearLayout bottomRoot;//底部重新录制，保存到我的作品的父布局
+    private LinearLayout bottomRoot, socre_root, info_root;//底部重新录制，保存到我的作品的父布局
     private RelativeLayout shareRoot;//分享父布局 //保存我的作品成功之后显示
     private String makeTextBookDrma;
     private String mineWorksTempPath;//我的作品临时文件夹
-//    private BePageDataMyWork beKaraOkPageDataMyWork;
+    private RelativeLayout tv_savemineworks;
+    private String look = "";//已经完成卡拉OK的录制 ，课本剧的录制
+    private BePageDataWork beKaraOkPageData;
+    private BeTextBookDramaPageData beTextBookDramaPageData;
+    private BePageDataMyWork bePageDataMyWork;//作品详情（我的作品页面过来的）
 
 
     @Override
@@ -64,10 +75,9 @@ public class TextBookSuccessActivity extends FxActivity {
         Intent intent = this.getIntent();
         makeTextBookDrma = intent.getStringExtra("MakeFlag");
 
-        String my_work_status = intent.getStringExtra("my_work_status");
-
         /*表示有显示底部按钮的标志 只有制作卡拉OK 课本剧的时候才显示*/
-        if (intent.getStringExtra("ShowBottom").equals("SHOW")) {
+        if ("SHOW".equals(intent.getStringExtra("ShowBottom"))) {
+            /*显示底部按钮*/
             bottomRoot.setVisibility(View.VISIBLE);
         }
 
@@ -78,7 +88,7 @@ public class TextBookSuccessActivity extends FxActivity {
                 score += beGoTextBookSuccess.getmScoreMap().get(i);
             }
             int average = score / beGoTextBookSuccess.getmScoreMap().size();
-            tvfraction.setText(average + "");
+            tvscore.setText(average + "");
             rbscore.setMax(100);
             rbscore.setProgress(average);
 
@@ -93,28 +103,78 @@ public class TextBookSuccessActivity extends FxActivity {
                     UserController.getInstance().getUser().getNickname(), beGoTextBookSuccess.getMakeTime());
         } else if (makeTextBookDrma.equals("seedetails")) {/*卡拉ok已经唱完 查看详情*/
 
-//            beKaraOkPageDataMyWork = (BePageDataMyWork) intent.getSerializableExtra("BePageDataMyWork");
-//            String look = intent.getStringExtra("Look");
-//            if (look.equals("kalaok")) {/*已经唱完的kalaok*/
-//                playVideo(beKaraOkPageDataMyWork.getVideo());
-//                /*设置信息*/
-//                settingInfo(beKaraOkPageDataMyWork.getTitle(), UserController.getInstance().getUser().getAvatar(),
-//                        UserController.getInstance().getUser().getNickname(), DateUtils.time(beKaraOkPageDataMyWork.getDate()));
-//
-//            } else {/*已经制作玩的课本剧*/
-//
-//
-//            }
+            /*卡拉OK查看*/
+            look = intent.getStringExtra("Look");
+
+            if (look.equals("kalaok")) {/*已经唱完的kalaok*/
+                beKaraOkPageData = (BePageDataWork) intent.getSerializableExtra("BePageDataWork");
+                /*隐藏保存我的作品按钮*/
+                tv_savemineworks.setVisibility(View.GONE);
+                /*显示分享按钮*/
+                shareRoot.setVisibility(View.VISIBLE);
+                /*隐藏打分*/
+                socre_root.setVisibility(View.GONE);
+                /*设置名字和时间横向显示*/
+                info_root.setHorizontalGravity(LinearLayout.HORIZONTAL);
+
+                /*播放视频*/
+                playVideo(beKaraOkPageData.getMy_work().getVideo());
+                /*设置信息*/
+                settingInfo(beKaraOkPageData.getMy_work().getTitle(), UserController.getInstance().getUser().getAvatar(),
+                        UserController.getInstance().getUser().getNickname(),  beKaraOkPageData.getMy_work().getDate() );//)
+
+            } else if (look.equals("textbook")) {/*已经制作玩的课本剧*/
+                /*数据模型*/
+                beTextBookDramaPageData = (BeTextBookDramaPageData) intent.getSerializableExtra("BeTextBookDramaPageData");
+               /*隐藏保存我的作品按钮*/
+                tv_savemineworks.setVisibility(View.GONE);
+                /*显示分享按钮*/
+                shareRoot.setVisibility(View.VISIBLE);
+                  /*播放视频*/
+                playVideo(beTextBookDramaPageData.getMy_work().getVideo());
+                /*设置信息*/
+                settingInfo(beTextBookDramaPageData.getMy_work().getTitle(), UserController.getInstance().getUser().getAvatar(),
+                        UserController.getInstance().getUser().getNickname(), beTextBookDramaPageData.getMy_work().getDate());//DateUtils.time(beKaraOkPageDataMyWork.getDate())
+                /*获取平均分*/
+                tvscore.setText(getAverage(beTextBookDramaPageData.getMy_work().getScore()) + "分");
+                rbscore.setMax(100);
+                rbscore.setProgress(getScore(getAverage(beTextBookDramaPageData.getMy_work().getScore())));
+
+            }
+        } else if (makeTextBookDrma.equals("LookTextBookDrma")) {/*由我的作品查看 课本剧*/
+            bePageDataMyWork = (BePageDataMyWork) intent.getSerializableExtra("BePageDataMyWork");
+            /*显示分享按钮*/
+            shareRoot.setVisibility(View.VISIBLE);
+                /*播放视频*/
+            playVideo(bePageDataMyWork.getVideo());
+                /*设置信息*/
+            settingInfo(bePageDataMyWork.getTitle(), UserController.getInstance().getUser().getAvatar(),
+                    UserController.getInstance().getUser().getNickname(), bePageDataMyWork.getDate());
+                /*获取平均分*/
+            tvscore.setText(getAverage(bePageDataMyWork.getScore()) + "分");
+            rbscore.setMax(100);
+            rbscore.setProgress(getScore(getAverage(bePageDataMyWork.getScore())));
+
+        } else if (makeTextBookDrma.equals("LookKalaOk")) {/*由我的作品查看 kalaok*/
+            bePageDataMyWork = (BePageDataMyWork) intent.getSerializableExtra("BePageDataMyWork");
+            /*隐藏打分*/
+            socre_root.setVisibility(View.GONE);
+            /*显示分享按钮*/
+            shareRoot.setVisibility(View.VISIBLE);
+            /*播放视频*/
+            playVideo(bePageDataMyWork.getVideo());
+            /*设置信息*/
+            settingInfo(bePageDataMyWork.getTitle(), UserController.getInstance().getUser().getAvatar(),
+                    UserController.getInstance().getUser().getNickname(), bePageDataMyWork.getDate());
+
         }
     }
 
     /*播放視頻*/
     private void playVideo(String videopath) {
         mVideoplayer.setUp(videopath, JCVideoPlayer.SCREEN_LAYOUT_LIST);
-//        mVideoplayer.onStatePreparingChangingUrl(0, 100);
         mVideoplayer.startVideo();
         mVideoplayer.hideView();//隐藏不需要的view
-
     }
 
     /*設置信息*/
@@ -123,8 +183,7 @@ public class TextBookSuccessActivity extends FxActivity {
         /*加载圆形图片*/
         GlideUtil.showRoundImage(TextBookSuccessActivity.this, imgUrl, imguser, R.drawable.ico_default_user, true);
         tv_username.setText(author);
-        tvmaketime.setText(makeTime);
-
+        tvmaketime.setText(DateUtils.getYyyyMMDD(makeTime));
     }
 
     /*初始化*/
@@ -134,15 +193,18 @@ public class TextBookSuccessActivity extends FxActivity {
         imguser = getView(R.id.img_user);
         tv_username = getView(R.id.tv_username);
         tvmaketime = getView(R.id.tv_maketime);
-        tvfraction = getView(R.id.tv_fraction);
+        tvscore = getView(R.id.tv_fraction);
         rbscore = getView(R.id.rb_score);
         tvshare = getView(R.id.tv_share);
         bottomRoot = getView(R.id.bottomRoot);
         shareRoot = getView(R.id.share_root);
+        socre_root = getView(R.id.socre_root);
+        info_root = getView(R.id.info_root);
         getView(R.id.img_weixin).setOnClickListener(onClick);
         getView(R.id.img_pengyouquan).setOnClickListener(onClick);
         getView(R.id.tv_recordagain).setOnClickListener(onClick);
-        getView(R.id.tv_savemineworks).setOnClickListener(onClick);
+        tv_savemineworks = getView(R.id.tv_savemineworks);
+        tv_savemineworks.setOnClickListener(onClick);
     }
 
 
@@ -167,12 +229,30 @@ public class TextBookSuccessActivity extends FxActivity {
                     break;
                 case R.id.tv_recordagain:
 
-                    if (makeTextBookDrma.equals("MakeTextBookDrma")) {
-                        setResult(1);
-                    } else if (makeTextBookDrma.equals("MakeKraoOke")) {
-                        setResult(2);
-                    }
+                    if (!look.equals("")) {
+                        if (look.equals("kalaok")) {    /*跳转制作卡拉OK activity*/
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("BePageDataWork", beKaraOkPageData);
+                            DjhJumpUtil.getInstance().startBaseActivity(TextBookSuccessActivity.this, MakeKraoOkeActivity.class, bundle, 0);
+                            finishActivity();
+                            break;
+                        } else if (look.equals("textbook")) {/*跳转制作课本剧 activity*/
 
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("BeTextBookDramaPageData", beTextBookDramaPageData);
+                            DjhJumpUtil.getInstance().startBaseActivity(TextBookSuccessActivity.this, MakeTextBookDrmaActivity.class, bundle, 0);
+                            finishActivity();
+
+                            break;
+                        }
+                    } else {
+                        if (makeTextBookDrma.equals("MakeTextBookDrma")) {
+                            setResult(1);/*重新录制课本剧*/
+                        } else if (makeTextBookDrma.equals("MakeKraoOke")) {
+                            setResult(2);/*重新录制卡拉OK*/
+                        }
+
+                    }
                     finishActivity();
                    /*再录一次*/
                     break;
@@ -196,7 +276,7 @@ public class TextBookSuccessActivity extends FxActivity {
                         /*上传卡本剧*/
                         RequestUtill.getInstance().httpSaveMineWorks(TextBookSuccessActivity.this, callMineWorksUp,
                                 beGoTextBookSuccess.getPage_id(),
-                                String.valueOf(System.currentTimeMillis()),
+                                beGoTextBookSuccess.getMakeTime(),
                                 KidConfig.getInstance().getPathMineWorksTextBookDrama() + sTextBookDrma,
                                 KidConfig.getInstance().getPathMineWorksThumbnail() + sTextBookDrma.substring(0, sTextBookDrma.lastIndexOf(".")) + ".png",
                                 beGoTextBookSuccess.getmScoreMap().get(0) + append.toString(),
@@ -213,18 +293,16 @@ public class TextBookSuccessActivity extends FxActivity {
                         /*上传卡拉OK*/
                         RequestUtill.getInstance().httpSaveMineWorks(TextBookSuccessActivity.this, callMineWorksUp,
                                 beGoTextBookSuccess.getPage_id(),
-                                String.valueOf(System.currentTimeMillis()),
+                                beGoTextBookSuccess.getMakeTime(),
                                 KidConfig.getInstance().getPathMineWorksKaraOke() + sKraoOke,
                                 KidConfig.getInstance().getPathMineWorksThumbnail() + sKraoOke.substring(0, sKraoOke.lastIndexOf(".")) + ".png", "", "",
                                 beGoTextBookSuccess.getUserName());
                     }
-                    Toast.makeText(context, "保存至我的作品", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "保存至我的作品", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
-
             }
-
         }
     };
 
@@ -265,7 +343,7 @@ public class TextBookSuccessActivity extends FxActivity {
 
         @Override
         public void inProgress(float progress) {
-            Logger.d("作品上传中" + progress);
+//            Logger.d("作品上传中" + progress);
 
         }
     };
@@ -302,5 +380,39 @@ public class TextBookSuccessActivity extends FxActivity {
     protected void onDestroy() {
         super.onDestroy();
         finish();
+    }
+
+
+    /*评分算法 20分为一颗星*/
+    private int getScore(int score) {
+        if (0 == score) {
+            return 0;
+        } else if (0 < score && score <= 20) {
+            return 20;
+        } else if (20 < score && score <= 40) {
+            return 40;
+        } else if (40 < score && score <= 60) {
+            return 60;
+        } else if (60 < score && score <= 80) {
+            return 80;
+        } else if (80 < score && score <= 100) {
+            return 100;
+        }
+        return 0;
+    }
+
+    /*计算平均分*/
+    private int getAverage(String my_score) {
+        int score = 0;
+//        String my_score = beTextBookDramaPageData.getMy_work().getScore();
+        if (!my_score.equals("")) {
+            /*截取字符串*/
+            for (int i = 0, len = my_score.split(",").length; i < len; i++) {
+                String split = my_score.split(",")[i].toString();
+                score += Integer.parseInt(split);
+            }
+            score = score / my_score.split(",").length;
+        }
+        return score;
     }
 }

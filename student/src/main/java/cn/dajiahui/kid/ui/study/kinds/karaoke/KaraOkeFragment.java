@@ -16,6 +16,7 @@ import cn.dajiahui.kid.http.DownloadFile;
 import cn.dajiahui.kid.http.OnDownload;
 import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.ui.study.bean.BePageDataWork;
+import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookSuccessActivity;
 import cn.dajiahui.kid.ui.study.view.LazyLoadFragment;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
@@ -69,10 +70,10 @@ public class KaraOkeFragment extends LazyLoadFragment {
 
         tvunit.setText(beKaraOkPageData.getTitle());
 
-//        /*已经唱完*/
-//        if (beKaraOkPageData.getMy_work_status().equals("1")) {
-//            singok_root.setVisibility(View.VISIBLE);
-//        }
+        /*已经唱完*/
+        if (beKaraOkPageData.getMy_work_status().equals("1")) {
+            singok_root.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -136,22 +137,21 @@ public class KaraOkeFragment extends LazyLoadFragment {
         public void onClick(View v) {
             /*点击跳转之后停止所有视频*/
             JCVideoPlayerStandard.releaseAllVideos();
+            Bundle bundle = new Bundle();
+            /*已经唱完 跳转查看作品页面*/
+            if (beKaraOkPageData.getMy_work_status().equals("1")) {
+                bundle.putString("my_work_status", beKaraOkPageData.getMy_work_status());
+                bundle.putString("MakeFlag", "seedetails");
+                bundle.putString("ShowBottom", "SHOW");
+                bundle.putString("Look", "kalaok");
+                bundle.putSerializable("BePageDataWork", beKaraOkPageData);
+                DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), TextBookSuccessActivity.class, bundle, 2);
 
-////                /*已经唱完*/
-//            if (beKaraOkPageData.getMy_work_status().equals("1")) {
-//
-//                Bundle bundle = new Bundle();
-//                bundle.putString("my_work_status", beKaraOkPageData.getMy_work_status());
-//                bundle.putString("MakeFlag", "seedetails");
-//                bundle.putString("Look", "kalaok");
-////                bundle.putSerializable("BePageDataMyWork", beKaraOkPageData.getMy_work());
-//                DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), TextBookSuccessActivity.class, bundle, 2);
-//
-//            } else {
-                Bundle bundle = new Bundle();
+            } else {
+                /*跳转制作卡拉OK页面*/
                 bundle.putSerializable("BePageDataWork", beKaraOkPageData);
                 DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MakeKraoOkeActivity.class, bundle, 0);
-//            }
+            }
 
         }
     };

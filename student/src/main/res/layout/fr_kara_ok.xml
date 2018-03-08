@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/videoplayerroot"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="20dp"
         android:background="@color/yellow_FEBF12"
         android:text="查看"/>
 
@@ -48,18 +48,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_look"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:visibility="invisible">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:src="@drawable/singok"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="已唱完"/>
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:text="已唱完"
+            android:textColor="@color/white"/>
     </LinearLayout>
 
 </RelativeLayout>

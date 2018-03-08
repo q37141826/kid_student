@@ -17,6 +17,25 @@ public class BeTextBookDramaPageData implements Serializable {
     private String page_url;
     private String title;
 
+    private BePageDataMyWork my_work;
+    private String my_work_status;
+
+    public BePageDataMyWork getMy_work() {
+        return my_work;
+    }
+
+    public void setMy_work(BePageDataMyWork my_work) {
+        this.my_work = my_work;
+    }
+
+    public String getMy_work_status() {
+        return my_work_status;
+    }
+
+    public void setMy_work_status(String my_work_status) {
+        this.my_work_status = my_work_status;
+    }
+
     public List<BeTextBookDramaPageDataItem> getItem() {
         return item;
     }

@@ -73,7 +73,7 @@ public final class DateUtils {
      * 将日期字符串转换为Date类型
      *
      * @param dateStr 日期字符串
-     * @param type    日期字符串格式
+     *                //     * @param type    日期字符串格式
      * @return Date对象
      */
     public static Date parseDate(String dateStr) {
@@ -254,6 +254,16 @@ public final class DateUtils {
         String times = sdr.format(new Date(i * 1000L));
         return times;
 
+    }
+
+    /*转化年月日 时分*/
+    public static String getYyyyMMDD(String time) {
+
+        // long类型的时间戳，转换成格式化时间
+        SimpleDateFormat long2FormatTime = new SimpleDateFormat("M月d日 HH:mm");
+        String re_StrTime = long2FormatTime.format(new Date(Long.parseLong(time)));
+
+        return re_StrTime;
     }
 
     /**
