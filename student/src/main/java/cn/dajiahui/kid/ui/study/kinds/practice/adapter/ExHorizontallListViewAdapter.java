@@ -20,7 +20,6 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionadapterItemModle;
 import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
-import cn.dajiahui.kid.util.Logger;
 
 /*填空题 横划listview适配器*/
 public class ExHorizontallListViewAdapter extends BaseAdapter {
@@ -60,7 +59,7 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
         }
         this.IsShowRightAnswer = inbasebean.getIsShowRightAnswer();
         this.showRightList = showRightList;
-        Logger.d("传入的showRightList" + showRightList.toString());
+
         notifyDataSetChanged();
     }
 
@@ -119,15 +118,15 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
 
             holderView.editext = (EditText) convertView.findViewById(R.id.editext);
             holderView.tv_rightanswer = (TextView) convertView.findViewById(R.id.tv_rightanswer);
-            holderView.tv_num = (TextView) convertView.findViewById(R.id.tv_num);
+//            holderView.tv_num = (TextView) convertView.findViewById(R.id.tv_num);
 //            /*初始化集合*/
 
-            if (position == 0) {
-                holderView.tv_num.setVisibility(View.VISIBLE);
-                holderView.tv_num.setText((this.selfposition + 1) + ".");
-            } else {
-                holderView.tv_num.setVisibility(View.GONE);
-            }
+//            if (position == 0) {
+//                holderView.tv_num.setVisibility(View.VISIBLE);
+//                holderView.tv_num.setText((this.selfposition + 1) + ".");
+//            } else {
+//                holderView.tv_num.setVisibility(View.GONE);
+//            }
 
             // 注册上自己写的焦点监听
             holderView.editext.setOnFocusChangeListener(myFoucus);

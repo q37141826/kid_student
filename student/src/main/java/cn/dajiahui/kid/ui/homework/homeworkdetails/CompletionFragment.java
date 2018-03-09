@@ -45,10 +45,11 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     private Map<Integer, Map<Integer, String>> mAllMap = new HashMap<>();//存所有答案的集合（key： 第几个listview  val：listview对应的数据）
 
     private int mTop = 0;//初始距离上端
+    private int mTvTop = 0;//初始距离上端
     private List<CompletionQuestionModle> mRightanswer = new ArrayList<>();//正确答案模型的集合
 
 
-    private String mediaUrl;
+    private String mediaUrl;//音频地址
 
     private List<String> standardAnswerList = new ArrayList<>();//参考答案的集合
     private List<String> myAnswerList = new ArrayList<>();//我的答案的集合
@@ -155,28 +156,44 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     }
 
 
-
     /*添加布局*/
     @SuppressLint("ResourceType")
     private void addHorizontalListView(int size) {
 
         for (int i = 0; i < size; i++) {
+            RelativeLayout relativeLayout = new RelativeLayout(getActivity());
+            RelativeLayout.LayoutParams tvparams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300);
+            TextView textView = new TextView(getActivity());
+            textView.setText((i + 1) + ".");
+            textView.setTextSize(25);
+            tvparams.topMargin = mTvTop;
+            textView.setLayoutParams(tvparams);
 
             HorizontalListView horizontalListView = new HorizontalListView(getActivity());
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300);
             params.topMargin = mTop;
-            params.leftMargin = 30;
-            mTop += 300;
+            params.leftMargin = 80;
+            /*适配文本框的位置*/
+            if (inbasebean.getIs_answered().equals("1")) {
+                mTvTop += 300;
+                mTop += 300;
+            } else {
+                mTvTop += 200;
+                mTop += 200;
+            }
+
 
             horizontalListView.setLayoutParams(params);
-
             Map<Integer, String> integerObjectMap = new HashMap();//每次都要new出来
             HorizontallListViewAdapter horizontallListViewAdapter = new HorizontallListViewAdapter(getActivity(), this, i, integerObjectMap, mRightanswer.get(i).getShowRightList(), inbasebean);
             horizontalListView.setAdapter(horizontallListViewAdapter);
             mAllList.add(horizontallListViewAdapter);
             mAllHorizontalListView.add(horizontalListView);
 
-            horlistviewroot.addView(horizontalListView);
+            relativeLayout.addView(textView);
+            relativeLayout.addView(horizontalListView);
+
+            horlistviewroot.addView(relativeLayout);
         }
 
     }
@@ -253,18 +270,18 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
     public void submitEditextInfo(int selfposition) {
 
-            inbasebean.setAnswerflag("true");
+        inbasebean.setAnswerflag("true");
 
             /*填写答案之后，然后在翻页回来再修改答案的bug*/
-            for (int i = 0; i < mAllList.size(); i++) {
-                Map<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
-                mAllMap.put(i, integerObjectMap);
-            }
-            mAllMap.put(selfposition, mAllList.get(selfposition).getInputContainer());// 获取每个适配的输入item的集合
+        for (int i = 0; i < mAllList.size(); i++) {
+            Map<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
+            mAllMap.put(i, integerObjectMap);
+        }
+        mAllMap.put(selfposition, mAllList.get(selfposition).getInputContainer());// 获取每个适配的输入item的集合
 
-            inbasebean.setmCompletionAllMap(mAllMap);
+        inbasebean.setmCompletionAllMap(mAllMap);
 
-            submit.submitCompletionFragment(inbasebean);//通知activity这次的作答答案
+        submit.submitCompletionFragment(inbasebean);//通知activity这次的作答答案
     }
 
     /*是activity翻页后通知自己*/

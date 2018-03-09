@@ -78,12 +78,13 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+
         return showRightList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return showRightList.size();
+        return null;
     }
 
     @Override
@@ -105,14 +106,16 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
             holderView.editext = (EditText) convertView.findViewById(R.id.editext);
             holderView.tv_rightanswer = (TextView) convertView.findViewById(R.id.tv_rightanswer);
-            holderView.tv_num = (TextView) convertView.findViewById(R.id.tv_num);
+//            holderView.tv_num = (TextView) convertView.findViewById(R.id.tv_num);
 
-            if (position == 0) {
-                holderView.tv_num.setVisibility(View.VISIBLE);
-                holderView.tv_num.setText((this.selfposition + 1) + ".");
-            } else {
-                holderView.tv_num.setVisibility(View.GONE);
-            }
+//            if (position == 0) {
+//                Logger.d("position:------------" + position);
+//                holderView.tv_num.setVisibility(View.VISIBLE);
+//                holderView.tv_num.setText((this.selfposition + 1) + ".");
+//            } else {
+//                Logger.d("position:------------" + position);
+//                holderView.tv_num.setVisibility(View.GONE);
+//            }
 
             // 注册上自己写的焦点监听
             holderView.editext.setOnFocusChangeListener(myFoucus);
@@ -193,7 +196,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
     class HolderView {
         EditText editext;
         TextView tv_rightanswer;
-        TextView tv_num;
+//        TextView tv_num;
     }
 
     class EditChangedListener implements TextWatcher {

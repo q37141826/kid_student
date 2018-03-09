@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            android:scrollbars="none">
+<cn.dajiahui.kid.ui.homework.view.ScrollViewExtend
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fadingEdge="none"
+    android:fitsSystemWindows="true"
+    android:overScrollMode="never"
+    android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -54,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/img_conment"
-            android:layout_marginLeft="57dp"
+            android:layout_marginLeft="55dp"
             android:layout_marginTop="16dp">
         </RelativeLayout>
 
@@ -63,9 +66,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/stemroot"
-            android:layout_marginLeft="57dp"
+            android:layout_marginLeft="55dp"
+            android:layout_marginRight="60dp"
             android:orientation="horizontal">
         </RelativeLayout>
 
     </RelativeLayout>
-</ScrollView>
+</cn.dajiahui.kid.ui.homework.view.ScrollViewExtend>
