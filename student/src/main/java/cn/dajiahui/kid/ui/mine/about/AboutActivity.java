@@ -1,29 +1,10 @@
 package cn.dajiahui.kid.ui.mine.about;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.fxtx.framework.http.ErrorCode;
-import com.fxtx.framework.http.callback.ResultCallback;
-import com.fxtx.framework.json.GsonType;
-import com.fxtx.framework.json.HeadJson;
-import com.fxtx.framework.log.ToastUtil;
-import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxActivity;
-import com.squareup.okhttp.Request;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.controller.Constant;
-import cn.dajiahui.kid.http.RequestUtill;
-import cn.dajiahui.kid.ui.mine.adapter.ApHelp;
-import cn.dajiahui.kid.ui.mine.bean.BeHelp;
-import cn.dajiahui.kid.util.DjhJumpUtil;
 
 
 /**
@@ -31,80 +12,80 @@ import cn.dajiahui.kid.util.DjhJumpUtil;
  */
 public class AboutActivity extends FxActivity {
 
-    protected TextView tvNull;
-    protected ListView listView;
-    protected List<BeHelp> helpList = new ArrayList<BeHelp>();
-    protected ApHelp adapter;
+//    protected TextView tvNull;
+//    protected ListView listView;
+//    protected List<BeHelp> helpList = new ArrayList<BeHelp>();
+//    protected ApHelp adapter;
 
     @Override
     protected void initView() {
         setContentView(R.layout.activity_about);
-        tvNull = getView(R.id.tv_null);
-        listView = getView(R.id.help_listview);
-        listView.setEmptyView(tvNull);
-        adapter = new ApHelp(context, helpList);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(itemListener);
-        httpData();
+//        tvNull = getView(R.id.tv_null);
+//        listView = getView(R.id.help_listview);
+//        listView.setEmptyView(tvNull);
+//        adapter = new ApHelp(context, helpList);
+//        listView.setAdapter(adapter);
+//        listView.setOnItemClickListener(itemListener);
+//        httpData();
     }
 
-    private AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String isTarget = helpList.get(position).getIsTarget();
-            BeHelp help = helpList.get(position);
-            if (StringUtil.sameStr("1", isTarget)) {
-                // 跳转WebView
-                DjhJumpUtil.getInstance().startWebActivity(context, help.getCmsName(), help.getCmsUrl(), false);
-            } else {
-                // 进入下一级界面
-                Bundle bundle = new Bundle();
-                bundle.putString(Constant.bundle_title, help.getCmsName());
-                bundle.putSerializable(Constant.bundle_obj, help.getAllList());
-                DjhJumpUtil.getInstance().startBaseActivity(AboutActivity.this, AllFounctionActivity.class, bundle, 0);
-            }
-        }
-    };
+//    private AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            String isTarget = helpList.get(position).getIsTarget();
+//            BeHelp help = helpList.get(position);
+//            if (StringUtil.sameStr("1", isTarget)) {
+//                // 跳转WebView
+//                DjhJumpUtil.getInstance().startWebActivity(context, help.getCmsName(), help.getCmsUrl(), false);
+//            } else {
+//                // 进入下一级界面
+//                Bundle bundle = new Bundle();
+//                bundle.putString(Constant.bundle_title, help.getCmsName());
+//                bundle.putSerializable(Constant.bundle_obj, help.getAllList());
+//                DjhJumpUtil.getInstance().startBaseActivity(AboutActivity.this, AllFounctionActivity.class, bundle, 0);
+//            }
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setfxTtitle("使用帮助");
+        setfxTtitle("关于摩尔");
         onBackText();
     }
 
     @Override
     protected void dismissfxDialog(int flag) {
         super.dismissfxDialog(flag);
-        tvNull.setText(R.string.not_data);
+//        tvNull.setText(R.string.not_data);
     }
 
-    @Override
-    public void httpData() {
-        showfxDialog();
-        RequestUtill.getInstance().httpHelp(context, "1", new ResultCallback() {
-            @Override
-            public void onError(Request request, Exception e) {
-                dismissfxDialog();
-                ToastUtil.showToast(context, ErrorCode.error(e));
-            }
-
-            @Override
-            public void onResponse(String response) {
-                dismissfxDialog();
-                HeadJson json = new HeadJson(response);
-                if (json.getstatus() == 0) {
-                    List<BeHelp> temp = json.parsingListArray(new GsonType<List<BeHelp>>() {
-                    });
-                    if (temp != null && temp.size() > 0) {
-                        helpList.clear();
-                        helpList.addAll(temp);
-                    }
-                    adapter.notifyDataSetChanged();
-                } else {
-                    ToastUtil.showToast(context, json.getMsg());
-                }
-            }
-        });
-    }
+//    @Override
+//    public void httpData() {
+//        showfxDialog();
+//        RequestUtill.getInstance().httpHelp(context, "1", new ResultCallback() {
+//            @Override
+//            public void onError(Request request, Exception e) {
+//                dismissfxDialog();
+//                ToastUtil.showToast(context, ErrorCode.error(e));
+//            }
+//
+//            @Override
+//            public void onResponse(String response) {
+//                dismissfxDialog();
+//                HeadJson json = new HeadJson(response);
+//                if (json.getstatus() == 0) {
+//                    List<BeHelp> temp = json.parsingListArray(new GsonType<List<BeHelp>>() {
+//                    });
+//                    if (temp != null && temp.size() > 0) {
+//                        helpList.clear();
+//                        helpList.addAll(temp);
+//                    }
+//                    adapter.notifyDataSetChanged();
+//                } else {
+//                    ToastUtil.showToast(context, json.getMsg());
+//                }
+//            }
+//        });
+//    }
 }

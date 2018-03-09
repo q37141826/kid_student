@@ -50,7 +50,6 @@ public class HomeWorkDetailsActivity extends FxActivity {
     private ApHomeWorkDetail apHomeWorkDetail;
 
     @Override
-
     protected void initView() {
         setContentView(R.layout.activity_home_work_details);
     }
@@ -112,7 +111,9 @@ public class HomeWorkDetailsActivity extends FxActivity {
     public void httpData() {
         super.httpData();
         showfxDialog();
+
         RequestUtill.getInstance().httpGetStudentHomeWorkDetails(HomeWorkDetailsActivity.this, callHomeWorkDetails, homework_id);
+
     }
 
     /**

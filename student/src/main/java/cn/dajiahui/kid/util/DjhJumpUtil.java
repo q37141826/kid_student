@@ -38,6 +38,10 @@ public class DjhJumpUtil extends JumpUtil {
     public final int activtiy_UserSet = 5001;
     public final int activtiy_ClassInfo = 4002;  // 班级信息 1.进入班级空间 2.退出班级
 
+    public final int activity_answerCard = 7000;
+    public final int activity_todohomework = 7100;
+    public final int activity_answerCardComplete= 7200;
+    public final int activity_answerCardSubmit= 7300;
 
     private DjhJumpUtil() {
     }

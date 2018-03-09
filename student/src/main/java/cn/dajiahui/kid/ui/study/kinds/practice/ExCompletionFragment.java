@@ -241,12 +241,12 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
 
             /*填写答案之后，然后在翻页回来再修改答案的bug*/
             for (int i = 0; i < mAllAdapterList.size(); i++) {
-                Map<Integer, String> integerObjectMap = inbasebean.getmAllMap().get(i);
+                Map<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
                 mAllMap.put(i, integerObjectMap);
             }
 //            Logger.d("zzzzzzin:" + mAllAdapterList.get(selfposition).getInputContainer());
             mAllMap.put(selfposition, mAllAdapterList.get(selfposition).getInputContainer());// 获取每个适配的输入item的集合
-            inbasebean.setmAllMap(mAllMap);
+            inbasebean.setmCompletionAllMap(mAllMap);
 
             submit.submitCompletionFragment(inbasebean);//通知activity这次的作答答案
         }
@@ -272,7 +272,7 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
             }
             /*获取我的答案*/
             for (int i = 0; i < mAllAdapterList.size(); i++) {
-                Map<Integer, String> integerStringMap = inbasebean.getmAllMap().get(i);
+                Map<Integer, String> integerStringMap = inbasebean.getmCompletionAllMap().get(i);
 
                 Logger.d("integerStringMap:" + integerStringMap);
                 StringBuffer buffer = new StringBuffer();
@@ -318,7 +318,7 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
 
 //                /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/
             for (int i = 0; i < mAllAdapterList.size(); i++) {
-                Map<Integer, String> integerObjectMap = inbasebean.getmAllMap().get(i);
+                Map<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
                 mAllAdapterList.get(i).setInputContainer(integerObjectMap, inbasebean, mRightanswer.get(i).getShowRightList());
             }
 

@@ -1,12 +1,14 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by mj on 2018/2/15.
  * <p>
  * 解析教材选择的子集合
  */
 
-public class BeChoiceTeachingMaterialLists {
+public class BeChoiceTeachingMaterialLists  implements Serializable{
 
 
     private String count;

@@ -1,11 +1,13 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
+
 import cn.dajiahui.kid.util.BeanObj;
 
 /**
  * Created by Administrator on 2016/3/23.
  */
-public class BeCommission extends BeanObj {
+public class BeCommission extends BeanObj implements Serializable {
 
     private String content;
     private String foreignId;

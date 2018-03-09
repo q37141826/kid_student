@@ -9,17 +9,28 @@ import java.io.Serializable;
  */
 
 public class BeAnswerCArd implements Serializable {
-    private String is_auto = "0";
-    private String is_right = "0";
+    private String is_auto = "";
+    private String is_right = "";
     private String my_answer = "";
-    private String question_cate_id;
-    private String question_id;
+    private String question_cate_id = "";
+    private String question_id = "";
 
     private int current_num;//当前是第几题
     private String answerFlag = "";//作答标记
+    private String is_complete;//是否完成
 
+    /*正在答题时显示的答题卡*/
+    public BeAnswerCArd(int current_num, String answerFlag) {
+        this.current_num = current_num;
+        this.answerFlag = answerFlag;
 
-    public BeAnswerCArd(String is_auto, String is_right, String my_answer, String question_cate_id, String question_id, int current_num) {
+    }
+
+    public BeAnswerCArd(
+            String is_auto, String is_right,
+            String my_answer, String question_cate_id,
+            String question_id, int current_num) {
+
         this.is_auto = is_auto;
         this.is_right = is_right;
         this.my_answer = my_answer;
@@ -84,14 +95,5 @@ public class BeAnswerCArd implements Serializable {
         this.question_id = question_id;
     }
 
-    @Override
-    public String toString() {
-        return "BeAnswerCArd{" +
-                "is_auto='" + is_auto + '\'' +
-                ", is_right='" + is_right + '\'' +
-                ", my_answer='" + my_answer + '\'' +
-                ", question_cate_id='" + question_cate_id + '\'' +
-                ", question_id='" + question_id + '\'' +
-                '}';
-    }
+
 }

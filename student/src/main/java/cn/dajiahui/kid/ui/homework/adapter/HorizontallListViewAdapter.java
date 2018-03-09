@@ -138,7 +138,11 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
         if (this.inputContainer.containsKey(position)) {
             if (this.inputContainer.get(position) != null) {
-                holderView.editext.setText(this.inputContainer.get(position).toString());
+                if (this.inputContainer.get(position).toString().equals("㊒")) {
+                    holderView.editext.setText("");
+                } else {
+                    holderView.editext.setText(this.inputContainer.get(position).toString());
+                }
             }
         } else {
             holderView.editext.setText("");
@@ -155,14 +159,17 @@ public class HorizontallListViewAdapter extends BaseAdapter {
                 List<CompletionQuestionadapterItemModle> cm = showRightList.get(position);
 
                 for (int i = 0; i < cm.size(); i++) {
-                    /*显示正确答案*/
-                    holderView.editext.setText(cm.get(i).getShowItemMy());
+                    /*显示我的答案*/
+                    if (!cm.get(i).getShowItemMy().equals("㊒")) {
+                        holderView.editext.setText(cm.get(i).getShowItemMy());
+                    }
                     /*字母显示绿色 框显示绿色*/
                     if (cm.get(i).getShowItemRightColor() == 0) {
                         holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_green);
                         holderView.editext.setTextColor(mContext.getResources().getColor(R.color.green));
                     } else {
                         holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_red);
+                         /*显示正确答案*/
                         holderView.tv_rightanswer.setText(cm.get(i).getShowItemright());
                         holderView.editext.setTextColor(mContext.getResources().getColor(R.color.red));
                         holderView.tv_rightanswer.setVisibility(View.VISIBLE);

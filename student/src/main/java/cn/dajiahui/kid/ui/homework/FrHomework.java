@@ -59,10 +59,10 @@ public class FrHomework extends FxFragment {
 
         apHomework = new ApHomework(getActivity(), mHomeWorklists);//
         mListview.setAdapter(apHomework);
-        if (!isCreateView) {
-            isCreateView = true;
-            homeworkHttp();
-        }
+//        if (!isCreateView) {
+//            isCreateView = true;
+//            homeworkHttp();
+//        }
 
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -88,6 +88,7 @@ public class FrHomework extends FxFragment {
     @Override
     public void onResume() {
         super.onResume();
+        homeworkHttp();
     }
 
     /*网络请求*/

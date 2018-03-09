@@ -1,11 +1,13 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by lenovo on 2018/1/11.
  * 排序题 Options
  */
 
-public class BeSortOptions {
+public class BeSortOptions implements Serializable {
     private String content;
     private String label;
     private String type;

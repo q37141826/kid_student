@@ -24,7 +24,7 @@ public class SortQuestionModle extends QuestionModle {
     private String unit_id;
 //    private String is_answer = "";//是否作答(后台)
     private String my_answer = "";//已经上传的作答答案
-    private String is_right = "";//是否正确
+    private String is_right = "";//1是否正确
     private String is_auto = "";//
 
 

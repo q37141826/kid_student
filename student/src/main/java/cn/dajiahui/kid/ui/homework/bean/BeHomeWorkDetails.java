@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * 作业详情初级页面
  */
 
-public class BeHomeWorkDetails {
+public class BeHomeWorkDetails implements Serializable {
 
 
     private String all_students;

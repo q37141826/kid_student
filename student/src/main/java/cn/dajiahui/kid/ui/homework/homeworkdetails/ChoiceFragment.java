@@ -69,7 +69,7 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "选择" + (position + 1) + "答案", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "选择" + (position + 1) + "答案", Toast.LENGTH_SHORT).show();
                 inbasebean.setChoiceitemposition(position);//保存选择题当前item的索引 用于 翻页回来后指定某个item选择状态
               /*刷新ui*/
                 apChoice.changeState(getActivity(), submit, position, inbasebean);

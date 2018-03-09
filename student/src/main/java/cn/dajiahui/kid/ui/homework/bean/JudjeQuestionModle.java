@@ -22,7 +22,7 @@ public class JudjeQuestionModle extends QuestionModle {
     private String unit_id;
     //    private String is_answer;//是否作答(后台提供)
     private String my_answer;//已经上传的作答答案
-    private String is_right;//是否正确
+    private String is_right;//1正确 0错误
     private String is_auto;//
 
 

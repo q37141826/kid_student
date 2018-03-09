@@ -2,11 +2,7 @@ package cn.dajiahui.kid.ui.mine.about;
 
 import android.os.Bundle;
 
-import java.util.ArrayList;
-
-import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
-import cn.dajiahui.kid.ui.mine.bean.BeHelp;
 
 
 /**
@@ -23,10 +19,10 @@ public class AllFounctionActivity extends AboutActivity {
 
     @Override
     public void httpData() {
-        ArrayList<BeHelp> BeHelp = (ArrayList) getIntent().getSerializableExtra(Constant.bundle_obj);
-        if (BeHelp != null)
-            helpList.addAll(BeHelp);
-        adapter.notifyDataSetChanged();
-        tvNull.setText(R.string.not_data);
+//        ArrayList<BeHelp> BeHelp = (ArrayList) getIntent().getSerializableExtra(Constant.bundle_obj);
+//        if (BeHelp != null)
+//            helpList.addAll(BeHelp);
+//        adapter.notifyDataSetChanged();
+//        tvNull.setText(R.string.not_data);
     }
 }

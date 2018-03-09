@@ -20,7 +20,6 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BeHomework;
 import cn.dajiahui.kid.util.DateUtils;
-import cn.dajiahui.kid.util.Logger;
 
 /**
  * 作业列表
@@ -68,10 +67,10 @@ public class ApHomework extends CommonAdapter<BeHomework> {
         task_endtime.setText("截止时间：" + DateUtils.time(item.getEnd_time()));//作业时间
 
         if (TimeCompare(item)) {
-            if (item.getIs_checked().equals("0")) {
-                tv_dohomework.setText("做作业");
+            if (item.getIs_complete().equals("1")) {
+                tv_dohomework.setText("已完成");
             } else {
-                tv_dohomework.setText("查看");
+                tv_dohomework.setText("做作业");
             }
             tv_dohomework.setBackgroundResource(R.drawable.round_bgyellow_homwwork);
 

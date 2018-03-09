@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Map;
  */
 
 
-public class CompletionQuestionModle extends QuestionModle {
+public class CompletionQuestionModle extends QuestionModle implements Serializable {
 
     private String book_id;
     private String id;
@@ -24,21 +25,19 @@ public class CompletionQuestionModle extends QuestionModle {
     private String standard_answer;//参考答案
     private String title;
     private String unit_id;
-//    private String is_answer = "";//是否作答
+    //    private String is_answer = "";//是否作答
     private String my_answer;//已经上传的作答答案
     private String is_right;//是否正确
     private String is_auto;//自动提交是1  不自动提交是0
 
-    private String analysisAnswer = "";//解析的正确答案
-    private String analysisMineAnswer = "";//解析的我的答案
+
     private String isFocusable = "";//editext焦点标记  yes 有焦点  no无焦点
     private String isShowRightAnswer = "";//显示正确答案 yes 显示正确答案  no不显示正确答案
     private String textcolor = "";//设置字体和边框颜色
 
+    private Map<Integer, Map<Integer, String>> mCompletionAllMap = new HashMap<>();//填空題我的答案
 
     private List<List<CompletionQuestionadapterItemModle>> showRightList = new ArrayList();
-
-    private List<CompletionQuestionadapterItemModle> showRightItemList=new ArrayList();
 
     public List<List<CompletionQuestionadapterItemModle>> getShowRightList() {
         return showRightList;
@@ -48,31 +47,6 @@ public class CompletionQuestionModle extends QuestionModle {
         this.showRightList = showRightList;
     }
 
-    public List<CompletionQuestionadapterItemModle> getShowRightItemList() {
-        return showRightItemList;
-    }
-
-    public void setShowRightItemList(List<CompletionQuestionadapterItemModle> showRightItemList) {
-        this.showRightItemList = showRightItemList;
-    }
-
-
-
-    public String getAnalysisMineAnswer() {
-        return analysisMineAnswer;
-    }
-
-    public void setAnalysisMineAnswer(String analysisMineAnswer) {
-        this.analysisMineAnswer = analysisMineAnswer;
-    }
-
-    public String getAnalysisAnswer() {
-        return analysisAnswer;
-    }
-
-    public void setAnalysisAnswer(String analysisAnswer) {
-        this.analysisAnswer = analysisAnswer;
-    }
 
     public String getTextcolor() {
         return textcolor;
@@ -98,24 +72,14 @@ public class CompletionQuestionModle extends QuestionModle {
         this.isFocusable = isFocusable;
     }
 
-    private Map<Integer, Map<Integer, String>> mAllMap = new HashMap<>();//保存自己答案的集合
 
-    public Map<Integer, Map<Integer, String>> getmAllMap() {
-        return mAllMap;
+    public Map<Integer, Map<Integer, String>> getmCompletionAllMap() {
+        return mCompletionAllMap;
     }
 
-    public void setmAllMap(Map<Integer, Map<Integer, String>> mAllMap) {
-        this.mAllMap = mAllMap;
+    public void setmCompletionAllMap(Map<Integer, Map<Integer, String>> mCompletionAllMap) {
+        this.mCompletionAllMap = mCompletionAllMap;
     }
-
-
-//    public String getIs_answer() {
-//        return is_answer;
-//    }
-//
-//    public void setIs_answer(String is_answer) {
-//        this.is_answer = is_answer;
-//    }
 
     public String getMy_answer() {
         return my_answer;

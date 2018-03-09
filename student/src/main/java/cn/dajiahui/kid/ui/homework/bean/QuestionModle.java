@@ -13,47 +13,36 @@ import java.util.Map;
 
 public class QuestionModle extends BeBaseModle implements Serializable {
 
-    public QuestionModle() {
-    }
-
-    /*答题卡使用*/
-    public QuestionModle(int currentpage) {
-        this.currentpage = currentpage;
-
-    }
-
     /////////////////////////////////////////////////////
     private int currentpage = 0;//记录当前的页数
     private String answerflag = "";//学生作答标记（是否 作答 true false ）
     private int eachposition;//每个题对应数据源的索引
     private int choiceitemposition = -1;//记录选择题选的索引（用于翻页回来设置指定选项处于备选状态）
-    private int allTotal = 0;//所有题的数量
+
     private String SourceFlag = "";//来源标记  区别是作业还是练习
     private String is_answered;//0 未回答  1 已回答
     private boolean Answer = false;//练习模块中  是否作答
 
     /*排序题我的答案*/
-    private List<String> initMyanswerList = new ArrayList<>();//我的答案的集合（val值）
+    private List<String> initSortMyanswerList = new ArrayList<>();//我的答案的集合（val值）;//初始我的答案集合（用于获取我的答案顺序）
 
     /*连线题我的答案集合*/
-    private Map<String, String> myanswerMap = new HashMap<>();//我的答案集合（val对应）
+    private Map<String, String> initLineMyanswerMap = new HashMap<>();//连线题我的答案集合（val对应）
 
-
-    public Map<String, String> getMyanswerMap() {
-        return myanswerMap;
+    public Map<String, String> getInitLineMyanswerMap() {
+        return initLineMyanswerMap;
     }
 
-    public void setMyanswerMap(Map<String, String> myanswerMap) {
-        this.myanswerMap = myanswerMap;
+    public void setInitLineMyanswerMap(Map<String, String> initLineMyanswerMap) {
+        this.initLineMyanswerMap = initLineMyanswerMap;
     }
 
-
-    public List<String> getInitMyanswerList() {
-        return initMyanswerList;
+    public List<String> getInitSortMyanswerList() {
+        return initSortMyanswerList;
     }
 
-    public void setInitMyanswerList(List<String> initMyanswerList) {
-        this.initMyanswerList = initMyanswerList;
+    public void setInitSortMyanswerList(List<String> initSortMyanswerList) {
+        this.initSortMyanswerList = initSortMyanswerList;
     }
 
     public String getIs_answered() {
@@ -106,14 +95,6 @@ public class QuestionModle extends BeBaseModle implements Serializable {
         this.answerflag = answerflag;
     }
 
-//
-//    public String getSubmitAnswer() {
-//        return submitAnswer;
-//    }
-//
-//    public void setSubmitAnswer(String submitAnswer) {
-//        this.submitAnswer = submitAnswer;
-//    }
 
     public int getEachposition() {
         return eachposition;
@@ -130,14 +111,6 @@ public class QuestionModle extends BeBaseModle implements Serializable {
 
     public void setChoiceitemposition(int choiceitemposition) {
         this.choiceitemposition = choiceitemposition;
-    }
-
-    public int getAllTotal() {
-        return allTotal;
-    }
-
-    public void setAllTotal(int allTotal) {
-        this.allTotal = allTotal;
     }
 
 

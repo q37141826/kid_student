@@ -1,16 +1,18 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by mj on 2018/2/6.
  * <p>
  * 作业详情的答题卡
  */
 
-public class BeAnswerSheet {
+public class BeAnswerSheet implements Serializable {
     private String id;
     private String is_answered;
     private String is_auto;    /*1代表自动提交  0 手动提交*/
-    private String is_right;//0 正确
+    private String is_right;//1 正确
     private String my_answer;
     private String standard_answer;
 

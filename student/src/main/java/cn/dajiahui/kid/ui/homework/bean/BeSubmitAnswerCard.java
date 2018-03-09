@@ -1,12 +1,14 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by mj on 2018/2/7.
  * <p>
  * 提交答题卡
  */
 
-public class BeSubmitAnswerCard {
+public class BeSubmitAnswerCard implements Serializable {
 
     private String question_id;//当前题的id
     private String question_cate_id;//题型
@@ -57,6 +59,7 @@ public class BeSubmitAnswerCard {
                 ", my_answer='" + my_answer + '\'' +
                 ", is_right='" + is_right + '\'' +
                 ", is_auto='" + is_auto + '\'' +
+                ", is_answered='" + is_answered + '\'' +
                 '}';
     }
 }

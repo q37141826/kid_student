@@ -178,7 +178,7 @@ public abstract class OkHttpRequest {
 
 
         public OkHttpRequest post(ResultCallback callback) {
-
+            Log.d("majin", "url" + url + "  params:" + params);
             OkHttpRequest request = new OkHttpPostRequest(url, tag, params, headers, mediaType, content, bytes, file, json);
             request.invokeAsyn(callback);
             return request;

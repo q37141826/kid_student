@@ -45,7 +45,6 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     private Map<Integer, Map<Integer, String>> mAllMap = new HashMap<>();//存所有答案的集合（key： 第几个listview  val：listview对应的数据）
 
     private int mTop = 0;//初始距离上端
-    private int mToptv = 0;//初始距离上端
     private List<CompletionQuestionModle> mRightanswer = new ArrayList<>();//正确答案模型的集合
 
 
@@ -90,7 +89,6 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         /*解析正确答案（后台获取的正确答案）۞    分隔单词  然后自己拆分一个单词几个字母*/
         String standard_answer = inbasebean.getStandard_answer();
         String[] strs = standard_answer.split("۞");
-
 
        /*截取正确答案字符串  添加到mRightanswer集合*/
         for (int i = 0, len = strs.length; i < len; i++) {
@@ -138,6 +136,14 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         /* size 填写有几道填空题 后台提供*/
         addHorizontalListView(standardAnswerList.size());
 
+        /*初始化 每个adapter里的item的值*/
+        for (int a = 0; a < standardAnswerList.size(); a++) {
+            Map inputContainer = mAllList.get(a).getInputContainer();
+
+            for (int q = 0; q < standardAnswerList.get(a).length(); q++) {
+                inputContainer.put(q, "㊒");
+            }
+        }
     }
 
     /*添加填空题题干*/
@@ -148,28 +154,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         stemroot.addView(textView);
     }
 
-//    /*准备数据源是每个横划的listview的集合数据*/
-//    private Map<Integer, CompletionQuestionModle> getData() {
-//
-//        Map<Integer, CompletionQuestionModle> map = new HashMap<>();
-//
-//        Logger.d("集和长度：" + mRightanswer.size());
-//
-//
-//            /*不对*/
-//        for (int i = 0; i < mRightanswer.size(); i++) {
-//
-//            for (int q = 0; q < standardAnswerList.get(i).length(); q++) {
-//                CompletionQuestionModle com = new CompletionQuestionModle();
-//                com.setAnalysisAnswer(mRightanswer.get(i).getAnalysisAnswer());
-//                com.setAnalysisMineAnswer(mRightanswer.get(i).getAnalysisMineAnswer());
-//                com.setTextcolor(mRightanswer.get(i).getTextcolor());
-//
-//                map.put(q, com);
-//            }
-//        }
-//        return map;
-//    }
+
 
     /*添加布局*/
     @SuppressLint("ResourceType")
@@ -179,10 +164,9 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
             HorizontalListView horizontalListView = new HorizontalListView(getActivity());
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300);
-//            params.weight = 1;
             params.topMargin = mTop;
             params.leftMargin = 30;
-            mTop += 200;
+            mTop += 300;
 
             horizontalListView.setLayoutParams(params);
 
@@ -266,21 +250,21 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
     /*监听editext输入*/
     @Override
+
     public void submitEditextInfo(int selfposition) {
-        if (inbasebean.isAnswer() == false) {
+
             inbasebean.setAnswerflag("true");
 
             /*填写答案之后，然后在翻页回来再修改答案的bug*/
             for (int i = 0; i < mAllList.size(); i++) {
-                Map<Integer, String> integerObjectMap = inbasebean.getmAllMap().get(i);
+                Map<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
                 mAllMap.put(i, integerObjectMap);
             }
-
             mAllMap.put(selfposition, mAllList.get(selfposition).getInputContainer());// 获取每个适配的输入item的集合
-            inbasebean.setmAllMap(mAllMap);
+
+            inbasebean.setmCompletionAllMap(mAllMap);
 
             submit.submitCompletionFragment(inbasebean);//通知activity这次的作答答案
-        }
     }
 
     /*是activity翻页后通知自己*/
@@ -292,7 +276,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
                 /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/
                 for (int i = 0; i < mAllList.size(); i++) {
-                    Map<Integer, String> integerObjectMap = inbasebean.getmAllMap().get(i);
+                    Map<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
                     mAllList.get(i).setInputContainer(integerObjectMap);
                 }
             }

@@ -447,6 +447,8 @@
 
         <activity android:name=".ui.mine.notice.NoticeDetailsActivity">
         </activity>
+        <activity android:name=".ui.homework.homeworkdetails.AnswerCardCompleteActivity">
+        </activity>
     </application>
 
 </manifest>

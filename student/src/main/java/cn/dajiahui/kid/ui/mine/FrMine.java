@@ -13,6 +13,7 @@ import com.fxtx.framework.ui.FxFragment;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
+import cn.dajiahui.kid.ui.mine.about.AboutActivity;
 import cn.dajiahui.kid.ui.mine.myclass.MyClassActivity;
 import cn.dajiahui.kid.ui.mine.myworks.MyWorksActivity;
 import cn.dajiahui.kid.ui.mine.notice.NoticeActivity;
@@ -47,9 +48,7 @@ public class FrMine extends FxFragment {
         initialize();
 //        /*获取网络数据*/
 //        mineHttp();
-        /*网络请求后设置*/
-        GlideUtil.showRoundImage(getContext(), UserController.getInstance().getUser().getAvatar(), imUser, R.drawable.ico_default_user, true);
-        initData();
+//        initData();
 
 
     }
@@ -120,7 +119,7 @@ public class FrMine extends FxFragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        initData();
     }
 
 
@@ -143,7 +142,7 @@ public class FrMine extends FxFragment {
                     DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MyWorksActivity.class);
                     break;
                 case R.id.tvAbout: //关于
-//                  DjhJumpUtil.getInstance().startBaseActivity(getActivity(),  AboutActivity.class);
+                  DjhJumpUtil.getInstance().startBaseActivity(getActivity(),  AboutActivity.class);
 //                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), ChivoxMainActivity.class); // 驰声测试用
                     break;
                 case R.id.tvNotice: //通知

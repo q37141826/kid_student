@@ -76,7 +76,7 @@ public class SortFragment extends BaseHomeworkFragment implements
     private TextView tv_sort;
     private ImageView sort_img_play;//播放器按钮
 
-    private List<String> initMyanswerList = new ArrayList<>();//初始我的答案集合（用于获取我的答案顺序）
+//    private List<String> initMyanswerList = new ArrayList<>();//初始我的答案集合（用于获取我的答案顺序）
 
 
     public static boolean isLinecheck = false;//江湖救急  后续更改
@@ -117,7 +117,7 @@ public class SortFragment extends BaseHomeworkFragment implements
                         sortMineAnswerMap.put((i + 1), beLocation);
                         pointRightList.add(beLocation);
                         pRightY = (pRightY += 300);//左边所有点的y坐标
-                        initMyanswerList.add("");
+                        inbasebean.getInitSortMyanswerList().add("㊒");
                     }
                     Message msg2 = Message.obtain();
                     msg2.what = PREPMINEARERIGHT;
@@ -403,8 +403,8 @@ public class SortFragment extends BaseHomeworkFragment implements
                     inbasebean.setSortAnswerMap(mMineAnswerMap);//我的答案的集合
                     inbasebean.setAnswerflag("true");//答题标志
 
-                    initMyanswerList.set(i, mBeforeView.val);
-                    inbasebean.setInitMyanswerList(initMyanswerList);
+                    inbasebean.getInitSortMyanswerList().set(i, mBeforeView.val);
+//                    inbasebean.setInitMyanswerList(initMyanswerList);
                     submit.submitSoreFragment(inbasebean);//告诉活动每次连线的数据
 
                     return beLocation;

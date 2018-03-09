@@ -1,10 +1,12 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by lenovo on 2018/2/26.
  */
 
-public class CompletionQuestionadapterItemModle {
+public class CompletionQuestionadapterItemModle  implements Serializable {
     private String showItemright;//显示正确答案
     private String showItemMy;//显示我的答案
     private int showItemRightColor = -1;//0正确 绿色 1 错误 红色

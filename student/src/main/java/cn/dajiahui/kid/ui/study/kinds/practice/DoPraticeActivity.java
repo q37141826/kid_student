@@ -245,8 +245,8 @@ public class DoPraticeActivity extends FxActivity
 
 //                                SortQuestionModle sortQuestionModle = (SortQuestionModle) mDatalist.get(praticeCurrentPosition);
                                         /*判断是否做完题 */
-                                for (int i = 0; i < questionModle.getInitMyanswerList().size(); i++) {
-                                    if (questionModle.getInitMyanswerList().get(i).equals("")) {
+                                for (int i = 0; i < questionModle.getInitSortMyanswerList().size(); i++) {
+                                    if (questionModle.getInitSortMyanswerList().get(i).equals("")) {
                                         questionModle.setAnswer(false);
                                         Toast.makeText(context, "答题未完成，请继续...", Toast.LENGTH_SHORT).show();
                                         return;
@@ -259,7 +259,7 @@ public class DoPraticeActivity extends FxActivity
                             /*连线题*/
                             else if (questionModle.getQuestion_cate_id().equals(Constant.Line)) {
                                 ExLineFragment linFragment = (ExLineFragment) frMap.get(praticeCurrentPosition);
-                                Map<String, String> myanswerMap = questionModle.getMyanswerMap();
+                                Map<String, String> myanswerMap = questionModle.getInitLineMyanswerMap();
                                 LineQuestionModle lineQuestionModle = (LineQuestionModle) mDatalist.get(praticeCurrentPosition);
 
                                 if (myanswerMap.size() == lineQuestionModle.getOptions().getRight().size()) {
@@ -445,7 +445,7 @@ public class DoPraticeActivity extends FxActivity
         SortQuestionModle qm = (SortQuestionModle) PageMap.get(praticeCurrentPosition);
         qm.setAnswerflag(questionModle.getAnswerflag());//学生作答标记
         qm.setOptions(questionModle.getOptions());
-        qm.setInitMyanswerList(questionModle.getInitMyanswerList());//我的答案的集合（Val值 用于上传服务器）
+        qm.setInitSortMyanswerList(questionModle.getInitSortMyanswerList());//我的答案的集合（Val值 用于上传服务器）
 
     }
 
@@ -456,7 +456,7 @@ public class DoPraticeActivity extends FxActivity
         praticeCurrentPosition = questionModle.getEachposition();
         LineQuestionModle qm = (LineQuestionModle) PageMap.get(praticeCurrentPosition);
         qm.setAnswerflag(questionModle.getAnswerflag());//学生作答标记
-        qm.setMyanswerMap(questionModle.getMyanswerMap());
+        qm.setInitLineMyanswerMap(questionModle.getInitLineMyanswerMap());
 
     }
 
@@ -468,8 +468,8 @@ public class DoPraticeActivity extends FxActivity
         qm.setAnswerflag(questionModle.getAnswerflag());//学生作答标记
 
         //保存当前页面填空题的答案（用于翻页回来后 查找当前页的数据 i是从0开始）
-        for (int i = 0; i < questionModle.getmAllMap().size(); i++) {
-            qm.getmAllMap().put(i, questionModle.getmAllMap().get(i));
+        for (int i = 0; i < questionModle.getmCompletionAllMap().size(); i++) {
+            qm.getmCompletionAllMap().put(i, questionModle.getmCompletionAllMap().get(i));
         }
     }
 

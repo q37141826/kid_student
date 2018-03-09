@@ -1,27 +1,26 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by lenovo on 2018/1/21.
+ * Created by mj on 2018/1/21.
+ * <p>
+ * 做作业--》答题卡
  */
 
 public class BeSaveAnswerCard implements Serializable {
 
-    private HashMap<Integer, Object> PageMap;
     private String homework_id;
     private String is_complete;
-    private List<BeAnswerCArd> mAnswerCardList;
+    private List<Object> mDatalist;//所有数据的模型集合
 
-    public BeSaveAnswerCard(HashMap<Integer, Object> pageMap, String homework_id, List<BeAnswerCArd> mAnswerCardList, String is_complete) {
-        PageMap = pageMap;
+
+    public BeSaveAnswerCard(List<Object> mDatalist, String homework_id,   String is_complete) {
+        this.mDatalist = mDatalist;
         this.homework_id = homework_id;
-        this.mAnswerCardList = mAnswerCardList;
         this.is_complete = is_complete;
     }
-
     public String getIs_complete() {
         return is_complete;
     }
@@ -30,16 +29,8 @@ public class BeSaveAnswerCard implements Serializable {
         return homework_id;
     }
 
-    public HashMap<Integer, Object> getPageMap() {
-        return PageMap;
-    }
-
-    public void setPageMap(HashMap<Integer, Object> pageMap) {
-        PageMap = pageMap;
-    }
-
-    public List<BeAnswerCArd> getmAnswerCardList() {
-        return mAnswerCardList;
+    public List<Object> getmDatalist() {
+        return mDatalist;
     }
 
 

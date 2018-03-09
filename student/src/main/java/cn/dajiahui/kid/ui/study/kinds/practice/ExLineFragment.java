@@ -340,7 +340,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                           inbasebean.setAnswerflag("true");//答题标志
 
 //                        inbasebean.setDrawPathList(drawPathList);
-                        inbasebean.setMyanswerMap(myanswerMap);
+                        inbasebean.setInitLineMyanswerMap(myanswerMap);
                         submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
 
 

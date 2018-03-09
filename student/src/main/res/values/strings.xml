@@ -350,7 +350,7 @@
     <string name="tit_class">我的微课</string>
     <string name="reapply">重新提交申请成功</string>
     <string name="ask_for_code">请向教师索要班级码</string>
-    <string name="input_code">请输入要加入班级的班级的班级码</string>
+    <string name="input_code">请输入要加入班级的班级码</string>
     <string name="dialog_down_file">下载文件</string>
 
     <string name="sex">性   别</string>

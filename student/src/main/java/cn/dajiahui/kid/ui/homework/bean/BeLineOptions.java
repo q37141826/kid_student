@@ -1,6 +1,7 @@
 package cn.dajiahui.kid.ui.homework.bean;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * 解析 连线题 Options
  */
 
-public class BeLineOptions {
+public class BeLineOptions  implements Serializable {
     private List<BeLineLeft> left;
     private List<BeLineRight> right;
 

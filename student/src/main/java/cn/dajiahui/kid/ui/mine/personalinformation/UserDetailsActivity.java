@@ -30,6 +30,7 @@ import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.chat.constant.PreferenceManager;
+import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.ui.mine.bean.BeShowUserProfileInfo;
 import cn.dajiahui.kid.ui.mine.bean.BeUpUserIcon;
 import cn.dajiahui.kid.util.DjhJumpUtil;
@@ -57,6 +58,8 @@ public class UserDetailsActivity extends FxActivity {
         onBackText();
     }
 
+    private BeUser user;
+
     @Override
     protected void initView() {
         setContentView(R.layout.activity_user_details);
@@ -81,14 +84,18 @@ public class UserDetailsActivity extends FxActivity {
         ed_name = getView(R.id.ed_user_name_right);
         tvBirthay = getView(R.id.tv_user_age_right);
         tvSex = getView(R.id.tv_user_sex_right);
-
+        user = UserController.getInstance().getUser();
         /*监听姓名输入框*/
         ed_name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     /*修改姓名*/
                     changeUserIcon(1, ed_name.getText().toString());
+
+                    user.setNickname(ed_name.getText().toString());
                     /*隐藏软键盘*/
                     BaseUtil.hideSoftInput(UserDetailsActivity.this);
                     return true;
@@ -141,7 +148,7 @@ public class UserDetailsActivity extends FxActivity {
                             tvSex.setText("男");
                             changeUserIcon(2, "0");
                             fixSexDialog.dismiss();
-
+                            user.setGender("0");
                         }
                     });
                        /*选择女*/
@@ -151,6 +158,7 @@ public class UserDetailsActivity extends FxActivity {
                             tvSex.setText("女");
                             changeUserIcon(2, "1");
                             fixSexDialog.dismiss();
+                            user.setGender("1");
                         }
                     });
 

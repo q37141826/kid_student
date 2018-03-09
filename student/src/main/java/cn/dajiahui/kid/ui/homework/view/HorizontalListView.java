@@ -316,6 +316,11 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
             getParent().requestDisallowInterceptTouchEvent(true);
             return HorizontalListView.this.onFling(e1, e2, velocityX, velocityY);
 
+//            if (Math.abs(e2.getX() - e1.getX()) < Math.abs(e2.getY() - e1.getY())){
+//                return false;
+//            } else {
+//                return HorizontalListView.this.onFling(e1, e2, velocityX, velocityY);
+//            }
         }
 
         @Override

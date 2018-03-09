@@ -147,7 +147,7 @@ public class ApChoice extends BaseAdapter {
     /*改变当前选择item的状态*/
     public void changeState(Context context, ChoiceFragment.SubmitChoiseFragment submit, int pos, ChoiceQuestionModle inbasebean) {
         selectorPosition = pos;
-        Toast.makeText(context, "选择：" + mPptions.get(pos).getLabel(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "选择：" + mPptions.get(pos).getLabel(), Toast.LENGTH_SHORT).show();
 
         inbasebean.setAnswerflag("true");//学生作答标记
         inbasebean.setMy_answer(mPptions.get(pos).getVal());//学生作答答案

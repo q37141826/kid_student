@@ -519,8 +519,8 @@ public class RequestUtill {
     public void httpMyClass(Context context, ResultCallback callback, String pageSize, String page) {
         IdentityHashMap params = new IdentityHashMap<>();
         params.put("token", UserController.getInstance().getUser().getToken());
-        params.put("pageSize", UserController.getInstance().getUser().getToken());
-        params.put("page", UserController.getInstance().getUser().getToken());
+        params.put("pageSize", pageSize);
+        params.put("page", page);
 
         getHttpBuilder(context, "student/classroom/list").params(params).post(callback);
     }

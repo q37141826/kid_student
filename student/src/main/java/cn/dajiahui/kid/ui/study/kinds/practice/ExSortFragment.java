@@ -273,7 +273,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                     inbasebean.setAnswerflag("true");//答题标志
 
                     initMyanswerList.set(i, mBeforeView.val);
-                    inbasebean.setInitMyanswerList(initMyanswerList);
+                    inbasebean.setInitSortMyanswerList(initMyanswerList);
                     inbasebean.setOptions(inbasebean.getOptions());
                     submit.submitSoreFragment(inbasebean);//告诉活动每次连线的数据
 
@@ -338,11 +338,11 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             mRightTop = 0;
 
            /*遍历我的答案（自己作答答案）的集合*/
-            for (int i = 0; i < inbasebean.getInitMyanswerList().size(); i++) {
+            for (int i = 0; i < inbasebean.getInitSortMyanswerList().size(); i++) {
             /*遍历解析的集合找到 我的答案所对应的val*/
                 for (int t = 0; t < inbasebean.getOptions().size(); t++) {
                     /*如果val值相等*/
-                    if (inbasebean.getInitMyanswerList().get(i).equals(inbasebean.getOptions().get(t).getVal())) {
+                    if (inbasebean.getInitSortMyanswerList().get(i).equals(inbasebean.getOptions().get(t).getVal())) {
                         mMineContentList.add(inbasebean.getOptions().get(t).getContent());
                     }
                 }

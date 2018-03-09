@@ -56,8 +56,8 @@ public class StudyDetailsActivity extends FxActivity {
 
         list.add(new BeChoiceStudy("1", R.drawable.readingbook, "", "点读本", ""));
         list.add(new BeChoiceStudy("2", R.drawable.textbookplay, "", "课本剧", ""));
-        list.add(new BeChoiceStudy("3", R.drawable.cardpratice, "", "K拉OK", ""));
         list.add(new BeChoiceStudy("4", R.drawable.karaoke, "", "卡片练习", ""));
+        list.add(new BeChoiceStudy("3", R.drawable.cardpratice, "", "K拉OK", ""));
         list.add(new BeChoiceStudy("5", R.drawable.personalstereo, "", "随身听", ""));
         list.add(new BeChoiceStudy("6", R.drawable.pratice, "", "练习", ""));
 
