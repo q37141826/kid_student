@@ -62,8 +62,8 @@ public class ConcactForClassActivity extends FxActivity {
                     ToastUtil.showToast(context, R.string.Cant_chat_with_yourself);
                     return;
                 }
-                if (!StringUtil.isEmpty(beConcact.getEasemob_nikname())) {
-                    EaseUser user = new EaseUser(beConcact.getEasemob_nikname());
+                if (!StringUtil.isEmpty(beConcact.getEasemob_username())) {
+                    EaseUser user = new EaseUser(beConcact.getEasemob_username());
                     user.setAvatar(beConcact.getAvatar());
                     user.setNick(beConcact.getNickname());
                     DemoDBManager.getInstance().saveContact(user);
