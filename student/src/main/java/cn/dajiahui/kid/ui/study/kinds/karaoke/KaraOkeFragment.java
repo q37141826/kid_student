@@ -61,6 +61,7 @@ public class KaraOkeFragment extends LazyLoadFragment {
         if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathKaraOkeMp4() + sMp4)) {
             downloadKaraOkeMp4();
         } else {
+            Logger.d("播放本地卡拉OK ：" + KidConfig.getInstance().getPathKaraOkeMp4() + sMp4);
             playVideo(KidConfig.getInstance().getPathKaraOkeMp4() + sMp4);
         }
         /*判断背景音文件是否下载过*/
@@ -97,13 +98,14 @@ public class KaraOkeFragment extends LazyLoadFragment {
             public void onDownload(String fileurl, FxProgressDialog progressDialog) {
                 progressDialog.dismiss();
                 Logger.d("fileurl:" + fileurl);
+                /*下载成功后播放*/
                 playVideo(fileurl);
 
             }
         });
     }
 
-    /*下载卡拉okmp4*/
+    /*下载卡拉ok背景音*/
     private void downloadKaraOkeBackground() {
 //        Logger.d("下载----downloadKaraOk背景音----" + beKaraOkPageData.getMusic_oss_name());
 
@@ -112,7 +114,10 @@ public class KaraOkeFragment extends LazyLoadFragment {
         new DownloadFile((KaraOkeActivity) getActivity(), file, false, new OnDownload() {
             @Override
             public void onDownload(String fileurl, FxProgressDialog progressDialog) {
-                progressDialog.dismiss();
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+
                 Logger.d("fileurl:" + fileurl);
 
 

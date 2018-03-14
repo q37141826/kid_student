@@ -11,7 +11,6 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.fxtx.framework.text.StringUtil;
 
@@ -277,7 +276,7 @@ public class BaseUtil {
                 }
             }
         } else {
-            Toast.makeText(activity, "请输入控件个数", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(activity, "请输入控件个数", Toast.LENGTH_SHORT).show();
 
         }
         return Rweight;

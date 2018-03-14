@@ -19,26 +19,32 @@ import cn.dajiahui.kid.ui.study.bean.BeChoiceStudy;
 public class ApChoiceStudy extends CommonAdapter<BeChoiceStudy> {
 
 
-    private ImageView itemimage;
+    private ImageView itemimage, choice_item_root;
     private cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar seekitem;
     private TextView tvtypename;
-
+    private Context context;
 
 
     public ApChoiceStudy(Context context, List<BeChoiceStudy> mDatas) {
         super(context, mDatas, R.layout.item_choicestudy);
+        this.context = context;
     }
 
     @Override
     public void convert(ViewHolder viewHolder, int position, BeChoiceStudy item) {
 
         itemimage = viewHolder.getView(R.id.itemimage);
-//        seekitem = viewHolder.getView(R.id.seek_item);
+
+//      seekitem = viewHolder.getView(R.id.seek_item);
         tvtypename = viewHolder.getView(R.id.tv_typename);
 
         tvtypename.setText(item.getStudyname());
         itemimage.setImageResource(item.getStudypic());
-//        seekitem.setProgress(Integer.parseInt(item.getStudyseekschedule()));
+
+//        choice_item_root.setImageResource(R.drawable.study_item_bg);
+
+
+//      seekitem.setProgress(Integer.parseInt(item.getStudyseekschedule()));
 
     }
 

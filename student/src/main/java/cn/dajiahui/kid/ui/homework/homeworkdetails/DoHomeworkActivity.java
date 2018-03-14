@@ -11,7 +11,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
@@ -53,12 +52,12 @@ public class DoHomeworkActivity extends FxActivity
         CompletionFragment.SubmitCompletionFragment {
     public static String sourceFlag;//区别是练习还是作业
 
-    private TextView mSchedule;
+    //    private TextView mSchedule;
     private cn.dajiahui.kid.ui.study.view.NoScrollViewPager mViewpager;
     private String subjectype = "";//当前题型
     private MediaPlayer mediaPlayer;
     private int currentposition = 0;//当前页面的索引
-    private int praticeCurrentPosition = 0;//当前页面的索引
+    //    private int praticeCurrentPosition = 0;//当前页面的索引
     private List<Integer> pagelist = new ArrayList<>();//保存页数的集合（check过的页）
     private Map<Integer, BaseHomeworkFragment> frMap = new HashMap();//保存每个不同类型的Fragment
 
@@ -156,7 +155,7 @@ public class DoHomeworkActivity extends FxActivity
 
                         }
                     }
-                    mSchedule.setText((currentposition + 1) + "/" + mdata.size());
+//                    mSchedule.setText((currentposition + 1) + "/" + mdata.size());
                     /*作业适配器*/
                     HomeWorkAdapter homeWorkAdapter = new HomeWorkAdapter(getSupportFragmentManager(), mdata);
                     mViewpager.setAdapter(homeWorkAdapter);
@@ -176,9 +175,8 @@ public class DoHomeworkActivity extends FxActivity
 
         mViewpager = getView(R.id.viewpager);
 //        seek = getView(R.id.seek);
-        mSchedule = getView(R.id.tv_schedule);
+//        mSchedule = getView(R.id.tv_schedule);
         btncheck = (Button) findViewById(R.id.btn_check);
-
 
 
     }
@@ -220,7 +218,6 @@ public class DoHomeworkActivity extends FxActivity
     }
 
 
-
     /*viewpager滑动监听*/
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
@@ -231,7 +228,7 @@ public class DoHomeworkActivity extends FxActivity
         public void onPageSelected(int position) {
             currentposition = position;//当前题的页数
             sourceFlag = "HomeWork";
-            mSchedule.setText((currentposition + 1) + "/" + mDatalist.size());
+//          mSchedule.setText((currentposition + 1) + "/" + mDatalist.size());
             /*滑动停止音频*/
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
@@ -310,13 +307,13 @@ public class DoHomeworkActivity extends FxActivity
         public Fragment getItem(int position) {
             //获取题型
             subjectype = data.get(position).getQuestion_cate_id();
-            praticeCurrentPosition = position;
             if (subjectype.equals(Constant.Judje)) { /*判断*/
 
                 JudgeFragment fr1 = new JudgeFragment();
 
                 Bundle judgeBundle = new Bundle();
                 judgeBundle.putSerializable("JudgeQuestionModle", (Serializable) mDatalist.get(position));
+                judgeBundle.putString("currntQuestion", (position + 1) + "/" + data.size());
                 fr1.setArguments(judgeBundle);
                 frMap.put(position, fr1);
 
@@ -326,6 +323,7 @@ public class DoHomeworkActivity extends FxActivity
                 ChoiceFragment fr2 = new ChoiceFragment();
                 Bundle choiceBundle = new Bundle();
                 choiceBundle.putSerializable("ChoiceQuestionModle", (Serializable) mDatalist.get(position));
+                choiceBundle.putString("currntQuestion", (position + 1) + "/" + data.size());
                 fr2.setArguments(choiceBundle);
                 frMap.put(position, fr2);
                 return fr2;
@@ -334,10 +332,11 @@ public class DoHomeworkActivity extends FxActivity
 
                 SortFragment fr3 = new SortFragment();
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("SortQuestionModle", (Serializable) mDatalist.get(position));
+                Bundle sortBundle = new Bundle();
+                sortBundle.putSerializable("SortQuestionModle", (Serializable) mDatalist.get(position));
+                sortBundle.putString("currntQuestion", (position + 1) + "/" + data.size());
                 frMap.put(position, fr3);
-                fr3.setArguments(bundle);
+                fr3.setArguments(sortBundle);
                 return fr3;
 
             } else if (subjectype.equals(Constant.Line)) {   /*连线*/
@@ -346,6 +345,7 @@ public class DoHomeworkActivity extends FxActivity
 
                 Bundle linebBundle = new Bundle();
                 linebBundle.putSerializable("LineQuestionModle", (Serializable) mDatalist.get(position));
+                linebBundle.putString("currntQuestion", (position + 1) + "/" + data.size());
                 frMap.put(position, fr4);
                 fr4.setArguments(linebBundle);
                 return fr4;
@@ -356,6 +356,7 @@ public class DoHomeworkActivity extends FxActivity
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("CompletionQuestionModle", (Serializable) mDatalist.get(position));
+                bundle.putString("currntQuestion", (position + 1) + "/" + data.size());
                 frMap.put(position, fr5);
 
                 fr5.setArguments(bundle);
@@ -383,7 +384,7 @@ public class DoHomeworkActivity extends FxActivity
     /*判断题回调接口*/
     @Override
     public void submitJudgeFragment(JudjeQuestionModle questionModle) {
-
+        int eachposition = questionModle.getEachposition();
         mDatalist.set(currentposition, questionModle);
 
     }

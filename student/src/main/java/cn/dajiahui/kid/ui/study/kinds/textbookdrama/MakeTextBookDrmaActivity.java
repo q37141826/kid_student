@@ -108,7 +108,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                     if (mRecordLength < -1) {
                         /* 结束驰声录音 */
                         recordStop();
-                        Toast.makeText(context, "结束录音", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "结束录音", Toast.LENGTH_SHORT).show();
                     }
                     break;
 
@@ -420,7 +420,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                             }
                         }, 0, 1000);
                     }
-                    Toast.makeText(context, "开始录音", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "开始录音", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.img_playrecoding:
 

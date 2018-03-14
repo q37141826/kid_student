@@ -3,8 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/layout_tool_text"/>
@@ -18,14 +16,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:background="@color/gray_F5F5F5"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/line_complete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical"
+            android:padding="10dp"
             android:visibility="gone">
 
             <RelativeLayout
@@ -61,8 +61,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:padding="10dp">
 
 
                 <TextView
@@ -70,14 +69,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:text="正确率：60%"/>
+
 
                 <RatingBar
                     android:id="@+id/rb_score"
-                    style="@style/myratingbar"
+                    style="@style/myratingbar_homework"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:numStars="5"/>
 
 
@@ -90,11 +92,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -118,14 +123,15 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginTop="10dp"
+
                 android:background="@color/line_gray"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
 
                 <TextView
@@ -145,14 +151,16 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginTop="10dp"
+
                 android:background="@color/line_gray"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -172,8 +180,11 @@
             android:id="@+id/linhomework_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
             android:orientation="vertical"
             android:visibility="gone">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -187,6 +198,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:drawableLeft="@drawable/homewor_true_bg_green"
+                    android:drawablePadding="5dp"
                     android:gravity="center"
                     android:text="正确"/>
 
@@ -198,6 +210,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:drawableLeft="@drawable/homewor_false_bg_red"
+                    android:drawablePadding="5dp"
                     android:gravity="center"
                     android:text="错误"/>
 
@@ -208,6 +221,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:drawableLeft="@drawable/answer_card_noanswer_bg"
+                    android:drawablePadding="5dp"
                     android:gravity="center"
                     android:text="未做"/>
 

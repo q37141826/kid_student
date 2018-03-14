@@ -23,6 +23,7 @@ import cn.dajiahui.kid.ui.mine.bean.BeNotice;
 import cn.dajiahui.kid.ui.mine.bean.BeNoticeLists;
 import cn.dajiahui.kid.util.DateUtils;
 import cn.dajiahui.kid.util.DjhJumpUtil;
+import cn.dajiahui.kid.util.Logger;
 
 
 /*
@@ -121,7 +122,7 @@ public class NoticeActivity extends FxActivity {
 
         @Override
         public void onResponse(String response) {
-//            Logger.d("摩尔通知：" + response);
+            Logger.d("摩尔通知：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
@@ -129,12 +130,14 @@ public class NoticeActivity extends FxActivity {
                     noticeList.clear();
                 }
                 BeNotice beHomeWork = json.parsingObject(BeNotice.class);
-                itemNumber = Integer.parseInt(beHomeWork.getTotalRows());
-                if (beHomeWork != null && beHomeWork.getLists().size() > 0) {
-                    mPageNum++;
-                    noticeList.addAll(beHomeWork.getLists());
+                if (beHomeWork != null) {
+                    itemNumber = Integer.parseInt(beHomeWork.getTotalRows());
+                    if (beHomeWork.getLists().size() > 0) {
+                        mPageNum++;
+                        noticeList.addAll(beHomeWork.getLists());
+                    }
+                    apNotice.notifyDataSetChanged();
                 }
-                apNotice.notifyDataSetChanged();
             } else {
                 ToastUtil.showToast(NoticeActivity.this, json.getMsg());
             }

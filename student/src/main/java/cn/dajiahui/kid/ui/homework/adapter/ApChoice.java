@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -45,16 +44,6 @@ public class ApChoice extends BaseAdapter {
         mInflater = LayoutInflater.from(context);
     }
 
-//    /*is_answer=1*/
-//    public ApExChoice(Context context, List<BeChoiceOptions> mPptions, ChoiceQuestionModle inbasebean, int currentposition) {
-//        this.mPptions = mPptions;
-//        this.context = context;
-////        this.currentposition = currentposition;
-//        this.inbasebean = inbasebean;
-//        this.mInflater = LayoutInflater.from(context);
-//    }
-
-
     @Override
     public int getCount() {
         return mPptions.size();
@@ -83,6 +72,7 @@ public class ApChoice extends BaseAdapter {
                 convertView = mInflater.inflate(R.layout.item_choicetext, null);
                 holder.img_rightchoice = (ImageView) convertView.findViewById(R.id.img_rightchoice);
                 holder.tv_answer = (TextView) convertView.findViewById(R.id.tv_answer);
+                holder.tv_choice_text = (TextView) convertView.findViewById(R.id.tv_choice_text);
                 holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
 
             } else {//图片答案
@@ -90,12 +80,15 @@ public class ApChoice extends BaseAdapter {
                 holder.img_rightchoice = (ImageView) convertView.findViewById(R.id.img_rightchoice);
                 holder.img_answer = (ImageView) convertView.findViewById(R.id.img_answer);
                 holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
+                holder.tv_choice_pic = (TextView) convertView.findViewById(R.id.tv_choice_pic);
             }
 
             if (mPptions.get(position).getType().equals("2")) {//文字答案
+//                holder.tv_choice_text.setText(mPptions.get(position).getLabel());
                 holder.tv_answer.setText(mPptions.get(position).getContent());
 
             } else {
+//                holder.tv_choice_pic.setText();
                 Glide.with(context)
                         .load(mPptions.get(position).getContent())
                         .asBitmap()
@@ -112,11 +105,9 @@ public class ApChoice extends BaseAdapter {
 
         //如果当前的position等于传过来点击的position,就去改变他的状态
         if (selectorPosition == position) {
-//            holder.img_choice.setImageResource(R.drawable.ico_im_ok);
             holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);
         } else {
             //其他的恢复原来的状态
-//            holder.img_choice.setImageResource(R.drawable.ico_im_not);
             holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);
         }
 
@@ -147,8 +138,6 @@ public class ApChoice extends BaseAdapter {
     /*改变当前选择item的状态*/
     public void changeState(Context context, ChoiceFragment.SubmitChoiseFragment submit, int pos, ChoiceQuestionModle inbasebean) {
         selectorPosition = pos;
-//        Toast.makeText(context, "选择：" + mPptions.get(pos).getLabel(), Toast.LENGTH_SHORT).show();
-
         inbasebean.setAnswerflag("true");//学生作答标记
         inbasebean.setMy_answer(mPptions.get(pos).getVal());//学生作答答案
         inbasebean.setChoiceitemposition(pos);//保存选择题答案的索引（用于翻页回来后给选择的条目赋予背景颜色）
@@ -169,29 +158,28 @@ public class ApChoice extends BaseAdapter {
 
 
     @SuppressLint("ResourceAsColor")
-    public void changeitemState(int posi, ListView listView) {
+    public void changeitemState(int posi, ListView listView, ChoiceQuestionModle inbasebean) {
 
         ViewHolder holder = null;
         int visibleFirstPosi = listView.getFirstVisiblePosition();
         int visibleLastPosi = listView.getLastVisiblePosition();
+        if (inbasebean.getIs_answered().equals("0")) {
+         /* item 学生作答正确  正确答案 画黄色背景    其余错误的答案画红色背景 */
+            if (posi >= visibleFirstPosi && posi <= visibleLastPosi) {
+                View view = listView.getChildAt(posi - visibleFirstPosi);
+                holder = (ViewHolder) view.getTag();
 
-        /* item 学生作答正确  正确答案 画黄色背景    其余错误的答案画红色背景 */
-        if (posi >= visibleFirstPosi && posi <= visibleLastPosi) {
-            View view = listView.getChildAt(posi - visibleFirstPosi);
-            holder = (ViewHolder) view.getTag();
+                holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);//给正确答案外边画个框框
 
-            holder.choice_root.setBackgroundResource(R.drawable.select_judge_image);//给正确答案外边画个框框
-
-        } else {
-            holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);//给正确答案外边画个框框
+            } else {
+                holder.choice_root.setBackgroundResource(R.drawable.noselect_judge_image);//给正确答案外边画个框框
+            }
         }
-
-
     }
 
     class ViewHolder {
         public ImageView img_answer;
-        public TextView tv_answer;
+        public TextView tv_answer, tv_choice_text, tv_choice_pic;
         public ImageView img_rightchoice;
         public RelativeLayout choice_root;
     }
@@ -213,13 +201,7 @@ public class ApChoice extends BaseAdapter {
             return img_rightchoice;
         }
 
-        @Override
-        public String toString() {
-            return "ShowAnswer{" +
-                    "position=" + position +
-                    ", img_rightchoice=" + img_rightchoice +
-                    '}';
-        }
+
     }
 
 }

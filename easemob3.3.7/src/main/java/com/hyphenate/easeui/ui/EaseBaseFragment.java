@@ -49,8 +49,6 @@ public abstract class EaseBaseFragment extends FxFragment {
     protected void setfxTtitle(int res) {
         if (titleView != null) {
             titleView.setText(res);
-            titleView.setTextColor(R.color.black);
-
         }
     }
 
@@ -92,6 +90,23 @@ public abstract class EaseBaseFragment extends FxFragment {
             tv.setTextColor(R.color.black);
             tv.setVisibility(View.VISIBLE);
             tv.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onRightBtnClick(v);
+                }
+            });
+        }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    protected void onRightBtn(int textId) {
+        if (toolbar != null) {
+            TextView tv = getView(R.id.tool_right);
+            tv.setText(textId);
+
+            tv.setVisibility(View.VISIBLE);
+            tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

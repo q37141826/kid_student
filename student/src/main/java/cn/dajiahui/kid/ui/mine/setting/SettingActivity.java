@@ -62,7 +62,7 @@ public class SettingActivity extends FxActivity {
                     DjhJumpUtil.getInstance().startBaseActivity(SettingActivity.this, SetPassActivity.class);
                     break;
                 case R.id.tvclean:
-                    Toast.makeText(context, "清除缓存", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "清除缓存", Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.btn_Exit:

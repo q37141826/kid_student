@@ -20,9 +20,12 @@ public abstract class BaseHomeworkFragment extends FxFragment {
 
     public MediaPlayer mediaPlayer;
 
+
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
         bundle = getArguments();
+
+
         return null;
     }
 

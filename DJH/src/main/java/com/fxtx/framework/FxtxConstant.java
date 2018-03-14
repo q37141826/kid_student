@@ -14,8 +14,8 @@ public class FxtxConstant {
     public static String QQ_APPID = "1105261723"; //QQ appid
     public static String QQ_APPKEY = "OSBaRdFLkwKYSbqa"; //QQ appkey
 
-    public static String WEIXIN_APPID = "wx4e514f8a171628ff"; //微信
-    public static String WEIXIN_SECRET = "9dacad6b59d437600b96e97ca30c20a5"; //微信 appkey
+    public static String WEIXIN_APPID = "wx16b5253544801c0a"; //微信
+    public static String WEIXIN_SECRET = "95d9e19398bc9f98c94e8e04440e3e6e"; //微信 appkey
 
     /**
      * Image 属性控制

@@ -144,7 +144,9 @@ public class HomeWorkDetailsActivity extends FxActivity {
                         linhomework_detail.setVisibility(View.VISIBLE);
                         homework_time.setText(DateUtils.time(beHomeWorkDetails.getStart_time()) + "作业");//作业时间
                         tv_completetime.setText("完成时间：" + DateUtils.time(beHomeWorkDetails.getComplete_time()));//完成时间
-                        tv_correct_rate.setText("正确率：" + beHomeWorkDetails.getCorrect_rate() + "%");//正确率
+                        String correct_rate = beHomeWorkDetails.getCorrect_rate();
+                        double v = Double.parseDouble(correct_rate) * 100;
+                        tv_correct_rate.setText("正确率：" + (int) v + "%");//正确率
                         rb_score.setMax(100);
                          /*打分的分数 */
                         rb_score.setProgress(getScore((int) (ParseUtil.parseFloat(beHomeWorkDetails.getCorrect_rate()) * 100)));

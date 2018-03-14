@@ -93,6 +93,7 @@ public class FrMine extends FxFragment {
         BeUser user = UserController.getInstance().getUser();
         tv_userName.setText(user.getNickname());
         String gender = user.getGender();
+        /*0是男 1是女*/
         if (gender.equals("1")) {
             tv_sex.setText("女");
         } else {

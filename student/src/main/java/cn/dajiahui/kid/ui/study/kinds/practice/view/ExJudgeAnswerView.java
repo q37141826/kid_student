@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,7 +45,7 @@ public class ExJudgeAnswerView extends RelativeLayout implements View.OnClickLis
         this.submit = submit;
         this.mAnswerViewList = mAnswerViewList;
         this.setPadding(10, 10, 10, 10);
-
+        this.setBackgroundResource(R.drawable.noselect_judge_image);
         String content = inbasebean.getOptions().get(position).getContent();
         if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
             addView(addContentPic());
@@ -70,7 +71,11 @@ public class ExJudgeAnswerView extends RelativeLayout implements View.OnClickLis
 
     /*添加文字*/
     private TextView addContentText() {
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
         TextView textView = new TextView(context);
+        textView.setLayoutParams(params);
+        textView.setTextColor(getResources().getColor(R.color.gray_333333));
         textView.setText(inbasebean.getOptions().get(position).getContent());
         return textView;
     }

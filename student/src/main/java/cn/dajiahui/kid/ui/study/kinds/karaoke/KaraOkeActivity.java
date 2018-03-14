@@ -66,7 +66,7 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
     }
 
     private Map<Integer, KaraOkeFragment> map = new HashMap<>();
-    private int mCurrentPosition = 0;//当前fragmentment的索引
+
 
     /*课本剧适配器*/
     class KaraoKeOkAdapter extends FragmentStatePagerAdapter {
@@ -119,7 +119,6 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
     @Override
     public void onPageSelected(int position) {
         setImageBackground(position);
-        mCurrentPosition = position;
     }
 
     @Override

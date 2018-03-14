@@ -89,6 +89,17 @@ public class GlideUtil {
         Glide.with(context)
                 .load(StringUtil.isImageUrl(url))
                 .asBitmap()
+
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+    //不变形
+    public static void showNoneImage(Context context, String url, ImageView imageView,int placeholder ) {
+        Glide.with(context)
+                .load(StringUtil.isImageUrl(url))
+                .asBitmap()
+                .placeholder(placeholder)
+                .error(placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
     }

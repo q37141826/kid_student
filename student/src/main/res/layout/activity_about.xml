@@ -6,6 +6,7 @@
               android:orientation="vertical">
 
     <include layout="@layout/layout_tool_text"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
@@ -24,6 +25,26 @@
             android:layout_marginTop="50dp"
             android:src="@drawable/about"/>
 
+
+        <TextView
+            android:id="@+id/tv_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv1"
+            android:layout_centerInParent="true"
+            android:textColor="@color/gray_C4C4C6"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:text="Copyright@2018moveredu.com"
+            android:textColor="@color/gray_C4C4C6"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
 </LinearLayout>

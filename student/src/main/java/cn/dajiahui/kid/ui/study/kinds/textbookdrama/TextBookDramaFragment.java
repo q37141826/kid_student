@@ -1,8 +1,6 @@
 package cn.dajiahui.kid.ui.study.kinds.textbookdrama;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 
 import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.image.util.GlideUtil;
-import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 
 import java.util.List;
@@ -24,6 +21,7 @@ import cn.dajiahui.kid.http.DownloadFile;
 import cn.dajiahui.kid.http.OnDownload;
 import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageData;
+import cn.dajiahui.kid.ui.study.view.LazyLoadFragment;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.MD5;
@@ -41,7 +39,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
  * 点击查看按钮要判断是否有自己的作品  有：播放自己作品  无 ：播放原音作品
  */
 
-public class TextBookDramaFragment extends FxFragment {
+public class TextBookDramaFragment extends LazyLoadFragment {
 
 
     private BeTextBookDramaPageData beTextBookDramaPageData;
@@ -59,14 +57,56 @@ public class TextBookDramaFragment extends FxFragment {
     private RatingBar rb_score;
 
 
+//    @Override
+//    protected View initinitLayout(LayoutInflater inflater) {
+//        return inflater.inflate(R.layout.fr_text_book_drama, null);
+//    }
+
+    //    @Override
+//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//        bundle = getArguments();
+//        initialize();
+//        page_data = (List<BeTextBookDramaPageData>) bundle.get("page_data");
+//        position = bundle.getInt("position");
+//        beTextBookDramaPageData = page_data.get(position);
+//        String page_url = beTextBookDramaPageData.getPage_url();
+//        tvunit.setText(beTextBookDramaPageData.getTitle());
+//
+//        /*文件名以MD5加密*/
+//        String mp4Name = MD5.getMD5(page_url.substring(page_url.lastIndexOf("/"))) + ".mp4";
+//        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name)) {
+//             /*网络下载Mp3*/
+//            downloadTextBookPlayBgAudio(beTextBookDramaPageData);
+//            /*网络下载Mp4*/
+//            downloadTextBookPlayData(beTextBookDramaPageData);
+//        } else {
+//            Logger.d("播放本地课本剧："+KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name);
+//            /*读取本地*/
+//            playTextBook(KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name);
+//        }
+//
+//           /*已经制作完成课本剧 要显示分数*/
+//        if (beTextBookDramaPageData.getMy_work_status().equals("1")) {
+//            if (beTextBookDramaPageData.getMy_work() != null) {
+//            /*显示打分布局*/
+//                info_root.setVisibility(View.VISIBLE);
+//            /*加载圆形图片*/
+//                GlideUtil.showRoundImage(getActivity(), UserController.getInstance().getUser().getAvatar(), img_head, R.drawable.ico_default_user, true);
+//                tv_author.setText(UserController.getInstance().getUser().getNickname());
+//                tv_score.setText(getAverage(beTextBookDramaPageData.getMy_work().getScore()) + "分");/*获取平均分*/
+//                rb_score.setMax(100);
+//                rb_score.setProgress(getScore(getAverage(beTextBookDramaPageData.getMy_work().getScore())));
+//            }
+//        }
+//    }
     @Override
-    protected View initinitLayout(LayoutInflater inflater) {
-        return inflater.inflate(R.layout.fr_text_book_drama, null);
+    protected int setContentView() {
+        return R.layout.fr_text_book_drama;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void lazyLoad() {
         bundle = getArguments();
         initialize();
         page_data = (List<BeTextBookDramaPageData>) bundle.get("page_data");
@@ -83,6 +123,7 @@ public class TextBookDramaFragment extends FxFragment {
             /*网络下载Mp4*/
             downloadTextBookPlayData(beTextBookDramaPageData);
         } else {
+//            Logger.d("播放本地课本剧：" + KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name);
             /*读取本地*/
             playTextBook(KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name);
         }
@@ -126,7 +167,9 @@ public class TextBookDramaFragment extends FxFragment {
         new DownloadFile((TextBookDramaActivity) getActivity(), file, false, new OnDownload() {
             @Override
             public void onDownload(String fileurl, FxProgressDialog progressDialog) {
-
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
             }
         });
     }
@@ -141,18 +184,19 @@ public class TextBookDramaFragment extends FxFragment {
 
     /*初始化*/
     private void initialize() {
-        tvunit = getView(R.id.tv_unit);
-        mVideoplayer = getView(R.id.videoplayer);
-        videoplayerroot = getView(R.id.videoplayerroot);
-        btn_look = getView(R.id.btn_look);
+
+        tvunit = findViewById(R.id.tv_unit);
+        mVideoplayer = findViewById(R.id.videoplayer);
+        videoplayerroot = findViewById(R.id.videoplayerroot);
+        btn_look = findViewById(R.id.btn_look);
         btn_look.setOnClickListener(onClick);
 
         /*查看课本剧专用*/
-        info_root = getView(R.id.info_root);
-        img_head = getView(R.id.img_head);
-        tv_author = getView(R.id.tv_author);
-        tv_score = getView(R.id.tv_score);
-        rb_score = getView(R.id.rb_score);
+        info_root = findViewById(R.id.info_root);
+        img_head = findViewById(R.id.img_head);
+        tv_author = findViewById(R.id.tv_author);
+        tv_score = findViewById(R.id.tv_score);
+        rb_score = findViewById(R.id.rb_score);
 
 
     }
@@ -160,6 +204,7 @@ public class TextBookDramaFragment extends FxFragment {
     private View.OnClickListener onClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
 //              /*已经制作完成课本剧 跳转查看页面*/
             if (beTextBookDramaPageData.getMy_work_status().equals("1")) {
 
@@ -168,6 +213,7 @@ public class TextBookDramaFragment extends FxFragment {
                 bundle.putString("ShowBottom", "SHOW");
                 bundle.putString("Look", "textbook");
                 bundle.putSerializable("BeTextBookDramaPageData", beTextBookDramaPageData);
+
                 DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), TextBookSuccessActivity.class, bundle, 2);
 
 
@@ -208,7 +254,7 @@ public class TextBookDramaFragment extends FxFragment {
     /*计算平均分*/
     private int getAverage(String my_score) {
         int score = 0;
-        if (my_score.length()>0) {
+        if (my_score.length() > 0) {
             /*截取字符串*/
             for (int i = 0, len = my_score.split(",").length; i < len; i++) {
                 String split = my_score.split(",")[i].toString();
@@ -218,4 +264,6 @@ public class TextBookDramaFragment extends FxFragment {
         }
         return score;
     }
+
+
 }

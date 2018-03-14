@@ -80,7 +80,7 @@ public class ChoiceTeachingMaterialInfoActivity extends FxActivity {
 
                 /*数据回传到自学首页*/
                 BeChoiceTeachingMaterialInfoLists beChoiceTeachingMaterialInfoLists = mInfoListsList.get(position);
-                Toast.makeText(context, "开始学习", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "开始学习", Toast.LENGTH_SHORT).show();
 
             }
 

@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="titleText" format="string" />
-    <attr name="titleTextColor" format="color" />
-    <attr name="titleTextSize" format="dimension" />
+    <attr name="titleText" format="string"/>
+    <attr name="titleTextColor" format="color"/>
+    <attr name="titleTextSize" format="dimension"/>
 
     <declare-styleable name="DrawLineView">
-        <attr name="titleText" />
-        <attr name="titleTextColor" />
-        <attr name="titleTextSize" />
+        <attr name="titleText"/>
+        <attr name="titleTextColor"/>
+        <attr name="titleTextSize"/>
+    </declare-styleable>
+
+    <declare-styleable name="Theme">
+        <attr name="customImageViewStyle" format="reference"/>
+    </declare-styleable>
+    <!-- 自定义圆角ImageView -->
+    <declare-styleable name="RoundImageView">
+        <attr name="circle" format="boolean"/>
+        <attr name="radius" format="dimension"/>
     </declare-styleable>
 
 </resources>

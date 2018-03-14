@@ -37,51 +37,56 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp">
 
-        <ImageView
-            android:id="@+id/image1"
-            android:layout_width="12dp"
-            android:layout_height="18dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView4"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/ico_phone"/>
+        <!--<ImageView-->
+        <!--android:id="@+id/image1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignStart="@+id/textView4"-->
+        <!--android:layout_marginTop="50dp"-->
+        <!--android:src="@drawable/ico_phone"/>-->
 
         <EditText
             android:id="@+id/edUser"
             android:layout_width="306dp"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/image1"
-            android:layout_marginLeft="8dp"
-            android:layout_toEndOf="@id/image1"
-            android:layout_toRightOf="@id/image1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/image"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="47dp"
             android:background="@null"
             android:cursorVisible="true"
+            android:drawableLeft="@drawable/ico_phone"
+            android:drawablePadding="8dp"
             android:hint="@string/input_user"
             android:lineSpacingExtra="8dp"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textColorHint="@color/login_hint"
-            android:textCursorDrawable="@drawable/sp_while"
-            android:textSize="@dimen/text18"/>
+            android:textColorHint="@color/whilte_gray"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/text16"/>
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="1dp"
             android:layout_below="@+id/edUser"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
             android:background="@color/line_gray"/>
 
-        <ImageView
-            android:id="@+id/image2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/image1"
-            android:layout_alignStart="@id/image1"
-            android:layout_below="@id/edUser"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/ico_pwd"/>
+        <!--<ImageView-->
+        <!--android:id="@+id/image2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@id/image1"-->
+        <!--android:layout_alignStart="@id/image1"-->
+        <!--android:layout_below="@id/edUser"-->
+        <!--android:layout_marginTop="32dp"-->
+        <!--android:src="@drawable/ico_pwd"/>-->
 
         <EditText
             android:id="@+id/edPwd"
@@ -89,25 +94,30 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/edUser"
             android:layout_alignStart="@id/edUser"
-            android:layout_alignTop="@id/image2"
+            android:layout_below="@+id/textView4"
+            android:layout_marginTop="17dp"
             android:background="@null"
             android:cursorVisible="true"
+            android:drawableLeft="@drawable/ico_pwd"
+            android:drawablePadding="8dp"
             android:hint="@string/input_pwd"
             android:lineSpacingExtra="8dp"
             android:password="true"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textColorHint="@color/login_hint"
+            android:textColorHint="@color/whilte_gray"
             android:textCursorDrawable="@null"
-            android:textSize="@dimen/text18"/>
+            android:textSize="@dimen/text16"/>
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="1dp"
             android:layout_below="@+id/edPwd"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
             android:background="@color/line_gray"/>
 
         <TextView

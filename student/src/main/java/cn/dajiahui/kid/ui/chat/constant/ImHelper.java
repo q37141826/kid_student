@@ -322,10 +322,10 @@ public class ImHelper {
      * 账号在别的设备登录
      */
     protected void onConnectionConflict() {
-        Intent intent = new Intent(appContext, RemoveLoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(ImConstant.ACCOUNT_CONFLICT, true);
-        appContext.startActivity(intent);
+//        Intent intent = new Intent(appContext, RemoveLoginActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra(ImConstant.ACCOUNT_CONFLICT, true);
+//        appContext.startActivity(intent);
     }
 
     /**

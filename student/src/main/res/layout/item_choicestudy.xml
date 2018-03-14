@@ -6,44 +6,25 @@
     android:layout_centerInParent="true"
     android:background="@color/gray_F5F5F5">
 
+
+
     <RelativeLayout
         android:layout_width="150dp"
         android:layout_height="200dp"
         android:layout_centerInParent="true"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/study_bg"
+        android:background="@drawable/study_item_bg"
         android:gravity="center">
-
-
-        <!--<RelativeLayout-->
-        <!--android:id="@+id/shedul"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerHorizontal="true">-->
-
-        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-        <!--&lt;!&ndash;android:id="@+id/study"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:text="学习进度"/>&ndash;&gt;-->
-
-        <!--&lt;!&ndash;<cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar&ndash;&gt;-->
-        <!--&lt;!&ndash;android:id="@+id/seek_item"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="200dp"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_toEndOf="@+id/study"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:max="100"/>&ndash;&gt;-->
-        <!--</RelativeLayout>-->
-
-        <!--          android:layout_below="@+id/shedul"-->
+        <!-- android:background="@drawable/study_bg"-->
         <RelativeLayout
             android:id="@+id/itemimageroot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/round_bg_white"
+
+            android:layout_centerInParent="true"
+            android:background="@drawable/round_bg_white_choice"
             android:padding="10dp">
 
             <ImageView
@@ -51,8 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher"/>
-        </RelativeLayout>
 
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_typename"
@@ -66,6 +47,7 @@
             android:textColor="@color/color5A"
             android:textSize="@dimen/text18"
             android:textStyle="bold"/>
+
 
     </RelativeLayout>
 </RelativeLayout>

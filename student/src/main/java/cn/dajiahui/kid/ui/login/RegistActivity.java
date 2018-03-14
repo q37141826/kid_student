@@ -37,7 +37,7 @@ public class RegistActivity extends FxActivity {
     private TimePickerView timePickerView;
     //    private RadioGroup radioGroup;
     private TimeCount time;
-    private String sex = "1";
+    private String sex = "0";//0是男 1是女
     private boolean isBtnCode = true;
 
     @Override
@@ -63,14 +63,17 @@ public class RegistActivity extends FxActivity {
 //        radioGroup.setOnCheckedChangeListener(oncheckchanged);
         btnCode.setClickable(false);
         edPhone.addTextChangedListener(new StudentTextWatcher() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isBtnCode) {
                     if (edPhone.getText().toString().trim().length() == 11) {
                         btnCode.setBackgroundResource(R.color.white);
+                        btnCode.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
                         btnCode.setClickable(true);
                     } else {
                         btnCode.setBackgroundResource(R.color.white);
+                        btnCode.setTextColor(getResources().getColor(R.color.gray_666666));
                         btnCode.setClickable(false);
                     }
                 }
@@ -102,18 +105,19 @@ public class RegistActivity extends FxActivity {
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.tv_boy) {
-                sex = "1";
+                sex = "0";
                 tvBoy.setTextColor(getResources().getColor(R.color.white));
                 tvGirl.setTextColor(getResources().getColor(R.color.text_gray));
-                tvBoy.setBackgroundResource( R.drawable.select_btn_yellowbg);
-                tvGirl.setBackgroundResource( R.drawable.select_btn_graybg);
+                tvBoy.setBackgroundResource(R.drawable.select_btn_yellowbg);
+                tvGirl.setBackgroundResource(R.drawable.select_btn_graybg);
 
             } else if (v.getId() == R.id.tv_girl) {
+                sex = "1";
                 tvBoy.setTextColor(getResources().getColor(R.color.text_gray));
                 tvGirl.setTextColor(getResources().getColor(R.color.white));
                 tvBoy.setBackgroundResource(R.drawable.select_btn_graybg);
                 tvGirl.setBackgroundResource(R.drawable.select_btn_yellowbg);
-                sex = "2";
+
             } else if (v.getId() == R.id.tv_code) {
                 String PhoneCode = edPhone.getText().toString().trim();
                 if (!StringUtil.isEmpty(PhoneCode)) {
@@ -161,6 +165,7 @@ public class RegistActivity extends FxActivity {
         super.onCreate(savedInstanceState);
         onBackText();
         setfxTtitle(R.string.tv_regist);
+        titleView.setTextColor(getResources().getColor(R.color.gray_666666));
         time = new TimeCount(60000, 1000);
         timePickerView = new TimePickerView(context, TimePickerView.Type.YEAR_MONTH_DAY);
         timePickerView.setCyclic(true);
@@ -259,9 +264,11 @@ public class RegistActivity extends FxActivity {
             if (edPhone.getText().toString().trim().length() == 11) {
                 btnCode.setClickable(true);
                 btnCode.setBackgroundResource(R.color.white);
+                btnCode.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
             } else {
                 btnCode.setClickable(false);
                 btnCode.setBackgroundResource(R.color.white);
+                btnCode.setTextColor(getResources().getColor(R.color.gray_666666));
             }
         }
 

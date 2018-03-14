@@ -13,6 +13,7 @@
         android:layout_height="30dp"
         android:background="@drawable/answer_card_noanswer_bg"
         android:gravity="center"
+        android:textColor="@color/white"
         android:textSize="15sp"/>
 
 

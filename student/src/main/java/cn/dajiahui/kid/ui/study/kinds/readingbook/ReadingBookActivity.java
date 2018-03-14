@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.fxtx.framework.http.callback.ResultCallback;
@@ -27,7 +25,6 @@ import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.study.bean.BeReadingBook;
 import cn.dajiahui.kid.ui.study.bean.BeReadingBookPageData;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
-import cn.dajiahui.kid.util.Logger;
 
 /*
 点读本
@@ -70,8 +67,8 @@ public class ReadingBookActivity extends FxActivity {
         mReadingBookBundle = getIntent().getExtras();
         book_id = mReadingBookBundle.getString("BOOK_ID");
         unit_id = mReadingBookBundle.getString("UNIT_ID");
-        Logger.d("book_id:" + book_id);
-        Logger.d("unit_id:" + unit_id);
+//        Logger.d("book_id:" + book_id);
+//        Logger.d("unit_id:" + unit_id);
         /*获取点读本资源*/
         httpData();
         initialize();
@@ -161,13 +158,13 @@ public class ReadingBookActivity extends FxActivity {
         }
     }
 
-    /*隐藏虚拟按键*/
-    public void HideNavigationBar() {
-        Window window = getWindow();
-        WindowManager.LayoutParams params = window.getAttributes();
-        params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
-        window.setAttributes(params);
-    }
+//    /*隐藏虚拟按键*/
+//    public void HideNavigationBar() {
+//        Window window = getWindow();
+//        WindowManager.LayoutParams params = window.getAttributes();
+//        params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+//        window.setAttributes(params);
+//    }
 
     /**
      * 点读本callback函数

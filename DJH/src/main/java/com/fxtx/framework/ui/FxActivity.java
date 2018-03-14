@@ -26,7 +26,7 @@ import com.fxtx.framework.widgets.refresh.MaterialRefreshListener;
 public abstract class FxActivity extends AppCompatActivity {
 
     protected Toolbar toolbar;
-    private TextView titleView;
+    public TextView titleView;
     private FxProgressDialog progressDialog;
     protected final int PROGRESS_BACK = -1;
     public Activity context;
@@ -34,6 +34,7 @@ public abstract class FxActivity extends AppCompatActivity {
     public int mPageNum = 1; //分页
     protected boolean isCreateView = false;
     public int mPageSize = 10; //默认一页10个条目
+    public TextView tv_right;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,6 @@ public abstract class FxActivity extends AppCompatActivity {
     }
 
     public void setStatusBar(Toolbar title) {
-        StatusBarCompat.compatMain(this);
         StatusBarCompat.compat(this, getResources().getColor(R.color.app_bg));
     }
 
@@ -192,7 +192,7 @@ public abstract class FxActivity extends AppCompatActivity {
         if (toolbar != null) {
             TextView tv = getView(R.id.tool_left);
             tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ico_back, 0, 0, 0);
-            tv.setText(R.string.back_text);
+//            tv.setText(R.string.back_text);
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -206,6 +206,7 @@ public abstract class FxActivity extends AppCompatActivity {
 
     }
 
+    /*左上角退出无文字*/
     public void onBackText() {
         if (toolbar != null) {
             TextView tv = getView(R.id.tool_left);
@@ -239,11 +240,11 @@ public abstract class FxActivity extends AppCompatActivity {
     /*右上角 不加图片*/
     public void onRightBtn(int textId) {
         if (toolbar != null) {
-            TextView tv = getView(R.id.tool_right);
-            tv.setText(textId);
-            tv.setVisibility(View.VISIBLE);
+            tv_right = getView(R.id.tool_right);
+            tv_right.setText(textId);
+            tv_right.setVisibility(View.VISIBLE);
 
-            tv.setOnClickListener(new View.OnClickListener() {
+            tv_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onRightBtnClick(v);
@@ -296,7 +297,6 @@ public abstract class FxActivity extends AppCompatActivity {
     protected void setfxTtitle(int res) {
         if (titleView != null) {
             titleView.setText(res);
-            titleView.setTextColor(getResources().getColor(R.color.gray_333333));
 
         }
     }

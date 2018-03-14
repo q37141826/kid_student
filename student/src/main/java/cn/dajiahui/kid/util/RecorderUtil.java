@@ -7,9 +7,20 @@ package cn.dajiahui.kid.util;
 
 import android.media.MediaRecorder;
 
+import com.coremedia.iso.boxes.Container;
+import com.googlecode.mp4parser.authoring.Movie;
+import com.googlecode.mp4parser.authoring.Track;
+import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
+import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
+import com.googlecode.mp4parser.authoring.tracks.AppendTrack;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 录音工具
@@ -19,7 +30,7 @@ public class RecorderUtil {
     private String mFileName = null;
     private MediaRecorder mRecorder = null;
     private long startTime;
-    private long timeInterval;
+    //    private long timeInterval;
     private boolean isRecording;
 
     public RecorderUtil() {
@@ -59,11 +70,11 @@ public class RecorderUtil {
      */
     public String stopRecording() {
         if (mFileName == null) return "";
-        timeInterval = System.currentTimeMillis() - startTime;
+//        timeInterval = System.currentTimeMillis() - startTime;
         try {
-            if (timeInterval > 1000) {
-                mRecorder.stop();
-            }
+//            if (timeInterval > 1000) {
+            mRecorder.stop();
+//            }
             mRecorder.release();
             mRecorder = null;
             isRecording = false;
@@ -71,6 +82,12 @@ public class RecorderUtil {
 
         }
 
+        return mFileName;
+    }
+
+    public String stop(){
+
+        mRecorder.stop();
         return mFileName;
     }
 
@@ -114,12 +131,12 @@ public class RecorderUtil {
     }
 
 
-    /**
-     * 获取录音时长,单位秒
-     */
-    public long getTimeInterval() {
-        return timeInterval / 1000;
-    }
+//    /**
+//     * 获取录音时长,单位秒
+//     */
+//    public long getTimeInterval() {
+//        return timeInterval / 1000;
+//    }
 
 
     /**
@@ -151,4 +168,50 @@ public class RecorderUtil {
     }
 
 
+    /**
+     * 拼接多段Mp4音频
+     */
+    public void appendAutio(List<String> mRecordingList) {
+
+        // 把选中的item的path存到一个List里
+        // List<String> phthList = new ArrayList<String>();
+
+        Logger.d("mRecordingList:" + mRecordingList.size());
+
+        try {
+            List<Movie> inMovies = new ArrayList<Movie>();
+            for (int i = 0; i < mRecordingList.size(); i++) {
+                inMovies.add(MovieCreator.build(mRecordingList.get(i)));
+            }
+
+            List<Track> audioTracks = new LinkedList<Track>();
+            for (Movie m : inMovies) {
+                for (Track t : m.getTracks()) {
+                    if (t.getHandler().equals("soun")) {
+                        audioTracks.add(t);
+                    }
+                }
+            }
+
+            Movie result = new Movie();
+
+            if (!audioTracks.isEmpty()) {
+                result.addTrack(new AppendTrack(audioTracks.toArray(new Track[audioTracks.size()])));
+            }
+
+            Container con = new DefaultMp4Builder().build(result);
+            @SuppressWarnings("resource")
+            /*拼接音频输出地址*/
+                    FileChannel fc = new RandomAccessFile(KidConfig.getInstance().getPathRecordingAudio() + "splicedaudio.mp4", "rw").getChannel();
+            con.writeContainer(fc);
+            fc.close();
+            mRecordingList.clear();
+            inMovies.clear();
+            audioTracks.clear();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }

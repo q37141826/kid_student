@@ -6,32 +6,36 @@
     android:layout_height="match_parent"
     android:background="@color/gray_F5F5F5"
     android:focusable="true"
-    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="146dp"
+        android:layout_height="120dp"
         android:background="@drawable/study_bg"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
+
 
         <ImageView
             android:id="@+id/img_supplementary"
             android:layout_width="56dp"
             android:layout_height="74dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/textpadding"
-            android:padding="@dimen/textpadding"
-            android:src="@drawable/default_null"/>
+            android:layout_marginLeft="10dp"
+            android:padding="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/study_default"/>
+
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/tv_unit"
-            android:layout_alignStart="@+id/tv_unit"
-
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/img_supplementary"
+            android:text="111"
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"/>
@@ -41,9 +45,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_choiceMaterial"
-            android:layout_marginLeft="@dimen/textpadding"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_supplementary"
-
+            android:text="222"
             android:textColor="@color/white"
             android:textSize="13sp"/>
 

@@ -133,7 +133,8 @@ public class FrChat extends EaseConversationListFragment {
             }
         });
         setfxTtitle(R.string.tab_chat);
-        onRightBtn(R.drawable.ico_addsbook, R.string.chat_list);
+        onRightBtn( R.string.chat_list);
+
     }
 
     private void initProgressBar() {

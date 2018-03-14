@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
@@ -86,7 +85,7 @@ public class ReadingBookFragment extends FxFragment implements
                         readingFlag++;
                         continuousReading();
                         if (readingFlag > mPointReadViewList.size()) {
-//                            currentPointReadView = null;
+                            currentPointReadView = null;
                             readingFlag = 0;
                             return;
                         }
@@ -95,11 +94,38 @@ public class ReadingBookFragment extends FxFragment implements
 //                Logger.d("实时：" + currentPosition);
             }
             if (msg.what == 1) {/*获取图片原始的尺寸*/
+                Logger.d("---------------图片原始大小1111111111111111111111");
                 ImgSelf_W_H imgW_h = (ImgSelf_W_H) msg.obj;
                 selfWidth = imgW_h.getWidth();
                 selfHeight = imgW_h.getHeight();
+
+                //获取图片记载之后的尺寸
+                Glide.with(ReadingBookFragment.this).load(beReadingBookPageData.getPage_url()).asBitmap()//强制Glide返回一个Bitmap对象
+                        .listener(new RequestListener<String, Bitmap>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                                Logger.d("onException " + e.toString());
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Bitmap bitmap, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+
+                                int mReallyWidth = bitmap.getWidth();
+                                int mReallyHeight = bitmap.getHeight();
+                                Message msg = Message.obtain();
+                                msg.obj = new ImgLoad_W_H((float) mReallyWidth, (float) mReallyHeight);
+                                msg.what = 2;
+
+                                Logger.d("---------------图片拉伸后大小");
+                                handler.sendMessage(msg);
+
+                                return false;
+                            }
+                        }).into(img_readbook_bg);
             }
             if (msg.what == 2) {/*获取图片加载成功之后的尺寸*/
+                Logger.d("---------------图片变形大小2222222222222222222222");
                 ImgLoad_W_H imgW_h = (ImgLoad_W_H) msg.obj;
                 loadWidth = imgW_h.getWidth();
                 loadHeight = imgW_h.getHeight();
@@ -120,8 +146,6 @@ public class ReadingBookFragment extends FxFragment implements
                     /*计算框的位置 x y点坐标*/
                     double xPoint = Double.parseDouble(beReadingBookPageData.getItem().get(i).getPoint_x());
                     double yPoint = Double.parseDouble(beReadingBookPageData.getItem().get(i).getPoint_y());
-                    Logger.d("beReadingBookPageData.getItem().get(i).getPoint_x():" + beReadingBookPageData.getItem().get(i).getPoint_x());
-                    Logger.d("beReadingBookPageData.getItem().get(i).getPoint_y():" + beReadingBookPageData.getItem().get(i).getPoint_y());
                     params.setMargins(
                             (int) (xPoint * loadWidth / selfWidth),
                             (int) (yPoint * loadHeight / selfHeight), 0, 0);
@@ -145,7 +169,7 @@ public class ReadingBookFragment extends FxFragment implements
             @Override
             public void onDownload(String fileurl, FxProgressDialog progressDialog) {
                 progressDialog.dismiss();
-                Logger.d("fileurl:" + fileurl);
+//                Logger.d("fileurl:" + fileurl);
             }
         });
     }
@@ -159,7 +183,7 @@ public class ReadingBookFragment extends FxFragment implements
                     Message msg = Message.obtain();
                     if (currentPointReadView != null) {
                         msg.arg1 = Integer.parseInt(currentPointReadView.getBePlayReadingBook().getEnd_time());
-                        Logger.d("实时获取结束时间"+currentPointReadView.getBePlayReadingBook().getEnd_time());
+                        Logger.d("实时获取结束时间" + currentPointReadView.getBePlayReadingBook().getEnd_time());
                     }
                     msg.what = 0;
                     handler.sendMessage(msg); // 发送消息
@@ -183,16 +207,17 @@ public class ReadingBookFragment extends FxFragment implements
         beReadingBookPageData = page_data.get(bundle.getInt("position"));
         loadImageView();
         media_url = beReadingBookPageData.getMedia_url();
-
+        Logger.d("-----------media_url1111111111:" + media_url);
+        Logger.d("-----------media_url2222222222:" + media_url.lastIndexOf("/"));
+        if (media_url.length() > 0) {
          /*获取Mp3视频名称*/
-        String sMp3 = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
+            String sMp3 = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
+         /*判断mp3文件是否下载过*/
+            if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + sMp3)) {
+                downloadReadingBook();
+            }
 
-       /*判断mp3文件是否下载过*/
-        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + sMp3)) {
-            downloadReadingBook();
         }
-
-
         //参数2：延迟200毫秒发送，参数3：每隔200毫秒秒发送一下
         if (timer == null) {
             timer = new Timer();
@@ -227,7 +252,7 @@ public class ReadingBookFragment extends FxFragment implements
     public void onStop() {
         super.onStop();
 
-        Logger.d("-------------onStop()");
+//        Logger.d("-------------onStop()");
         if (PlayMedia.getPlaying().mediaPlayer != null &&
                 PlayMedia.getPlaying().mediaPlayer.isPlaying()) {
 
@@ -238,7 +263,7 @@ public class ReadingBookFragment extends FxFragment implements
     @Override
     public void onPause() {
         super.onPause();
-        Logger.d("-------------onPause()");
+//        Logger.d("-------------onPause()");
         if (timer != null) {
             timer.cancel();
             timer = null;
@@ -264,37 +289,20 @@ public class ReadingBookFragment extends FxFragment implements
                         Message msg = Message.obtain();
                         msg.obj = new ImgSelf_W_H((float) mSelfWidth, (float) mSelfHeight);
                         msg.what = 1;
+                        Logger.d("---------------图片原始大小");
                         handler.sendMessage(msg);
 
                     }
                 });
-        //获取图片记载之后的尺寸
-        Glide.with(this).load(beReadingBookPageData.getPage_url()).asBitmap()//强制Glide返回一个Bitmap对象
-                .listener(new RequestListener<String, Bitmap>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                        Logger.d("onException " + e.toString());
-                        return false;
-                    }
 
-                    @Override
-                    public boolean onResourceReady(Bitmap bitmap, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        int mReallyWidth = bitmap.getWidth();
-                        int mReallyHeight = bitmap.getHeight();
-                        Message msg = Message.obtain();
-                        msg.obj = new ImgLoad_W_H((float) mReallyWidth, (float) mReallyHeight);
-                        msg.what = 2;
-                        handler.sendMessage(msg);
-                        return false;
-                    }
-                }).into(img_readbook_bg);
+
     }
 
     /*点读点击事件*/
     @Override
     public void getPointReadView(PointReadView pointReadView, BeReadingBookPageDataItem bePlayReadingBook) {
 
-        Toast.makeText(getActivity(), "点读", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "点读", Toast.LENGTH_SHORT).show();
 
         isPointRead = true;
         for (int i = 0; i < mPointReadViewList.size(); i++) {
@@ -361,12 +369,12 @@ public class ReadingBookFragment extends FxFragment implements
             this.currentPointReadView = mPointReadViewList.get(readingFlag);
             /*放中文翻译*/
             mTranslate.setText("翻译：" + mPointReadViewList.get(readingFlag).getBePlayReadingBook().getChinese());
-            Toast.makeText(getActivity(), mPointReadViewList.get(readingFlag) + "", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), mPointReadViewList.get(readingFlag) + "", Toast.LENGTH_SHORT).show();
             this.currentPointReadView.setBackgroundResource(R.drawable.select_readingbook_bg_green);
 
 
         } else {
-//            currentPointReadView = null;
+            currentPointReadView = null;
             for (int i = 0; i < mPointReadViewList.size(); i++) {
                 /*解除view不可点击 */
                 mPointReadViewList.get(i).setClickable(true);

@@ -32,7 +32,6 @@ import cn.dajiahui.kid.ui.mine.myinterface.ShowbtnDelete;
 import cn.dajiahui.kid.ui.study.bean.BePageDataMyWork;
 import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookSuccessActivity;
 import cn.dajiahui.kid.util.DjhJumpUtil;
-import cn.dajiahui.kid.util.Logger;
 
 /**
  * 课本剧碎片（我的作品）
@@ -267,7 +266,7 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
         @Override
         public void onResponse(String response) {
             dismissfxDialog();
-            Logger.d("获取课本剧删除OK" + response);
+//            Logger.d("获取课本剧删除OK" + response);
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
 

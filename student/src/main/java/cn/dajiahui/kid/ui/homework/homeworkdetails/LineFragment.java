@@ -40,7 +40,7 @@ public class LineFragment extends BaseHomeworkFragment implements
     private LineQuestionModle inbasebean;
     private SubmitLineFragment submit;
     private ImageView img_play;
-    private TextView mLeft, mRight, tv_line;
+    private TextView mLeft, mRight, tv_line, tv_schedule;
     private RelativeLayout selectview_root, draw_root;
 
     private DrawView drawView;
@@ -84,8 +84,11 @@ public class LineFragment extends BaseHomeworkFragment implements
         return inflater.inflate(R.layout.fr_line, null);
     }
 
+    Bundle bundle;
+
     @Override
     public void setArguments(Bundle bundle) {
+        this.bundle = bundle;
         inbasebean = (LineQuestionModle) bundle.get("LineQuestionModle");
         media = inbasebean.getMedia();
         title = inbasebean.getTitle();
@@ -212,6 +215,8 @@ public class LineFragment extends BaseHomeworkFragment implements
         getAnswer();
         initialize();
         tv_line.setText(title);
+
+        tv_schedule.setText(bundle.getString("currntQuestion"));
         /*非空校验*/
         if (inbasebean.getOptions().getRight() != null) {
             //添加左侧图片
@@ -260,6 +265,7 @@ public class LineFragment extends BaseHomeworkFragment implements
         mLeft = getView(R.id.mLeft);
         mRight = getView(R.id.mRight);
         tv_line = getView(R.id.tv_line);
+        tv_schedule = getView(R.id.tv_schedule);
         mLeft.setOnClickListener(this);
         mRight.setOnClickListener(this);
         img_play.setOnClickListener(this);

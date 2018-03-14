@@ -9,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fxtx.framework.adapter.ViewHolder;
 import com.fxtx.framework.http.callback.ResultCallback;
@@ -134,7 +133,7 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
                     }
                 } else {
 
-                    Toast.makeText(getActivity(), "播放视频", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "播放视频", Toast.LENGTH_SHORT).show();
                     getTexBookDetails(mKalaokList.get(position).getId());
                 }
             }

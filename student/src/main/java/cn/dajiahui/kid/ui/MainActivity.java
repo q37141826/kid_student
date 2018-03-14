@@ -5,16 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.Button;
 import android.widget.RadioGroup;
 
 import com.chivox.cube.util.FileHelper;
@@ -25,7 +21,6 @@ import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.ui.base.FxTabActivity;
 import com.fxtx.framework.ui.bean.BeTab;
 import com.fxtx.framework.util.ActivityUtil;
-import com.fxtx.framework.widgets.StatusBarCompat;
 import com.fxtx.framework.widgets.badge.BadgeRadioButton;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
@@ -40,7 +35,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.controller.BadgeController;
 import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.ui.chat.FrChat;
@@ -53,11 +47,10 @@ import cn.dajiahui.kid.ui.login.bean.BeUserAuth;
 import cn.dajiahui.kid.ui.mine.FrMine;
 import cn.dajiahui.kid.ui.mine.personalinformation.UserDetailsActivity;
 import cn.dajiahui.kid.ui.study.FrStudy;
-import cn.dajiahui.kid.ui.study.kinds.textbookdrama.MakeTextBookDrmaActivity;
-import cn.dajiahui.kid.util.StudentUtil;
 
 
 public class MainActivity extends FxTabActivity {
+    private BroadcastReceiver broadcastReceiver;
     private LocalBroadcastManager broadcastManager;
     private RadioGroup radioGroup;
     private FrChat frChat;
@@ -65,7 +58,7 @@ public class MainActivity extends FxTabActivity {
     public FrHomework frHomework;
     private FrMine frMine;
     private int rediobtnId; // 当前选择的模块
-    private BadgeRadioButton mineRb, functionRb, chatRb;
+    private BadgeRadioButton noticeRb, functionRb, chatRb;
     private Boolean isExit = false;
     private Handler handler = new Handler() {
         @Override
@@ -119,17 +112,19 @@ public class MainActivity extends FxTabActivity {
 
         addRadioView(tab, radioGroup);
         functionRb = addRadioView(tab2, radioGroup);
+//        if (userAuth.isMsn) {
         BeTab tab3 = new BeTab(R.id.rediobtn_chat, "", getString(R.string.tab_chat), R.drawable.radio_chat, false);
         chatRb = addRadioView(tab3, radioGroup);
-        mineRb = addRadioView(tab4, radioGroup);
+//        }
+        addRadioView(tab4, radioGroup);
         radioGroup.setOnCheckedChangeListener(this);
 
     }
 
-    @Override
-    public void setStatusBar(Toolbar title) {
-        StatusBarCompat.compatMain(this);
-    }
+//    @Override
+//    public void setStatusBar(Toolbar title) {
+//        StatusBarCompat.compatMain(this);
+//    }
 
     @Override
     protected FxFragment initIndexFragment() {
@@ -264,30 +259,27 @@ public class MainActivity extends FxTabActivity {
 
     /*注册广播*/
     private void registerBroadcastReceiver() {
-//        broadcastManager = LocalBroadcastManager.getInstance(this);
+        broadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constant.broad_badge_count_action);
-        intentFilter.addAction(Constant.broad_notice_action); // 收到通知（魔耳通知）
-        registerReceiver(broadcastReceiver, intentFilter);
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+//                //收到广播了
+//                if (userAuth.isNotice) {
+//                    StudentUtil.setBadge(noticeRb, BadgeController.getInstance().noticeBadge);
+//                }
+//                StudentUtil.setBadge(functionRb, BadgeController.getInstance().getNoticeBadgeFunction());
+                if (rediobtnId == 2 && frStudy != null) {
+
+                }
+            }
+        };
+        broadcastManager.registerReceiver(broadcastReceiver, intentFilter);
     }
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(Constant.broad_notice_action)) { // 收到通知
-                if (mineRb != null) {
-//                    mineRb.showCirclePointBadge();
-                }
-
-            }
-
-        }
-    };
-
-
     private void unregisterBroadcastReceiver() {
-        unregisterReceiver(broadcastReceiver);
-//        broadcastManager.unregisterReceiver(broadcastReceiver);
+        broadcastManager.unregisterReceiver(broadcastReceiver);
     }
 
     @Override

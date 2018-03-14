@@ -106,19 +106,11 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
             holderView.editext = (EditText) convertView.findViewById(R.id.editext);
             holderView.tv_rightanswer = (TextView) convertView.findViewById(R.id.tv_rightanswer);
-//            holderView.tv_num = (TextView) convertView.findViewById(R.id.tv_num);
 
-//            if (position == 0) {
-//                Logger.d("position:------------" + position);
-//                holderView.tv_num.setVisibility(View.VISIBLE);
-//                holderView.tv_num.setText((this.selfposition + 1) + ".");
-//            } else {
-//                Logger.d("position:------------" + position);
-//                holderView.tv_num.setVisibility(View.GONE);
-//            }
 
             // 注册上自己写的焦点监听
             holderView.editext.setOnFocusChangeListener(myFoucus);
+            holderView.editext.setLongClickable(false);
 
             convertView.setTag(holderView);
 

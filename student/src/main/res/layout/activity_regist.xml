@@ -238,7 +238,7 @@
                     android:paddingRight="12dp"
                     android:paddingTop="8dp"
                     android:text="@string/sendcode"
-                    android:textColor="#FEBF12"
+                    android:textColor="@color/gray_DCDCDC"
                     android:textSize="@dimen/text13"/>
             </LinearLayout>
 

@@ -86,7 +86,7 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
 
         @Override
         public void onResponse(String response) {
-            Logger.d("课本剧：" + response);
+//            Logger.d("课本剧：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {

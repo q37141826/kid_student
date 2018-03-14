@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,12 +8,27 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_tool_text"/>
+    <include
+        android:id="@+id/include"
+        layout="@layout/layout_tool_text"/>
 
     <RelativeLayout
+        android:id="@+id/add_class_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/include"
         android:background="@color/gray_F5F5F5">
+
+        <TextView
+            android:id="@+id/tv_null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableTop="@drawable/ico_null"
+            android:gravity="center"
+            android:text="班级不存在"
+            android:visibility="gone"/>
+
 
         <LinearLayout
             android:id="@+id/re_task_second"
@@ -24,7 +39,8 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="@dimen/textpadding">
+            android:padding="@dimen/textpadding"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -36,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="二年级7班"
+
                     android:textColor="@color/yellow_FEBF12"
                     android:textSize="14sp"/>
 
@@ -46,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:layout_weight="1"
-                    android:text="学   校：魔耳国贸校区"
+
                     android:textColor="@color/gray_666666"
                     android:textSize="13sp"/>
 
@@ -55,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
-                    android:text="老师： keven"
+
                     android:textColor="@color/gray_666666"
                     android:textSize="13sp"/>
 
@@ -64,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
-                    android:text="班级码：123456"
+
                     android:textColor="@color/gray_666666"
                     android:textSize="13sp"/>
 
@@ -85,10 +101,10 @@
                     android:background="@drawable/round_bgyellow_homwwork"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="@string/audit_class"
+                    android:text="加入班级"
                     android:textColor="@color/white"
                     android:textSize="14sp"/>
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

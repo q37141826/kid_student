@@ -2,8 +2,8 @@ package cn.dajiahui.kid.ui.mine.myclass;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
@@ -29,6 +29,8 @@ public class ClassDetailsActivity extends FxActivity {
     private String classCode;
     private BeClass classInfo;
     private String classID;
+    private LinearLayout re_task_second;
+    private TextView mTvNUll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,9 @@ public class ClassDetailsActivity extends FxActivity {
         tvschool = getView(R.id.tv_school);
         tvclassname = getView(R.id.tv_class_name);
         tvteacher = getView(R.id.tv_teacher);
+
+        re_task_second = getView(R.id.re_task_second);
+        mTvNUll = getView(R.id.tv_null);
     }
 
 
@@ -96,6 +101,7 @@ public class ClassDetailsActivity extends FxActivity {
                 /* 解析班级信息 */
                 classInfo = json.parsingObject(BeClass.class);
                 if (classInfo != null) {
+                    re_task_second.setVisibility(View.VISIBLE);
                     tvclasscode.setText("班级码：" + classInfo.getCode());
                     tvschool.setText("学校：" + classInfo.getSchool_name());
                     /*已经加入的班级隐藏了加入班级按钮*/
@@ -105,6 +111,9 @@ public class ClassDetailsActivity extends FxActivity {
                     tvclassname.setText(classInfo.getClass_name());
                     tvteacher.setText("老师：" + classInfo.getTeacher_name());
                     classID = classInfo.getId();
+                } else {
+                    mTvNUll.setText("班级不存在");
+                    mTvNUll.setVisibility(View.VISIBLE);
                 }
 
             } else {
@@ -127,7 +136,7 @@ public class ClassDetailsActivity extends FxActivity {
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
-                Toast.makeText(context, "申请加入班级", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "申请加入班级", Toast.LENGTH_SHORT).show();
                 finishActivity();
             } else {
                 ToastUtil.showToast(context, json.getMsg());

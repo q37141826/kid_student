@@ -6,7 +6,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class TypeCommissionActivity extends FxActivity {
 
                     break;
                 default:
-                    ToastUtil.showToast(context, "无效待办");
+//                    ToastUtil.showToast(context, "无效待办");
                     break;
             }
         }

@@ -49,7 +49,6 @@ public class FrHomework extends FxFragment {
         TextView title = getView(R.id.tool_title);
         mListview = getView(R.id.listview);
         title.setText(R.string.tab_homework);
-        title.setTextColor(getResources().getColor(R.color.black));
         tvNUll = getView(R.id.tv_null);
         tvNUll.setText("暂无作业");
         refresh = getView(R.id.refresh);

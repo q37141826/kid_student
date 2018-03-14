@@ -17,7 +17,6 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.mine.bean.BeMineWorksLists;
 import cn.dajiahui.kid.util.DateUtils;
-import cn.dajiahui.kid.util.Logger;
 
 /**
  * Created by majin on 2016/5/11.
@@ -43,7 +42,6 @@ public class ApMyWorks extends CommonAdapter<BeMineWorksLists> {
 
         GlideUtil.showNoneImage(mContext, item.getThumbnail(), img);
         tv_worksname.setText(item.getTitle());
-        Logger.d("作品时间：item.getDate()" + item.getDate());
         tv_workstime.setText("作品时间：" + DateUtils.getYyyyMMDD(item.getDate()));
 
         //显示checkBox

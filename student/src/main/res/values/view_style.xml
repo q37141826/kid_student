@@ -33,6 +33,15 @@
         <item name="android:maxHeight">40dp</item>
     </style>
     <!--五星控件 end-->
+
+    <!--五星控件 作业 start-->
+    <style name="myratingbar_homework" parent="@android:style/Widget.Holo.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/ratingbar_homework_bg</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:maxHeight">40dp</item>
+    </style>
+    <!--五星控件 end-->
+
     <style name="FxRadioButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
@@ -63,10 +72,13 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
-    <style name="My_CheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox" tools:ignore="NewApi">
-        <item name="android:colorControlActivated">@color/blue</item>
-        <item name="android:colorControlNormal">@color/blue</item>
-    </style>
+    <!--<style name="My_CheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox" tools:ignore="NewApi">-->
+        <!--<item name="android:colorControlActivated">@color/blue</item>-->
+        <!--<item name="android:colorControlNormal">@color/blue</item>-->
+    <!--</style>-->
 
+    <style name="My_CheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/mineworks_checkbox</item>
+    </style>
 
 </resources>

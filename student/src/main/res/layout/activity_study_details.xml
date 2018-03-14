@@ -6,9 +6,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-
-    <include
-        layout="@layout/layout_tool_text"/>
+    <include layout="@layout/layout_tool_text"/>
 
     <ScrollView
         android:layout_width="match_parent"

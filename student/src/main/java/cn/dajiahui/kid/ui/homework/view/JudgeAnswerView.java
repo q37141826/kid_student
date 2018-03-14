@@ -5,10 +5,10 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -17,7 +17,6 @@ import java.util.List;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
-import cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity;
 import cn.dajiahui.kid.ui.homework.homeworkdetails.JudgeFragment;
 
 /**
@@ -40,6 +39,7 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
         this.submit = submit;
         this.AnswerViewList = AnswerViewList;
         this.setPadding(10, 10, 10, 10);
+        this.setBackgroundResource(R.drawable.noselect_judge_image);
         String content = inbasebean.getOptions().get(position).getContent();
 
         if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
@@ -54,10 +54,7 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
         if (inbasebean.getIs_answered().equals("0")) {
             this.setOnClickListener(this);
         }
-        /*只有答过题之后 submit之后才添加遮罩*/
-        if (inbasebean.getIs_answered().equals("1")) {
 
-        }
 
     }
 
@@ -80,7 +77,11 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
 
     /*添加文字*/
     private TextView addContentText() {
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
         TextView textView = new TextView(context);
+        textView.setLayoutParams(params);
+        textView.setTextColor(getResources().getColor(R.color.gray_333333));
         textView.setText(inbasebean.getOptions().get(position).getContent());
         return textView;
     }
@@ -88,9 +89,7 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (inbasebean.isAnswer() == false) {
-            if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
-                inbasebean.setPratice_answer(inbasebean.getOptions().get(position).getVal());
-            }
+
             for (int i = 0; i < AnswerViewList.size(); i++) {
                   /*正确 错误答案添加背景遮罩*/
                 if (AnswerViewList.get(i) == this) {
@@ -112,9 +111,6 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
             }
 
             submit.submitJudgeFragment(inbasebean);
-        } else {
-
-            Toast.makeText(context, "已经答过题了", Toast.LENGTH_SHORT).show();
         }
 
 

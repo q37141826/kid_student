@@ -12,7 +12,6 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,7 +72,7 @@ public class SortFragment extends BaseHomeworkFragment implements
     private Map<Integer, BeLocation> sortRightAnswerMap = new HashMap<>();//正确答案（ isanswer=1）
     private TextView mRight;/*正确答案*/
     private TextView mLeft;/*我的答案*/
-    private TextView tv_sort;
+    private TextView tv_sort, tv_schedule;
     private ImageView sort_img_play;//播放器按钮
 
 //    private List<String> initMyanswerList = new ArrayList<>();//初始我的答案集合（用于获取我的答案顺序）
@@ -212,6 +211,7 @@ public class SortFragment extends BaseHomeworkFragment implements
     private List<String> mMineContentList;
     private String title;
 
+
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
         return inflater.inflate(R.layout.fr_sort, null);
@@ -222,6 +222,7 @@ public class SortFragment extends BaseHomeworkFragment implements
         super.onViewCreated(view, savedInstanceState);
         initialize();
         tv_sort.setText(title);
+        tv_schedule.setText(bundle.getString("currntQuestion"));
         if (inbasebean.getIs_answered().equals("1")) {
             mRight.setText("正确答案");
             mLeft.setText("我的答案");
@@ -430,8 +431,11 @@ public class SortFragment extends BaseHomeworkFragment implements
 
     }
 
+    private Bundle bundle;
+
     @Override
     public void setArguments(Bundle bundle) {
+        this.bundle = bundle;
         inbasebean = (SortQuestionModle) bundle.get("SortQuestionModle");
         media = inbasebean.getMedia();
         title = inbasebean.getTitle();
@@ -442,6 +446,7 @@ public class SortFragment extends BaseHomeworkFragment implements
         sort_img_play = getView(R.id.sort_img_play);
         mRight = getView(R.id.mRight);
         mLeft = getView(R.id.mLeft);
+        tv_schedule = getView(R.id.tv_schedule);
         tv_sort = getView(R.id.tv_sort);
         relaroot = getView(R.id.relaroot);
         sort_img_play.setOnClickListener(this);
@@ -508,7 +513,7 @@ public class SortFragment extends BaseHomeworkFragment implements
         switch (v.getId()) {
 
             case R.id.sort_img_play:
-                Toast.makeText(activity, "播放音频！", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(activity, "播放音频！", Toast.LENGTH_SHORT).show();
                 playMp3(media);
                 break;
             default:

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.ui.base.FxTabActivity;
@@ -41,7 +40,7 @@ public class MyWorksActivity extends FxTabActivity {
         super.onCreate(savedInstanceState);
         setfxTtitle(R.string.myworks);
         onBackText();
-        onRightBtn(R.drawable.ico_share, R.string.edit);
+        onRightBtn(R.string.edit);
         /*初始化碎片*/
         initFragment(savedInstanceState);
     }
@@ -79,15 +78,20 @@ public class MyWorksActivity extends FxTabActivity {
             isShowcheckboxTextbook = !isShowcheckboxTextbook;
             if (isShowcheckboxTextbook) {
                 showbtnDeleteTextbook.showbtnDelete(1);
+                tv_right.setText("取消");
+
             } else {
                 showbtnDeleteTextbook.showbtnDelete(2);
+                tv_right.setText("编辑");
             }
         } else {
             isShowcheckboxaraok = !isShowcheckboxaraok;
             if (isShowcheckboxaraok) {
                 showbtnDeleteCaraok.showbtnDelete(1);
+                tv_right.setText("取消");
             } else {
                 showbtnDeleteCaraok.showbtnDelete(2);
+                tv_right.setText("编辑");
             }
         }
 
@@ -112,7 +116,7 @@ public class MyWorksActivity extends FxTabActivity {
                     }
                     switchContent(isFragment, frTextBookAudio);
 
-                    Toast.makeText(context, "课本剧作品", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "课本剧作品", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.tv_caraok:
                     tvbookaudio.setTextColor(getResources().getColor(R.color.black));
@@ -127,7 +131,7 @@ public class MyWorksActivity extends FxTabActivity {
                     }
                     switchContent(isFragment, frCaraOK);
 
-                    Toast.makeText(context, "klaok作品", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "klaok作品", Toast.LENGTH_SHORT).show();
                     break;
 
 

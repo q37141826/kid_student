@@ -113,7 +113,7 @@
                     android:paddingRight="12dp"
                     android:paddingTop="8dp"
                     android:text="@string/sendcode"
-                    android:textColor="#FEBF12"
+                    android:textColor="@color/gray_666666"
                     android:textSize="@dimen/text13"/>
             </LinearLayout>
 
@@ -133,12 +133,11 @@
 
                 <ImageView
                     android:id="@+id/image3"
-                    android:layout_width="12dp"
-                    android:layout_height="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_marginLeft="25dp"
-
                     android:src="@drawable/ico_regist_lock"/>
 
 
@@ -174,8 +173,8 @@
 
                 <ImageView
                     android:id="@+id/image4"
-                    android:layout_width="12dp"
-                    android:layout_height="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_marginLeft="25dp"

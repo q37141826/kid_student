@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_bg">#FFFFFF</color>
+    <color name="app_bg">#FEBF12</color>
     <color name="app_bg_a">#A8E9E1</color>
     <color name="transparent">#00000000</color>
     <color name="subtransparent">#30000000</color>
@@ -55,8 +55,11 @@
     <color name="gray_333333">#333333</color>
     <color name="gray_C4C4C6">#C4C4C6</color>
     <color name="gray_E7E7E7">#E7E7E7</color>
+    <color name="gray_f4f4f4">#f4f4f4</color>
 
     <color name="yellow_FEBF12">#FEBF12</color>
     <color name="blue_50D9B6">#50D9B6</color>
+    <color name="blue_4CBAEF">#4CBAEF</color>
+
 
 </resources>

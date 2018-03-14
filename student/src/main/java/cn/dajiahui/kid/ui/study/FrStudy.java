@@ -153,7 +153,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
             if (json.getstatus() == 0) {
                 ChooseUtils chooseUtils = json.parsingObject(ChooseUtils.class);
                 if (chooseUtils != null) {
-                    GlideUtil.showNoneImage(getActivity(), chooseUtils.getLogo(), imgsupplementary);
+                    GlideUtil.showNoneImage(getActivity(), chooseUtils.getLogo(), imgsupplementary, R.drawable.study_default);
                     tvtitle.setText(chooseUtils.getSeries());
                     tvunit.setText(chooseUtils.getName());
                     mBookId = chooseUtils.getId();

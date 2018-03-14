@@ -36,6 +36,7 @@ public class ApHomeWorkDetail extends CommonAdapter<BeAnswerSheet> {
         } else {
             /*未作答*/
             tv_circle.setBackgroundResource(R.drawable.answer_card_noanswer_bg);
+            tv_circle.setTextColor(mContext.getResources().getColor(R.color.black));
         }
 
 

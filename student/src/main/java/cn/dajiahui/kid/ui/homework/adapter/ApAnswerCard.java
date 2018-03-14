@@ -16,9 +16,11 @@ import cn.dajiahui.kid.ui.homework.bean.BeAnswerCArd;
  * 作业答题卡
  */
 public class ApAnswerCard extends CommonAdapter<BeAnswerCArd> {
+    private Context context;
 
     public ApAnswerCard(Context context, List<BeAnswerCArd> mDatas) {
         super(context, mDatas, R.layout.item_answercard);
+        this.context = context;
     }
 
     @SuppressLint("ResourceAsColor")
@@ -32,6 +34,7 @@ public class ApAnswerCard extends CommonAdapter<BeAnswerCArd> {
             tv_circle.setBackgroundResource(R.drawable.answer_card_yesanswer_bg);
         } else {
             tv_circle.setBackgroundResource(R.drawable.answer_card_noanswer_bg);
+            tv_circle.setTextColor(context.getResources().getColor(R.color.black));
         }
     }
 }

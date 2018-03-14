@@ -22,8 +22,7 @@
                 android:id="@+id/topView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp">
+                android:layout_gravity="center">
 
                 <ImageView
                     android:id="@+id/iv_user"
@@ -141,7 +140,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="20px"
             android:background="@color/gray_F5F5F5"
             android:orientation="vertical">
         </LinearLayout>

@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -116,7 +115,7 @@ public class ExChoiceFragment extends ExBaseHomeworkFragment implements CheckHom
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.img_play:
-                    Toast.makeText(activity, "播放音频", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, "播放音频", Toast.LENGTH_SHORT).show();
                     playMp3(mediaUrl);
 
                     break;

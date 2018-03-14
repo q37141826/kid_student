@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
@@ -248,7 +247,7 @@ public class DoPraticeActivity extends FxActivity
                                 for (int i = 0; i < questionModle.getInitSortMyanswerList().size(); i++) {
                                     if (questionModle.getInitSortMyanswerList().get(i).equals("")) {
                                         questionModle.setAnswer(false);
-                                        Toast.makeText(context, "答题未完成，请继续...", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(context, "答题未完成，请继续...", Toast.LENGTH_SHORT).show();
                                         return;
                                     }
                                 }
@@ -266,7 +265,7 @@ public class DoPraticeActivity extends FxActivity
                                     linFragment.submitHomework(questionModle);
                                 } else {
                                     questionModle.setAnswer(false);
-                                    Toast.makeText(context, "答题未完成，请继续...", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(context, "答题未完成，请继续...", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 

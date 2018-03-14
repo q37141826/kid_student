@@ -1,9 +1,11 @@
 package com.hyphenate.easeui.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.fxtx.framework.widgets.StatusBarCompat;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMFileMessageBody;
@@ -15,7 +17,10 @@ import java.io.File;
 
 public class EaseShowNormalFileActivity extends EaseBaseActivity {
 	private ProgressBar progressBar;
-
+    @Override
+    public void setStatusBar(Toolbar title) {
+        StatusBarCompat.compatMain(this);
+    }
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

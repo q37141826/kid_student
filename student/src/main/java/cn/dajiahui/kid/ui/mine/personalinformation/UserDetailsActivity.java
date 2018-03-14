@@ -302,13 +302,13 @@ public class UserDetailsActivity extends FxActivity {
         RequestUtill.getInstance().httpChangeUserInfo(context, new ResultCallback() {
             @Override
             public void onError(Request request, Exception e) {
-                Logger.d("修改失败：" + e);
+//                Logger.d("修改失败：" + e);
                 ToastUtil.showToast(context, ErrorCode.error(e));
             }
 
             @Override
             public void onResponse(String response) {
-                Logger.d("response:" + response);
+//                Logger.d("response:" + response);
                 HeadJson headJson = new HeadJson(response);
 
 

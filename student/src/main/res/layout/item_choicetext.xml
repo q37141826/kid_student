@@ -2,28 +2,26 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/choice_root"
-    android:background="#F4F4F4"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="50dp"
+    android:background="#F4F4F4"
+    android:padding="10dp">
 
-    <!--<ImageView-->
-        <!--android:id="@+id/img_choice"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_marginLeft="@dimen/textpadding"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:background="@null"-->
-        <!--android:clickable="false"-->
-        <!--android:src="@drawable/ico_im_not"/>-->
+    <TextView
+        android:id="@+id/tv_choice_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+
+        />
 
     <TextView
         android:id="@+id/tv_answer"
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:singleLine="false"
         android:layout_alignParentBottom="true"
         android:padding="12dp"
+        android:singleLine="false"
         android:textColor="@color/color5A"
         android:textSize="@dimen/text18"/>
 
@@ -38,5 +36,5 @@
         android:singleLine="true"
         android:textColor="@color/color5A"
         android:textSize="@dimen/text18"/>
-    <!--android:src="@drawable/ico_im_not"-->
+
 </RelativeLayout>

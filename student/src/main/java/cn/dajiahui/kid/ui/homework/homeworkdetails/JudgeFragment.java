@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -29,14 +28,14 @@ import cn.dajiahui.kid.util.Logger;
 public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework {
 
 
-    private TextView tv_judge;
-    private ImageView imgconment, img_play;//, imgtrue, imgfasle
-    private SubmitJudgeFragment submit;
-
-    private JudjeQuestionModle inbasebean;
-    private String mediaUrl;
-    private RelativeLayout answerRoot;
     private List<JudgeAnswerView> mAnswerViewList = new ArrayList();
+    private JudjeQuestionModle inbasebean;//数据模型
+    private TextView tv_judge, tv_schedule;
+    private ImageView imgconment, img_play;
+    private SubmitJudgeFragment submit;
+    private RelativeLayout answerRoot;
+    private String mediaUrl;
+    private Bundle bundle;
 
 
     @Override
@@ -46,11 +45,12 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
     @Override
     public void setArguments(Bundle bundle) {
+        this.bundle = bundle;
         inbasebean = (JudjeQuestionModle) bundle.get("JudgeQuestionModle");
         mediaUrl = inbasebean.getMedia();
     }
 
-
+    /*动态添加选择视图*/
     private void addGroupImage(int size) {
         mAnswerViewList.clear();
         for (int i = 0; i < size; i++) {
@@ -74,18 +74,17 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         super.onViewCreated(view, savedInstanceState);
         initialize();
         tv_judge.setText(inbasebean.getTitle());
+        tv_schedule.setText(bundle.getString("currntQuestion"));
+        /*加载选择视图*/
         addGroupImage(inbasebean.getOptions().size());
 
-          /*加载内容图片*/
+        /*加载内容图片*/
         Glide.with(getActivity()).load(inbasebean.getQuestion_stem()).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgconment);
-
-//        /*作业模式*/
-        if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
-            if (inbasebean.getIs_answered().equals("1")) {
-                addMaskView();
-            }
+        /*添加遮罩*/
+        if (inbasebean.getIs_answered().equals("1")) {
+            addMaskView();
         }
     }
 
@@ -165,6 +164,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
     private void initialize() {
         answerRoot = getView(R.id.choice_root);
         tv_judge = getView(R.id.tv_judge);
+        tv_schedule = getView(R.id.tv_schedule);
         imgconment = getView(R.id.img_conment);
         img_play = getView(R.id.img_play);
         img_play.setOnClickListener(onClick);
@@ -178,7 +178,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.img_play:
-                    Toast.makeText(activity, "播放音频", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, "播放音频", Toast.LENGTH_SHORT).show();
                     if (!mediaUrl.equals("")) {
                         playMp3(mediaUrl);
                     }

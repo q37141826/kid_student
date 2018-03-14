@@ -13,31 +13,31 @@
         android:layout_height="2px"
         android:background="@color/line_gray"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="10dp">-->
 
-        <!--<cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar-->
-            <!--android:id="@+id/seek"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="2dp"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_toStartOf="@+id/tv_schedule"-->
-            <!--android:clickable="false"-->
-            <!--android:focusable="false"-->
-            <!--android:progressDrawable="@drawable/seekbar_style"/>-->
+        <!--&lt;!&ndash;<cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/seek"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="2dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_alignParentTop="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_toStartOf="@+id/tv_schedule"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:clickable="false"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:focusable="false"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:progressDrawable="@drawable/seekbar_style"/>&ndash;&gt;-->
 
-        <TextView
-            android:id="@+id/tv_schedule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="1/3"/>
-    </RelativeLayout>
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/tv_schedule"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_alignParentRight="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="1/3"/>&ndash;&gt;-->
+    <!--</RelativeLayout>-->
 
 
     <LinearLayout

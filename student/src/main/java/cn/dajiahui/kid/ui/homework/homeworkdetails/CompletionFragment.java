@@ -35,7 +35,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
     private CompletionQuestionModle inbasebean;
     private SubmitCompletionFragment submit;
-    private TextView tvcompletion;
+    private TextView tvcompletion, tv_schedule;
     private ImageView imgplay;
     private ImageView imgconment;
     private RelativeLayout horlistviewroot, stemroot;
@@ -53,6 +53,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
     private List<String> standardAnswerList = new ArrayList<>();//参考答案的集合
     private List<String> myAnswerList = new ArrayList<>();//我的答案的集合
+    private Bundle bundle;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -65,6 +66,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
         initialize();
         tvcompletion.setText(inbasebean.getTitle());
+        tv_schedule.setText(bundle.getString("currntQuestion"));
        /*加载内容图片*/
         Glide.with(getActivity()).load(inbasebean.getQuestion_stem()).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -214,6 +216,8 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     /*先走setArguments 在走onPageSelected中的函数 最后走 submitHomework*/
     @Override
     public void setArguments(Bundle bundle) {
+
+        this.bundle = bundle;
         inbasebean = (CompletionQuestionModle) bundle.get("CompletionQuestionModle");
         mediaUrl = inbasebean.getMedia();
     }
@@ -260,6 +264,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         tvcompletion = getView(R.id.tv_completion);
         imgplay = getView(R.id.img_play);
         imgconment = getView(R.id.img_conment);
+        tv_schedule = getView(R.id.tv_schedule);
         horlistviewroot = getView(R.id.horlistviewroot);
         stemroot = getView(R.id.stemroot);
         imgplay.setOnClickListener(this);
@@ -290,13 +295,13 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         if (questionModle != null) {
             inbasebean = (CompletionQuestionModle) questionModle;
             /*作业翻页回来会走 submitHomework*/
-            if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
+//            if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
                 /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/
                 for (int i = 0; i < mAllList.size(); i++) {
                     Map<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
                     mAllList.get(i).setInputContainer(integerObjectMap);
                 }
-            }
+//            }
         }
     }
 

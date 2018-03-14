@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--系统通用文字-->
-    <string name="app_name">魔耳学生端</string>
+    <string name="app_name">魔耳英语学生</string>
     <string name="search">搜索</string>
     <string name="select">选择</string>
     <string name="tv_submit">提交</string>
