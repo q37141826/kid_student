@@ -249,7 +249,12 @@ public class BadgeViewHelper {
         // 获取文本宽所占宽高
         mBadgePaint.getTextBounds(badgeText, 0, badgeText.length(), mBadgeNumberRect);
         // 计算角标背景的宽高
-        int badgeHeight = mBadgeNumberRect.height() + mBadgePadding * 2;
+        int badgeHeight = 0;
+        if (mBadgeNumberRect.height() > 0) {
+            badgeHeight = mBadgeNumberRect.height() + mBadgePadding * 2;
+        } else {
+            badgeHeight = mBadgeNumberRect.height() + mBadgePadding * 3;
+        }
         int badgeWidth;
         // 当mBadgeText的长度为1或0时，计算出来的高度会比宽度大，此时设置宽度等于高度
         if (badgeText.length() == 1 || badgeText.length() == 0) {
@@ -277,7 +282,7 @@ public class BadgeViewHelper {
         }
 
         // 计算角标背景左右的值
-        mBadgeRectF.right = mBadgeable.getWidth() - mBadgeHorizontalMargin;
+        mBadgeRectF.right = mBadgeable.getWidth() * 4 / 5;
         mBadgeRectF.left = mBadgeRectF.right - badgeWidth;
 
         // 设置角标背景色

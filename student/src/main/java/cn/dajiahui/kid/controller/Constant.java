@@ -7,6 +7,7 @@ import cn.dajiahui.kid.ui.homework.bean.Point;
  */
 public class Constant {
     public static final String broad_badge_count_action = "broad_badeg_count_action_ata_student";//角标广播发送
+    public static final String broad_notice_action = "broad_notice_student";//通知
     /**
      * 系统常量 不允许修改
      **/

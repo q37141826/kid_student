@@ -14,6 +14,7 @@ import com.fxtx.framework.platforms.jpush.JpushReceiver;
 import com.fxtx.framework.text.StringUtil;
 
 import cn.dajiahui.kid.controller.Constant;
+import cn.dajiahui.kid.ui.MainActivity;
 
 /**
  * Created by z on 2016/5/4.
@@ -67,6 +68,10 @@ public class StudentReceiver extends JpushReceiver {
                 intent.setAction("NOTIFICATION_XYGL");
                 context.sendBroadcast(intent);
                 break;
+            case Constant.type_zybz:
+                intent.putExtra("notificationID", notificationID);
+                intent.setAction(Constant.broad_notice_action); // 通知
+                context.sendBroadcast(intent);
             default:
                 break;
         }
@@ -115,6 +120,7 @@ public class StudentReceiver extends JpushReceiver {
                 break;
 
         }
+        startAct(context, MainActivity.class,jpush.getForeignId());
     }
 
     private void startAct(Context context, Class classs, String string) {
