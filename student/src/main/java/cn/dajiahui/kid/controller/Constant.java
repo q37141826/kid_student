@@ -87,6 +87,7 @@ public class Constant {
     public static final String type_xc = "xc";//相册
     public static final String type_xcpl = "xcpl";//相册评论
     public static final String type_xchf = "xchf";//相册回复
+    public static final String type_bjdt = "bjdt";//班级动态
 
     public static final String type_xygl = "xygl";//学生管理
     public static final String type_zytj = "zytj";//作业提交
@@ -103,6 +104,9 @@ public class Constant {
     public static final String type_cppz = "cppz";//测评批注
 
     public static final String type_dmtz = "dmtz";//教师点完名学生收到
+
+    public static final String type_jrbj = "jrbj";//同意加入班级
+    public static final String type_mrtz = "mrtz";//摩尔通知
 
     /**
      * 功能拆分code
