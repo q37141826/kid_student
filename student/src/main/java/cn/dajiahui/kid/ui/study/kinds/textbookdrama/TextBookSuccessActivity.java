@@ -8,16 +8,16 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.image.util.GlideUtil;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
+import com.fxtx.framework.platforms.umeng.BeShareContent;
+import com.fxtx.framework.platforms.umeng.UmengShare;
 import com.fxtx.framework.ui.FxActivity;
 import com.squareup.okhttp.Request;
-import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import cn.dajiahui.kid.R;
@@ -68,6 +68,8 @@ public class TextBookSuccessActivity extends FxActivity {
     private BePageDataWork beKaraOkPageData;
     private BeTextBookDramaPageData beTextBookDramaPageData;
     private BePageDataMyWork bePageDataMyWork;//作品详情（我的作品页面过来的）
+    private UmengShare umengShare;
+    private BeShareContent beShareContent;
 
 
     @Override
@@ -97,6 +99,7 @@ public class TextBookSuccessActivity extends FxActivity {
             playVideo(beGoTextBookSuccess.getMineWorksTempPath());
             settingInfo(beGoTextBookSuccess.getMineWorksName(), UserController.getInstance().getUser().getAvatar(),
                     UserController.getInstance().getUser().getNickname(), (beGoTextBookSuccess.getMakeTime()) + "");
+
         } else if (makeTextBookDrma.equals("MakeKraoOke")) {
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
 
@@ -127,7 +130,8 @@ public class TextBookSuccessActivity extends FxActivity {
                 /*设置信息*/
                 settingInfo(beKaraOkPageData.getMy_work().getTitle(), UserController.getInstance().getUser().getAvatar(),
                         UserController.getInstance().getUser().getNickname(), Long.parseLong(beKaraOkPageData.getMy_work().getDate()) * 1000 + "");//)
-
+                /*设置分享信息*/
+                setShareContent(beKaraOkPageData.getMy_work().getShare_url(), beKaraOkPageData.getMy_work().getTitle(), beKaraOkPageData.getMy_work().getThumbnail(), beKaraOkPageData.getMy_work().getDescription());
             } else if (look.equals("textbook")) {/*已经制作玩的课本剧*/
                 /*数据模型*/
                 beTextBookDramaPageData = (BeTextBookDramaPageData) intent.getSerializableExtra("BeTextBookDramaPageData");
@@ -145,6 +149,8 @@ public class TextBookSuccessActivity extends FxActivity {
                 rbscore.setMax(100);
                 rbscore.setProgress(getScore(getAverage(beTextBookDramaPageData.getMy_work().getScore())));
 
+                /*设置分享信息*/
+                setShareContent(beTextBookDramaPageData.getMy_work().getShare_url(), beTextBookDramaPageData.getMy_work().getTitle(), beTextBookDramaPageData.getMy_work().getThumbnail(), beTextBookDramaPageData.getMy_work().getDescription());
             }
         } else if (makeTextBookDrma.equals("LookTextBookDrma")) {/*由我的作品查看 课本剧*/
             bePageDataMyWork = (BePageDataMyWork) intent.getSerializableExtra("BePageDataMyWork");
@@ -211,50 +217,18 @@ public class TextBookSuccessActivity extends FxActivity {
         getView(R.id.tv_recordagain).setOnClickListener(onClick);
         tv_savemineworks = getView(R.id.tv_savemineworks);
         tv_savemineworks.setOnClickListener(onClick);
+        umengShare = new UmengShare();
+        beShareContent = new BeShareContent();
     }
 
-    private UMShareListener shareListener = new UMShareListener() {
-        /**
-         * @descrption 分享开始的回调
-         * @param platform 平台类型
-         */
-        @Override
-        public void onStart(SHARE_MEDIA platform) {
+    /*设置分享信息*/
+    private void setShareContent(String shareUrl, String shareTitle, String shareThumbRes, String shareConcent) {
+        beShareContent.setShareUrl(shareUrl);
+        beShareContent.setShareTitle(shareTitle);
+        beShareContent.setThumbRes(shareThumbRes);
+        beShareContent.setShareContent(shareConcent);
 
-        }
-
-        /**
-         * @descrption 分享成功的回调
-         * @param platform 平台类型
-         */
-        @Override
-        public void onResult(SHARE_MEDIA platform) {
-            Logger.d("成功了");
-            Toast.makeText(TextBookSuccessActivity.this, "成功了", Toast.LENGTH_LONG).show();
-        }
-
-        /**
-         * @descrption 分享失败的回调
-         * @param platform 平台类型
-         * @param t 错误原因
-         */
-        @Override
-        public void onError(SHARE_MEDIA platform, Throwable t) {
-            Logger.d( "失败" + t.getMessage());
-            Toast.makeText(TextBookSuccessActivity.this, "失败" + t.getMessage(), Toast.LENGTH_LONG).show();
-        }
-
-        /**
-         * @descrption 分享取消的回调
-         * @param platform 平台类型
-         */
-        @Override
-        public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(TextBookSuccessActivity.this, "取消了", Toast.LENGTH_LONG).show();
-
-        }
-    };
-
+    }
 
     /*点击事件*/
     private View.OnClickListener onClick = new View.OnClickListener() {
@@ -268,27 +242,13 @@ public class TextBookSuccessActivity extends FxActivity {
 
             switch (v.getId()) {
                 case R.id.img_weixin:
-//                    Logger.d("bePageDataMyWork:" + beTextBookDramaPageData.toString());
-//
-//                    PlatformConfig.setWeixin(FxtxConstant.WEIXIN_APPID, FxtxConstant.WEIXIN_SECRET);
-//                    UMVideo video = new UMVideo(beTextBookDramaPageData.getMy_work().getShare_url());
-//                    video.setTitle(beTextBookDramaPageData.getMy_work().getTitle());//视频的标题
-//                    video.setThumb(new UMImage(TextBookSuccessActivity.this, beTextBookDramaPageData.getMy_work().getThumbnail().toString()));//视频的缩略图
-//                    video.setDescription("my description");//视频的描述
-//
-//                    new ShareAction(TextBookSuccessActivity.this).withText(beTextBookDramaPageData.getMy_work().getTitle()).withMedia(video).setCallback(shareListener).share();
 
-//                    UMWeb web = new UMWeb(beTextBookDramaPageData.getMy_work().getShare_url());
-//                    web.setTitle("课本剧");//标题
-//                    web.setThumb(new UMImage(TextBookSuccessActivity.this, beTextBookDramaPageData.getMy_work().getThumbnail().toString()));  //缩略图
-//                    web.setDescription("my description");//描述
-//                    new ShareAction(TextBookSuccessActivity.this)
-//                            .withMedia(web)
-//                            .share();
-                    Toast.makeText(context, "分享至微信", Toast.LENGTH_SHORT).show();
-
+                    umengShare.share(TextBookSuccessActivity.this, beShareContent).setPlatform(SHARE_MEDIA.WEIXIN).share();
+//                    Toast.makeText(context, "分享至微信", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.img_pengyouquan:
+
+                    umengShare.share(TextBookSuccessActivity.this, beShareContent).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).share();
 //                    Toast.makeText(context, "分享至朋友圈", Toast.LENGTH_SHORT).show();
 
                     break;
@@ -373,6 +333,9 @@ public class TextBookSuccessActivity extends FxActivity {
 
     /*上传我的作品回调*/
     ResultCallback callMineWorksUp = new ResultCallback() {
+
+        private BeUpdateMIneWorks beUpdateMIneWorks;
+
         @Override
         public void onError(Request request, Exception e) {
             dismissfxDialog();
@@ -388,16 +351,18 @@ public class TextBookSuccessActivity extends FxActivity {
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
 
-                BeUpdateMIneWorks beUpdateMIneWorks = json.parsingObject(BeUpdateMIneWorks.class);
-                Logger.d("beUpdateMIneWorks:" + beUpdateMIneWorks.toString());
-
+                beUpdateMIneWorks = json.parsingObject(BeUpdateMIneWorks.class);
+//                Logger.d("beUpdateMIneWorks:" + beUpdateMIneWorks.toString());
                 if (makeTextBookDrma.equals("MakeTextBookDrma")) {
 //                    Logger.d("课本剧上传成功" + response);
+                    /*设置分享信息*/
+                    setShareContent(beUpdateMIneWorks.getShareUrl(), beGoTextBookSuccess.getMineWorksName(), beUpdateMIneWorks.getThumbnail(), beGoTextBookSuccess.getMineWorksName());
 
                 } else if (makeTextBookDrma.equals("MakeKraoOke")) {
-
-                    Logger.d("卡拉OK上传成功" + response);
+                   /*设置分享信息*/
+                    setShareContent(beUpdateMIneWorks.getShareUrl(), beGoTextBookSuccess.getMineWorksName(), beUpdateMIneWorks.getThumbnail(), beGoTextBookSuccess.getMineWorksName());
                 }
+                Logger.d("卡拉OK上传成功" + response);
 
             } else {
                 ToastUtil.showToast(TextBookSuccessActivity.this, json.getMsg());

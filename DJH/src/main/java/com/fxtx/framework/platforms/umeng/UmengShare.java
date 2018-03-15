@@ -4,25 +4,21 @@ import android.app.Activity;
 import android.widget.Toast;
 
 import com.fxtx.framework.FxtxConstant;
-import com.fxtx.framework.R;
 import com.fxtx.framework.log.ToastUtil;
-import com.fxtx.framework.text.StringUtil;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
-import com.umeng.socialize.shareboard.SnsPlatform;
-import com.umeng.socialize.utils.ShareBoardlistener;
 
 /**
- * @author djh-lxc
+ * @author
  * @ClassName: UmengUtil.java
- * @Date 2016年4月20日 下午4:42:59
+ * @Date 2018年3月15日
  * @Description: 友盟分享
  */
-public class UmengShare implements ShareBoardlistener {
+public class UmengShare {
     private Activity context;
     //设置 默认可以分享的平台
     private final SHARE_MEDIA[] displaylist = new SHARE_MEDIA[]
@@ -69,13 +65,13 @@ public class UmengShare implements ShareBoardlistener {
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            if ((platform == SHARE_MEDIA.QQ || platform == SHARE_MEDIA.QZONE) && !StringUtil.isEmpty(beShareContent.getSharePictureUrlMin())) {
-                beShareContent.setSharePictureUrlMin(null);
-                beShareContent.setThumbRes(R.drawable.ico_default);
-                onclick(null, platform);
-            } else {
+//            if ((platform == SHARE_MEDIA.QQ || platform == SHARE_MEDIA.QZONE) && !StringUtil.isEmpty(beShareContent.getSharePictureUrlMin())) {
+////                beShareContent.setSharePictureUrlMin(null);
+////                beShareContent.setThumbRes(R.drawable.ico_default);
+////                onclick(null, platform);
+//            } else {
                 ToastUtil.showToast(context, getShaerMedia(platform) + " 分享失败啦", Toast.LENGTH_SHORT);
-            }
+//            }
         }
 
         /**
@@ -111,41 +107,61 @@ public class UmengShare implements ShareBoardlistener {
         return str;
     }
 
-    @Override
-    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-        ShareAction action = new ShareAction(context);
-        UMWeb web = new UMWeb(beShareContent.getShareUrl());
-        web.setTitle(beShareContent.getShareTitle());//标题
-        UMImage image = null;
-        if (!StringUtil.isEmpty(beShareContent.getSharePictureUrlMin())) {
-            image = new UMImage(context, beShareContent.getSharePictureUrlMin());
-        } else if (beShareContent.getThumbRes() > 0) {
-            image = new UMImage(context, beShareContent.getThumbRes());
-        }
-        if (image != null)
-            web.setThumb(image);  //缩略图
-        web.setDescription(beShareContent.getShareContent());//描述
-        action.withMedia(web);
-        action.setPlatform(share_media).setCallback(umShareListener).share();
-    }
+//    @Override
+//    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+//        ShareAction action = new ShareAction(context);
+//        UMWeb web = new UMWeb(beShareContent.getShareUrl());
+//        web.setTitle(beShareContent.getShareTitle());//标题
+//        UMImage image = null;
+//        if (!StringUtil.isEmpty(beShareContent.getSharePictureUrlMin())) {
+//            image = new UMImage(context, beShareContent.getSharePictureUrlMin());
+//        } else if (beShareContent.getThumbRes() > 0) {
+//            image = new UMImage(context, beShareContent.getThumbRes());
+//        }
+//        if (image != null)
+//            web.setThumb(image);  //缩略图
+//        web.setDescription(beShareContent.getShareContent());//描述
+//        action.withMedia(web);
+//        action.setPlatform(share_media).setCallback(umShareListener).share();
+//    }
 
 
     private BeShareContent beShareContent;
 
-    /**
-     * 分享功能
-     */
-    public void shartShare(Activity activity, BeShareContent beShareContent) {
-        this.context = activity;
-        this.beShareContent = beShareContent;
-        if (beShareContent == null) {
-            ToastUtil.showToast(context, "数据不完整，分享失败");
-            return;
-        }
-        ShareAction action = new ShareAction(activity).setDisplayList(displaylist);
-//        MyShareBord myShareBord = new MyShareBord(beShareContent, activity);
-        action.setShareboardclickCallback(this);
-        action.open();
 
+    public ShareAction share(Activity context, BeShareContent beShareContent) {
+        ShareAction action = new ShareAction(context);
+        UMWeb web = new UMWeb(beShareContent.getShareUrl());
+        web.setTitle(beShareContent.getShareTitle());//标题
+        UMImage image = null;
+//                    if (!StringUtil.isEmpty(beShareContent.getSharePictureUrlMin())) {
+//                        image = new UMImage(context, beShareContent.getSharePictureUrlMin());
+//                    } else if (beShareContent.getThumbRes() > 0) {
+        image = new UMImage(context, beShareContent.getThumbRes());
+//                    }
+        if (image != null)
+            web.setThumb(image);  //缩略图
+        web.setDescription(beShareContent.getShareContent());//描述
+        action.withMedia(web);
+        action.setCallback(umShareListener);
+        return action;
     }
+
+
+//    /**
+//     * 分享功能
+//     */
+//    public void shartShare(Activity activity, BeShareContent beShareContent) {
+//        this.context = activity;
+//        this.beShareContent = beShareContent;
+//        if (beShareContent == null) {
+//            ToastUtil.showToast(context, "数据不完整，分享失败");
+//            return;
+//        }
+//        ShareAction action = new ShareAction(activity).setDisplayList(displaylist);
+////        MyShareBord myShareBord = new MyShareBord(beShareContent, activity);
+//        action.setShareboardclickCallback(this);
+//        action.open();
+//
+//    }
 }

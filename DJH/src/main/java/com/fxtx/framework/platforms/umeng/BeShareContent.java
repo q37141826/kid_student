@@ -3,7 +3,7 @@ package com.fxtx.framework.platforms.umeng;
 import java.io.Serializable;
 
 /**
- * Created by zy on 2016/5/16.
+ * Created mj
  */
 public class BeShareContent implements Serializable {
 
@@ -12,9 +12,9 @@ public class BeShareContent implements Serializable {
     private String shareUrl;//分享时携带的网址
     private String sharePictureUrl;//分享时 图片路径的网络路径
     private String sharePictureUrlMin;//迷你
-    private int thumbRes;//图片资源路径
+    private String thumbRes;//图片资源路径
 
-    public int getThumbRes() {
+    public String getThumbRes() {
         return thumbRes;
     }
 
@@ -26,7 +26,7 @@ public class BeShareContent implements Serializable {
         this.sharePictureUrlMin = sharePictureUrlMin;
     }
 
-    public void setThumbRes(int thumbRes) {
+    public void setThumbRes(String thumbRes) {
         this.thumbRes = thumbRes;
     }
 

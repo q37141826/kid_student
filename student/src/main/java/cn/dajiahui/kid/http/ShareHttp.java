@@ -4,8 +4,6 @@ import com.fxtx.framework.http.ErrorCode;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
-import com.fxtx.framework.platforms.umeng.BeShareContent;
-import com.fxtx.framework.platforms.umeng.UmengShare;
 import com.fxtx.framework.ui.FxActivity;
 import com.squareup.okhttp.Request;
 
@@ -38,8 +36,8 @@ public class ShareHttp {
                 HeadJson json = new HeadJson(response);
                 if (json.getstatus() == 1) {
                     //成功
-                    BeShareContent beTeFile = json.parsingObject(BeShareContent.class);
-                    new UmengShare().shartShare(activity, beTeFile);
+//                    BeShareContent beTeFile = json.parsingObject(BeShareContent.class);
+//                    new UmengShare().shartShare(activity, beTeFile);
                 } else {
                     ToastUtil.showToast(activity, json.getMsg());
                 }

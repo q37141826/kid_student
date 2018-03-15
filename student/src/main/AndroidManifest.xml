@@ -238,6 +238,22 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape"
             android:theme="@style/NoTitle"/>
+        <activity android:name=".ui.study.kinds.textbookdrama.TextBookDramaActivity">
+        </activity>
+        <activity
+            android:name=".ui.study.kinds.textbookdrama.MakeTextBookDrmaActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ui.study.kinds.textbookdrama.TextBookSuccessActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".ui.study.kinds.karaoke.KaraOkeActivity">
+        </activity>
+        <activity android:name=".ui.study.kinds.karaoke.MakeKraoOkeActivity">
+        </activity>
         <!-- Umeng -->
         <!-- 微信分享 -->
         <activity
@@ -413,22 +429,7 @@
             android:name="com.fxtx.framework.image.MyGlideMoudle"
             android:value="GlideModule"/>
 
-        <activity android:name=".ui.study.kinds.textbookdrama.TextBookDramaActivity">
-        </activity>
-        <activity
-            android:name=".ui.study.kinds.textbookdrama.MakeTextBookDrmaActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name=".ui.study.kinds.textbookdrama.TextBookSuccessActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".ui.study.kinds.karaoke.KaraOkeActivity">
-        </activity>
-        <activity android:name=".ui.study.kinds.karaoke.MakeKraoOkeActivity">
-        </activity>
+
 
         <!-- 驰声测试用start -->
         <activity
