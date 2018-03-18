@@ -49,7 +49,7 @@ public class ReadingBookActivity extends FxActivity {
         onBackText();
 //        HideNavigationBar();
         onBackText();
-        onRightBtn(R.string.play);
+//        onRightBtn(R.string.play);
 
 
     }
@@ -100,7 +100,8 @@ public class ReadingBookActivity extends FxActivity {
 
     @Override
     public void onRightBtnClick(View view) {
-        playAll.playAll();
+            /*关闭连读*/
+//        playAll.playAll();
     }
 
     /*初始化*/

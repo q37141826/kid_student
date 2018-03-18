@@ -80,7 +80,8 @@
             android:background="@color/gray_DCDCDC"
             android:text="重新录制"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:visibility="gone"/>
 
 
     </LinearLayout>

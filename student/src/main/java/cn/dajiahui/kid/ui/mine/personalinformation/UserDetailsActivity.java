@@ -16,6 +16,7 @@ import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.image.util.GlideUtil;
 import com.fxtx.framework.image.util.ImageUtil;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.util.BaseUtil;
@@ -34,7 +35,6 @@ import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.ui.mine.bean.BeShowUserProfileInfo;
 import cn.dajiahui.kid.ui.mine.bean.BeUpUserIcon;
 import cn.dajiahui.kid.util.DjhJumpUtil;
-import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.TimeSelector.CustomDatePicker;
 
 

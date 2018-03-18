@@ -7,6 +7,7 @@ import android.media.MediaMetadataRetriever;
 import android.os.Handler;
 import android.os.Message;
 
+import com.fxtx.framework.log.Logger;
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
@@ -20,7 +21,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import cn.dajiahui.kid.util.KidConfig;
-import cn.dajiahui.kid.util.Logger;
 
 /**
  * Created by majin on 2018/2/2.

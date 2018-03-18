@@ -268,6 +268,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         horlistviewroot = getView(R.id.horlistviewroot);
         stemroot = getView(R.id.stemroot);
         imgplay.setOnClickListener(this);
+        imgplay.setBackground(animationDrawable);
     }
 
     /*监听editext输入*/

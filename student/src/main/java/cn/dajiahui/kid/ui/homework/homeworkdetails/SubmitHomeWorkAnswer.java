@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.squareup.okhttp.Request;
 
@@ -13,7 +14,6 @@ import java.util.List;
 import cn.dajiahui.kid.ui.homework.bean.BeSaveAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.BeSubmitAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
-import cn.dajiahui.kid.util.Logger;
 
 /**
  * Created by majin on 2018/2/8.

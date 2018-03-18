@@ -20,7 +20,6 @@ import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookSuccessActivity;
 import cn.dajiahui.kid.ui.study.view.LazyLoadFragment;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
-import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.MD5;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
@@ -61,7 +60,7 @@ public class KaraOkeFragment extends LazyLoadFragment {
         if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathKaraOkeMp4() + sMp4)) {
             downloadKaraOkeMp4();
         } else {
-            Logger.d("播放本地卡拉OK ：" + KidConfig.getInstance().getPathKaraOkeMp4() + sMp4);
+//            Logger.d("播放本地卡拉OK ：" + KidConfig.getInstance().getPathKaraOkeMp4() + sMp4);
             playVideo(KidConfig.getInstance().getPathKaraOkeMp4() + sMp4);
         }
         /*判断背景音文件是否下载过*/
@@ -89,15 +88,12 @@ public class KaraOkeFragment extends LazyLoadFragment {
 
     /*下载卡拉okmp4*/
     private void downloadKaraOkeMp4() {
-        Logger.d("下载----downloadKaraOkeMp4----" + beKaraOkPageData.getPage_url());
 
         BeDownFile file = new BeDownFile(Constant.file_kaoraok_mp4, beKaraOkPageData.getPage_url(), "", KidConfig.getInstance().getPathTemp());
-
         new DownloadFile((KaraOkeActivity) getActivity(), file, false, new OnDownload() {
             @Override
             public void onDownload(String fileurl, FxProgressDialog progressDialog) {
                 progressDialog.dismiss();
-                Logger.d("fileurl:" + fileurl);
                 /*下载成功后播放*/
                 playVideo(fileurl);
 
@@ -107,7 +103,6 @@ public class KaraOkeFragment extends LazyLoadFragment {
 
     /*下载卡拉ok背景音*/
     private void downloadKaraOkeBackground() {
-//        Logger.d("下载----downloadKaraOk背景音----" + beKaraOkPageData.getMusic_oss_name());
 
         BeDownFile file = new BeDownFile(Constant.file_kaoraok_bgAudio, beKaraOkPageData.getMusic_oss_name(), "", KidConfig.getInstance().getPathTemp());
 
@@ -117,9 +112,6 @@ public class KaraOkeFragment extends LazyLoadFragment {
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
-
-                Logger.d("fileurl:" + fileurl);
-
 
             }
         });
@@ -135,6 +127,14 @@ public class KaraOkeFragment extends LazyLoadFragment {
         singok_root = findViewById(R.id.singok_root);
 
         btn_look.setOnClickListener(onClick);
+
+        if (beKaraOkPageData != null && beKaraOkPageData.getMy_work_status().equals("1")) {
+            btn_look.setText("作品查看");
+        } else {
+            btn_look.setText("开始配音");
+        }
+
+
     }
 
     private View.OnClickListener onClick = new View.OnClickListener() {

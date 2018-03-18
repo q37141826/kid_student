@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.tag.TagGroup;
@@ -27,7 +28,6 @@ import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDrama;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageData;
 import cn.dajiahui.kid.ui.study.view.NoScrollViewPager;
-import cn.dajiahui.kid.util.Logger;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /*
@@ -95,8 +95,12 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
                     page_data = beTextBookDrama.getPage_data();
                     TextBookDramAdapter textBookDramAdapter = new TextBookDramAdapter(getSupportFragmentManager(), page_data);
                     mViewpager.setAdapter(textBookDramAdapter);
-                    /*设置小点点*/
-                    setTips();
+                    if (page_data.size() > 1) {
+                     /*设置小点点*/
+                        setTips();
+                    }
+
+
                     mViewpager.setOnPageChangeListener(TextBookDramaActivity.this);
                 }
             } else {
@@ -115,6 +119,7 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
     }
 
     private Map<Integer, TextBookDramaFragment> map = new HashMap<>();
+
     /*课本剧适配器*/
     class TextBookDramAdapter extends FragmentStatePagerAdapter {
         List<BeTextBookDramaPageData> page_data;
@@ -134,7 +139,7 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
         public Fragment getItem(int position) {
 
             TextBookDramaFragment dramaFragment = new TextBookDramaFragment();
-            map.put(position,dramaFragment);
+            map.put(position, dramaFragment);
             Bundle bundle = new Bundle();
             bundle.putSerializable("page_data", (Serializable) page_data);
             bundle.putInt("position", position);

@@ -17,6 +17,8 @@ package cn.dajiahui.kid.util;
 
 import android.text.TextUtils;
 
+import com.fxtx.framework.log.Logger;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

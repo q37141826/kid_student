@@ -43,7 +43,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ring3"/>
+           />
 
         <RelativeLayout
             android:id="@+id/allroot"

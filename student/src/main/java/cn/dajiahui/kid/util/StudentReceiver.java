@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.fxtx.framework.json.GsonUtil;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.platforms.jpush.JpushReceiver;
 import com.fxtx.framework.text.StringUtil;

@@ -288,7 +288,7 @@ public class AnswerCardActivity extends FxActivity {
             append = SortstringBuffer.append("," + sqm.getInitSortMyanswerList().get(q));
         }
          /*集合不包含㊒*/
-        if (!sqm.getInitSortMyanswerList().equals("㊒")) {
+        if (sqm.getInitSortMyanswerList().size() > 0 && !sqm.getInitSortMyanswerList().equals("㊒")) {
             sqm.setIs_auto(MANUAL);//手动提交
             sqm.setIs_answered(ANSWER_YES);//已经回答
             sqm.setMy_answer(sqm.getInitSortMyanswerList().get(0) + append.toString());
@@ -302,7 +302,9 @@ public class AnswerCardActivity extends FxActivity {
         } else {
             sqm.setIs_auto(AUTOMATIC);//自动提交
             sqm.setIs_answered(ANSWER_NO);//未回答
-            sqm.setMy_answer(sqm.getInitSortMyanswerList().get(0) + append.toString());
+            if (sqm.getInitSortMyanswerList().size() > 0) {
+                sqm.setMy_answer(sqm.getInitSortMyanswerList().get(0) + append.toString());
+            }
             sqm.setIs_right(WRONG);
         }
         submitAnswerCardList.add(new BeSubmitAnswerCard(sqm.getId(), sqm.getQuestion_cate_id(), sqm.getMy_answer(), sqm.getIs_right(), sqm.getIs_auto(), sqm.getIs_answered()));

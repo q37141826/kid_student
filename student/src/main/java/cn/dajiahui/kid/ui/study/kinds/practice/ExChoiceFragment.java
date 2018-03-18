@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.fxtx.framework.log.Logger;
 
 import java.util.List;
 
@@ -20,7 +21,6 @@ import cn.dajiahui.kid.ui.homework.bean.BeChoiceOptions;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.ui.study.kinds.practice.adapter.ApExChoice;
-import cn.dajiahui.kid.util.Logger;
 
 
 /**

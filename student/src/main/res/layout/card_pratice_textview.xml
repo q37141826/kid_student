@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <cn.dajiahui.kid.ui.study.view.CompositionTextView
+        android:id="@+id/tv_english"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="bottom|center"
+        android:scrollbars="vertical"
+        android:textSize="40sp"/>
+
+    <cn.dajiahui.kid.ui.study.view.CompositionTextView
+        android:id="@+id/tv_chinese"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top|center"
+        android:scrollbars="vertical"/>
+
+</LinearLayout>

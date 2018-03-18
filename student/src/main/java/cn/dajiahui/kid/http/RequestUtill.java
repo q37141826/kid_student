@@ -9,6 +9,7 @@ import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.http.request.OkHttpDownloadRequest;
 import com.fxtx.framework.http.request.OkHttpRequest;
 import com.fxtx.framework.image.util.ImageUtil;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 
 import java.io.File;
@@ -18,7 +19,6 @@ import java.util.List;
 import cn.dajiahui.kid.BuildConfig;
 import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.util.KidConfig;
-import cn.dajiahui.kid.util.Logger;
 
 
 /**

@@ -31,6 +31,7 @@ import com.chivox.cube.util.constant.ErrorCode;
 import com.fxtx.framework.chivox.ChivoxBasicActivity;
 import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.json.GsonUtil;
+import com.fxtx.framework.log.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,7 +56,6 @@ import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.ui.study.view.NoScrollViewPager;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
-import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.MD5;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 

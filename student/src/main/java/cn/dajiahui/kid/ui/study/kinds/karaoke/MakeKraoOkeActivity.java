@@ -12,9 +12,9 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.fxtx.framework.file.FileUtil;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.dialog.FxProgressDialog;
-import com.fxtx.framework.widgets.dialog.RecordingDialog;
 
 import java.io.File;
 import java.util.Timer;
@@ -34,7 +34,6 @@ import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookSuccessActivity;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
-import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.MD5;
 import cn.dajiahui.kid.util.RecorderUtil;
 
@@ -47,7 +46,7 @@ public class MakeKraoOkeActivity extends FxActivity {
     private VideoView mVideoView;
     private TextView tv_english;
     private TextView tv_chinese;
-    private Button startRecord, mRestartRecord;
+    private Button startRecord;//, mRestartRecord
     private BePageDataWork bePageDataWork;
     private Timer timer;
     private int mCurrentPosition = 0;//当前显示中英文数据源的角标
@@ -66,7 +65,7 @@ public class MakeKraoOkeActivity extends FxActivity {
                 int startTime = msg.arg1;
                 if (mVideoView.isPlaying()) {
                     int currentPosition = mCurrentMp.getCurrentPosition();
-                    Logger.d("startTime:" + startTime);
+//                    Logger.d("startTime:" + startTime);
                     /*实时在start区间内 显示中英文*/
                     if (((startTime - 600) < (currentPosition)) && ((currentPosition) < (startTime + 600))) {
                         mCurrentPosition++;
@@ -80,7 +79,7 @@ public class MakeKraoOkeActivity extends FxActivity {
                 int mRecordLength = msg.arg2;
                 if (mRecordLength < -1) {
 //                    Toast.makeText(MakeKraoOkeActivity.this, "停止录音", Toast.LENGTH_SHORT).show();
-                    Logger.d("录音倒计时:" + mRecordLength);
+//                    Logger.d("录音倒计时:" + mRecordLength);
                     String RecordPath = recorderUtil.stopRecording();
                     Logger.d("RecordPath:" + RecordPath);
                     startRecord.setText("完成录制");
@@ -123,7 +122,7 @@ public class MakeKraoOkeActivity extends FxActivity {
                 bundle.putString("MakeFlag", "MakeKraoOke");
                 bundle.putString("ShowBottom", "SHOW");
                 bundle.putSerializable("BeGoTextBookSuccess", beGoTextBookSuccess);
-                DjhJumpUtil.getInstance().startBaseActivityForResult(context, TextBookSuccessActivity.class, bundle, 2);
+                DjhJumpUtil.getInstance().startBaseActivityForResult(context, TextBookSuccessActivity.class, bundle, DjhJumpUtil.getInstance().activity_makekalaok_request);
                 isOKOnclick = !isOKOnclick;
                 /*打开声音视频*/
                 openVideoviewSound();
@@ -228,9 +227,9 @@ public class MakeKraoOkeActivity extends FxActivity {
         tv_english = getView(R.id.tv_english);
         tv_chinese = getView(R.id.tv_chinese);
         startRecord = getView(R.id.btn_startRecord);
-        mRestartRecord = getView(R.id.btn_RestartRecord);
+//        mRestartRecord = getView(R.id.btn_RestartRecord);
         startRecord.setOnClickListener(onClick);
-        mRestartRecord.setOnClickListener(onClick);
+//        mRestartRecord.setOnClickListener(onClick);
         recorderUtil = new RecorderUtil();
 //        mVideoView.setMediaController(new MediaController(this));
     }
@@ -326,9 +325,8 @@ public class MakeKraoOkeActivity extends FxActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_startRecord:
+
                     if (isOKRecord) {
-             /*用ffmpeg合成音视频   合成成功之后 跳转至成功页面*/
-//                Toast.makeText(context, "完成录音！", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if (!isOKOnclick) {
@@ -349,45 +347,11 @@ public class MakeKraoOkeActivity extends FxActivity {
                         PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + sBackground);
                         isOKOnclick = !isOKOnclick;
                         startRecord.setBackgroundColor(getResources().getColor(R.color.gray_DCDCDC));
-                        mRestartRecord.setBackgroundColor(getResources().getColor(R.color.yellow_FEBF12));
+//                       mRestartRecord.setBackgroundColor(getResources().getColor(R.color.yellow_FEBF12));
 //                      Toast.makeText(context, "开始录音", Toast.LENGTH_SHORT).show();
 
-                    } else {
+                    }
 
-//                        Toast.makeText(context, "卡拉ok录制未完成！", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                case R.id.btn_RestartRecord:
-                    if (mVideoView.isPlaying()) {
-                        if (timer != null) {
-                            timer.cancel();
-                            timer = null;
-                        }
-                        if (timerRecoding != null) {
-                            timerRecoding.cancel();
-                            timerRecoding = null;
-                        }
-                        isOKOnclick = !isOKOnclick;
-                    /*弹框重新录制*/
-                        RecordingDialog recordingDialog = new RecordingDialog(MakeKraoOkeActivity.this) {
-                            @Override
-                            public void onSureBtn(int flag) {
-                            /*停止录音*/
-                                recorderUtil.stopRecording();
-                             /*暂停播放的背景音*/
-                                PlayMedia.getPlaying().mediaPlayer.stop();
-                            /*置空取名*/
-                                recorderUtil.cleanFileName();
-                            /*停止播放视频*/
-                                mVideoView.stopPlayback();
-                            /*改变录音按钮颜色*/
-                                startRecord.setBackgroundColor(getResources().getColor(R.color.yellow_FEBF12));
-                                this.dismiss();
-                            }
-                        };
-                        recordingDialog.setTitle("重新录制");
-                        recordingDialog.show();
-                    }
                     break;
                 default:
                     break;
@@ -407,7 +371,7 @@ public class MakeKraoOkeActivity extends FxActivity {
                 public void run() {
                     Message msg = Message.obtain();
                     mRecordLength -= 1;
-                    Logger.d("录音总时长：" + mRecordLength);
+//                    Logger.d("录音总时长：" + mRecordLength);
                     msg.arg2 = mRecordLength;
                     msg.what = 1;
                     mHandler.sendMessage(msg); // 发送消息
@@ -441,7 +405,7 @@ public class MakeKraoOkeActivity extends FxActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2 && resultCode == 2) {
+        if (requestCode == DjhJumpUtil.getInstance().activity_makekalaok_request && resultCode == DjhJumpUtil.getInstance().activity_makekalaok_result) {
             isOKRecord = false;
             isOKOnclick = !isOKOnclick;
             /*改变录音按钮颜色*/

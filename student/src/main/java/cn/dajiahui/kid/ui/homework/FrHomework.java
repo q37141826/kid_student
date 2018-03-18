@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
@@ -18,13 +20,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.homework.adapter.ApHomework;
 import cn.dajiahui.kid.ui.homework.bean.BeHomeWorkList;
 import cn.dajiahui.kid.ui.homework.bean.BeHomework;
 import cn.dajiahui.kid.ui.homework.homeworkdetails.HomeWorkDetailsActivity;
+import cn.dajiahui.kid.ui.homework.view.AddClassDialog;
+import cn.dajiahui.kid.ui.login.bean.BeUser;
+import cn.dajiahui.kid.ui.mine.myclass.AddClassActivity;
 import cn.dajiahui.kid.util.DjhJumpUtil;
-import cn.dajiahui.kid.util.Logger;
 
 /**
  * 作业
@@ -36,6 +41,7 @@ public class FrHomework extends FxFragment {
     private ApHomework apHomework;//作业列表适配器
     private List<BeHomework> mHomeWorklists = new ArrayList<BeHomework>();
     private MaterialRefreshLayout refresh;
+    private AddClassDialog addClassDialog;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -81,6 +87,25 @@ public class FrHomework extends FxFragment {
 
             }
         });
+
+        /*判断是否加入班级*/
+        BeUser user = UserController.getInstance().getUser();
+        if (!user.getClass_status().equals("2")) {
+            /*弹框引导加入班级*/
+        addClassDialog = new AddClassDialog(getActivity(), R.layout.dialog_addclass) {
+            @Override
+            public void initView() {
+                Button buttonCancle = (Button) rootView.findViewById(R.id.btn_cancle);
+                buttonCancle.setOnClickListener(onClick);
+                Button buttonChoice = (Button) rootView.findViewById(R.id.btn_choose);
+                buttonChoice.setOnClickListener(onClick);
+
+            }
+        };
+        addClassDialog.show();
+
+        }
+
     }
 
 
@@ -129,6 +154,14 @@ public class FrHomework extends FxFragment {
             switch (v.getId()) {
                 case R.id.tv_null:
                     homeworkHttp();
+                    break;
+                case R.id.btn_cancle:
+                    addClassDialog.dismiss();
+                    break;
+
+                case R.id.btn_choose:
+                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), AddClassActivity.class);
+                    addClassDialog.dismiss();
                     break;
             }
         }

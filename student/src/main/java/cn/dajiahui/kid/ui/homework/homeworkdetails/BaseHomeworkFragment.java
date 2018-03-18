@@ -1,6 +1,8 @@
 package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +12,8 @@ import android.view.View;
 import com.fxtx.framework.ui.FxFragment;
 
 import java.io.IOException;
+
+import cn.dajiahui.kid.R;
 
 /**
  * Created by lenovo on 2018/1/5.
@@ -33,6 +37,8 @@ public abstract class BaseHomeworkFragment extends FxFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mediaPlayer = new MediaPlayer();
+        /*设置动画*/
+        settingRing();
     }
 
     @Override
@@ -74,5 +80,38 @@ public abstract class BaseHomeworkFragment extends FxFragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                if (animationDrawable != null && !animationDrawable.isRunning()) {
+                    animationDrawable.start();
+                }
+
+            }
+        });
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+
+                if (animationDrawable != null && animationDrawable.isRunning()) {
+                    animationDrawable.stop();
+                }
+
+            }
+        });
     }
+
+    public AnimationDrawable animationDrawable;
+
+    @SuppressLint("ResourceType")
+    private void settingRing() {
+        // 通过逐帧动画的资源文件获得AnimationDrawable示例
+        animationDrawable = (AnimationDrawable) getResources().getDrawable(
+                R.drawable.ring);
+
+
+    }
+
 }

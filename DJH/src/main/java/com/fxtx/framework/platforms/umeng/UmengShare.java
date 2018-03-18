@@ -70,7 +70,7 @@ public class UmengShare {
 ////                beShareContent.setThumbRes(R.drawable.ico_default);
 ////                onclick(null, platform);
 //            } else {
-                ToastUtil.showToast(context, getShaerMedia(platform) + " 分享失败啦", Toast.LENGTH_SHORT);
+            ToastUtil.showToast(context, getShaerMedia(platform) + " 分享失败啦", Toast.LENGTH_SHORT);
 //            }
         }
 
@@ -137,7 +137,8 @@ public class UmengShare {
 //                    if (!StringUtil.isEmpty(beShareContent.getSharePictureUrlMin())) {
 //                        image = new UMImage(context, beShareContent.getSharePictureUrlMin());
 //                    } else if (beShareContent.getThumbRes() > 0) {
-        image = new UMImage(context, beShareContent.getThumbRes());
+
+        image = new UMImage(context, beShareContent.getThumbRes());//beShareContent.getThumbRes()
 //                    }
         if (image != null)
             web.setThumb(image);  //缩略图

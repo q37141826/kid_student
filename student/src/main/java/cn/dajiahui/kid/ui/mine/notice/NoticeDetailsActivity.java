@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.squareup.okhttp.Request;
@@ -12,7 +13,6 @@ import com.squareup.okhttp.Request;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.mine.bean.BeNoticeLists;
-import cn.dajiahui.kid.util.Logger;
 
 /*通知详情
 *

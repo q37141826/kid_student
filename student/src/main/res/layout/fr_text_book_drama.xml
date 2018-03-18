@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="50dp"
         android:text="Listen and say"
         android:textColor="@color/white"
         android:textSize="18dp"/>
@@ -22,7 +22,7 @@
         android:layout_below="@+id/tv_unit"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="51dp">
+        android:layout_marginTop="30dp">
 
         <cn.dajiahui.kid.ui.study.kinds.karaoke.JCVideoPlayerStudentFragment
             android:id="@+id/videoplayer"
@@ -39,60 +39,59 @@
         android:layout_below="@+id/videoplayerroot"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@color/yellow_FEBF12"
-        android:text="查看"/>
+        android:background="@drawable/round_bgyellow_10"
+        android:textColor="@color/white"
+        android:textSize="15sp"/>
 
 
     <RelativeLayout
         android:id="@+id/info_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/btn_look"
+        android:padding="10dp"
         android:visibility="gone">
 
         <ImageView
             android:id="@+id/img_head"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/tv_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_head"
             android:textColor="@color/white"
             android:textSize="15sp"/>
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/tv_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
             android:layout_marginRight="20dp"
-            android:orientation="vertical">
+            android:text="0分"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
 
-            <TextView
-                android:id="@+id/tv_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="0分"
-                android:textColor="@color/white"
-                android:textSize="15sp"/>
-
-            <RatingBar
-                android:id="@+id/rb_score"
-                style="@style/myratingbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/tv_score"
-                android:numStars="5"/>
-        </LinearLayout>
-
+        <RatingBar
+            android:id="@+id/rb_score"
+            style="@style/myratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_score"
+            android:numStars="5"
+            />
 
     </RelativeLayout>
 

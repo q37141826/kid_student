@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.fxtx.framework.http.ErrorCode;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.platforms.jpush.JpushUtil;
 import com.fxtx.framework.ui.FxActivity;
@@ -21,7 +22,6 @@ import cn.dajiahui.kid.ui.chat.constant.PreferenceManager;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
-import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.SpUtil;
 
 /**
@@ -50,13 +50,13 @@ public class LoginHttp {
             @Override
             public void onError(Request request, Exception e) {
                 onLogin.error();
-                Logger.d( "登录失败：" + e);
+                Logger.d( "学生端登录失败：" + e);
                 ToastUtil.showToast(context, ErrorCode.error(e));
             }
 
             @Override
             public void onResponse(String response) {
-                Logger.d( "登录成功：" + response);
+                Logger.d( "学生端登录成功：" + response);
                 HeadJson json = new HeadJson(response);
                 if (json.getstatus() == 0) {
                     BeUser temp = json.parsingObject(BeUser.class);

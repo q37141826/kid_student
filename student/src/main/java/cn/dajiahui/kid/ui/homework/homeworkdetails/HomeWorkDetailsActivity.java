@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.text.ParseUtil;
 import com.fxtx.framework.ui.FxActivity;
@@ -26,7 +27,6 @@ import cn.dajiahui.kid.ui.homework.bean.BeAnswerSheet;
 import cn.dajiahui.kid.ui.homework.bean.BeHomeWorkDetails;
 import cn.dajiahui.kid.util.DateUtils;
 import cn.dajiahui.kid.util.DjhJumpUtil;
-import cn.dajiahui.kid.util.Logger;
 
 /*
 *

@@ -56,50 +56,6 @@ public class TextBookDramaFragment extends LazyLoadFragment {
     private TextView tv_score;
     private RatingBar rb_score;
 
-
-//    @Override
-//    protected View initinitLayout(LayoutInflater inflater) {
-//        return inflater.inflate(R.layout.fr_text_book_drama, null);
-//    }
-
-    //    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        bundle = getArguments();
-//        initialize();
-//        page_data = (List<BeTextBookDramaPageData>) bundle.get("page_data");
-//        position = bundle.getInt("position");
-//        beTextBookDramaPageData = page_data.get(position);
-//        String page_url = beTextBookDramaPageData.getPage_url();
-//        tvunit.setText(beTextBookDramaPageData.getTitle());
-//
-//        /*文件名以MD5加密*/
-//        String mp4Name = MD5.getMD5(page_url.substring(page_url.lastIndexOf("/"))) + ".mp4";
-//        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name)) {
-//             /*网络下载Mp3*/
-//            downloadTextBookPlayBgAudio(beTextBookDramaPageData);
-//            /*网络下载Mp4*/
-//            downloadTextBookPlayData(beTextBookDramaPageData);
-//        } else {
-//            Logger.d("播放本地课本剧："+KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name);
-//            /*读取本地*/
-//            playTextBook(KidConfig.getInstance().getPathTextbookPlayMp4() + mp4Name);
-//        }
-//
-//           /*已经制作完成课本剧 要显示分数*/
-//        if (beTextBookDramaPageData.getMy_work_status().equals("1")) {
-//            if (beTextBookDramaPageData.getMy_work() != null) {
-//            /*显示打分布局*/
-//                info_root.setVisibility(View.VISIBLE);
-//            /*加载圆形图片*/
-//                GlideUtil.showRoundImage(getActivity(), UserController.getInstance().getUser().getAvatar(), img_head, R.drawable.ico_default_user, true);
-//                tv_author.setText(UserController.getInstance().getUser().getNickname());
-//                tv_score.setText(getAverage(beTextBookDramaPageData.getMy_work().getScore()) + "分");/*获取平均分*/
-//                rb_score.setMax(100);
-//                rb_score.setProgress(getScore(getAverage(beTextBookDramaPageData.getMy_work().getScore())));
-//            }
-//        }
-//    }
     @Override
     protected int setContentView() {
         return R.layout.fr_text_book_drama;
@@ -108,11 +64,11 @@ public class TextBookDramaFragment extends LazyLoadFragment {
     @Override
     protected void lazyLoad() {
         bundle = getArguments();
-        initialize();
         page_data = (List<BeTextBookDramaPageData>) bundle.get("page_data");
         position = bundle.getInt("position");
         beTextBookDramaPageData = page_data.get(position);
         String page_url = beTextBookDramaPageData.getPage_url();
+        initialize();
         tvunit.setText(beTextBookDramaPageData.getTitle());
 
         /*文件名以MD5加密*/
@@ -129,17 +85,17 @@ public class TextBookDramaFragment extends LazyLoadFragment {
         }
 
            /*已经制作完成课本剧 要显示分数*/
-        if (beTextBookDramaPageData.getMy_work_status().equals("1")) {
-            if (beTextBookDramaPageData.getMy_work() != null) {
+        if (beTextBookDramaPageData.getMy_work() != null && beTextBookDramaPageData.getMy_work_status().equals("1")) {
+
             /*显示打分布局*/
-                info_root.setVisibility(View.VISIBLE);
+            info_root.setVisibility(View.VISIBLE);
             /*加载圆形图片*/
-                GlideUtil.showRoundImage(getActivity(), UserController.getInstance().getUser().getAvatar(), img_head, R.drawable.ico_default_user, true);
-                tv_author.setText(UserController.getInstance().getUser().getNickname());
-                tv_score.setText(getAverage(beTextBookDramaPageData.getMy_work().getScore()) + "分");/*获取平均分*/
-                rb_score.setMax(100);
-                rb_score.setProgress(getScore(getAverage(beTextBookDramaPageData.getMy_work().getScore())));
-            }
+            GlideUtil.showRoundImage(getActivity(), UserController.getInstance().getUser().getAvatar(), img_head, R.drawable.ico_default_user, true);
+            tv_author.setText(UserController.getInstance().getUser().getNickname());
+            tv_score.setText(getAverage(beTextBookDramaPageData.getMy_work().getScore()) + "分");/*获取平均分*/
+            rb_score.setMax(100);
+            rb_score.setProgress(getScore(getAverage(beTextBookDramaPageData.getMy_work().getScore())));
+
         }
     }
 
@@ -198,6 +154,12 @@ public class TextBookDramaFragment extends LazyLoadFragment {
         tv_score = findViewById(R.id.tv_score);
         rb_score = findViewById(R.id.rb_score);
 
+        if (beTextBookDramaPageData != null && beTextBookDramaPageData.getMy_work_status().equals("1")) {
+            btn_look.setText("作品查看");
+        } else {
+            btn_look.setText("开始配音");
+        }
+
 
     }
 
@@ -230,7 +192,6 @@ public class TextBookDramaFragment extends LazyLoadFragment {
     public void onPause() {
         super.onPause();
         JCVideoPlayerStandard.releaseAllVideos();
-//        JCMediaManager.instance().mediaPlayer.release();
     }
 
     /*评分算法 20分为一颗星*/

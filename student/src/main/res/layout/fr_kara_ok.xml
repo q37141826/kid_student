@@ -39,8 +39,9 @@
         android:layout_below="@+id/videoplayerroot"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@color/yellow_FEBF12"
-        android:text="查看"/>
+        android:textColor="@color/white"
+        android:background="@drawable/round_bgyellow_10"
+       />
 
     <LinearLayout
         android:id="@+id/singok_root"

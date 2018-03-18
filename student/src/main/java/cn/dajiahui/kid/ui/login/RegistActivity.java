@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.fxtx.framework.http.ErrorCode;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.pickerview.TimePickerView;
 import com.fxtx.framework.text.StringUtil;
@@ -24,7 +25,6 @@ import java.util.Date;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
-import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.StudentTextWatcher;
 
 /**
@@ -109,13 +109,13 @@ public class RegistActivity extends FxActivity {
                 tvBoy.setTextColor(getResources().getColor(R.color.white));
                 tvGirl.setTextColor(getResources().getColor(R.color.text_gray));
                 tvBoy.setBackgroundResource(R.drawable.select_btn_yellowbg);
-                tvGirl.setBackgroundResource(R.drawable.select_btn_graybg);
+                tvGirl.setBackgroundResource(R.drawable.select_btn_bg_gray);
 
             } else if (v.getId() == R.id.tv_girl) {
                 sex = "1";
                 tvBoy.setTextColor(getResources().getColor(R.color.text_gray));
                 tvGirl.setTextColor(getResources().getColor(R.color.white));
-                tvBoy.setBackgroundResource(R.drawable.select_btn_graybg);
+                tvBoy.setBackgroundResource(R.drawable.select_btn_bg_gray);
                 tvGirl.setBackgroundResource(R.drawable.select_btn_yellowbg);
 
             } else if (v.getId() == R.id.tv_code) {

@@ -13,6 +13,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.ui.FxFragment;
 
 import java.util.Timer;
@@ -21,7 +22,6 @@ import java.util.TimerTask;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageDataItem;
 import cn.dajiahui.kid.ui.video.util.JCVideoPlayerStudent;
-import cn.dajiahui.kid.util.Logger;
 
 /**
  * Created by mj on 2018/1/31.
@@ -63,7 +63,7 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
         totalsize = bundle.getString("size");
         tvenglish.setText(beTextBookDramaPageDataItem.getEnglish());
         tvchinese.setText(beTextBookDramaPageDataItem.getChinese());
-        tvtotaltime.setText("时间");
+//        tvtotaltime.setText("时间");
 
         tvcurrentnum.setText("1/" + totalsize);
     }
@@ -79,7 +79,7 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
     public void onAttach(Activity activity) {
         // TODO Auto-generated method stub
         super.onAttach(activity);
-//        RefreshWidget refreshWidget = (RefreshWidget) activity;
+//      RefreshWidget refreshWidget = (RefreshWidget) activity;
     }
 
     @Override

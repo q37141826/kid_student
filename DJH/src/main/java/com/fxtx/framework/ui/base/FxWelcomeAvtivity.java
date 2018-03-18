@@ -1,5 +1,6 @@
 package com.fxtx.framework.ui.base;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,10 +34,12 @@ public abstract class FxWelcomeAvtivity extends FxActivity {
         initData();
         isType = getIntent().getBooleanExtra("welcome", false);
     }
+
     @Override
     public void setStatusBar(Toolbar title) {
 
     }
+
     @Override
     protected void initView() {
         setContentView(R.layout.activity_welcome);
@@ -72,16 +75,19 @@ public abstract class FxWelcomeAvtivity extends FxActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (position == views.length - 1 && positionOffset == 0
                         && positionOffsetPixels == 0) {
-                    if (canJump) {
-                        // 事件执行一次后进行重置,避免事件多次触发
-                        canJump = false;
-                        if (isType) {
-                            finishActivity();
-                        } else {
-                            welcomeClick();
-                        }
-                        finishActivity();
-                    }
+                    @SuppressLint("RestrictedApi")
+                    WelcomeFr fragment = (WelcomeFr) getSupportFragmentManager().getFragments().get(views.length - 1);
+                    welcomeClick(fragment);
+//                    if (canJump) {
+//                        // 事件执行一次后进行重置,避免事件多次触发
+//                        canJump = false;
+//                        if (isType) {
+//                            finishActivity();
+//                        } else {
+//                            welcomeClick();
+//                        }
+//                        finishActivity();
+//                    }
                 }
             }
 
@@ -93,12 +99,14 @@ public abstract class FxWelcomeAvtivity extends FxActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
                 // 判断是否是划动状态且是最后一页
-                if (state == ViewPager.SCROLL_STATE_DRAGGING
-                        && pager.getCurrentItem() == views.length - 1) {
-                    canJump = true;
-                } else {
-                    canJump = false;
-                }
+//                if (state == ViewPager.SCROLL_STATE_DRAGGING
+//                        && pager.getCurrentItem() == views.length - 1) {
+//
+//
+////                    canJump = true;
+//                } else {
+////                    canJump = false;
+//                }
             }
         });
     }
@@ -106,7 +114,7 @@ public abstract class FxWelcomeAvtivity extends FxActivity {
     /**
      * 处理  滑动到最后的时候处理事件
      */
-    public abstract void welcomeClick();
+    public abstract void welcomeClick(WelcomeFr fragment);
 
     /**
      * 处理 初始化 数组

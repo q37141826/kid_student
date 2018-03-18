@@ -43,6 +43,9 @@ public class DjhJumpUtil extends JumpUtil {
     public final int activity_answerCardComplete= 7200;
     public final int activity_answerCardSubmit= 7300;
 
+    public final int activity_makekalaok_request= 7400;
+    public final int activity_makekalaok_result= 7500;
+
     private DjhJumpUtil() {
     }
 

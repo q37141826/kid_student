@@ -41,7 +41,7 @@
             android:layout_below="@+id/line"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:src="@drawable/ring3"/>
+         />
 
         <ImageView
             android:id="@+id/img_conment"
@@ -52,7 +52,7 @@
             android:layout_marginTop="20dp"/>
 
         <RelativeLayout
-            android:id="@+id/choice_root"
+            android:id="@+id/judge_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_conment"

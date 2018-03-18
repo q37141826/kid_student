@@ -1,7 +1,10 @@
 package cn.dajiahui.kid.ui.login;
 
+import android.view.View;
+
 import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.base.FxWelcomeAvtivity;
+import com.fxtx.framework.ui.base.WelcomeFr;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.LoginHttp;
@@ -14,7 +17,7 @@ import cn.dajiahui.kid.util.SpUtil;
 public class WelComnActivity extends FxWelcomeAvtivity {
 
     @Override
-    public void welcomeClick() {
+    public void welcomeClick(WelcomeFr fragment) {
         SpUtil util = new SpUtil(this);
         String u = util.getKeyLogU();
         String p = util.getKeyLogP();
@@ -33,14 +36,21 @@ public class WelComnActivity extends FxWelcomeAvtivity {
                 }
             }, WelComnActivity.this).httpData(u, p);
         } else {
-            DjhJumpUtil.getInstance().startBaseActivity(context, LoginActivity.class);
+
+            fragment.rootview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DjhJumpUtil.getInstance().startBaseActivity(context, LoginActivity.class);
+                    finishActivity();
+                }
+            });
         }
-        finishActivity();
+
     }
 
     @Override
     protected Integer[] initWelcome() {
-        return new Integer[]{R.drawable.wel1, R.drawable.wel2, R.drawable.wel3, R.drawable.wel4};
+        return new Integer[]{R.drawable.wel1, R.drawable.wel2, R.drawable.wel3};
     }
 
     @Override

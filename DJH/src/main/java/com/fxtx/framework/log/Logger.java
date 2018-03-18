@@ -1,9 +1,9 @@
-package cn.dajiahui.kid.util;
+package com.fxtx.framework.log;
 
 import android.util.Log;
 
 /**
- * Created by mj .
+ * Created by efan on 2017/4/13.
  */
 
 public class Logger {
@@ -42,5 +42,4 @@ public class Logger {
             Log.e(tag, msg);
         }
     }
-
 }

@@ -48,12 +48,13 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     public RelativeLayout mContentView;//左边的view添加遮罩的父view
 
 
+    @SuppressLint("ResourceType")
     public void selected(boolean flag) {
         if (flag) {
-            mContentView.setBackgroundResource(R.color.red);//设置选中状态背景色
+//            mContentView.setBackgroundColor(getResources().getColor(R.color.red));//设置选中状态背景色
         } else {
 
-            mContentView.setBackgroundResource(R.color.whilte_gray);//设置选中状态背景色//
+//            mContentView.setBackgroundColor(getResources().getColor(R.color.transparent));//设置选中状态背景色//
         }
     }
 
@@ -125,6 +126,8 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
                 linRoot.addView(mContentView);
 
             }
+            mContentView.setPadding(2,2,2,2);
+            mContentView.setBackgroundResource(R.drawable.round_bgwhite_10);
             this.value = inbasebean.getOptions().getLeft().get(cLeftposiion).getVal();
             addPointLeft();//添加左边小黑点
 
@@ -150,6 +153,8 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
                 textViewR.setLayoutParams(lp);
                 linRoot.addView(mContentView);
             }
+            mContentView.setPadding(2,2,2,2);
+            mContentView.setBackgroundResource(R.drawable.round_bgwhite_10);
         }
         this.selected(false);
 
@@ -207,8 +212,8 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     public void addPointRight() {
         pointview = new CricleTextView(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(30, 30);
-
-        pointview.setId(R.string.show_pointright);
+        lp.rightMargin = 15;
+//        pointview.setId(R.string.show_pointright);
         //设置居中显示：
         lp.gravity = Gravity.CENTER;
         pointview.setLayoutParams(lp);
@@ -222,6 +227,7 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
 
         pointview = new CricleTextView(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(30, 30);
+        lp.leftMargin = 15;
         //设置居中显示：
         lp.gravity = Gravity.CENTER;
         pointview.setLayoutParams(lp);

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
@@ -23,7 +24,6 @@ import cn.dajiahui.kid.ui.homework.bean.BeChoiceTeachingMaterialLists;
 import cn.dajiahui.kid.ui.study.adapter.ApTeachingMaterial;
 import cn.dajiahui.kid.ui.study.bean.BeChoiceTeachingMaterial;
 import cn.dajiahui.kid.util.DjhJumpUtil;
-import cn.dajiahui.kid.util.Logger;
 
 import static cn.dajiahui.kid.controller.Constant.CHOICETEACHINGMATERIAL;
 import static cn.dajiahui.kid.controller.Constant.CHOICETEACHINGMATERIALRESULT;

@@ -8,6 +8,7 @@ package cn.dajiahui.kid.util;
 import android.media.MediaRecorder;
 
 import com.coremedia.iso.boxes.Container;
+import com.fxtx.framework.log.Logger;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.Track;
 import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;

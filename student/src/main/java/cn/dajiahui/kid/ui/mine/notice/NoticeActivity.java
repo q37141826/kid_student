@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
@@ -23,7 +24,6 @@ import cn.dajiahui.kid.ui.mine.bean.BeNotice;
 import cn.dajiahui.kid.ui.mine.bean.BeNoticeLists;
 import cn.dajiahui.kid.util.DateUtils;
 import cn.dajiahui.kid.util.DjhJumpUtil;
-import cn.dajiahui.kid.util.Logger;
 
 
 /*

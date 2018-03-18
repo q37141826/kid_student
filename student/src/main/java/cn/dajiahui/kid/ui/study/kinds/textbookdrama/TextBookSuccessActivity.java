@@ -13,6 +13,7 @@ import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.image.util.GlideUtil;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.platforms.umeng.BeShareContent;
 import com.fxtx.framework.platforms.umeng.UmengShare;
@@ -32,7 +33,6 @@ import cn.dajiahui.kid.ui.study.kinds.karaoke.MakeKraoOkeActivity;
 import cn.dajiahui.kid.util.DateUtils;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
-import cn.dajiahui.kid.util.Logger;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /*
@@ -100,6 +100,7 @@ public class TextBookSuccessActivity extends FxActivity {
             settingInfo(beGoTextBookSuccess.getMineWorksName(), UserController.getInstance().getUser().getAvatar(),
                     UserController.getInstance().getUser().getNickname(), (beGoTextBookSuccess.getMakeTime()) + "");
 
+
         } else if (makeTextBookDrma.equals("MakeKraoOke")) {
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
 
@@ -148,7 +149,7 @@ public class TextBookSuccessActivity extends FxActivity {
                 tvscore.setText(getAverage(beTextBookDramaPageData.getMy_work().getScore()) + "分");
                 rbscore.setMax(100);
                 rbscore.setProgress(getScore(getAverage(beTextBookDramaPageData.getMy_work().getScore())));
-
+                Logger.d("beTextBookDramaPageData.getMy_work():" + beTextBookDramaPageData.getMy_work());
                 /*设置分享信息*/
                 setShareContent(beTextBookDramaPageData.getMy_work().getShare_url(), beTextBookDramaPageData.getMy_work().getTitle(), beTextBookDramaPageData.getMy_work().getThumbnail(), beTextBookDramaPageData.getMy_work().getDescription());
             }
@@ -166,6 +167,9 @@ public class TextBookSuccessActivity extends FxActivity {
             rbscore.setMax(100);
             rbscore.setProgress(getScore(getAverage(bePageDataMyWork.getScore())));
 
+              /*设置分享信息*/
+            setShareContent(bePageDataMyWork.getShare_url(), bePageDataMyWork.getTitle(), bePageDataMyWork.getThumbnail(), bePageDataMyWork.getDescription());
+
         } else if (makeTextBookDrma.equals("LookKalaOk")) {/*由我的作品查看 kalaok*/
             bePageDataMyWork = (BePageDataMyWork) intent.getSerializableExtra("BePageDataMyWork");
             /*隐藏打分*/
@@ -178,6 +182,8 @@ public class TextBookSuccessActivity extends FxActivity {
             settingInfo(bePageDataMyWork.getTitle(), UserController.getInstance().getUser().getAvatar(),
                     UserController.getInstance().getUser().getNickname(), (Long.parseLong(bePageDataMyWork.getDate()) * 1000 + ""));
 
+            /*设置分享信息*/
+            setShareContent(bePageDataMyWork.getShare_url(), bePageDataMyWork.getTitle(), bePageDataMyWork.getThumbnail(), bePageDataMyWork.getDescription());
         }
     }
 
@@ -214,6 +220,7 @@ public class TextBookSuccessActivity extends FxActivity {
         info_root = getView(R.id.info_root);
         getView(R.id.img_weixin).setOnClickListener(onClick);
         getView(R.id.img_pengyouquan).setOnClickListener(onClick);
+        getView(R.id.img_qq).setOnClickListener(onClick);
         getView(R.id.tv_recordagain).setOnClickListener(onClick);
         tv_savemineworks = getView(R.id.tv_savemineworks);
         tv_savemineworks.setOnClickListener(onClick);
@@ -242,20 +249,20 @@ public class TextBookSuccessActivity extends FxActivity {
 
             switch (v.getId()) {
                 case R.id.img_weixin:
-
                     umengShare.share(TextBookSuccessActivity.this, beShareContent).setPlatform(SHARE_MEDIA.WEIXIN).share();
-//                    Toast.makeText(context, "分享至微信", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.img_pengyouquan:
-
                     umengShare.share(TextBookSuccessActivity.this, beShareContent).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).share();
-//                    Toast.makeText(context, "分享至朋友圈", Toast.LENGTH_SHORT).show();
-
                     break;
+                case R.id.img_qq:
+                    umengShare.share(TextBookSuccessActivity.this, beShareContent).setPlatform(SHARE_MEDIA.QQ).share();
+                    break;
+
                 case R.id.tv_recordagain:
 
+
                     if (!look.equals("")) {
-                        if (look.equals("kalaok")) {    /*跳转制作卡拉OK activity*/
+                        if (look.equals("kalaok")) {/*跳转制作卡拉OK activity*/
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("BePageDataWork", beKaraOkPageData);
                             DjhJumpUtil.getInstance().startBaseActivity(TextBookSuccessActivity.this, MakeKraoOkeActivity.class, bundle, 0);
@@ -274,12 +281,12 @@ public class TextBookSuccessActivity extends FxActivity {
                         if (makeTextBookDrma.equals("MakeTextBookDrma")) {
                             setResult(1);/*重新录制课本剧*/
                         } else if (makeTextBookDrma.equals("MakeKraoOke")) {
-                            setResult(2);/*重新录制卡拉OK*/
+                            setResult(DjhJumpUtil.getInstance().activity_makekalaok_result);/*重新录制卡拉OK*/
                         }
 
                     }
                     finishActivity();
-                   /*再录一次*/
+
                     break;
                 case R.id.tv_savemineworks:
 
@@ -350,14 +357,10 @@ public class TextBookSuccessActivity extends FxActivity {
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
-
                 beUpdateMIneWorks = json.parsingObject(BeUpdateMIneWorks.class);
-//                Logger.d("beUpdateMIneWorks:" + beUpdateMIneWorks.toString());
                 if (makeTextBookDrma.equals("MakeTextBookDrma")) {
-//                    Logger.d("课本剧上传成功" + response);
                     /*设置分享信息*/
                     setShareContent(beUpdateMIneWorks.getShareUrl(), beGoTextBookSuccess.getMineWorksName(), beUpdateMIneWorks.getThumbnail(), beGoTextBookSuccess.getMineWorksName());
-
                 } else if (makeTextBookDrma.equals("MakeKraoOke")) {
                    /*设置分享信息*/
                     setShareContent(beUpdateMIneWorks.getShareUrl(), beGoTextBookSuccess.getMineWorksName(), beUpdateMIneWorks.getThumbnail(), beGoTextBookSuccess.getMineWorksName());

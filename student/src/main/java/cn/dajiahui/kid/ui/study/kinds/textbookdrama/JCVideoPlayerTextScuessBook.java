@@ -5,9 +5,9 @@ import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.util.ActivityUtil;
 
-import cn.dajiahui.kid.util.Logger;
 import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
@@ -67,7 +67,7 @@ public class JCVideoPlayerTextScuessBook extends JCVideoPlayerStandard {
         clarity.setVisibility(GONE);//
         thumbImageView.setVisibility(GONE);//
         battery_level.setVisibility(GONE);
-        fullscreenButton.setVisibility(GONE);//全屏按钮
+//        fullscreenButton.setVisibility(GONE);//全屏按钮
     }
 
     public void videoSeekTo(int time) {

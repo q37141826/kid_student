@@ -25,8 +25,8 @@
             android:layout_marginLeft="10dp"
             android:padding="1dp"
             android:scaleType="fitXY"
-            android:src="@drawable/study_default"/>
-
+           />
+<!-- android:src="@drawable/study_default"-->
 
         <TextView
             android:id="@+id/tv_title"
@@ -35,7 +35,7 @@
             android:layout_above="@+id/tv_unit"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_supplementary"
-            android:text="111"
+
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"/>
@@ -47,7 +47,7 @@
             android:layout_below="@+id/tv_choiceMaterial"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_supplementary"
-            android:text="222"
+
             android:textColor="@color/white"
             android:textSize="13sp"/>
 

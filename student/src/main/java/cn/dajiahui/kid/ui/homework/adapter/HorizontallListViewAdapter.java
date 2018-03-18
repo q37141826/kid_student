@@ -12,6 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.fxtx.framework.log.Logger;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +22,6 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionadapterItemModle;
 import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
-import cn.dajiahui.kid.util.Logger;
 
 /*填空题 横划listview适配器*/
 public class HorizontallListViewAdapter extends BaseAdapter {

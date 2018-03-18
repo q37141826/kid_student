@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
@@ -21,7 +22,6 @@ import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.mine.adapter.ApClassSpace;
 import cn.dajiahui.kid.ui.mine.bean.BeClassSpace;
 import cn.dajiahui.kid.ui.mine.bean.BeClassSpaceList;
-import cn.dajiahui.kid.util.Logger;
 
 
 /*

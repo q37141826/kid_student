@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.fxtx.framework.log.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,6 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.ui.homework.view.JudgeAnswerView;
-import cn.dajiahui.kid.util.Logger;
 
 
 /**
@@ -162,13 +162,13 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
     /*初始化数据*/
     private void initialize() {
-        answerRoot = getView(R.id.choice_root);
+        answerRoot = getView(R.id.judge_root);
         tv_judge = getView(R.id.tv_judge);
         tv_schedule = getView(R.id.tv_schedule);
         imgconment = getView(R.id.img_conment);
         img_play = getView(R.id.img_play);
         img_play.setOnClickListener(onClick);
-
+        img_play.setBackground(animationDrawable);
     }
 
 

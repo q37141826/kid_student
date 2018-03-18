@@ -13,11 +13,12 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.fxtx.framework.log.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.util.Logger;
 
 public class DrawLineView extends View {
 

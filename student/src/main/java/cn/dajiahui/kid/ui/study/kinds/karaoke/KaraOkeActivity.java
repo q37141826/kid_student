@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.tag.TagGroup;
@@ -24,7 +25,6 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.study.bean.BeKaraOk;
 import cn.dajiahui.kid.ui.study.view.NoScrollViewPager;
-import cn.dajiahui.kid.util.Logger;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /*
@@ -168,7 +168,10 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
                 mViewpager.setAdapter(karaoKeOkAdapter);
                 mViewpager.setOnPageChangeListener(KaraOkeActivity.this);
                 karaoKeOkAdapter.notifyDataSetChanged();
-                setTips();
+
+                if (beKaraOk.getPage_data().size() > 1) {
+                    setTips();
+                }
 
             } else {
                 ToastUtil.showToast(context, json.getMsg());

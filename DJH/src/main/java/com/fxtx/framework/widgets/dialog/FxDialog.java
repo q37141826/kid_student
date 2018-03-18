@@ -51,6 +51,7 @@ public abstract class FxDialog extends Dialog implements
         wl.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
         window.setAttributes(wl);
+        this.setCanceledOnTouchOutside(false);// 设置点击Dialog外部任意区域不关闭Dialog
     }
 
     /**

@@ -139,8 +139,6 @@ public class MyClassActivity extends FxActivity {
     @Override
     public void onRightBtnClick(View view) {
         DjhJumpUtil.getInstance().startBaseActivity(context, AddClassActivity.class);
-
-//        Toast.makeText(context, "加入班级", Toast.LENGTH_SHORT).show();
     }
 
     private View.OnClickListener onClick = new View.OnClickListener() {

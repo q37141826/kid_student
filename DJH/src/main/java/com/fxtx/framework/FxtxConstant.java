@@ -8,11 +8,11 @@ public class FxtxConstant {
     /**
      * 分享平台的key
      */
-    public static String SINA = "1208130222"; //微博appkey
-    public static String SINA_APPSECRET = "1c968037949d0e5f56841ad9b161edd2"; //微博appsecret
+//    public static String SINA = "1208130222"; //微博appkey
+//    public static String SINA_APPSECRET = "1c968037949d0e5f56841ad9b161edd2"; //微博appsecret
 
-    public static String QQ_APPID = "1105261723"; //QQ appid
-    public static String QQ_APPKEY = "OSBaRdFLkwKYSbqa"; //QQ appkey
+    public static String QQ_APPID = "1106702143"; //QQ appid
+    public static String QQ_APPKEY = "CnqlRJf9WUz3beDQ"; //QQ appkey
 
     public static String WEIXIN_APPID = "wx16b5253544801c0a"; //微信
     public static String WEIXIN_SECRET = "95d9e19398bc9f98c94e8e04440e3e6e"; //微信 appkey

@@ -151,7 +151,7 @@ public class ExJudgeFragment extends ExBaseHomeworkFragment implements CheckHome
 
     /*初始化数据*/
     private void initialize() {
-        answerRoot = getView(R.id.choice_root);
+        answerRoot = getView(R.id.judge_root);
         tv_judge = getView(R.id.tv_judge);
         imgconment = getView(R.id.img_conment);
         img_play = getView(R.id.img_play);

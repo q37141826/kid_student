@@ -92,10 +92,10 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         for (int i = 0; i < count; i++) {
             View temp = apChoice.getView(i, null, mListview);
             temp.measure(0, 0);
-            height += temp.getMeasuredHeight();
+            height += temp.getMeasuredHeight() + 30;
         }
         ViewGroup.LayoutParams params = this.mListview.getLayoutParams();
-//        params.width = 560;
+        mListview.setDividerHeight(30);
         params.height = height;
         mListview.setLayoutParams(params);
     }
@@ -109,6 +109,8 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         tv_schedule = getView(R.id.tv_schedule);
         img_conment = getView(R.id.img_conment);
         img_play.setOnClickListener(onClick);
+
+        img_play.setBackground(animationDrawable);
     }
 
     private View.OnClickListener onClick = new View.OnClickListener() {
@@ -164,7 +166,7 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
             inbasebean = (ChoiceQuestionModle) questionModle;
             if (inbasebean.getChoiceitemposition() >= 0) {
                 /*刷新翻页回来后 上次答题情况*/
-                apChoice.changeitemState(inbasebean.getChoiceitemposition(), mListview,inbasebean);
+                apChoice.changeitemState(inbasebean.getChoiceitemposition(), mListview, inbasebean);
             }
         }
     }

@@ -56,10 +56,15 @@
     <color name="gray_C4C4C6">#C4C4C6</color>
     <color name="gray_E7E7E7">#E7E7E7</color>
     <color name="gray_f4f4f4">#f4f4f4</color>
+    <color name="gray_D6D6D6">#D6D6D6</color>
+    <color name="gray_AAAAAA">#AAAAAA</color>
+    <color name="gray_BFBFBF">#BFBFBF</color>
+
 
     <color name="yellow_FEBF12">#FEBF12</color>
     <color name="blue_50D9B6">#50D9B6</color>
     <color name="blue_4CBAEF">#4CBAEF</color>
+    <color name="blue_12B4FF">#12B4FF</color>
 
 
 </resources>

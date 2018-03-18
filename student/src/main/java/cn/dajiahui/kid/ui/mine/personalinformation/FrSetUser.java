@@ -76,7 +76,7 @@ public class FrSetUser extends FxFragment {
                 //输入中
                 if (isBtnCode) {
                     if (edPhone.getText().toString().length() == 11) {
-                        btnCode.setBackgroundResource(R.drawable.select_btn_bg);
+                        btnCode.setBackgroundResource(R.drawable.select_btn_bg_yellow);
                         btnCode.setClickable(true);
                     } else {
                         btnCode.setBackgroundResource(R.color.whilte_gray);
@@ -225,7 +225,7 @@ public class FrSetUser extends FxFragment {
             isBtnCode = true;
             if (edPhone.getText().toString().length() == 11) {
                 btnCode.setClickable(true);
-                btnCode.setBackgroundResource(R.drawable.select_btn_bg);
+                btnCode.setBackgroundResource(R.drawable.select_btn_bg_yellow);
             } else {
                 btnCode.setClickable(false);
                 btnCode.setBackgroundResource(R.color.whilte_gray);

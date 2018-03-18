@@ -64,4 +64,15 @@ public class BeShareContent implements Serializable {
         return sharePictureUrl;
     }
 
+    @Override
+    public String toString() {
+        return "BeShareContent{" +
+                "shareTitle='" + shareTitle + '\'' +
+                ", shareContent='" + shareContent + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
+                ", sharePictureUrl='" + sharePictureUrl + '\'' +
+                ", sharePictureUrlMin='" + sharePictureUrlMin + '\'' +
+                ", thumbRes='" + thumbRes + '\'' +
+                '}';
+    }
 }

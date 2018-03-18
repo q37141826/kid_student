@@ -220,8 +220,6 @@ public class AnimUtil {
 
         scaleimageView.startAnimation(scal);
         scaleimageView.invalidate();
-
-
         return scal;
     }
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.fxtx.framework.adapter.ViewHolder;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
@@ -30,7 +31,6 @@ import cn.dajiahui.kid.ui.mine.myinterface.ShowbtnDelete;
 import cn.dajiahui.kid.ui.study.bean.BePageDataMyWork;
 import cn.dajiahui.kid.ui.study.kinds.textbookdrama.TextBookSuccessActivity;
 import cn.dajiahui.kid.util.DjhJumpUtil;
-import cn.dajiahui.kid.util.Logger;
 
 /**
  * 卡拉OK碎片（我的作品）

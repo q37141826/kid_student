@@ -452,6 +452,7 @@ public class SortFragment extends BaseHomeworkFragment implements
         sort_img_play.setOnClickListener(this);
         mLeft.setOnClickListener(this);
         mRight.setOnClickListener(this);
+        sort_img_play.setBackground(animationDrawable);
 
     }
 

@@ -36,7 +36,6 @@ import cn.dajiahui.kid.ui.homework.view.LineImagePointView;
 public class LineFragment extends BaseHomeworkFragment implements
         CheckHomework, Sublineinfo, View.OnClickListener {
 
-
     private LineQuestionModle inbasebean;
     private SubmitLineFragment submit;
     private ImageView img_play;
@@ -269,6 +268,7 @@ public class LineFragment extends BaseHomeworkFragment implements
         mLeft.setOnClickListener(this);
         mRight.setOnClickListener(this);
         img_play.setOnClickListener(this);
+        img_play.setBackground(animationDrawable);
     }
 
     /*删除线作业模块*/

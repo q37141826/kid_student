@@ -10,12 +10,11 @@ import com.fxtx.framework.ui.FxFragment;
 
 
 /**
- *
- *
  * @author Administrator
  */
 
 public class WelcomeFr extends FxFragment {
+    public ImageView rootview;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -25,6 +24,7 @@ public class WelcomeFr extends FxFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.rootview = ((ImageView) rootView);
         ((ImageView) rootView).setImageResource(bundle.getInt("id"));
     }
 }

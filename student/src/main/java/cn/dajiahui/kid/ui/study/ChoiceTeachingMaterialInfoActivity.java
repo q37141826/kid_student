@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
@@ -23,7 +23,6 @@ import cn.dajiahui.kid.ui.study.bean.BeChoiceTeachingMaterialInfo;
 import cn.dajiahui.kid.ui.study.bean.BeChoiceTeachingMaterialInfoBook;
 import cn.dajiahui.kid.ui.study.bean.BeChoiceTeachingMaterialInfoLists;
 import cn.dajiahui.kid.ui.study.bean.BeStudy;
-import cn.dajiahui.kid.util.Logger;
 
 import static cn.dajiahui.kid.controller.Constant.CHOICETEACHINGMATERIALRESULT;
 

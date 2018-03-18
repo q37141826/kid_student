@@ -121,7 +121,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/select_btn_graybg"
+                    android:background="@drawable/select_btn_bg_gray"
                     android:gravity="center"
                     android:text="女生"
                     android:textColor="@color/text_gray"/>

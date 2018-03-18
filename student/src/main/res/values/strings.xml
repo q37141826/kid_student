@@ -303,10 +303,13 @@
     <string name="imgring">imgring</string>
     <string name="imgline">imgline </string>
     <string name="card_imgage">cardimgage</string>
-    <string name="card_textview">cardtextview</string>
+    <string name="card_tv_en">cardtextviewen</string>
     <string name="study_pratice">练习</string>
     <string name="submit">提交</string>
     <string name="homeworktextview">homeworktextview</string>
+    <string name="addclassDialog1">您好，您还没加入班级，</string>
+    <string name="addclassDialog2">快去找老师索要班级码加入班级吧！</string>
+
 
     <!--我的 end -->
 

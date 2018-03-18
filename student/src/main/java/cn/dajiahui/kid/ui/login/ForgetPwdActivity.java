@@ -188,7 +188,7 @@ public class ForgetPwdActivity extends FxActivity {
             isBtnCode = true;
             if (edLoginPhone.getText().toString().trim().length() == 11) {
                 btnCode.setClickable(true);
-                btnCode.setBackgroundResource(R.drawable.select_btn_bg);
+                btnCode.setBackgroundResource(R.drawable.select_btn_bg_yellow);
                 btnCode.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
             } else {
                 btnCode.setClickable(false);

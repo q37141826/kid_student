@@ -10,6 +10,7 @@ import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.http.ErrorCode;
 import com.fxtx.framework.http.OkHttpClientManager;
 import com.fxtx.framework.http.callback.ResultCallback;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxActivity;
@@ -23,7 +24,6 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.util.KidConfig;
-import cn.dajiahui.kid.util.Logger;
 import cn.dajiahui.kid.util.MD5;
 
 
