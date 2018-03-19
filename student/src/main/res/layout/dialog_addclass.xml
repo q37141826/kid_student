@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="@color/transparent">
 
     <RelativeLayout
-        android:layout_width="245dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/add_class"
-        android:gravity="center"
-        android:padding="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:src="@drawable/add_class"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="40dp">
+            android:id="@+id/imageView2"/>
 
-            <TextView
-                android:id="@+id/dialog_tv1"
+        <TextView
+            android:id="@+id/dialog_kong"
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/dialog_tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dialog_kong"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:text="@string/addclassDialog1"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/dialog_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dialog_tv1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:text="@string/addclassDialog2"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView2"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:text="@string/addclassDialog1"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/dialog_tv2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dialog_tv1"
-                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/addclassDialog2"
-                android:textColor="@color/black"/>
+                android:background="@drawable/round_bggray_10"
+                android:text="暂时放弃"
+                android:textColor="@color/gray_666666"/>
 
-            <LinearLayout
+            <Button
+                android:id="@+id/btn_choose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dialog_tv2"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btn_cancle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/round_bggray_10"
-                    android:text="暂时放弃"
-                    android:textColor="@color/gray_666666"/>
-
-                <Button
-                    android:id="@+id/btn_choose"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/dialog_tv2"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/btn_cancle"
-                    android:background="@drawable/round_bgyellow_10"
-                    android:text="加入班级"
-                    android:textColor="@color/white"/>
-            </LinearLayout>
-
-        </RelativeLayout>
-
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/btn_cancle"
+                android:background="@drawable/round_bgyellow_10"
+                android:text="加入班级"
+                android:textColor="@color/white"/>
+        </LinearLayout>
 
     </RelativeLayout>
 </FrameLayout>
