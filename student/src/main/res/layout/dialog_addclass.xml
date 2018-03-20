@@ -8,14 +8,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <ImageView
-            android:src="@drawable/add_class"
+            android:id="@+id/imageView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:id="@+id/imageView2"/>
+            android:src="@drawable/add_class"/>
 
         <TextView
             android:id="@+id/dialog_kong"
@@ -33,7 +33,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="3dp"
             android:text="@string/addclassDialog1"
-            android:textColor="@color/black"/>
+            android:textColor="@color/gray_666666"/>
 
         <TextView
             android:id="@+id/dialog_tv2"
@@ -43,7 +43,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="3dp"
             android:text="@string/addclassDialog2"
-            android:textColor="@color/black"/>
+            android:textColor="@color/gray_666666"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -54,6 +54,7 @@
 
             <Button
                 android:id="@+id/btn_cancle"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -61,10 +62,11 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/round_bggray_10"
                 android:text="暂时放弃"
-                android:textColor="@color/gray_666666"/>
+                android:textColor="@color/gray_bbbbbb"/>
 
             <Button
                 android:id="@+id/btn_choose"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dialog_tv2"

@@ -132,7 +132,7 @@ public class TextBookSuccessActivity extends FxActivity {
                 settingInfo(beKaraOkPageData.getMy_work().getTitle(), UserController.getInstance().getUser().getAvatar(),
                         UserController.getInstance().getUser().getNickname(), Long.parseLong(beKaraOkPageData.getMy_work().getDate()) * 1000 + "");//)
                 /*设置分享信息*/
-                setShareContent(beKaraOkPageData.getMy_work().getShare_url(), beKaraOkPageData.getMy_work().getTitle(), beKaraOkPageData.getMy_work().getThumbnail(), beKaraOkPageData.getMy_work().getDescription());
+                setShareContent(beKaraOkPageData.getMy_work().getShare_url(), "魔耳英语作品分享", beKaraOkPageData.getMy_work().getThumbnail(), "我分享了" + beKaraOkPageData.getMy_work().getAuthor() + "的作品，快来看看吧！");
             } else if (look.equals("textbook")) {/*已经制作玩的课本剧*/
                 /*数据模型*/
                 beTextBookDramaPageData = (BeTextBookDramaPageData) intent.getSerializableExtra("BeTextBookDramaPageData");
@@ -151,7 +151,7 @@ public class TextBookSuccessActivity extends FxActivity {
                 rbscore.setProgress(getScore(getAverage(beTextBookDramaPageData.getMy_work().getScore())));
                 Logger.d("beTextBookDramaPageData.getMy_work():" + beTextBookDramaPageData.getMy_work());
                 /*设置分享信息*/
-                setShareContent(beTextBookDramaPageData.getMy_work().getShare_url(), beTextBookDramaPageData.getMy_work().getTitle(), beTextBookDramaPageData.getMy_work().getThumbnail(), beTextBookDramaPageData.getMy_work().getDescription());
+                setShareContent(beTextBookDramaPageData.getMy_work().getShare_url(), "魔耳英语作品分享", beTextBookDramaPageData.getMy_work().getThumbnail(), "我分享了" + beTextBookDramaPageData.getMy_work().getAuthor() + "的作品，快来看看吧！");
             }
         } else if (makeTextBookDrma.equals("LookTextBookDrma")) {/*由我的作品查看 课本剧*/
             bePageDataMyWork = (BePageDataMyWork) intent.getSerializableExtra("BePageDataMyWork");
@@ -168,7 +168,7 @@ public class TextBookSuccessActivity extends FxActivity {
             rbscore.setProgress(getScore(getAverage(bePageDataMyWork.getScore())));
 
               /*设置分享信息*/
-            setShareContent(bePageDataMyWork.getShare_url(), bePageDataMyWork.getTitle(), bePageDataMyWork.getThumbnail(), bePageDataMyWork.getDescription());
+            setShareContent(bePageDataMyWork.getShare_url(), "魔耳英语作品分享", bePageDataMyWork.getThumbnail(), "我分享了" + bePageDataMyWork.getAuthor() + "的作品，快来看看吧！");
 
         } else if (makeTextBookDrma.equals("LookKalaOk")) {/*由我的作品查看 kalaok*/
             bePageDataMyWork = (BePageDataMyWork) intent.getSerializableExtra("BePageDataMyWork");
@@ -183,7 +183,7 @@ public class TextBookSuccessActivity extends FxActivity {
                     UserController.getInstance().getUser().getNickname(), (Long.parseLong(bePageDataMyWork.getDate()) * 1000 + ""));
 
             /*设置分享信息*/
-            setShareContent(bePageDataMyWork.getShare_url(), bePageDataMyWork.getTitle(), bePageDataMyWork.getThumbnail(), bePageDataMyWork.getDescription());
+            setShareContent(bePageDataMyWork.getShare_url(), "魔耳英语作品分享", bePageDataMyWork.getThumbnail(), "我分享了" + bePageDataMyWork.getAuthor() + "的作品，快来看看吧！");
         }
     }
 
@@ -360,10 +360,10 @@ public class TextBookSuccessActivity extends FxActivity {
                 beUpdateMIneWorks = json.parsingObject(BeUpdateMIneWorks.class);
                 if (makeTextBookDrma.equals("MakeTextBookDrma")) {
                     /*设置分享信息*/
-                    setShareContent(beUpdateMIneWorks.getShareUrl(), beGoTextBookSuccess.getMineWorksName(), beUpdateMIneWorks.getThumbnail(), beGoTextBookSuccess.getMineWorksName());
+                    setShareContent(beUpdateMIneWorks.getShareUrl(), "魔耳英语作品分享", beUpdateMIneWorks.getThumbnail(), "我分享了" + beGoTextBookSuccess.getUserName() + "的作品，快来看看吧！");
                 } else if (makeTextBookDrma.equals("MakeKraoOke")) {
                    /*设置分享信息*/
-                    setShareContent(beUpdateMIneWorks.getShareUrl(), beGoTextBookSuccess.getMineWorksName(), beUpdateMIneWorks.getThumbnail(), beGoTextBookSuccess.getMineWorksName());
+                    setShareContent(beUpdateMIneWorks.getShareUrl(), "魔耳英语作品分享", beUpdateMIneWorks.getThumbnail(), "我分享了" + beGoTextBookSuccess.getUserName() + "的作品，快来看看吧！");
                 }
                 Logger.d("卡拉OK上传成功" + response);
 

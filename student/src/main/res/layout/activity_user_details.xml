@@ -78,25 +78,36 @@
             <EditText
                 android:id="@+id/ed_user_name_right"
                 android:layout_width="wrap_content"
+                android:drawablePadding="10dp"
                 android:layout_height="wrap_content"
+                android:drawableRight="@drawable/ico_to"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:background="@null"
-                android:lines="1"
-                android:maxLines="1"
-                android:padding="@dimen/textmarginleft"
-                android:textSize="@dimen/text16"
                 android:layout_alignTop="@id/image1"
                 android:layout_marginLeft="8dp"
                 android:layout_toEndOf="@id/image1"
                 android:layout_toRightOf="@id/image1"
+                android:background="@null"
                 android:cursorVisible="true"
                 android:lineSpacingExtra="8dp"
+                android:lines="1"
+                android:maxLines="1"
+                android:padding="@dimen/textmarginleft"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@drawable/sp_while"
-               />
+                android:textSize="@dimen/text16"
+                />
+
+            <ImageView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/textmarginleft"
+                android:visibility="invisible"/>
         </RelativeLayout>
 
         <View

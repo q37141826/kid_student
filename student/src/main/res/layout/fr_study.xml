@@ -47,7 +47,6 @@
             android:layout_below="@+id/tv_choiceMaterial"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_supplementary"
-
             android:textColor="@color/white"
             android:textSize="13sp"/>
 
@@ -59,7 +58,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:text="教材选择"
+           android:drawableLeft="@drawable/choice_material"
             android:textColor="@color/white"
             android:textSize="14sp"/>
 

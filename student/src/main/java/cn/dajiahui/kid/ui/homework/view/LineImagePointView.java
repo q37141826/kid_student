@@ -126,8 +126,8 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
                 linRoot.addView(mContentView);
 
             }
-            mContentView.setPadding(2,2,2,2);
-            mContentView.setBackgroundResource(R.drawable.round_bgwhite_10);
+            mContentView.setPadding(5,5,5,5);
+            mContentView.setBackgroundResource(R.drawable.line_bg);
             this.value = inbasebean.getOptions().getLeft().get(cLeftposiion).getVal();
             addPointLeft();//添加左边小黑点
 
@@ -153,8 +153,8 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
                 textViewR.setLayoutParams(lp);
                 linRoot.addView(mContentView);
             }
-            mContentView.setPadding(2,2,2,2);
-            mContentView.setBackgroundResource(R.drawable.round_bgwhite_10);
+            mContentView.setPadding(5,5,5,5);
+            mContentView.setBackgroundResource(R.drawable.line_bg);
         }
         this.selected(false);
 

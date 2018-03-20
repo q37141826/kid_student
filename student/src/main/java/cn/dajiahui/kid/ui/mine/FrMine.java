@@ -46,48 +46,8 @@ public class FrMine extends FxFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialize();
-//        /*获取网络数据*/
-//        mineHttp();
-//        initData();
-
-
     }
 
-//    /*我的网络请求*/
-//    private void mineHttp() {
-//        httpData();
-//    }
-
-//    @Override
-//    public void httpData() {
-//        super.httpData();
-//        RequestUtill.getInstance().httpMine(getActivity(), callMine);
-//
-//    }
-
-//    ResultCallback callMine = new ResultCallback() {
-//
-//
-//        @Override
-//        public void onError(Request request, Exception e) {
-//            dismissfxDialog();
-//
-//        }
-//
-//        @Override
-//        public void onResponse(String response) {
-//            dismissfxDialog();
-//            HeadJson json = new HeadJson(response);
-//            if (json.getstatus() == 0) {
-//
-//
-//            } else {
-//                ToastUtil.showToast(getContext(), json.getMsg());
-//            }
-//
-//        }
-//
-//    };
 
     private void initData() {
         BeUser user = UserController.getInstance().getUser();
@@ -99,12 +59,9 @@ public class FrMine extends FxFragment {
         } else {
             tv_sex.setText("男");
         }
-
         /*设置头像*/
         GlideUtil.showRoundImage(getActivity(), UserController.getInstance().getUser().getAvatar(), imUser, R.drawable.ico_default_user, true);
 
-//        tv_studylength.setText("360min");
-//        tv_goodhomework.setText("30");
     }
 
     @Override
@@ -128,10 +85,6 @@ public class FrMine extends FxFragment {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-//                case R.id.iv_user:    //用户头像
-//                   DjhJumpUtil.getInstance().startSelectPhotoActivity(getActivity(), Constant.Alum_phone_UserIcon);
-//                    break;
-
                 case R.id.topView:
                 case R.id.iv_edit:
                     DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), UserDetailsActivity.class, null, PICFPRRESULT);
@@ -144,7 +97,6 @@ public class FrMine extends FxFragment {
                     break;
                 case R.id.tvAbout: //关于
                   DjhJumpUtil.getInstance().startBaseActivity(getActivity(),  AboutActivity.class);
-//                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), ChivoxMainActivity.class); // 驰声测试用
                     break;
                 case R.id.tvNotice: //通知
                     DjhJumpUtil.getInstance().startBaseActivity(getActivity(), NoticeActivity.class);

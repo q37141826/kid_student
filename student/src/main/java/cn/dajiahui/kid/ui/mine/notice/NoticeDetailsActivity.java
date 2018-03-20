@@ -27,6 +27,14 @@ public class NoticeDetailsActivity extends FxActivity {
     private BeNoticeLists notice_item;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setfxTtitle(R.string.mine_notice_detial);
+        onBackText();
+
+    }
+
+    @Override
     protected void initView() {
         setContentView(R.layout.activity_notice_details2);
         initialize();

@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
-import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
@@ -122,7 +121,7 @@ public class NoticeActivity extends FxActivity {
 
         @Override
         public void onResponse(String response) {
-            Logger.d("摩尔通知：" + response);
+//            Logger.d("摩尔通知：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {

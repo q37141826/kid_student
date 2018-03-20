@@ -291,6 +291,7 @@
     <string name="mine_text_about">关于魔耳</string>
     <string name="mine_class_info">班级信息</string>
     <string name="mine_notice">魔耳通知</string>
+    <string name="mine_notice_detial">通知详情</string>
     <string name="mine_clear">清空</string>
     <string name="mine_setting">设置</string>
     <string name="mine_text_userphone">修改手机号</string>

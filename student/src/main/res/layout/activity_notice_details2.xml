@@ -1,37 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/gray_F5F5F5"
     android:fitsSystemWindows="true"
-    android:padding="10dp"
+    android:orientation="vertical"
     tools:context="cn.dajiahui.kid.ui.mine.notice.NoticeDetailsActivity">
 
+    <include layout="@layout/layout_tool_text"/>
 
-    <TextView
-        android:id="@+id/tv_title"
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:textSize="15sp"
-        android:textStyle="bold"/>
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/tv_conment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_title"
-        android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:drawableLeft="@drawable/notice_item_detial_red_point"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="1111"
+            android:textColor="@color/gray_333333"
+            android:textSize="14sp"
+            />
 
-    <TextView
-        android:id="@+id/tv_ime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_conment"
-        android:layout_marginTop="5dp"
-        android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv_ime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textColor="@color/gray_666666"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/tv_conment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/gray_666666"
+            android:textSize="13sp"/>
+    </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

@@ -9,11 +9,10 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.fxtx.framework.adapter.ViewHolder;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.widgets.dialog.FxDialog;
@@ -21,6 +20,7 @@ import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
 import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
@@ -48,9 +48,11 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
     private ApMyWorks apMyWorks;
     private RelativeLayout delete_view;
     private Button btn_delete;
-    private CheckBox allCheck;
+    private CheckBox allCheck;//全选按钮
 
     private List<String> mIdList = new ArrayList<>();//删除作品Id的集合
+
+    private int mCheckNum = 0;//删除选择的数量
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -81,20 +83,25 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
         allCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                allCheck.setChecked(true);
-                btn_delete.setBackgroundResource(R.color.red);
-                for (int i = 0; i < mTextBooklists.size(); i++) {
-                    if (!mTextBooklists.get(i).getBo()) {
-                        // 改变boolean
+
+                if (allCheck.isChecked() == false) {
+                    allCheck.setChecked(false);
+                    btn_delete.setBackgroundResource(R.color.gray);
+
+                    for (int i = 0; i < mTextBooklists.size(); i++) {
+                        mTextBooklists.get(i).setBo(false);
+                    }
+
+                } else {
+                    allCheck.setChecked(true);
+                    btn_delete.setBackgroundResource(R.color.red);
+
+                    for (int i = 0; i < mTextBooklists.size(); i++) {
                         mTextBooklists.get(i).setBo(true);
-                        if (!mIdList.contains(mTextBooklists.get(i).getId())) {
-                            mIdList.add(mTextBooklists.get(i).getId());
-                        }
                     }
                 }
                 // 刷新
                 apMyWorks.notifyDataSetChanged();
-
             }
         });
 
@@ -102,39 +109,42 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 if (delete_view.getVisibility() == View.VISIBLE) {
 
+                    if (mTextBooklists.get(position).getBo() == true) {
+                        mTextBooklists.get(position).setBo(false);
+                    } else {
+                        mTextBooklists.get(position).setBo(true);
+                    }
 
-                    // 取得ViewHolder对象
-                    ViewHolder viewHolder = (ViewHolder) view.getTag();
-                    CheckBox checkBox = viewHolder.getView(R.id.checkbox);
-                    // 改变CheckBox的状态
-                    checkBox.toggle();
-                    // 将CheckBox的选中状况记录下来
-                    mTextBooklists.get(position).setBo(checkBox.isChecked());
+                    Iterator it = mTextBooklists.iterator();
 
-                    // 调整选定条目
-                    if (checkBox.isChecked() == true) {
-                        mIdList.add(mTextBooklists.get(position).getId());
-                     /*改变底部按钮为全选*/
-                        if (mIdList.size() == mTextBooklists.size()) {
-                            allCheck.setChecked(true);
+                    while (it.hasNext()) {
+                        // 得到对应集合元素
+                        BeMineWorksLists g = (BeMineWorksLists) it.next();
+                        // 判断
+                        if (g.getBo()) {
+                            allCheck.setChecked(false);
+                        } else {
+//                            mCheckNum++;
                         }
-                    } else {
-                        mIdList.remove(mTextBooklists.get(position).getId());
-                        allCheck.setChecked(false);
-                    }
-                  /*设置删除按钮颜色*/
-                    if (mIdList.size() == 0) {
-                        btn_delete.setBackgroundResource(R.color.gray);
-                    } else {
-                        btn_delete.setBackgroundResource(R.color.red);
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "播放视频", Toast.LENGTH_SHORT).show();
-                    getTexBookDetails(mTextBooklists.get(position).getId());
 
+                    }
+                    apMyWorks.notifyDataSetChanged();
+                    Logger.d("mCheckNum:" + mCheckNum + "   mTextBooklists.size():" + mTextBooklists.size());
+//
+//                    if (mCheckNum == mTextBooklists.size()) {
+//                        btn_delete.setBackgroundResource(R.color.red);
+//                        allCheck.setChecked(true);
+//                    } else {
+//                        btn_delete.setBackgroundResource(R.color.gray);
+//                        allCheck.setChecked(false);
+//                    }
+                } else {
+                    getTexBookDetails(mTextBooklists.get(position).getId());
                 }
+
             }
 
         });
@@ -143,36 +153,51 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FxDialog dialog = new FxDialog(getActivity()) {
-                    @Override
-                    public void onRightBtn(int flag) {
-                        if (mIdList.size() > 0) {
-                         /*删除集合数据 更新UI*/
-                            for (int i = 0; i < mIdList.size(); i++) {
-                                mTextBooklists.remove(i);
+                mIdList.clear();
+                /*遍历 模型集合 找出true 就是选中的    false 就是未选中的*/
+                for (int i = 0; i < mTextBooklists.size(); i++) {
+                    if (mTextBooklists.get(i).getBo() == true) {
+                        mIdList.add(mTextBooklists.get(i).getId());
+                    }
+                }
+                Logger.d("删除学生ID：" + mIdList.toString());
+                if (mIdList.size() > 0) {
+                    FxDialog dialog = new FxDialog(getActivity()) {
+                        @Override
+                        public void onRightBtn(int flag) {
+
+                            Iterator it = mTextBooklists.iterator();
+                            while (it.hasNext()) {
+                                // 得到对应集合元素
+                                BeMineWorksLists g = (BeMineWorksLists) it.next();
+                                // 判断
+                                if (g.getBo()) {
+                                    // 从集合中删除上一次next方法返回的元素
+                                    it.remove();
+                                }
                             }
 
-                        /*删除操作后隐藏  checkbox*/
-                            delete_view.setVisibility(View.GONE);
-                            apMyWorks.changeState(-2);
-                            MyWorksActivity activity = (MyWorksActivity) getActivity();
-                            activity.setShowcheckboxTextbook(false);
-                            /*删除网络请求*/
-                            deleteMyworks();
+                            showbtnDelete(2);
+
+//                            deleteMyworks()
+                            mIdList.clear();
+                            // 刷新
+                            apMyWorks.notifyDataSetChanged();
                         }
-                    }
 
-                    @Override
-                    public void onLeftBtn(int flag) {
-
-                    }
-                };
-                dialog.setTitle(R.string.prompt);
-                dialog.setMessage(R.string.prompt_delete);
-                dialog.show();
+                        @Override
+                        public void onLeftBtn(int flag) {
 
 
+                        }
+                    };
+                    dialog.setTitle(R.string.prompt);
+                    dialog.setMessage(R.string.prompt_delete);
+                    dialog.show();
+
+                }
             }
+
         });
 
     }
@@ -216,7 +241,7 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
             }
             allCheck.setChecked(false);
             apMyWorks.changeState(-1);
-               /*设置删除按钮颜色*/
+            /*设置删除按钮颜色*/
             btn_delete.setBackgroundResource(R.color.gray);
         } else {
             delete_view.setVisibility(View.GONE);

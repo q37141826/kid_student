@@ -114,7 +114,7 @@ public class MakeKraoOkeActivity extends FxActivity {
                         bePageDataWork.getPage_id(),
                         bePageDataWork.getMusic_name() + bePageDataWork.getPage_id(),
                         UserController.getInstance().getUser().getAvatar(),
-                        UserController.getInstance().getUser().getUserName(),
+                        UserController.getInstance().getUser().getNickname(),
                         (System.currentTimeMillis()));
 
 
