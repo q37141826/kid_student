@@ -69,6 +69,12 @@ public class ApConcactForClass extends SectionedBaseAdapter {
         ViewHolder holder = ViewHolder.getHolder(context, convertView, parent, R.layout.item_contact_for_class_child, 1);
         ImageView userAvtar = holder.getView(R.id.user_avtor);
         TextView userName = holder.getView(R.id.user_name);
+        TextView fillText = holder.getView(R.id.fill);
+        if(position == getCountForSection(section) -1 ) {
+            fillText.setVisibility(View.GONE);
+        } else {
+            fillText.setVisibility(View.VISIBLE);
+        }
         if (datas.get(section).getTeacher_list().get(position).getAvatar() != null) {
             GlideUtil.showRoundImage(context, datas.get(section).getTeacher_list().get(position).getAvatar(), userAvtar, R.drawable.ico_default_user, true);
         }

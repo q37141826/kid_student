@@ -264,7 +264,7 @@ public class BadgeViewHelper {
         }
 
         // 计算角标背景上下的值
-        mBadgeRectF.top = mBadgeVerticalMargin;
+        mBadgeRectF.top = 0;
         mBadgeRectF.bottom = mBadgeable.getHeight() - mBadgeVerticalMargin;
         switch (mBadgeGravity) {
             case RightTop:
@@ -282,7 +282,7 @@ public class BadgeViewHelper {
         }
 
         // 计算角标背景左右的值
-        mBadgeRectF.right = mBadgeable.getWidth() * 4 / 5;
+        mBadgeRectF.right = mBadgeable.getWidth() * 4 / 6;
         mBadgeRectF.left = mBadgeRectF.right - badgeWidth;
 
         // 设置角标背景色

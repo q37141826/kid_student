@@ -9,6 +9,7 @@
     <include layout="@layout/layout_tool_text" />
 
     <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout
+        android:background="@color/gray_line"
         android:id="@+id/contact_refresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -22,8 +23,8 @@
             android:id="@+id/contact_pinnedListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@color/app_bg_a"
-            android:dividerHeight="1px"/>
+            android:divider="@color/white"
+            android:dividerHeight="5dp"/>
 
         <TextView style="@style/text_null" />
     </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
