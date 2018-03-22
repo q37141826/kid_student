@@ -44,7 +44,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
     private LineQuestionModle inbasebean;
     private SubmitLineFragment submit;
     private ImageView img_play;
-    private TextView mLeft, mRight, tv_line;
+    private TextView mLeft, mRight, tv_line, mSchedule;
     private RelativeLayout selectview_root, draw_root;
 
     private ExDrawView drawView;
@@ -82,6 +82,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
     private List<ExLineImagePointView> mRemoveRightList = new ArrayList<>();//移除右边的View的集合
     private Map<String, ExLineImagePointView> showT_RMap = new HashMap<>();//用于显示判断划线的颜色
     private String title;
+    private Bundle bundle;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -90,6 +91,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
 
     @Override
     public void setArguments(Bundle bundle) {
+        this.bundle = bundle;
         inbasebean = (LineQuestionModle) bundle.get("LineQuestionModle");
         inbasebean.setEachposition(bundle.getInt("position"));
         media = inbasebean.getMedia();
@@ -183,6 +185,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
         getRightAnswer();
         initialize();
         tv_line.setText(title);
+        mSchedule.setText(bundle.getString("currntQuestion"));
         /*非空校验*/
         if (inbasebean.getOptions().getRight() != null) {
             //添加左侧图片
@@ -229,12 +232,14 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
         draw_root = getView(R.id.draw_root);
         selectview_root = getView(R.id.selectview_root);
         img_play = getView(R.id.img_play);
+        mSchedule = getView(R.id.tv_schedule);
         mLeft = getView(R.id.mLeft);
         mRight = getView(R.id.mRight);
         tv_line = getView(R.id.tv_line);
         mLeft.setOnClickListener(this);
         mRight.setOnClickListener(this);
         img_play.setOnClickListener(this);
+        img_play.setBackground(animationDrawable);
     }
 
     /*删除线练习模块*/
@@ -337,7 +342,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                         currentSelectedView = null;
                         lineImagePointView.selected(false);
 
-                          inbasebean.setAnswerflag("true");//答题标志
+                        inbasebean.setAnswerflag("true");//答题标志
 
 //                        inbasebean.setDrawPathList(drawPathList);
                         inbasebean.setInitLineMyanswerMap(myanswerMap);
@@ -439,6 +444,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
         super.onStop();
         mediaPlayer.stop();
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -612,6 +618,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
         }
         /*正确答案end */
     }
+
     /*获取答案的方法  我的答案 2个*/
     private void getMineAnswer() {
 

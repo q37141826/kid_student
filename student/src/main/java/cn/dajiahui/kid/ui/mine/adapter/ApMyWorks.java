@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.fxtx.framework.adapter.CommonAdapter;
 import com.fxtx.framework.adapter.ViewHolder;
 import com.fxtx.framework.image.util.GlideUtil;
+import com.fxtx.framework.log.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,7 +43,8 @@ public class ApMyWorks extends CommonAdapter<BeMineWorksLists> {
 
         GlideUtil.showNoneImage(mContext, item.getThumbnail(), img);
         tv_worksname.setText(item.getTitle());
-        tv_workstime.setText("作品时间：" + DateUtils.getYyyyMMDD(item.getDate()));
+        Logger.d("作品时间----item.getDate()："+item.getDate());
+        tv_workstime.setText("作品时间：" + DateUtils.getYyyyMMDD(item.getDate()+"000"));
 
         //显示checkBox
         checkBox.setChecked(mDatas.get(position).getBo());

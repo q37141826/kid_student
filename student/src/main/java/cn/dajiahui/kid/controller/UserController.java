@@ -58,9 +58,9 @@ public class UserController {
     //获取用户的图片存储地址
     public String getUserImageFile(Context context) {
         String path = new FileUtil().dirFile(context) +
-                File.separator + "ata" +
-                File.separator + getUserId() +
-                File.separator + "image" +
+                File.separator + "djh" +
+                File.separator + getUser().getTelnum() +
+                File.separator + "classSpace" +
                 File.separator;
         File file = new File(path);
         if (!file.exists()) {

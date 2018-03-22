@@ -52,8 +52,8 @@ public class CardPraticeFragment extends LazyLoadFragment {
     private int position;
     private String music_oss_url;
 
-    private Rotate3dAnimation rotateAnimation;
-    private Rotate3dAnimation openAnimation;
+    private Rotate3dAnimationCardView rotateAnimation;
+    private Rotate3dAnimationCardView openAnimation;
     private AnimationDrawable animationDrawable;
 
     private Handler mHandler = new Handler() {
@@ -88,7 +88,7 @@ public class CardPraticeFragment extends LazyLoadFragment {
 
                     if (rotateAnimation == null) {
                         //从270到360度，顺时针旋转视图，此时reverse参数为false，达到360度动画结束时视图变得可见
-                        rotateAnimation = new Rotate3dAnimation(270, 360, centerX, centerY, depthZ, false);
+                        rotateAnimation = new Rotate3dAnimationCardView(270, 360, centerX, centerY, depthZ, false);
                         rotateAnimation.setDuration(duration);
                         rotateAnimation.setFillAfter(true);
                         rotateAnimation.setInterpolator(new DecelerateInterpolator());
@@ -238,7 +238,7 @@ public class CardPraticeFragment extends LazyLoadFragment {
      */
     private void initOpenAnim() {
         //从0到90度，顺时针旋转视图，此时reverse参数为true，达到90度时动画结束时视图变得不可见，
-        openAnimation = new Rotate3dAnimation(0, 90, centerX, centerY, depthZ, true);
+        openAnimation = new Rotate3dAnimationCardView(0, 90, centerX, centerY, depthZ, true);
         openAnimation.setDuration(duration);
         openAnimation.setFillAfter(true);
         openAnimation.setInterpolator(new AccelerateInterpolator());

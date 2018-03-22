@@ -1,15 +1,19 @@
 package cn.dajiahui.kid.ui.study.kinds.cardpractice;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chivox.core.CoreType;
 import com.chivox.core.Engine;
@@ -48,6 +52,7 @@ import cn.dajiahui.kid.ui.study.bean.BeChivoxEvaluateResult;
 import cn.dajiahui.kid.ui.study.bean.BeCradPratice;
 import cn.dajiahui.kid.ui.study.bean.BeCradPraticePageData;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
+import cn.dajiahui.kid.ui.study.view.RotateAnimationTvSore;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.MD5;
 
@@ -66,13 +71,16 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
     private String unit_id;
     private Bundle mCardPracticeBundle;
     private TextView mScore;
-    private RelativeLayout mEvaluationRoot, mPlayrecodingRoot,mRecordingRoot;
+    private RelativeLayout mEvaluationRoot, mPlayrecodingRoot, mRecordingRoot;
     private ImageView mPlayRecord;
     private ImageView mRecording;
     private BeChivoxEvaluateResult chivoxEvaluateResult;//解析弛声打分
     private File recordFile;//弛声录音地址
 
+    private final int DELAYED_CHIVOX = 0;//弛声延迟
+
     @Override
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setfxTtitle(mCardPracticeBundle.getString("UNIT_NAME"));
@@ -91,6 +99,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
     @Override
     protected void recordStop() {
         if (engine.isRunning()) {
+            dismissfxDialog();
             service.recordStop(engine);
         }
 
@@ -220,6 +229,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
     private BeCradPraticePageData beCradPraticePageData;
 
+
     /*
    *卡片练习适配器
    * */
@@ -304,7 +314,8 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
             switch (v.getId()) {
                 case R.id.btn_next:
-                    mScore.setVisibility(View.GONE);
+                    mScore.setVisibility(View.INVISIBLE);
+                    mScore.setText("");
                     currentPositinon++;
                     if (currentPositinon <= page_data.size()) {
                         mCardpager.setCurrentItem(currentPositinon);
@@ -339,16 +350,10 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                     if (!isRecording) {/*开始录音*/
                         if (beCradPraticePageData != null) {
                             mRecording.setImageResource(R.drawable.card_record_on);
-                        /* 通知评分引擎此次为英文句子评测 */
+                           /* 通知评分引擎此次为英文句子评测 */
                             coretype = CoreType.en_sent_score;
-
-                            if (currentPositinon < page_data.size()) {
-                               /*参数是评分的语句*/
-                                recordStart(page_data.get(currentPositinon).getItem().get(0).getEnglish());
-                            } else {
-                                /*解決数组越界*/
-                                recordStart(page_data.get(page_data.size() - 1).getItem().get(0).getEnglish());
-                            }
+//
+                            recordingEvaluation();
                             isRecording = true;
                         }
                     } else {
@@ -368,6 +373,48 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
         }
     };
 
+    /*录音测评*/
+    private void recordingEvaluation() {
+
+        if (currentPositinon < page_data.size()) {
+                               /*参数是评分的语句*/
+            recordStart(page_data.get(currentPositinon).getItem().get(0).getEnglish());
+        } else {
+                                /*解決数组越界*/
+            recordStart(page_data.get(page_data.size() - 1).getItem().get(0).getEnglish());
+        }
+    }
+
+    protected int counter = 0;
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message message) {
+            switch (message.what) {
+                case DELAYED_CHIVOX:
+                    Logger.d("-------counter:" + counter);
+                    if (counter < 3) {
+                        recordStop();
+                        recordingEvaluation(); // 重新开始录音
+                    } else {
+                        // 关闭进度条
+                        // toast 提示用户系统繁忙
+                        counter = 0;
+                        dismissfxDialog();
+                        /*修改录音按钮的背景*/
+                        mRecording.setImageResource(R.drawable.card_record_off);
+                        /*隐藏打分*/
+                        mScore.setVisibility(View.INVISIBLE);
+                        Toast.makeText(context, "系统繁忙，请稍后...", Toast.LENGTH_SHORT).show();
+                        isRecording = false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     /**
      * 驰声开始录音
      */
@@ -382,6 +429,8 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
         //CoreLaunchParam coreLaunchParam = new CoreLaunchParam(isOnline,null,refText,isVadLoad);
         coreLaunchParam.getRequest().setRank(Rank.rank100); // 设置为百分制
         coreLaunchParam.setVadEnable(false);
+        coreLaunchParam.setSoundIntensityEnable(true); // 让服务器返回SoundIntensity
+
 //        try {
 //            Log.d("log","coreLaunchParam: "+coreLaunchParam.getCoreLaunchParams());
 //        } catch (JSONException e) {
@@ -392,7 +441,8 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
         /*if(coretype==CoreType.en_pred_score) {
             coreLaunchParam.setPrecision(predPrecision);
         }*/
-        service.recordStart(this, engine, -1, coreLaunchParam,
+        long duration = 10000;//设置10秒录音时间
+        service.recordStart(this, engine, duration, coreLaunchParam,
                 new OnLaunchProcessListener() {
 
                     @Override
@@ -402,7 +452,8 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-//                                ToastUtil.showToast(MakeTextBookDrmaActivity.this, "录音失败: ErrodCode:" + arg1.getErrorId() + "Desc :" + arg1.getDescription() + "\r\n" + "建议: " + arg1.getSuggest());
+//                                Logger.d("录音失败: ErrodCode:" + arg1.getErrorId() + "Desc :" + arg1.getDescription() + "\r\n" + "建议: " + arg1.getSuggest());
+//                                ToastUtil.showToast(CardPracticeActivity.this, "录音失败: ErrodCode:" + arg1.getErrorId() + "Desc :" + arg1.getDescription() + "\r\n" + "建议: " + arg1.getSuggest());
                             }
                         });
                     }
@@ -411,25 +462,81 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                     public void onAfterLaunch(final int resultCode,
                                               final JsonResult jsonResult, RecordFile recordfile) {
                         lastRecordFile = recordfile;
-                        runOnUiThread(new Runnable() {
 
+                        runOnUiThread(new Runnable() {
 
                             @Override
                             public void run() {
-//                                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-//                                Log.d("log",df.format(new Date())+"-- Get Result."+"resultCode: "+resultCode+"--jsonResult: "+jsonResult.toString());
-                                recordFile = lastRecordFile.getRecordFile();
-//                                Logger.d("停止录音：" + recordFile.getAbsolutePath());
+                                //resultCode 1:错误 2:vad 3:sound 4:segment 5:evaluate
+//                                Logger.d("resultCode:" + resultCode);
+                                Logger.d("jsonResult:" + jsonResult);
 
-                                if (jsonResult != null)
-                                    parseChivoxJsonResult(jsonResult);
-                                /*获取评分分数*/
-                                String overall = chivoxEvaluateResult.getOverall();
-                                mScore.setText(overall + "分");
-                                mScore.setVisibility(View.VISIBLE);
-//                                Logger.d("打分-----" + overall);
+                                switch (resultCode) {
+                                    case 3:
+                                        try {
+                                            JSONObject var1 = new JSONObject(jsonResult.getJsonText());
+                                            if (var1.has("sound_intensity")) {
+                                                Logger.d("sound_intensity:"  );
+                                                mHandler.removeMessages(DELAYED_CHIVOX);
+                                                counter = 0;
+                                                dismissfxDialog();
 
+                                            }
 
+                                        } catch (Exception var2) {
+                                            var2.printStackTrace();
+                                        }
+                                        break;
+
+                                    case 5:
+                                        try {
+                                            JSONObject var1 = new JSONObject(jsonResult.getJsonText());
+                                            if (!var1.has("result")) {
+                                                break;
+                                            }
+                                        } catch (Exception var2) {
+                                            var2.printStackTrace();
+                                        }
+
+                                        /*解析返回json*/
+                                        recordFile = lastRecordFile.getRecordFile();
+                                        parseChivoxJsonResult(jsonResult);
+                                        /*获取评分分数*/
+                                        final String overall = chivoxEvaluateResult.getOverall();
+
+                                        mScore.setVisibility(View.VISIBLE);
+                                        Logger.d("------------打分：" + overall);
+
+                                        float cX = mScore.getWidth() / 2.0f;
+                                        float cY = mScore.getHeight() / 2.0f;
+
+                                        final RotateAnimationTvSore rotateAnim = new RotateAnimationTvSore(cX, cY, RotateAnimationTvSore.ROTATE_DECREASE);
+
+                                        if (rotateAnim != null) {
+                                            rotateAnim.setFillAfter(true);
+                                            mScore.startAnimation(rotateAnim);
+                                            rotateAnim.setAnimationListener(new Animation.AnimationListener() {
+                                                @Override
+                                                public void onAnimationStart(Animation animation) {
+
+                                                }
+
+                                                @Override
+                                                public void onAnimationRepeat(Animation animation) {
+
+                                                }
+
+                                                @Override
+                                                public void onAnimationEnd(Animation animation) {
+                                                    mScore.setText(overall + "分");
+                                                    mScore.clearAnimation();
+                                                    rotateAnim.cancel();
+                                                }
+
+                                            });
+                                        }
+                                        break;
+                                }
                             }
                         });
 
@@ -437,13 +544,18 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
                     @Override
                     public void onBeforeLaunch(long duration) {
-                        Logger.d("duration: " + duration);
+//                        Logger.d("duration: " + duration);
                     }
 
                     @Override
                     public void onRealTimeVolume(final double volume) {
                     }
+
                 });
+        /* 一秒钟查一下是否收到sound_intensity，如果没有需要重新开始录音 */
+        mHandler.sendEmptyMessageDelayed(DELAYED_CHIVOX, 1000);
+        counter++;
+        showfxDialog("请稍后...");
     }
 
     /**
@@ -454,7 +566,12 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
         try {
             object = new JSONObject(jsonResult.toString());
             GsonUtil gson = new GsonUtil();
-            chivoxEvaluateResult = gson.getJsonObject(object.optJSONObject("result").toString(), BeChivoxEvaluateResult.class);
+
+            if (object.has("result")) // 在此处做判断，包含字段的话再继续从JSON中获取code字段的内容
+            {
+                chivoxEvaluateResult = gson.getJsonObject(object.optJSONObject("result").toString(), BeChivoxEvaluateResult.class);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -463,13 +580,13 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-        Logger.d("CardPracticeActivity:-----------------------onStop()");
+//        Logger.d("CardPracticeActivity:-----------------------onStop()");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Logger.d("CardPracticeActivity:-----------------------onPause()");
+//        Logger.d("CardPracticeActivity:-----------------------onPause()");
     }
 
     /*清空环境*/

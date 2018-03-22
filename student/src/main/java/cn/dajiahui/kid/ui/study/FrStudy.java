@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.image.util.GlideUtil;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.widgets.refresh.MaterialRefreshLayout;
@@ -147,7 +148,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
 
         @Override
         public void onResponse(String response) {
-//            Logger.d("自学首页：" + response);
+            Logger.d("自学首页：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
@@ -160,6 +161,12 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
                     mChooseUtilsList.clear();
                     mChooseUtilsList.addAll(chooseUtils.getLists());
                     apChooseUtils.notifyDataSetChanged();
+                } else {
+                    mChooseUtilsList.clear();
+                    apChooseUtils.notifyDataSetChanged();
+                    GlideUtil.showNoneImage(getActivity(), chooseUtils.getLogo(), imgsupplementary, R.drawable.study_default);
+                    tvtitle.setText("");
+                    tvunit.setText("");
                 }
             } else {
                 ToastUtil.showToast(getActivity(), json.getMsg());

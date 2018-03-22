@@ -1,9 +1,11 @@
 package cn.dajiahui.kid.ui.mine.myclass;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
@@ -106,7 +108,9 @@ public class ClassDetailsActivity extends FxActivity {
                     tvschool.setText("学校：" + classInfo.getSchool_name());
                     /*已经加入的班级隐藏了加入班级按钮*/
                     if (!classInfo.getIs_in_class().equals("0")) {
-                        tvaddclass.setVisibility(View.INVISIBLE);
+                        tvaddclass.setText("已加入此班级");
+                        tvaddclass.setFocusable(false);
+//                        tvaddclass.setVisibility(View.INVISIBLE);
                     }
                     tvclassname.setText(classInfo.getClass_name());
                     tvteacher.setText("老师：" + classInfo.getTeacher_name());
@@ -133,15 +137,37 @@ public class ClassDetailsActivity extends FxActivity {
 
         @Override
         public void onResponse(String response) {
-            Logger.d("申请加入班级："+response);
+            Logger.d("申请加入班级：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
 //                Toast.makeText(context, "申请加入班级", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "发送成功，等待老师确认！", Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
                 finishActivity();
             } else {
                 ToastUtil.showToast(context, json.getMsg());
             }
         }
     };
+
+
+    /*监听返回键*/
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { //监控/拦截/屏蔽返回键
+            setResult(RESULT_OK);
+            finishActivity();
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    /*左上角返回*/
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        finishActivity();
+    }
 }

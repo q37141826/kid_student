@@ -2,9 +2,7 @@ package cn.dajiahui.kid.ui.homework.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by lenovo on 2018/1/11.
@@ -35,7 +33,7 @@ public class CompletionQuestionModle extends QuestionModle implements Serializab
     private String isShowRightAnswer = "";//显示正确答案 yes 显示正确答案  no不显示正确答案
     private String textcolor = "";//设置字体和边框颜色
 
-    private Map<Integer, Map<Integer, String>> mCompletionAllMap = new HashMap<>();//填空題我的答案
+
 
     private List<List<CompletionQuestionadapterItemModle>> showRightList = new ArrayList();
 
@@ -73,13 +71,6 @@ public class CompletionQuestionModle extends QuestionModle implements Serializab
     }
 
 
-    public Map<Integer, Map<Integer, String>> getmCompletionAllMap() {
-        return mCompletionAllMap;
-    }
-
-    public void setmCompletionAllMap(Map<Integer, Map<Integer, String>> mCompletionAllMap) {
-        this.mCompletionAllMap = mCompletionAllMap;
-    }
 
     public String getMy_answer() {
         return my_answer;

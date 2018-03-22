@@ -20,6 +20,7 @@ import java.util.Queue;
 public class ExHorizontalListView extends AdapterView<ListAdapter> {
 
 
+
     protected ListAdapter mAdapter;
     private int mLeftViewIndex = -1;
     private int mRightViewIndex = 0;
@@ -306,17 +307,42 @@ public class ExHorizontalListView extends AdapterView<ListAdapter> {
 
         @Override
         public boolean onDown(MotionEvent e) {
-            getParent().requestDisallowInterceptTouchEvent(true);
+//            getParent().requestDisallowInterceptTouchEvent(true);
             return ExHorizontalListView.this.onDown(e);
         }
 
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                               float velocityY) {
-            getParent().requestDisallowInterceptTouchEvent(true);
-            return ExHorizontalListView.this.onFling(e1, e2, velocityX, velocityY);
-
-        }
+//        @Override
+//        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+//                               float velocityY) {
+//            getParent().requestDisallowInterceptTouchEvent(true);
+//
+//
+////            if (Math.abs(e2.getX() - e1.getX()) < Math.abs(e2.getY() - e1.getY())){
+////                return false;
+////            } else {
+////                return HorizontalListView.this.onFling(e1, e2, velocityX, velocityY);
+////            }
+////
+////            float minMove = 120; //最小滑动距离
+////            float minVelocity = 0;//最小滑动速度
+////            float beginX = e1.getX();
+////            float endX = e2.getX();
+////            float beginY = e1.getY();
+////            float endY = e2.getY();
+////
+////            if (beginX - endX > minMove && Math.abs(velocityX) > minVelocity) {   //左滑
+////                getParent().requestDisallowInterceptTouchEvent(true);
+////            } else if (endX - beginX > minMove && Math.abs(velocityX) > minVelocity) {   //右滑
+////                return HorizontalListView.this.onFling(e1, e2, velocityX, velocityY);
+////            } else if (beginY - endY > minMove && Math.abs(velocityY) > minVelocity) {   //上滑
+////                getParent().requestDisallowInterceptTouchEvent(true);
+////            } else if (endY - beginY > minMove && Math.abs(velocityY) > minVelocity) {   //下滑
+////                return HorizontalListView.this.onFling(e1, e2, velocityX, velocityY);
+////            }
+//
+//            return HorizontalListView.this.onFling(e1, e2, velocityX, velocityY);
+////            return false;
+//        }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2,

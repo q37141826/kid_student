@@ -178,17 +178,17 @@ public class ApExChoice extends BaseAdapter {
             return position;
         }
 
-        public ImageView getImg_rightchoice() {
-            return img_rightchoice;
-        }
+//        public ImageView getImg_rightchoice() {
+//            return img_rightchoice;
+//        }
 
-        @Override
-        public String toString() {
-            return "ShowAnswer{" +
-                    "position=" + position +
-                    ", img_rightchoice=" + img_rightchoice +
-                    '}';
-        }
+//        @Override
+//        public String toString() {
+//            return "ShowAnswer{" +
+//                    "position=" + position +
+//                    ", img_rightchoice=" + img_rightchoice +
+//                    '}';
+//        }
     }
 
 }

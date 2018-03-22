@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:text="1/3"/>
+            />
 
         <TextView
             android:id="@+id/line"
@@ -41,7 +41,7 @@
             android:layout_below="@+id/line"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-         />
+            />
 
         <ImageView
             android:id="@+id/img_conment"

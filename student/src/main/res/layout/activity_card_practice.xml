@@ -101,7 +101,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="13sp"
-            android:visibility="gone"/>
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 

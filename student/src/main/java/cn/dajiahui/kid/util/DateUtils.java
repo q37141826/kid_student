@@ -283,6 +283,15 @@ public final class DateUtils {
         return times;
 
     }
+    public static String EndHomeWorktime(String time) {
+        SimpleDateFormat sdr = new SimpleDateFormat("MM月dd日 HH:mm");
+        @SuppressWarnings("unused")
+        long lcc = Long.valueOf(time);
+        int i = Integer.parseInt(time);
+        String times = sdr.format(new Date(i * 1000L));
+        return times;
+
+    }
 
     public static String timeHour(String time) {
         SimpleDateFormat sdr = new SimpleDateFormat("HH:mm");

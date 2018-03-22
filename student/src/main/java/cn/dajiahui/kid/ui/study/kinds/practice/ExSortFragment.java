@@ -12,7 +12,6 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,15 +60,15 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
     private Map<Integer, BeLocation> sortRightAnswerMap = new HashMap<>();//正确答案（ isanswer=1）
     private TextView mRight;/*正确答案*/
     private TextView mLeft;/*我的答案*/
-    private TextView tv_sort;
+    private TextView tv_sort, mSchedule;
     private ImageView sort_img_play;//播放器按钮
-    private List<String> initMyanswerList = new ArrayList<>();//初始我的答案集合（用于获取我的答案顺序）
+//    private List<String> initMyanswerList = new ArrayList<>();//初始我的答案集合（用于获取我的答案顺序）
     private Map<Integer, BeLocation> mMineAnswerMap = new HashMap<>();//（isanswer=0）
     private List<String> mRightContentList;//正确答案的顺序（内容是选项图片的网址）
     private List<String> mMineContentList;//我的答案的顺序（我的答案内容是选项的网址）
     private String media;
     private String title;
-
+    private Bundle bundle;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
 
@@ -104,7 +103,8 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                         sortMineAnswerMap.put((i + 1), beLocation);
                         pointRightList.add(beLocation);
                         pRightY = (pRightY += 300);//左边所有点的y坐标
-                        initMyanswerList.add("");
+//                        initMyanswerList.add("");
+                        inbasebean.getInitSortMyanswerList().add("㊒");
                     }
                     break;
 
@@ -125,7 +125,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
         super.onViewCreated(view, savedInstanceState);
         initialize();
         tv_sort.setText(title);
-
+        mSchedule.setText(bundle.getString("currntQuestion"));
         getAnswerList();
         /*添加右侧视图*/
         addGroupImage(inbasebean.getOptions().size(), relaroot);
@@ -272,9 +272,8 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                     inbasebean.setSortAnswerMap(mMineAnswerMap);//我的答案的集合
                     inbasebean.setAnswerflag("true");//答题标志
 
-                    initMyanswerList.set(i, mBeforeView.val);
-                    inbasebean.setInitSortMyanswerList(initMyanswerList);
-                    inbasebean.setOptions(inbasebean.getOptions());
+                    inbasebean.getInitSortMyanswerList().set(i, mBeforeView.val);
+//                    inbasebean.setOptions(inbasebean.getOptions());
                     submit.submitSoreFragment(inbasebean);//告诉活动每次连线的数据
 
                     return beLocation;
@@ -302,6 +301,8 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
 
     @Override
     public void setArguments(Bundle bundle) {
+        this.bundle = bundle;
+
         inbasebean = (SortQuestionModle) bundle.get("SortQuestionModle");
         inbasebean.setEachposition(bundle.getInt("position"));
         media = inbasebean.getMedia();
@@ -314,11 +315,12 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
         mRight = getView(R.id.mRight);
         mLeft = getView(R.id.mLeft);
         tv_sort = getView(R.id.tv_sort);
+        mSchedule = getView(R.id.tv_schedule);
         relaroot = getView(R.id.relaroot);
         sort_img_play.setOnClickListener(this);
         mLeft.setOnClickListener(this);
         mRight.setOnClickListener(this);
-
+        sort_img_play.setBackground(animationDrawable);
     }
 
 
@@ -369,7 +371,11 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
 //        }
 
     }
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        mediaPlayer.pause();
+    }
     /*我的答案  正确答案的点击事件*/
     @Override
     public void onClick(View v) {
@@ -377,7 +383,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
         switch (v.getId()) {
 
             case R.id.sort_img_play:
-                Toast.makeText(activity, "播放音频！", Toast.LENGTH_SHORT).show();
+
                 playMp3(media);
                 break;
             default:
@@ -416,11 +422,6 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-    }
 
     /*获取正确答案*/
     private void getAnswerList() {

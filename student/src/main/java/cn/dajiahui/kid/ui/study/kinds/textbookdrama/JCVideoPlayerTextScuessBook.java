@@ -17,9 +17,11 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 * */
 public class JCVideoPlayerTextScuessBook extends JCVideoPlayerStandard {
     private OnDuration onDuration;
+    private Context context;
 
     public JCVideoPlayerTextScuessBook(Context context) {
         super(context);
+        this.context = context;
     }
 
     public JCVideoPlayerTextScuessBook(Context context, AttributeSet attrs) {
@@ -42,6 +44,7 @@ public class JCVideoPlayerTextScuessBook extends JCVideoPlayerStandard {
         super.onClick(v);
         if (v.getId() == fm.jiecao.jcvideoplayer_lib.R.id.back) {
             if (currentScreen != SCREEN_WINDOW_FULLSCREEN) {
+
                 ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
 
                 Logger.d("视频返回键");
@@ -95,7 +98,6 @@ public class JCVideoPlayerTextScuessBook extends JCVideoPlayerStandard {
         super.onStatePreparingChangingUrl(urlMapIndex, seekToInAdvance);
 
     }
-
 
 
     /*暂停时*/

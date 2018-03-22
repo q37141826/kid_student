@@ -174,21 +174,21 @@ public class PersonalStereoActivity extends FxActivity {
 
     /*设置进度*/
     private void setProgress(boolean totaltime) {
-
+        if (mediaPlayer != null) {
         /*设置当前时长*/
-        int position = mediaPlayer.getCurrentPosition();
-        pbDuration.setProgress(position);
-        tvTimeElapsed.setText(stringForTime(position));
+            int position = mediaPlayer.getCurrentPosition();
+            pbDuration.setProgress(position);
+            tvTimeElapsed.setText(stringForTime(position));
 
         /*设置总时长*/
-        if (totaltime == true) {
-            int duration = mediaPlayer.getDuration();
-            tvDuration.setText(stringForTime(duration));
+            if (totaltime == true) {
+                int duration = mediaPlayer.getDuration();
+                tvDuration.setText(stringForTime(duration));
              /*设置进度条最大值*/
-            pbDuration.setMax(mediaPlayer.getDuration());
+                pbDuration.setMax(mediaPlayer.getDuration());
+            }
+
         }
-
-
     }
 
     @Override

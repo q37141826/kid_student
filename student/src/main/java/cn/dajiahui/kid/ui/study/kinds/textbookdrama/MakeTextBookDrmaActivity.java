@@ -89,6 +89,8 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
     private BeChivoxEvaluateResult chivoxEvaluateResult;//解析弛声打分
     private Map<Integer, Integer> mScoreMap = new HashMap<>();//当前碎片弛声打分的集合
 
+    private final int DELAYED_CHIVOX = 4;//弛声延迟
+    protected int counter = 0;
 
     @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
@@ -128,7 +130,25 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                     bundle.putString("ShowBottom", "SHOW");
                     beGoTextBookSuccess.setmScoreMap(mScoreMap);
                     bundle.putSerializable("BeGoTextBookSuccess", beGoTextBookSuccess);
-                    DjhJumpUtil.getInstance().startBaseActivityForResult(context, TextBookSuccessActivity.class, bundle, 0);
+                    DjhJumpUtil.getInstance().startBaseActivityForResult(context, TextBookSuccessActivity.class, bundle, DjhJumpUtil.getInstance().activity_makebookdrame);
+                    break;
+
+                case DELAYED_CHIVOX:
+                    Logger.d("-------counter:" + counter);
+                    if (counter < 3) {
+                        recordStop();
+                        recordStart(mDataList.get(mCurrentPosition).getEnglish()); // 重新开始录音
+                    } else {
+                        // 关闭进度条
+                        // toast 提示用户系统繁忙
+                        counter = 0;
+                        dismissfxDialog();
+                        /*修改录音按钮的背景*/
+//                        mRecording.setImageResource(R.drawable.card_record_off);
+
+                        Toast.makeText(context, "系统繁忙，请稍后...", Toast.LENGTH_SHORT).show();
+                        isRecording = false;
+                    }
                     break;
                 default:
                     break;
@@ -470,7 +490,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0 && resultCode == 1) {
+        if (requestCode == DjhJumpUtil.getInstance().activity_makebookdrame && resultCode == 1) {
             Logger.d("重新录制");
             submit.setVisibility(View.INVISIBLE);
             /*重新录制*/
@@ -478,7 +498,10 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
             mPlayRecordMap.clear();//清空翻页时播放录音文件的集合
             startShowSubmitTimer();
         }
-
+        /*制作成功后按返回键 与 左上角退出视频*/
+        if (requestCode == DjhJumpUtil.getInstance().activity_makebookdrame && resultCode == DjhJumpUtil.getInstance().activity_makebookdrame_out) {
+            finishActivity();
+        }
 
     }
 
@@ -578,7 +601,9 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         //CoreLaunchParam coreLaunchParam = new CoreLaunchParam(isOnline,null,refText,isVadLoad);
         coreLaunchParam.getRequest().setRank(Rank.rank100); // 设置为百分制
         coreLaunchParam.setVadEnable(false);
-//        try {
+        coreLaunchParam.setSoundIntensityEnable(true); // 让服务器返回SoundIntensity
+
+        //        try {
 //            Log.d("log","coreLaunchParam: "+coreLaunchParam.getCoreLaunchParams());
 //        } catch (JSONException e) {
 //            e.printStackTrace();
@@ -588,7 +613,8 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         /*if(coretype==CoreType.en_pred_score) {
             coreLaunchParam.setPrecision(predPrecision);
         }*/
-        service.recordStart(this, engine, -1, coreLaunchParam,
+        long duration = 10000;//设置10秒录音时间
+        service.recordStart(this, engine, duration, coreLaunchParam,
                 new OnLaunchProcessListener() {
 
                     @Override
@@ -610,31 +636,61 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-//                                Log.d("log",df.format(new Date())+"-- Get Result."+"resultCode: "+resultCode+"--jsonResult: "+jsonResult.toString());
-                                File recordFile = lastRecordFile.getRecordFile();
-                                Logger.d("停止录音：" + recordFile.getAbsolutePath());
 
-                                Map<String, Object> mRecordMap = new HashMap();
-                                File video = lastRecordFile.getRecordFile();
-                                mRecordMap.put("filePathName", video);
-                                mRecordMap.put("startTime", stringForTime(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start())));
-                                audiosList.put((mCurrentPosition + 1), mRecordMap);
-                                mPlayRecordMap.put(mCurrentPosition, video.getAbsolutePath());
-                                timerRecoding.cancel();
-                                timerRecoding = null;
-                                mViewpager.setNoScroll(false);//打开滑动
+                                switch (resultCode) {
+                                    case 3:
+                                        try {
+                                            JSONObject var1 = new JSONObject(jsonResult.getJsonText());
+                                            if (var1.has("sound_intensity")) {
+                                                mHandler.removeMessages(DELAYED_CHIVOX);
+                                                counter = 0;
+                                                dismissfxDialog();
 
-                                /*打开视频声音*/
-                                openVideoviewSound();
-                                if (jsonResult != null)
-                                    parseChivoxJsonResult(jsonResult);
-                                /*获取评分分数*/
-                                String overall = chivoxEvaluateResult.getOverall();
-                                Logger.d("打分-----" + overall);
-                               /*通知碎片中的小星星*/
-                                mTextBookDramaCardMap.get(mCurrentPosition).markScore(Integer.parseInt(overall));
-                                mScoreMap.put(mCurrentPosition, Integer.parseInt(overall));
+                                            }
+
+                                        } catch (Exception var2) {
+                                            var2.printStackTrace();
+                                        }
+                                        break;
+
+                                    case 5:
+                                        try {
+                                            JSONObject var1 = new JSONObject(jsonResult.getJsonText());
+                                            if (!var1.has("result")) {
+                                                break;
+                                            }
+                                        } catch (Exception var2) {
+                                            var2.printStackTrace();
+                                        }
+
+                                        File recordFile = lastRecordFile.getRecordFile();
+                                        Logger.d("停止录音：" + recordFile.getAbsolutePath());
+
+                                        Map<String, Object> mRecordMap = new HashMap();
+                                        File video = lastRecordFile.getRecordFile();
+                                        mRecordMap.put("filePathName", video);
+                                        mRecordMap.put("startTime", stringForTime(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start())));
+                                        audiosList.put((mCurrentPosition + 1), mRecordMap);
+                                        mPlayRecordMap.put(mCurrentPosition, video.getAbsolutePath());
+                                        timerRecoding.cancel();
+                                        timerRecoding = null;
+                                        mViewpager.setNoScroll(false);//打开滑动
+
+                                           /*打开视频声音*/
+                                        openVideoviewSound();
+                                        if (jsonResult != null)
+                                            parseChivoxJsonResult(jsonResult);
+                                            /*获取评分分数*/
+                                        String overall = chivoxEvaluateResult.getOverall();
+                                        Logger.d("打分-----" + overall);
+                                          /*通知碎片中的小星星*/
+                                        mTextBookDramaCardMap.get(mCurrentPosition).markScore(Integer.parseInt(overall));
+                                        mScoreMap.put(mCurrentPosition, Integer.parseInt(overall));
+
+                                        break;
+                                }
+
+
                             }
                         });
 
@@ -674,7 +730,11 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         try {
             object = new JSONObject(jsonResult.toString());
             GsonUtil gson = new GsonUtil();
-            chivoxEvaluateResult = gson.getJsonObject(object.optJSONObject("result").toString(), BeChivoxEvaluateResult.class);
+            if (object.has("result")) // 在此处做判断，包含字段的话再继续从JSON中获取code字段的内容
+            {
+                chivoxEvaluateResult = gson.getJsonObject(object.optJSONObject("result").toString(), BeChivoxEvaluateResult.class);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -40,11 +40,17 @@ public class DjhJumpUtil extends JumpUtil {
 
     public final int activity_answerCard = 7000;
     public final int activity_todohomework = 7100;
-    public final int activity_answerCardComplete= 7200;
-    public final int activity_answerCardSubmit= 7300;
+    public final int activity_answerCardComplete = 7200;
+    public final int activity_answerCardSubmit = 7300;
 
-    public final int activity_makekalaok_request= 7400;
-    public final int activity_makekalaok_result= 7500;
+    public final int activity_makekalaok_request = 7400;//重新录制请求码
+    public final int activity_makekalaok_result = 7500;//重新录制结果码
+
+    public final int activity_makekalaok_out = 7510;//录制完成之后点击返回键 与左上角返回键
+    public final int activity_makebookdrame = 7530;//制作课本剧
+    public final int activity_makebookdrame_out = 7520;//录制完成之后点击返回键 与左上角返回键
+
+    public final int activity_searchclass = 7600;//搜索班级
 
     private DjhJumpUtil() {
     }

@@ -79,6 +79,8 @@ public class KidConfig {
     /*我的作品缩略图*/
     private String pathMineWorksThumbnail = this.pathMineWorks + "Thumbnail" + File.separator;
 
+    /*班级空间图片*/
+    private String pathClassSpace = this.pathRoot + "ClassSpace" + File.separator;
 
     public void init() {
         // App Init
@@ -166,6 +168,10 @@ public class KidConfig {
         if (!folder.exists()) {
             folder.mkdir();
         }
+        folder = new File(this.pathClassSpace);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
 
     }
 
@@ -174,6 +180,7 @@ public class KidConfig {
 
         //User Init
         this.pathUserRoot = this.pathRoot + userPhone + File.separator;
+
 
         File folder = null;
         folder = new File(this.pathUserRoot);
@@ -265,5 +272,9 @@ public class KidConfig {
 
     public String getPathMineWorksThumbnail() {
         return pathMineWorksThumbnail;
+    }
+
+    public String getPathClassSpace() {
+        return pathClassSpace;
     }
 }

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.fxtx.framework.log.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -196,30 +195,15 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         if (questionModle != null) {
             inbasebean = (JudjeQuestionModle) questionModle;
 
-            if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
-                if (inbasebean.getAnswerflag().equals("true")) {
-                    for (int i = 0; i < mAnswerViewList.size(); i++) {
+
+            if (inbasebean.getAnswerflag().equals("true")) {
+                for (int i = 0; i < mAnswerViewList.size(); i++) {
                         /*翻頁回來之后保持之前选择的状态*/
-                        int currentAnswerPosition = inbasebean.getCurrentAnswerPosition();
-                        if (mAnswerViewList.get(currentAnswerPosition) != null) {
-                            mAnswerViewList.get(currentAnswerPosition).setBackgroundResource(R.drawable.select_judge_image);
-                        }
+                    int currentAnswerPosition = inbasebean.getCurrentAnswerPosition();
+                    if (mAnswerViewList.get(currentAnswerPosition) != null) {
+                        mAnswerViewList.get(currentAnswerPosition).setBackgroundResource(R.drawable.select_judge_image);
                     }
                 }
-            } else if (DoHomeworkActivity.sourceFlag.equals("Practice") && inbasebean.getAnswerflag().equals("true")) {
-
-                /*进行正确错误答案对比机制*/
-                /*进行UI的样式书写  待续 imgtrue、 imgfasle 加遮罩层*/
-                 /*回答正确*/
-                if (inbasebean.getPratice_answer().equals(inbasebean.getStandard_answer())) {
-                    Logger.d("判断题-------------------------------------回答正确");
-//                    imgtrue.setBackgroundResource(R.drawable.select_judge_image);
-                } else {
-                    Logger.d("判断题-------------------------------------回答错误");
-//                    imgfasle.setBackgroundResource(R.drawable.select_judge_image);
-                }
-//                Logger.d("inbasebean.isanswer()" + inbasebean.isAnswer());
-
             }
         }
 

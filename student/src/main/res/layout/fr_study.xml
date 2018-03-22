@@ -25,29 +25,28 @@
             android:layout_marginLeft="10dp"
             android:padding="1dp"
             android:scaleType="fitXY"
-           />
-<!-- android:src="@drawable/study_default"-->
+            android:src="@drawable/study_default"/>
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/tv_unit"
+            android:layout_above="@+id/tv_title"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_supplementary"
-
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tv_unit"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_choiceMaterial"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_supplementary"
             android:textColor="@color/white"
+
             android:textSize="13sp"/>
 
         <TextView
@@ -58,7 +57,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-           android:drawableLeft="@drawable/choice_material"
+            android:drawableLeft="@drawable/choice_material"
             android:textColor="@color/white"
             android:textSize="14sp"/>
 

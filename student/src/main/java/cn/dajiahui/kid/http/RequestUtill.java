@@ -1,14 +1,11 @@
 package cn.dajiahui.kid.http;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.util.Pair;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.http.request.OkHttpDownloadRequest;
 import com.fxtx.framework.http.request.OkHttpRequest;
-import com.fxtx.framework.image.util.ImageUtil;
 import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 
@@ -65,6 +62,7 @@ public class RequestUtill {
     //下载
     public void downImageFile(Context context, String url, String fileName, ResultCallback callback) {
         //文件名称 和文件地址
+//        httpDownFile(context, url, callback, fileName, KidConfig.getInstance().getPathClassSpace() );
         httpDownFile(context, url, callback, fileName, UserController.getInstance().getUserImageFile(context));
     }
 
@@ -540,7 +538,7 @@ public class RequestUtill {
         params.put("token", UserController.getInstance().getUser().getToken());
         params.put("class_id", class_id);
 
-        getHttpBuilder(context, "/student/classroom/out").params(params).post(callback);
+        getHttpBuilder(context, "student/classroom/out").params(params).post(callback);
     }
 
     /*班级空间 接口暂时用教师端的接口*/
@@ -644,10 +642,12 @@ public class RequestUtill {
      * @param callback
      * @param files
      */
-    public void uploadUserIcon(Context context, ResultCallback callback, File files) {
-        Bitmap map = ImageUtil.uriToBitmap(Uri.fromFile(files), context);
-        map = ImageUtil.centerSquareScaleBitmap(map, 400);
-        File file = ImageUtil.bitmapToFile(map, UserController.getInstance().getUserImageFile(context) + System.currentTimeMillis() + ".jpg", -1);
+    public void uploadUserIcon(Context context, ResultCallback callback, File file) {
+//        Bitmap map = ImageUtil.uriToBitmap(Uri.fromFile(files), context);
+//        map = ImageUtil.centerSquareScaleBitmap(map, 400);
+//        File file = ImageUtil.bitmapToFile(map, UserController.getInstance().getUserImageFile(context) + System.currentTimeMillis() + ".jpg", -1);
+
+//        File file = new File(UserController.getInstance().getUserImageFile(context) + System.currentTimeMillis() + ".jpg");
         if (file == null) {
             ToastUtil.showToast(context, "文件错误无法提交");
             callback.onError(null, null);

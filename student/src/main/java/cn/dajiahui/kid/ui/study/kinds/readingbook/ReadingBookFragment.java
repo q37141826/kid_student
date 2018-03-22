@@ -154,9 +154,9 @@ public class ReadingBookFragment extends FxFragment implements
                     double xPoint = Double.parseDouble(beReadingBookPageData.getItem().get(i).getPoint_x());
                     double yPoint = Double.parseDouble(beReadingBookPageData.getItem().get(i).getPoint_y());
                     /*设置点读View的x y点坐标*/
-                    pointReadView.setmPointX((int) (xPoint * loadWidth / selfWidth) );
-                    pointReadView.setmPointY((int) (yPoint * loadHeight / selfHeight) );
-                    Logger.d(" (xPoint * loadWidth / selfWidth):" +(int) (xPoint * loadWidth / selfWidth) + "    (yPoint * loadHeight / selfHeight)" + (int)(yPoint * loadHeight / selfHeight));
+                    pointReadView.setmPointX((int) (xPoint * loadWidth / selfWidth));
+                    pointReadView.setmPointY((int) (yPoint * loadHeight / selfHeight));
+                    Logger.d(" (xPoint * loadWidth / selfWidth):" + (int) (xPoint * loadWidth / selfWidth) + "    (yPoint * loadHeight / selfHeight)" + (int) (yPoint * loadHeight / selfHeight));
 
                     params.setMargins(
                             (int) (xPoint * loadWidth / selfWidth),
@@ -328,13 +328,14 @@ public class ReadingBookFragment extends FxFragment implements
                     /*设置动画显示位置*/
                     params.setMargins(pointReadView.mPointX, pointReadView.mPointY, 0, 0);
 
-                    Logger.d("pointReadView.mPointX:" + pointReadView.mPointX + "  pointReadView.mPointY" + pointReadView.mPointY);
+//                    Logger.d("pointReadView.mPointX:" + pointReadView.mPointX + "  pointReadView.mPointY" + pointReadView.mPointY);
 
                     scaleimageView.setLayoutParams(params);
                    /*添加view到父布局上*/
                     fr_read_show.addView(scaleimageView);
                     allowPointRead = !allowPointRead;
-                    AnimUtil.magnifyingAnimation(scaleimageView).
+                    int i1 = Integer.parseInt(bePlayReadingBook.getEnd_time()) - Integer.parseInt(bePlayReadingBook.getStart_time());
+                    AnimUtil.magnifyingAnimation(scaleimageView, i1).
                             setAnimationListener(new Animation.AnimationListener() {
                                 @Override
                                 public void onAnimationStart(Animation animation) {
@@ -357,16 +358,19 @@ public class ReadingBookFragment extends FxFragment implements
                 }
             }
 
+            if (!media_url.equals("")) {
+
             /*文件名以MD5加密*/
-            String mp3Name = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
+                String mp3Name = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
 
-            if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
+                if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
             /*读取本地*/
-                PlayMedia.getPlaying().Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(bePlayReadingBook.getStart_time()));
+                    PlayMedia.getPlaying().Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(bePlayReadingBook.getStart_time()));
 
-            } else {
+                } else {
              /*读取网络*/
-                PlayMedia.getPlaying().Mp3seekTo(media_url, Integer.parseInt(bePlayReadingBook.getStart_time()));
+                    PlayMedia.getPlaying().Mp3seekTo(media_url, Integer.parseInt(bePlayReadingBook.getStart_time()));
+                }
             }
         }
     }

@@ -23,14 +23,13 @@ import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
 
 /*填空题 横划listview适配器*/
 public class ExHorizontallListViewAdapter extends BaseAdapter {
-
     private Context mContext;
 
     private final SubmitEditext submitEditext;
     private MyFoucus myFoucus;
     private EditChangedListener editChangedListener;//editext监听器
     public Map<Integer, String> inputContainer = new HashMap();//存editext的集合
-    private List<List<CompletionQuestionadapterItemModle>> showRightList;
+    private List<List<CompletionQuestionadapterItemModle>> showRightList;//正确答案
     private int selfposition;//HorizontallList在碎片中的索引（用于取出当前的HorizontallList）
     private String haveFocus = "";//用于网络请求后清空editext所有焦点
     public String IsShowRightAnswer = "";//是否显示editext
@@ -42,36 +41,23 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
         return inputContainer;
     }
 
+    /*练习Check之后 刷新适配器*/
     public void setInputContainer(
             Map<Integer, String> inputContainer,
             CompletionQuestionModle inbasebean,
-            List<List<CompletionQuestionadapterItemModle>> showRightList
-    ) {
+            List<List<CompletionQuestionadapterItemModle>> showRightList) {
         this.inbasebean = inbasebean;
-//        if (inputContainer != null) {
-        if (this.inputContainer == null) {
-            this.inputContainer = new HashMap();
-        }
-        for (int a = 0; a < inputContainer.size(); a++) {
-            this.inputContainer.put(a, inputContainer.get(a));
-//            }
-
-        }
+        this.inputContainer = inputContainer;
         this.IsShowRightAnswer = inbasebean.getIsShowRightAnswer();
         this.showRightList = showRightList;
 
         notifyDataSetChanged();
     }
 
-    /*构造方法*/
-    public ExHorizontallListViewAdapter(
-            Context context, SubmitEditext submitEditext,
-            int selfposition, Map<Integer, String> inputContainer,
-            List<List<CompletionQuestionadapterItemModle>> showRightList,
-            CompletionQuestionModle inbasebean) {
 
+    public ExHorizontallListViewAdapter(Context context, SubmitEditext submitEditext, int selfposition, Map<Integer, String> inputContainer, List<List<CompletionQuestionadapterItemModle>> rightList, CompletionQuestionModle inbasebean) {
         this.mContext = context;
-        this.showRightList = showRightList;
+        this.showRightList = rightList;
         this.submitEditext = submitEditext;
         this.selfposition = selfposition;
         if (inputContainer != null) {
@@ -83,24 +69,24 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
         this.haveFocus = inbasebean.getIsFocusable();
         this.IsShowRightAnswer = inbasebean.getIsShowRightAnswer();
         this.inbasebean = inbasebean;
-        myFoucus = new MyFoucus();
-        editChangedListener = new EditChangedListener();
+        myFoucus = new ExHorizontallListViewAdapter.MyFoucus();
+        editChangedListener = new ExHorizontallListViewAdapter.EditChangedListener();
 
     }
 
     @Override
     public int getCount() {
+
         return showRightList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return showRightList.size();
+        return null;
     }
 
     @Override
     public long getItemId(int position) {
-
         return position;
     }
 
@@ -109,32 +95,25 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
     @SuppressLint("ResourceAsColor")
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        HolderView holderView = null;
+        ExHorizontallListViewAdapter.HolderView holderView = null;
 
         if (convertView == null) {
 
-            holderView = new HolderView();
+            holderView = new ExHorizontallListViewAdapter.HolderView();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.match_league_round_item, parent, false);
 
             holderView.editext = (EditText) convertView.findViewById(R.id.editext);
             holderView.tv_rightanswer = (TextView) convertView.findViewById(R.id.tv_rightanswer);
-//            holderView.tv_num = (TextView) convertView.findViewById(R.id.tv_num);
-//            /*初始化集合*/
 
-//            if (position == 0) {
-//                holderView.tv_num.setVisibility(View.VISIBLE);
-//                holderView.tv_num.setText((this.selfposition + 1) + ".");
-//            } else {
-//                holderView.tv_num.setVisibility(View.GONE);
-//            }
 
             // 注册上自己写的焦点监听
             holderView.editext.setOnFocusChangeListener(myFoucus);
+            holderView.editext.setLongClickable(false);
 
             convertView.setTag(holderView);
 
         } else {
-            holderView = (HolderView) convertView.getTag();
+            holderView = (ExHorizontallListViewAdapter.HolderView) convertView.getTag();
 
         }
 
@@ -147,12 +126,16 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
             currentFocus.clearFocus();
         }
 
+
         holderView.editext.removeTextChangedListener(editChangedListener);
 
         if (this.inputContainer.containsKey(position)) {
             if (this.inputContainer.get(position) != null) {
-                holderView.editext.setText(this.inputContainer.get(position).toString());
-
+                if (this.inputContainer.get(position).toString().equals("㊒")) {
+                    holderView.editext.setText("");
+                } else {
+                    holderView.editext.setText(this.inputContainer.get(position).toString());
+                }
             }
         } else {
             holderView.editext.setText("");
@@ -164,24 +147,27 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
         }
           /*显示正确答案*/
         else if (IsShowRightAnswer.equals("yes")) {
-            if (inbasebean.isAnswer() == true) {
-                List<CompletionQuestionadapterItemModle> cm = showRightList.get(position);
 
-                for (int i = 0; i < cm.size(); i++) {
-                    /*显示正确答案*/
+            List<CompletionQuestionadapterItemModle> cm = showRightList.get(position);
+
+            for (int i = 0; i < cm.size(); i++) {
+                    /*显示我的答案*/
+                if (!cm.get(i).getShowItemMy().equals("㊒")) {
                     holderView.editext.setText(cm.get(i).getShowItemMy());
+                }
                     /*字母显示绿色 框显示绿色*/
-                    if (cm.get(i).getShowItemRightColor() == 0) {
-                        holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_green);
-                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.green));
-                    } else {
-                        holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_red);
-                        holderView.tv_rightanswer.setText(cm.get(i).getShowItemright());
-                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.red));
-                        holderView.tv_rightanswer.setVisibility(View.VISIBLE);
-                    }
+                if (cm.get(i).getShowItemRightColor() == 0) {
+                    holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_green);
+                    holderView.editext.setTextColor(mContext.getResources().getColor(R.color.green));
+                } else {
+                    holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_red);
+                         /*显示正确答案*/
+                    holderView.tv_rightanswer.setText(cm.get(i).getShowItemright());
+                    holderView.editext.setTextColor(mContext.getResources().getColor(R.color.red));
+                    holderView.tv_rightanswer.setVisibility(View.VISIBLE);
                 }
             }
+
 
         }
 
@@ -199,7 +185,7 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
     class HolderView {
         EditText editext;
         TextView tv_rightanswer;
-        TextView tv_num;
+//        TextView tv_num;
     }
 
     class EditChangedListener implements TextWatcher {

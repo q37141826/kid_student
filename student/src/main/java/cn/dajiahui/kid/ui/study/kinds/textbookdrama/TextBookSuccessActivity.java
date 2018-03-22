@@ -2,6 +2,7 @@ package cn.dajiahui.kid.ui.study.kinds.textbookdrama;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -86,6 +87,8 @@ public class TextBookSuccessActivity extends FxActivity {
         }
 
         if (makeTextBookDrma.equals("MakeTextBookDrma")) {
+              /*显示分享布局  要分享成功后显示*/
+            shareRoot.setVisibility(View.INVISIBLE);
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
             int score = 0;
             for (int i = 0; i < beGoTextBookSuccess.getmScoreMap().size(); i++) {
@@ -102,6 +105,8 @@ public class TextBookSuccessActivity extends FxActivity {
 
 
         } else if (makeTextBookDrma.equals("MakeKraoOke")) {
+            /*显示分享布局  要分享成功后显示*/
+            shareRoot.setVisibility(View.INVISIBLE);
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
 
             /*隐藏打分*/
@@ -149,7 +154,7 @@ public class TextBookSuccessActivity extends FxActivity {
                 tvscore.setText(getAverage(beTextBookDramaPageData.getMy_work().getScore()) + "分");
                 rbscore.setMax(100);
                 rbscore.setProgress(getScore(getAverage(beTextBookDramaPageData.getMy_work().getScore())));
-                Logger.d("beTextBookDramaPageData.getMy_work():" + beTextBookDramaPageData.getMy_work());
+
                 /*设置分享信息*/
                 setShareContent(beTextBookDramaPageData.getMy_work().getShare_url(), "魔耳英语作品分享", beTextBookDramaPageData.getMy_work().getThumbnail(), "我分享了" + beTextBookDramaPageData.getMy_work().getAuthor() + "的作品，快来看看吧！");
             }
@@ -201,7 +206,7 @@ public class TextBookSuccessActivity extends FxActivity {
         GlideUtil.showRoundImage(TextBookSuccessActivity.this, imgUrl, imguser, R.drawable.ico_default_user, true);
         tv_username.setText(author);
         tvmaketime.setText(DateUtils.getYyyyMMDD(makeTime));
-
+        Logger.d("作预览品时间----makeTime：" + makeTime);
     }
 
     /*初始化*/
@@ -366,7 +371,8 @@ public class TextBookSuccessActivity extends FxActivity {
                     setShareContent(beUpdateMIneWorks.getShareUrl(), "魔耳英语作品分享", beUpdateMIneWorks.getThumbnail(), "我分享了" + beGoTextBookSuccess.getUserName() + "的作品，快来看看吧！");
                 }
                 Logger.d("卡拉OK上传成功" + response);
-
+                /*隐藏保存我的作品按钮*/
+                tv_savemineworks.setVisibility(View.GONE);
             } else {
                 ToastUtil.showToast(TextBookSuccessActivity.this, json.getMsg());
             }
@@ -448,4 +454,23 @@ public class TextBookSuccessActivity extends FxActivity {
         }
         return score;
     }
+
+
+    /*监听返回键*/
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { //监控/拦截/屏蔽返回键
+            if (makeTextBookDrma.equals("MakeKraoOke")) {
+                setResult(DjhJumpUtil.getInstance().activity_makekalaok_out);
+            } else if (makeTextBookDrma.equals("MakeTextBookDrma")) {
+                setResult(DjhJumpUtil.getInstance().activity_makebookdrame_out);
+            }
+
+            finishActivity();
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
 }

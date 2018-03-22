@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.fxtx.framework.anim.AnimUtil;
 import com.fxtx.framework.http.ErrorCode;
 import com.fxtx.framework.http.callback.ResultCallback;
-import com.fxtx.framework.image.util.ImageUtil;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.text.StringUtil;
@@ -267,8 +266,8 @@ public class PhotoPageActivity extends FxActivity {
 
                     @Override
                     public void onResponse(String response) {
-                        progressBar.setVisibility(View.GONE);
-                        ImageUtil.scanFile(context, UserController.getInstance().getUserImageFile(context) + fileName);
+//                        progressBar.setVisibility(View.GONE);
+//                        ImageUtil.scanFile(context, UserController.getInstance().getUserImageFile(context) + fileName);
                         ToastUtil.showToast(context, R.string.hint_down_ok);
                     }
 

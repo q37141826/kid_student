@@ -121,7 +121,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/select_btn_bg_gray"
+                    android:background="@drawable/select_btn_gray_bg"
                     android:gravity="center"
                     android:text="女生"
                     android:textColor="@color/text_gray"/>
@@ -178,7 +178,7 @@
 
                 <EditText
                     android:id="@+id/edPhone"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
@@ -212,7 +212,7 @@
 
                 <EditText
                     android:id="@+id/edCode"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
@@ -263,7 +263,7 @@
 
                 <EditText
                     android:id="@+id/edPwd"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"

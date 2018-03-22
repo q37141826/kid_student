@@ -28,8 +28,6 @@ public abstract class BaseHomeworkFragment extends FxFragment {
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
         bundle = getArguments();
-
-
         return null;
     }
 

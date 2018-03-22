@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.fxtx.framework.adapter.CommonAdapter;
 import com.fxtx.framework.adapter.ViewHolder;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.text.ParseUtil;
 
 import java.text.ParseException;
@@ -64,7 +65,8 @@ public class ApHomework extends CommonAdapter<BeHomework> {
         /*打分的分数 */
         rb_score.setProgress(getScore((int) (ParseUtil.parseFloat(item.getCorrect_rate()) * 100)));
         tv_hometime.setText(DateUtils.time(item.getStart_time()) + "作业");//作业时间
-        task_endtime.setText("截止时间：" + DateUtils.time(item.getEnd_time()));//作业时间
+        Logger.d("截止时间戳："+item.getEnd_time());
+        task_endtime.setText("截止时间：" + DateUtils.EndHomeWorktime(item.getEnd_time()));//作业时间
 
         if (TimeCompare(item)) {
             if (item.getIs_complete().equals("1")) {

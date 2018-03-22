@@ -32,12 +32,12 @@ public class ExChoiceFragment extends ExBaseHomeworkFragment implements CheckHom
 
     private ListView mListview;
     private ChoiceQuestionModle inbasebean;//当前
-    private TextView tv_choice;
+    private TextView tv_choice, mSchedule;
     private ImageView img_play, img_conment;
     private SubmitChoiseFragment submit;
     private ApExChoice apChoice;
     private String mediaUrl;
-
+    private Bundle bundle;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -46,6 +46,7 @@ public class ExChoiceFragment extends ExBaseHomeworkFragment implements CheckHom
 
     @Override
     public void setArguments(Bundle bundle) {
+        this.bundle = bundle;
         inbasebean = (ChoiceQuestionModle) bundle.get("ChoiceQuestionModle");
         inbasebean.setEachposition(bundle.getInt("position"));
         mediaUrl = inbasebean.getMedia();
@@ -56,7 +57,7 @@ public class ExChoiceFragment extends ExBaseHomeworkFragment implements CheckHom
         super.onViewCreated(view, savedInstanceState);
         initialize();
         tv_choice.setText(inbasebean.getTitle());
-
+        mSchedule.setText(bundle.getString("currntQuestion"));
        /*加载内容图片*/
         Glide.with(getActivity()).load(inbasebean.getQuestion_stem()).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(img_conment);
@@ -90,10 +91,10 @@ public class ExChoiceFragment extends ExBaseHomeworkFragment implements CheckHom
         for (int i = 0; i < count; i++) {
             View temp = apChoice.getView(i, null, mListview);
             temp.measure(0, 0);
-            height += temp.getMeasuredHeight();
+            height += temp.getMeasuredHeight() + 30;
         }
         ViewGroup.LayoutParams params = this.mListview.getLayoutParams();
-        params.width = ViewGroup.LayoutParams.FILL_PARENT;
+        mListview.setDividerHeight(30);
         params.height = height;
         mListview.setLayoutParams(params);
     }
@@ -104,8 +105,10 @@ public class ExChoiceFragment extends ExBaseHomeworkFragment implements CheckHom
         mListview = getView(R.id.listview);
         tv_choice = getView(R.id.tv_choice);
         img_play = getView(R.id.img_play);
+        mSchedule = getView(R.id.tv_schedule);
         img_conment = getView(R.id.img_conment);
         img_play.setOnClickListener(onClick);
+        img_play.setBackground(animationDrawable);
     }
 
     private View.OnClickListener onClick = new View.OnClickListener() {
@@ -115,7 +118,7 @@ public class ExChoiceFragment extends ExBaseHomeworkFragment implements CheckHom
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.img_play:
-//                    Toast.makeText(activity, "播放音频", Toast.LENGTH_SHORT).show();
+
                     playMp3(mediaUrl);
 
                     break;
@@ -166,7 +169,7 @@ public class ExChoiceFragment extends ExBaseHomeworkFragment implements CheckHom
 
             /*判断正误，改变UI*/
            /*刷新翻页回来后 上次答题情况*/
-            apChoice.changeitemState( inbasebean);
+            apChoice.changeitemState(inbasebean);
 
         }
     }

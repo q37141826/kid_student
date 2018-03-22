@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:textColor="@color/gray_333333"
             android:textSize="15sp"/>
 
@@ -42,13 +42,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_translate"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp"
-            android:drawableRight="@drawable/readbook_down"
+            android:drawableRight="@drawable/readbook_up"
             android:text="隐藏翻译"
             android:textColor="@color/gray_666666"
             android:textSize="11sp"
-            android:visibility="invisible"/>
+            android:visibility="invisible"
+        />
 
 
     </RelativeLayout>

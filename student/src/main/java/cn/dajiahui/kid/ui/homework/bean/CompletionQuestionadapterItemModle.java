@@ -11,6 +11,9 @@ public class CompletionQuestionadapterItemModle  implements Serializable {
     private String showItemMy;//显示我的答案
     private int showItemRightColor = -1;//0正确 绿色 1 错误 红色
 
+    public CompletionQuestionadapterItemModle() {
+    }
+
     public CompletionQuestionadapterItemModle(String showItemright, String showItemMy) {
         this.showItemright = showItemright;
         this.showItemMy = showItemMy;

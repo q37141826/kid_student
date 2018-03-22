@@ -105,7 +105,7 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
             }
         });
 
-
+        /*单选*/
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -118,21 +118,21 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
                         mTextBooklists.get(position).setBo(true);
                     }
 
-                    Iterator it = mTextBooklists.iterator();
-
-                    while (it.hasNext()) {
-                        // 得到对应集合元素
-                        BeMineWorksLists g = (BeMineWorksLists) it.next();
-                        // 判断
-                        if (g.getBo()) {
-                            allCheck.setChecked(false);
-                        } else {
-//                            mCheckNum++;
-                        }
-
-                    }
+//                    Iterator it = mTextBooklists.iterator();
+//
+//                    while (it.hasNext()) {
+//                        // 得到对应集合元素
+//                        BeMineWorksLists g = (BeMineWorksLists) it.next();
+//                        // 判断
+//                        if (g.getBo()) {
+//                            allCheck.setChecked(false);
+//                        } else {
+////                            mCheckNum++;
+//                        }
+//
+//                    }
                     apMyWorks.notifyDataSetChanged();
-                    Logger.d("mCheckNum:" + mCheckNum + "   mTextBooklists.size():" + mTextBooklists.size());
+//                    Logger.d("mCheckNum:" + mCheckNum + "   mTextBooklists.size():" + mTextBooklists.size());
 //
 //                    if (mCheckNum == mTextBooklists.size()) {
 //                        btn_delete.setBackgroundResource(R.color.red);
@@ -160,7 +160,7 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
                         mIdList.add(mTextBooklists.get(i).getId());
                     }
                 }
-                Logger.d("删除学生ID：" + mIdList.toString());
+//                Logger.d("删除学生ID：" + mIdList.toString());
                 if (mIdList.size() > 0) {
                     FxDialog dialog = new FxDialog(getActivity()) {
                         @Override
@@ -179,7 +179,7 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
 
                             showbtnDelete(2);
 
-//                            deleteMyworks()
+                            deleteMyworks();
                             mIdList.clear();
                             // 刷新
                             apMyWorks.notifyDataSetChanged();
@@ -260,7 +260,7 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
         @Override
         public void onResponse(String response) {
             dismissfxDialog();
-//            Logger.d("获取课本剧" + response);
+            Logger.d("获取课本剧" + response);
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
 

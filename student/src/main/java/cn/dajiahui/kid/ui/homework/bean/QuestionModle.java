@@ -29,6 +29,16 @@ public class QuestionModle extends BeBaseModle implements Serializable {
     /*连线题我的答案集合*/
     private Map<String, String> initLineMyanswerMap = new HashMap<>();//连线题我的答案集合（val对应）
 
+    private Map<Integer, Map<Integer, String>> mCompletionAllMap = new HashMap<>();//填空題我的答案
+
+
+    public Map<Integer, Map<Integer, String>> getmCompletionAllMap() {
+        return mCompletionAllMap;
+    }
+
+    public void setmCompletionAllMap(Map<Integer, Map<Integer, String>> mCompletionAllMap) {
+        this.mCompletionAllMap = mCompletionAllMap;
+    }
     public Map<String, String> getInitLineMyanswerMap() {
         return initLineMyanswerMap;
     }

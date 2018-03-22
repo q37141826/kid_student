@@ -109,13 +109,13 @@ public class RegistActivity extends FxActivity {
                 tvBoy.setTextColor(getResources().getColor(R.color.white));
                 tvGirl.setTextColor(getResources().getColor(R.color.text_gray));
                 tvBoy.setBackgroundResource(R.drawable.select_btn_yellowbg);
-                tvGirl.setBackgroundResource(R.drawable.select_btn_bg_gray);
+                tvGirl.setBackgroundResource(R.drawable.select_btn_gray_bg);
 
             } else if (v.getId() == R.id.tv_girl) {
                 sex = "1";
                 tvBoy.setTextColor(getResources().getColor(R.color.text_gray));
                 tvGirl.setTextColor(getResources().getColor(R.color.white));
-                tvBoy.setBackgroundResource(R.drawable.select_btn_bg_gray);
+                tvBoy.setBackgroundResource(R.drawable.select_btn_gray_bg);
                 tvGirl.setBackgroundResource(R.drawable.select_btn_yellowbg);
 
             } else if (v.getId() == R.id.tv_code) {

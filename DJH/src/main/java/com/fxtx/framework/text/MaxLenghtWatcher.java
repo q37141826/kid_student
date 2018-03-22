@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.fxtx.framework.R;
@@ -18,6 +19,11 @@ public class MaxLenghtWatcher implements TextWatcher {
     private EditText editText;
     private Context context;
     private onEditLength onEditLength;
+    private Button mBtnSure;
+
+    public void setmBtnSure(Button mBtnSure) {
+        this.mBtnSure = mBtnSure;
+    }
 
     public MaxLenghtWatcher(int maxLength, EditText editText, Context context) {
         maxLen = maxLength;
@@ -50,6 +56,8 @@ public class MaxLenghtWatcher implements TextWatcher {
             //设置新光标所在的位置
             Selection.setSelection(editable, selEndIndex);
             ToastUtil.showToast(context, context.getString(R.string.tv_max_lenght, maxLen));
+
+            mBtnSure.setBackgroundColor(context.getResources().getColor(R.color.yellow_FEBF12));
         }
         if (onEditLength != null && maxLen - len >= 0)
             onEditLength.onInputLength(maxLen - len);

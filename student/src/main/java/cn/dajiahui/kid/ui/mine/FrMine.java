@@ -100,7 +100,7 @@ public class FrMine extends FxFragment {
                     break;
                 case R.id.tvNotice: //通知
                     DjhJumpUtil.getInstance().startBaseActivity(getActivity(), NoticeActivity.class);
-
+//                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), ChivoxMainActivity.class); // 驰声测试用
                     break;
                 case R.id.tvSet_up: //设置
                     DjhJumpUtil.getInstance().startBaseActivity(getContext(), SettingActivity.class);

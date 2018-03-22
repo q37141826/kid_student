@@ -127,7 +127,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         }
 
          /*判断是否已经上传后台 0 没答过题  1 答过题*/
-        if (DoHomeworkActivity.sourceFlag.equals("HomeWork") && inbasebean.getIs_answered().equals("1")) {
+        if ( inbasebean.getIs_answered().equals("1")) {
 
             inbasebean.setIsFocusable("false");/*部顯示焦点*/
             inbasebean.setIsShowRightAnswer("yes");/*显示正确答案*/
@@ -295,14 +295,11 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     public void submitHomework(Object questionModle) {
         if (questionModle != null) {
             inbasebean = (CompletionQuestionModle) questionModle;
-            /*作业翻页回来会走 submitHomework*/
-//            if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
                 /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/
                 for (int i = 0; i < mAllList.size(); i++) {
                     Map<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
                     mAllList.get(i).setInputContainer(integerObjectMap);
                 }
-//            }
         }
     }
 

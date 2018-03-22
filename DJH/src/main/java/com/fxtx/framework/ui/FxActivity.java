@@ -27,7 +27,7 @@ public abstract class FxActivity extends AppCompatActivity {
 
     protected Toolbar toolbar;
     public TextView titleView;
-    private FxProgressDialog progressDialog;
+    protected FxProgressDialog progressDialog;
     protected final int PROGRESS_BACK = -1;
     public Activity context;
     private SparseArray<View> mViews = new SparseArray<View>();

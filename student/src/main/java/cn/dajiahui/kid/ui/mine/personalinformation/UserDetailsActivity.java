@@ -316,5 +316,10 @@ public class UserDetailsActivity extends FxActivity {
         }, type, info);
     }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+           /*隐藏软键盘*/
+        BaseUtil.hideSoftInput(UserDetailsActivity.this);
+    }
 }

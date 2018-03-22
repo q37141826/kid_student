@@ -16,7 +16,7 @@
     <!--作业文字start-->
     <string name="tab_homework">作业</string>
     <string name="tab_study">自学</string>
-    <string name="tab_chat">消息</string>
+    <string name="tab_chat">沟通</string>
     <string name="tab_mine">我的</string>
     <string name="task_done">已完成</string>
     <string name="task_staydone">待完成</string>
@@ -64,6 +64,7 @@
     <string name="btn_exit">退出登录</string>
     <string name="btn_exitclass">退出班级</string>
     <string name="user_message">个人信息</string>
+    <string name="img_message">图片信息</string>
     <string name="mine_class_space">班级空间</string>
     <string name="mine_textbook_audio">课本剧配音</string>
     <string name="mine_cara">卡拉OK</string>

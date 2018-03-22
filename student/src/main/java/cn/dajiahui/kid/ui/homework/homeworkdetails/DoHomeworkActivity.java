@@ -50,7 +50,7 @@ public class DoHomeworkActivity extends FxActivity
         ChoiceFragment.SubmitChoiseFragment,
         JudgeFragment.GetMediaPlayer, SortFragment.SubmitSortFragment, LineFragment.SubmitLineFragment,
         CompletionFragment.SubmitCompletionFragment {
-    public static String sourceFlag;//区别是练习还是作业
+//    public static String sourceFlag;//区别是练习还是作业
 
     //    private TextView mSchedule;
     private cn.dajiahui.kid.ui.study.view.NoScrollViewPager mViewpager;
@@ -71,8 +71,8 @@ public class DoHomeworkActivity extends FxActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-          /* sourceFlag=Practice 练习  sourceFlag=HomeWork作业*/
-        sourceFlag = intent.getStringExtra("SourceFlag");
+
+
         mViewpager.setNoScroll(false);//作业可以滑动
         homework_id = intent.getStringExtra("homework_id");
         is_complete = intent.getStringExtra("IS_COMPLETE");
@@ -155,7 +155,6 @@ public class DoHomeworkActivity extends FxActivity
 
                         }
                     }
-//                    mSchedule.setText((currentposition + 1) + "/" + mdata.size());
                     /*作业适配器*/
                     HomeWorkAdapter homeWorkAdapter = new HomeWorkAdapter(getSupportFragmentManager(), mdata);
                     mViewpager.setAdapter(homeWorkAdapter);
@@ -172,20 +171,14 @@ public class DoHomeworkActivity extends FxActivity
 
     /*初始化*/
     private void initialize() {
-
         mViewpager = getView(R.id.viewpager);
-//        seek = getView(R.id.seek);
-//        mSchedule = getView(R.id.tv_schedule);
         btncheck = (Button) findViewById(R.id.btn_check);
-
-
     }
 
     /*半路退出答题*/
     @Override
     public void onBackShowProgress(View view) {
         super.onRightBtnClick(view);
-
         finishActivity();
     }
 
@@ -227,8 +220,8 @@ public class DoHomeworkActivity extends FxActivity
         @Override
         public void onPageSelected(int position) {
             currentposition = position;//当前题的页数
-            sourceFlag = "HomeWork";
-//          mSchedule.setText((currentposition + 1) + "/" + mDatalist.size());
+
+
             /*滑动停止音频*/
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
@@ -290,11 +283,9 @@ public class DoHomeworkActivity extends FxActivity
     private class HomeWorkAdapter extends FragmentStatePagerAdapter {
 
         private List<QuestionModle> data;
-        private FragmentManager fragmentManager;
-
         private HomeWorkAdapter(FragmentManager fragmentManager, List<QuestionModle> data) {
             super(fragmentManager);
-            this.fragmentManager = fragmentManager;
+
             this.data = data;
         }
 
@@ -384,7 +375,7 @@ public class DoHomeworkActivity extends FxActivity
     /*判断题回调接口*/
     @Override
     public void submitJudgeFragment(JudjeQuestionModle questionModle) {
-        int eachposition = questionModle.getEachposition();
+//        int eachposition = questionModle.getEachposition();
         mDatalist.set(currentposition, questionModle);
 
     }
@@ -422,7 +413,7 @@ public class DoHomeworkActivity extends FxActivity
     @Override
     protected void onPause() {
         super.onPause();
-        sourceFlag = "";
+
     }
 
 
@@ -448,12 +439,7 @@ public class DoHomeworkActivity extends FxActivity
     public boolean onKeyUp(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { //监控/拦截/屏蔽返回键
-//              /*作业模式下*/
-//            if (beDohomeWork.getIs_complete().equals("1")) {
-//                finishActivity();
-//            } else {
-//                show();
-//            }
+
             finishActivity();
             return true;
         }

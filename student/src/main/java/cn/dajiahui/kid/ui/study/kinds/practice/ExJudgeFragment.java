@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -28,14 +27,14 @@ import cn.dajiahui.kid.ui.study.kinds.practice.view.ExJudgeAnswerView;
 public class ExJudgeFragment extends ExBaseHomeworkFragment implements CheckHomework {
 
 
-    private TextView tv_judge;
+    private TextView tv_judge, mSchedule;
     private ImageView imgconment, img_play;
     private SubmitJudgeFragment submit;
     private JudjeQuestionModle inbasebean;
     private String mediaUrl;
     private RelativeLayout answerRoot;
     private List<ExJudgeAnswerView> mAnswerViewList = new ArrayList();//选项vie的集合
-
+    private Bundle bundle;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -44,8 +43,8 @@ public class ExJudgeFragment extends ExBaseHomeworkFragment implements CheckHome
 
     @Override
     public void setArguments(Bundle bundle) {
+        this.bundle = bundle;
         inbasebean = (JudjeQuestionModle) bundle.get("JudgeQuestionModle");
-
         inbasebean.setEachposition(bundle.getInt("position"));
         mediaUrl = inbasebean.getMedia();
     }
@@ -74,6 +73,8 @@ public class ExJudgeFragment extends ExBaseHomeworkFragment implements CheckHome
         super.onViewCreated(view, savedInstanceState);
         initialize();
         tv_judge.setText(inbasebean.getTitle());
+
+        mSchedule.setText(bundle.getString("currntQuestion"));
         /*添加选项图片*/
         addGroupImage(inbasebean.getOptions().size());
 
@@ -154,8 +155,10 @@ public class ExJudgeFragment extends ExBaseHomeworkFragment implements CheckHome
         answerRoot = getView(R.id.judge_root);
         tv_judge = getView(R.id.tv_judge);
         imgconment = getView(R.id.img_conment);
+        mSchedule = getView(R.id.tv_schedule);
         img_play = getView(R.id.img_play);
         img_play.setOnClickListener(onClick);
+        img_play.setBackground(animationDrawable);
 
     }
 
@@ -166,7 +169,7 @@ public class ExJudgeFragment extends ExBaseHomeworkFragment implements CheckHome
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.img_play:
-                    Toast.makeText(activity, "播放音频", Toast.LENGTH_SHORT).show();
+
                     if (!mediaUrl.equals("")) {
                         playMp3(mediaUrl);
                     }

@@ -210,12 +210,12 @@ public class AnimUtil {
      *
      * @param ImageView 需要被放大的控件
      */
-    public static ScaleAnimation magnifyingAnimation(ImageView scaleimageView) {
+    public static ScaleAnimation magnifyingAnimation(ImageView scaleimageView,int during) {
         scaleimageView.bringToFront();
         ScaleAnimation scal = new ScaleAnimation(1.0f, 1.4f, 1.0f, 1.4f,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
-        scal.setDuration(2000);
+        scal.setDuration(during);
         scal.setFillAfter(true);
 
         scaleimageView.startAnimation(scal);

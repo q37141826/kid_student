@@ -49,8 +49,11 @@ public class SetPassActivity extends FxActivity {
         edTooPwd = getView(R.id.edToopwd);
         edNewPwd = getView(R.id.ednewPwd);
         mBtnsure = getView(R.id.btn_sure);
+
         edNewPwd.addTextChangedListener(new MaxLenghtWatcher(AppSet.login_maxlenght, edNewPwd, SetPassActivity.this));
-        edTooPwd.addTextChangedListener(new MaxLenghtWatcher(AppSet.login_maxlenght, edTooPwd, SetPassActivity.this));
+        MaxLenghtWatcher maxLenghtWatcher = new MaxLenghtWatcher(AppSet.login_maxlenght, edTooPwd, SetPassActivity.this);
+        maxLenghtWatcher. setmBtnSure(mBtnsure);
+        edTooPwd.addTextChangedListener(maxLenghtWatcher);
 
 
         mBtnsure.setOnClickListener(new View.OnClickListener() {

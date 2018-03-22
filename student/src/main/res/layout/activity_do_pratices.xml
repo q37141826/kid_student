@@ -13,32 +13,6 @@
         android:layout_height="2px"
         android:background="@color/line_gray"/>
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:padding="10dp">-->
-
-        <!--<cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar-->
-            <!--android:id="@+id/seek"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="2dp"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_toStartOf="@+id/tv_schedule"-->
-            <!--android:clickable="false"-->
-            <!--android:focusable="false"-->
-            <!--android:progressDrawable="@drawable/seekbar_style"/>-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/tv_schedule"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-             <!--/>-->
-    <!--</RelativeLayout>-->
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,10 +44,10 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/yellow_FEBF12"
+            android:background="@color/gray_DBDBDB"
             android:text="Check"
             android:textColor="@color/white"
-            android:visibility="gone"/>
+            />
     </LinearLayout>
 </LinearLayout>
 

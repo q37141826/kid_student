@@ -30,7 +30,7 @@
         <TextView
             android:id="@+id/list_dataTv"
             style="@style/text_null"
-            android:drawableTop="@drawable/ico_null1"
+            android:drawableTop="@drawable/ico_null"
             android:text="@string/not_meterial" />
     </FrameLayout>
 </merge>

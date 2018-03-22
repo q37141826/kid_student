@@ -106,7 +106,7 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
             }
         });
 
-
+        /*单个选择*/
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -119,6 +119,8 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
                 } else {
                     getTexBookDetails(mKalaokList.get(position).getId());
                 }
+                // 刷新
+                apKalaoke.notifyDataSetChanged();
             }
         });
 
@@ -150,8 +152,8 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
                                 }
                             }
 
-//                            isShowCheckbox = false;
 
+                            deleteMyworks();
                             // 刷新
                             mIdList.clear();
                             /*刷新布局*/
@@ -170,7 +172,7 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
 
                 }
                        /*删除网络请求*/
-//                    deleteMyworks();
+
 
             }
         });

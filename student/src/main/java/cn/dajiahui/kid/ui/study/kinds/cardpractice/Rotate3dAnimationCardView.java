@@ -12,7 +12,7 @@ import android.view.animation.Transformation;
  * 卡片练习的动画类
  */
 
-public class Rotate3dAnimation extends Animation {
+public class Rotate3dAnimationCardView extends Animation {
     private final float mFromDegrees;
     private final float mToDegrees;
     private final float mCenterX;
@@ -36,8 +36,8 @@ public class Rotate3dAnimation extends Animation {
      * @param centerY the Y center of the 3D rotation
      * @param reverse true if the translation should be reversed, false otherwise
      */
-    public Rotate3dAnimation(float fromDegrees, float toDegrees,
-                             float centerX, float centerY, float depthZ, boolean reverse) {
+    public Rotate3dAnimationCardView(float fromDegrees, float toDegrees,
+                                     float centerX, float centerY, float depthZ, boolean reverse) {
         mFromDegrees = fromDegrees;
         mToDegrees = toDegrees;
         mCenterX = centerX;

@@ -9,6 +9,7 @@ import com.fxtx.framework.http.ErrorCode;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.GsonType;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxActivity;
@@ -107,6 +108,7 @@ public class ConcactForClassActivity extends FxActivity {
 
             @Override
             public void onResponse(String response) {
+                Logger.d("通讯录response:"+response);
                 dismissfxDialog();
 //                finishRefreshAndLoadMoer(refreshConcact, 1);
                 HeadJson json = new HeadJson(response);

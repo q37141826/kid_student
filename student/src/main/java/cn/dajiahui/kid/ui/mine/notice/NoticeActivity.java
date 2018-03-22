@@ -41,14 +41,14 @@ public class NoticeActivity extends FxActivity {
         super.onCreate(savedInstanceState);
         setfxTtitle(R.string.mine_notice);
         onBackText();
-        onRightBtn(R.string.clean_notice);
+//        onRightBtn(R.string.clean_notice);
     }
 
     /*清空通知*/
-    @Override
-    public void onRightBtnClick(View view) {
-        httpCleanNotice();
-    }
+//    @Override
+//    public void onRightBtnClick(View view) {
+//        httpCleanNotice();
+//    }
 
     @Override
     protected void initView() {

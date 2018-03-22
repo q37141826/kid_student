@@ -144,6 +144,10 @@ public class MakeKraoOkeActivity extends FxActivity {
         mVideoName = MD5.getMD5(bePageDataWork.getPage_url().substring(bePageDataWork.getPage_url().lastIndexOf("/"))) + ".mp4";
         sBackground = MD5.getMD5(bePageDataWork.getMusic_oss_name().substring(bePageDataWork.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
 
+        /*默认显示第一句中英文*/
+        tv_chinese.setText(bePageDataWork.getItem().get(mCurrentPosition).getChinese());
+        tv_english.setText(bePageDataWork.getItem().get(mCurrentPosition).getEnglish());
+
         /*判断mp4文件是否下载过*/
         if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathKaraOkeMp4() + mVideoName)) {
             downloadKaraOkeMp4();
@@ -346,6 +350,7 @@ public class MakeKraoOkeActivity extends FxActivity {
                         /*播放背景音Mp3*/
                         PlayMedia.getPlaying().StartMp3(KidConfig.getInstance().getPathKaraOkeBackgroundAudio() + sBackground);
                         isOKOnclick = !isOKOnclick;
+                        startRecord.setText("录制中");
                         startRecord.setBackgroundColor(getResources().getColor(R.color.gray_DCDCDC));
 //                       mRestartRecord.setBackgroundColor(getResources().getColor(R.color.yellow_FEBF12));
 //                      Toast.makeText(context, "开始录音", Toast.LENGTH_SHORT).show();
@@ -405,6 +410,7 @@ public class MakeKraoOkeActivity extends FxActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+      /*重新录制*/
         if (requestCode == DjhJumpUtil.getInstance().activity_makekalaok_request && resultCode == DjhJumpUtil.getInstance().activity_makekalaok_result) {
             isOKRecord = false;
             isOKOnclick = !isOKOnclick;
@@ -413,5 +419,9 @@ public class MakeKraoOkeActivity extends FxActivity {
             startRecord.setText("开始录制");
         }
 
+        /*制作成功后按返回键 与 左上角退出视频*/
+        if (requestCode == DjhJumpUtil.getInstance().activity_makekalaok_request && resultCode == DjhJumpUtil.getInstance().activity_makekalaok_out) {
+            finishActivity();
+        }
     }
 }
