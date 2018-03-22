@@ -9,11 +9,11 @@
         android:id="@+id/contact_item_first"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray_line"
         android:paddingBottom="@dimen/textpadding"
         android:paddingLeft="@dimen/textmarginleft"
         android:paddingTop="@dimen/textpadding"
-        android:textColor="@color/color5A"
-        android:textSize="@dimen/text16"
+        android:textSize="@dimen/text15"
+        android:textColor="@color/black_tv"
+        android:background="@color/gray_F5F5F5"
         />
 </LinearLayout>

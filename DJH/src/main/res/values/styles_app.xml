@@ -10,6 +10,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@color/white</item>
+        <!--设置actionBarSize，如果想修改成全通用（包括v4），必须设置两个属性才能实现-->
+        <item name="android:actionBarSize">44dp</item>
+        <item name="actionBarSize">44dp</item>
     </style>
 
     <style name="NoTitle">
