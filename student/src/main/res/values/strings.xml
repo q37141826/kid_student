@@ -16,6 +16,7 @@
     <!--作业文字start-->
     <string name="tab_homework">作业</string>
     <string name="tab_study">自学</string>
+    <string name="choicebook">选择教材</string>
     <string name="tab_chat">沟通</string>
     <string name="tab_mine">我的</string>
     <string name="task_done">已完成</string>
@@ -239,7 +240,6 @@
     <string name="tv_auditok">审核成功</string>
     <string name="re_apply">确定要重新提交申请吗？</string>
     <string name="addclass">加入班级</string>
-    <string name="choicebook">教材选择</string>
 
     <!--班级申请 end -->
 

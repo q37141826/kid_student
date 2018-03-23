@@ -25,6 +25,7 @@
             android:layout_marginLeft="10dp"
             android:padding="1dp"
             android:scaleType="fitXY"
+            android:background="@drawable/shape_frame_black"
             android:src="@drawable/study_default"/>
 
         <TextView

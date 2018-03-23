@@ -44,7 +44,7 @@ public class ChoiceTeachingMaterialActivity extends FxActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setfxTtitle(R.string.tab_study);
+        setfxTtitle(R.string.choicebook);
         onBackText();
 
 
