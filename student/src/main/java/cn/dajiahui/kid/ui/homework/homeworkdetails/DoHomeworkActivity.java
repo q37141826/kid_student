@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
@@ -50,19 +49,14 @@ public class DoHomeworkActivity extends FxActivity
         ChoiceFragment.SubmitChoiseFragment,
         JudgeFragment.GetMediaPlayer, SortFragment.SubmitSortFragment, LineFragment.SubmitLineFragment,
         CompletionFragment.SubmitCompletionFragment {
-//    public static String sourceFlag;//区别是练习还是作业
 
-    //    private TextView mSchedule;
     private cn.dajiahui.kid.ui.study.view.NoScrollViewPager mViewpager;
     private String subjectype = "";//当前题型
     private MediaPlayer mediaPlayer;
     private int currentposition = 0;//当前页面的索引
-    //    private int praticeCurrentPosition = 0;//当前页面的索引
-    private List<Integer> pagelist = new ArrayList<>();//保存页数的集合（check过的页）
     private Map<Integer, BaseHomeworkFragment> frMap = new HashMap();//保存每个不同类型的Fragment
 
     private ArrayList<Object> mDatalist;//所有数据的模型集合
-    private Button btncheck;
     private String homework_id;
     private String is_complete = "";
 
@@ -172,7 +166,7 @@ public class DoHomeworkActivity extends FxActivity
     /*初始化*/
     private void initialize() {
         mViewpager = getView(R.id.viewpager);
-        btncheck = (Button) findViewById(R.id.btn_check);
+
     }
 
     /*半路退出答题*/

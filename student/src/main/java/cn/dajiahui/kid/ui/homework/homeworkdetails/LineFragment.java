@@ -55,7 +55,6 @@ public class LineFragment extends BaseHomeworkFragment implements
     private int RIGHT = 2;
     private int PREPARERIGHT = 3;//准备数据
     private int PREPMINEARERIGHT = 4;//准备数据
-//    private List<DrawPath> drawPathList = new ArrayList();//保存绘制路径的集合
 
     private Map<String, Point> ponitViewXY = new HashMap();//通过val获取point点的map（提供显示正确答案 和 自己的答案 用）
     private boolean calculation = false;//false 监听  测量连线题图片的左右第一个 坐标
@@ -326,78 +325,10 @@ public class LineFragment extends BaseHomeworkFragment implements
             inbasebean.getInitLineMyanswerMap().put(secondView.value, firstView.value);
             path = new DrawPath(secondView.getPoint(), firstView.getPoint());
         }
-
-//        if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
         inbasebean.getDrawPathList().add(path);
-//        }
     }
 
-//    /*删除线练习模块*/
-//    private void removeLinePratice(LineImagePointView firstView, LineImagePointView secondView) {
-//        /* 查找firstView */
-//        for (int i = 0; i < praticeDrawPathList.size(); i++) {
-//            DrawPath drawPath = praticeDrawPathList.get(i);
-//            if (firstView.getDirection() == Dir.left) {
-//                if (drawPath.getLeftPoint().getY() == firstView.getPoint().getY()) {
-//                    draw_root.removeViewAt(i);
-//                    if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
-//                        // 当前这点是有线的，要删除
-//                        praticeDrawPathList.remove(i);
-//                    }
-//                    break;
-//                }
-//            } else {
-//                if (drawPath.getRightPoint().getY() == firstView.getPoint().getY()) {
-//                    // 当前这点是有线的，要删除
-//                    draw_root.removeViewAt(i);
-//                    if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
-//                        // 当前这点是有线的，要删除
-//                        praticeDrawPathList.remove(i);
-//                    }
-//                    break;
-//                }
-//            }
-//        }
-//        /* 查找secondView */
-//        for (int i = 0; i < praticeDrawPathList.size(); i++) {
-//            DrawPath drawPath = praticeDrawPathList.get(i);
-//            if (secondView.getDirection() == Dir.left) {
-//                if (drawPath.getLeftPoint().getY() == secondView.getPoint().getY()) {
-//                    // 当前这点是有线的，要删除
-//                    draw_root.removeViewAt(i);
-//                    if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
-//                        // 当前这点是有线的，要删除
-//                        praticeDrawPathList.remove(i);
-//                    }
-//                    break;
-//                }
-//            } else {
-//                if (drawPath.getRightPoint().getY() == secondView.getPoint().getY()) {
-//                    // 当前这点是有线的，要删除
-//                    draw_root.removeViewAt(i);
-//                    if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
-//                        // 当前这点是有线的，要删除
-//                        praticeDrawPathList.remove(i);
-//                    }
-//                    break;
-//                }
-//            }
-//        }
-//    }
-//
-//    /*添加线练习模块*/
-//    private void addLinePratice(LineImagePointView firstView, LineImagePointView secondView) {
-//        DrawPath path = null;
-//        if (firstView.getDirection() == Dir.left) {
-//            path = new DrawPath(firstView.getPoint(), secondView.getPoint());
-//        } else {
-//            path = new DrawPath(secondView.getPoint(), firstView.getPoint());
-//        }
-//
-//        if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
-//            praticeDrawPathList.add(path);
-//        }
-//    }
+
 
 
     /*要连线的图片的点击事件*/
@@ -436,8 +367,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                         lineImagePointView.selected(false);
 
                         inbasebean.setAnswerflag("true");//答题标志
-//                        inbasebean.setDrawPathList(drawPathList);
-//                            inbasebean.setMyanswerMap(myanswerMap);
+
                         submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
 
                     }
@@ -446,47 +376,7 @@ public class LineFragment extends BaseHomeworkFragment implements
             }
 
         }
-//        }
-//        /*练习模块未作答*/
-//        else if ((DoHomeworkActivity.sourceFlag.equals("Practice")) && inbasebean.isAnswer() == false) {
-//
-//            if (currentSelectedView == null) {
-//                lineImagePointView.selected(true);//设置为选中
-//                currentSelectedView = lineImagePointView;
-//            } else {//当前选择的view不为空  把点击的
-//            /*判断再次点击的是不是自己  是自己 就把 点击的view付给选择的currentSelectedView*/
-//                if (lineImagePointView == currentSelectedView) {
-//                    lineImagePointView.selected(false);//设置非选中
-//                    currentSelectedView = null;
-//                } else {
-//                /*再次点击的不是自己*/
-//                /* 判断是否同侧点 */
-//                    if (currentSelectedView.getDirection() == lineImagePointView.getDirection()) {
-//                        currentSelectedView.selected(false); // 把上一个view设置成非选中
-//                        lineImagePointView.selected(true); // 把当前的view设置成选中
-//                        currentSelectedView = lineImagePointView;
-//                    } else {
-//                    /* 非同侧view */
-//                    /*先删除*/
-//                        removeLinePratice(currentSelectedView, lineImagePointView);
-//                    /*必须每次都要new出来 要不不显示划线*/
-//                        drawView = new DrawView(getActivity(), currentSelectedView, lineImagePointView);
-//                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
-//                        draw_root.addView(drawView, params);
-//                        addLinePratice(currentSelectedView, lineImagePointView);
-//                        currentSelectedView.selected(false);
-//                        currentSelectedView = null;
-//                        lineImagePointView.selected(false);
-//
-//                        inbasebean.setAnswerflag("true");//答题标志
-//                        inbasebean.setDrawPathList(praticeDrawPathList);
-//                        submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
-//                    }
-//
-//                }
-//            }
-//
-//        }
+
     }
 
     /*翻页回来掉的接口*/
@@ -495,11 +385,9 @@ public class LineFragment extends BaseHomeworkFragment implements
         if (questionModle != null) {
             inbasebean = (LineQuestionModle) questionModle;
 
-//            if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
             if (currentSelectedView != null) {
                 currentSelectedView.selected(true);
             }
-//            drawPathList = inbasebean.getDrawPathList();
                 /*作业模式没有答过题*/
             if (inbasebean.getIs_answered().equals("0")) {
                 for (int i = 0; i < inbasebean.getDrawPathList().size(); i++) {
@@ -512,18 +400,6 @@ public class LineFragment extends BaseHomeworkFragment implements
 
                 }
             }
-//            }
-
-//            else if (DoHomeworkActivity.sourceFlag.equals("Practice") && inbasebean.getAnswerflag().equals("true")) {// check之后要显示正确答案和我的答案
-//
-//                /*添加我的答案  和正确答案按钮*/
-//                mLeft.setText("我的答案");
-//                mLeft.setTextColor(getResources().getColor(R.color.white));
-//                mLeft.setBackgroundResource(R.color.btn_green_noraml);
-//                mRight.setTextColor(getResources().getColor(R.color.btn_green_noraml));
-//                mRight.setBackgroundResource(R.color.white);
-//                mRight.setText("正确答案");
-//            }
         }
     }
 
@@ -539,7 +415,6 @@ public class LineFragment extends BaseHomeworkFragment implements
                 playMp3(media);
                 break;
             case R.id.mLeft:
-//                if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
                 if (!mOnclickAnswer) {
                        /*清空我的答案的遮罩*/
                     for (int i = 0; i < mRemoveLeftList.size(); i++) {
@@ -553,25 +428,8 @@ public class LineFragment extends BaseHomeworkFragment implements
                         /*显示正确答案*/
                     showRightAnswer();
                 }
-//                }
-//                else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
-//                    mLeft.setTextColor(getResources().getColor(R.color.white));
-//                    mLeft.setBackgroundResource(R.color.btn_green_noraml);
-//                    mRight.setTextColor(getResources().getColor(R.color.btn_green_noraml));
-//                    mRight.setBackgroundResource(R.color.white);
-//
-//                    draw_root.removeAllViews();
-//                    for (int i = 0; i < praticeDrawPathList.size(); i++) {
-//                        DrawPath drawPath = praticeDrawPathList.get(i);
-//                        DrawView drawView = new DrawView(getActivity());
-//                        drawView.DrawViewOnback(drawPath);
-//                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
-//                        draw_root.addView(drawView, params);
-//                    }
-//                }
                 break;
             case R.id.mRight:
-//                if (DoHomeworkActivity.sourceFlag.equals("HomeWork")) {
                 if (mOnclickAnswer) {
                          /*清空*/
                     for (int i = 0; i < leftViews.size(); i++) {
@@ -583,15 +441,6 @@ public class LineFragment extends BaseHomeworkFragment implements
                         /*显示我的答案*/
                     showMineAnswer();
                 }
-//                }
-
-//                else if (DoHomeworkActivity.sourceFlag.equals("Practice")) {
-//                    draw_root.removeAllViews();
-//                    if (!mOnclickAnswer) {
-//                        showRightAnswer();
-//                    }
-//                }
-
                 break;
 
             default:
@@ -737,7 +586,6 @@ public class LineFragment extends BaseHomeworkFragment implements
 
 
                 if (inbasebean.getIs_answered().equals("0")) {
-//                    inbasebean.setDrawPathList(drawPathList);
                     submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
                 }
             }
@@ -800,7 +648,6 @@ public class LineFragment extends BaseHomeworkFragment implements
 
 
         if (inbasebean.getIs_answered().equals("0")) {
-//            inbasebean.setDrawPathList(drawPathList);//
             submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
         }
 

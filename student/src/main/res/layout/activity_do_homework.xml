@@ -8,54 +8,14 @@
 
     <include layout="@layout/layout_tool_text"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="@color/line_gray"/>
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:padding="10dp">-->
-
-        <!--&lt;!&ndash;<cn.dajiahui.kid.ui.homework.view.ProhibitMoveSeekbar&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/seek"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="2dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_alignParentTop="true"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_toStartOf="@+id/tv_schedule"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:clickable="false"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:focusable="false"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:progressDrawable="@drawable/seekbar_style"/>&ndash;&gt;-->
-
-        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/tv_schedule"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_alignParentRight="true"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:text="1/3"/>&ndash;&gt;-->
-    <!--</RelativeLayout>-->
-
-
-    <LinearLayout
+    <!--可以选择是否禁止滑动的ViewPager-->
+    <cn.dajiahui.kid.ui.study.view.NoScrollViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <!--可以选择是否禁止滑动的ViewPager-->
-        <cn.dajiahui.kid.ui.study.view.NoScrollViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/tv_name"
-            android:layout_gravity="center"/>
-
-    </LinearLayout>
-
+        android:layout_below="@+id/tv_name"
+        android:layout_gravity="center"/>
 
 </LinearLayout>
 
