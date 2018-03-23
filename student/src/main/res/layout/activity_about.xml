@@ -21,10 +21,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="153dp"
             android:src="@drawable/about"/>
-
 
         <TextView
             android:id="@+id/tv_code"
@@ -41,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="17dp"
             android:text="Copyright@2018moveredu.com"
             android:textColor="@color/gray_C4C4C6"
             android:textSize="14sp"/>

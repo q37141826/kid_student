@@ -41,6 +41,11 @@ public class AnswerCardCompleteActivity extends FxActivity {
     private List<BeAnswerSheet> mBeAnswerSheetList = new ArrayList<>();
     private ApHomeWorkDetail apHomeWorkDetail;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        onBackText();
+    }
 
     @Override
     protected void initView() {
@@ -50,7 +55,6 @@ public class AnswerCardCompleteActivity extends FxActivity {
         beSaveAnswerCard = (BeSaveAnswerCard) bundle.getSerializable("ANSWER_CARD_COMPLETE");
         homework_id = beSaveAnswerCard.getHomework_id();
         initialize();
-        onBackTextShowProgress();
         /*网络请求*/
         httpData();
 
@@ -126,12 +130,4 @@ public class AnswerCardCompleteActivity extends FxActivity {
 
         }
     };
-
-    /*半路退出答题*/
-    @Override
-    public void onBackShowProgress(View view) {
-        super.onRightBtnClick(view);
-
-        finishActivity();
-    }
 }
