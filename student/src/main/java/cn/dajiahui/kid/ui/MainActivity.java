@@ -21,6 +21,7 @@ import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.ui.base.FxTabActivity;
 import com.fxtx.framework.ui.bean.BeTab;
 import com.fxtx.framework.util.ActivityUtil;
+import com.fxtx.framework.widgets.StatusBarCompat;
 import com.fxtx.framework.widgets.badge.BadgeRadioButton;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
@@ -143,13 +144,16 @@ public class MainActivity extends FxTabActivity {
                 }
                 switchContent(isFragment, frHomework);
                 rediobtnId = 0;
+                StatusBarCompat.compat(this, getResources().getColor(com.fxtx.framework.R.color.app_bg));
+
                 break;
             case R.id.rediobtn_study:
                 if (frStudy == null) {
-                    frStudy = new FrStudy();//学习
+                    frStudy = new FrStudy();//自学
                 }
                 switchContent(isFragment, frStudy);
                 rediobtnId = 2;
+                StatusBarCompat.compat(this, getResources().getColor(com.fxtx.framework.R.color.app_bg_b));
                 break;
             case R.id.rediobtn_chat:
                 if (frChat == null) {
@@ -157,6 +161,7 @@ public class MainActivity extends FxTabActivity {
                 }
                 switchContent(isFragment, frChat);
                 rediobtnId = 3;
+                StatusBarCompat.compat(this, getResources().getColor(com.fxtx.framework.R.color.app_bg));
                 break;
             case R.id.rediobtn_mine:
                 if (frMine == null) {
@@ -164,6 +169,7 @@ public class MainActivity extends FxTabActivity {
                 }
                 switchContent(isFragment, frMine);
                 rediobtnId = 4;
+                StatusBarCompat.compat(this, getResources().getColor(com.fxtx.framework.R.color.app_bg));
                 break;
             default:
                 break;
