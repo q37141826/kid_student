@@ -47,6 +47,8 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 * */
 public class TextBookSuccessActivity extends FxActivity {
 
+    public static String CLOSE = "";//救急（后续更改）
+
     private cn.dajiahui.kid.ui.study.kinds.textbookdrama.JCVideoPlayerTextScuessBook mVideoplayer;
     private TextView tvniitname;//作品名称
     private ImageView imguser;//头像
@@ -87,6 +89,7 @@ public class TextBookSuccessActivity extends FxActivity {
         }
 
         if (makeTextBookDrma.equals("MakeTextBookDrma")) {
+            CLOSE="MakeTextBookDrma";
               /*显示分享布局  要分享成功后显示*/
             shareRoot.setVisibility(View.INVISIBLE);
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
@@ -105,6 +108,7 @@ public class TextBookSuccessActivity extends FxActivity {
 
 
         } else if (makeTextBookDrma.equals("MakeKraoOke")) {
+            CLOSE="MakeKraoOke";
             /*显示分享布局  要分享成功后显示*/
             shareRoot.setVisibility(View.INVISIBLE);
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");

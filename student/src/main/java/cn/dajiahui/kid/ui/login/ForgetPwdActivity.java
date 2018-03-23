@@ -17,7 +17,7 @@ import com.squareup.okhttp.Request;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
-import cn.dajiahui.kid.util.StudentTextWatcher;
+import cn.dajiahui.kid.util.SpUtil;
 
 
 /**
@@ -41,6 +41,18 @@ public class ForgetPwdActivity extends FxActivity {
         edPwdOk = getView(R.id.edPwdOk);
         btnCode.setClickable(false);
 
+
+        SpUtil spUtil = new SpUtil(context);
+        edLoginPhone.setText( spUtil.getUser().getTelnum());
+        edPhoneCode.requestFocus();
+
+        if (edLoginPhone.getText().toString().trim().length() == 11) {
+            btnCode.setBackgroundResource(R.color.white);
+            btnCode.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
+            btnCode.setClickable(true);
+        }
+        edPhoneCode.requestFocus();
+
         getView(R.id.btn_forget).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,22 +60,22 @@ public class ForgetPwdActivity extends FxActivity {
             }
         });
 
-        edLoginPhone.addTextChangedListener(new StudentTextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isBtnCode) {
-                    if (edLoginPhone.getText().toString().trim().length() == 11) {
-                        btnCode.setBackgroundResource(R.color.white);
-                        btnCode.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
-                        btnCode.setClickable(true);
-                    } else {
-                        btnCode.setBackgroundResource(R.color.white);
-                        btnCode.setTextColor(getResources().getColor(R.color.gray_666666));
-                        btnCode.setClickable(false);
-                    }
-                }
-            }
-        });
+//        edLoginPhone.addTextChangedListener(new StudentTextWatcher() {
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (isBtnCode) {
+//                    if (edLoginPhone.getText().toString().trim().length() == 11) {
+//                        btnCode.setBackgroundResource(R.color.white);
+//                        btnCode.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
+//                        btnCode.setClickable(true);
+//                    } else {
+//                        btnCode.setBackgroundResource(R.color.white);
+//                        btnCode.setTextColor(getResources().getColor(R.color.gray_666666));
+//                        btnCode.setClickable(false);
+//                    }
+//                }
+//            }
+//        });
 
 
     }
@@ -193,7 +205,7 @@ public class ForgetPwdActivity extends FxActivity {
             } else {
                 btnCode.setClickable(false);
                 btnCode.setBackgroundResource(R.color.whilte_gray);
-                btnCode.setTextColor(getResources().getColor(R.color.gray_666666));
+                btnCode.setTextColor(getResources().getColor(R.color.white));
             }
         }
 
@@ -201,7 +213,7 @@ public class ForgetPwdActivity extends FxActivity {
         public void onTick(long millisUntilFinished) {
             isBtnCode = false;
             btnCode.setClickable(false);
-            btnCode.setBackgroundResource(R.color.whilte_gray);
+            btnCode.setBackgroundResource(R.color.white);
             btnCode.setText(millisUntilFinished / 1000 + "秒");
         }
     }

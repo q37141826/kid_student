@@ -8,6 +8,7 @@ import android.view.View;
 import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.util.ActivityUtil;
 
+import cn.dajiahui.kid.ui.study.kinds.karaoke.MakeKraoOkeActivity;
 import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
@@ -44,8 +45,16 @@ public class JCVideoPlayerTextScuessBook extends JCVideoPlayerStandard {
         super.onClick(v);
         if (v.getId() == fm.jiecao.jcvideoplayer_lib.R.id.back) {
             if (currentScreen != SCREEN_WINDOW_FULLSCREEN) {
+                if (TextBookSuccessActivity.CLOSE.equals("MakeKraoOke")) {
+                    ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
+                    ActivityUtil.getInstance().finishActivity(MakeKraoOkeActivity.class);
+                } else if (TextBookSuccessActivity.CLOSE.equals("MakeTextBookDrma")) {
+                    ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
+                    ActivityUtil.getInstance().finishActivity(MakeTextBookDrmaActivity.class);
+                } else {
+                    ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
+                }
 
-                ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
 
                 Logger.d("视频返回键");
             }
