@@ -164,7 +164,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
                 } else {
                     mChooseUtilsList.clear();
                     apChooseUtils.notifyDataSetChanged();
-                    GlideUtil.showNoneImage(getActivity(), chooseUtils.getLogo(), imgsupplementary, R.drawable.study_default);
+//                    GlideUtil.showNoneImage(getActivity(), chooseUtils.getLogo(), imgsupplementary, R.drawable.study_default);
                     tvtitle.setText("");
                     tvunit.setText("");
                 }

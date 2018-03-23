@@ -638,25 +638,38 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                             public void run() {
 
                                 switch (resultCode) {
-                                    case 3:
-                                        try {
-                                            JSONObject var1 = new JSONObject(jsonResult.getJsonText());
-                                            if (var1.has("sound_intensity")) {
-                                                mHandler.removeMessages(DELAYED_CHIVOX);
-                                                counter = 0;
-                                                dismissfxDialog();
-
-                                            }
-
-                                        } catch (Exception var2) {
-                                            var2.printStackTrace();
-                                        }
-                                        break;
+//                                    case 3:
+//                                        try {
+//                                            JSONObject var1 = new JSONObject(jsonResult.getJsonText());
+//                                            if (var1.has("sound_intensity")) {
+//                                                mHandler.removeMessages(DELAYED_CHIVOX);
+//                                                counter = 0;
+//                                                dismissfxDialog();
+//
+//                                            }
+//
+//                                        } catch (Exception var2) {
+//                                            var2.printStackTrace();
+//                                        }
+//                                        break;
 
                                     case 5:
                                         try {
                                             JSONObject var1 = new JSONObject(jsonResult.getJsonText());
                                             if (!var1.has("result")) {
+                                                 /*修改录音按钮的背景*/
+//                                                mRecording.setImageResource(R.drawable.card_record_off);
+                                                /*隐藏打分*/
+//                                                mScore.setVisibility(View.INVISIBLE);
+                                                isRecording = false;
+
+                                                if (var1.has("errId")) {
+                                                    if (var1.getInt("errId") == 41030) {
+                                                        Toast.makeText(context, "系统繁忙，请稍后...", Toast.LENGTH_SHORT).show();
+                                                        break;
+                                                    }
+                                                    Toast.makeText(context, "系统繁忙，请稍后...", Toast.LENGTH_SHORT).show(); // 暂定此文案，以后再根据情况再修改
+                                                }
                                                 break;
                                             }
                                         } catch (Exception var2) {

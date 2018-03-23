@@ -44,9 +44,8 @@
             android:layout_marginTop="10dp"
             android:singleLine="true"
             android:text="点读本"
-            android:textColor="@color/color5A"
-            android:textSize="@dimen/text18"
-            android:textStyle="bold"/>
+            android:textColor="@color/gray_333333"
+            android:textSize="@dimen/text17"/>
 
 
     </RelativeLayout>

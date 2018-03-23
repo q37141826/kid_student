@@ -405,6 +405,8 @@ public class PersonalStereoActivity extends FxActivity {
                 }
             });
 
+            setProgress(true);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

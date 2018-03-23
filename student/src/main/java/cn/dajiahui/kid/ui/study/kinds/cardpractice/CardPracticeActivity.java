@@ -405,7 +405,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                         mRecording.setImageResource(R.drawable.card_record_off);
                         /*隐藏打分*/
                         mScore.setVisibility(View.INVISIBLE);
-                        Toast.makeText(context, "系统繁忙，请稍后...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "系统繁忙，请稍后再试", Toast.LENGTH_SHORT).show();
                         isRecording = false;
                     }
                     break;
@@ -472,26 +472,39 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                                 Logger.d("jsonResult:" + jsonResult);
 
                                 switch (resultCode) {
-                                    case 3:
-                                        try {
-                                            JSONObject var1 = new JSONObject(jsonResult.getJsonText());
-                                            if (var1.has("sound_intensity")) {
-                                                Logger.d("sound_intensity:"  );
-                                                mHandler.removeMessages(DELAYED_CHIVOX);
-                                                counter = 0;
-                                                dismissfxDialog();
-
-                                            }
-
-                                        } catch (Exception var2) {
-                                            var2.printStackTrace();
-                                        }
-                                        break;
+//                                    case 3:
+//                                        try {
+//                                            JSONObject var1 = new JSONObject(jsonResult.getJsonText());
+//                                            if (var1.has("sound_intensity")) {
+//                                                Logger.d("sound_intensity:"  );
+//                                                mHandler.removeMessages(DELAYED_CHIVOX);
+//                                                counter = 0;
+//                                                dismissfxDialog();
+//
+//                                            }
+//
+//                                        } catch (Exception var2) {
+//                                            var2.printStackTrace();
+//                                        }
+//                                        break;
 
                                     case 5:
                                         try {
                                             JSONObject var1 = new JSONObject(jsonResult.getJsonText());
                                             if (!var1.has("result")) {
+                                                /*修改录音按钮的背景*/
+                                                mRecording.setImageResource(R.drawable.card_record_off);
+                                                /*隐藏打分*/
+                                                mScore.setVisibility(View.INVISIBLE);
+                                                isRecording = false;
+
+                                                if (var1.has("errId")) {
+                                                    if (var1.getInt("errId") == 41030) {
+                                                        Toast.makeText(context, "系统繁忙，请稍后再试", Toast.LENGTH_SHORT).show();
+                                                        break;
+                                                    }
+                                                    Toast.makeText(context, "系统繁忙，请稍后再试", Toast.LENGTH_SHORT).show(); // 暂定此文案，以后再根据情况再修改
+                                                }
                                                 break;
                                             }
                                         } catch (Exception var2) {
@@ -553,9 +566,9 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
                 });
         /* 一秒钟查一下是否收到sound_intensity，如果没有需要重新开始录音 */
-        mHandler.sendEmptyMessageDelayed(DELAYED_CHIVOX, 1000);
-        counter++;
-        showfxDialog("请稍后...");
+//        mHandler.sendEmptyMessageDelayed(DELAYED_CHIVOX, 1000);
+//        counter++;
+//        showfxDialog("请稍后...");
     }
 
     /**
