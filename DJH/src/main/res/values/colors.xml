@@ -2,6 +2,7 @@
 <resources>
     <color name="app_bg">#FEBF12</color>
     <color name="app_bg_a">#A8E9E1</color>
+    <color name="app_bg_b">#FADA4F</color>
     <color name="transparent">#00000000</color>
     <color name="subtransparent">#30000000</color>
     <color name="transparent1">#bb000000</color>
