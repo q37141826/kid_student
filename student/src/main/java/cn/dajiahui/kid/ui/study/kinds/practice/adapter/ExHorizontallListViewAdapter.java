@@ -12,6 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.fxtx.framework.log.Logger;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -200,30 +202,36 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             temp = s;
+
+            Logger.d("beforeTextChanged----------1");
+
         }
 
         @Override
         public void onTextChanged(CharSequence text, int start, int before, int count) {
+            Logger.d("onTextChanged----------2");
         }
 
         @Override
         public void afterTextChanged(Editable s) {
+            Logger.d("afterTextChanged----------3");
             inputContainer.put(position, s.toString());
 //            /*得到光标开始和结束位置 ,超过最大数后记录刚超出的数字索引进行控制 */
             editStart = this.editText.getSelectionStart();
             editEnd = this.editText.getSelectionEnd();
-
+            Logger.d("afterTextChanged----------temp.length()"+temp.length());
+            Logger.d("afterTextChanged----------charMaxNum"+charMaxNum);
             if (temp.length() > charMaxNum) {
 //                Toast.makeText(mContext, "你输入的字数已经超过了限制！", Toast.LENGTH_LONG).show();
                 s.delete(editStart - 1, editEnd);
                 int tempSelection = editStart;
                 if (!s.equals("")) {
                     this.editText.setText(s);
-                    submitEditext.submitEditextInfo(selfposition);
+//                    submitEditext.submitEditextInfo(selfposition);
                 }
                 this.editText.setSelection(tempSelection);
             }
-
+            submitEditext.submitEditextInfo(selfposition);
         }
     }
 

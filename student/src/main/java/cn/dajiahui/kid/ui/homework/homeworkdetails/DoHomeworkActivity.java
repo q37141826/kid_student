@@ -66,7 +66,6 @@ public class DoHomeworkActivity extends FxActivity
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
 
-
         mViewpager.setNoScroll(false);//作业可以滑动
         homework_id = intent.getStringExtra("homework_id");
         is_complete = intent.getStringExtra("IS_COMPLETE");
@@ -369,7 +368,6 @@ public class DoHomeworkActivity extends FxActivity
     /*判断题回调接口*/
     @Override
     public void submitJudgeFragment(JudjeQuestionModle questionModle) {
-//        int eachposition = questionModle.getEachposition();
         mDatalist.set(currentposition, questionModle);
 
     }
@@ -439,6 +437,4 @@ public class DoHomeworkActivity extends FxActivity
         }
         return super.onKeyUp(keyCode, event);
     }
-
-
 }

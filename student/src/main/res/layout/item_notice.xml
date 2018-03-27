@@ -21,13 +21,14 @@
             android:layout_centerVertical="true"
             android:background="@drawable/notice_item_bg"
             android:text="111111"
-            android:visibility="gone"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_updatecontent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_toEndOf="@+id/tv_redpoint"
             android:text="更新的内容"
             android:textColor="@color/black"

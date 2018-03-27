@@ -13,6 +13,7 @@ import android.widget.VideoView;
 
 import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.log.Logger;
+import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 
@@ -306,10 +307,12 @@ public class MakeKraoOkeActivity extends FxActivity {
                 public void run() {
                     if (mCurrentPosition < bePageDataWork.getItem().size()) {
                         Message msg = Message.obtain();
-                        msg.arg1 = Integer.parseInt((bePageDataWork.getItem().get(mCurrentPosition).getTime_start()));
-                        msg.obj = bePageDataWork.getItem().get(mCurrentPosition);
-                        msg.what = 0;
-                        mHandler.sendMessage(msg); // 发送消息
+                        if (StringUtil.isNumericzidai((bePageDataWork.getItem().get(mCurrentPosition).getTime_start()))) {
+                            msg.arg1 = Integer.parseInt((bePageDataWork.getItem().get(mCurrentPosition).getTime_start()));
+                            msg.obj = bePageDataWork.getItem().get(mCurrentPosition);
+                            msg.what = 0;
+                            mHandler.sendMessage(msg); // 发送消息
+                        }
                     } else {
                         /*当前角标置0*/
                         mCurrentPosition = 0;

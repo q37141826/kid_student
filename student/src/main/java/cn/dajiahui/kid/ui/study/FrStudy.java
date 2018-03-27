@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fxtx.framework.http.callback.ResultCallback;
@@ -42,7 +43,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
     private ImageView imgsupplementary;
     private TextView tvtitle;
     private TextView tvunit;
-    private TextView tvchoiceMaterial;
+    private RelativeLayout tvchoiceMaterial;
     private ListView mListview;
     private LinearLayout tabfragment;
     private TextView tvNUll;
@@ -76,7 +77,6 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getActivity(), "选择学习模式", Toast.LENGTH_SHORT).show();
                 Bundle bundle = new Bundle();
                 bundle.putString("UNIT_NAME", mChooseUtilsList.get(position).getName());
                 bundle.putString("BOOK_ID", mBookId);
@@ -164,7 +164,6 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
                 } else {
                     mChooseUtilsList.clear();
                     apChooseUtils.notifyDataSetChanged();
-                    GlideUtil.showNoneImage(getActivity(), chooseUtils.getLogo(), imgsupplementary, R.drawable.study_default);
                     tvtitle.setText("");
                     tvunit.setText("");
                 }

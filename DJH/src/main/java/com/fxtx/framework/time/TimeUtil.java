@@ -284,4 +284,20 @@ public class TimeUtil {
         }
         return 0;
     }
+
+
+    /**
+     * 时间戳转时间字符串
+     *
+     * @param stamp
+     * @return
+     */
+    public static String stampToString(String stamp, String YYYYMD) {
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(YYYYMD);
+        long lt = new Long(stamp);
+        Date date = new Date(lt * 1000);
+        res = simpleDateFormat.format(date);
+        return res;
+    }
 }

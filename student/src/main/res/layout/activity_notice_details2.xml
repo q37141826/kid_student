@@ -13,10 +13,10 @@
 
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
         android:padding="10dp">
 
         <TextView
@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:drawableLeft="@drawable/notice_item_detial_red_point"
+            android:drawablePadding="5dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="1111"
@@ -41,6 +42,7 @@
             android:gravity="center"
             android:textColor="@color/gray_666666"
             android:textSize="13sp"/>
+
         <TextView
             android:id="@+id/tv_conment"
             android:layout_width="match_parent"

@@ -4,6 +4,7 @@ package cn.dajiahui.kid.ui.homework.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class QuestionModle extends BeBaseModle implements Serializable {
     private List<String> initSortMyanswerList = new ArrayList<>();//我的答案的集合（val值）;//初始我的答案集合（用于获取我的答案顺序）
 
     /*连线题我的答案集合*/
-    private Map<String, String> initLineMyanswerMap = new HashMap<>();//连线题我的答案集合（val对应）
+    private Map<String, String> initLineMyanswerMap = new LinkedHashMap<>();//连线题我的答案集合（val对应）
 
     private Map<Integer, Map<Integer, String>> mCompletionAllMap = new HashMap<>();//填空題我的答案
 

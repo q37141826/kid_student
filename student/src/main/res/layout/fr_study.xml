@@ -10,57 +10,73 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="120dp"
+        android:layout_height="90dp"
         android:background="@drawable/study_bg"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="10dp">
 
 
-        <ImageView
-            android:id="@+id/img_supplementary"
-            android:layout_width="56dp"
-            android:layout_height="74dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:padding="1dp"
-            android:scaleType="fitXY"
-            android:background="@drawable/shape_frame_black"
-            android:src="@drawable/study_default"/>
-
-        <TextView
-            android:id="@+id/tv_unit"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/tv_title"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/img_supplementary"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:textStyle="bold"/>
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_choiceMaterial"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/img_supplementary"
-            android:textColor="@color/white"
+            <ImageView
+                android:id="@+id/img_supplementary"
+                android:layout_width="56dp"
+                android:layout_height="74dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/shape_frame_black"
+                android:padding="1dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/study_default"/>
 
-            android:textSize="13sp"/>
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_unit"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/img_supplementary"
+                android:textColor="@color/gray_333333"
+                android:textSize="13sp"/>
 
-        <TextView
+            <TextView
+                android:id="@+id/tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@+id/img_supplementary"
+
+                android:textColor="@color/gray_333333"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
             android:id="@+id/tv_choiceMaterial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="74dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/choice_material"
-            android:textColor="@color/white"
-            android:textSize="14sp"/>
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/choice_material"
+
+                android:textSize="14sp"/>
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

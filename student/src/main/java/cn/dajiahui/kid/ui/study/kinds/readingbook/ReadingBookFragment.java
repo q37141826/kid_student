@@ -2,8 +2,8 @@ package cn.dajiahui.kid.ui.study.kinds.readingbook;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,14 +20,12 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.fxtx.framework.anim.AnimUtil;
 import com.fxtx.framework.file.FileUtil;
-import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.ui.FxFragment;
-import com.fxtx.framework.util.BitmapUtil;
 import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -41,7 +38,6 @@ import cn.dajiahui.kid.http.OnDownload;
 import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.ui.study.bean.BeReadingBookPageData;
 import cn.dajiahui.kid.ui.study.bean.BeReadingBookPageDataItem;
-import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.ui.study.view.PointReadView;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.MD5;
@@ -79,13 +75,20 @@ public class ReadingBookFragment extends FxFragment implements
 
         @Override
         public void handleMessage(android.os.Message msg) {
-            if (msg.what == 0 && PlayMedia.getPlaying().mediaPlayer != null) {
+            if (msg.what == 0 && mediaPlayer != null) {
                 int endtime = msg.arg1;
-                int currentPosition = PlayMedia.getPlaying().mediaPlayer.getCurrentPosition();
+                int currentPosition = mediaPlayer.getCurrentPosition();
                /*实时在endtime区间内 停止音频播放*/
                 if (((endtime - 500) < (currentPosition)) && ((currentPosition) < (endtime + 500))) {
-                    PlayMedia.getPlaying().mediaPlayer.stop();
-                    PlayMedia.getPlaying().mediaPlayer.reset();
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+
+                    if ( currentPointReadView.mAnimation!=null){
+                        currentPointReadView. mAnimation.cancel();
+                        currentPointReadView.scaleimageView.clearAnimation();
+                        fr_read_show.removeView(currentPointReadView.scaleimageView);
+                    }
+
 //                    /*播放完毕背景置成红色*/
 //                    currentPointReadView.setBackgroundResource(R.drawable.select_readingbook_bg_red);
 
@@ -140,7 +143,7 @@ public class ReadingBookFragment extends FxFragment implements
             }
             if (msg.what == 3) {/*计算拉伸比例*/
                 for (int i = 0; i < beReadingBookPageData.getItem().size(); i++) {
-                    PointReadView pointReadView = new PointReadView(getActivity(), readingBookFragment, i, beReadingBookPageData.getItem().get(i));
+                    PointReadView pointReadView = new PointReadView(getActivity(), readingBookFragment, i, beReadingBookPageData.getItem().get(i), fr_read_show);
                     double width = Integer.parseInt(beReadingBookPageData.getItem().get(i).getWidth());
                     double height = Integer.parseInt(beReadingBookPageData.getItem().get(i).getHeight());
                     /*计算画框的宽高*/
@@ -156,7 +159,7 @@ public class ReadingBookFragment extends FxFragment implements
                     /*设置点读View的x y点坐标*/
                     pointReadView.setmPointX((int) (xPoint * loadWidth / selfWidth));
                     pointReadView.setmPointY((int) (yPoint * loadHeight / selfHeight));
-                    Logger.d(" (xPoint * loadWidth / selfWidth):" + (int) (xPoint * loadWidth / selfWidth) + "    (yPoint * loadHeight / selfHeight)" + (int) (yPoint * loadHeight / selfHeight));
+//                    Logger.d(" (xPoint * loadWidth / selfWidth):" + (int) (xPoint * loadWidth / selfWidth) + "    (yPoint * loadHeight / selfHeight)" + (int) (yPoint * loadHeight / selfHeight));
 
                     params.setMargins(
                             (int) (xPoint * loadWidth / selfWidth),
@@ -172,6 +175,8 @@ public class ReadingBookFragment extends FxFragment implements
         }
 
     };
+    private MediaPlayer mediaPlayer;
+
 
 
     /*下载点读本mp3*/
@@ -191,8 +196,8 @@ public class ReadingBookFragment extends FxFragment implements
     TimerTask timerTask = new TimerTask() {
         @Override
         public void run() {
-            if (PlayMedia.getPlaying().mediaPlayer != null) {
-                if (PlayMedia.getPlaying().mediaPlayer.isPlaying()) {
+            if (mediaPlayer != null) {
+                if (mediaPlayer.isPlaying()) {
                     Message msg = Message.obtain();
                     if (currentPointReadView != null) {
                         msg.arg1 = Integer.parseInt(currentPointReadView.getBePlayReadingBook().getEnd_time());
@@ -263,9 +268,9 @@ public class ReadingBookFragment extends FxFragment implements
     public void onStop() {
         super.onStop();
 
-        if (PlayMedia.getPlaying().mediaPlayer != null &&
-                PlayMedia.getPlaying().mediaPlayer.isPlaying()) {
-            PlayMedia.getPlaying().mediaPlayer.stop();
+        if (mediaPlayer != null &&
+                mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
         }
     }
 
@@ -276,10 +281,10 @@ public class ReadingBookFragment extends FxFragment implements
             timer.cancel();
             timer = null;
         }
-        if (PlayMedia.getPlaying().mediaPlayer != null &&
-                PlayMedia.getPlaying().mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null &&
+                mediaPlayer.isPlaying()) {
 
-            PlayMedia.getPlaying().mediaPlayer.pause();
+            mediaPlayer.pause();
         }
     }
 
@@ -304,75 +309,91 @@ public class ReadingBookFragment extends FxFragment implements
 
     }
 
-    private Boolean allowPointRead = false;// 控制动画结束后再点击
+//    private Boolean allowPointRead = false;// 控制动画结束后再点击
 
     /*点读点击事件*/
     @Override
     public void getPointReadView(PointReadView pointReadView, BeReadingBookPageDataItem bePlayReadingBook, MotionEvent event) {
+
+        /*循环移除所有动画*/
+        for (int i = 0; i < mPointReadViewList.size(); i++) {
+            mPointReadViewList.get(i).cleanAnimotion();
+        }
+
+        /*显示翻译*/
         mShow.setVisibility(View.VISIBLE);
-//        Toast.makeText(getActivity(), "点读", Toast.LENGTH_SHORT).show();
-        if (!allowPointRead) {
-            for (int i = 0; i < mPointReadViewList.size(); i++) {
-                if (mPointReadViewList.get(i) == pointReadView) {
-                    this.currentPointReadView = pointReadView;
-                    /*设置中文翻译*/
-                    mTranslate.setText(this.currentPointReadView.getBePlayReadingBook().getChinese());
-                    /*设置放大动画*/
-                    Matrix matrix = new Matrix();
-                    matrix.postScale(5, 5);// 缩放比例
-                    final Bitmap mScaleBitmap = BitmapUtil.createBitmap(mItemBitmap, pointReadView.mPointX, pointReadView.mPointY, pointReadView.mPointViewWidth, pointReadView.mPointViewHeight, matrix, true);
-                    final ImageView scaleimageView = new ImageView(getActivity());
-                    scaleimageView.setImageBitmap(mScaleBitmap);
+        /*设置中文翻译*/
+        mTranslate.setText(pointReadView.getBePlayReadingBook().getChinese());
 
-                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(pointReadView.mPointViewWidth, pointReadView.mPointViewHeight);
-                    /*设置动画显示位置*/
-                    params.setMargins(pointReadView.mPointX, pointReadView.mPointY, 0, 0);
+        this.currentPointReadView = pointReadView;
 
-//                    Logger.d("pointReadView.mPointX:" + pointReadView.mPointX + "  pointReadView.mPointY" + pointReadView.mPointY);
+        pointReadView.startAnimotion(mItemBitmap);
 
-                    scaleimageView.setLayoutParams(params);
-                   /*添加view到父布局上*/
-                    fr_read_show.addView(scaleimageView);
-                    allowPointRead = !allowPointRead;
-                    int i1 = Integer.parseInt(bePlayReadingBook.getEnd_time()) - Integer.parseInt(bePlayReadingBook.getStart_time());
-                    AnimUtil.magnifyingAnimation(scaleimageView, i1).
-                            setAnimationListener(new Animation.AnimationListener() {
-                                @Override
-                                public void onAnimationStart(Animation animation) {
-                                }
-
-                                @Override
-                                public void onAnimationEnd(Animation animation) {
-                                    fr_read_show.removeView(scaleimageView);
-                                    allowPointRead = !allowPointRead;
-                                    if (mScaleBitmap != null) {
-                                        mScaleBitmap.recycle();
-                                    }
-                                }
-
-                                @Override
-                                public void onAnimationRepeat(Animation animation) {
-                                }
-                            });
-
-                }
-            }
-
-            if (!media_url.equals("")) {
-
+        if (!media_url.equals("")) {
             /*文件名以MD5加密*/
-                String mp3Name = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
+            String mp3Name = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
 
-                if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
+            if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
             /*读取本地*/
-                    PlayMedia.getPlaying().Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(bePlayReadingBook.getStart_time()));
+                Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(bePlayReadingBook.getStart_time()));
 
-                } else {
+            } else {
              /*读取网络*/
-                    PlayMedia.getPlaying().Mp3seekTo(media_url, Integer.parseInt(bePlayReadingBook.getStart_time()));
-                }
+                Mp3seekTo(media_url, Integer.parseInt(bePlayReadingBook.getStart_time()));
             }
         }
+    }
+     /*指定播放位置 毫秒*/
+
+    public void Mp3seekTo(String mp3path, int starttime) {
+//        Logger.d("播放地址：" + mp3path);
+        try {
+            if (mediaPlayer == null) {
+                mediaPlayer = new MediaPlayer();
+            }
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(mp3path);
+            mediaPlayer.prepare();
+            mediaPlayer.seekTo(starttime);
+            /*设置监听事件*/
+            setListener();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void setListener() {
+        /*准备播放*/
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mediaPlayer.start();
+            }
+
+        });
+        /*播放完成*/
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+//                Logger.d("播放完成：" + complete);
+                /*释放资源*/
+                mediaPlayer.stop();
+
+            }
+        });
+
+        /*播放失败*/
+        mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+
+                return false;
+            }
+        });
+
+
     }
 
     /*点击事件监听*/
@@ -395,6 +416,7 @@ public class ReadingBookFragment extends FxFragment implements
     };
 
     /*上设置图片方向 1向上 2.向下*/
+
     private void setPictureDirection(int picture, int dir) {
         switch (dir) {
             case 1:
@@ -421,8 +443,8 @@ public class ReadingBookFragment extends FxFragment implements
 //        readingFlag = 0;
 //        isPointRead = false;
 //        /*保证播放环境*/
-//        if (PlayMedia.getPlaying().mediaPlayer != null && PlayMedia.getPlaying().mediaPlayer.isPlaying()) {
-//            PlayMedia.getPlaying().mediaPlayer.stop();
+//        if (  mediaPlayer != null &&   mediaPlayer.isPlaying()) {
+//              mediaPlayer.stop();
 //        }
 //        continuousReading();
     }
@@ -445,11 +467,11 @@ public class ReadingBookFragment extends FxFragment implements
 //            String mp3Name = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
 //            if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
 //               /*读取本地*/
-//                PlayMedia.getPlaying().Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(mPointReadViewList.get(readingFlag).getBePlayReadingBook().getStart_time()));
+//                  Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(mPointReadViewList.get(readingFlag).getBePlayReadingBook().getStart_time()));
 //
 //            } else {
 //              /*读取网络*/
-//                PlayMedia.getPlaying().Mp3seekTo(media_url, Integer.parseInt(mPointReadViewList.get(readingFlag).getBePlayReadingBook().getStart_time()));
+//                  Mp3seekTo(media_url, Integer.parseInt(mPointReadViewList.get(readingFlag).getBePlayReadingBook().getStart_time()));
 //            }
 //
 //            this.currentPointReadView = mPointReadViewList.get(readingFlag);
@@ -465,10 +487,10 @@ public class ReadingBookFragment extends FxFragment implements
 //                /*解除view不可点击 */
 //                mPointReadViewList.get(i).setClickable(true);
 //            }
-//            if (PlayMedia.getPlaying().mediaPlayer != null) {
-//                PlayMedia.getPlaying().mediaPlayer.stop();
-//                PlayMedia.getPlaying().mediaPlayer.release();
-//                PlayMedia.getPlaying().mediaPlayer = null;
+//            if (  mediaPlayer != null) {
+//                  mediaPlayer.stop();
+//                  mediaPlayer.release();
+//                  mediaPlayer = null;
 //            }
 //        }
 //    }

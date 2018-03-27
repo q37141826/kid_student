@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.fxtx.framework.adapter.CommonAdapter;
 import com.fxtx.framework.adapter.ViewHolder;
-import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.text.ParseUtil;
 
 import java.text.ParseException;
@@ -57,29 +56,31 @@ public class ApHomework extends CommonAdapter<BeHomework> {
             }
         });
         tv_classname.setText(item.getClass_name());
-        tv_homename.setText(item.getBook_name());
-        tv_homecontent.setText(item.getName());
+        tv_homename.setText("教材："+item.getBook_name());
+        tv_homecontent.setText("内容："+item.getName());
 
         /*打分的小星星*/
         rb_score.setMax(100);
         /*打分的分数 */
         rb_score.setProgress(getScore((int) (ParseUtil.parseFloat(item.getCorrect_rate()) * 100)));
         tv_hometime.setText(DateUtils.time(item.getStart_time()) + "作业");//作业时间
-        Logger.d("截止时间戳："+item.getEnd_time());
-        task_endtime.setText("截止时间：" + DateUtils.EndHomeWorktime(item.getEnd_time()));//作业时间
+        task_endtime.setText("截止时间：" + DateUtils.EndHomeWorktime(item.getEnd_time()));//截止时间
 
         if (TimeCompare(item)) {
             if (item.getIs_complete().equals("1")) {
-                tv_dohomework.setText("已完成");
+                tv_dohomework.setText("查看");
+
+                tv_dohomework.setBackgroundResource(R.drawable.round_bgyellow_febf12_homwwork);
             } else {
                 tv_dohomework.setText("做作业");
+                tv_dohomework.setBackgroundResource(R.drawable.round_bgyellow_febf12_homwwork);
             }
-            tv_dohomework.setBackgroundResource(R.drawable.round_bgyellow_homwwork);
 
         } else {
             tv_dohomework.setText("已过期");
-            tv_dohomework.setBackgroundResource(R.drawable.round_bggray_homwwork);
-
+//            tv_dohomework.setBackgroundResource(R.drawable.round_bggray_homwwork);
+            tv_dohomework.setTextColor(context.getResources().getColor(R.color.gray_9c9c9c));
+            tv_dohomework.setBackgroundResource(R.drawable.round_bggray_dcdbdb_homwwork);
             positionList.add(position);
         }
 

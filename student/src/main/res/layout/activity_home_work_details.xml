@@ -7,10 +7,6 @@
 
     <include layout="@layout/layout_tool_text"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/line_gray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,80 +16,11 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/line_complete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
-            android:padding="10dp"
-            android:visibility="gone">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/homework_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="12月22日作业"
-                    android:textSize="14sp"/>
-
-                <TextView
-                    android:id="@+id/tv_completetime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="完成时间"
-                    android:textSize="13sp"/>
-
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="10dp"
-                android:background="@color/line_gray"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp">
-
-
-                <TextView
-                    android:id="@+id/tv_correct_rate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="正确率：60%"/>
-
-
-                <RatingBar
-                    android:id="@+id/rb_score"
-                    style="@style/myratingbar_homework"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:numStars="5"/>
-
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/line_nocomplete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            >
+            android:padding="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -114,45 +41,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="The first uint"
+                    android:textSize="13sp"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/homework_timename"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="截止时间"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="2019"
                     android:textSize="13sp"/>
 
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-
-                android:background="@color/line_gray"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="截止时间"/>
-
-                <TextView
-                    android:id="@+id/tv_endtime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"/>
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-
-                android:background="@color/line_gray"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -174,7 +91,39 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rela_score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:id="@+id/tv_correct_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:text="正确率："/>
+
+
+                <RatingBar
+                    android:id="@+id/rb_score"
+                    style="@style/myratingbar_homework"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:numStars="5"/>
+
+
+            </RelativeLayout>
+
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/linhomework_detail"
@@ -182,33 +131,31 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:background="@color/white"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
 
             <LinearLayout
+                android:id="@+id/lin_scorestate"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:orientation="horizontal">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
                     android:drawableLeft="@drawable/homewor_true_bg_green"
                     android:drawablePadding="5dp"
                     android:gravity="center"
                     android:text="正确"/>
 
                 <TextView
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
                     android:drawableLeft="@drawable/homewor_false_bg_red"
                     android:drawablePadding="5dp"
                     android:gravity="center"
@@ -220,6 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
                     android:drawableLeft="@drawable/answer_card_noanswer_bg"
                     android:drawablePadding="5dp"
                     android:gravity="center"
@@ -254,7 +202,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/yellow_FEBF12"
-            android:text="开始做作业"
+            android:text="开始作业"
             android:textColor="@color/white"/>
     </LinearLayout>
 </LinearLayout>

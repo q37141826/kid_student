@@ -202,6 +202,7 @@ public class AnswerCardActivity extends FxActivity {
         super.httpData();
 
 //        String s = new GsonUtil().getJsonElement(new ToAnswerCardJson(submitAnswerCardList)).toString();
+//        Logger.d("答题卡json：" + s);
 //       /* 要自己判断是否已经完成作业 -1:未开始 0:进行中 1:已完成  */
         RequestUtill.getInstance().httpSubmitAnswerCard(AnswerCardActivity.this, callSubmitAnswerCard, homework_id, "1",
                 new GsonUtil().getJsonElement(new ToAnswerCardJson(submitAnswerCardList)).toString());

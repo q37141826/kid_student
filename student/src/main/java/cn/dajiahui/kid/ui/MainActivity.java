@@ -169,7 +169,7 @@ public class MainActivity extends FxTabActivity {
                 }
                 switchContent(isFragment, frMine);
                 rediobtnId = 4;
-                StatusBarCompat.compat(this, getResources().getColor(com.fxtx.framework.R.color.app_bg));
+                StatusBarCompat.compat(this, getResources().getColor(com.fxtx.framework.R.color.app_bg_b));
                 break;
             default:
                 break;

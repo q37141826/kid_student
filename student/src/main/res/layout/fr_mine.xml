@@ -14,8 +14,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_height="90dp"
+            android:background="@drawable/study_bg"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -29,29 +29,33 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginTop="4dp"
                     android:padding="10dp"
                     android:src="@drawable/ico_default_user"/>
 
-                <TextView
-                    android:id="@+id/tv_user_name"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/iv_edit"
+                    android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/iv_user"
-                    android:text="@string/user_name"
-                    android:textColor="@color/gray_333333"
-                    android:textSize="15sp"/>
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_sex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/iv_edit"
-                    android:layout_toEndOf="@+id/iv_user"
-                    android:text="@string/sex"
-                    android:textColor="@color/gray_666666"
-                    android:textSize="13sp"/>
+                    <TextView
+                        android:id="@+id/tv_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_name"
+                        android:textColor="@color/gray_333333"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sex"
+                        android:textColor="@color/gray_333333"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+
 
                 <ImageView
                     android:id="@+id/iv_edit"

@@ -223,11 +223,11 @@ public class HorizontallListViewAdapter extends BaseAdapter {
                 int tempSelection = editStart;
                 if (!s.equals("")) {
                     this.editText.setText(s);
-                    submitEditext.submitEditextInfo(selfposition);
+
                 }
                 this.editText.setSelection(tempSelection);
             }
-
+            submitEditext.submitEditextInfo(selfposition);
         }
     }
 

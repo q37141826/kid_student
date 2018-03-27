@@ -10,7 +10,7 @@
     <string name="e_audit_null">暂无申请信息</string>
     <string name="e_test_null">暂无测评信息</string>
     <string name="e_course_null">暂无微课信息</string>
-    <string name="e_msg_null">暂无消息</string>
+    <string name="e_msg_null">暂无作业</string>
     <string name="e_site_null">网址收藏夹为空</string>
     <string name="e_homework_null">暂无作业信息</string>
     <string name="e_log_null">暂无日志数据</string>

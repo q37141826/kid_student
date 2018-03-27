@@ -32,6 +32,7 @@ import com.fxtx.framework.chivox.ChivoxBasicActivity;
 import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.json.GsonUtil;
 import com.fxtx.framework.log.Logger;
+import com.fxtx.framework.text.StringUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -373,13 +374,15 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         mCurrentPosition = position;
         /*打开视频声音*/
         openVideoviewSound();
-        int start_time = Integer.parseInt(mDataList.get(position).getTime_start());
-        int end_time = Integer.parseInt(mDataList.get(position).getTime_end());
 
-//        Logger.d("position:----" + position + "  videoSeekTo  start_time--:" + start_time + "    end_time--:" + end_time);
-        mVideoView.seekTo(start_time);
-        mVideoView.start();
+        if (StringUtil.isNumericzidai(mDataList.get(position).getTime_start())) {
+            int start_time = Integer.parseInt(mDataList.get(position).getTime_start());
 
+            int end_time = Integer.parseInt(mDataList.get(position).getTime_end());
+        //      Logger.d("position:----" + position + "  videoSeekTo  start_time--:" + start_time + "    end_time--:" + end_time);
+            mVideoView.seekTo(start_time);
+            mVideoView.start();
+        }
         /*关闭正在播放的录音片段*/
         closeSoundRecording();
          /*打开视频声音*/

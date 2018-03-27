@@ -329,8 +329,6 @@ public class LineFragment extends BaseHomeworkFragment implements
     }
 
 
-
-
     /*要连线的图片的点击事件*/
     @Override
     public void submitlininfo(LineImagePointView lineImagePointView) {
@@ -654,11 +652,20 @@ public class LineFragment extends BaseHomeworkFragment implements
     }
 
     /*获取答案的方法  正确答案 2个 我的答案2个*/
+    class stringFormat {
+        private String str;
+
+        public String getStr() {
+            return str;
+        }
+    }
 
     private void getAnswer() {
         if (inbasebean != null && inbasebean.getIs_answered().equals("1")) {
              /*我的答案start */
             String my_answer = inbasebean.getMy_answer();
+//            String format = String.format(my_answer, stringFormat.class);
+//            Logger.d("-------format:"+format);
             String substringmyanswer = my_answer.substring(1, (my_answer.length() - 1));
             String[] strsMy = substringmyanswer.split(",");
             /*截取字符串*/

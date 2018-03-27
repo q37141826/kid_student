@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.fxtx.framework.log.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -277,7 +278,7 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
     @Override
 
     public void submitEditextInfo(int selfposition) {
-
+        Logger.d("确认输入----------------：" + selfposition);
         inbasebean.setAnswerflag("true");
 
         /*填写答案之后，然后在翻页回来再修改答案的bug*/

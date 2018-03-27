@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fxtx.framework.http.callback.ResultCallback;
@@ -35,11 +36,13 @@ import cn.dajiahui.kid.util.DjhJumpUtil;
 * */
 public class HomeWorkDetailsActivity extends FxActivity {
 
-    private TextView tvhomeworkname;
-    private TextView tvendtime;
+    private TextView tvhomeworkname;//作业名称
+    private LinearLayout mLinscoreState;//正确 错误  未做布局
     private TextView tvcompletecount;
-    private LinearLayout line_complete, line_nocomplete, linhomework_detail;
-    private TextView homework_time, tv_completetime, tv_correct_rate;
+    private RelativeLayout rela_score;//打分布局
+    private LinearLayout linhomework_detail;//, line_nocomplete，line_complete,
+    private TextView tv_correct_rate;//homework_time, tv_completetime,
+    private TextView homework_timename, tv_time;//做作业，继续作业： 截止时间    查看作业： 完成时间
     private GridView grildview;
     private Button btn_dohomework;
     private String homework_id;
@@ -63,7 +66,7 @@ public class HomeWorkDetailsActivity extends FxActivity {
         String starttime = bundle.getString("starttime");
         unit_name = bundle.getString("UNIT_NAME");
         homework_id = bundle.getString("homework_id");
-        setfxTtitle(DateUtils.time(starttime));
+//        setfxTtitle(DateUtils.time(starttime));
 
         apHomeWorkDetail = new ApHomeWorkDetail(HomeWorkDetailsActivity.this, mBeAnswerSheetList);
         grildview.setAdapter(apHomeWorkDetail);
@@ -88,15 +91,14 @@ public class HomeWorkDetailsActivity extends FxActivity {
     /*初始化*/
     private void initialize() {
         linhomework_detail = getView(R.id.linhomework_detail);
-        line_nocomplete = getView(R.id.line_nocomplete);
-        line_complete = getView(R.id.line_complete);
+        rela_score = getView(R.id.rela_score);
         tvhomeworkname = getView(R.id.tv_homeworkname);
-        tvendtime = getView(R.id.tv_endtime);
+        mLinscoreState = getView(R.id.lin_scorestate);
         tvcompletecount = getView(R.id.tv_completecount);
         btn_dohomework = getView(R.id.btn_dohomework);
         grildview = getView(R.id.grildview);
-        homework_time = getView(R.id.homework_time);
-        tv_completetime = getView(R.id.tv_completetime);
+        homework_timename = getView(R.id.homework_timename);
+        tv_time = getView(R.id.tv_time);
         tv_correct_rate = getView(R.id.tv_correct_rate);
         rb_score = getView(R.id.rb_score);
         rb_score.setOnTouchListener(new View.OnTouchListener() {
@@ -136,26 +138,54 @@ public class HomeWorkDetailsActivity extends FxActivity {
                 if (beHomeWorkDetails != null) {
                     /*测试*/
                     if (beHomeWorkDetails.getIs_complete().equals("-1")) {
+                        /*设置title*/
+                        setfxTtitle(beHomeWorkDetails.getName());
                         btn_dohomework.setText("开始做作业");
-                        showHomeworkDetail(beHomeWorkDetails);
+//                      /*作业名称*/
+                        tvhomeworkname.setText(beHomeWorkDetails.getName());
+                        /*截止时间*/
+                        homework_timename.setText("截止时间");
+                        tv_time.setText(DateUtils.EndHomeWorktime(beHomeWorkDetails.getEnd_time()));
+                        /*完成人数*/
+                        tvcompletecount.setText(beHomeWorkDetails.getComplete_students() + "/" + beHomeWorkDetails.getAll_students());
+
+                        rela_score.setVisibility(View.GONE);
                     } else if (beHomeWorkDetails.getIs_complete().equals("1")) {
-                        setfxTtitle("作业详情");
-                        line_complete.setVisibility(View.VISIBLE);
-                        linhomework_detail.setVisibility(View.VISIBLE);
-                        homework_time.setText(DateUtils.time(beHomeWorkDetails.getStart_time()) + "作业");//作业时间
-                        tv_completetime.setText("完成时间：" + DateUtils.time(beHomeWorkDetails.getComplete_time()));//完成时间
+                        /*设置title*/
+                        setfxTtitle(beHomeWorkDetails.getName());
+                        btn_dohomework.setText("查看作业");
+                        /*作业名称*/
+                        tvhomeworkname.setText(beHomeWorkDetails.getName());
+                        /*完成时间*/
+                        homework_timename.setText("完成时间");
+                        tv_time.setText(DateUtils.EndHomeWorktime(beHomeWorkDetails.getComplete_time()));
+                        /*完成人数*/
+                        tvcompletecount.setText(beHomeWorkDetails.getComplete_students() + "/" + beHomeWorkDetails.getAll_students());
+
                         String correct_rate = beHomeWorkDetails.getCorrect_rate();
                         double v = Double.parseDouble(correct_rate) * 100;
                         tv_correct_rate.setText("正确率：" + (int) v + "%");//正确率
                         rb_score.setMax(100);
                          /*打分的分数 */
                         rb_score.setProgress(getScore((int) (ParseUtil.parseFloat(beHomeWorkDetails.getCorrect_rate()) * 100)));
+                          /*显示完成后的答题卡情况*/
+                        mLinscoreState.setVisibility(View.VISIBLE);
+                        linhomework_detail.setVisibility(View.VISIBLE);
                         mBeAnswerSheetList.addAll(beHomeWorkDetails.getAnswer_sheet());
-                        btn_dohomework.setText("查看作业");
                         apHomeWorkDetail.notifyDataSetChanged();
                     } else if (beHomeWorkDetails.getIs_complete().equals("0")) {
+                        setfxTtitle(beHomeWorkDetails.getName());
+
                         btn_dohomework.setText("继续做作业");
-                        showHomeworkDetail(beHomeWorkDetails);
+
+                        btn_dohomework.setText("开始做作业");
+                        /*作业名称*/
+                        tvhomeworkname.setText(beHomeWorkDetails.getName());
+                        /*截止时间*/
+                        homework_timename.setText("截止时间");
+                        tv_time.setText(DateUtils.EndHomeWorktime(beHomeWorkDetails.getEnd_time()));
+                        /*完成人数*/
+                        tvcompletecount.setText(beHomeWorkDetails.getComplete_students() + "/" + beHomeWorkDetails.getAll_students());
                     }
                 }
 
@@ -166,13 +196,6 @@ public class HomeWorkDetailsActivity extends FxActivity {
 
         }
     };
-
-    private void showHomeworkDetail(BeHomeWorkDetails beHomeWorkDetails) {
-        line_nocomplete.setVisibility(View.VISIBLE);
-        tvhomeworkname.setText(beHomeWorkDetails.getName());
-        tvendtime.setText(DateUtils.time(beHomeWorkDetails.getEnd_time()));
-        tvcompletecount.setText(beHomeWorkDetails.getComplete_students() + "/" + beHomeWorkDetails.getAll_students());
-    }
 
 
     /*评分算法 20分为一颗星*/

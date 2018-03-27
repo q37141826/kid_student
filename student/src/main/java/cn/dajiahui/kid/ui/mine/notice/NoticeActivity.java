@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.mine.notice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -60,7 +61,7 @@ public class NoticeActivity extends FxActivity {
         initRefresh(refresh);
         mTvnull.setVisibility(View.VISIBLE);
         mListview.setEmptyView(mTvnull);
-
+        noticekHttp();
         apNotice = new ApNotice(this, noticeList);
         mListview.setAdapter(apNotice);
 
@@ -74,7 +75,7 @@ public class NoticeActivity extends FxActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("NOTICE_ITEM", beNoticeItem);
 
-                DjhJumpUtil.getInstance().startBaseActivity(NoticeActivity.this, NoticeDetailsActivity.class, bundle, 0);
+                DjhJumpUtil.getInstance().startBaseActivityForResult(NoticeActivity.this, NoticeDetailsActivity.class, bundle, DjhJumpUtil.getInstance().activtiy_Notice);
             }
         });
     }
@@ -90,7 +91,6 @@ public class NoticeActivity extends FxActivity {
     @Override
     public void httpData() {
         super.httpData();
-
         RequestUtill.getInstance().httpNotice(NoticeActivity.this, callNotice, mPageSize, mPageNum);
 
     }
@@ -100,11 +100,9 @@ public class NoticeActivity extends FxActivity {
         RequestUtill.getInstance().httpCleanNotice(NoticeActivity.this, callClearNotice);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        noticekHttp();
     }
 
     /**
@@ -186,5 +184,14 @@ public class NoticeActivity extends FxActivity {
         }
 
         return result;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*移除学生有返回本页面刷新页面*/
+        if (requestCode == DjhJumpUtil.getInstance().activtiy_Notice && resultCode == RESULT_OK) {
+            noticekHttp();
+        }
     }
 }
