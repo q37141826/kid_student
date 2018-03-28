@@ -90,6 +90,7 @@ public class ClassDetailsActivity extends FxActivity {
     ResultCallback callSearch = new ResultCallback() {
         @Override
         public void onError(Request request, Exception e) {
+            Logger.d("班级详情失败：" + e);
             dismissfxDialog();
         }
 
@@ -103,6 +104,7 @@ public class ClassDetailsActivity extends FxActivity {
                 /* 解析班级信息 */
                 classInfo = json.parsingObject(BeClass.class);
                 if (classInfo != null) {
+
                     re_task_second.setVisibility(View.VISIBLE);
                     tvclasscode.setText("班级码：" + classInfo.getCode());
                     tvschool.setText("学校：" + classInfo.getSchool_name());

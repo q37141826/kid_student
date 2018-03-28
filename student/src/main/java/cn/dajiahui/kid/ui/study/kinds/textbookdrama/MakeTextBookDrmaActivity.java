@@ -199,8 +199,13 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                mp.seekTo(Integer.parseInt(mDataList.get(0).getTime_start()));
-                mp.start();
+                if (StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_end())) {
+                    mp.seekTo(Integer.parseInt(mDataList.get(0).getTime_start()));
+                    mp.start();
+                } else {
+                    Toast.makeText(context, "数据错误", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
@@ -249,11 +254,13 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    Message msg = Message.obtain();
-                    msg.arg1 = Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end());
-                    msg.what = 0;
-                    mHandler.sendMessage(msg); // 发送消息
+                    if (StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_end())) {
+                        Message msg = Message.obtain();
+                        msg.arg1 = Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end());
+                        msg.what = 0;
+                        mHandler.sendMessage(msg); // 发送消息
 
+                    }
                 }
             }, 0, 300);
 
@@ -379,7 +386,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
             int start_time = Integer.parseInt(mDataList.get(position).getTime_start());
 
             int end_time = Integer.parseInt(mDataList.get(position).getTime_end());
-        //      Logger.d("position:----" + position + "  videoSeekTo  start_time--:" + start_time + "    end_time--:" + end_time);
+            //      Logger.d("position:----" + position + "  videoSeekTo  start_time--:" + start_time + "    end_time--:" + end_time);
             mVideoView.seekTo(start_time);
             mVideoView.start();
         }
@@ -411,37 +418,39 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                         return;
                     }
 
+                    if (StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_start()) && StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_end())) {
                     /*点击录音同时视频要跳转到当前录音片段开始的时间点*/
-                    mVideoView.seekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()));
+                        mVideoView.seekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()));
                     /*关闭视频声音*/
-                    closeVideoviewSound();
+                        closeVideoviewSound();
                     /*禁止滑动（录音时）*/
-                    mViewpager.setNoScroll(true);
+                        mViewpager.setNoScroll(true);
 
                     /* 通知评分引擎此次为英文句子评测 */
-                    coretype = CoreType.en_sent_score;
+                        coretype = CoreType.en_sent_score;
                     /*参数是评分的语句*/
-                    recordStart(mDataList.get(mCurrentPosition).getEnglish());
-                    isRecording = true;
+                        recordStart(mDataList.get(mCurrentPosition).getEnglish());
+                        isRecording = true;
                     /*播放视频*/
-                    mVideoView.start();
+                        mVideoView.start();
                     /*获取当前片段录音的长度*/
-                    mRecordLength = ((Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end()) - Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start())) / 1000);
+                        mRecordLength = ((Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end()) - Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start())) / 1000);
                    /*通知碎片中的进度条*/
-                    mTextBookDramaCardMap.get(mCurrentPosition).refreshProgress(mRecordLength);
+                        mTextBookDramaCardMap.get(mCurrentPosition).refreshProgress(mRecordLength);
                     /*监听时间录音倒计时*/
-                    if (timerRecoding == null) {
-                        timerRecoding = new Timer();
-                        timerRecoding.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                Message msg = Message.obtain();
-                                mRecordLength -= 1;
-                                msg.arg1 = mRecordLength;
-                                msg.what = 1;
-                                mHandler.sendMessage(msg); // 发送消息
-                            }
-                        }, 0, 1000);
+                        if (timerRecoding == null) {
+                            timerRecoding = new Timer();
+                            timerRecoding.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    Message msg = Message.obtain();
+                                    mRecordLength -= 1;
+                                    msg.arg1 = mRecordLength;
+                                    msg.what = 1;
+                                    mHandler.sendMessage(msg); // 发送消息
+                                }
+                            }, 0, 1000);
+                        }
                     }
 //                    Toast.makeText(context, "开始录音", Toast.LENGTH_SHORT).show();
                     break;
@@ -527,6 +536,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         int minutes = (totalSeconds / 60) % 60;
         int hours = totalSeconds / 3600;
         mFormatBuilder.setLength(0);
+        Logger.d("格式化时间：  " + mFormatter.format("%02d:%02d:%02d", hours, minutes, seconds).toString());
         return mFormatter.format("%02d:%02d:%02d", hours, minutes, seconds).toString();
     }
 
@@ -539,7 +549,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
 
     /*关闭视频的声音*/
     public void closeVideoviewSound() {
-        if (mVideoView.isPlaying()) {
+        if (mVideoView != null && mVideoView.isPlaying()) {
             mCurrentMp.setVolume(0, 0);/*关闭视频声音*/
         }
     }
@@ -547,7 +557,9 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
     /*打开视频的声音*/
     public void openVideoviewSound() {
 //        mCurrentMp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mCurrentMp.setVolume(1, 1);
+        if (mCurrentMp != null) {
+            mCurrentMp.setVolume(1, 1);
+        }
     }
 
     /**

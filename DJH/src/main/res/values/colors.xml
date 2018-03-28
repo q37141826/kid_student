@@ -46,6 +46,7 @@
     <color name="pickerview_wheelview_textcolor_out">#a8a8a8</color>
     <color name="pickerview_wheelview_textcolor_center">#2a2a2a</color>
     <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
+    <color name="list_divider_color_gravy">#E9E9E9</color>
 
     <color name="gray_E0E0E0">#E0E0E0</color>
     <color name="gray_E9E9E9">#E9E9E9</color>
@@ -62,7 +63,7 @@
     <color name="gray_BFBFBF">#BFBFBF</color>
     <color name="gray_bbbbbb">#bbbbbb</color>
     <color name="gray_DCDBDB">#DCDBDB</color>
-    <color name="gray_9c9c9c">#9c9c9c </color>
+    <color name="gray_9c9c9c">#9c9c9c</color>
 
 
     <color name="yellow_FEBF12">#FEBF12</color>

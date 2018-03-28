@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.mine.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -26,10 +27,12 @@ public class ApClassSpace extends CommonAdapter<BeClassSpaceList> {
 
     private NoSlideGrildView grildview;
     private Context context;
+    private Activity activity;
 
     public ApClassSpace(Context context, List<BeClassSpaceList> mDatas) {
         super(context, mDatas, R.layout.item_classspace);
         this.context = context;
+        this.activity = (Activity) context;
     }
 
 
@@ -52,8 +55,17 @@ public class ApClassSpace extends CommonAdapter<BeClassSpaceList> {
                 Bundle bundle = new Bundle();
                 bundle.putString("IMG_URL", item.getImg_url().get(position));
 
+                int location[] = new int[2];
+                view.getLocationOnScreen(location);
+                bundle.putInt("locationX", location[0]);
+                bundle.putInt("locationY", location[1]);
+                bundle.putInt("width", view.getWidth());
+                bundle.putInt("height", view.getHeight());
+
+
                 /*先跳转 在网络请请求获取数据*/
                 DjhJumpUtil.getInstance().startBaseActivity(context, ShowPictureActivity.class, bundle, 0);
+                activity.overridePendingTransition(0, 0);
             }
         });
         tv_classname.setText(item.getClass_name() + "班动态");

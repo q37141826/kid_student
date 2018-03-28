@@ -2,8 +2,11 @@
 <ImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_picture"
-    android:layout_width="101dp"
-    android:layout_height="134dp"
+    android:layout_width="110dp"
+    android:layout_height="110dp"
     android:layout_gravity="center"
-    android:padding="10dp">
+    android:adjustViewBounds="true"
+    android:maxHeight="110dp"
+    android:maxWidth="110dp"
+    android:scaleType="fitXY">
 </ImageView>

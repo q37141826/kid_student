@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/gray_F5F5F5"
-              android:gravity="center_vertical"
-              android:orientation="vertical">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_vertical">
 
     <LinearLayout
         android:id="@+id/re_task_second"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/textpadding"
-        android:layout_marginTop="@dimen/textpadding"
-        android:background="@color/white"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -56,14 +55,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10dp">
+            android:layout_marginTop="10dp">
 
             <cn.dajiahui.kid.view.NoSlideGrildView
                 android:id="@+id/grildview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:horizontalSpacing="5dp"
+                android:horizontalSpacing="10dp"
+                android:listSelector="@color/transparent"
                 android:numColumns="3"
                 android:verticalSpacing="5dp">
 
@@ -71,4 +70,11 @@
         </RelativeLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/re_task_second"
+        android:layout_marginTop="10dp"
+        android:background="@color/list_divider_color_gravy"
+        android:text=""/>
+</RelativeLayout>
