@@ -18,6 +18,7 @@ import com.squareup.okhttp.Request;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.util.SpUtil;
+import cn.dajiahui.kid.util.StudentTextWatcher;
 
 
 /**
@@ -60,22 +61,22 @@ public class ForgetPwdActivity extends FxActivity {
             }
         });
 
-//        edLoginPhone.addTextChangedListener(new StudentTextWatcher() {
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (isBtnCode) {
-//                    if (edLoginPhone.getText().toString().trim().length() == 11) {
-//                        btnCode.setBackgroundResource(R.color.white);
-//                        btnCode.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
-//                        btnCode.setClickable(true);
-//                    } else {
-//                        btnCode.setBackgroundResource(R.color.white);
-//                        btnCode.setTextColor(getResources().getColor(R.color.gray_666666));
-//                        btnCode.setClickable(false);
-//                    }
-//                }
-//            }
-//        });
+        edLoginPhone.addTextChangedListener(new StudentTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isBtnCode) {
+                    if (edLoginPhone.getText().toString().trim().length() == 11) {
+                        btnCode.setBackgroundResource(R.color.white);
+                        btnCode.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
+                        btnCode.setClickable(true);
+                    } else {
+                        btnCode.setBackgroundResource(R.color.white);
+                        btnCode.setTextColor(getResources().getColor(R.color.gray_DCDBDB));
+                        btnCode.setClickable(false);
+                    }
+                }
+            }
+        });
 
 
     }

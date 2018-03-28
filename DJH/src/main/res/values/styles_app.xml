@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
     <style name="FxAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -13,6 +13,10 @@
         <!--设置actionBarSize，如果想修改成全通用（包括v4），必须设置两个属性才能实现-->
         <item name="android:actionBarSize">44dp</item>
         <item name="actionBarSize">44dp</item>
+        <!--状态栏字颜色-->
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+
+
     </style>
 
     <style name="NoTitle">

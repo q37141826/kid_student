@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -21,6 +20,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.fxtx.framework.file.FileUtil;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.ui.FxFragment;
 import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 
@@ -49,16 +49,13 @@ import cn.dajiahui.kid.util.MD5;
 
 
 public class ReadingBookFragment extends FxFragment implements
-        PointReadView.GetPointReadView,
-        ReadingBookActivity.PlayAll {
+        PointReadView.GetPointReadView, ReadingBookActivity.PlayAll {
 
     protected Bundle bundle;// 用于保存信息以及标志
     public FrameLayout fr_read_show;
     private Timer timer;
     private PointReadView currentPointReadView = null;
-    //    private int readingFlag = 0;
     private TextView mTranslate, mShow;
-    //    private boolean isPointRead = false;// false 点读 true 连读
     private BeReadingBookPageData beReadingBookPageData;
     private ImageView img_readbook_bg;
     public List<PointReadView> mPointReadViewList = new ArrayList<>();
@@ -66,9 +63,9 @@ public class ReadingBookFragment extends FxFragment implements
     private List<BeReadingBookPageData> page_data;
     private String media_url;
     private Boolean translateHide = false;//true 隐藏  false 显示
-
     private double loadWidth, loadHeight, selfHeight, selfWidth;
     private Bitmap mItemBitmap;
+    private MediaPlayer mediaPlayer;
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
 
@@ -78,31 +75,17 @@ public class ReadingBookFragment extends FxFragment implements
             if (msg.what == 0 && mediaPlayer != null) {
                 int endtime = msg.arg1;
                 int currentPosition = mediaPlayer.getCurrentPosition();
+                Logger.d("点读本实时音频：" + currentPosition);
                /*实时在endtime区间内 停止音频播放*/
                 if (((endtime - 500) < (currentPosition)) && ((currentPosition) < (endtime + 500))) {
+                    /*停止音频播放*/
                     mediaPlayer.stop();
                     mediaPlayer.reset();
-
-                    if ( currentPointReadView.mAnimation!=null){
-                        currentPointReadView. mAnimation.cancel();
-                        currentPointReadView.scaleimageView.clearAnimation();
-                        fr_read_show.removeView(currentPointReadView.scaleimageView);
-                    }
-
-//                    /*播放完毕背景置成红色*/
-//                    currentPointReadView.setBackgroundResource(R.drawable.select_readingbook_bg_red);
-
-//                    if (isPointRead == false) {
-//                        readingFlag++;
-//                        continuousReading();
-//                        if (readingFlag > mPointReadViewList.size()) {
-//                            currentPointReadView = null;
-//                            readingFlag = 0;
-//                            return;
-//                        }
-//                    }
+                    timer.cancel();
+                    timer = null;
+                    /*清除动画*/
+                    currentPointReadView.cleanAnimotion();
                 }
-//                Logger.d("实时：" + currentPosition);
             }
             if (msg.what == 1) {/*获取图片原始的尺寸*/
 
@@ -159,8 +142,6 @@ public class ReadingBookFragment extends FxFragment implements
                     /*设置点读View的x y点坐标*/
                     pointReadView.setmPointX((int) (xPoint * loadWidth / selfWidth));
                     pointReadView.setmPointY((int) (yPoint * loadHeight / selfHeight));
-//                    Logger.d(" (xPoint * loadWidth / selfWidth):" + (int) (xPoint * loadWidth / selfWidth) + "    (yPoint * loadHeight / selfHeight)" + (int) (yPoint * loadHeight / selfHeight));
-
                     params.setMargins(
                             (int) (xPoint * loadWidth / selfWidth),
                             (int) (yPoint * loadHeight / selfHeight), 0, 0);
@@ -175,8 +156,6 @@ public class ReadingBookFragment extends FxFragment implements
         }
 
     };
-    private MediaPlayer mediaPlayer;
-
 
 
     /*下载点读本mp3*/
@@ -191,25 +170,6 @@ public class ReadingBookFragment extends FxFragment implements
             }
         });
     }
-
-
-    TimerTask timerTask = new TimerTask() {
-        @Override
-        public void run() {
-            if (mediaPlayer != null) {
-                if (mediaPlayer.isPlaying()) {
-                    Message msg = Message.obtain();
-                    if (currentPointReadView != null) {
-                        msg.arg1 = Integer.parseInt(currentPointReadView.getBePlayReadingBook().getEnd_time());
-//                        Logger.d("实时获取结束时间" + currentPointReadView.getBePlayReadingBook().getEnd_time());
-                    }
-                    msg.what = 0;
-                    handler.sendMessage(msg); // 发送消息
-                }
-            }
-        }
-    };
-
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -233,12 +193,6 @@ public class ReadingBookFragment extends FxFragment implements
             if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + sMp3)) {
                 downloadReadingBook();
             }
-
-        }
-        //参数2：延迟200毫秒发送，参数3：每隔200毫秒秒发送一下
-        if (timer == null) {
-            timer = new Timer();
-            timer.schedule(timerTask, 200, 200);
 
         }
         readingBookFragment = this;
@@ -268,8 +222,7 @@ public class ReadingBookFragment extends FxFragment implements
     public void onStop() {
         super.onStop();
 
-        if (mediaPlayer != null &&
-                mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
         }
     }
@@ -281,13 +234,28 @@ public class ReadingBookFragment extends FxFragment implements
             timer.cancel();
             timer = null;
         }
-        if (mediaPlayer != null &&
-                mediaPlayer.isPlaying()) {
-
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
         }
     }
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //相当于Fragment的onResume
+        } else {
+            //相当于Fragment的onPause
+            if (timer != null) {
+                timer.cancel();
+                timer = null;
+            }
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                mediaPlayer.pause();
+                /*清除动画*/
+                currentPointReadView.cleanAnimotion();
+            }
+        }
+    }
     /*加载网络图片*/
     private void loadImageView() {
         //获取图片自己本身的尺寸
@@ -309,39 +277,39 @@ public class ReadingBookFragment extends FxFragment implements
 
     }
 
-//    private Boolean allowPointRead = false;// 控制动画结束后再点击
 
     /*点读点击事件*/
     @Override
-    public void getPointReadView(PointReadView pointReadView, BeReadingBookPageDataItem bePlayReadingBook, MotionEvent event) {
-
-        /*循环移除所有动画*/
+    public void getPointReadView(PointReadView pointReadView, BeReadingBookPageDataItem bePlayReadingBook) {
+        /*清除动画*/
         for (int i = 0; i < mPointReadViewList.size(); i++) {
             mPointReadViewList.get(i).cleanAnimotion();
         }
-
         /*显示翻译*/
         mShow.setVisibility(View.VISIBLE);
         /*设置中文翻译*/
         mTranslate.setText(pointReadView.getBePlayReadingBook().getChinese());
-
         this.currentPointReadView = pointReadView;
-
+        /*开启动画*/
         pointReadView.startAnimotion(mItemBitmap);
-
+        /*播放音频文件*/
         if (!media_url.equals("")) {
             /*文件名以MD5加密*/
             String mp3Name = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
 
             if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + mp3Name)) {
-            /*读取本地*/
+                /*读取本地*/
                 Mp3seekTo(KidConfig.getInstance().getPathPointRedaing() + mp3Name, Integer.parseInt(bePlayReadingBook.getStart_time()));
 
             } else {
-             /*读取网络*/
+                /*读取网络*/
                 Mp3seekTo(media_url, Integer.parseInt(bePlayReadingBook.getStart_time()));
             }
         }
+//        else {
+//            Toast.makeText(getActivity(), "请在PC端上传音频文件", Toast.LENGTH_SHORT).show();
+//        }
+
     }
      /*指定播放位置 毫秒*/
 
@@ -369,6 +337,23 @@ public class ReadingBookFragment extends FxFragment implements
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mediaPlayer.start();
+                //参数2：延迟200毫秒发送，参数3：每隔200毫秒秒发送一下
+                if (timer == null) {
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            Message msg = Message.obtain();
+                            if (currentPointReadView != null) {
+                                msg.arg1 = Integer.parseInt(currentPointReadView.getBePlayReadingBook().getEnd_time());
+//                        Logger.d("实时获取结束时间" + currentPointReadView.getBePlayReadingBook().getEnd_time());
+                            }
+                            msg.what = 0;
+                            handler.sendMessage(msg); // 发送消息
+
+                        }
+                    }, 200, 200);
+                }
             }
 
         });

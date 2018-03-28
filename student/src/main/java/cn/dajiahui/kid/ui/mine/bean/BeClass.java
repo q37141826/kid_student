@@ -21,6 +21,12 @@ public class BeClass extends BeanObj {
     private String is_in_class;
     private String is_in_class_msg;
 
+    private int status;//加入班级的状态
+
+    public int getStatus() {
+        return status;
+    }
+
     public String getId() {
         return id;
     }

@@ -87,6 +87,7 @@ public class FrChat extends EaseConversationListFragment {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        /*弹出删除会话的框*/
         getActivity().getMenuInflater().inflate(R.menu.em_delete_message, menu);
     }
 

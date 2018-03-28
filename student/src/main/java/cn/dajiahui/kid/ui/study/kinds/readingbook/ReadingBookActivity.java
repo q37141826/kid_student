@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.squareup.okhttp.Request;
@@ -179,7 +180,7 @@ public class ReadingBookActivity extends FxActivity {
 
         @Override
         public void onResponse(String response) {
-//            Logger.d("点读本：" + response);
+            Logger.d("点读本：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {

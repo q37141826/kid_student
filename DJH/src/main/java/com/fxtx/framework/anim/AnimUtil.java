@@ -219,7 +219,7 @@ public class AnimUtil {
         scal.setFillAfter(true);
 
         scaleimageView.startAnimation(scal);
-        scaleimageView.invalidate();
+//        scaleimageView.invalidate();
         return scal;
     }
 

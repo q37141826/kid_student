@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
@@ -22,7 +21,7 @@ import cn.dajiahui.kid.ui.study.bean.BeReadingBookPageDataItem;
  * 点读的view
  */
 
-public class PointReadView extends RelativeLayout implements View.OnTouchListener {
+public class PointReadView extends RelativeLayout implements View.OnClickListener {
 
     private Context context;
     private int position;
@@ -68,11 +67,12 @@ public class PointReadView extends RelativeLayout implements View.OnTouchListene
         this.position = position;
         this.bePlayReadingBook = bePlayReadingBook;
         this.pointReadView = pointReadView;
+
         this.fr_read_show = fr_read_show;
         bePlayReadingBook.getWidth();
 //        this.setBackgroundResource(R.drawable.select_readingbook_bg_red);
-//        this.setOnClickListener(this);
-        this.setOnTouchListener(this);
+        this.setOnClickListener(this);
+//        this.setOnTouchListener(this);
 
     }
 
@@ -82,14 +82,10 @@ public class PointReadView extends RelativeLayout implements View.OnTouchListene
     }
 
 
-    //    @Override
-//    public void onClick(View v) {
-//        pointReadView.getPointReadView((PointReadView) v, bePlayReadingBook);
-//    }
     /*设置动画*/
     public void startAnimotion(Bitmap mItemBitmap) {
 
-      /*设置放大动画*/
+        /*设置放大动画*/
         Matrix matrix = new Matrix();
         matrix.postScale(3, 3);// 缩放比例
         mScaleBitmap = BitmapUtil.createBitmap(mItemBitmap, this.mPointX, this.mPointY, this.mPointViewWidth, this.mPointViewHeight, matrix, true);
@@ -100,14 +96,11 @@ public class PointReadView extends RelativeLayout implements View.OnTouchListene
         /*设置动画显示位置*/
         params.setMargins(this.mPointX, this.mPointY, 0, 0);
 
-//      Logger.d("pointReadView.mPointX:" + pointReadView.mPointX + "  pointReadView.mPointY" + pointReadView.mPointY);
-
         scaleimageView.setLayoutParams(params);
         /*添加view到父布局上*/
         fr_read_show.addView(scaleimageView);
-        /*设置动画时间*/
-//        int i1 = Integer.parseInt(bePlayReadingBook.getEnd_time()) - Integer.parseInt(bePlayReadingBook.getStart_time());
 
+        /*设置动画时间*/
         AnimUtil.magnifyingAnimation(scaleimageView, 1000).
                 setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -117,40 +110,39 @@ public class PointReadView extends RelativeLayout implements View.OnTouchListene
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        mAnimation = animation;
                     }
 
                     @Override
                     public void onAnimationRepeat(Animation animation) {
                     }
                 });
-
     }
 
 
-    /*清除动画*/
+     /*清除动画*/
     public void cleanAnimotion() {
         if (scaleimageView != null && mScaleBitmap != null && mAnimation != null) {
             mAnimation.cancel();
             scaleimageView.clearAnimation();
             fr_read_show.removeView(scaleimageView);
-//            animotion = false;
             if (mScaleBitmap != null) {
                 mScaleBitmap.recycle();
                 mScaleBitmap = null;
             }
         }
-
     }
 
+
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        pointReadView.getPointReadView((PointReadView) v, bePlayReadingBook, event);
-        return true;
+    public void onClick(View v) {
+        pointReadView.getPointReadView((PointReadView) v, bePlayReadingBook);
     }
 
 
     public interface GetPointReadView {
-        public void getPointReadView(PointReadView pointReadView, BeReadingBookPageDataItem bePlayReadingBook, MotionEvent event);
+        public void getPointReadView(PointReadView pointReadView, BeReadingBookPageDataItem bePlayReadingBook);
     }
+
+
 }
+

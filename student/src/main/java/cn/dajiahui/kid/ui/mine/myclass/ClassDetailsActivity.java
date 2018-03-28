@@ -104,26 +104,39 @@ public class ClassDetailsActivity extends FxActivity {
                 /* 解析班级信息 */
                 classInfo = json.parsingObject(BeClass.class);
                 if (classInfo != null) {
+                    switch (classInfo.getStatus()) {
 
+                        case 0:
+                            tvaddclass.setText("已申请");
+                            break;
+                        case 1:
+                            tvaddclass.setText("加入班级");
+
+                            break;
+                        case 2:
+                            tvaddclass.setText("待审核");
+                            break;
+                        case 3:
+                            tvaddclass.setText("加入班级");
+
+                            break;
+                        case 5:
+                            tvaddclass.setText("已经满班");
+                            break;
+
+                    }
                     re_task_second.setVisibility(View.VISIBLE);
                     tvclasscode.setText("班级码：" + classInfo.getCode());
                     tvschool.setText("学校：" + classInfo.getSchool_name());
-                    /*已经加入的班级隐藏了加入班级按钮*/
-                    if (!classInfo.getIs_in_class().equals("0")) {
-                        tvaddclass.setText("已加入此班级");
-                        tvaddclass.setFocusable(false);
-//                        tvaddclass.setVisibility(View.INVISIBLE);
-                    }
                     tvclassname.setText(classInfo.getClass_name());
                     tvteacher.setText("老师：" + classInfo.getTeacher_name());
+
                     classID = classInfo.getId();
-                } else {
-                    mTvNUll.setText("班级不存在");
-                    mTvNUll.setVisibility(View.VISIBLE);
                 }
 
             } else {
                 ToastUtil.showToast(context, json.getMsg());
+                finishActivity();
             }
         }
     };

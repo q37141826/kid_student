@@ -60,8 +60,8 @@ public class FrHomework extends FxFragment {
         refresh = getView(R.id.refresh);
         tvNUll.setOnClickListener(onClick);
         mListview.setEmptyView(tvNUll);
+        homeworkHttp();
         initRefresh(refresh);
-
         apHomework = new ApHomework(getActivity(), mHomeWorklists);//
         mListview.setAdapter(apHomework);
 
@@ -108,7 +108,7 @@ public class FrHomework extends FxFragment {
     @Override
     public void onResume() {
         super.onResume();
-        homeworkHttp();
+
     }
 
     /*网络请求*/

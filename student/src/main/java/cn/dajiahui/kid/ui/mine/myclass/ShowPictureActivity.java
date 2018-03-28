@@ -32,6 +32,7 @@ public class ShowPictureActivity extends BaseActivity {
     private int mScaleX;
     private int mTop;
     private int mLeft;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +109,7 @@ public class ShowPictureActivity extends BaseActivity {
             }
         });
     }
+
     private void activityEnterAnim() {
         mImgShow.setPivotX(0);
         mImgShow.setPivotY(0);
@@ -116,10 +118,10 @@ public class ShowPictureActivity extends BaseActivity {
         mImgShow.setTranslationX(mLeft);
         mImgShow.setTranslationY(mTop);
         mImgShow.animate().scaleX(1).scaleY(1).translationX(0).translationY(0).
-                setDuration(500).setInterpolator(new DecelerateInterpolator()).start();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(mBackground,"alpha",255,255);
+                setDuration(200).setInterpolator(new DecelerateInterpolator()).start();
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(mBackground, "alpha", 255, 255);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
-        objectAnimator.setDuration(500);
+        objectAnimator.setDuration(200);
         objectAnimator.start();
     }
 
@@ -128,10 +130,10 @@ public class ShowPictureActivity extends BaseActivity {
         mImgShow.setPivotY(0);
         mImgShow.animate().scaleX(mScaleX).scaleY(mScaleY).translationX(mLeft).translationY(mTop).
                 withEndAction(runnable).
-                setDuration(500).setInterpolator(new DecelerateInterpolator()).start();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(mBackground,"alpha",255,255);
+                setDuration(200).setInterpolator(new DecelerateInterpolator()).start();
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(mBackground, "alpha", 255, 255);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
-        objectAnimator.setDuration(500);
+        objectAnimator.setDuration(200);
         objectAnimator.start();
     }
 

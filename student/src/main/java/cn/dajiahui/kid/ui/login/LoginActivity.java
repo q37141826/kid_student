@@ -28,7 +28,9 @@ public class LoginActivity extends FxActivity {
         setContentView(R.layout.activity_login);
         edUser = getView(R.id.edUser);
         edUser.addTextChangedListener(new MaxLenghtWatcher(AppSet.login_maxlenght, edUser, context));
+//        edUser.setHintTextColor(Color.argb(40, 255, 255, 255));   //文字透明度
         edPwd = getView(R.id.edPwd);
+//        edPwd.setHintTextColor(Color.argb(40, 255, 255, 255));   //文字透明度
         edPwd.addTextChangedListener(new MaxLenghtWatcher(AppSet.login_maxlenght, edPwd, context));
         getView(R.id.btn_login).setOnClickListener(onClick);
         getView(R.id.regisTv).setOnClickListener(onClick);

@@ -55,6 +55,7 @@
             android:layout_below="@id/image"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="47dp"
+
             android:background="@null"
             android:cursorVisible="true"
             android:drawableLeft="@drawable/ico_phone"
@@ -63,7 +64,7 @@
             android:lineSpacingExtra="8dp"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textColorHint="@color/whilte_gray"
+            android:textColorHint="#ffe1a7"
             android:textCursorDrawable="@null"
             android:textSize="@dimen/text16"/>
 
@@ -105,7 +106,7 @@
             android:password="true"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textColorHint="@color/whilte_gray"
+            android:textColorHint="#ffe1a7"
             android:textCursorDrawable="@null"
             android:textSize="@dimen/text16"/>
 
