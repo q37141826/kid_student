@@ -52,7 +52,6 @@ public class DoPraticeActivity extends FxActivity
 
     private int praticeCurrentPosition = 0;//当前页面的索引
     private Map<Integer, ExBaseHomeworkFragment> frMap = new HashMap();//保存每个不同类型的Fragment
-//    private HashMap<Integer, Object> PageMap = new HashMap();//保存每一页的页数和数据
 
     private List<QuestionModle> mdata;/*数据源*/
     private List<Object> mDatalist;
@@ -190,17 +189,17 @@ public class DoPraticeActivity extends FxActivity
                             QuestionModle questionModle = (QuestionModle) mDatalist.get(praticeCurrentPosition);
 
                             if (questionModle != null && questionModle.isAnswer() == true && questionModle.getAnswerflag().equals("true")) {
+
                                 praticeCurrentPosition++;
+
                                  /*跳转下一题*/
                                 mViewpager.setCurrentItem(praticeCurrentPosition);
 
                                 changeBtnY();
-
                                 return;
                             }
 
                             if (questionModle != null && questionModle.isAnswer() == false && questionModle.getAnswerflag().equals("true")) {
-//                            Toast.makeText(context, "保存第" + (praticeCurrentPosition + 1) + "题数据", Toast.LENGTH_SHORT).show();
                                 questionModle.setAnswer(true);//设置提交答案  true 答过 false 未作答
                             /*判断*/
                                 if (questionModle.getQuestion_cate_id().equals(Constant.Judje)) {
@@ -250,28 +249,8 @@ public class DoPraticeActivity extends FxActivity
                             /*填空题*/
                                 else if (questionModle.getQuestion_cate_id().equals(Constant.Completion)) {
 
-//                                    int mHNum = 0;//㊒字计数
-//
-//                                    for (int i = 0; i < questionModle.getmCompletionAllMap().size(); i++) {
-//                                        if (questionModle.getmCompletionAllMap().get(i) != null) {
-//                                            Map<Integer, String> integerStringMap = questionModle.getmCompletionAllMap().get(i);
-//                                            for (int m = 0; m < integerStringMap.size(); m++) {
-//                                                String s = integerStringMap.get(m);
-//                                                if (s.equals("㊒")) {
-//                                                    mHNum++;
-//                                                    break;
-//                                                }
-//                                            }
-//                                        } else {
-//                                            mHNum++;
-//                                            break;
-//                                        }
-//                                    }
-//                                  /*必须全部回答才可以*/
-//                                    if (mHNum == 0) {
-                                        ExCompletionFragment exCompletionFragment = (ExCompletionFragment) frMap.get(praticeCurrentPosition);
-                                        exCompletionFragment.submitHomework(questionModle);
-//                                    }
+                                    ExCompletionFragment exCompletionFragment = (ExCompletionFragment) frMap.get(praticeCurrentPosition);
+                                    exCompletionFragment.submitHomework(questionModle);
                                 }
 
                               /*改变按钮的颜色 变成灰色 再点击就是下一个题*/
@@ -467,8 +446,16 @@ public class DoPraticeActivity extends FxActivity
 
     /*练习 改变按钮的颜色*/
     public void changeBtnN() {
-        btncheck.setText("NEXT");
-        changeBtnBgYellow();
+        /*最后一题显示END*/
+        if (praticeCurrentPosition + 1 == mdata.size()) {
+            btncheck.setText("END");
+            changeBtnBgGray();
+            btncheck.setClickable(false);
+        } else {
+            btncheck.setText("NEXT");
+            changeBtnBgYellow();
+
+        }
     }
 
     /*练习 改变按钮的颜色*/

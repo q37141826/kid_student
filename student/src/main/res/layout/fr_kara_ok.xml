@@ -43,28 +43,28 @@
         android:background="@drawable/round_bgyellow_10"
        />
 
-    <LinearLayout
-        android:id="@+id/singok_root"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_look"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:visibility="invisible">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/singok_root"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/btn_look"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:visibility="invisible">-->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/singok"/>
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:src="@drawable/singok"/>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:text="已唱完"
-            android:textColor="@color/white"/>
-    </LinearLayout>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:text="已唱完"-->
+            <!--android:textColor="@color/white"/>-->
+    <!--</LinearLayout>-->
 
 </RelativeLayout>
 

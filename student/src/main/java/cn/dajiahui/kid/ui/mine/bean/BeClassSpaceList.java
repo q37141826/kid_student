@@ -14,6 +14,11 @@ public class BeClassSpaceList {
     private String id;
     private String pic_cnt;
     private List<String> img_url;
+    private List<String> thumbnail;
+
+    public List<String> getThumbnail() {
+        return thumbnail;
+    }
 
     public String getClass_name() {
         return class_name;

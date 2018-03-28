@@ -48,6 +48,7 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
             Map<Integer, String> inputContainer,
             CompletionQuestionModle inbasebean,
             List<List<CompletionQuestionadapterItemModle>> showRightList) {
+        this.haveFocus = inbasebean.getIsFocusable();
         this.inbasebean = inbasebean;
         this.inputContainer = inputContainer;
         this.IsShowRightAnswer = inbasebean.getIsShowRightAnswer();
@@ -175,7 +176,7 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
 
 
         /*清空焦点*/
-        if (haveFocus.equals("false")) {
+        if (haveFocus.equals("no")) {
             holderView.editext.setClickable(false);
             holderView.editext.setFocusable(false);
         }

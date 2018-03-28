@@ -49,6 +49,7 @@ public class DjhJumpUtil extends JumpUtil {
     public final int activity_makekalaok_out = 7510;//录制完成之后点击返回键 与左上角返回键
     public final int activity_makebookdrame = 7530;//制作课本剧
     public final int activity_makebookdrame_out = 7520;//录制完成之后点击返回键 与左上角返回键
+    public final int activity_makekalaok_preview_out = 7530;//预览界面退出
 
     public final int activity_searchclass = 7600;//搜索班级
     public final int activtiy_Notice = 1008;//我的通知

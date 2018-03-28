@@ -262,6 +262,10 @@ public class MakeKraoOkeActivity extends FxActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Logger.d("MakeKraoOkeActivity---------------onDestroy");
+        /*应该刷新课卡拉OK的数据*/
+
+
          /*暂停播放的背景音*/
         PlayMedia.getPlaying().mediaPlayer.stop();
         mVideoView.stopPlayback();
@@ -424,7 +428,10 @@ public class MakeKraoOkeActivity extends FxActivity {
 
         /*制作成功后按返回键 与 左上角退出视频*/
         if (requestCode == DjhJumpUtil.getInstance().activity_makekalaok_request && resultCode == DjhJumpUtil.getInstance().activity_makekalaok_out) {
+
             finishActivity();
         }
     }
+
+
 }

@@ -215,5 +215,4 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
         }
     }
 
-
 }

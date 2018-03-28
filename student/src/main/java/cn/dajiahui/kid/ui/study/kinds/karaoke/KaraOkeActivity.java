@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.study.kinds.karaoke;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -92,6 +93,7 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
             map.put(position, karaOkeFragment);
             Bundle bundle = new Bundle();
 
+            bundle.putInt("position", position);
             bundle.putSerializable("BePageData", beKaraOk.getPage_data().get(position));
             karaOkeFragment.setArguments(bundle);
             return karaOkeFragment;
@@ -227,5 +229,9 @@ public class KaraOkeActivity extends FxActivity implements ViewPager.OnPageChang
         }
     }
 
-
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        Logger.d("KaraOkeActivity:------------startActivityForResult");
+    }
 }

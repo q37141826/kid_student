@@ -1,13 +1,14 @@
 package cn.dajiahui.kid.ui.study.kinds.karaoke;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fxtx.framework.file.FileUtil;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 
 import cn.dajiahui.kid.R;
@@ -38,7 +39,8 @@ public class KaraOkeFragment extends LazyLoadFragment {
     private RelativeLayout videoplayerroot;
     private Button btn_look;
     private BePageDataWork beKaraOkPageData;
-    private LinearLayout singok_root;
+    private int position;//当前fragment的索引
+    //    private LinearLayout singok_root;
 
 
     @Override
@@ -51,6 +53,7 @@ public class KaraOkeFragment extends LazyLoadFragment {
         Bundle bundle = getArguments();
         /*先获取数据*/
         beKaraOkPageData = (BePageDataWork) bundle.get("BePageData");
+        position = bundle.getInt("position");
         initialize();
         /*获取Mp4视频名称和背景音名称*/
         String sMp4 = MD5.getMD5(beKaraOkPageData.getPage_url().substring(beKaraOkPageData.getPage_url().lastIndexOf("/"))) + ".mp4";
@@ -70,10 +73,10 @@ public class KaraOkeFragment extends LazyLoadFragment {
 
         tvunit.setText(beKaraOkPageData.getTitle());
 
-        /*已经唱完*/
-        if (beKaraOkPageData.getMy_work_status().equals("1")) {
-            singok_root.setVisibility(View.VISIBLE);
-        }
+//        /*已经唱完*/
+//        if (beKaraOkPageData.getMy_work_status().equals("1")) {
+//            singok_root.setVisibility(View.VISIBLE);
+//        }
 
     }
 
@@ -124,7 +127,7 @@ public class KaraOkeFragment extends LazyLoadFragment {
         mVideoplayer = findViewById(R.id.videoplayer);
         videoplayerroot = findViewById(R.id.videoplayerroot);
         btn_look = findViewById(R.id.btn_look);
-        singok_root = findViewById(R.id.singok_root);
+//        singok_root = findViewById(R.id.singok_root);
 
         btn_look.setOnClickListener(onClick);
 
@@ -155,7 +158,7 @@ public class KaraOkeFragment extends LazyLoadFragment {
             } else {
                 /*跳转制作卡拉OK页面*/
                 bundle.putSerializable("BePageDataWork", beKaraOkPageData);
-                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MakeKraoOkeActivity.class, bundle, 0);
+                DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), MakeKraoOkeActivity.class, bundle, DjhJumpUtil.getInstance().activity_makekalaok_preview_out);
             }
 
         }
@@ -174,5 +177,23 @@ public class KaraOkeFragment extends LazyLoadFragment {
         super.onResume();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        /*保存作品成功之后就退出activity*/
+        if (isVisibleToUser) {
+            //相当于Fragment的onResume
+            Logger.d(" KaraOkeFragment 相当于Fragment的onResume");
+        } else {
+            Logger.d("KaraOkeFragment  相当于Fragment的onPause");
+            //相当于Fragment的onPause
+        }
+    }
 
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+
+        Logger.d(" startActivityForResult   ------KaraOkeFragment ");
+    }
 }

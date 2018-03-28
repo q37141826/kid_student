@@ -1,7 +1,10 @@
 package cn.dajiahui.kid.ui.study.kinds.textbookdrama;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +22,8 @@ import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.platforms.umeng.BeShareContent;
 import com.fxtx.framework.platforms.umeng.UmengShare;
 import com.fxtx.framework.ui.FxActivity;
+import com.fxtx.framework.util.ActivityUtil;
+import com.fxtx.framework.widgets.dialog.FxDialog;
 import com.squareup.okhttp.Request;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -74,6 +79,44 @@ public class TextBookSuccessActivity extends FxActivity {
     private UmengShare umengShare;
     private BeShareContent beShareContent;
 
+    @SuppressLint("HandlerLeak")
+    public Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+/**/
+            switch (msg.what) {
+
+                case 1:
+                    FxDialog fxDialog = new FxDialog(TextBookSuccessActivity.this) {
+                        @Override
+                        public void onRightBtn(int flag) {
+                               /*弹框作品未保存是否退出*/
+                            ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
+                            ActivityUtil.getInstance().finishActivity(MakeKraoOkeActivity.class);
+                            dismiss();
+                        }
+
+                        @Override
+                        public void onLeftBtn(int flag) {
+
+                            dismiss();
+                        }
+                    };
+                    fxDialog.setMessage("作品未保存,是否退出？");
+                    fxDialog.show();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void initView() {
@@ -89,7 +132,7 @@ public class TextBookSuccessActivity extends FxActivity {
         }
 
         if (makeTextBookDrma.equals("MakeTextBookDrma")) {
-            CLOSE="MakeTextBookDrma";
+            CLOSE = "MakeTextBookDrma";
               /*显示分享布局  要分享成功后显示*/
             shareRoot.setVisibility(View.INVISIBLE);
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
@@ -108,7 +151,7 @@ public class TextBookSuccessActivity extends FxActivity {
 
 
         } else if (makeTextBookDrma.equals("MakeKraoOke")) {
-            CLOSE="MakeKraoOke";
+            CLOSE = "MakeKraoOke";
             /*显示分享布局  要分享成功后显示*/
             shareRoot.setVisibility(View.INVISIBLE);
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
@@ -324,6 +367,7 @@ public class TextBookSuccessActivity extends FxActivity {
                                 "", beGoTextBookSuccess.getUserName());
 
                     } else if (makeTextBookDrma.equals("MakeKraoOke")) {
+
                         showfxDialog("文件上传中，请稍等...");
 
                         String sKraoOke = mineWorksTempPath.substring(mineWorksTempPath.lastIndexOf("/"));
@@ -368,9 +412,11 @@ public class TextBookSuccessActivity extends FxActivity {
             if (json.getstatus() == 0) {
                 beUpdateMIneWorks = json.parsingObject(BeUpdateMIneWorks.class);
                 if (makeTextBookDrma.equals("MakeTextBookDrma")) {
+                    CLOSE = "MakeTextBookDrmaSuccess";
                     /*设置分享信息*/
                     setShareContent(beUpdateMIneWorks.getShareUrl(), "魔耳英语作品分享", beUpdateMIneWorks.getThumbnail(), "我分享了" + beGoTextBookSuccess.getUserName() + "的作品，快来看看吧！");
                 } else if (makeTextBookDrma.equals("MakeKraoOke")) {
+                    CLOSE = "MakeKraoOkeSuccess";
                    /*设置分享信息*/
                     setShareContent(beUpdateMIneWorks.getShareUrl(), "魔耳英语作品分享", beUpdateMIneWorks.getThumbnail(), "我分享了" + beGoTextBookSuccess.getUserName() + "的作品，快来看看吧！");
                 }
@@ -476,5 +522,6 @@ public class TextBookSuccessActivity extends FxActivity {
         }
         return super.onKeyUp(keyCode, event);
     }
+
 
 }

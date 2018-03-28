@@ -45,7 +45,7 @@ public class ApClassSpace extends CommonAdapter<BeClassSpaceList> {
         TextView tv_content = viewHolder.getView(R.id.tv_content);
         grildview = viewHolder.getView(R.id.grildview);
 
-        ApClassSpacepicture apClassSpacepicture = new ApClassSpacepicture(this.context, item.getImg_url());
+        ApClassSpacepicture apClassSpacepicture = new ApClassSpacepicture(this.context, item.getThumbnail());
 
         grildview.setAdapter(apClassSpacepicture);
         /*图片item的点击事件*/

@@ -5,9 +5,10 @@ import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.util.ActivityUtil;
+import com.fxtx.framework.widgets.dialog.FxDialog;
 
+import cn.dajiahui.kid.ui.study.kinds.karaoke.KaraOkeActivity;
 import cn.dajiahui.kid.ui.study.kinds.karaoke.MakeKraoOkeActivity;
 import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
@@ -20,13 +21,16 @@ public class JCVideoPlayerTextScuessBook extends JCVideoPlayerStandard {
     private OnDuration onDuration;
     private Context context;
 
+
     public JCVideoPlayerTextScuessBook(Context context) {
         super(context);
         this.context = context;
+
     }
 
     public JCVideoPlayerTextScuessBook(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
     }
 
     @Override
@@ -45,18 +49,64 @@ public class JCVideoPlayerTextScuessBook extends JCVideoPlayerStandard {
         super.onClick(v);
         if (v.getId() == fm.jiecao.jcvideoplayer_lib.R.id.back) {
             if (currentScreen != SCREEN_WINDOW_FULLSCREEN) {
+                /*制作卡拉ok未上传服务器退出*/
                 if (TextBookSuccessActivity.CLOSE.equals("MakeKraoOke")) {
-                    ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
+//                    TextBookSuccessActivity.mHandler.sendEmptyMessage(1);
+                    FxDialog fxDialog = new FxDialog(context ) {
+                        @Override
+                        public void onRightBtn(int flag) {
+                               /*弹框作品未保存是否退出*/
+                            ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
+                            ActivityUtil.getInstance().finishActivity(MakeKraoOkeActivity.class);
+                            dismiss();
+                        }
+
+                        @Override
+                        public void onLeftBtn(int flag) {
+
+                            dismiss();
+                        }
+                    };
+                    fxDialog.setMessage("作品未保存,是否退出？");
+                    fxDialog.show();
+                }
+                /*制作课本剧未上传服务器退出*/
+                else if (TextBookSuccessActivity.CLOSE.equals("MakeTextBookDrma")) {
+
+                    FxDialog fxDialog = new FxDialog(context) {
+                        @Override
+                        public void onRightBtn(int flag) {
+                               /*弹框作品未保存是否退出*/
+                            ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
+                            ActivityUtil.getInstance().finishActivity(MakeTextBookDrmaActivity.class);
+                            dismiss();
+                        }
+
+                        @Override
+                        public void onLeftBtn(int flag) {
+
+                            dismiss();
+                        }
+                    };
+                    fxDialog.setMessage("作品未保存,是否退出？");
+                    fxDialog.show();
+
+                }
+                /*制作卡拉ok上传服务器成功然后退出*/
+                else if (TextBookSuccessActivity.CLOSE.equals("MakeKraoOkeSuccess")) {
+
+                    ActivityUtil.getInstance().finishActivity(KaraOkeActivity.class);
                     ActivityUtil.getInstance().finishActivity(MakeKraoOkeActivity.class);
-                } else if (TextBookSuccessActivity.CLOSE.equals("MakeTextBookDrma")) {
                     ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
+                }
+                  /*制作课本剧未上传服务器成功然后退出*/
+                else if (TextBookSuccessActivity.CLOSE.equals("MakeTextBookDrmaSuccess")) {
+                    ActivityUtil.getInstance().finishActivity(TextBookDramaActivity.class);
                     ActivityUtil.getInstance().finishActivity(MakeTextBookDrmaActivity.class);
+                    ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
                 } else {
                     ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
                 }
-
-
-                Logger.d("视频返回键");
             }
 
         }
@@ -79,7 +129,6 @@ public class JCVideoPlayerTextScuessBook extends JCVideoPlayerStandard {
         clarity.setVisibility(GONE);//
         thumbImageView.setVisibility(GONE);//
         battery_level.setVisibility(GONE);
-//        fullscreenButton.setVisibility(GONE);//全屏按钮
     }
 
     public void videoSeekTo(int time) {
