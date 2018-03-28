@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.chivox.cube.util.FileHelper;
@@ -135,6 +136,19 @@ public class MainActivity extends FxTabActivity {
         return frHomework;
     }
 
+    /**
+     * 修改radionButton的文字颜色
+     * @param buttonId
+     */
+    private void changeRadioButtonTextColor(int buttonId) {
+        ((RadioButton)findViewById(R.id.rediobtn_task)).setTextColor(this.getResources().getColor(R.color.text_gray));
+        ((RadioButton)findViewById(R.id.rediobtn_study)).setTextColor(this.getResources().getColor(R.color.text_gray));
+        ((RadioButton)findViewById(R.id.rediobtn_chat)).setTextColor(this.getResources().getColor(R.color.text_gray));
+        ((RadioButton)findViewById(R.id.rediobtn_mine)).setTextColor(this.getResources().getColor(R.color.text_gray));
+
+        ((RadioButton)findViewById(buttonId)).setTextColor(this.getResources().getColor(R.color.yellow_light));
+    }
+
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
@@ -145,8 +159,10 @@ public class MainActivity extends FxTabActivity {
                 switchContent(isFragment, frHomework);
                 rediobtnId = 0;
                 StatusBarCompat.compat(this, getResources().getColor(com.fxtx.framework.R.color.app_bg));
+                changeRadioButtonTextColor(checkedId);
 
                 break;
+
             case R.id.rediobtn_study:
                 if (frStudy == null) {
                     frStudy = new FrStudy();//自学
@@ -154,7 +170,10 @@ public class MainActivity extends FxTabActivity {
                 switchContent(isFragment, frStudy);
                 rediobtnId = 2;
                 StatusBarCompat.compat(this, getResources().getColor(com.fxtx.framework.R.color.app_bg_b));
+                changeRadioButtonTextColor(checkedId);
+
                 break;
+
             case R.id.rediobtn_chat:
                 if (frChat == null) {
                     frChat = new FrChat();//沟通
@@ -162,7 +181,10 @@ public class MainActivity extends FxTabActivity {
                 switchContent(isFragment, frChat);
                 rediobtnId = 3;
                 StatusBarCompat.compat(this, getResources().getColor(com.fxtx.framework.R.color.app_bg));
+                changeRadioButtonTextColor(checkedId);
+
                 break;
+
             case R.id.rediobtn_mine:
                 if (frMine == null) {
                     frMine = new FrMine();//我的
@@ -170,7 +192,10 @@ public class MainActivity extends FxTabActivity {
                 switchContent(isFragment, frMine);
                 rediobtnId = 4;
                 StatusBarCompat.compat(this, getResources().getColor(com.fxtx.framework.R.color.app_bg_b));
+                changeRadioButtonTextColor(checkedId);
+
                 break;
+
             default:
                 break;
         }
