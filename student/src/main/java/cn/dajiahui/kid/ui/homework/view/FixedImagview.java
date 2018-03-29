@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 
 
@@ -31,8 +31,10 @@ public class FixedImagview extends RelativeLayout {
     public FixedImagview(Context context, int pic, int position, List<String> mContentList, SortQuestionModle inbasebean) {
         super(context);
         this.context = context;
+           /*屏幕宽度*/
+//        int widthPixels = BaseUtil.getWidthPixels((Activity) context);
         ImageView imageView = new ImageView(context);
-        LayoutParams iparams = new LayoutParams(150, 150);
+        LayoutParams iparams = new LayoutParams(Constant.ScreenWidth/5, Constant.ScreenWidth/5);
         imageView.setLayoutParams(iparams);
 
         if (inbasebean.getIs_answered().equals("0")) {
@@ -48,7 +50,7 @@ public class FixedImagview extends RelativeLayout {
                     this.addView(imageView);
                 } else {
                     TextView textView = new TextView(context);
-                    LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    LayoutParams params = new LayoutParams(Constant.ScreenWidth/5, Constant.ScreenWidth/5);
 
                     params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
                     textView.setLayoutParams(params);

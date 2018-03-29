@@ -87,9 +87,9 @@ public class PersonalStereoActivity extends FxActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setfxTtitle("随身听");
         onBackText();
         Bundle mPersonalStereoBundle = getIntent().getExtras();
+        setfxTtitle(mPersonalStereoBundle.getString("UNIT_NAME"));
         book_id = mPersonalStereoBundle.getString("BOOK_ID");
         unit_id = mPersonalStereoBundle.getString("UNIT_ID");
         initialize();
@@ -127,7 +127,6 @@ public class PersonalStereoActivity extends FxActivity {
                 if (bePersonalStereo.getPage_data().size() > 0) {
                     bePersonalStereoPageData = bePersonalStereo.getPage_data().get(0);
                     if (bePersonalStereoPageData != null) {
-                        setfxTtitle(bePersonalStereoPageData.getTitle());
                         tvunitname.setText(bePersonalStereoPageData.getMusic_name());
                         /*文件名以MD5加密*/
                         String mp3Name = MD5.getMD5(bePersonalStereoPageData.getMusic_oss_name().substring(bePersonalStereoPageData.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
@@ -36,7 +37,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
         View.OnClickListener, CheckHomework, ExMoveLocation {
 
     private SortQuestionModle inbasebean;
-    private RelativeLayout relaroot;
+    private RelativeLayout relaroot, answerroot;
     private SubmitSortFragment submit;
     int mLeftTop = 0;
     int mRightTop = 0;
@@ -49,8 +50,6 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
     private boolean calculation = false;//false 监听  测量连线题图片的左右第一个 坐标
     private final int RIGHT = 1;
     private final int LEFT = 2;
-//    private final int PREPARERIGHT = 3;//准备数据
-//    private final int PREPMINEARERIGHT = 4;//准备数据我的答案
 
     private List<BeLocation> pointRightList = new ArrayList<>(); //右视图坐标点的集合
     private List<BeLocation> pointLeftList = new ArrayList<>();//左视图位置的集合
@@ -58,17 +57,16 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
 
     private Map<Integer, BeLocation> sortMineAnswerMap = new HashMap<>();//我的答案（ isanswer=1）
     private Map<Integer, BeLocation> sortRightAnswerMap = new HashMap<>();//正确答案（ isanswer=1）
-    private TextView mRight;/*正确答案*/
-    private TextView mLeft;/*我的答案*/
+
     private TextView tv_sort, mSchedule;
     private ImageView sort_img_play;//播放器按钮
-//    private List<String> initMyanswerList = new ArrayList<>();//初始我的答案集合（用于获取我的答案顺序）
     private Map<Integer, BeLocation> mMineAnswerMap = new HashMap<>();//（isanswer=0）
     private List<String> mRightContentList;//正确答案的顺序（内容是选项图片的网址）
     private List<String> mMineContentList;//我的答案的顺序（我的答案内容是选项的网址）
     private String media;
     private String title;
     private Bundle bundle;
+
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
 
@@ -87,7 +85,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                         BeLocation beLocation = new BeLocation(pLeftX, pLeftY, leftViews.get(0).getRight(), leftViews.get(i).getBottom(), leftViews.get(0).getWidth(), leftViews.get(0).getHeight());
                         sortRightAnswerMap.put((i + 1), beLocation);
                         pointLeftList.add(beLocation);
-                        pLeftY = (pLeftY += 300);//左边所有点的y坐标
+                        pLeftY = (pLeftY += Constant.ScreenWidth / 4);//左边所有点的y坐标
                     }
 
 
@@ -102,8 +100,8 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                         BeLocation beLocation = new BeLocation(pRightX, pRightY, rightViews.get(0).getRight(), rightViews.get(i).getBottom(), rightViews.get(0).getWidth(), rightViews.get(0).getHeight());
                         sortMineAnswerMap.put((i + 1), beLocation);
                         pointRightList.add(beLocation);
-                        pRightY = (pRightY += 300);//左边所有点的y坐标
-//                        initMyanswerList.add("");
+                        pRightY = (pRightY += Constant.ScreenWidth / 4);//左边所有点的y坐标
+
                         inbasebean.getInitSortMyanswerList().add("㊒");
                     }
                     break;
@@ -113,6 +111,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             }
         }
     };
+
 
 
     @Override
@@ -178,12 +177,13 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             lp.topMargin = mRightTop;
-            mRightTop += 300;
-            lp.rightMargin = 100;
+            mRightTop += Constant.ScreenWidth / 4;
+
+            lp.rightMargin = Constant.ScreenWidth / 6;
             fixedImagview.setLayoutParams(lp);
             /*check之后*/
             if (inbasebean.isAnswer() == true) {
-                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(150, 150);
+                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(Constant.ScreenWidth / 5, Constant.ScreenWidth / 5);
                 paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
                 ImageView imageViewT = new ImageView(getActivity());
                 imageViewT.setLayoutParams(paramsT);
@@ -216,8 +216,8 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             lp.topMargin = mLeftTop;
-            mLeftTop += 300;
-            lp.leftMargin = 100;
+            mLeftTop += Constant.ScreenWidth / 4;
+            lp.leftMargin = Constant.ScreenWidth / 6;
             leftViews.add(mMoveView);
             mMoveView.setLayoutParams(lp);
             rela.addView(mMoveView); //动态添加图片
@@ -273,7 +273,6 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                     inbasebean.setAnswerflag("true");//答题标志
 
                     inbasebean.getInitSortMyanswerList().set(i, mBeforeView.val);
-//                    inbasebean.setOptions(inbasebean.getOptions());
                     submit.submitSoreFragment(inbasebean);//告诉活动每次连线的数据
 
                     return beLocation;
@@ -312,15 +311,18 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
     /*初始化*/
     private void initialize() {
         sort_img_play = getView(R.id.sort_img_play);
-        mRight = getView(R.id.mRight);
-        mLeft = getView(R.id.mLeft);
+//        mRight = getView(R.id.mRight);
+//        mLeft = getView(R.id.mLeft);
         tv_sort = getView(R.id.tv_sort);
         mSchedule = getView(R.id.tv_schedule);
+        answerroot = getView(R.id.answerroot);
         relaroot = getView(R.id.relaroot);
         sort_img_play.setOnClickListener(this);
-        mLeft.setOnClickListener(this);
-        mRight.setOnClickListener(this);
+//        mLeft.setOnClickListener(this);
+//        mRight.setOnClickListener(this);
         sort_img_play.setBackground(animationDrawable);
+
+
     }
 
 
@@ -330,8 +332,24 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
 
         relaroot.removeAllViews();
         if (inbasebean.isAnswer() == true) {
-            mRight.setText("正确答案");
-            mLeft.setText("我的答案");
+
+            TextView mLeft = new TextView(getActivity());
+            mLeft.setText("正确答案");
+            mLeft.setTextColor(getResources().getColor(R.color.gray_9f938f));
+            RelativeLayout.LayoutParams lpLeft = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            lpLeft.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+            lpLeft.leftMargin = Constant.ScreenWidth / 5;
+            answerroot.addView(mLeft);
+            mLeft.setLayoutParams(lpLeft);
+
+            TextView mRight = new TextView(getActivity());
+            mRight.setText("我的答案");
+            mRight.setTextColor(getResources().getColor(R.color.gray_9f938f));
+            RelativeLayout.LayoutParams lpRight = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            lpRight.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+            lpRight.rightMargin = Constant.ScreenWidth / 5;
+            answerroot.addView(mRight);
+            mRight.setLayoutParams(lpRight);
             /*正确答案*/
             mLeftTop = 0;
             /*添加左侧图片 正确答案全部添加遮罩*/
@@ -352,30 +370,14 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             /*添加右侧视图*/
             addGroupImage(mMineContentList.size(), relaroot);
         }
-
-
-
-
-            /*练习check之后会走 submitHomework*/
-//        if (inbasebean.isAnswer() == true) {
-//
-//            Map<Integer, BeLocation> mPsortAnswerMap = inbasebean.getSortAnswerMap();//练习模块我的答案
-//                    /*自己答题 非网络请求*/
-//            for (int a = 0; a < leftViews.size(); a++) {
-//                BeLocation beLocation = mPsortAnswerMap.get(a);
-//                ExMoveImagview moveImagview = leftViews.get(a);
-//                moveImagview.refreshLocation(beLocation);
-//                mMineAnswerMap.put(a, beLocation);
-//            }
-//
-//        }
-
     }
+
     @Override
     public void onPause() {
         super.onPause();
         mediaPlayer.pause();
     }
+
     /*我的答案  正确答案的点击事件*/
     @Override
     public void onClick(View v) {

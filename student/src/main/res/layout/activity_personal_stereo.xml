@@ -61,7 +61,7 @@
                     android:id="@+id/pbDuration"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="5dp"
+                    android:layout_height="3dp"
                     android:layout_below="@+id/tv_unitname"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_marginTop="5dp"

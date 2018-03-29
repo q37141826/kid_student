@@ -16,12 +16,12 @@
 
             <TextView
                 android:id="@+id/tv_line"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_toLeftOf="@+id/tv_schedule"
                 android:text="aa"
                 android:textSize="14sp"/>
@@ -51,8 +51,7 @@
                 android:layout_below="@+id/line"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                />
+                android:layout_marginTop="20dp"/>
 
             <RelativeLayout
                 android:id="@+id/allroot"
@@ -62,31 +61,45 @@
 
                 <LinearLayout
                     android:id="@+id/linroot"
-                    android:layout_width="match_parent"
+                    android:visibility="invisible"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/round_bgyellow_febf12_homwwork_continuestudy"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/mLeft"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="25sp"
-                        />
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@color/yellow_FEBF12"/>
 
                     <TextView
                         android:id="@+id/mRight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="25sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 

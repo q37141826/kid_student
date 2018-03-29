@@ -14,6 +14,8 @@ import java.util.Map;
 import cn.dajiahui.kid.ui.homework.bean.Dir;
 import cn.dajiahui.kid.ui.homework.bean.DrawPath;
 
+import static cn.dajiahui.kid.controller.Constant.lineWidth;
+
 /**
  * Created by lenovo on 2018/1/13.
  * 画线的view
@@ -39,7 +41,7 @@ public class ExDrawView extends View {
         super(context);
         this.context = context;
         this.mPaint = new Paint();
-
+        mPaint.setStrokeWidth(lineWidth);
     }
 
     /*翻页后回来后要绘制的坐标点*/
@@ -83,7 +85,7 @@ public class ExDrawView extends View {
     protected void onDraw(Canvas canvas) {
         mPaint.setAntiAlias(true);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(10);
+        mPaint.setStrokeWidth(lineWidth);
 
         if (path != null && mPaint != null) {
 //            mPaint.setColor(getResources().getColor(R.color.black));

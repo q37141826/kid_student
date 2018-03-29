@@ -97,6 +97,7 @@ public class StudyDetailsActivity extends FxActivity {
 
                         break;
                     case Constant.PERSONALSTEREO:
+
                         DjhJumpUtil.getInstance().startBaseActivity(StudyDetailsActivity.this, PersonalStereoActivity.class, bundle, 0);
 
                         break;

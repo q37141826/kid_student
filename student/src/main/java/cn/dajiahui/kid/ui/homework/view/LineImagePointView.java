@@ -18,11 +18,14 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BeLineLeft;
 import cn.dajiahui.kid.ui.homework.bean.BeLineRight;
-import cn.dajiahui.kid.ui.homework.bean.BeOptionViewState;
 import cn.dajiahui.kid.ui.homework.bean.Dir;
 import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.Point;
 import cn.dajiahui.kid.ui.homework.myinterface.Sublineinfo;
+
+import static cn.dajiahui.kid.controller.Constant.ScreenWidth;
+import static cn.dajiahui.kid.controller.Constant.pointViewDiameter;
+import static cn.dajiahui.kid.controller.Constant.pointViewDiameter_margin;
 
 /**
  * Created by lenovo on 2018/1/12.
@@ -76,11 +79,11 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     public Point getPoint() {
         Point point = new Point();
         if (direction == Dir.left) {
-            point.setX(this.getLeft() + pointview.getLeft() + 15); // 小圆点直径的一半
+            point.setX(this.getLeft() + pointview.getLeft() + pointViewDiameter/2); // 小圆点直径的一半
         } else {
-            point.setX(getLeft() + 15);
+            point.setX(getLeft() + pointViewDiameter/2);
         }
-        point.setY(this.getTop() + pointview.getTop() + 15);
+        point.setY(this.getTop() + pointview.getTop() + pointViewDiameter/2);
         return point;
     }
 
@@ -98,7 +101,7 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
             this.setOnClickListener(this);
         }
         /*imageview和textview的大小*/
-        LayoutParams lp = new LayoutParams(200, 200);
+        LayoutParams lp = new LayoutParams(ScreenWidth/5, ScreenWidth/5);
 
         linRoot = new LinearLayout(context);
 
@@ -211,9 +214,8 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     @SuppressLint("ResourceType")
     public void addPointRight() {
         pointview = new CricleTextView(context);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(30, 30);
-        lp.rightMargin = 15;
-//        pointview.setId(R.string.show_pointright);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(pointViewDiameter, pointViewDiameter);
+        lp.rightMargin = pointViewDiameter_margin;
         //设置居中显示：
         lp.gravity = Gravity.CENTER;
         pointview.setLayoutParams(lp);
@@ -226,8 +228,8 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     public void addPointLeft() {
 
         pointview = new CricleTextView(context);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(30, 30);
-        lp.leftMargin = 15;
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(pointViewDiameter, pointViewDiameter);
+        lp.leftMargin = pointViewDiameter_margin;
         //设置居中显示：
         lp.gravity = Gravity.CENTER;
         pointview.setLayoutParams(lp);
@@ -264,27 +266,27 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
         super.onLayout(changed, left, top, right, bottom);
     }
 
-    public void updateUI(BeOptionViewState state) {
-        switch (state) {
-            case unselected:
-                // 更新未选中的UI样式
-                break;
-            case selected:
-                // 更新选中的UI样式
-                break;
-            case right:
-                // 更新正确的UI样式
-                break;
-            case wrong:
-                // 更新错误的UI样式
-                break;
-
-            case aimed:
-                // 更新命中的UI样式
-                break;
-            default:
-                break;
-        }
-    }
+//    public void updateUI(BeOptionViewState state) {
+//        switch (state) {
+//            case unselected:
+//                // 更新未选中的UI样式
+//                break;
+//            case selected:
+//                // 更新选中的UI样式
+//                break;
+//            case right:
+//                // 更新正确的UI样式
+//                break;
+//            case wrong:
+//                // 更新错误的UI样式
+//                break;
+//
+//            case aimed:
+//                // 更新命中的UI样式
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
 }

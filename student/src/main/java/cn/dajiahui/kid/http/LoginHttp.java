@@ -9,12 +9,14 @@ import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.platforms.jpush.JpushUtil;
 import com.fxtx.framework.ui.FxActivity;
+import com.fxtx.framework.util.BaseUtil;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.squareup.okhttp.Request;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.ui.MainActivity;
 import cn.dajiahui.kid.ui.chat.constant.ImHelper;
@@ -23,6 +25,8 @@ import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.SpUtil;
+
+import static cn.dajiahui.kid.controller.Constant.ScreenWidth;
 
 /**
  * 登录
@@ -50,13 +54,13 @@ public class LoginHttp {
             @Override
             public void onError(Request request, Exception e) {
                 onLogin.error();
-                Logger.d( "学生端登录失败：" + e);
+                Logger.d("学生端登录失败：" + e);
                 ToastUtil.showToast(context, ErrorCode.error(e));
             }
 
             @Override
             public void onResponse(String response) {
-                Logger.d( "学生端登录成功：" + response);
+                Logger.d("学生端登录成功：" + response);
                 HeadJson json = new HeadJson(response);
                 if (json.getstatus() == 0) {
                     BeUser temp = json.parsingObject(BeUser.class);
@@ -75,6 +79,10 @@ public class LoginHttp {
                     spUtil.setUser(temp);
                     KidConfig.getInstance().init();//初始化文件夹
                     KidConfig.getInstance().initUserConfig(user);
+                    Constant.ScreenWidth = BaseUtil.getWidthPixels(context);/*屏幕宽度*/
+                    Constant.ScreenHeight = BaseUtil.getHeightPixels(context);/*屏幕高度*/
+
+
                     // 判断是否有沟通模块存在，存在 再对环信登录进行判断
                     if (UserController.getInstance().getUserAuth().isMsn) {
                         if (ImHelper.getInstance().isLoggedIn()) {

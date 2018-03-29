@@ -1,6 +1,7 @@
 package cn.dajiahui.kid.ui.study.kinds.practice.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.fxtx.framework.util.BaseUtil;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ import static cn.dajiahui.kid.ui.homework.homeworkdetails.SortFragment.isLineche
 public class ExMoveImagview extends RelativeLayout implements View.OnTouchListener {
 
     private Context context;
+    private Activity activity;
     //起始 x y
     private int startX;
     private int startY;
@@ -43,22 +46,26 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
     public String val;//当前拖动图片的val值
     private List<String> mRightContentList;
     public String content;
+    private int widthPixels;
 
     /*构造*/
     public ExMoveImagview(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        this.activity = (Activity) context;
     }
 
     /*构造*/
     public ExMoveImagview(Context context, ExMoveLocation moveLocation, int position, SortQuestionModle inbasebean) {
         super(context);
         this.context = context;
+        this.activity = (Activity) context;
         this.setOnTouchListener(this);
         this.inbasebean = inbasebean;
         this.moveLocation = moveLocation;
         this.position = position;
         this.val = inbasebean.getOptions().get(position).getVal();
         this.content = inbasebean.getOptions().get(position).getContent();
+        widthPixels = BaseUtil.getWidthPixels(activity);
         /*添加视图*/
         addImageView();
 
@@ -68,10 +75,12 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
     public ExMoveImagview(Context context, int position, SortQuestionModle inbasebean, List<String> mRightContentList) {
         super(context);
         this.context = context;
+        this.activity = (Activity) context;
         this.inbasebean = inbasebean;
         this.position = position;
         this.mRightContentList = mRightContentList;
         this.content = inbasebean.getOptions().get(position).getContent();
+        widthPixels = BaseUtil.getWidthPixels(activity);
        /*添加视图*/
         addImageView();
     }
@@ -146,8 +155,9 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
 
     /*添加视图*/
     private void addImageView() {
+   /*屏幕宽度*/
 
-        LayoutParams params = new LayoutParams(150, 150);
+        LayoutParams params = new LayoutParams(widthPixels/5, widthPixels/5);
         String content = null;
         /*未回答的时候是false 走解析的图片集合   check后是true 走 自己正确答案的集合*/
         if (inbasebean.isAnswer() == false) {
@@ -174,7 +184,7 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
                         .diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
 
                 /*正确答案 添加遮罩*/
-                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(150, 150);
+                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(widthPixels/5, widthPixels/5);
                 paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
                 imageViewT.setLayoutParams(paramsT);
                 imageViewT.setBackgroundResource(R.drawable.answer_true_bg);
@@ -194,7 +204,7 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
                 textView.setText(mRightContentList.get(position));
                  /*正确答案 添加遮罩*/
                 RelativeLayout relativeLayout = new RelativeLayout(context);
-                LayoutParams paramsT = new LayoutParams(150, 150);
+                LayoutParams paramsT = new LayoutParams(widthPixels/5, widthPixels/5);
                 paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
                 relativeLayout.setBackgroundResource(R.drawable.answer_true_bg);
                 relativeLayout.setLayoutParams(paramsT);

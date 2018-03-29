@@ -71,16 +71,21 @@ public class SetPhoneActivity extends FxActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //输入中
-                if (isBtnCode && mPhonenum.getText().toString().length() <= 11) {
-                    if (mPhonenum.getText().toString().length() == 11) {
-                        btnCode.setBackgroundResource(R.color.white);
-                        btnCode.setClickable(true);
-                    } else {
-                        btnCode.setBackgroundResource(R.color.white);
-                        btnCode.setClickable(false);
-                    }
+//                if (isBtnCode && mPhonenum.getText().toString().length() <= 11) {
+                if (mPhonenum.getText().toString().length() == 11) {
+//                        btnCode.setBackgroundResource(R.color.white);
+                    btnCode.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
+                    mBtnsure.setBackgroundResource(R.color.yellow_FEBF12);
+                    btnCode.setClickable(true);
+
+                } else {
+//                        btnCode.setBackgroundResource(R.color.white);
+                    btnCode.setTextColor(getResources().getColor(R.color.gray_DBDBDB));
+                    mBtnsure.setBackgroundResource(R.color.gray_DBDBDB );
+                    btnCode.setClickable(false);
                 }
             }
+//            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -214,10 +219,12 @@ public class SetPhoneActivity extends FxActivity {
             isBtnCode = true;
             if (mPhonenum.getText().toString().length() == 11) {
                 btnCode.setClickable(true);
-                btnCode.setBackgroundResource(R.color.white);
+//                btnCode.setBackgroundResource(R.color.white);
+                btnCode.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
             } else {
                 btnCode.setClickable(false);
-                btnCode.setBackgroundResource(R.color.white);
+//                btnCode.setBackgroundResource(R.color.white);
+                btnCode.setTextColor(getResources().getColor(R.color.gray_DBDBDB));
             }
         }
 

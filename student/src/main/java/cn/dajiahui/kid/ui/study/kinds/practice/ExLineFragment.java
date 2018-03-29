@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,6 +32,9 @@ import cn.dajiahui.kid.ui.homework.view.DrawView;
 import cn.dajiahui.kid.ui.study.kinds.practice.myinterface.ExSublineinfo;
 import cn.dajiahui.kid.ui.study.kinds.practice.view.ExDrawView;
 import cn.dajiahui.kid.ui.study.kinds.practice.view.ExLineImagePointView;
+
+import static cn.dajiahui.kid.controller.Constant.ScreenWidth;
+import static cn.dajiahui.kid.controller.Constant.pointViewDiameter_margin;
 
 
 /**
@@ -83,6 +87,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
     private Map<String, ExLineImagePointView> showT_RMap = new HashMap<>();//用于显示判断划线的颜色
     private String title;
     private Bundle bundle;
+    private LinearLayout mLinroot;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -122,7 +127,6 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
             }
             mView.setLayoutParams(lp);
             lin.addView(mView); //动态添加图片
-//            myanswerMap.put((i + 1) + "", "");//初始化答案集合
         }
 
     }
@@ -212,7 +216,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                         }
                           /*右边*/
                         if (rightViews.get(0).getChildAt(0) != null) {
-                            int rightPointViewX = rightViews.get(0).getLeft() + 15;
+                            int rightPointViewX = rightViews.get(0).getLeft() + pointViewDiameter_margin;
                             int rightPointViewY = rightViews.get(0).getChildAt(0).getTop() + rightViews.get(0).getChildAt(0).getHeight() / 2;
                             Message msg = Message.obtain();
                             msg.what = RIGHT;
@@ -233,6 +237,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
         selectview_root = getView(R.id.selectview_root);
         img_play = getView(R.id.img_play);
         mSchedule = getView(R.id.tv_schedule);
+        mLinroot = getView(R.id.linroot);
         mLeft = getView(R.id.mLeft);
         mRight = getView(R.id.mRight);
         tv_line = getView(R.id.tv_line);
@@ -344,7 +349,6 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
 
                         inbasebean.setAnswerflag("true");//答题标志
 
-//                        inbasebean.setDrawPathList(drawPathList);
                         inbasebean.setInitLineMyanswerMap(myanswerMap);
                         submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
 
@@ -357,12 +361,13 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
 
     }
 
-    /*翻页回来掉的接口*/
+    /*点击check回调的接口*/
     @Override
     public void submitHomework(Object questionModle) {
         inbasebean = (LineQuestionModle) questionModle;
         /*获取我的答案*/
         getMineAnswer();
+        mLinroot.setVisibility(View.VISIBLE);
         mLeft.setText("正确答案");
         mRight.setText("我的答案");
         showRightAnswer();
@@ -458,10 +463,10 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
             /*保证我的答案的点的集合有值*/
             if (mMineRPonitList.size() > 0) {
 
-                mRight.setBackgroundResource(R.drawable.line_answer_bg_yellow_fbf12);
-                mLeft.setTextColor(getResources().getColor(R.color.black));
+//                mRight.setBackgroundResource(R.drawable.line_answer_bg_yellow_fbf12);
+                mLeft.setTextColor(getResources().getColor(R.color.gray_9f938f));
                 mRight.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
-                mLeft.setBackgroundResource(R.drawable.line_answer_bg_gray_97938f);
+//                mLeft.setBackgroundResource(R.drawable.line_answer_bg_gray_97938f);
 
                 drawPathList.clear();
                 /*划线父布局清空view*/
@@ -478,8 +483,8 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                             /*改变划线颜色 green*/
                         drawView = new DrawView(getActivity(), getResources().getColor(R.color.green_9DEAA6));
 
-                             /*添加左边view的遮罩*/
-                        RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(200, 200);
+                        /*添加左边view的遮罩*/
+                        RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
                         paramsL.addRule(RelativeLayout.CENTER_IN_PARENT);
                         ImageView imageViewL = new ImageView(getActivity());
                         imageViewL.setLayoutParams(paramsL);
@@ -490,7 +495,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                         showT_RMap.get(mMineRPonitList.get(n).getVal()).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
                         showT_RMap.get(mMineRPonitList.get(n).getVal()).pointview.refreshPonitColor();
                         mRemoveLeftList.add(showT_RMap.get(mMineRPonitList.get(n).getVal()));/*添加右边view的遮罩*/
-                        RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(200, 200);
+                        RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
                         paramsR.addRule(RelativeLayout.CENTER_IN_PARENT);
                         ImageView imageViewR = new ImageView(getActivity());
                         imageViewR.setLayoutParams(paramsR);
@@ -504,7 +509,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                         /*改变划线颜色 red*/
                         drawView = new DrawView(getActivity(), getResources().getColor(R.color.red));
                         /*添加遮罩*/
-                        RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(200, 200);
+                        RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
                         paramsL.addRule(RelativeLayout.CENTER_IN_PARENT);
                         ImageView imageViewL = new ImageView(getActivity());
                         imageViewL.setLayoutParams(paramsL);
@@ -517,7 +522,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                         mRemoveLeftList.add(showT_RMap.get(mMineRPonitList.get(n).getVal()));
 
                         /*添加右边view的遮罩*/
-                        RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(200, 200);
+                        RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
                         paramsR.addRule(RelativeLayout.CENTER_IN_PARENT);
                         ImageView imageViewR = new ImageView(getActivity());
                         imageViewR.setLayoutParams(paramsR);
@@ -548,10 +553,10 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
     /*显示正确答案*/
     private void showRightAnswer() {
         mOnclickAnswer = !mOnclickAnswer;
-        mRight.setBackgroundResource(R.drawable.line_answer_bg_gray_97938f);
-        mRight.setTextColor(getResources().getColor(R.color.black));
+//        mRight.setBackgroundResource(R.drawable.line_answer_bg_gray_97938f);
+        mRight.setTextColor(getResources().getColor(R.color.gray_9f938f));
 
-        mLeft.setBackgroundResource(R.drawable.line_answer_bg_yellow_fbf12);
+//        mLeft.setBackgroundResource(R.drawable.line_answer_bg_yellow_fbf12);
         mLeft.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
         drawPathList.clear();
         /*划线父布局清空view*/
@@ -571,7 +576,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
             rightViews.get(n).pointview.refreshPonitColor();
 
             /*正确答案添加遮罩（左边视图）*/
-            RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(200, 200);
+            RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
             paramsL.addRule(RelativeLayout.CENTER_IN_PARENT);
             ImageView imageViewL = new ImageView(getActivity());
             imageViewL.setLayoutParams(paramsL);
@@ -579,7 +584,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
             mMaskRightListL.add(imageViewL);
             leftViews.get(n).mContentView.addView(imageViewL);
            /*正确答案添加遮罩（右边视图）*/
-            RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(200, 200);
+            RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
             paramsR.addRule(RelativeLayout.CENTER_IN_PARENT);
             ImageView imageViewR = new ImageView(getActivity());
             imageViewR.setLayoutParams(paramsR);
