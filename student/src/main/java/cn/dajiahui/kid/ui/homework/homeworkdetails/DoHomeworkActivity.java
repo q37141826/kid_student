@@ -59,6 +59,7 @@ public class DoHomeworkActivity extends FxActivity
     private ArrayList<Object> mDatalist;//所有数据的模型集合
     private String homework_id;
     private String is_complete = "";
+    private int mItemPosition;//查看作业页面的item的position
 
 
     @Override
@@ -67,6 +68,7 @@ public class DoHomeworkActivity extends FxActivity
         Intent intent = getIntent();
 
         mViewpager.setNoScroll(false);//作业可以滑动
+        mItemPosition = intent.getIntExtra("position", -1);
         homework_id = intent.getStringExtra("homework_id");
         is_complete = intent.getStringExtra("IS_COMPLETE");
         setfxTtitle(intent.getStringExtra("UNIT_NAME"));
@@ -104,7 +106,7 @@ public class DoHomeworkActivity extends FxActivity
 
         @Override
         public void onResponse(String response) {
-            Logger.d("作业返回json：" + response);
+//            Logger.d("作业返回json：" + response);
             dismissfxDialog();
             HeadJson headJson = new HeadJson(response);
             if (headJson.getstatus() == 0) {
@@ -119,27 +121,27 @@ public class DoHomeworkActivity extends FxActivity
 
                         switch (mdata.get(i).getQuestion_cate_id()) {
                             case Constant.Judje:
-//                                Logger.d("判断：" + jsonArray.get(i).toString());
+                                Logger.d("判断：" + jsonArray.get(i).toString());
                                 JudjeQuestionModle judjeQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), JudjeQuestionModle.class);
                                 mDatalist.add(judjeQuestionModle);
                                 break;
                             case Constant.Choice:
                                 ChoiceQuestionModle choiceQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), ChoiceQuestionModle.class);
                                 mDatalist.add(choiceQuestionModle);
-//                                Logger.d("选择：" + jsonArray.get(i).toString());
+                                Logger.d("选择：" + jsonArray.get(i).toString());
                                 break;
                             case Constant.Sort:
-//                                Logger.d("排序：" + jsonArray.get(i).toString());
+                                Logger.d("排序：" + jsonArray.get(i).toString());
                                 SortQuestionModle sortQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), SortQuestionModle.class);
                                 mDatalist.add(sortQuestionModle);
                                 break;
                             case Constant.Line:
-//                                Logger.d("连线：" + jsonArray.get(i).toString());
+                                Logger.d("连线：" + jsonArray.get(i).toString());
                                 LineQuestionModle lineQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), LineQuestionModle.class);
                                 mDatalist.add(lineQuestionModle);
                                 break;
                             case Constant.Completion:
-//                                Logger.d("填空：" + jsonArray.get(i).toString());
+                                Logger.d("填空：" + jsonArray.get(i).toString());
                                 CompletionQuestionModle completionQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), CompletionQuestionModle.class);
                                 mDatalist.add(completionQuestionModle);
                                 break;
@@ -153,6 +155,10 @@ public class DoHomeworkActivity extends FxActivity
                     mViewpager.setAdapter(homeWorkAdapter);
                     mViewpager.setOnPageChangeListener(onPageChangeListener);
 
+                   /*跳转单个题型的题*/
+                    if (mItemPosition != -1) {
+                        mViewpager.setCurrentItem(mItemPosition);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -179,7 +185,7 @@ public class DoHomeworkActivity extends FxActivity
     @Override
     public void onRightBtnClick(View view) {
         if (is_complete.equals("1")) { /*完成答题状态*/
-            Logger.d("is_complete:" + is_complete);
+//            Logger.d("is_complete:" + is_complete);
 
             /*答题状态*/
             Bundle bundle = new Bundle();
@@ -226,37 +232,44 @@ public class DoHomeworkActivity extends FxActivity
                 case Constant.Judje:/*判断题*/
 
                     JudjeQuestionModle jude = (JudjeQuestionModle) mDatalist.get(position);
-                    JudgeFragment judgeFragment = (JudgeFragment) frMap.get(position);
-                    judgeFragment.submitHomework(jude);
+                    if ((frMap.get((position)) != null)) {
+                        JudgeFragment judgeFragment = (JudgeFragment) frMap.get(position);
+                        judgeFragment.submitHomework(jude);
+                    }
 
                     break;
                 case Constant.Choice:/*选择题*/
 
                     ChoiceQuestionModle choice = (ChoiceQuestionModle) mDatalist.get(position);
-                    ChoiceFragment choiceFragment = (ChoiceFragment) frMap.get(position);
-                    choiceFragment.submitHomework(choice);
+                    if ((frMap.get((position)) != null)) {
+                        ChoiceFragment choiceFragment = (ChoiceFragment) frMap.get(position);
+                        choiceFragment.submitHomework(choice);
+                    }
 
                     break;
                 case Constant.Sort:/*排序题*/
 
                     SortQuestionModle sort = (SortQuestionModle) mDatalist.get(position);
-                    SortFragment sortFragment = (SortFragment) frMap.get((currentposition));
-                    sortFragment.submitHomework(sort);
-
+                    if ((frMap.get((position)) != null)) {
+                        SortFragment sortFragment = (SortFragment) frMap.get((position));
+                        sortFragment.submitHomework(sort);
+                    }
                     break;
                 case Constant.Line:/*连线题*/
 
                     LineQuestionModle line = (LineQuestionModle) mDatalist.get(position);
-                    LineFragment linFragment = (LineFragment) frMap.get((currentposition));
-                    linFragment.submitHomework(line);
-
+                    if ((frMap.get((position)) != null)) {
+                        LineFragment linFragment = (LineFragment) frMap.get((position));
+                        linFragment.submitHomework(line);
+                    }
                     break;
                 case Constant.Completion:/*填空*/
 
                     CompletionQuestionModle complete = (CompletionQuestionModle) mDatalist.get(position);
-                    CompletionFragment completionFragment = (CompletionFragment) frMap.get((currentposition));
-                    completionFragment.submitHomework(complete);
-
+                    if ((frMap.get((position)) != null)) {
+                        CompletionFragment completionFragment = (CompletionFragment) frMap.get((position));
+                        completionFragment.submitHomework(complete);
+                    }
                     break;
 
                 default:
@@ -276,6 +289,7 @@ public class DoHomeworkActivity extends FxActivity
     private class HomeWorkAdapter extends FragmentStatePagerAdapter {
 
         private List<QuestionModle> data;
+
         private HomeWorkAdapter(FragmentManager fragmentManager, List<QuestionModle> data) {
             super(fragmentManager);
 

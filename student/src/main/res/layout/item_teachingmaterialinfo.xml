@@ -45,7 +45,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/round_bgyellow_febf12_homwwork"
             android:padding="10dp"
             android:text="开始学习"
             android:textColor="@color/white"

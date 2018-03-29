@@ -20,7 +20,6 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.study.adapter.ApTeachingMaterialIfo;
 import cn.dajiahui.kid.ui.study.bean.BeChoiceTeachingMaterialInfo;
-import cn.dajiahui.kid.ui.study.bean.BeChoiceTeachingMaterialInfoBook;
 import cn.dajiahui.kid.ui.study.bean.BeChoiceTeachingMaterialInfoLists;
 import cn.dajiahui.kid.ui.study.bean.BeStudy;
 
@@ -38,6 +37,7 @@ public class ChoiceTeachingMaterialInfoActivity extends FxActivity {
     private MaterialRefreshLayout refresh;
     private String org_id;//机构ID
     private String series;//系列ID
+
     private int CHOICEBOOK_OK = 1;
     private List<BeChoiceTeachingMaterialInfoLists> mInfoListsList = new ArrayList<>();
     private ApTeachingMaterialIfo apTeachingMaterialList;//选择教材系列下列表的适配器
@@ -62,8 +62,8 @@ public class ChoiceTeachingMaterialInfoActivity extends FxActivity {
         refresh = getView(R.id.refresh);
         mListView = getView(R.id.listview);
         initRefresh(refresh);
-
-        apTeachingMaterialList = new ApTeachingMaterialIfo(ChoiceTeachingMaterialInfoActivity.this, mInfoListsList);
+        String mBookId = (String) this.getIntent().getExtras().get("mBookId");
+        apTeachingMaterialList = new ApTeachingMaterialIfo(ChoiceTeachingMaterialInfoActivity.this, mInfoListsList, mBookId);
         mListView.setAdapter(apTeachingMaterialList);
 
 
@@ -78,7 +78,7 @@ public class ChoiceTeachingMaterialInfoActivity extends FxActivity {
                 RequestUtill.getInstance().ChoiceTeachingMaterialBook(context, callChoiceTeachingMaterialBook, org_id, book_id);
 
                 /*数据回传到自学首页*/
-                BeChoiceTeachingMaterialInfoLists beChoiceTeachingMaterialInfoLists = mInfoListsList.get(position);
+//                BeChoiceTeachingMaterialInfoLists beChoiceTeachingMaterialInfoLists = mInfoListsList.get(position);
 //                Toast.makeText(context, "开始学习", Toast.LENGTH_SHORT).show();
 
             }
@@ -110,7 +110,7 @@ public class ChoiceTeachingMaterialInfoActivity extends FxActivity {
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
-                BeChoiceTeachingMaterialInfoBook beChoiceTeachingMaterialInfoBook = json.parsingObject(BeChoiceTeachingMaterialInfoBook.class);
+//                BeChoiceTeachingMaterialInfoBook beChoiceTeachingMaterialInfoBook = json.parsingObject(BeChoiceTeachingMaterialInfoBook.class);
 
                 setResult(CHOICETEACHINGMATERIALRESULT);
                 finishActivity();
@@ -132,7 +132,7 @@ public class ChoiceTeachingMaterialInfoActivity extends FxActivity {
 
         @Override
         public void onResponse(String response) {
-            Logger.d("选择教材信息response:"+response);
+            Logger.d("选择教材信息response:" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {

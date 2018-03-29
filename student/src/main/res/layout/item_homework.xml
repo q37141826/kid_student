@@ -81,7 +81,7 @@
             android:layout_height="27dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tv_homename"
-            android:background="@drawable/round_bgyellow_febf12_homwwork"
+            android:background="@drawable/round_bgyellow_febf12_homwwork_startstudy"
             android:gravity="center"
             android:text="做作业"
             android:textColor="@color/white"

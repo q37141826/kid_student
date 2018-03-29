@@ -39,6 +39,7 @@ public class ChoiceTeachingMaterialActivity extends FxActivity {
     private MaterialRefreshLayout refresh;
     private int itemNumber = 0; // 总的数据数
     private ApTeachingMaterial apTeachingMaterial;//选择额教材适配器
+    private String mBookId;
 
 
     @Override
@@ -53,7 +54,8 @@ public class ChoiceTeachingMaterialActivity extends FxActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.activity_choice_teaching_material);
-
+        Bundle mBundle = getIntent().getExtras();
+        mBookId = mBundle.getString("mBookId");
         mListView = getView(R.id.listview);
         TextView tvNUll = getView(R.id.tv_null);
         tvNUll.setText("暂无作业");
@@ -76,6 +78,7 @@ public class ChoiceTeachingMaterialActivity extends FxActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle b = new Bundle();
+                b.putString("mBookId", mBookId);
                 b.putString("UINT_TITLE", bookInfoList.get(position).getName());
                 b.putString("ORG_ID", bookInfoList.get(position).getOrg_id());
                 b.putString("SERIES", bookInfoList.get(position).getSeries());

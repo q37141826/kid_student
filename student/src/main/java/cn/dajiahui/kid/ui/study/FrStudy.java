@@ -95,6 +95,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
             switch (v.getId()) {
                 case R.id.tv_choiceMaterial:
                     Bundle bundle = new Bundle();
+                    bundle.putString("mBookId", mBookId);
                     DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), ChoiceTeachingMaterialActivity.class, bundle, GOCHOICETEACHINGMATERIAL);
                     isRefresh = true;
                     break;
@@ -140,6 +141,8 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
     ResultCallback callStudyHomePage = new ResultCallback() {
 
 
+        private ChooseUtils chooseUtils;
+
         @Override
         public void onError(Request request, Exception e) {
             dismissfxDialog();
@@ -152,7 +155,7 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
-                ChooseUtils chooseUtils = json.parsingObject(ChooseUtils.class);
+                chooseUtils = json.parsingObject(ChooseUtils.class);
                 if (chooseUtils != null) {
                     GlideUtil.showNoneImage(getActivity(), chooseUtils.getLogo(), imgsupplementary, R.drawable.study_default);
                     tvtitle.setText(chooseUtils.getSeries());

@@ -3,6 +3,7 @@ package cn.dajiahui.kid.ui.homework.homeworkdetails;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -63,10 +64,8 @@ public class HomeWorkDetailsActivity extends FxActivity {
         onBackText();
         initialize();
         Bundle bundle = getIntent().getExtras();
-        String starttime = bundle.getString("starttime");
         unit_name = bundle.getString("UNIT_NAME");
         homework_id = bundle.getString("homework_id");
-//        setfxTtitle(DateUtils.time(starttime));
 
         apHomeWorkDetail = new ApHomeWorkDetail(HomeWorkDetailsActivity.this, mBeAnswerSheetList);
         grildview.setAdapter(apHomeWorkDetail);
@@ -77,6 +76,22 @@ public class HomeWorkDetailsActivity extends FxActivity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("SourceFlag", "HomeWork");
+                bundle.putString("homework_id", homework_id);
+                bundle.putString("UNIT_NAME", unit_name);
+                bundle.putString("IS_COMPLETE", is_complete);
+                /*先跳转 在网络请请求获取数据*/
+                DjhJumpUtil.getInstance().startBaseActivity(HomeWorkDetailsActivity.this, DoHomeworkActivity.class, bundle, 0);
+                finishActivity();
+            }
+        });
+
+        /*直接查看单个的做题情况*/
+        grildview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", position);
                 bundle.putString("homework_id", homework_id);
                 bundle.putString("UNIT_NAME", unit_name);
                 bundle.putString("IS_COMPLETE", is_complete);
