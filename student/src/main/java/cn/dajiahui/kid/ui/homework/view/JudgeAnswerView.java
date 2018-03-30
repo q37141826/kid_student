@@ -19,6 +19,8 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.homeworkdetails.JudgeFragment;
 
+import static cn.dajiahui.kid.controller.Constant.JudgeAnswerView_margin;
+
 /**
  * Created by lenovo on 2018/2/7.
  */
@@ -38,7 +40,7 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
         this.position = position;
         this.submit = submit;
         this.AnswerViewList = AnswerViewList;
-        this.setPadding(10, 10, 10, 10);
+        this.setPadding(JudgeAnswerView_margin, JudgeAnswerView_margin, JudgeAnswerView_margin, JudgeAnswerView_margin);
         this.setBackgroundResource(R.drawable.noselect_judge_image);
         String content = inbasebean.getOptions().get(position).getContent();
 

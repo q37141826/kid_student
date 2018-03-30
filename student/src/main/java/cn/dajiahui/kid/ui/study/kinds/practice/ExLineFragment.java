@@ -33,8 +33,8 @@ import cn.dajiahui.kid.ui.study.kinds.practice.myinterface.ExSublineinfo;
 import cn.dajiahui.kid.ui.study.kinds.practice.view.ExDrawView;
 import cn.dajiahui.kid.ui.study.kinds.practice.view.ExLineImagePointView;
 
-import static cn.dajiahui.kid.controller.Constant.ScreenWidth;
 import static cn.dajiahui.kid.controller.Constant.pointViewDiameter_margin;
+import static cn.dajiahui.kid.ui.study.kinds.practice.DoPraticeActivity.screenWidth;
 
 
 /**
@@ -112,16 +112,16 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
             if (direction == Dir.left) {
                 lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
                 lp.topMargin = mLeftTop;
-                mLeftTop += 300;
-                lp.leftMargin = 50;
+                mLeftTop += screenWidth / 4;
+                lp.leftMargin = screenWidth / 6;
                 leftViews.add(mView);
                 showT_RMap.put("" + (i + 1), mView);
 
             } else {
                 lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
                 lp.topMargin = mRightTop;
-                lp.rightMargin = 50;
-                mRightTop += 300;
+                mRightTop += screenWidth / 4;
+                lp.rightMargin = screenWidth / 6;
                 rightViews.add(mView);
                 showT_RMap.put("" + (i + 1 + size), mView);
             }
@@ -146,7 +146,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                 int pLeftY = pLeft.getY();
                 for (int i = 0; i < leftViews.size(); i++) {
                     ponitViewXY.put("" + (i + 1), new Point(pLeftX, pLeftY, "" + (i + 1)));
-                    pLeftY = pLeftY += 300;//左边所有点的y坐标
+                    pLeftY = pLeftY += screenWidth / 4;//左边所有点的y坐标
 
                 }
 
@@ -159,7 +159,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
 
                 for (int i = 0; i < rightViews.size(); i++) {
                     ponitViewXY.put("" + ((i + 1) + leftViews.size()), new Point(pRightX, pRightY, "" + ((i + 1) + leftViews.size())));
-                    pRightY = pRightY += 300;//左边所有点的y坐标
+                    pRightY = pRightY += screenWidth / 4;//左边所有点的y坐标
                     if (ponitViewXY.size() == (leftViews.size() * 2)) {
                         handler.sendEmptyMessage(PREPARERIGHT);
                         handler.sendEmptyMessage(PREPMINEARERIGHT);
@@ -245,6 +245,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
         mRight.setOnClickListener(this);
         img_play.setOnClickListener(this);
         img_play.setBackground(animationDrawable);
+
     }
 
     /*删除线练习模块*/
@@ -463,10 +464,8 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
             /*保证我的答案的点的集合有值*/
             if (mMineRPonitList.size() > 0) {
 
-//                mRight.setBackgroundResource(R.drawable.line_answer_bg_yellow_fbf12);
                 mLeft.setTextColor(getResources().getColor(R.color.gray_9f938f));
                 mRight.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
-//                mLeft.setBackgroundResource(R.drawable.line_answer_bg_gray_97938f);
 
                 drawPathList.clear();
                 /*划线父布局清空view*/
@@ -484,7 +483,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                         drawView = new DrawView(getActivity(), getResources().getColor(R.color.green_9DEAA6));
 
                         /*添加左边view的遮罩*/
-                        RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
+                        RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
                         paramsL.addRule(RelativeLayout.CENTER_IN_PARENT);
                         ImageView imageViewL = new ImageView(getActivity());
                         imageViewL.setLayoutParams(paramsL);
@@ -495,7 +494,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                         showT_RMap.get(mMineRPonitList.get(n).getVal()).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
                         showT_RMap.get(mMineRPonitList.get(n).getVal()).pointview.refreshPonitColor();
                         mRemoveLeftList.add(showT_RMap.get(mMineRPonitList.get(n).getVal()));/*添加右边view的遮罩*/
-                        RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
+                        RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
                         paramsR.addRule(RelativeLayout.CENTER_IN_PARENT);
                         ImageView imageViewR = new ImageView(getActivity());
                         imageViewR.setLayoutParams(paramsR);
@@ -509,7 +508,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                         /*改变划线颜色 red*/
                         drawView = new DrawView(getActivity(), getResources().getColor(R.color.red));
                         /*添加遮罩*/
-                        RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
+                        RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
                         paramsL.addRule(RelativeLayout.CENTER_IN_PARENT);
                         ImageView imageViewL = new ImageView(getActivity());
                         imageViewL.setLayoutParams(paramsL);
@@ -522,7 +521,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                         mRemoveLeftList.add(showT_RMap.get(mMineRPonitList.get(n).getVal()));
 
                         /*添加右边view的遮罩*/
-                        RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
+                        RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
                         paramsR.addRule(RelativeLayout.CENTER_IN_PARENT);
                         ImageView imageViewR = new ImageView(getActivity());
                         imageViewR.setLayoutParams(paramsR);
@@ -576,7 +575,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
             rightViews.get(n).pointview.refreshPonitColor();
 
             /*正确答案添加遮罩（左边视图）*/
-            RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
+            RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
             paramsL.addRule(RelativeLayout.CENTER_IN_PARENT);
             ImageView imageViewL = new ImageView(getActivity());
             imageViewL.setLayoutParams(paramsL);
@@ -584,7 +583,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
             mMaskRightListL.add(imageViewL);
             leftViews.get(n).mContentView.addView(imageViewL);
            /*正确答案添加遮罩（右边视图）*/
-            RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(ScreenWidth/5, ScreenWidth/5);
+            RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
             paramsR.addRule(RelativeLayout.CENTER_IN_PARENT);
             ImageView imageViewR = new ImageView(getActivity());
             imageViewR.setLayoutParams(paramsR);

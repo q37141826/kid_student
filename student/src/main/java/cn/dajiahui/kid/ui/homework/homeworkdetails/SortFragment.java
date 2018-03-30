@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
@@ -28,6 +27,7 @@ import cn.dajiahui.kid.ui.homework.view.FixedImagview;
 import cn.dajiahui.kid.ui.homework.view.MoveImagview;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity.screenWidth;
 
 
 /**
@@ -98,7 +98,7 @@ public class SortFragment extends BaseHomeworkFragment implements
                         BeLocation beLocation = new BeLocation(pLeftX, pLeftY, leftViews.get(0).getRight(), leftViews.get(i).getBottom(), leftViews.get(0).getWidth(), leftViews.get(0).getHeight());
                         sortRightAnswerMap.put((i + 1), beLocation);
                         pointLeftList.add(beLocation);
-                        pLeftY = (pLeftY += Constant.ScreenWidth/4);//左边所有点的y坐标
+                        pLeftY = (pLeftY += screenWidth / 4);//左边所有点的y坐标
                     }
                     Message msg1 = Message.obtain();
                     msg1.what = PREPARERIGHT;
@@ -115,7 +115,7 @@ public class SortFragment extends BaseHomeworkFragment implements
                         BeLocation beLocation = new BeLocation(pRightX, pRightY, rightViews.get(0).getRight(), rightViews.get(i).getBottom(), rightViews.get(0).getWidth(), rightViews.get(0).getHeight());
                         sortMineAnswerMap.put((i + 1), beLocation);
                         pointRightList.add(beLocation);
-                        pRightY = (pRightY += Constant.ScreenWidth/4);//左边所有点的y坐标
+                        pRightY = (pRightY += screenWidth / 4);//左边所有点的y坐标
                         inbasebean.getInitSortMyanswerList().add("㊒");
                     }
                     Message msg2 = Message.obtain();
@@ -153,7 +153,6 @@ public class SortFragment extends BaseHomeworkFragment implements
     private List<String> mRightContentList;
     private List<String> mMineContentList;
     private String title;
-//    private int widthPixels;//屏幕宽度
 
 
     @Override
@@ -216,7 +215,7 @@ public class SortFragment extends BaseHomeworkFragment implements
         mLeft.setTextColor(getResources().getColor(R.color.gray_9f938f));
         RelativeLayout.LayoutParams lpLeft = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         lpLeft.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-        lpLeft.leftMargin = Constant.ScreenWidth/5;
+        lpLeft.leftMargin = screenWidth / 5;
         answerroot.addView(mLeft);
         mLeft.setLayoutParams(lpLeft);
 
@@ -225,7 +224,7 @@ public class SortFragment extends BaseHomeworkFragment implements
         mRight.setTextColor(getResources().getColor(R.color.gray_9f938f));
         RelativeLayout.LayoutParams lpRight = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         lpRight.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-        lpRight.rightMargin = Constant.ScreenWidth / 5;
+        lpRight.rightMargin = screenWidth / 5;
         answerroot.addView(mRight);
         mRight.setLayoutParams(lpRight);
     }
@@ -239,11 +238,11 @@ public class SortFragment extends BaseHomeworkFragment implements
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             lp.topMargin = mRightTop;
-            mRightTop += Constant.ScreenWidth / 4;
-            lp.rightMargin = Constant.ScreenWidth / 6;
+            mRightTop += screenWidth / 4;
+            lp.rightMargin = screenWidth / 6;
             fixedImagview.setLayoutParams(lp);
 
-            RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(Constant.ScreenWidth / 5, Constant.ScreenWidth / 5);
+            RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
             ImageView imageViewT = new ImageView(getActivity());
             imageViewT.setLayoutParams(paramsT);
@@ -275,32 +274,13 @@ public class SortFragment extends BaseHomeworkFragment implements
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             lp.topMargin = mLeftTop;
-            mLeftTop += Constant.ScreenWidth / 4;
-            lp.leftMargin = Constant.ScreenWidth / 6;
+            mLeftTop += screenWidth / 4;
+            lp.leftMargin = screenWidth / 6;
             leftViews.add(mMoveView);
             mMoveView.setLayoutParams(lp);
             lin.addView(mMoveView); //动态添加图片
         }
     }
-
-    /*添加正确答案*/
-    private void addGroupRightImage(int size, RelativeLayout lin) {
-
-        for (int i = 0; i < size; i++) {
-            MoveImagview mShowRightView = new MoveImagview(getActivity(), i, inbasebean);
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-            lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-            lp.topMargin = mTop;
-            mTop += Constant.ScreenWidth / 4;
-            lp.leftMargin =  Constant.ScreenWidth / 6;
-
-            mShowRightView.setLayoutParams(lp);
-            showRightViews.add(mShowRightView);
-            lin.addView(mShowRightView); //动态添加图片
-
-        }
-    }
-
 
     /**********************************************排序题翻页后逻辑修改正常*/
     /*mBeforeView 当前view  position 当前view的索引  X Y 中心点坐标 */
@@ -389,18 +369,12 @@ public class SortFragment extends BaseHomeworkFragment implements
     /*初始化*/
     private void initialize() {
         sort_img_play = getView(R.id.sort_img_play);
-//        mRight = getView(R.id.mRight);
-//        mLeft = getView(R.id.mLeft);
         tv_schedule = getView(R.id.tv_schedule);
         tv_sort = getView(R.id.tv_sort);
         answerroot = getView(R.id.answerroot);
         relaroot = getView(R.id.relaroot);
         sort_img_play.setOnClickListener(this);
-//        mLeft.setOnClickListener(this);
-//        mRight.setOnClickListener(this);
         sort_img_play.setBackground(animationDrawable);
-
-
 
     }
 

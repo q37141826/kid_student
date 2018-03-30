@@ -20,6 +20,8 @@ import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.ui.study.kinds.practice.view.ExJudgeAnswerView;
 
+import static cn.dajiahui.kid.ui.study.kinds.practice.DoPraticeActivity.screenWidth;
+
 
 /**
  * 判断题
@@ -35,6 +37,7 @@ public class ExJudgeFragment extends ExBaseHomeworkFragment implements CheckHome
     private RelativeLayout answerRoot;
     private List<ExJudgeAnswerView> mAnswerViewList = new ArrayList();//选项vie的集合
     private Bundle bundle;
+
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -54,7 +57,7 @@ public class ExJudgeFragment extends ExBaseHomeworkFragment implements CheckHome
         mAnswerViewList.clear();
         for (int i = 0; i < size; i++) {
             ExJudgeAnswerView judgeImagview = new ExJudgeAnswerView(getActivity(), inbasebean, i, submit, mAnswerViewList);
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(200, 200);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
             if (i == 0) {
                 lp.addRule(RelativeLayout.LEFT_OF, R.id.centerline);
                 lp.rightMargin = 100;

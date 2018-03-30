@@ -1,6 +1,7 @@
 package cn.dajiahui.kid.ui.homework.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.fxtx.framework.util.BaseUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,6 @@ import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.Point;
 import cn.dajiahui.kid.ui.homework.myinterface.Sublineinfo;
 
-import static cn.dajiahui.kid.controller.Constant.ScreenWidth;
 import static cn.dajiahui.kid.controller.Constant.pointViewDiameter;
 import static cn.dajiahui.kid.controller.Constant.pointViewDiameter_margin;
 
@@ -49,6 +50,7 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
 
     private final LinearLayout linRoot;//imageview或者textview 和小点的父亲布局
     public RelativeLayout mContentView;//左边的view添加遮罩的父view
+    private final int screenWidth;
 
 
     @SuppressLint("ResourceType")
@@ -92,6 +94,8 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
         super(context);
         this.sublineinfo = sublineinfo;
         this.context = context;
+        //获取屏幕宽度
+        screenWidth = BaseUtil.getWidthPixels((Activity) context);
         this.cLeftposiion = cLeftposiion;
         this.direction = direction;
         this.inbasebean = inbasebean;
@@ -101,7 +105,7 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
             this.setOnClickListener(this);
         }
         /*imageview和textview的大小*/
-        LayoutParams lp = new LayoutParams(ScreenWidth/5, ScreenWidth/5);
+        LayoutParams lp = new LayoutParams(screenWidth/5, screenWidth/5);
 
         linRoot = new LinearLayout(context);
 

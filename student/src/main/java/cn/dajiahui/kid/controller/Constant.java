@@ -153,14 +153,16 @@ public class Constant {
 
     public static final Point PointZero = new Point(0, 0);    /*画线路径*/
 
-    public static int ScreenWidth = 0;//屏幕宽度
-    public static int ScreenHeight = 0;//屏幕高度
+//    public static int ScreenWidth = 0;//屏幕宽度
+//    public static int ScreenHeight = 0;//屏幕高度
 
     public static final int lineWidth = 5;//作业，练习连线题线的宽度
     public static final int pointViewDiameter = 20;//作业，练习连线题小圆点的直径
     public static final int pointViewDiameter_margin = 15;//作业，练习连线题小圆点与框框的距离
 
     public static final int lineView_margin = 50;// 作业，练习连线题的答题的view的距离
+
+    public static final int JudgeAnswerView_margin = 10;// 作业，练习选择JudgeAnswerView 的panding
 
 
 }

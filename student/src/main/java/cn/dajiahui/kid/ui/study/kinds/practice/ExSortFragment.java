@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
@@ -28,6 +27,7 @@ import cn.dajiahui.kid.ui.study.kinds.practice.view.ExFixedImagview;
 import cn.dajiahui.kid.ui.study.kinds.practice.view.ExMoveImagview;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static cn.dajiahui.kid.ui.study.kinds.practice.DoPraticeActivity.screenWidth;
 
 
 /**
@@ -85,7 +85,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                         BeLocation beLocation = new BeLocation(pLeftX, pLeftY, leftViews.get(0).getRight(), leftViews.get(i).getBottom(), leftViews.get(0).getWidth(), leftViews.get(0).getHeight());
                         sortRightAnswerMap.put((i + 1), beLocation);
                         pointLeftList.add(beLocation);
-                        pLeftY = (pLeftY += Constant.ScreenWidth / 4);//左边所有点的y坐标
+                        pLeftY = (pLeftY +=screenWidth / 4);//左边所有点的y坐标
                     }
 
 
@@ -100,7 +100,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                         BeLocation beLocation = new BeLocation(pRightX, pRightY, rightViews.get(0).getRight(), rightViews.get(i).getBottom(), rightViews.get(0).getWidth(), rightViews.get(0).getHeight());
                         sortMineAnswerMap.put((i + 1), beLocation);
                         pointRightList.add(beLocation);
-                        pRightY = (pRightY += Constant.ScreenWidth / 4);//左边所有点的y坐标
+                        pRightY = (pRightY +=screenWidth / 4);//左边所有点的y坐标
 
                         inbasebean.getInitSortMyanswerList().add("㊒");
                     }
@@ -177,13 +177,13 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             lp.topMargin = mRightTop;
-            mRightTop += Constant.ScreenWidth / 4;
+            mRightTop += screenWidth / 4;
 
-            lp.rightMargin = Constant.ScreenWidth / 6;
+            lp.rightMargin =screenWidth / 6;
             fixedImagview.setLayoutParams(lp);
             /*check之后*/
             if (inbasebean.isAnswer() == true) {
-                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(Constant.ScreenWidth / 5, Constant.ScreenWidth / 5);
+                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(screenWidth / 5,screenWidth / 5);
                 paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
                 ImageView imageViewT = new ImageView(getActivity());
                 imageViewT.setLayoutParams(paramsT);
@@ -216,8 +216,8 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             lp.topMargin = mLeftTop;
-            mLeftTop += Constant.ScreenWidth / 4;
-            lp.leftMargin = Constant.ScreenWidth / 6;
+            mLeftTop +=screenWidth / 4;
+            lp.leftMargin =screenWidth / 6;
             leftViews.add(mMoveView);
             mMoveView.setLayoutParams(lp);
             rela.addView(mMoveView); //动态添加图片
@@ -338,7 +338,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             mLeft.setTextColor(getResources().getColor(R.color.gray_9f938f));
             RelativeLayout.LayoutParams lpLeft = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             lpLeft.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-            lpLeft.leftMargin = Constant.ScreenWidth / 5;
+            lpLeft.leftMargin =screenWidth / 5;
             answerroot.addView(mLeft);
             mLeft.setLayoutParams(lpLeft);
 
@@ -347,7 +347,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             mRight.setTextColor(getResources().getColor(R.color.gray_9f938f));
             RelativeLayout.LayoutParams lpRight = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             lpRight.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-            lpRight.rightMargin = Constant.ScreenWidth / 5;
+            lpRight.rightMargin =screenWidth / 5;
             answerroot.addView(mRight);
             mRight.setLayoutParams(lpRight);
             /*正确答案*/

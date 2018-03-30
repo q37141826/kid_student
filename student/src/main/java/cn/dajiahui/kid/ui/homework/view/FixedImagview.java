@@ -14,8 +14,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
+
+import static cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity.screenWidth;
 
 
 /**
@@ -31,10 +32,9 @@ public class FixedImagview extends RelativeLayout {
     public FixedImagview(Context context, int pic, int position, List<String> mContentList, SortQuestionModle inbasebean) {
         super(context);
         this.context = context;
-           /*屏幕宽度*/
-//        int widthPixels = BaseUtil.getWidthPixels((Activity) context);
+ 
         ImageView imageView = new ImageView(context);
-        LayoutParams iparams = new LayoutParams(Constant.ScreenWidth/5, Constant.ScreenWidth/5);
+        LayoutParams iparams = new LayoutParams(screenWidth/5, screenWidth/5);
         imageView.setLayoutParams(iparams);
 
         if (inbasebean.getIs_answered().equals("0")) {
@@ -50,7 +50,7 @@ public class FixedImagview extends RelativeLayout {
                     this.addView(imageView);
                 } else {
                     TextView textView = new TextView(context);
-                    LayoutParams params = new LayoutParams(Constant.ScreenWidth/5, Constant.ScreenWidth/5);
+                    LayoutParams params = new LayoutParams(screenWidth/5, screenWidth/5);
 
                     params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
                     textView.setLayoutParams(params);

@@ -16,6 +16,7 @@ import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
+import com.fxtx.framework.util.BaseUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Request;
@@ -60,6 +61,7 @@ public class DoHomeworkActivity extends FxActivity
     private String homework_id;
     private String is_complete = "";
     private int mItemPosition;//查看作业页面的item的position
+    public static int screenWidth;
 
 
     @Override
@@ -171,7 +173,8 @@ public class DoHomeworkActivity extends FxActivity
     /*初始化*/
     private void initialize() {
         mViewpager = getView(R.id.viewpager);
-
+        //获取屏幕宽度
+        screenWidth = BaseUtil.getWidthPixels(this);
     }
 
     /*半路退出答题*/

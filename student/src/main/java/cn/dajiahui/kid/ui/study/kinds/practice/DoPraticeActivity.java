@@ -14,6 +14,7 @@ import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
+import com.fxtx.framework.util.BaseUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Request;
@@ -58,6 +59,7 @@ public class DoPraticeActivity extends FxActivity
     private Button btncheck;
     private String book_id;
     private String unit_id;
+    public static int screenWidth;//屏幕寬度
 
 
     @Override
@@ -167,6 +169,9 @@ public class DoPraticeActivity extends FxActivity
         mViewpager = getView(R.id.viewpager);
         btncheck = (Button) findViewById(R.id.btn_check);
         btncheck.setOnClickListener(onclick);
+
+        //获取屏幕宽度
+        screenWidth = BaseUtil.getWidthPixels(this);
     }
 
 

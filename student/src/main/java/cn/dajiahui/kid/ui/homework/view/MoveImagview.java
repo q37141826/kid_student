@@ -1,7 +1,6 @@
 package cn.dajiahui.kid.ui.homework.view;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.fxtx.framework.util.BaseUtil;
 
 import java.util.List;
 
@@ -23,6 +21,7 @@ import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.MoveLocation;
 
+import static cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity.screenWidth;
 import static cn.dajiahui.kid.ui.homework.homeworkdetails.SortFragment.isLinecheck;
 
 /**
@@ -44,7 +43,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     private MoveLocation moveLocation;//接口实例
     public String val;//当前拖动图片的val值
     private List<String> mRightContentList;
-    private int widthPixels;
+
 
     /*构造*/
     public MoveImagview(Context context, @Nullable AttributeSet attrs) {
@@ -55,7 +54,6 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     public MoveImagview(Context context, MoveLocation moveLocation, int position, List<String> mRightContentList, SortQuestionModle inbasebean) {
         super(context);
         this.context = context;
-        widthPixels = BaseUtil.getWidthPixels((Activity) context);
         this.setOnTouchListener(this);
         this.inbasebean = inbasebean;
         this.moveLocation = moveLocation;
@@ -67,18 +65,6 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
         addview();
 
     }
-
-    /*正确答案构造（后台返回数据后需重新加载一遍排序的图片）*/
-    public MoveImagview(Context context, int position, SortQuestionModle inbasebean) {
-        super(context);
-        this.context = context;
-        this.inbasebean = inbasebean;
-        this.position = position;
-        widthPixels = BaseUtil.getWidthPixels((Activity) context);
-        /*添加图片*/
-        addRightview();
-    }
-
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -150,7 +136,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     /*添加视图*/
     private void addview() {
 
-        LayoutParams params = new LayoutParams(widthPixels/5, widthPixels/5);
+        LayoutParams params = new LayoutParams(screenWidth / 5, screenWidth / 5);
         String content = inbasebean.getOptions().get(position).getContent();
 
         if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
@@ -172,7 +158,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
                         .into(imageView);
 
                 /*正确答案 添加遮罩*/
-                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(widthPixels/5, widthPixels/5);
+                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
                 paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
                 ImageView imageViewT = new ImageView(context);
                 imageViewT.setLayoutParams(paramsT);
@@ -197,43 +183,5 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
 
 
     }
-
-    /*添加视图*/
-    private void addRightview() {
-        String content = inbasebean.getOptions().get(position).getContent();
-        LayoutParams params = new LayoutParams(widthPixels/5, widthPixels/5);
-
-        if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
-            ImageView imageView = new ImageView(context);
-
-            imageView.setLayoutParams(params);
-            this.addView(imageView);
-            Glide.with(context)
-                    .load(inbasebean.getOptions().get(position).getContent())
-                    .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(imageView);
-        } else {
-            TextView textView = new TextView(context);
-            LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            textView.setTextColor(getResources().getColor(R.color.blue));
-            params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
-            textView.setLayoutParams(tparams);
-            textView.setText("第" + (position + 1) + "个");
-            addView(textView);
-        }
-
-    }
-
-    /*显示我的答案*/
-    public void showAnswer(BeLocation beLocation) {
-
-        if (beLocation != null) {
-            this.layout(beLocation.getGetLeft(), beLocation.getGetTop(), beLocation.getGetRight(), beLocation.getGetBottom());
-            this.setFocusable(false);
-            this.setClickable(false);
-        }
-    }
-
 
 }

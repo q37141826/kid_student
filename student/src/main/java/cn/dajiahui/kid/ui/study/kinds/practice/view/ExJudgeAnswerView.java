@@ -19,6 +19,8 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.study.kinds.practice.ExJudgeFragment;
 
+import static cn.dajiahui.kid.controller.Constant.JudgeAnswerView_margin;
+
 /**
  * Created by mj on 2018/2/7.
  * <p>
@@ -44,7 +46,7 @@ public class ExJudgeAnswerView extends RelativeLayout implements View.OnClickLis
         this.position = position;
         this.submit = submit;
         this.mAnswerViewList = mAnswerViewList;
-        this.setPadding(10, 10, 10, 10);
+        this.setPadding(JudgeAnswerView_margin, JudgeAnswerView_margin, JudgeAnswerView_margin, JudgeAnswerView_margin);
         this.setBackgroundResource(R.drawable.noselect_judge_image);
         String content = inbasebean.getOptions().get(position).getContent();
         if (content.startsWith("h", 0) && content.startsWith("t", 1)) {

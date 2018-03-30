@@ -24,9 +24,9 @@ import cn.dajiahui.kid.ui.homework.bean.Point;
 import cn.dajiahui.kid.ui.homework.view.CricleTextView;
 import cn.dajiahui.kid.ui.study.kinds.practice.myinterface.ExSublineinfo;
 
-import static cn.dajiahui.kid.controller.Constant.ScreenWidth;
 import static cn.dajiahui.kid.controller.Constant.pointViewDiameter;
 import static cn.dajiahui.kid.controller.Constant.pointViewDiameter_margin;
+import static cn.dajiahui.kid.ui.study.kinds.practice.DoPraticeActivity.screenWidth;
 
 /**
  * Created by lenovo on 2018/1/12.
@@ -50,6 +50,7 @@ public class ExLineImagePointView extends RelativeLayout implements View.OnClick
 
     private final LinearLayout linRoot;//imageview或者textview 和小点的父亲布局
     public RelativeLayout mContentView;//左边的view添加遮罩的父view
+
 
 
     public void selected(boolean flag) {
@@ -79,11 +80,11 @@ public class ExLineImagePointView extends RelativeLayout implements View.OnClick
     public Point getPoint() {
         Point point = new Point();
         if (direction == Dir.left) {
-            point.setX(this.getLeft() + pointview.getLeft() + pointViewDiameter/2); // 小圆点直径的一半
+            point.setX(this.getLeft() + pointview.getLeft() + pointViewDiameter / 2); // 小圆点直径的一半
         } else {
-            point.setX(getLeft() +  pointViewDiameter/2);
+            point.setX(getLeft() + pointViewDiameter / 2);
         }
-        point.setY(this.getTop() + pointview.getTop() +  pointViewDiameter/2);
+        point.setY(this.getTop() + pointview.getTop() + pointViewDiameter / 2);
         return point;
     }
 
@@ -101,7 +102,7 @@ public class ExLineImagePointView extends RelativeLayout implements View.OnClick
         this.setOnClickListener(this);
 
         /*imageview和textview的大小*/
-        LayoutParams lp = new LayoutParams(ScreenWidth/5, ScreenWidth/5);
+        LayoutParams lp = new LayoutParams(screenWidth / 5, screenWidth / 5);
 
         linRoot = new LinearLayout(context);
 
@@ -130,7 +131,7 @@ public class ExLineImagePointView extends RelativeLayout implements View.OnClick
                 linRoot.addView(mContentView);
 
             }
-            mContentView.setPadding(5,5,5,5);
+            mContentView.setPadding(5, 5, 5, 5);
             mContentView.setBackgroundResource(R.drawable.line_bg);
             this.value = inbasebean.getOptions().getLeft().get(cLeftposiion).getVal();
             addPointLeft();//添加左边小黑点
@@ -157,7 +158,7 @@ public class ExLineImagePointView extends RelativeLayout implements View.OnClick
                 textViewR.setLayoutParams(lp);
                 linRoot.addView(mContentView);
             }
-            mContentView.setPadding(5,5,5,5);
+            mContentView.setPadding(5, 5, 5, 5);
             mContentView.setBackgroundResource(R.drawable.line_bg);
         }
         this.selected(false);
@@ -215,7 +216,7 @@ public class ExLineImagePointView extends RelativeLayout implements View.OnClick
     @SuppressLint("ResourceType")
     public void addPointRight() {
         pointview = new CricleTextView(context);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams( pointViewDiameter, pointViewDiameter);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(pointViewDiameter, pointViewDiameter);
         lp.rightMargin = pointViewDiameter_margin;
         pointview.setId(R.string.show_pointright);
         //设置居中显示：
@@ -244,7 +245,7 @@ public class ExLineImagePointView extends RelativeLayout implements View.OnClick
     public void onClick(View v) {
         this.setBackgroundResource(R.drawable.btnline);
 
-            sublineinfo.submitlininfo(this);
+        sublineinfo.submitlininfo(this);
 
     }
 
