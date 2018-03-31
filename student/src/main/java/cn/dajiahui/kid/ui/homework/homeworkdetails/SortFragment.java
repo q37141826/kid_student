@@ -45,8 +45,7 @@ public class SortFragment extends BaseHomeworkFragment implements
     int mLeftTop = 0;
     int mTop = 0;
     int mRightTop = 0;
-    /*正确答案视图*/
-    private List<MoveImagview> showRightViews = new ArrayList<>();
+
     // 左邊視圖
     private List<MoveImagview> leftViews = new ArrayList<>();
     // 右边视图
@@ -58,8 +57,6 @@ public class SortFragment extends BaseHomeworkFragment implements
     private final int LEFT = 2;
     private final int PREPARERIGHT = 3;//准备数据
     private final int PREPMINEARERIGHT = 4;//准备数据我的答案
-//    private final int GETRIGHTANSWER = 5;//正确答案
-//    private final int GETMINEANSWER = 6;//我的答案
 
     private List<BeLocation> pointRightList = new ArrayList<>(); //右视图坐标点的集合
     private List<BeLocation> pointLeftList = new ArrayList<>();//左视图位置的集合
@@ -70,13 +67,13 @@ public class SortFragment extends BaseHomeworkFragment implements
 
     private Map<Integer, BeLocation> sortMineAnswerMap = new HashMap<>();//我的答案（ isanswer=1）
     private Map<Integer, BeLocation> sortRightAnswerMap = new HashMap<>();//正确答案（ isanswer=1）
-    //    private TextView mRight;/*正确答案*/
-//    private TextView mLeft;/*我的答案*/
+
     private TextView tv_sort, tv_schedule;
     private ImageView sort_img_play;//播放器按钮
-
-//    private List<String> initMyanswerList = new ArrayList<>();//初始我的答案集合（用于获取我的答案顺序）
-
+    private String media;
+    private List<String> mRightContentList;
+    private List<String> mMineContentList;
+    private String title;
 
     public static boolean isLinecheck = false;//江湖救急  后续更改
     private Map<Integer, BeLocation> mMineAnswerMap = new HashMap<>();//（isanswer=0）
@@ -116,7 +113,7 @@ public class SortFragment extends BaseHomeworkFragment implements
                         sortMineAnswerMap.put((i + 1), beLocation);
                         pointRightList.add(beLocation);
                         pRightY = (pRightY += screenWidth / 4);//左边所有点的y坐标
-                        inbasebean.getInitSortMyanswerList().add("㊒");
+
                     }
                     Message msg2 = Message.obtain();
                     msg2.what = PREPMINEARERIGHT;
@@ -149,11 +146,6 @@ public class SortFragment extends BaseHomeworkFragment implements
             }
         }
     };
-    private String media;
-    private List<String> mRightContentList;
-    private List<String> mMineContentList;
-    private String title;
-
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -260,6 +252,7 @@ public class SortFragment extends BaseHomeworkFragment implements
             rightViews.add(fixedImagview);
 
             lin.addView(fixedImagview); //动态添加图片
+
         }
 
     }

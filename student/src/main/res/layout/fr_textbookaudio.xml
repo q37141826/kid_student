@@ -25,8 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:divider="@null"
-            android:dividerHeight="10dp"
+            android:dividerHeight="1px"
             android:fadeScrollbars="false"
             android:footerDividersEnabled="true"
             android:headerDividersEnabled="true"
@@ -37,6 +36,7 @@
 
     </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
 
+
     <RelativeLayout
         android:id="@+id/delete_view"
         android:layout_width="match_parent"
@@ -45,6 +45,12 @@
         android:orientation="vertical"
         android:visibility="gone"
         >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#E9E9E9"
+            />
 
         <CheckBox
             android:id="@+id/allCheck"
@@ -64,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_gravity="center_horizontal"
-            android:background="@color/gray"
+
             android:text="@string/delete"
             android:textColor="@color/white"
             />

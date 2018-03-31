@@ -27,13 +27,6 @@ public class MyWorksActivity extends FxTabActivity {
     private ShowbtnDelete showbtnDeleteTextbook;
     private ShowbtnDelete showbtnDeleteCaraok;
 
-    public void setShowcheckboxTextbook(boolean showcheckboxTextbook) {
-        isShowcheckboxTextbook = showcheckboxTextbook;
-    }
-
-    public void setShowcheckboxaraok(boolean showcheckboxaraok) {
-        isShowcheckboxaraok = showcheckboxaraok;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +66,7 @@ public class MyWorksActivity extends FxTabActivity {
 
     @Override
     public void onRightBtnClick(View view) {
-
+            /*课本剧*/
         if (isFragment == showbtnDeleteTextbook) {
             isShowcheckboxTextbook = !isShowcheckboxTextbook;
             if (isShowcheckboxTextbook) {
@@ -84,7 +77,9 @@ public class MyWorksActivity extends FxTabActivity {
                 showbtnDeleteTextbook.showbtnDelete(2);
                 tv_right.setText("编辑");
             }
+
         } else {
+            /*卡拉OK*/
             isShowcheckboxaraok = !isShowcheckboxaraok;
             if (isShowcheckboxaraok) {
                 showbtnDeleteCaraok.showbtnDelete(1);
@@ -95,6 +90,19 @@ public class MyWorksActivity extends FxTabActivity {
             }
         }
 
+    }
+
+    public void RefreshControl() {
+        isShowcheckboxTextbook = false;
+        isShowcheckboxaraok = false;
+        if (showbtnDeleteCaraok != null) {
+            showbtnDeleteCaraok.showbtnDelete(2);
+        }
+        if (showbtnDeleteTextbook != null) {
+            showbtnDeleteTextbook.showbtnDelete(2);
+        }
+
+        tv_right.setText("编辑");
     }
 
     private View.OnClickListener onCick = new View.OnClickListener() {
@@ -114,9 +122,9 @@ public class MyWorksActivity extends FxTabActivity {
                         frTextBookAudio = new FrTextBookAudio();
                         showbtnDeleteTextbook = frTextBookAudio;
                     }
+                    RefreshControl();
                     switchContent(isFragment, frTextBookAudio);
 
-//                    Toast.makeText(context, "课本剧作品", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.tv_caraok:
                     tvbookaudio.setTextColor(getResources().getColor(R.color.black));
@@ -127,11 +135,13 @@ public class MyWorksActivity extends FxTabActivity {
                     switchContent(isFragment, frTextBookAudio);
                     if (frCaraOK == null) {
                         frCaraOK = new FrCaraOK();
-                        showbtnDeleteCaraok = (ShowbtnDelete) frCaraOK;
+                        showbtnDeleteCaraok = frCaraOK;
+
                     }
+                    RefreshControl();
                     switchContent(isFragment, frCaraOK);
 
-//                    Toast.makeText(context, "klaok作品", Toast.LENGTH_SHORT).show();
+
                     break;
 
 

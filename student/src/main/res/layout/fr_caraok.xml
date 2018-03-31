@@ -25,8 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:divider="@null"
-            android:dividerHeight="10dp"
+            android:dividerHeight="1px"
             android:fadeScrollbars="false"
             android:footerDividersEnabled="true"
             android:headerDividersEnabled="true"
@@ -44,6 +43,12 @@
         android:gravity="bottom"
         android:orientation="vertical"
         android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#E9E9E9"
+            />
 
         <CheckBox
             android:id="@+id/allCheck"

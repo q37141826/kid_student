@@ -123,7 +123,7 @@ public class LineFragment extends BaseHomeworkFragment implements
             }
             mView.setLayoutParams(lp);
             lin.addView(mView); //动态添加图片
-            inbasebean.getInitLineMyanswerMap().put((i + 1) + "", "");//初始化答案集合
+//            inbasebean.getInitLineMyanswerMap().put((i + 1) + "", "");//初始化答案集合
         }
 
     }
@@ -171,7 +171,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                 if (inbasebean != null) {
                     if (inbasebean.getIs_answered().equals("1")) {
                         mRight.setText("我的答案");
-                        if (ponitViewXY.size() == (leftViews.size() * 2)) {// && inbasebean.getIs_answered().equals("1")&& inbasebean.getStandard_answer() != null
+                        if (ponitViewXY.size() == (leftViews.size() * 2)) {
                              /*获取正确答案的 坐标点*/
                             for (int m = 0; m < mLeftAnswerList.size(); m++) {
                                 Point pointL = ponitViewXY.get(mLeftAnswerList.get(m));
@@ -609,10 +609,8 @@ public class LineFragment extends BaseHomeworkFragment implements
     /*显示正确答案*/
     private void showRightAnswer() {
         mOnclickAnswer = !mOnclickAnswer;
-//        mRight.setBackgroundResource(R.drawable.line_answer_bg_gray_97938f);
         mRight.setTextColor(getResources().getColor(R.color.gray_9f938f));
 
-//        mLeft.setBackgroundResource(R.drawable.line_answer_bg_yellow_fbf12);
         mLeft.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
         inbasebean.getDrawPathList().clear();
         /*划线父布局清空view*/

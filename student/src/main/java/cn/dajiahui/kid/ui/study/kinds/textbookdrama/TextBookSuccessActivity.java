@@ -1,10 +1,7 @@
 package cn.dajiahui.kid.ui.study.kinds.textbookdrama;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,8 +19,6 @@ import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.platforms.umeng.BeShareContent;
 import com.fxtx.framework.platforms.umeng.UmengShare;
 import com.fxtx.framework.ui.FxActivity;
-import com.fxtx.framework.util.ActivityUtil;
-import com.fxtx.framework.widgets.dialog.FxDialog;
 import com.squareup.okhttp.Request;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -68,7 +63,7 @@ public class TextBookSuccessActivity extends FxActivity {
     private TextView tvsavemineworks;//保存我的作品
     private BeGoTextBookSuccess beGoTextBookSuccess;
     private LinearLayout bottomRoot, socre_root, info_root;//底部重新录制，保存到我的作品的父布局
-    private RelativeLayout shareRoot;//分享父布局 //保存我的作品成功之后显示
+    private RelativeLayout shareRoot, shareRootNotice;//分享父布局 //保存我的作品成功之后显示
     private String makeTextBookDrma;
     private String mineWorksTempPath;//我的作品临时文件夹
     private RelativeLayout tv_savemineworks;
@@ -79,44 +74,6 @@ public class TextBookSuccessActivity extends FxActivity {
     private UmengShare umengShare;
     private BeShareContent beShareContent;
 
-    @SuppressLint("HandlerLeak")
-    public Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-/**/
-            switch (msg.what) {
-
-                case 1:
-                    FxDialog fxDialog = new FxDialog(TextBookSuccessActivity.this) {
-                        @Override
-                        public void onRightBtn(int flag) {
-                               /*弹框作品未保存是否退出*/
-                            ActivityUtil.getInstance().finishActivity(TextBookSuccessActivity.class);
-                            ActivityUtil.getInstance().finishActivity(MakeKraoOkeActivity.class);
-                            dismiss();
-                        }
-
-                        @Override
-                        public void onLeftBtn(int flag) {
-
-                            dismiss();
-                        }
-                    };
-                    fxDialog.setMessage("作品未保存,是否退出？");
-                    fxDialog.show();
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void initView() {
@@ -133,15 +90,16 @@ public class TextBookSuccessActivity extends FxActivity {
 
         if (makeTextBookDrma.equals("MakeTextBookDrma")) {
             CLOSE = "MakeTextBookDrma";
-              /*显示分享布局  要分享成功后显示*/
-            shareRoot.setVisibility(View.INVISIBLE);
+              /*隐藏分享布局  要分享成功后显示*/
+            shareRoot.setVisibility(View.GONE);
+            shareRootNotice.setVisibility(View.VISIBLE);
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
             int score = 0;
             for (int i = 0; i < beGoTextBookSuccess.getmScoreMap().size(); i++) {
                 score += beGoTextBookSuccess.getmScoreMap().get(i);
             }
             int average = score / beGoTextBookSuccess.getmScoreMap().size();
-            tvscore.setText(average + "");
+            tvscore.setText(average + "分");
             rbscore.setMax(100);
             rbscore.setProgress(average);
 
@@ -153,7 +111,9 @@ public class TextBookSuccessActivity extends FxActivity {
         } else if (makeTextBookDrma.equals("MakeKraoOke")) {
             CLOSE = "MakeKraoOke";
             /*显示分享布局  要分享成功后显示*/
-            shareRoot.setVisibility(View.INVISIBLE);
+            shareRoot.setVisibility(View.GONE);
+            shareRootNotice.setVisibility(View.VISIBLE);
+
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
 
             /*隐藏打分*/
@@ -267,6 +227,7 @@ public class TextBookSuccessActivity extends FxActivity {
         rbscore = getView(R.id.rb_score);
         tvshare = getView(R.id.tv_share);
         bottomRoot = getView(R.id.bottomRoot);
+        shareRootNotice = getView(R.id.share_root_notice);
         shareRoot = getView(R.id.share_root);
         socre_root = getView(R.id.socre_root);
         info_root = getView(R.id.info_root);
@@ -407,6 +368,7 @@ public class TextBookSuccessActivity extends FxActivity {
             dismissfxDialog();
               /*显示分享布局  要分享成功后显示*/
             shareRoot.setVisibility(View.VISIBLE);
+            shareRootNotice.setVisibility(View.GONE);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {

@@ -62,26 +62,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
-                <!--<TextView-->
-                <!--android:id="@+id/mRight"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center"-->
-                <!--android:text="正确答案"-->
-                <!--android:textSize="14sp"/>-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/mLeft"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center"-->
-                <!--android:text="正确答案"-->
-                <!--android:textSize="14sp"/>-->
             </RelativeLayout>
 
             <RelativeLayout

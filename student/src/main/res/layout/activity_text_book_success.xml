@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="#F5F5F5"
         android:orientation="vertical">
 
         <cn.dajiahui.kid.ui.study.kinds.textbookdrama.JCVideoPlayerTextScuessBook
@@ -21,6 +22,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="123dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
             android:padding="10dp">
 
 
@@ -103,7 +106,6 @@
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:layout_weight="1"
                         android:clickable="false"
                         android:focusable="false"
                         android:gravity="center"/>
@@ -115,10 +117,30 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/share_root_notice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:visibility="gone">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="保存到我的作品可分享"/>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/share_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible">
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_share"

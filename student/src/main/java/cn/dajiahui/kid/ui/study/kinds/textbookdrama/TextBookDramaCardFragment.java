@@ -12,8 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fxtx.framework.log.Logger;
+import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxFragment;
 
 import java.util.Timer;
@@ -60,14 +62,24 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
         super.onViewCreated(view, savedInstanceState);
         initialize();
         beTextBookDramaPageDataItem = (BeTextBookDramaPageDataItem) bundle.get("BeTextBookDramaPageDataItem");
+        int position = (int) bundle.get("position");
+         /*通知碎片中的进度条*/
+
         totalsize = bundle.getString("size");
         tvenglish.setText(beTextBookDramaPageDataItem.getEnglish());
         tvchinese.setText(beTextBookDramaPageDataItem.getChinese());
-//        tvtotaltime.setText("时间");
 
-        tvcurrentnum.setText("1/" + totalsize);
+
+        if (StringUtil.isNumericzidai(beTextBookDramaPageDataItem.getTime_end()) && StringUtil.isNumericzidai(beTextBookDramaPageDataItem.getTime_start())) {
+            seekroot.setVisibility(View.VISIBLE);
+            ratingBar.setVisibility(View.INVISIBLE);
+            tvtotaltime.setText(((Integer.parseInt(beTextBookDramaPageDataItem.getTime_end()) - Integer.parseInt(beTextBookDramaPageDataItem.getTime_start())) / 1000) + "s");
+            tvcurrentnum.setText("1/" + totalsize);
+        }else {
+            Toast.makeText(activity, "数据错误", Toast.LENGTH_SHORT).show();
+
+        }
     }
-
 
     @Override
     public void onPause() {
@@ -119,11 +131,21 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
     Timer mProssTimer;
     int allSecond = -1;
 
+    /*时间*/
+    public void refreshTime(final int Second) {
+        if (seekroot != null) {
+            seekroot.setVisibility(View.VISIBLE);
+            ratingBar.setVisibility(View.INVISIBLE);
+            tvtotaltime.setText(Second + "s");
+        }
+    }
+
     /*刷新进度条*/
     public void refreshProgress(final int Second) {
-        seekroot.setVisibility(View.VISIBLE);
-        ratingBar.setVisibility(View.INVISIBLE);
-        tvtotaltime.setText(Second + "s");
+//        if (seekroot != null) {
+//            seekroot.setVisibility(View.VISIBLE);
+//            ratingBar.setVisibility(View.INVISIBLE);
+//            tvtotaltime.setText(Second + "s");
         recordseek.setMax(Second);
 
         if (mProssTimer == null) {
@@ -140,6 +162,7 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
             }, 0, 1000);
         }
     }
+//    }
 
     /*点亮小星星 打分*/
     public void markScore(int fraction) {

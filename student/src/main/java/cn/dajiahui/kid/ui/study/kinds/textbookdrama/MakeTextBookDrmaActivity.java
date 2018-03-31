@@ -80,8 +80,8 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
     private Timer showSubmitTimer;//显示提交按钮
     private int mCurrentPosition = 0;//当前碎片的索引
     private int mRecordLength = 0;//音频片段长度
-    private StringBuilder mFormatBuilder = new StringBuilder();
-    private Formatter mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
+    //    private StringBuilder mFormatBuilder = new StringBuilder();
+    //    private Formatter mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
     private Map<Integer, Map<String, Object>> audiosList = new HashMap<>();//背景音+录音的list
     private Map<Integer, String> mPlayRecordMap = new HashMap<>();//有录音情况下 翻页时播放录音的集合
     private TextView submit;//提交按钮
@@ -93,6 +93,8 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
     private final int DELAYED_CHIVOX = 4;//弛声延迟
     protected int counter = 0;
 
+    private boolean isRecorded = true;//false 不可以录音  true 可以录音
+
     @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
 
@@ -103,6 +105,9 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                     int currentPosition = mVideoView.getCurrentPosition();
                        /*实时在endtime区间内 停止音频播放*/
                     if (((msg.arg1 - 100) < (currentPosition)) && ((currentPosition) < (msg.arg1 + 500))) {
+                        isRecorded = true;
+                        imgrecording.setImageResource(R.drawable.textbook_recording_start);
+                        imgplayrecoding.setImageResource(R.drawable.play_recoding_start);
                         mVideoView.pause();
                     }
 
@@ -135,7 +140,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                     break;
 
                 case DELAYED_CHIVOX:
-                    Logger.d("-------counter:" + counter);
+//                    Logger.d("-------counter:" + counter);
                     if (counter < 3) {
                         recordStop();
                         recordStart(mDataList.get(mCurrentPosition).getEnglish()); // 重新开始录音
@@ -302,9 +307,10 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
 
             TextBookDramaCardFragment dramaFragment = new TextBookDramaCardFragment();
             mTextBookDramaCardMap.put(position, dramaFragment);
+
             Bundle bundle = new Bundle();
             bundle.putString("size", mDataList.size() + "");
-
+            bundle.putInt("position", position);
             bundle.putSerializable("BeTextBookDramaPageDataItem", mDataList.get(position));
             dramaFragment.setArguments(bundle);
             return dramaFragment;
@@ -377,34 +383,44 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
 
     @Override
     public void onPageSelected(int position) {
-
-        mCurrentPosition = position;
+  /*判断是否是数字*/
+        if (isNumericzidai()) {
+            isRecorded = true;
+            imgrecording.setImageResource(R.drawable.textbook_recording_start);
+            imgplayrecoding.setImageResource(R.drawable.play_recoding_start);
+            mCurrentPosition = position;
         /*打开视频声音*/
-        openVideoviewSound();
+            openVideoviewSound();
 
-        if (StringUtil.isNumericzidai(mDataList.get(position).getTime_start())) {
-            int start_time = Integer.parseInt(mDataList.get(position).getTime_start());
+            if (StringUtil.isNumericzidai(mDataList.get(position).getTime_start())) {
+                int start_time = Integer.parseInt(mDataList.get(position).getTime_start());
 
-            int end_time = Integer.parseInt(mDataList.get(position).getTime_end());
-            //      Logger.d("position:----" + position + "  videoSeekTo  start_time--:" + start_time + "    end_time--:" + end_time);
-            mVideoView.seekTo(start_time);
-            mVideoView.start();
-        }
+//            int end_time = Integer.parseInt(mDataList.get(position).getTime_end());
+               /*通知碎片中的进度条*/
+                mTextBookDramaCardMap.get(mCurrentPosition).refreshTime(((Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end()) - Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start())) / 1000));
+                mVideoView.seekTo(start_time);
+                mVideoView.start();
+            }
         /*关闭正在播放的录音片段*/
-        closeSoundRecording();
+            closeSoundRecording();
          /*打开视频声音*/
-        openVideoviewSound();
+            openVideoviewSound();
 
-
-        RefreshWidget refreshWidget = (RefreshWidget) mTextBookDramaCardMap.get(position);
-        refreshWidget.refresgWidget(position + 1);
-
-
+            RefreshWidget refreshWidget = (RefreshWidget) mTextBookDramaCardMap.get(position);
+            refreshWidget.refresgWidget(position + 1);
+        } else {
+            Toast.makeText(context, "数据错误", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    /*判断是是否是数字*/
+    private boolean isNumericzidai() {
+        return StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_end()) && StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_start());
     }
 
     private View.OnClickListener onClick = new View.OnClickListener() {
@@ -413,57 +429,80 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
 
             switch (v.getId()) {
                 case R.id.img_recording:
-                    if (PlayMedia.getPlaying().mediaPlayer != null && PlayMedia.getPlaying().mediaPlayer.isPlaying()) {
-                        Toast.makeText(context, "播放录音时不能配音", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                    /*判断是否是数字*/
+                    if (isNumericzidai()) {
 
-                    if (StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_start()) && StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_end())) {
+                        if (isRecorded == true) {
+                            if (PlayMedia.getPlaying().mediaPlayer != null && PlayMedia.getPlaying().mediaPlayer.isPlaying()) {
+//                            Toast.makeText(context, "播放录音时不能配音", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            isRecorded = false;
+                            imgrecording.setImageResource(R.drawable.textbook_recording_pause);
+                            imgplayrecoding.setImageResource(R.drawable.play_recoding_pause);
+                    /*判断是否是数字*/
+                            if (StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_start()) && StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_end())) {
                     /*点击录音同时视频要跳转到当前录音片段开始的时间点*/
-                        mVideoView.seekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()));
+                                mVideoView.seekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()));
                     /*关闭视频声音*/
-                        closeVideoviewSound();
+                                closeVideoviewSound();
                     /*禁止滑动（录音时）*/
-                        mViewpager.setNoScroll(true);
+                                mViewpager.setNoScroll(true);
 
                     /* 通知评分引擎此次为英文句子评测 */
-                        coretype = CoreType.en_sent_score;
+                                coretype = CoreType.en_sent_score;
                     /*参数是评分的语句*/
-                        recordStart(mDataList.get(mCurrentPosition).getEnglish());
-                        isRecording = true;
+                                recordStart(mDataList.get(mCurrentPosition).getEnglish());
+                                isRecording = true;
                     /*播放视频*/
-                        mVideoView.start();
+                                mVideoView.start();
                     /*获取当前片段录音的长度*/
-                        mRecordLength = ((Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end()) - Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start())) / 1000);
+                                mRecordLength = ((Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end()) - Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start())) / 1000);
                    /*通知碎片中的进度条*/
-                        mTextBookDramaCardMap.get(mCurrentPosition).refreshProgress(mRecordLength);
+                                mTextBookDramaCardMap.get(mCurrentPosition).refreshProgress(mRecordLength);
+                            /*更新录制时间*/
+                                mTextBookDramaCardMap.get(mCurrentPosition).refreshTime(mRecordLength);
                     /*监听时间录音倒计时*/
-                        if (timerRecoding == null) {
-                            timerRecoding = new Timer();
-                            timerRecoding.schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    Message msg = Message.obtain();
-                                    mRecordLength -= 1;
-                                    msg.arg1 = mRecordLength;
-                                    msg.what = 1;
-                                    mHandler.sendMessage(msg); // 发送消息
+                                if (timerRecoding == null) {
+                                    timerRecoding = new Timer();
+                                    timerRecoding.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            Message msg = Message.obtain();
+                                            mRecordLength -= 1;
+                                            msg.arg1 = mRecordLength;
+                                            msg.what = 1;
+                                            mHandler.sendMessage(msg); // 发送消息
+                                        }
+                                    }, 0, 1000);
                                 }
-                            }, 0, 1000);
+                            }
+                        } else {
+//                        Toast.makeText(context, "录音无效", Toast.LENGTH_SHORT).show();
                         }
+                    } else {
+                        Toast.makeText(context, "数据错误", Toast.LENGTH_SHORT).show();
                     }
-//                    Toast.makeText(context, "开始录音", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.img_playrecoding:
 
                     if (mPlayRecordMap.get(mCurrentPosition) != null) {
-                        /*点击录音要跳转到当前片段的开始时间*/
-                        mVideoView.seekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()));
-                        /*关闭视频的声音*/
-                        closeVideoviewSound();
-                        PlayMedia.getPlaying().StartMp3(mPlayRecordMap.get(mCurrentPosition));
+                        if (isRecorded == true) {
+                            imgrecording.setImageResource(R.drawable.textbook_recording_pause);
+                            imgplayrecoding.setImageResource(R.drawable.play_recoding_pause);
 
-                        startVideoPauseTimer();
+                        /*点击录音要跳转到当前片段的开始时间*/
+                            mVideoView.seekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()));
+                          /*播放视频*/
+                            mVideoView.start();
+                        /*关闭视频的声音*/
+                            closeVideoviewSound();
+                            PlayMedia.getPlaying().StartMp3(mPlayRecordMap.get(mCurrentPosition));
+
+                            startVideoPauseTimer();
+                        } else {
+//                            Toast.makeText(context, "播放无效", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     break;
                 case R.id.submit:
@@ -529,15 +568,14 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
     }
 
 
-    /*格式化时间*/
+    /*格式化时间毫秒 时：分：秒.毫秒*/
     private String stringForTime(int timeMs) {
-        int totalSeconds = timeMs / 1000;
-        int seconds = totalSeconds % 60;
-        int minutes = (totalSeconds / 60) % 60;
-        int hours = totalSeconds / 3600;
-        mFormatBuilder.setLength(0);
-        Logger.d("格式化时间：  " + mFormatter.format("%02d:%02d:%02d", hours, minutes, seconds).toString());
-        return mFormatter.format("%02d:%02d:%02d", hours, minutes, seconds).toString();
+        int hours = (timeMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+        int minutes = (timeMs % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = timeMs % (1000 * 60) / 1000;
+        int haomiao = timeMs % 1000;
+
+        return new Formatter(new StringBuilder(), Locale.getDefault()).format("%02d:%02d:%02d.%d", hours, minutes, seconds, haomiao).toString();
     }
 
     /*关闭播放的音频*/
@@ -549,9 +587,11 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
 
     /*关闭视频的声音*/
     public void closeVideoviewSound() {
-        if (mVideoView != null && mVideoView.isPlaying()) {
+//        if (mVideoView != null && mVideoView.isPlaying()) {
+        if (mCurrentMp != null) {
             mCurrentMp.setVolume(0, 0);/*关闭视频声音*/
         }
+//        }
     }
 
     /*打开视频的声音*/

@@ -48,14 +48,14 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="95dp"
-            android:src="@drawable/play_recoding"/>
+            android:src="@drawable/play_recoding_start"/>
 
         <ImageView
             android:id="@+id/img_recording"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/recoding"/>
+            android:src="@drawable/textbook_recording_start"/>
 
 
         <TextView
@@ -67,7 +67,7 @@
             android:layout_marginRight="95dp"
             android:background="@drawable/circle_bg_yellow"
             android:gravity="center"
-            android:text="提交"
+            android:text="预览"
             android:textColor="@color/white"
             android:textSize="13sp"
             android:visibility="invisible"

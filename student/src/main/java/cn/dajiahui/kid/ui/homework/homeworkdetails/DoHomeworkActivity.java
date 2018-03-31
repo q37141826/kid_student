@@ -126,41 +126,59 @@ public class DoHomeworkActivity extends FxActivity
                                 Logger.d("判断：" + jsonArray.get(i).toString());
                                 JudjeQuestionModle judjeQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), JudjeQuestionModle.class);
                                 mDatalist.add(judjeQuestionModle);
+                                judjeQuestionModle.setMy_answer("㊒");
                                 break;
                             case Constant.Choice:
                                 ChoiceQuestionModle choiceQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), ChoiceQuestionModle.class);
                                 mDatalist.add(choiceQuestionModle);
+                                choiceQuestionModle.setMy_answer("㊒");
                                 Logger.d("选择：" + jsonArray.get(i).toString());
                                 break;
                             case Constant.Sort:
                                 Logger.d("排序：" + jsonArray.get(i).toString());
                                 SortQuestionModle sortQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), SortQuestionModle.class);
                                 mDatalist.add(sortQuestionModle);
+//                               /*初始化排序答案*/
+
+                                for (int s = 0; s < sortQuestionModle.getOptions().size(); s++) {
+                                    if (sortQuestionModle.getInitSortMyanswerList().size() < sortQuestionModle.getOptions().size()) {
+                                        sortQuestionModle.getInitSortMyanswerList().add("㊒");
+                                    }
+                                }
+                                Logger.d("排序：" + sortQuestionModle.getInitSortMyanswerList().toString());
                                 break;
                             case Constant.Line:
                                 Logger.d("连线：" + jsonArray.get(i).toString());
                                 LineQuestionModle lineQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), LineQuestionModle.class);
                                 mDatalist.add(lineQuestionModle);
+                                  /*初始化连线答案*/
+                                for (int l = 0; l < lineQuestionModle.getOptions().getLeft().size(); l++) {
+                                    lineQuestionModle.getInitLineMyanswerMap().put((l + 1) + "", "㊒");
+                                }
+                                Logger.d("连线：" + lineQuestionModle.getInitLineMyanswerMap().toString());
                                 break;
                             case Constant.Completion:
                                 Logger.d("填空：" + jsonArray.get(i).toString());
                                 CompletionQuestionModle completionQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), CompletionQuestionModle.class);
+                                /*初始化填空答案*/
                                 mDatalist.add(completionQuestionModle);
                                 break;
                             default:
                                 break;
 
                         }
-                    }
-                    /*作业适配器*/
-                    HomeWorkAdapter homeWorkAdapter = new HomeWorkAdapter(getSupportFragmentManager(), mdata);
-                    mViewpager.setAdapter(homeWorkAdapter);
-                    mViewpager.setOnPageChangeListener(onPageChangeListener);
 
-                   /*跳转单个题型的题*/
-                    if (mItemPosition != -1) {
-                        mViewpager.setCurrentItem(mItemPosition);
                     }
+                    Logger.d("mDatalist ：" + mDatalist.size());
+//                   /*作业适配器*/
+//                    HomeWorkAdapter homeWorkAdapter = new HomeWorkAdapter(getSupportFragmentManager(), mdata);
+//                    mViewpager.setAdapter(homeWorkAdapter);
+//                    mViewpager.setOnPageChangeListener(onPageChangeListener);
+//
+//                   /*跳转单个题型的题*/
+//                    if (mItemPosition != -1) {
+//                        mViewpager.setCurrentItem(mItemPosition);
+//                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -311,7 +329,6 @@ public class DoHomeworkActivity extends FxActivity
             if (subjectype.equals(Constant.Judje)) { /*判断*/
 
                 JudgeFragment fr1 = new JudgeFragment();
-
                 Bundle judgeBundle = new Bundle();
                 judgeBundle.putSerializable("JudgeQuestionModle", (Serializable) mDatalist.get(position));
                 judgeBundle.putString("currntQuestion", (position + 1) + "/" + data.size());

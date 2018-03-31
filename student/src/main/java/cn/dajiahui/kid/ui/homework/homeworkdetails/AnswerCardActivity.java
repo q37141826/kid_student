@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.GsonUtil;
 import com.fxtx.framework.json.HeadJson;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
 import com.fxtx.framework.widgets.dialog.FxDialog;
@@ -24,7 +25,6 @@ import java.util.Map;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
-import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.homework.adapter.ApAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.BeAnswerCArd;
 import cn.dajiahui.kid.ui.homework.bean.BeSaveAnswerCard;
@@ -201,11 +201,11 @@ public class AnswerCardActivity extends FxActivity {
     public void httpData() {
         super.httpData();
 
-//        String s = new GsonUtil().getJsonElement(new ToAnswerCardJson(submitAnswerCardList)).toString();
-//        Logger.d("答题卡json：" + s);
+        String s = new GsonUtil().getJsonElement(new ToAnswerCardJson(submitAnswerCardList)).toString();
+        Logger.d("答题卡json：" + s);
 //       /* 要自己判断是否已经完成作业 -1:未开始 0:进行中 1:已完成  */
-        RequestUtill.getInstance().httpSubmitAnswerCard(AnswerCardActivity.this, callSubmitAnswerCard, homework_id, "1",
-                new GsonUtil().getJsonElement(new ToAnswerCardJson(submitAnswerCardList)).toString());
+//        RequestUtill.getInstance().httpSubmitAnswerCard(AnswerCardActivity.this, callSubmitAnswerCard, homework_id, "1",
+//                new GsonUtil().getJsonElement(new ToAnswerCardJson(submitAnswerCardList)).toString());
 
     }
 

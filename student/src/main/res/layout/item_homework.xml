@@ -12,16 +12,17 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:padding="10dp">
 
         <TextView
             android:id="@+id/tv_hometime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="5dp"
             android:text="02月"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:textStyle="bold"/>
 
         <RatingBar
             android:id="@+id/rb_score"
@@ -29,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="5dp"
             android:numStars="5"/>
 
         <TextView
@@ -37,28 +38,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_hometime"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="5dp"
             android:text="二年级7班"
-            android:textSize="@dimen/text18"/>
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/tv_homecontent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_classname"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="5dp"
             android:text="内容： unit 1"
-            android:textSize="@dimen/text18"/>
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/tv_homename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_homecontent"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:text="教材：move up 1"
-            android:textSize="@dimen/text18"/>
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/task_endtime"
@@ -67,26 +68,27 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/tv_homename"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="10dp"
             android:layout_marginRight="@dimen/textmarginleft"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="5dp"
             android:text="截止时间"
             android:textColor="@color/gray_333333"
             android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/tv_flag"
-            android:layout_width="65dp"
+            android:layout_width="wrap_content"
             android:layout_height="27dp"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/tv_homename"
             android:background="@drawable/round_bgyellow_febf12_homwwork_startstudy"
             android:gravity="center"
+            android:minWidth="65dp"
+            android:padding="5dp"
             android:text="做作业"
             android:textColor="@color/white"
             android:textSize="13sp"/>
-
     </RelativeLayout>
+
 
 </RelativeLayout>
 

@@ -176,7 +176,7 @@ public class FrHomework extends FxFragment {
 
         @Override
         public void onResponse(String response) {
-//            Logger.d("做作业：" + response);
+            Logger.d("做作业：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {

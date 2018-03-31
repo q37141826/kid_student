@@ -70,6 +70,7 @@ public class ApHomework extends CommonAdapter<BeHomework> {
             if (item.getIs_complete().equals("1")) {
                 tv_dohomework.setText("查看");
                 tv_dohomework.setBackgroundResource(R.drawable.round_bgyellow_febf12_homwwork_startstudy);
+                rb_score.setVisibility(View.VISIBLE);
             } else {
                 tv_dohomework.setText("做作业");
                 tv_dohomework.setBackgroundResource(R.drawable.round_bgyellow_febf12_homwwork_startstudy);
@@ -77,7 +78,7 @@ public class ApHomework extends CommonAdapter<BeHomework> {
             }
 
         } else {
-            tv_dohomework.setText("已过期，未提交");
+            tv_dohomework.setText("已过期未提交");
             tv_dohomework.setTextColor(context.getResources().getColor(R.color.gray_9c9c9c));
             tv_dohomework.setBackgroundResource(R.drawable.round_bggray_dcdbdb_homwwork);
             positionList.add(position);

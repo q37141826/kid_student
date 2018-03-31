@@ -162,7 +162,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
         @Override
         public void onResponse(String response) {
-//            Logger.d("卡片练习：" + response);
+            Logger.d("卡片练习：" + response);
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
@@ -290,7 +290,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
 
         } else {
-            btnnext.setBackgroundResource(R.color.gray);
+            btnnext.setBackgroundResource(R.color.gray_DBDBDB);
             btnnext.setClickable(false);
             /*隐藏打分布局*/
             mEvaluationRoot.setVisibility(View.INVISIBLE);

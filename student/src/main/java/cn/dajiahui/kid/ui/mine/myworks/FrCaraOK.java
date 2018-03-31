@@ -85,7 +85,7 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
             public void onClick(View v) {
                 if (allCheck.isChecked() == false) {
                     allCheck.setChecked(false);
-                    btn_delete.setBackgroundResource(R.color.gray);
+                    btn_delete.setBackgroundResource(R.color.gray_DCDBDB);
 
                     for (int i = 0; i < mKalaokList.size(); i++) {
                         mKalaokList.get(i).setBo(false);
@@ -94,7 +94,7 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
 
                 } else {
                     allCheck.setChecked(true);
-                    btn_delete.setBackgroundResource(R.color.red);
+                    btn_delete.setBackgroundResource(R.color.yellow_FEBF12);
 
                     for (int i = 0; i < mKalaokList.size(); i++) {
                         mKalaokList.get(i).setBo(true);
@@ -105,6 +105,7 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
 
             }
         });
+
 
         /*单个选择*/
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -118,6 +119,20 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
                     }
                 } else {
                     getTexBookDetails(mKalaokList.get(position).getId());
+                }
+
+                int mRadioNum = 0;
+                for (int i = 0; i < mKalaokList.size(); i++) {
+                    if (mKalaokList.get(i).getBo() == true) {
+                        mRadioNum++;
+                    }
+                }
+                if (mRadioNum == 0) {
+                 /*设置删除按钮颜色*/
+                    btn_delete.setBackgroundResource(R.color.gray_DCDBDB);
+                } else {
+                        /*设置删除按钮颜色*/
+                    btn_delete.setBackgroundResource(R.color.yellow_FEBF12);
                 }
                 // 刷新
                 apKalaoke.notifyDataSetChanged();
@@ -300,10 +315,13 @@ public class FrCaraOK extends FxFragment implements ShowbtnDelete {
             allCheck.setChecked(false);
             apKalaoke.changeState(-1);
                /*设置删除按钮颜色*/
-            btn_delete.setBackgroundResource(R.color.gray);
+            btn_delete.setBackgroundResource(R.color.gray_DCDBDB);
         } else {
-            delete_view.setVisibility(View.GONE);
-            apKalaoke.changeState(-2);
+            if (delete_view != null) {
+                delete_view.setVisibility(View.GONE);
+                apKalaoke.changeState(-2);
+            }
+
         }
 //        Toast.makeText(activity, "显示删除按钮卡拉OK", Toast.LENGTH_SHORT).show();
     }

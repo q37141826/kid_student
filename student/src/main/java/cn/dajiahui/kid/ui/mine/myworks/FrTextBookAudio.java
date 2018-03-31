@@ -86,7 +86,7 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
 
                 if (allCheck.isChecked() == false) {
                     allCheck.setChecked(false);
-                    btn_delete.setBackgroundResource(R.color.gray);
+                    btn_delete.setBackgroundResource(R.color.gray_DCDBDB);
 
                     for (int i = 0; i < mTextBooklists.size(); i++) {
                         mTextBooklists.get(i).setBo(false);
@@ -94,7 +94,7 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
 
                 } else {
                     allCheck.setChecked(true);
-                    btn_delete.setBackgroundResource(R.color.red);
+                    btn_delete.setBackgroundResource(R.color.yellow_FEBF12);
 
                     for (int i = 0; i < mTextBooklists.size(); i++) {
                         mTextBooklists.get(i).setBo(true);
@@ -118,33 +118,25 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
                         mTextBooklists.get(position).setBo(true);
                     }
 
-//                    Iterator it = mTextBooklists.iterator();
-//
-//                    while (it.hasNext()) {
-//                        // 得到对应集合元素
-//                        BeMineWorksLists g = (BeMineWorksLists) it.next();
-//                        // 判断
-//                        if (g.getBo()) {
-//                            allCheck.setChecked(false);
-//                        } else {
-////                            mCheckNum++;
-//                        }
-//
-//                    }
                     apMyWorks.notifyDataSetChanged();
-//                    Logger.d("mCheckNum:" + mCheckNum + "   mTextBooklists.size():" + mTextBooklists.size());
-//
-//                    if (mCheckNum == mTextBooklists.size()) {
-//                        btn_delete.setBackgroundResource(R.color.red);
-//                        allCheck.setChecked(true);
-//                    } else {
-//                        btn_delete.setBackgroundResource(R.color.gray);
-//                        allCheck.setChecked(false);
-//                    }
+
                 } else {
                     getTexBookDetails(mTextBooklists.get(position).getId());
                 }
 
+                int mRadioNum = 0;
+                for (int i = 0; i < mTextBooklists.size(); i++) {
+                    if (mTextBooklists.get(i).getBo() == true) {
+                        mRadioNum++;
+                    }
+                }
+                if (mRadioNum == 0) {
+                 /*设置删除按钮颜色*/
+                    btn_delete.setBackgroundResource(R.color.gray_DCDBDB);
+                } else {
+                        /*设置删除按钮颜色*/
+                    btn_delete.setBackgroundResource(R.color.yellow_FEBF12);
+                }
             }
 
         });
@@ -242,12 +234,13 @@ public class FrTextBookAudio extends FxFragment implements ShowbtnDelete {
             allCheck.setChecked(false);
             apMyWorks.changeState(-1);
             /*设置删除按钮颜色*/
-            btn_delete.setBackgroundResource(R.color.gray);
+            btn_delete.setBackgroundResource(R.color.gray_DCDBDB);
         } else {
-            delete_view.setVisibility(View.GONE);
-            apMyWorks.changeState(-2);
+            if(delete_view!=null){
+                delete_view.setVisibility(View.GONE);
+                apMyWorks.changeState(-2);
+            }
         }
-//        Toast.makeText(activity, "显示删除按钮课本剧", Toast.LENGTH_SHORT).show();
     }
 
     /*获取我的作品课本剧*/

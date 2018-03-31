@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.fxtx.framework.file.FileUtil;
 import com.fxtx.framework.image.util.GlideUtil;
-import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 
 import java.util.List;
@@ -236,9 +235,9 @@ public class TextBookDramaFragment extends LazyLoadFragment {
                 /*直接退出Activity*/
                 getActivity().finishAffinity();
             }
-            Logger.d(" KaraOkeFragment 相当于Fragment的onResume");
+//            Logger.d(" KaraOkeFragment 相当于Fragment的onResume");
         } else {
-            Logger.d("KaraOkeFragment  相当于Fragment的onPause");
+//            Logger.d("KaraOkeFragment  相当于Fragment的onPause");
             //相当于Fragment的onPause
         }
     }

@@ -267,18 +267,19 @@ public class CardPraticeFragment extends LazyLoadFragment {
 
     /*播放音频*/
     private void playMedia() {
+        if (!music_oss_url.equals("")) {
                /*文件名以MD5加密*/
-        String mp3Name = MD5.getMD5(music_oss_url.substring(music_oss_url.lastIndexOf("/"))) + ".mp3";
+            String mp3Name = MD5.getMD5(music_oss_url.substring(music_oss_url.lastIndexOf("/"))) + ".mp3";
 
-        if (FileUtil.fileIsExists(KidConfig.getInstance().getPathCardPratice() + mp3Name)) {
+            if (FileUtil.fileIsExists(KidConfig.getInstance().getPathCardPratice() + mp3Name)) {
             /*读取本地*/
-            StartMp3(KidConfig.getInstance().getPathCardPratice() + mp3Name);
+                StartMp3(KidConfig.getInstance().getPathCardPratice() + mp3Name);
 
-        } else {
+            } else {
              /*读取网络*/
-            StartMp3(music_oss_url);
+                StartMp3(music_oss_url);
+            }
         }
-
     }
 
     /*开始播放*/
