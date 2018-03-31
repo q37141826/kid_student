@@ -14,7 +14,7 @@ public class BeSubmitAnswerCard implements Serializable {
     private String question_cate_id;//题型
     private String my_answer;//作答答案
     private String is_right;//是否正确
-    private String is_auto;//自动提交（一共12道题  做到10道题就提交了  后两道题就自动提交  默认是0  自动提交时1）
+    private String is_auto;//自动提交（一共12道题  做到10道题就提交了  后两道题就自动提交  默认是1  自动提交时1）
     private String is_answered;//0 未回答  1 已回答
 
 

@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
     /////////////////
     private List<ExHorizontallListViewAdapter> mAllAdapterList = new ArrayList<>();//装每个HorizontalListView的适配器
     private List<ExHorizontalListView> mAllHorizontalListView = new ArrayList<>();//装每个HorizontalListView的适配器
-    private Map<Integer, Map<Integer, String>> mAllMap = new HashMap<>();//存所有答案的集合（key： 第几个listview  val：listview对应的数据）
+    private LinkedHashMap<Integer, LinkedHashMap<Integer, String>> mAllMap = new LinkedHashMap<>();//存所有答案的集合（key： 第几个listview  val：listview对应的数据）
 
     private int mTop = 0;//初始距离上端
     private int mTvTop = 0;//初始距离上端
@@ -237,13 +238,13 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
     /*监听editext输入*/
     @Override
 
-    public void submitEditextInfo(int selfposition) {
+    public void submitEditextInfo(int selfposition,LinkedHashMap<Integer, String> inputContainer ) {
 //        Logger.d("确认输入----------------：" + selfposition);
         inbasebean.setAnswerflag("true");
 
         /*填写答案之后，然后在翻页回来再修改答案的bug*/
         for (int i = 0; i < mAllAdapterList.size(); i++) {
-            Map<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
+            LinkedHashMap<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
             mAllMap.put(i, integerObjectMap);
         }
         mAllMap.put(selfposition, mAllAdapterList.get(selfposition).getInputContainer());// 获取每个适配的输入item的集合
@@ -306,7 +307,7 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
 
            /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/
             for (int i = 0; i < mAllAdapterList.size(); i++) {
-                Map<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
+                LinkedHashMap<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
                 mAllAdapterList.get(i).setInputContainer(integerObjectMap, inbasebean, mRightanswer.get(i).getShowRightList());
 
             }

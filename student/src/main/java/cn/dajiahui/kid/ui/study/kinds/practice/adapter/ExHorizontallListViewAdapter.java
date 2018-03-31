@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.fxtx.framework.log.Logger;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
     private final SubmitEditext submitEditext;
     private MyFoucus myFoucus;
     private EditChangedListener editChangedListener;//editext监听器
-    public Map<Integer, String> inputContainer = new HashMap();//存editext的集合
+    public LinkedHashMap<Integer, String> inputContainer = new LinkedHashMap();//存editext的集合
     private List<List<CompletionQuestionadapterItemModle>> showRightList;//正确答案
     private int selfposition;//HorizontallList在碎片中的索引（用于取出当前的HorizontallList）
     private String haveFocus = "";//用于网络请求后清空editext所有焦点
@@ -39,13 +40,13 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
 
 
     /*获取答案的集合*/
-    public Map getInputContainer() {
+    public LinkedHashMap getInputContainer() {
         return inputContainer;
     }
 
     /*练习Check之后 刷新适配器*/
     public void setInputContainer(
-            Map<Integer, String> inputContainer,
+            LinkedHashMap<Integer, String> inputContainer,
             CompletionQuestionModle inbasebean,
             List<List<CompletionQuestionadapterItemModle>> showRightList) {
         this.haveFocus = inbasebean.getIsFocusable();
@@ -232,7 +233,7 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
                 }
                 this.editText.setSelection(tempSelection);
             }
-            submitEditext.submitEditextInfo(selfposition);
+            submitEditext.submitEditextInfo(selfposition,inputContainer);
         }
     }
 

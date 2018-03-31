@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.fxtx.framework.log.Logger;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +32,8 @@ public class HorizontallListViewAdapter extends BaseAdapter {
     private final SubmitEditext submitEditext;
     private MyFoucus myFoucus;
     private EditChangedListener editChangedListener;//editext监听器
-    public Map<Integer, String> inputContainer = new HashMap();//存editext的集合
-    private List<List<CompletionQuestionadapterItemModle>> showRightList;
+    public LinkedHashMap<Integer, String> inputContainer = new LinkedHashMap();//存editext的集合
+    //    private List<List<CompletionQuestionadapterItemModle>> showRightList;
     private int selfposition;//HorizontallList在碎片中的索引（用于取出当前的HorizontallList）
     private String haveFocus = "";//用于网络请求后清空editext所有焦点
     public String IsShowRightAnswer = "";//是否显示editext
@@ -44,31 +45,22 @@ public class HorizontallListViewAdapter extends BaseAdapter {
         return inputContainer;
     }
 
-    public void setInputContainer(Map<Integer, String> inputContainer) {
+    public void setInputContainer(LinkedHashMap<Integer, String> inputContainer) {
         if (inputContainer != null) {
             if (this.inputContainer == null) {
-                this.inputContainer = new HashMap();
+                this.inputContainer = new LinkedHashMap();
             }
             for (int a = 0; a < inputContainer.size(); a++) {
                 this.inputContainer.put(a, inputContainer.get(a));
             }
-            Logger.d(this.inputContainer.toString());
         }
         notifyDataSetChanged();
     }
 
-
-    public HorizontallListViewAdapter(Context context, SubmitEditext submitEditext, int selfposition, Map<Integer, String> inputContainer, List<List<CompletionQuestionadapterItemModle>> rightList, CompletionQuestionModle inbasebean) {
+    public HorizontallListViewAdapter(Context context, SubmitEditext submitEditext, int selfposition, CompletionQuestionModle inbasebean) {
         this.mContext = context;
-        this.showRightList = rightList;
         this.submitEditext = submitEditext;
         this.selfposition = selfposition;
-        if (inputContainer != null) {
-            for (int a = 0; a < inputContainer.size(); a++) {
-                this.inputContainer.put(a, inputContainer.get(a));
-            }
-        }
-
         this.haveFocus = inbasebean.getIsFocusable();
         this.IsShowRightAnswer = inbasebean.getIsShowRightAnswer();
         this.inbasebean = inbasebean;
@@ -80,7 +72,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
     @Override
     public int getCount() {
 
-        return showRightList.size();
+        return inbasebean.getmCompletionAllMap().get(selfposition).size();
     }
 
     @Override
@@ -148,29 +140,30 @@ public class HorizontallListViewAdapter extends BaseAdapter {
             /*不显示正确答案*/
             holderView.tv_rightanswer.setText("");
         }
-          /*显示正确答案*/
+        /*显示正确答案*/
         else if (IsShowRightAnswer.equals("yes")) {
 
             if (inbasebean.getIs_answered().equals("1")) {
-                List<CompletionQuestionadapterItemModle> cm = showRightList.get(position);
 
-                for (int i = 0; i < cm.size(); i++) {
-                    /*显示我的答案*/
-                    if (!cm.get(i).getShowItemMy().equals("㊒")) {
-                        holderView.editext.setText(cm.get(i).getShowItemMy());
-                    }
-                    /*字母显示绿色 框显示绿色*/
-                    if (cm.get(i).getShowItemRightColor() == 0) {
-                        holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_green);
-                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.green));
-                    } else {
-                        holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_red);
-                         /*显示正确答案*/
-                        holderView.tv_rightanswer.setText(cm.get(i).getShowItemright());
-                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.red));
-                        holderView.tv_rightanswer.setVisibility(View.VISIBLE);
-                    }
-                }
+                LinkedHashMap<Integer, String> integerStringMap =   inbasebean.getmCompletionAllMap().get(position);
+
+//                for (int i = 0; i < integerStringMap.size(); i++) {
+//                    /*显示我的答案*/
+//                    if (!integerStringMap.get(i).getShowItemMy().equals("㊒")) {
+//                        holderView.editext.setText(cm.get(i).getShowItemMy());
+//                    }
+//                    /*字母显示绿色 框显示绿色*/
+//                    if (cm.get(i).getShowItemRightColor() == 0) {
+//                        holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_green);
+//                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.green));
+//                    } else {
+//                        holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_red);
+//                        /*显示正确答案*/
+//                        holderView.tv_rightanswer.setText(cm.get(i).getShowItemright());
+//                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.red));
+//                        holderView.tv_rightanswer.setVisibility(View.VISIBLE);
+//                    }
+//                }
             }
 
         }
@@ -227,7 +220,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
                 }
                 this.editText.setSelection(tempSelection);
             }
-            submitEditext.submitEditextInfo(selfposition);
+            submitEditext.submitEditextInfo(selfposition,inputContainer);
         }
     }
 

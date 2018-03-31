@@ -123,7 +123,6 @@ public class LineFragment extends BaseHomeworkFragment implements
             }
             mView.setLayoutParams(lp);
             lin.addView(mView); //动态添加图片
-//            inbasebean.getInitLineMyanswerMap().put((i + 1) + "", "");//初始化答案集合
         }
 
     }

@@ -20,6 +20,7 @@ import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,8 +40,8 @@ import cn.dajiahui.kid.ui.homework.bean.ToAnswerCardJson;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 
 /*
-* 答题卡
-* */
+ * 答题卡
+ * */
 public class AnswerCardActivity extends FxActivity {
 
     private TextView tvanswer;
@@ -48,7 +49,6 @@ public class AnswerCardActivity extends FxActivity {
     private Button mBtnsubmit;
 
     private BeSaveAnswerCard beSaveAnswerCard;
-    private String homework_id;
 
     private List<BeSubmitAnswerCard> submitAnswerCardList = new ArrayList<>();//转json的答题卡集合
     private List<BeAnswerCArd> beAnswerCArds = new ArrayList<>();//显示已作答，未作答的答题卡集合
@@ -81,17 +81,16 @@ public class AnswerCardActivity extends FxActivity {
 
         Bundle bundle = getIntent().getExtras();
         beSaveAnswerCard = (BeSaveAnswerCard) bundle.getSerializable("ANSWER_CARD");
-        /*作业id*/
-        homework_id = beSaveAnswerCard.getHomework_id();
+
 
         /*获取所有数据的集合*/
         List<Object> mDatalist = beSaveAnswerCard.getmDatalist();
 
-            /*循环所有数据模型*/
+        /*循环所有数据模型*/
         for (int i = 0; i < mDatalist.size(); i++) {
-                /*得到基本的数据模型 取出题型的标记*/
+            /*得到基本的数据模型 取出题型的标记*/
             QuestionModle qm = (QuestionModle) mDatalist.get(i);
-                /*判断题型*/
+            /*判断题型*/
             switch (qm.getQuestion_cate_id()) {
 
                 case Constant.Judje:
@@ -173,7 +172,7 @@ public class AnswerCardActivity extends FxActivity {
                         submitDialog = new FxDialog(context) {
                             @Override
                             public void onRightBtn(int flag) {
-                              /*网络请求提交答案*/
+                                /*网络请求提交答案*/
                                 httpData();
                             }
 
@@ -235,8 +234,8 @@ public class AnswerCardActivity extends FxActivity {
     /*判断题答题卡数据*/
     private void Judje(JudjeQuestionModle jqm) {
 
-      /*如果答过题 手动提交是0 自动提交是1*/
-        if (!jqm.getMy_answer().equals("")) {
+        /*如果答过题 手动提交是0 自动提交是1*/
+        if (!jqm.getMy_answer().equals("㊒")) {
             jqm.setIs_auto(MANUAL);//手动提交
             jqm.setIs_answered(ANSWER_YES);//已经回答
             /*判断正误*/
@@ -249,7 +248,6 @@ public class AnswerCardActivity extends FxActivity {
         } else {
             jqm.setIs_auto(AUTOMATIC);//自动提交
             jqm.setIs_answered(ANSWER_NO);//未回答
-            jqm.setMy_answer("㊒");
             jqm.setIs_right(WRONG);
         }
 
@@ -259,8 +257,8 @@ public class AnswerCardActivity extends FxActivity {
 
     /*选择题答题卡数据*/
     private void Choice(ChoiceQuestionModle cqm) {
-           /*如果答过题 手动提交是0 自动提交是1*/
-        if (!cqm.getMy_answer().equals("")) {
+        /*如果答过题 手动提交是0 自动提交是1*/
+        if (!cqm.getMy_answer().equals("㊒")) {
             cqm.setIs_auto(MANUAL);//手动提交
             cqm.setIs_answered(ANSWER_YES);//已经回答
             /*判断正误*/
@@ -272,7 +270,6 @@ public class AnswerCardActivity extends FxActivity {
         } else {
             cqm.setIs_auto(AUTOMATIC);//自动提交
             cqm.setIs_answered(ANSWER_NO);//未回答
-            cqm.setMy_answer("㊒");
             cqm.setIs_right(WRONG);
         }
         submitAnswerCardList.add(new BeSubmitAnswerCard(cqm.getId(), cqm.getQuestion_cate_id(), cqm.getMy_answer(), cqm.getIs_right(), cqm.getIs_auto(), cqm.getIs_answered()));
@@ -288,8 +285,14 @@ public class AnswerCardActivity extends FxActivity {
         for (int q = 1; q < sqm.getInitSortMyanswerList().size(); q++) {
             append = SortstringBuffer.append("," + sqm.getInitSortMyanswerList().get(q));
         }
-         /*集合不包含㊒*/
-        if (sqm.getInitSortMyanswerList().size() > 0 && !sqm.getInitSortMyanswerList().equals("㊒")) {
+
+        int mAnsNum = 0;//排序作答题的个数 判断自己回答的个数 mAnsNum>0 就是已经回答过题
+        for (int a = 0; a < sqm.getInitSortMyanswerList().size(); a++) {
+            if (!sqm.getInitSortMyanswerList().get(a).equals("㊒")) {
+                mAnsNum++;
+            }
+        }
+        if (mAnsNum > 0) {
             sqm.setIs_auto(MANUAL);//手动提交
             sqm.setIs_answered(ANSWER_YES);//已经回答
             sqm.setMy_answer(sqm.getInitSortMyanswerList().get(0) + append.toString());
@@ -299,13 +302,10 @@ public class AnswerCardActivity extends FxActivity {
             } else {
                 sqm.setIs_right(WRONG);//错误
             }
-
         } else {
             sqm.setIs_auto(AUTOMATIC);//自动提交
             sqm.setIs_answered(ANSWER_NO);//未回答
-            if (sqm.getInitSortMyanswerList().size() > 0) {
-                sqm.setMy_answer(sqm.getInitSortMyanswerList().get(0) + append.toString());
-            }
+            sqm.setMy_answer(sqm.getInitSortMyanswerList().get(0) + append.toString());
             sqm.setIs_right(WRONG);
         }
         submitAnswerCardList.add(new BeSubmitAnswerCard(sqm.getId(), sqm.getQuestion_cate_id(), sqm.getMy_answer(), sqm.getIs_right(), sqm.getIs_auto(), sqm.getIs_answered()));
@@ -317,7 +317,6 @@ public class AnswerCardActivity extends FxActivity {
         /*我的答案*/
         Map<String, String> myAnswerMap = lqm.getInitLineMyanswerMap();
         JsonElement jsonElement = new GsonUtil().getJsonElement(myAnswerMap);
-        lqm.setMy_answer(jsonElement.toString());
 
         /*解析正确答案*/
         List mSnList = new ArrayList();
@@ -331,7 +330,7 @@ public class AnswerCardActivity extends FxActivity {
             mSnList.add(s);
 
         }
-        /*二次截取参考答案*/
+        /*二次截取正确答案*/
         for (int l = 0; l < mSnList.size(); l++) {
             String split1 = mSnList.get(l).toString().substring(1, 2);
             String s = mSnList.get(l).toString();
@@ -344,74 +343,86 @@ public class AnswerCardActivity extends FxActivity {
             standanserMap.put(split1, split2);
         }
 
-        /*循环对比正确答案 */
-        lqm.setIs_right(RIGHT);//默认为正确
+        int mAnsNum = 0;//连线作答题的个数 判断自己回答的个数 mAnsNum>0 就是已经回答过题
         for (int m = 0; m < myAnswerMap.size(); m++) {
-            if (!(myAnswerMap.get((m + 1) + "")).equals(standanserMap.get((m + 1) + ""))) {
-                lqm.setIs_right(WRONG);
-                break;
+            if (!(myAnswerMap.get((m + 1) + "")).equals("㊒")) {
+                mAnsNum++;
             }
         }
-        lqm.setIs_auto(MANUAL);//手动提交
-        lqm.setIs_answered(ANSWER_YES);//已经作答
-        lqm.setMy_answer(jsonElement.toString());
+
+        if (mAnsNum > 0) {
+            lqm.setIs_right(RIGHT);//默认为正确
+            /*循环对比正确答案 */
+            for (int m = 0; m < myAnswerMap.size(); m++) {
+                if (!(myAnswerMap.get((m + 1) + "")).equals(standanserMap.get((m + 1) + ""))) {
+                    lqm.setIs_right(WRONG);//判断正误  有一个不相等就认为是回答错误
+                    break;
+                }
+            }
+            lqm.setIs_auto(MANUAL);//自动提交
+            lqm.setIs_answered(ANSWER_NO);//已作答
+            lqm.setMy_answer(jsonElement.toString());//我的答案
+
+        } else {
+            lqm.setIs_right(WRONG);//回答错误
+            lqm.setIs_auto(AUTOMATIC);//自动提交
+            lqm.setIs_answered(ANSWER_NO);//未作答
+            lqm.setMy_answer(jsonElement.toString());
+        }
         submitAnswerCardList.add(new BeSubmitAnswerCard(lqm.getId(), lqm.getQuestion_cate_id(), lqm.getMy_answer(), lqm.getIs_right(), lqm.getIs_auto(), lqm.getIs_answered()));
     }
 
     /*填空題答题卡数据*/
     private void Completion(CompletionQuestionModle coqm) {
 
-        Map<Integer, Map<Integer, String>> integerMapMap = coqm.getmCompletionAllMap();
-
+        LinkedHashMap<Integer, LinkedHashMap<Integer, String>> integerMapMap = coqm.getmCompletionAllMap();
         StringBuffer sbAll = new StringBuffer();
-
         String appendAll = "";
-        if (integerMapMap.size() > 0) {
-            for (int c = 0; c < integerMapMap.size(); c++) {
-                if (integerMapMap.get(c) != null) {
-                    Map<Integer, String> integerStringMap = integerMapMap.get(c);
-                    StringBuffer stringBuffer = new StringBuffer();
-                    for (int d = 0; d < integerStringMap.size(); d++) {
-                        StringBuffer sb1 = stringBuffer.append(integerStringMap.get(d).toString());
-                        if (c == 0 && d + 1 == integerStringMap.size()) {
-                            append1 = sb1;
-                            break;
-                        } else if (c > 0 && d + 1 == integerStringMap.size()) {
-                            append2 = sbAll.append("۞" + sb1);
-                        }
+        int mAnsNum = 0;//填空作答题的个数 判断自己回答的个数 mAnsNum>0 就是已经回答过题
+        for (int c = 0; c < integerMapMap.size(); c++) {
+            if (integerMapMap.get(c) != null) {
+                LinkedHashMap<Integer, String> integerStringMap = integerMapMap.get(c);
+                StringBuffer stringBuffer = new StringBuffer();
+                for (int d = 0; d < integerStringMap.size(); d++) {
+                    if (!integerStringMap.get(d).equals("㊒")) {
+                        mAnsNum++;
                     }
-
-                    if (c + 1 == integerMapMap.size()) {
-                        if (integerMapMap.size() == 1) {
-                            appendAll = append1.toString();
-                        } else {
-                            appendAll = append1.toString() + append2.toString();
-                        }
-
+                    StringBuffer sb1 = stringBuffer.append(integerStringMap.get(d).toString());
+                    if (c == 0 && d + 1 == integerStringMap.size()) {
+                        append1 = sb1;
+                        break;
+                    } else if (c > 0 && d + 1 == integerStringMap.size()) {
+                        append2 = sbAll.append("۞" + sb1);
                     }
                 }
 
-            }
-            /*没有作答答案自动提交*/
-            if (integerMapMap.size() > 0) {
-                coqm.setIs_auto(MANUAL);
-                coqm.setIs_answered(ANSWER_YES);
-                if (!appendAll.equals("")) {
-                    coqm.setMy_answer(appendAll.toString());
-                    if (appendAll.equals(coqm.getStandard_answer())) {
-                        coqm.setIs_right(RIGHT);
+                if (c + 1 == integerMapMap.size()) {
+                    if (integerMapMap.size() == 1) {
+                        appendAll = append1.toString();
                     } else {
-                        coqm.setIs_right(WRONG);
+                        appendAll = append1.toString() + append2.toString();
                     }
-                }
 
+                }
+            }
+        }
+
+        if (mAnsNum > 0) {
+            coqm.setIs_auto(MANUAL);//手动提交
+            coqm.setIs_answered(ANSWER_YES);
+            if (!appendAll.equals("")) {
+                coqm.setMy_answer(appendAll.toString());
+                if (appendAll.equals(coqm.getStandard_answer())) {
+                    coqm.setIs_right(RIGHT);//正确
+                } else {
+                    coqm.setIs_right(WRONG);//错误
+                }
             }
         } else {
-            coqm.setMy_answer("");
             coqm.setIs_auto(AUTOMATIC);
+            coqm.setMy_answer(appendAll.toString());
             coqm.setIs_answered(ANSWER_NO);
             coqm.setIs_right(WRONG);
-
         }
 
         submitAnswerCardList.add(new BeSubmitAnswerCard(coqm.getId(), coqm.getQuestion_cate_id(), coqm.getMy_answer(), coqm.getIs_right(), coqm.getIs_auto(), coqm.getIs_answered()));
