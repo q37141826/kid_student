@@ -23,6 +23,8 @@ import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.study.kinds.practice.myinterface.ExMoveLocation;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static cn.dajiahui.kid.controller.Constant.SortAnswerView_margin;
 import static cn.dajiahui.kid.ui.homework.homeworkdetails.SortFragment.isLinecheck;
 
 /**
@@ -46,7 +48,8 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
     public String val;//当前拖动图片的val值
     private List<String> mRightContentList;
     public String content;
-    private int widthPixels;
+
+    private LayoutParams params;
 
     /*构造*/
     public ExMoveImagview(Context context, @Nullable AttributeSet attrs) {
@@ -65,7 +68,9 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
         this.position = position;
         this.val = inbasebean.getOptions().get(position).getVal();
         this.content = inbasebean.getOptions().get(position).getContent();
-        widthPixels = BaseUtil.getWidthPixels(activity);
+        this.setBackgroundResource(R.drawable.sortview_default_bg);
+        this.setPadding(SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin);
+        params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         /*添加视图*/
         addImageView();
 
@@ -80,7 +85,9 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
         this.position = position;
         this.mRightContentList = mRightContentList;
         this.content = inbasebean.getOptions().get(position).getContent();
-        widthPixels = BaseUtil.getWidthPixels(activity);
+        this.setBackgroundResource(R.drawable.sortview_default_bg);
+        this.setPadding(SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin);
+        params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
        /*添加视图*/
         addImageView();
     }
@@ -157,7 +164,7 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
     private void addImageView() {
    /*屏幕宽度*/
 
-        LayoutParams params = new LayoutParams(widthPixels/5, widthPixels/5);
+//        LayoutParams params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         String content = null;
         /*未回答的时候是false 走解析的图片集合   check后是true 走 自己正确答案的集合*/
         if (inbasebean.isAnswer() == false) {
@@ -184,7 +191,7 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
                         .diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
 
                 /*正确答案 添加遮罩*/
-                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(widthPixels/5, widthPixels/5);
+                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
                 paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
                 imageViewT.setLayoutParams(paramsT);
                 imageViewT.setBackgroundResource(R.drawable.answer_true_bg);
@@ -204,7 +211,7 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
                 textView.setText(mRightContentList.get(position));
                  /*正确答案 添加遮罩*/
                 RelativeLayout relativeLayout = new RelativeLayout(context);
-                LayoutParams paramsT = new LayoutParams(widthPixels/5, widthPixels/5);
+                LayoutParams paramsT = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
                 paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
                 relativeLayout.setBackgroundResource(R.drawable.answer_true_bg);
                 relativeLayout.setLayoutParams(paramsT);
@@ -214,4 +221,6 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
             this.addView(textView);
         }
     }
+
+
 }

@@ -1,6 +1,8 @@
 package cn.dajiahui.kid.ui.homework.homeworkdetails;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,10 +33,10 @@ import cn.dajiahui.kid.util.DateUtils;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 
 /*
-*
-*做作业初级界面-
-*
-* */
+ *
+ *做作业初级界面-
+ *
+ * */
 public class HomeWorkDetailsActivity extends FxActivity {
 
     private TextView tvhomeworkname;//作业名称
@@ -80,8 +82,8 @@ public class HomeWorkDetailsActivity extends FxActivity {
                 bundle.putString("UNIT_NAME", unit_name);
                 bundle.putString("IS_COMPLETE", is_complete);
                 /*先跳转 在网络请请求获取数据*/
-                DjhJumpUtil.getInstance().startBaseActivity(HomeWorkDetailsActivity.this, DoHomeworkActivity.class, bundle, 0);
-                finishActivity();
+                DjhJumpUtil.getInstance().startBaseActivityForResult(HomeWorkDetailsActivity.this, DoHomeworkActivity.class, bundle, DjhJumpUtil.getInstance().activtiy_DoHomework);
+//                finishActivity();
             }
         });
 
@@ -181,9 +183,9 @@ public class HomeWorkDetailsActivity extends FxActivity {
                         double v = Double.parseDouble(correct_rate) * 100;
                         tv_correct_rate.setText("正确率：" + (int) v + "%");//正确率
                         rb_score.setMax(100);
-                         /*打分的分数 */
+                        /*打分的分数 */
                         rb_score.setProgress(getScore((int) (ParseUtil.parseFloat(beHomeWorkDetails.getCorrect_rate()) * 100)));
-                          /*显示完成后的答题卡情况*/
+                        /*显示完成后的答题卡情况*/
                         mLinscoreState.setVisibility(View.VISIBLE);
                         linhomework_detail.setVisibility(View.VISIBLE);
                         mBeAnswerSheetList.addAll(beHomeWorkDetails.getAnswer_sheet());
@@ -229,5 +231,35 @@ public class HomeWorkDetailsActivity extends FxActivity {
             return 100;
         }
         return 0;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        /*上传答案之后刷新数据*/
+        if (requestCode == DjhJumpUtil.getInstance().activtiy_DoHomework && resultCode == DjhJumpUtil.getInstance().activity_answerCardSubmit_dohomework) {
+            httpData();
+        }
+
+    }
+
+    /*监听返回键*/
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { //监控/拦截/屏蔽返回键
+            setResult(  DjhJumpUtil.getInstance().activtiy_HomeworkDetails_back );
+            finishActivity();
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    /*左上角返回*/
+    @Override
+    public void onBackPressed() {
+        setResult( DjhJumpUtil.getInstance().activtiy_HomeworkDetails_back );
+        finishActivity();
     }
 }

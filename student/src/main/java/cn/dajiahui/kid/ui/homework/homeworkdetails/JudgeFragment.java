@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.fxtx.framework.log.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ import static cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity.scr
 public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework {
 
 
-    private List<JudgeAnswerView> mAnswerViewList = new ArrayList();
+    private List<JudgeAnswerView> mAnswerViewList = new ArrayList();//判断题shituview的集合
     private JudjeQuestionModle inbasebean;//数据模型
     private TextView tv_judge, tv_schedule;
     private ImageView imgconment, img_play;
@@ -37,7 +38,6 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
     private RelativeLayout answerRoot;
     private String mediaUrl;
     private Bundle bundle;
-
 
 
     @Override
@@ -84,8 +84,9 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         Glide.with(getActivity()).load(inbasebean.getQuestion_stem()).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgconment);
+
         /*添加遮罩*/
-        if (inbasebean.getIs_answered().equals("1")) {
+        if (inbasebean.getIs_complete().equals("1")) {
             addMaskView();
         }
     }
@@ -96,62 +97,66 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
         for (int i = 0; i < mAnswerViewList.size(); i++) {
             if (mAnswerViewList.get(i) != null) {
-                /*参考答案与当前view的值相同 就是设置黄色边框*/
-                /* 设置我的答案遮罩  回答正确*/
-                if (inbasebean.getMy_answer().equals(inbasebean.getOptions().get(i).getVal())) {
-                    /*黄色边框表示自己选的答案*/
-                    mAnswerViewList.get(i).setBackgroundResource(R.drawable.select_judge_image);
-
-                    /*回答正确就跳出循环 我的答案与参考答案相等就跳出循环*/
-                    if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
-                        RelativeLayout reT = new RelativeLayout(getActivity());
-                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-                        ImageView imageView = new ImageView(getActivity());
-                        imageView.setLayoutParams(params);
-                        reT.addView(imageView);
-                        imageView.setImageResource(R.drawable.answer_true);
-                        reT.setBackgroundResource(R.drawable.answer_true_bg);
-                        mAnswerViewList.get(i).addView(reT);
-
-                    } else {
-                        /*回答错误就把我的答案加上红色遮罩*/
-                        RelativeLayout reF = new RelativeLayout(getActivity());
-                        RelativeLayout.LayoutParams paramsF = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        paramsF.addRule(RelativeLayout.CENTER_IN_PARENT);
-                        ImageView imageViewF = new ImageView(getActivity());
-                        imageViewF.setLayoutParams(paramsF);
-                        reF.addView(imageViewF);
-                        imageViewF.setImageResource(R.drawable.answer_false);
-                        reF.setBackgroundResource(R.drawable.answer_false_bg);
-                        mAnswerViewList.get(i).addView(reF);
-
-
-                       /*把正确答案加上绿色遮罩 中间显示对号*/
-                        RelativeLayout reT = new RelativeLayout(getActivity());
-                        RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
-                        ImageView imageViewT = new ImageView(getActivity());
-                        imageViewT.setLayoutParams(paramsT);
-                        reT.addView(imageViewT);
-                        imageViewT.setImageResource(R.drawable.answer_true);
-                        reT.setBackgroundResource(R.drawable.answer_true_bg);
-
-                        /*判断当前的View的在集合中的索引 利用索引找到另一个view*/
-                        int indexOf = mAnswerViewList.indexOf(mAnswerViewList.get(i));
-                        if (indexOf == 0) {
-                            mAnswerViewList.get(indexOf + 1).addView(reT);
-                        } else if (indexOf == 1) {
-                            mAnswerViewList.get(indexOf - 1).addView(reT);
-                        }
+                /*未作答 直接显示正确答案*/
+                if (inbasebean.getMy_answer().equals("㊒")) {
+                    /*直接显示参考答案*/
+                    if (mAnswerViewList.get(i).val.equals(inbasebean.getStandard_answer())) {
+                        mAnswerViewList.get(i).addView(ShowRightMaskView());
 
                     }
+
                 } else {
-                      /*白色边框表示非选的答案*/
-                    mAnswerViewList.get(i).setBackgroundResource(R.drawable.noselect_judge_image);
+                    if (inbasebean.getMy_answer().equals(mAnswerViewList.get(i).val)) {
+
+                        /*回答正确就跳出循环 我的答案与参考答案相等就跳出循环*/
+                        if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
+                            mAnswerViewList.get(i).addView(ShowRightMaskView());
+
+                        } else {
+                            /*回答错误就把我的答案加上红色遮罩*/
+                            mAnswerViewList.get(i).addView(ShowWrongMaskView());
+
+                            /*判断当前的View的在集合中的索引 利用索引找到另一个view*/
+                            int indexOf = mAnswerViewList.indexOf(mAnswerViewList.get(i));
+                            if (indexOf == 0) {
+                                mAnswerViewList.get(indexOf + 1).addView(ShowRightMaskView());
+                            } else if (indexOf == 1) {
+                                mAnswerViewList.get(indexOf - 1).addView(ShowRightMaskView());
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
+
+    /*显示正确答案遮罩*/
+    private RelativeLayout ShowRightMaskView() {
+        RelativeLayout reT = new RelativeLayout(getActivity());
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        ImageView imageView = new ImageView(getActivity());
+        imageView.setLayoutParams(params);
+        reT.addView(imageView);
+        imageView.setImageResource(R.drawable.answer_true);
+        reT.setBackgroundResource(R.drawable.answer_true_bg);
+
+        return reT;
+    }
+
+    /*显示错误答案遮罩*/
+    private RelativeLayout ShowWrongMaskView() {
+        /*回答错误就把我的答案加上红色遮罩*/
+        RelativeLayout reF = new RelativeLayout(getActivity());
+        RelativeLayout.LayoutParams paramsF = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        paramsF.addRule(RelativeLayout.CENTER_IN_PARENT);
+        ImageView imageViewF = new ImageView(getActivity());
+        imageViewF.setLayoutParams(paramsF);
+        reF.addView(imageViewF);
+        imageViewF.setImageResource(R.drawable.answer_false);
+        reF.setBackgroundResource(R.drawable.answer_false_bg);
+
+        return reF;
     }
 
     @Override
@@ -181,7 +186,6 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.img_play:
-//                    Toast.makeText(activity, "播放音频", Toast.LENGTH_SHORT).show();
                     if (!mediaUrl.equals("")) {
                         playMp3(mediaUrl);
                     }
@@ -202,7 +206,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
 
             if (inbasebean.getAnswerflag().equals("true")) {
                 for (int i = 0; i < mAnswerViewList.size(); i++) {
-                        /*翻頁回來之后保持之前选择的状态*/
+                    /*翻頁回來之后保持之前选择的状态*/
                     int currentAnswerPosition = inbasebean.getCurrentAnswerPosition();
                     if (mAnswerViewList.get(currentAnswerPosition) != null) {
                         mAnswerViewList.get(currentAnswerPosition).setBackgroundResource(R.drawable.select_judge_image);

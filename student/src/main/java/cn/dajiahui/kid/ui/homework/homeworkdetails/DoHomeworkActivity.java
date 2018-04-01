@@ -37,6 +37,7 @@ import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.homework.bean.BeSaveAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
+import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionadapterItemModle;
 import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
@@ -124,37 +125,47 @@ public class DoHomeworkActivity extends FxActivity
 
                         switch (mdata.get(i).getQuestion_cate_id()) {
                             case Constant.Judje:
-//                                Logger.d("判断：" + jsonArray.get(i).toString());
+                                Logger.d("判断：" + jsonArray.get(i).toString());
                                 JudjeQuestionModle judjeQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), JudjeQuestionModle.class);
                                 mDatalist.add(judjeQuestionModle);
-                                judjeQuestionModle.setMy_answer("㊒");
+
+                                if (!judjeQuestionModle.getIs_answered().equals("1")) {
+                                    judjeQuestionModle.setMy_answer("㊒");
+                                }
+
                                 break;
                             case Constant.Choice:
+                                Logger.d("选择：" + jsonArray.get(i).toString());
                                 ChoiceQuestionModle choiceQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), ChoiceQuestionModle.class);
                                 mDatalist.add(choiceQuestionModle);
-                                choiceQuestionModle.setMy_answer("㊒");
-//                                Logger.d("选择：" + jsonArray.get(i).toString());
+                                if (!choiceQuestionModle.getIs_answered().equals("1")) {
+                                    choiceQuestionModle.setMy_answer("㊒");
+                                }
                                 break;
                             case Constant.Sort:
-//                                Logger.d("排序：" + jsonArray.get(i).toString());
+                                Logger.d("排序：" + jsonArray.get(i).toString());
                                 SortQuestionModle sortQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), SortQuestionModle.class);
                                 mDatalist.add(sortQuestionModle);
-//                               /*初始化排序答案*/
 
-                                for (int s = 0; s < sortQuestionModle.getOptions().size(); s++) {
-                                    if (sortQuestionModle.getInitSortMyanswerList().size() < sortQuestionModle.getOptions().size()) {
-                                        sortQuestionModle.getInitSortMyanswerList().add("㊒");
+                                if (!sortQuestionModle.getIs_answered().equals("1")) {
+                                    /*初始化排序答案*/
+                                    for (int s = 0; s < sortQuestionModle.getOptions().size(); s++) {
+                                        if (sortQuestionModle.getInitSortMyanswerList().size() < sortQuestionModle.getOptions().size()) {
+                                            sortQuestionModle.getInitSortMyanswerList().add("㊒");
+                                        }
                                     }
                                 }
 //                                Logger.d("排序：" + sortQuestionModle.getInitSortMyanswerList().toString());
                                 break;
                             case Constant.Line:
-//                                Logger.d("连线：" + jsonArray.get(i).toString());
+                                Logger.d("连线：" + jsonArray.get(i).toString());
                                 LineQuestionModle lineQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), LineQuestionModle.class);
                                 mDatalist.add(lineQuestionModle);
-                                /*初始化连线答案*/
-                                for (int l = 0; l < lineQuestionModle.getOptions().getLeft().size(); l++) {
-                                    lineQuestionModle.getInitLineMyanswerMap().put((l + 1) + "", "㊒");
+                                if (!lineQuestionModle.getIs_answered().equals("1")) {
+                                    /*初始化连线答案*/
+                                    for (int l = 0; l < lineQuestionModle.getOptions().getLeft().size(); l++) {
+                                        lineQuestionModle.getInitLineMyanswerMap().put((l + 1) + "", "㊒");
+                                    }
                                 }
 //                                Logger.d("连线：" + lineQuestionModle.getInitLineMyanswerMap().toString());
                                 break;
@@ -163,33 +174,31 @@ public class DoHomeworkActivity extends FxActivity
                                 CompletionQuestionModle completionQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), CompletionQuestionModle.class);
                                 /*初始化填空答案*/
                                 mDatalist.add(completionQuestionModle);
-                                /*根据正确答案初始化我的答案*/
-                                /*解析正确答案（后台获取的正确答案）۞    分隔单词  然后自己拆分一个单词几个字母*/
-                                String standard_answer = completionQuestionModle.getStandard_answer();
-                                /*多个题*/
-                                if (standard_answer.contains("۞")) {
-                                    String[] strs = standard_answer.split("۞");
-                                    for (int a = 0; a < strs.length; a++) {
-                                        /*填空题数据模型*/
-//                                        Logger.d("strs------------------" + strs[a].toString());
-                                        LinkedHashMap<Integer, String> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
-                                        for (int b = 0; b < strs[a].length(); b++) {
-                                            mItemMap.put(b, "㊒");
+                                if (!completionQuestionModle.getIs_answered().equals("1")) {
+                                    /*根据正确答案初始化我的答案*/
+                                    /*解析正确答案（后台获取的正确答案）۞    分隔单词  然后自己拆分一个单词几个字母*/
+                                    String standard_answer = completionQuestionModle.getStandard_answer();
+                                    /*多个题*/
+                                    if (standard_answer.contains("۞")) {
+                                        String[] strs = standard_answer.split("۞");
+                                        for (int a = 0; a < strs.length; a++) {
+                                            /*填空题数据模型*/
+                                            LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
+                                            for (int b = 0; b < strs[a].length(); b++) {
+                                                mItemMap.put(b, new CompletionQuestionadapterItemModle("㊒"));
+                                            }
+                                            completionQuestionModle.getmCompletionAllMap().put(a, mItemMap);
                                         }
-                                        completionQuestionModle.getmCompletionAllMap().put(a, mItemMap);
-                                    }
 
-                                } else {
-                                    /*没有۞   只有一个横滑的adapterview*/
-                                    LinkedHashMap<Integer, String> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
-                                    for (int a = 0; a < standard_answer.length(); a++) {
-                                        mItemMap.put(a, "㊒");
+                                    } else {
+                                        /*没有۞   只有一个横滑的adapterview*/
+                                        LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
+                                        for (int a = 0; a < standard_answer.length(); a++) {
+                                            mItemMap.put(a, new CompletionQuestionadapterItemModle("㊒"));
+                                        }
+                                        completionQuestionModle.getmCompletionAllMap().put(0, mItemMap);
                                     }
-                                    completionQuestionModle.getmCompletionAllMap().put(0, mItemMap);
                                 }
-
-//                                Logger.d("completionQuestionModle.getmCompletionAllMap() ：" + completionQuestionModle.getmCompletionAllMap().toString());
-
                                 break;
                             default:
                                 break;
@@ -197,13 +206,12 @@ public class DoHomeworkActivity extends FxActivity
                         }
 
                     }
-                    Logger.d("mDatalist ：" + mDatalist.size());
-//                   /*作业适配器*/
+                    /*作业适配器*/
                     HomeWorkAdapter homeWorkAdapter = new HomeWorkAdapter(getSupportFragmentManager(), mdata);
                     mViewpager.setAdapter(homeWorkAdapter);
                     mViewpager.setOnPageChangeListener(onPageChangeListener);
 
-                   /*跳转单个题型的题*/
+                    /*跳转单个题型的题*/
                     if (mItemPosition != -1) {
                         mViewpager.setCurrentItem(mItemPosition);
                     }
@@ -481,7 +489,10 @@ public class DoHomeworkActivity extends FxActivity
         }
         /*点击submit回传*/
         else if (requestCode == DjhJumpUtil.getInstance().activity_answerCard && resultCode == DjhJumpUtil.getInstance().activity_answerCardSubmit) {
+
+            setResult(DjhJumpUtil.getInstance().activity_answerCardSubmit_dohomework);
             finishActivity();
+
         } else if (requestCode == DjhJumpUtil.getInstance().activity_answerCardComplete && resultCode == DjhJumpUtil.getInstance().activity_todohomework) {
             int current_num = data.getIntExtra("current_num", -1);
             mViewpager.setCurrentItem(current_num);

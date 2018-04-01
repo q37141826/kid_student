@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.fxtx.framework.log.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.ui.homework.adapter.HorizontallListViewAdapter;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionadapterItemModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
@@ -43,7 +45,7 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
     /////////////////
     private List<ExHorizontallListViewAdapter> mAllAdapterList = new ArrayList<>();//装每个HorizontalListView的适配器
     private List<ExHorizontalListView> mAllHorizontalListView = new ArrayList<>();//装每个HorizontalListView的适配器
-    private LinkedHashMap<Integer, LinkedHashMap<Integer, String>> mAllMap = new LinkedHashMap<>();//存所有答案的集合（key： 第几个listview  val：listview对应的数据）
+    private LinkedHashMap<Integer, LinkedHashMap<Integer, CompletionQuestionadapterItemModle>> mAllMap = new LinkedHashMap<>();//存所有答案的集合（key： 第几个listview  val：listview对应的数据）
 
     private int mTop = 0;//初始距离上端
     private int mTvTop = 0;//初始距离上端
@@ -51,11 +53,7 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
 
 
     private String mediaUrl;//音频地址
-
-    private List<String> standardAnswerList = new ArrayList<>();//参考答案的集合
-    private List<String> myAnswerList = new ArrayList<>();//我的答案的集合
     private Bundle bundle;
-    private String standard_answer;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -69,53 +67,16 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
         initialize();
         tvcompletion.setText(inbasebean.getTitle());
         tv_schedule.setText(bundle.getString("currntQuestion"));
-       /*加载内容图片*/
+        /*加载内容图片*/
         Glide.with(getActivity()).load(inbasebean.getQuestion_stem()).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgconment);
 
-        /*解析正确答案（后台获取的正确答案）۞    分隔单词  然后自己拆分一个单词几个字母*/
-        standard_answer = inbasebean.getStandard_answer();
-        String[] strs = standard_answer.split("۞");
-
-       /*截取正确答案字符串  添加到mRightanswer集合*/
-        for (int i = 0, len = strs.length; i < len; i++) {
-            String split = strs[i].toString();
-            standardAnswerList.add(split);
-        }
-
-        /*拆解正确答案每个单词的字母*/
-        for (int a = 0; a < standardAnswerList.size(); a++) {
-            /*填空题数据模型*/
-            CompletionQuestionModle completionQuestionModle = new CompletionQuestionModle();
-            List<List<CompletionQuestionadapterItemModle>> rightList = new ArrayList();
-            for (int q = 0; q < standardAnswerList.get(a).length(); q++) {
-
-                List<CompletionQuestionadapterItemModle> rightItemList = new ArrayList();
-
-                CompletionQuestionadapterItemModle cqim = new CompletionQuestionadapterItemModle();
-                rightItemList.add(cqim);
-                rightList.add(rightItemList);
-                completionQuestionModle.setShowRightList(rightList);
-
-            }
-            mRightanswer.add(completionQuestionModle);
-        }
-
-         /*添加题干*/
+        /*添加题干*/
         addQuestionStem();
+        /*添加布局*/
+        addHorizontalListView(inbasebean.getmCompletionAllMap().size());
 
-        /* size 填写有几道填空题 后台提供*/
-        addHorizontalListView(standardAnswerList.size());
-
-        /*初始化 每个adapter里的item的值*/
-        for (int a = 0; a < standardAnswerList.size(); a++) {
-            Map inputContainer = mAllAdapterList.get(a).getInputContainer();
-
-            for (int q = 0; q < standardAnswerList.get(a).length(); q++) {
-                inputContainer.put(q, "㊒");
-            }
-        }
     }
 
     /*添加填空题题干*/
@@ -149,8 +110,8 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
             mTop += 300;
 
             horizontalListView.setLayoutParams(params);
-            Map<Integer, String> integerObjectMap = new HashMap();//每次都要new出来
-            ExHorizontallListViewAdapter horizontallListViewAdapter = new ExHorizontallListViewAdapter(getActivity(), this, i, integerObjectMap, mRightanswer.get(i).getShowRightList(), inbasebean);
+
+            ExHorizontallListViewAdapter horizontallListViewAdapter = new ExHorizontallListViewAdapter(getActivity(), this, i, inbasebean);
             horizontalListView.setAdapter(horizontallListViewAdapter);
             mAllAdapterList.add(horizontallListViewAdapter);
             mAllHorizontalListView.add(horizontalListView);
@@ -238,20 +199,14 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
     /*监听editext输入*/
     @Override
 
-    public void submitEditextInfo(int selfposition,LinkedHashMap<Integer, String> inputContainer ) {
-//        Logger.d("确认输入----------------：" + selfposition);
+    public void submitEditextInfo( int selfposition, LinkedHashMap<Integer,
+            CompletionQuestionadapterItemModle> inputContainer,
+                                   int position, String itemValue) {
+
         inbasebean.setAnswerflag("true");
-
-        /*填写答案之后，然后在翻页回来再修改答案的bug*/
-        for (int i = 0; i < mAllAdapterList.size(); i++) {
-            LinkedHashMap<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
-            mAllMap.put(i, integerObjectMap);
-        }
-        mAllMap.put(selfposition, mAllAdapterList.get(selfposition).getInputContainer());// 获取每个适配的输入item的集合
-
-        inbasebean.setmCompletionAllMap(mAllMap);
-
+        inbasebean.getmCompletionAllMap().get(selfposition).get(position).setShowItemMy(itemValue);
         submit.submitCompletionFragment(inbasebean);//通知activity这次的作答答案
+
     }
 
     /*Chexk 通知碎片*/
@@ -261,57 +216,81 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
             inbasebean = (CompletionQuestionModle) questionModle;
             inbasebean.setIsFocusable("no");/*部顯示焦点*/
             inbasebean.setIsShowRightAnswer("yes");/*显示正确答案*/
+            /*根据正确答案初始化我的答案*/
+            /*解析正确答案（后台获取的正确答案）۞    分隔单词  然后自己拆分一个单词几个字母*/
+            /*多个题*/
 
-            myAnswerList.clear();
-            mRightanswer.clear();
+            String standard_answer = inbasebean.getStandard_answer();
 
+            if (standard_answer.contains("۞")) {
 
-            /*获取我的答案*/
-            for (int i = 0; i < mAllAdapterList.size(); i++) {
-                Map<Integer, String> integerStringMap = inbasebean.getmCompletionAllMap().get(i);
+                String[] strsTrue = standard_answer.split("۞");
+                for (int i = 0, len = inbasebean.getmCompletionAllMap().size(); i < len; i++) {
+                    LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
+                    for (int b = 0; b < inbasebean.getmCompletionAllMap().get(i).size(); b++) {
+                        String sTrue = String.valueOf(strsTrue[i].charAt(b));
+                        String sMine = inbasebean.getmCompletionAllMap().get(i).get(b).getShowItemMy();
 
-                StringBuffer buffer = new StringBuffer();
-                for (int q = 0; q < integerStringMap.size(); q++) {
-                    buffer.append(integerStringMap.get(q));
-                }
-                myAnswerList.add(buffer.toString());
-            }
-            /*拼接的我的答案*/
-//            Logger.d("拼接的我的答案--myAnswerList:" + myAnswerList);
+                        if (sTrue.equals(sMine)) {
+                            mItemMap.put(b, new CompletionQuestionadapterItemModle(sTrue, sMine, 0));
+                        } else {
+                            mItemMap.put(b, new CompletionQuestionadapterItemModle(sTrue, sMine, 1));
+                        }
 
-            for (int a = 0; a < standardAnswerList.size(); a++) {
-               /*填空题数据模型*/
-                CompletionQuestionModle completionQuestionModle = new CompletionQuestionModle();
-                List<List<CompletionQuestionadapterItemModle>> rightList = new ArrayList();
-                for (int q = 0; q < standardAnswerList.get(a).length(); q++) {
-                    List<CompletionQuestionadapterItemModle> rightItemList = new ArrayList();
-                    CompletionQuestionadapterItemModle cqim = new CompletionQuestionadapterItemModle(
-                            String.valueOf(standardAnswerList.get(a).charAt(q)),
-                            String.valueOf(myAnswerList.get(a).charAt(q)));
-                    /*如果所对应的值相等*/
-                    if (String.valueOf(standardAnswerList.get(a).charAt(q)).
-                            equals(String.valueOf(myAnswerList.get(a).charAt(q)))) {
-                        cqim.setShowItemRightColor(0);
-                    } else {
-                        cqim.setShowItemRightColor(1);
                     }
 
-                    rightItemList.add(cqim);
-                    rightList.add(rightItemList);
-
-                    completionQuestionModle.setShowRightList(rightList);
-
+                    inbasebean.getmCompletionAllMap().put(i, mItemMap);
                 }
-                mRightanswer.add(completionQuestionModle);
             }
-
-           /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/
+                        /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/
             for (int i = 0; i < mAllAdapterList.size(); i++) {
-                LinkedHashMap<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
-                mAllAdapterList.get(i).setInputContainer(integerObjectMap, inbasebean, mRightanswer.get(i).getShowRightList());
+                LinkedHashMap<Integer, CompletionQuestionadapterItemModle> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
+                mAllAdapterList.get(i).setInputContainer(integerObjectMap, inbasebean );
 
             }
 
+
+//            /*获取我的答案*/
+//            for (int i = 0; i < mAllAdapterList.size(); i++) {
+//                Map<Integer, CompletionQuestionadapterItemModle> integerStringMap = inbasebean.getmCompletionAllMap().get(i);
+//
+//                StringBuffer buffer = new StringBuffer();
+//                for (int q = 0; q < integerStringMap.size(); q++) {
+//                    buffer.append(integerStringMap.get(q));
+//                }
+//                myAnswerList.add(buffer.toString());
+//            }
+//            /*拼接的我的答案*/
+////            Logger.d("拼接的我的答案--myAnswerList:" + myAnswerList);
+//
+//            for (int a = 0; a < standardAnswerList.size(); a++) {
+//                /*填空题数据模型*/
+//                CompletionQuestionModle completionQuestionModle = new CompletionQuestionModle();
+//                List<List<CompletionQuestionadapterItemModle>> rightList = new ArrayList();
+//                for (int q = 0; q < standardAnswerList.get(a).length(); q++) {
+//                    List<CompletionQuestionadapterItemModle> rightItemList = new ArrayList();
+//                    CompletionQuestionadapterItemModle cqim = new CompletionQuestionadapterItemModle(
+//                            String.valueOf(standardAnswerList.get(a).charAt(q)),
+//                            String.valueOf(myAnswerList.get(a).charAt(q)));
+//                    /*如果所对应的值相等*/
+//                    if (String.valueOf(standardAnswerList.get(a).charAt(q)).
+//                            equals(String.valueOf(myAnswerList.get(a).charAt(q)))) {
+//                        cqim.setShowItemRightColor(0);
+//                    } else {
+//                        cqim.setShowItemRightColor(1);
+//                    }
+//
+//                    rightItemList.add(cqim);
+//                    rightList.add(rightItemList);
+//
+//                    completionQuestionModle.setShowRightList(rightList);
+//
+//                }
+//                mRightanswer.add(completionQuestionModle);
+//            }
+//
+
+//
 
         }
     }

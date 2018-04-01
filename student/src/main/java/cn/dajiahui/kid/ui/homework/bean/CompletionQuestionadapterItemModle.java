@@ -6,14 +6,30 @@ import java.io.Serializable;
  * Created by lenovo on 2018/2/26.
  */
 
-public class CompletionQuestionadapterItemModle  implements Serializable {
+public class CompletionQuestionadapterItemModle implements Serializable {
+
+
     private String showItemright;//显示正确答案
     private String showItemMy;//显示我的答案
-    private int showItemRightColor = -1;//0正确 绿色 1 错误 红色
+    private int showItemRightColor = -1;//0正确 绿色 ----1 错误 红色
+
 
     public CompletionQuestionadapterItemModle() {
     }
 
+    /*显示我的答案*/
+    public CompletionQuestionadapterItemModle(String showItemMy) {
+        this.showItemMy = showItemMy;
+    }
+
+    /*作业模块 正确答案 我的答案 颜色  */
+    public CompletionQuestionadapterItemModle(String showItemright, String showItemMy, int showItemRightColor) {
+        this.showItemright = showItemright;
+        this.showItemMy = showItemMy;
+        this.showItemRightColor = showItemRightColor;
+    }
+
+    /*练习模块  显示正确答案和我的答案*/
     public CompletionQuestionadapterItemModle(String showItemright, String showItemMy) {
         this.showItemright = showItemright;
         this.showItemMy = showItemMy;

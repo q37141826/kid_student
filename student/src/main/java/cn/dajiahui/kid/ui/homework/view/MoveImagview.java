@@ -21,6 +21,8 @@ import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.MoveLocation;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static cn.dajiahui.kid.controller.Constant.SortAnswerView_margin;
 import static cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity.screenWidth;
 import static cn.dajiahui.kid.ui.homework.homeworkdetails.SortFragment.isLinecheck;
 
@@ -42,7 +44,8 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     private SortQuestionModle inbasebean;//数据模型
     private MoveLocation moveLocation;//接口实例
     public String val;//当前拖动图片的val值
-    private List<String> mRightContentList;
+    private List<String> mRightContentList;//正确答案内容的集合
+    private LayoutParams params;
 
 
     /*构造*/
@@ -54,15 +57,101 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     public MoveImagview(Context context, MoveLocation moveLocation, int position, List<String> mRightContentList, SortQuestionModle inbasebean) {
         super(context);
         this.context = context;
-        this.setOnTouchListener(this);
+
         this.inbasebean = inbasebean;
         this.moveLocation = moveLocation;
         this.position = position;
         this.val = inbasebean.getOptions().get(position).getVal();
-        if (inbasebean.getIs_answered().equals("1")) {
-            this.mRightContentList = mRightContentList;
+        this.mRightContentList = mRightContentList;
+        this.setBackgroundResource(R.drawable.sortview_default_bg);
+        this.setPadding(SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin);
+        params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+
+
+        /*首先判断是否作答*/
+        switch (inbasebean.getIs_complete()) {
+            /*未开始*/
+            case "-1":
+                this.setOnTouchListener(this);
+                ShowNoCompleteUI(inbasebean.getOptions().get(position).getContent());
+                break;
+            /*进行中*/
+            case "0":
+                this.setOnTouchListener(this);
+                ShowNoCompleteUI(inbasebean.getOptions().get(position).getContent());
+
+                break;
+            /*已完成*/
+            case "1":
+                ShowCompleteUI(mRightContentList.get(position));
+                /*添加遮罩*/
+                AddMaskView();
+                break;
+            default:
+                break;
+
         }
-        addview();
+
+    }
+
+    /*未完成UI*/
+    private void ShowNoCompleteUI(String imgUrl) {
+
+        String content = inbasebean.getOptions().get(position).getContent();
+        if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
+            ShowImageViewUI(imgUrl);
+        } else {
+            ShowTextViewUI();
+        }
+    }
+
+    /*添加遮罩*/
+    private void AddMaskView() {
+        /*正确答案 添加遮罩*/
+        RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
+        paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
+        ImageView imageViewT = new ImageView(context);
+        imageViewT.setLayoutParams(paramsT);
+        imageViewT.setBackgroundResource(R.drawable.answer_true_bg);
+        this.addView(imageViewT);
+    }
+
+    /*完成UI*/
+    private void ShowCompleteUI(String imgUrl) {
+        String content = inbasebean.getOptions().get(position).getContent();
+        if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
+
+            ShowImageViewUI(imgUrl);
+
+        } else {
+            ShowTextViewUI();
+        }
+    }
+
+    /*显示文本*/
+    private void ShowTextViewUI() {
+        TextView textView = new TextView(context);
+        LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textView.setTextColor(getResources().getColor(R.color.blue));
+        params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
+        textView.setLayoutParams(tparams);
+        if (inbasebean.getIs_answered().equals("0")) {
+            textView.setText(inbasebean.getOptions().get(position).getContent());
+        } else {
+            textView.setText(mRightContentList.get(position));
+        }
+        addView(textView);
+    }
+
+    /*显示图片*/
+    private void ShowImageViewUI(String imgUrl) {
+        ImageView imageView = new ImageView(context);
+        imageView.setLayoutParams(params);
+        this.addView(imageView);
+
+        Glide.with(context).load(imgUrl)
+                .asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
 
     }
 
@@ -78,7 +167,8 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
             case MotionEvent.ACTION_MOVE:
 
 
-                if (inbasebean.getIs_answered().equals("0")) {
+                /*排序题  首先判断是否完成提交*/
+                if (!inbasebean.getIs_complete().equals("1")) {
                     int endX = (int) motionEvent.getRawX();
                     int endY = (int) motionEvent.getRawY();
 
@@ -114,7 +204,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
                 /* 通知碎片  然后回调 手指抬起时回调当前拖动的view的中心点  */
                 BeLocation beLocation = moveLocation.submitCenterPoint(this, position, centerPointX, centerPointY);
                 if (beLocation != null) {
-                /*更新滑动之后的位置*/
+                    /*更新滑动之后的位置*/
                     this.layout(beLocation.getGetLeft(), beLocation.getGetTop(), beLocation.getGetRight(), beLocation.getGetBottom());
                 }
 
@@ -133,55 +223,5 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
         }
     }
 
-    /*添加视图*/
-    private void addview() {
-
-        LayoutParams params = new LayoutParams(screenWidth / 5, screenWidth / 5);
-        String content = inbasebean.getOptions().get(position).getContent();
-
-        if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
-            ImageView imageView = new ImageView(context);
-
-            imageView.setLayoutParams(params);
-            this.addView(imageView);
-            if (inbasebean.getIs_answered().equals("0")) {
-                Glide.with(context)
-                        .load(inbasebean.getOptions().get(position).getContent())
-                        .asBitmap()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(imageView);
-            } else {
-                Glide.with(context)
-                        .load(mRightContentList.get(position))
-                        .asBitmap()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(imageView);
-
-                /*正确答案 添加遮罩*/
-                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
-                paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
-                ImageView imageViewT = new ImageView(context);
-                imageViewT.setLayoutParams(paramsT);
-                imageViewT.setBackgroundResource(R.drawable.answer_true_bg);
-                this.addView(imageViewT);
-            }
-
-        } else {
-
-            TextView textView = new TextView(context);
-            LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            textView.setTextColor(getResources().getColor(R.color.blue));
-            params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
-            textView.setLayoutParams(tparams);
-            if (inbasebean.getIs_answered().equals("0")) {
-                textView.setText(inbasebean.getOptions().get(position).getContent());
-            } else {
-                textView.setText(mRightContentList.get(position));
-            }
-            addView(textView);
-        }
-
-
-    }
 
 }

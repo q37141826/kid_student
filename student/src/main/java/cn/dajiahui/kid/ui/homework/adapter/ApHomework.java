@@ -70,9 +70,11 @@ public class ApHomework extends CommonAdapter<BeHomework> {
             if (item.getIs_complete().equals("1")) {
                 tv_dohomework.setText("查看");
                 tv_dohomework.setBackgroundResource(R.drawable.round_bgyellow_febf12_homwwork_startstudy);
+                tv_dohomework.setTextColor(context.getResources().getColor(R.color.white));
                 rb_score.setVisibility(View.VISIBLE);
             } else {
                 tv_dohomework.setText("做作业");
+                tv_dohomework.setTextColor(context.getResources().getColor(R.color.white));
                 tv_dohomework.setBackgroundResource(R.drawable.round_bgyellow_febf12_homwwork_startstudy);
                 rb_score.setVisibility(View.INVISIBLE);
             }

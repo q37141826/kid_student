@@ -28,11 +28,7 @@
         android:id="@+id/img_rightchoice"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:padding="12dp"
-        android:singleLine="true"
-        android:textColor="@color/color5A"
-        android:textSize="@dimen/text18"/>
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

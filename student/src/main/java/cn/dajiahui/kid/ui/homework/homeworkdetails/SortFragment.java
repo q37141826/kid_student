@@ -71,8 +71,8 @@ public class SortFragment extends BaseHomeworkFragment implements
     private TextView tv_sort, tv_schedule;
     private ImageView sort_img_play;//播放器按钮
     private String media;
-    private List<String> mRightContentList;
-    private List<String> mMineContentList;
+    private List<String> mRightContentList;//正确答案的内容
+    private List<String> mMineContentList;//我的答案的内容
     private String title;
 
     public static boolean isLinecheck = false;//江湖救急  后续更改
@@ -86,7 +86,7 @@ public class SortFragment extends BaseHomeworkFragment implements
             switch (msg.what) {
 
                 case LEFT:
-                      /*算法  计算每个view的位置*/
+                    /*算法  计算每个view的位置*/
                     Point pLeft = (Point) msg.obj;
                     /*第一个左边第一个点的X Y*/
                     int pLeftX = pLeft.x;
@@ -158,13 +158,14 @@ public class SortFragment extends BaseHomeworkFragment implements
         initialize();
         tv_sort.setText(title);
         tv_schedule.setText(bundle.getString("currntQuestion"));
-        if (inbasebean.getIs_answered().equals("1")) {
+        /*判断已经完成*/
+        if (inbasebean.getIs_complete().equals("1")) {
             showAnswer();
             getAnswerList();
         }
         /*添加右侧视图*/
         addGroupImage(inbasebean.getOptions().size(), relaroot);
-       /*添加左侧图片*/
+        /*添加左侧图片*/
         addGroupMoviewImage(inbasebean.getOptions().size(), relaroot);
 
         /*监听 relaroot 上的子视图绘制完成*/
@@ -173,7 +174,7 @@ public class SortFragment extends BaseHomeworkFragment implements
             @Override
             public void onGlobalLayout() {
                 if (!calculation) {
-                     /*左边*/
+                    /*左边*/
                     if (leftViews.get(0) != null) {
                         int leftPointViewX = leftViews.get(0).getLeft();
                         int leftPointViewY = leftViews.get(0).getTop();
@@ -225,46 +226,26 @@ public class SortFragment extends BaseHomeworkFragment implements
     private void addGroupImage(int size, RelativeLayout lin) {
 
         for (int i = 0; i < size; i++) {
-            FixedImagview fixedImagview = new FixedImagview(getActivity(), R.drawable.default_null, i, mMineContentList, inbasebean);
-
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            FixedImagview fixedImagview = new FixedImagview(getActivity(), i, mMineContentList, mRightContentList, inbasebean);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
             lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             lp.topMargin = mRightTop;
             mRightTop += screenWidth / 4;
             lp.rightMargin = screenWidth / 6;
             fixedImagview.setLayoutParams(lp);
-
-            RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-            paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
-            ImageView imageViewT = new ImageView(getActivity());
-            imageViewT.setLayoutParams(paramsT);
-            if (inbasebean.getIs_answered().equals("1")) {
-                if (mMineContentList.size() > 0 && mRightContentList.size() > 0 &&
-                        mRightContentList.get(i).equals(mMineContentList.get(i))) {
-                /*正确答案 添加遮罩*/
-                    imageViewT.setBackgroundResource(R.drawable.answer_true_bg);
-                } else {
-                 /*错误答案 添加遮罩*/
-                    imageViewT.setBackgroundResource(R.drawable.answer_false_bg);
-                }
-                fixedImagview.addView(imageViewT);
-            }
             rightViews.add(fixedImagview);
-
             lin.addView(fixedImagview); //动态添加图片
 
         }
-
     }
 
     /*添加左可以动的侧图片*/
 
     private void addGroupMoviewImage(int size, RelativeLayout lin) {
 
-
         for (int i = 0; i < size; i++) {
             MoveImagview mMoveView = new MoveImagview(getActivity(), this, i, mRightContentList, inbasebean);
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
             lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             lp.topMargin = mLeftTop;
             mLeftTop += screenWidth / 4;
@@ -283,9 +264,9 @@ public class SortFragment extends BaseHomeworkFragment implements
 
         /*未答题状态下*/
         if (inbasebean.getIs_answered().equals("0")) {
-        /*循环便利右视图的集合  判断中心点是否在右视图某一个的范围内*/
+            /*循环便利右视图的集合  判断中心点是否在右视图某一个的范围内*/
             for (int i = 0; i < pointRightList.size(); i++) {
-            /*算法  循环判断中心点是否在右边的view的范围内*/
+                /*算法  循环判断中心点是否在右边的view的范围内*/
                 int getLeft = pointRightList.get(i).getGetLeft();
                 int getTop = pointRightList.get(i).getGetTop();
                 int width = pointRightList.get(i).getWidth();
@@ -295,16 +276,16 @@ public class SortFragment extends BaseHomeworkFragment implements
                 boolean right = (float) getLeft + (float) width >= X;
                 boolean top = (float) getTop <= Y;
                 boolean bottom = (float) getTop + (float) height >= Y;
-               /*加判断条件只有未作答状态*/
+                /*加判断条件只有未作答状态*/
 
-             /*判断中心点在右侧的view视图上*/
+                /*判断中心点在右侧的view视图上*/
                 if (left && right && top && bottom) {
-                       /*让上一个视图回到原来的位置*/
+                    /*让上一个视图回到原来的位置*/
                     for (int a = 0; a < leftViews.size(); a++) {
                         int mLeft = leftViews.get(a).getLeft();
                         int mTop = leftViews.get(a).getTop();
 
-                          /*移除右边图片上已经排序的view  返回到原来*/
+                        /*移除右边图片上已经排序的view  返回到原来*/
                         if (getLeft == mLeft && getTop == mTop) {
                             MoveImagview moveImagview = leftViews.get(a);
                             int indexOf = leftViews.indexOf(moveImagview);//找到对应view的索引
@@ -329,11 +310,11 @@ public class SortFragment extends BaseHomeworkFragment implements
                     return beLocation;
                 } else {
 
-                /*找到当前view在 左视图集合的位置*/
+                    /*找到当前view在 左视图集合的位置*/
                     int indexOf = leftViews.indexOf(mBeforeView);
                     BeLocation beLocation = pointLeftList.get(indexOf);
                     mBeforeView.refreshLocation(beLocation);
-                  /*保存移动之后的坐标点  position 是当前移动view的在leftViews的索引  */
+                    /*保存移动之后的坐标点  position 是当前移动view的在leftViews的索引  */
                     mMineAnswerMap.put((indexOf), beLocation);
                     inbasebean.setSortAnswerMap(mMineAnswerMap);//我的答案的集合
 
@@ -382,10 +363,10 @@ public class SortFragment extends BaseHomeworkFragment implements
             /*条件换成后台的是否作答标记*/
             if (inbasebean.getIs_answered().equals("0")) {
 
-                 /*获取复原的数据集合*/
+                /*获取复原的数据集合*/
                 Map<Integer, BeLocation> sortAnswerMap = inbasebean.getSortAnswerMap();
                 if (sortAnswerMap.size() > 0) {
-                        /*自己答题 非网络请求*/
+                    /*自己答题 非网络请求*/
                     for (int a = 0; a < leftViews.size(); a++) {
                         BeLocation beLocation = sortAnswerMap.get(a);
                         MoveImagview moveImagview = leftViews.get(a);
@@ -460,26 +441,26 @@ public class SortFragment extends BaseHomeworkFragment implements
         mMineContentList = new ArrayList<>();
         if (!my_answer.equals("")) {
             String[] strs = my_answer.split(",");
-        /*截取字符串*/
+            /*截取字符串*/
             for (int i = 0, len = strs.length; i < len; i++) {
                 String split = strs[i].toString();
                 mMineList.add(split);
             }
 
-        /*遍历我的答案的集合*/
+            /*遍历我的答案的集合*/
             for (int i = 0; i < mMineList.size(); i++) {
-            /*遍历解析的集合找到 我的答案所对应的val*/
+                /*遍历解析的集合找到 我的答案所对应的val*/
                 for (int t = 0; t < inbasebean.getOptions().size(); t++) {
-                /*如果val值相等*/
+                    /*如果val值相等*/
                     if (mMineList.get(i).equals(inbasebean.getOptions().get(t).getVal())) {
                         mMineContentList.add(inbasebean.getOptions().get(t).getContent());
                     }
                 }
             }
         }
-         /*我的答案 end*/
+        /*我的答案 end*/
 
-         /*正确答案 start*/
+        /*正确答案 start*/
         String standard_answer = inbasebean.getStandard_answer();
         List<String> mSandardAnswerList = new ArrayList<>();//截取字符串的集合参考答案）
         //参考答案的顺序集合

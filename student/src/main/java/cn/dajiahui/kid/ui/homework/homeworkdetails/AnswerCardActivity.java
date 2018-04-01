@@ -26,12 +26,14 @@ import java.util.Map;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
+import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.homework.adapter.ApAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.BeAnswerCArd;
 import cn.dajiahui.kid.ui.homework.bean.BeSaveAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.BeSubmitAnswerCard;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
+import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionadapterItemModle;
 import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
@@ -49,7 +51,7 @@ public class AnswerCardActivity extends FxActivity {
     private Button mBtnsubmit;
 
     private BeSaveAnswerCard beSaveAnswerCard;
-
+    private String homework_id;
     private List<BeSubmitAnswerCard> submitAnswerCardList = new ArrayList<>();//转json的答题卡集合
     private List<BeAnswerCArd> beAnswerCArds = new ArrayList<>();//显示已作答，未作答的答题卡集合
     private StringBuffer append1;
@@ -81,7 +83,8 @@ public class AnswerCardActivity extends FxActivity {
 
         Bundle bundle = getIntent().getExtras();
         beSaveAnswerCard = (BeSaveAnswerCard) bundle.getSerializable("ANSWER_CARD");
-
+        /*作业id*/
+        homework_id = beSaveAnswerCard.getHomework_id();
 
         /*获取所有数据的集合*/
         List<Object> mDatalist = beSaveAnswerCard.getmDatalist();
@@ -360,7 +363,7 @@ public class AnswerCardActivity extends FxActivity {
                 }
             }
             lqm.setIs_auto(MANUAL);//自动提交
-            lqm.setIs_answered(ANSWER_NO);//已作答
+            lqm.setIs_answered(ANSWER_YES);//已作答
             lqm.setMy_answer(jsonElement.toString());//我的答案
 
         } else {
@@ -375,36 +378,38 @@ public class AnswerCardActivity extends FxActivity {
     /*填空題答题卡数据*/
     private void Completion(CompletionQuestionModle coqm) {
 
-        LinkedHashMap<Integer, LinkedHashMap<Integer, String>> integerMapMap = coqm.getmCompletionAllMap();
+        LinkedHashMap<Integer, LinkedHashMap<Integer, CompletionQuestionadapterItemModle>> integerMapMap = coqm.getmCompletionAllMap();
         StringBuffer sbAll = new StringBuffer();
         String appendAll = "";
         int mAnsNum = 0;//填空作答题的个数 判断自己回答的个数 mAnsNum>0 就是已经回答过题
         for (int c = 0; c < integerMapMap.size(); c++) {
             if (integerMapMap.get(c) != null) {
-                LinkedHashMap<Integer, String> integerStringMap = integerMapMap.get(c);
+                LinkedHashMap<Integer, CompletionQuestionadapterItemModle> integerStringMap = integerMapMap.get(c);
                 StringBuffer stringBuffer = new StringBuffer();
                 for (int d = 0; d < integerStringMap.size(); d++) {
-                    if (!integerStringMap.get(d).equals("㊒")) {
-                        mAnsNum++;
+
+                        if (!integerStringMap.get(d).getShowItemMy().equals("㊒")) {
+                            mAnsNum++;
+                        }
+                        StringBuffer sb1 = stringBuffer.append(integerStringMap.get(d).getShowItemMy().toString());
+                        if (c == 0 && d + 1 == integerStringMap.size()) {
+                            append1 = sb1;
+                            break;
+                        } else if (c > 0 && d + 1 == integerStringMap.size()) {
+                            append2 = sbAll.append("۞" + sb1);
+                        }
                     }
-                    StringBuffer sb1 = stringBuffer.append(integerStringMap.get(d).toString());
-                    if (c == 0 && d + 1 == integerStringMap.size()) {
-                        append1 = sb1;
-                        break;
-                    } else if (c > 0 && d + 1 == integerStringMap.size()) {
-                        append2 = sbAll.append("۞" + sb1);
+
+                    if (c + 1 == integerMapMap.size()) {
+                        if (integerMapMap.size() == 1) {
+                            appendAll = append1.toString();
+                        } else {
+                            appendAll = append1.toString() + append2.toString();
+                        }
+
                     }
                 }
 
-                if (c + 1 == integerMapMap.size()) {
-                    if (integerMapMap.size() == 1) {
-                        appendAll = append1.toString();
-                    } else {
-                        appendAll = append1.toString() + append2.toString();
-                    }
-
-                }
-            }
         }
 
         if (mAnsNum > 0) {

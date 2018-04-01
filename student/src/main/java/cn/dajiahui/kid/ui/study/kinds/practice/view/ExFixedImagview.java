@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +19,9 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static cn.dajiahui.kid.controller.Constant.SortAnswerView_margin;
+
 
 /**
  * Created by lenovo on 2018/1/16.
@@ -29,23 +33,25 @@ public class ExFixedImagview extends RelativeLayout {
     private Context context;
     private Activity activity;
     private SortQuestionModle inbasebean;
-    private int pic;
+
     private int position;
     private List<String> mMineContentList;//我的答案
-    private int widthPixels;
+
+    private LayoutParams params;
 
 
     /*未check*/
     @SuppressLint("ResourceAsColor")
-    public ExFixedImagview(Context context, int pic, int position, SortQuestionModle inbasebean) {
+    public ExFixedImagview(Context context, int position, SortQuestionModle inbasebean) {
         super(context);
         this.context = context;
-        this.activity= (Activity) context;
+        this.activity = (Activity) context;
         this.inbasebean = inbasebean;
-        this.pic = pic;
         this.position = position;
-         /*屏幕宽度*/
-        widthPixels = BaseUtil.getWidthPixels( (Activity) context);
+        this.setBackgroundResource(R.drawable.sortview_default_bg);
+        this.setPadding(SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin);
+        params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+
         /*添加视图*/
         addImageView();
     }
@@ -57,58 +63,56 @@ public class ExFixedImagview extends RelativeLayout {
         this.inbasebean = inbasebean;
         this.position = position;
         this.mMineContentList = mMineContentList;
-       /*屏幕宽度*/
-        widthPixels = BaseUtil.getWidthPixels( (Activity) context);
-         /*添加视图*/
+        this.setBackgroundResource(R.drawable.sortview_default_bg);
+        this.setPadding(SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin);
+        params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+
+        /*添加视图*/
         addImageView();
     }
 
 
     /*添加视图*/
     private void addImageView() {
-        LayoutParams params = new LayoutParams(widthPixels/5, widthPixels/5);
 
         /*未check*/
         if (inbasebean.isAnswer() == false) {
             /*未回答状态下获取 内容类型*/
             String content = inbasebean.getOptions().get(position).getContent();
             if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
-                ImageView imageView = new ImageView(context);
-                imageView.setLayoutParams(params);
-                imageView.setImageResource(pic);
-                this.addView(imageView);
+                ShowTextViewUI((position + 1) + "");
             } else {
-                TextView textView = new TextView(context);
-                LayoutParams tparams = new LayoutParams(widthPixels/5, widthPixels/5);
-                textView.setTextColor(getResources().getColor(R.color.blue));
-                params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
-                textView.setText(inbasebean.getOptions().get(position).getContent());
-                textView.setLayoutParams(tparams);
-                this.addView(textView);
+                ShowTextViewUI(inbasebean.getOptions().get(position).getContent());
             }
-            this.setBackgroundColor(getResources().getColor(R.color.yellow_FEBF12));
+
         } else {/*check之后*/
             this.removeAllViews(); /*保险起见先清理所有view*/
             String content = mMineContentList.get(position);
             if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
-
-                ImageView imageView = new ImageView(context);
-                imageView.setLayoutParams(params);
-                Glide.with(context).load(mMineContentList.get(position)).asBitmap()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
-                this.addView(imageView);
-
+                ShowImageViewUI();
             } else {
-
-                TextView textView = new TextView(context);
-                LayoutParams tparams = new LayoutParams(widthPixels/5, widthPixels/5);
-                textView.setTextColor(getResources().getColor(R.color.blue));
-                params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
-                textView.setText(content);
-                textView.setLayoutParams(tparams);
-                this.addView(textView);
+                ShowTextViewUI(content);
             }
         }
+    }
+
+    /*显示文本*/
+    private void ShowTextViewUI(String textComtent) {
+        TextView textview = new TextView(context);
+        textview.setText(textComtent);
+        textview.setLayoutParams(params);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
+        textview.setTextColor(context.getResources().getColor(R.color.gray_9c9c9c));
+        this.addView(textview);
+    }
+
+    /*显示图片*/
+    private void ShowImageViewUI() {
+        ImageView imageView = new ImageView(context);
+        imageView.setLayoutParams(params);
+        Glide.with(context).load(mMineContentList.get(position)).asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        this.addView(imageView);
     }
 
     public ExFixedImagview(Context context, @Nullable AttributeSet attrs) {

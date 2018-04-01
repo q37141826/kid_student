@@ -163,6 +163,7 @@ public class Constant {
     public static final int lineView_margin = 50;// 作业，练习连线题的答题的view的距离
 
     public static final int JudgeAnswerView_margin = 10;// 作业，练习选择JudgeAnswerView 的panding
+    public static final int SortAnswerView_margin = 10;// 作业，练习排序的view 的panding
 
 
 }

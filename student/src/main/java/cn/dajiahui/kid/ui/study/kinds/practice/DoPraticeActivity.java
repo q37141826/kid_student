@@ -25,6 +25,7 @@ import org.json.JSONException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,14 +34,15 @@ import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.homework.bean.ChoiceQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
+import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionadapterItemModle;
 import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 
 /*
-* 做练习Activity
-* */
+ * 做练习Activity
+ * */
 public class DoPraticeActivity extends FxActivity
         implements ExJudgeFragment.SubmitJudgeFragment,
         ExChoiceFragment.SubmitChoiseFragment,
@@ -86,7 +88,7 @@ public class DoPraticeActivity extends FxActivity
     @Override
     public void httpData() {
         super.httpData();
-            /*练习请求*/
+        /*练习请求*/
         RequestUtill.getInstance().httpExercise(DoPraticeActivity.this, callExercise, book_id, unit_id);
 
     }
@@ -118,7 +120,7 @@ public class DoPraticeActivity extends FxActivity
                     mdata = new Gson().fromJson(jsonArray.toString(), new TypeToken<List<QuestionModle>>() {
                     }.getType());
 
-                      /*解析json数据*/
+                    /*解析json数据*/
                     for (int i = 0; i < mdata.size(); i++) {
                         switch (mdata.get(i).getQuestion_cate_id()) {
                             case Constant.Judje:
@@ -145,6 +147,33 @@ public class DoPraticeActivity extends FxActivity
 //                            Logger.d("填空：" + jsonArray.get(i).toString());
                                 CompletionQuestionModle completionQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), CompletionQuestionModle.class);
                                 mDatalist.add(completionQuestionModle);
+
+                                /*根据正确答案初始化我的答案*/
+                                /*解析正确答案（后台获取的正确答案）۞    分隔单词  然后自己拆分一个单词几个字母*/
+                                String standard_answer = completionQuestionModle.getStandard_answer();
+                                /*多个题*/
+                                if (standard_answer.contains("۞")) {
+                                    String[] strs = standard_answer.split("۞");
+                                    for (int a = 0; a < strs.length; a++) {
+                                        /*填空题数据模型*/
+                                        LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
+                                        for (int b = 0; b < strs[a].length(); b++) {
+                                            mItemMap.put(b, new CompletionQuestionadapterItemModle("㊒"));
+
+                                        }
+                                        completionQuestionModle.getmCompletionAllMap().put(a, mItemMap);
+
+                                    }
+
+                                } else {
+                                    /*没有۞   只有一个横滑的adapterview*/
+                                    LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
+                                    for (int a = 0; a < standard_answer.length(); a++) {
+                                        mItemMap.put(a, new CompletionQuestionadapterItemModle("㊒"));
+                                    }
+                                    completionQuestionModle.getmCompletionAllMap().put(0, mItemMap);
+                                }
+
                                 break;
                             default:
                                 break;
@@ -197,7 +226,7 @@ public class DoPraticeActivity extends FxActivity
 
                                 praticeCurrentPosition++;
 
-                                 /*跳转下一题*/
+                                /*跳转下一题*/
                                 mViewpager.setCurrentItem(praticeCurrentPosition);
 
                                 changeBtnY();
@@ -206,26 +235,26 @@ public class DoPraticeActivity extends FxActivity
 
                             if (questionModle != null && questionModle.isAnswer() == false && questionModle.getAnswerflag().equals("true")) {
                                 questionModle.setAnswer(true);//设置提交答案  true 答过 false 未作答
-                            /*判断*/
+                                /*判断*/
                                 if (questionModle.getQuestion_cate_id().equals(Constant.Judje)) {
                                     ExJudgeFragment exJudgeFragment = (ExJudgeFragment) frMap.get((praticeCurrentPosition));
                                     //通知判断题碎片
                                     exJudgeFragment.submitHomework(questionModle);
 
                                 }
-                            /*选择*/
+                                /*选择*/
                                 else if (questionModle.getQuestion_cate_id().equals(Constant.Choice)) {
                                     ExChoiceFragment exChoiceFragment = (ExChoiceFragment) frMap.get((praticeCurrentPosition));
                                     //通知选择题碎片
                                     exChoiceFragment.submitHomework(questionModle);
 
                                 }
-                            /*排序*/
+                                /*排序*/
                                 else if (questionModle.getQuestion_cate_id().equals(Constant.Sort)) {
 
                                     ExSortFragment exSortFragment = (ExSortFragment) frMap.get((praticeCurrentPosition));
 
-                                /*判断是否做完题 */
+                                    /*判断是否做完题 */
                                     for (int i = 0; i < questionModle.getInitSortMyanswerList().size(); i++) {
                                         if (questionModle.getInitSortMyanswerList().contains("㊒")) {
                                             questionModle.setAnswer(false);
@@ -236,7 +265,7 @@ public class DoPraticeActivity extends FxActivity
                                     exSortFragment.submitHomework(questionModle);
 
                                 }
-                            /*连线题*/
+                                /*连线题*/
                                 else if (questionModle.getQuestion_cate_id().equals(Constant.Line)) {
                                     ExLineFragment linFragment = (ExLineFragment) frMap.get(praticeCurrentPosition);
                                     Map<String, String> myanswerMap = questionModle.getInitLineMyanswerMap();
@@ -251,14 +280,24 @@ public class DoPraticeActivity extends FxActivity
                                     }
 
                                 }
-                            /*填空题*/
+                                /*填空题*/
                                 else if (questionModle.getQuestion_cate_id().equals(Constant.Completion)) {
 
                                     ExCompletionFragment exCompletionFragment = (ExCompletionFragment) frMap.get(praticeCurrentPosition);
+                                    LinkedHashMap<Integer, LinkedHashMap<Integer, CompletionQuestionadapterItemModle>> integerLinkedHashMapLinkedHashMap = questionModle.getmCompletionAllMap();
+
+                                    for (int i = 0; i < integerLinkedHashMapLinkedHashMap.size(); i++) {
+                                        for (int i2 = 0; i2 < integerLinkedHashMapLinkedHashMap.get(i).size(); i2++) {
+                                            if (integerLinkedHashMapLinkedHashMap.get(i).get(i2).getShowItemMy().equals("㊒")) {
+                                                questionModle.setAnswer(false);
+                                               return;
+                                            }
+                                        }
+                                    }
                                     exCompletionFragment.submitHomework(questionModle);
                                 }
 
-                              /*改变按钮的颜色 变成灰色 再点击就是下一个题*/
+                                /*改变按钮的颜色 变成灰色 再点击就是下一个题*/
                                 changeBtnN();
                             } else {
                                 return;
@@ -401,7 +440,7 @@ public class DoPraticeActivity extends FxActivity
     public void submitSoreFragment(SortQuestionModle Sqm) {
         praticeCurrentPosition = Sqm.getEachposition();
         mDatalist.set(Sqm.getEachposition(), Sqm);
-         /*排序 高亮显示check按钮 改变按钮颜色*/
+        /*排序 高亮显示check按钮 改变按钮颜色*/
         for (int i = 0; i < Sqm.getInitSortMyanswerList().size(); i++) {
             if (!Sqm.getInitSortMyanswerList().contains("㊒")) {
                 changeBtnBgYellow();
@@ -429,9 +468,9 @@ public class DoPraticeActivity extends FxActivity
         int mHNum = 0;//㊒字计数
         for (int i = 0; i < Comq.getmCompletionAllMap().size(); i++) {
             if (Comq.getmCompletionAllMap().get(i) != null) {
-                Map<Integer, String> integerStringMap = Comq.getmCompletionAllMap().get(i);
+                Map<Integer, CompletionQuestionadapterItemModle> integerStringMap = Comq.getmCompletionAllMap().get(i);
                 for (int m = 0; m < integerStringMap.size(); m++) {
-                    String s = integerStringMap.get(m);
+                    String s = integerStringMap.get(m).getShowItemMy();
                     if (s.equals("㊒")) {
                         mHNum++;
                     }

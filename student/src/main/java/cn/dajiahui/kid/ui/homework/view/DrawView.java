@@ -1,6 +1,7 @@
 package cn.dajiahui.kid.ui.homework.view;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -11,6 +12,7 @@ import android.view.View;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.Dir;
 import cn.dajiahui.kid.ui.homework.bean.DrawPath;
 
@@ -51,14 +53,15 @@ public class DrawView extends View {
     }
 
     /*点击画线调取*/
-    public DrawView(Context context, LineImagePointView currentSelectedView, LineImagePointView lineImagePointView) {
+    @SuppressLint("ResourceAsColor")
+    public DrawView(Context context, LineImagePointView currentSelectedView, LineImagePointView lineImagePointView,int color) {
         super(context);
         this.context = context;
         this.currentSelectedView = currentSelectedView;
         this.lineImagePointView = lineImagePointView;
         this.path = getPath(currentSelectedView, lineImagePointView);
-//        path.setPathColor(R.color.black);
         this.mPaint = new Paint();
+        mPaint.setColor(color );
     }
 
     /*获取起始坐标点的路径*/
@@ -89,7 +92,6 @@ public class DrawView extends View {
         mPaint.setStrokeWidth(lineWidth);
 
         if (path != null && mPaint != null) {
-//            mPaint.setColor(getResources().getColor(R.color.black));
             canvas.drawLine(path.getLeftPoint().x, path.getLeftPoint().y, path.getRightPoint().x, path.getRightPoint().y, mPaint);
         }
     }

@@ -26,26 +26,18 @@ import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
 
 /*填空题 横划listview适配器*/
 public class HorizontallListViewAdapter extends BaseAdapter {
-
     private Context mContext;
-
     private final SubmitEditext submitEditext;
     private MyFoucus myFoucus;
     private EditChangedListener editChangedListener;//editext监听器
-    public LinkedHashMap<Integer, String> inputContainer = new LinkedHashMap();//存editext的集合
-    //    private List<List<CompletionQuestionadapterItemModle>> showRightList;
+    public LinkedHashMap<Integer, CompletionQuestionadapterItemModle> inputContainer = new LinkedHashMap();//存editext的集合
     private int selfposition;//HorizontallList在碎片中的索引（用于取出当前的HorizontallList）
     private String haveFocus = "";//用于网络请求后清空editext所有焦点
     public String IsShowRightAnswer = "";//是否显示editext
     private CompletionQuestionModle inbasebean;
 
 
-    /*获取答案的集合*/
-    public Map getInputContainer() {
-        return inputContainer;
-    }
-
-    public void setInputContainer(LinkedHashMap<Integer, String> inputContainer) {
+    public void setInputContainer(LinkedHashMap<Integer, CompletionQuestionadapterItemModle> inputContainer) {
         if (inputContainer != null) {
             if (this.inputContainer == null) {
                 this.inputContainer = new LinkedHashMap();
@@ -96,17 +88,12 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
             holderView = new HolderView();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.match_league_round_item, parent, false);
-
             holderView.editext = (EditText) convertView.findViewById(R.id.editext);
             holderView.tv_rightanswer = (TextView) convertView.findViewById(R.id.tv_rightanswer);
-
-
             // 注册上自己写的焦点监听
             holderView.editext.setOnFocusChangeListener(myFoucus);
             holderView.editext.setLongClickable(false);
-
             convertView.setTag(holderView);
-
         } else {
             holderView = (HolderView) convertView.getTag();
 
@@ -126,7 +113,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
         if (this.inputContainer.containsKey(position)) {
             if (this.inputContainer.get(position) != null) {
-                if (this.inputContainer.get(position).toString().equals("㊒")) {
+                if (this.inputContainer.get(position).getShowItemMy().toString().equals("㊒")) {
                     holderView.editext.setText("");
                 } else {
                     holderView.editext.setText(this.inputContainer.get(position).toString());
@@ -143,27 +130,30 @@ public class HorizontallListViewAdapter extends BaseAdapter {
         /*显示正确答案*/
         else if (IsShowRightAnswer.equals("yes")) {
 
-            if (inbasebean.getIs_answered().equals("1")) {
+            if (inbasebean.getIs_complete().equals("1")) {
 
-                LinkedHashMap<Integer, String> integerStringMap =   inbasebean.getmCompletionAllMap().get(position);
+                LinkedHashMap<Integer, CompletionQuestionadapterItemModle> integerStringMap = inbasebean.getmCompletionAllMap().get(selfposition);
 
-//                for (int i = 0; i < integerStringMap.size(); i++) {
-//                    /*显示我的答案*/
-//                    if (!integerStringMap.get(i).getShowItemMy().equals("㊒")) {
-//                        holderView.editext.setText(cm.get(i).getShowItemMy());
-//                    }
-//                    /*字母显示绿色 框显示绿色*/
-//                    if (cm.get(i).getShowItemRightColor() == 0) {
-//                        holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_green);
-//                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.green));
-//                    } else {
-//                        holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_red);
-//                        /*显示正确答案*/
-//                        holderView.tv_rightanswer.setText(cm.get(i).getShowItemright());
-//                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.red));
-//                        holderView.tv_rightanswer.setVisibility(View.VISIBLE);
-//                    }
-//                }
+                if (integerStringMap != null)
+                    for (int i = 0; i < integerStringMap.size(); i++) {
+                        /*显示我的答案*/
+                        if (!integerStringMap.get(position).getShowItemMy().equals("㊒")) {
+                            holderView.editext.setText(integerStringMap.get(position).getShowItemMy());
+                        } else {
+                            holderView.editext.setText("");
+                        }
+                        /*字母显示绿色 框显示绿色*/
+                        if (integerStringMap.get(position).getShowItemRightColor() == 0) {
+                            holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_green);
+                            holderView.editext.setTextColor(mContext.getResources().getColor(R.color.green));
+                        } else {
+                            holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_red);
+                            /*显示正确答案*/
+                            holderView.tv_rightanswer.setText(integerStringMap.get(position).getShowItemright());
+                            holderView.editext.setTextColor(mContext.getResources().getColor(R.color.red));
+                            holderView.tv_rightanswer.setVisibility(View.VISIBLE);
+                        }
+                    }
             }
 
         }
@@ -205,7 +195,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
 
         @Override
         public void afterTextChanged(Editable s) {
-            inputContainer.put(position, s.toString());
+            inputContainer.put(position, new CompletionQuestionadapterItemModle(s.toString()));
 //            /*得到光标开始和结束位置 ,超过最大数后记录刚超出的数字索引进行控制 */
             editStart = this.editText.getSelectionStart();
             editEnd = this.editText.getSelectionEnd();
@@ -220,7 +210,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
                 }
                 this.editText.setSelection(tempSelection);
             }
-            submitEditext.submitEditextInfo(selfposition,inputContainer);
+            submitEditext.submitEditextInfo(selfposition, inputContainer,position,s.toString());
         }
     }
 

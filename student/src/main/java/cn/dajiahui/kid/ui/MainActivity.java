@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 
 import com.chivox.cube.util.FileHelper;
 import com.fxtx.framework.chivox.config.Config;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.FxFragment;
@@ -49,6 +50,7 @@ import cn.dajiahui.kid.ui.login.bean.BeUserAuth;
 import cn.dajiahui.kid.ui.mine.FrMine;
 import cn.dajiahui.kid.ui.mine.personalinformation.UserDetailsActivity;
 import cn.dajiahui.kid.ui.study.FrStudy;
+import cn.dajiahui.kid.util.DjhJumpUtil;
 
 
 public class MainActivity extends FxTabActivity {
@@ -138,15 +140,16 @@ public class MainActivity extends FxTabActivity {
 
     /**
      * 修改radionButton的文字颜色
+     *
      * @param buttonId
      */
     private void changeRadioButtonTextColor(int buttonId) {
-        ((RadioButton)findViewById(R.id.rediobtn_task)).setTextColor(this.getResources().getColor(R.color.text_gray));
-        ((RadioButton)findViewById(R.id.rediobtn_study)).setTextColor(this.getResources().getColor(R.color.text_gray));
-        ((RadioButton)findViewById(R.id.rediobtn_chat)).setTextColor(this.getResources().getColor(R.color.text_gray));
-        ((RadioButton)findViewById(R.id.rediobtn_mine)).setTextColor(this.getResources().getColor(R.color.text_gray));
+        ((RadioButton) findViewById(R.id.rediobtn_task)).setTextColor(this.getResources().getColor(R.color.text_gray));
+        ((RadioButton) findViewById(R.id.rediobtn_study)).setTextColor(this.getResources().getColor(R.color.text_gray));
+        ((RadioButton) findViewById(R.id.rediobtn_chat)).setTextColor(this.getResources().getColor(R.color.text_gray));
+        ((RadioButton) findViewById(R.id.rediobtn_mine)).setTextColor(this.getResources().getColor(R.color.text_gray));
 
-        ((RadioButton)findViewById(buttonId)).setTextColor(this.getResources().getColor(R.color.yellow_light));
+        ((RadioButton) findViewById(buttonId)).setTextColor(this.getResources().getColor(R.color.yellow_light));
     }
 
     @Override
@@ -225,6 +228,15 @@ public class MainActivity extends FxTabActivity {
 //                GlideUtil.showRoundImage(MainActivity.this, UserController.getInstance().getUser().getAvator(), frMine.imUser, R.drawable.ico_default_user, mtrue);
             }
         }
+        if (resultCode == DjhJumpUtil.getInstance().activtiy_HomeworkDetails_back) {
+            /*查看作业详情*/
+            if (frHomework != null) {
+                frHomework.homeworkHttp();
+            }
+
+        }
+
+
     }
 
     EMMessageListener messageListener = new EMMessageListener() {
@@ -382,7 +394,7 @@ public class MainActivity extends FxTabActivity {
     }
 
 
-    private void loadAllResOncce(){
+    private void loadAllResOncce() {
         loadProvisionFile();
         unZipNativeRes();
     }
@@ -390,15 +402,15 @@ public class MainActivity extends FxTabActivity {
     /**
      * 驰声资源下载
      */
-    private void loadProvisionFile(){
+    private void loadProvisionFile() {
         File provisionFile = FileHelper.extractProvisionOnce(MainActivity.this, Config.provisionFilename);
-        Log.d("loadProvisionFile :", "provisionFile :"+provisionFile.getAbsolutePath());
+        Log.d("loadProvisionFile :", "provisionFile :" + provisionFile.getAbsolutePath());
     }
 
     /**
      * 驰声资源解压
      */
-    private void unZipNativeRes(){
+    private void unZipNativeRes() {
 
 //        Log.d(TAG, "unzip start");
         final ProgressDialog pDialog = new ProgressDialog(this);
@@ -408,10 +420,9 @@ public class MainActivity extends FxTabActivity {
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.submit(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 File vadFile = FileHelper.extractResourceOnce(MainActivity.this, "vad.zip");
-                Log.d("vadFile :", "vadFile :"+vadFile.getAbsolutePath());
+                Log.d("vadFile :", "vadFile :" + vadFile.getAbsolutePath());
                 //native resource unzip process
 //                pDialog.dismiss();
             }

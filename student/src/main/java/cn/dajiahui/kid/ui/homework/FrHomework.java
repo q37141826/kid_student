@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.homework;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,8 @@ import cn.dajiahui.kid.ui.homework.view.AddClassDialog;
 import cn.dajiahui.kid.ui.login.bean.BeUser;
 import cn.dajiahui.kid.ui.mine.myclass.AddClassActivity;
 import cn.dajiahui.kid.util.DjhJumpUtil;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * 作业
@@ -79,7 +82,8 @@ public class FrHomework extends FxFragment {
                 bundle.putString("starttime", mHomeWorklists.get(position).getStart_time());
                 bundle.putString("UNIT_NAME", mHomeWorklists.get(position).getName());
                 /*跳转作业详情 在网络请请求获取数据*/
-                DjhJumpUtil.getInstance().startBaseActivity(getActivity(), HomeWorkDetailsActivity.class, bundle, 0);
+                DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), HomeWorkDetailsActivity.class, bundle, DjhJumpUtil.getInstance().activtiy_HomeworkDetails);
+
 
             }
         });
@@ -88,17 +92,17 @@ public class FrHomework extends FxFragment {
         BeUser user = UserController.getInstance().getUser();
         if (!user.getClass_status().equals("2")) {
             /*弹框引导加入班级*/
-        addClassDialog = new AddClassDialog(getActivity(), R.layout.dialog_addclass) {
-            @Override
-            public void initView() {
-                Button buttonCancle = (Button) rootView.findViewById(R.id.btn_cancle);
-                buttonCancle.setOnClickListener(onClick);
-                Button buttonChoice = (Button) rootView.findViewById(R.id.btn_choose);
-                buttonChoice.setOnClickListener(onClick);
+            addClassDialog = new AddClassDialog(getActivity(), R.layout.dialog_addclass) {
+                @Override
+                public void initView() {
+                    Button buttonCancle = (Button) rootView.findViewById(R.id.btn_cancle);
+                    buttonCancle.setOnClickListener(onClick);
+                    Button buttonChoice = (Button) rootView.findViewById(R.id.btn_choose);
+                    buttonChoice.setOnClickListener(onClick);
 
-            }
-        };
-        addClassDialog.show();
+                }
+            };
+            addClassDialog.show();
 
         }
 
@@ -112,7 +116,7 @@ public class FrHomework extends FxFragment {
     }
 
     /*网络请求*/
-    private void homeworkHttp() {
+    public void homeworkHttp() {
         mPageNum = 1;
         showfxDialog();
         httpData();
@@ -125,16 +129,18 @@ public class FrHomework extends FxFragment {
 
     }
 
+    /*fragment的隐藏于显示*/
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+
         if (!hidden) {
-            //显示
             if (mHomeWorklists.size() == 0) {
                 homeworkHttp();
             }
         }
     }
+
 
     @Override
     protected void dismissfxDialog(int flag) {
@@ -200,4 +206,14 @@ public class FrHomework extends FxFragment {
         }
     };
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode) {
+            case RESULT_OK://该结果码与FragmentActivity中是保持一致的
+                //在这里获取你需要的数据
+                homeworkHttp();
+                break;
+        }
+    }
 }

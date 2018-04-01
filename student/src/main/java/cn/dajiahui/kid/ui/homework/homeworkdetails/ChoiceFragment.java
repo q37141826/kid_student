@@ -71,7 +71,8 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (inbasebean.getIs_answered().equals("0")) {
+                /*未完成是可以点击*/
+                if (!inbasebean.getIs_complete().equals("1")) {
                     inbasebean.setChoiceitemposition(position);//保存选择题当前item的索引 用于 翻页回来后指定某个item选择状态
                     /*刷新ui*/
                     apChoice.changeState(getActivity(), submit, position, inbasebean);

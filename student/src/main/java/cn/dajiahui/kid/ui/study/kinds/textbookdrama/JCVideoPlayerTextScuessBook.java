@@ -163,7 +163,7 @@ public class JCVideoPlayerTextScuessBook extends JCVideoPlayerStandard {
     public void onStatePause() {
         super.onStatePause();
         cancelDismissControlViewTimer();
-        JCMediaManager.instance().mediaPlayer.pause();
+//        JCMediaManager.instance().mediaPlayer.pause();
     }
 
 

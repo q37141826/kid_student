@@ -76,7 +76,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             switch (msg.what) {
 
                 case LEFT:
-                      /*算法  计算每个view的位置*/
+                    /*算法  计算每个view的位置*/
                     Point pLeft = (Point) msg.obj;
                     /*第一个左边第一个点的X Y*/
                     int pLeftX = pLeft.x;
@@ -85,7 +85,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                         BeLocation beLocation = new BeLocation(pLeftX, pLeftY, leftViews.get(0).getRight(), leftViews.get(i).getBottom(), leftViews.get(0).getWidth(), leftViews.get(0).getHeight());
                         sortRightAnswerMap.put((i + 1), beLocation);
                         pointLeftList.add(beLocation);
-                        pLeftY = (pLeftY +=screenWidth / 4);//左边所有点的y坐标
+                        pLeftY = (pLeftY += screenWidth / 4);//左边所有点的y坐标
                     }
 
 
@@ -100,7 +100,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                         BeLocation beLocation = new BeLocation(pRightX, pRightY, rightViews.get(0).getRight(), rightViews.get(i).getBottom(), rightViews.get(0).getWidth(), rightViews.get(0).getHeight());
                         sortMineAnswerMap.put((i + 1), beLocation);
                         pointRightList.add(beLocation);
-                        pRightY = (pRightY +=screenWidth / 4);//左边所有点的y坐标
+                        pRightY = (pRightY += screenWidth / 4);//左边所有点的y坐标
 
                         inbasebean.getInitSortMyanswerList().add("㊒");
                     }
@@ -111,7 +111,6 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             }
         }
     };
-
 
 
     @Override
@@ -128,7 +127,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
         getAnswerList();
         /*添加右侧视图*/
         addGroupImage(inbasebean.getOptions().size(), relaroot);
-       /*添加左侧图片*/
+        /*添加左侧图片*/
         addGroupMoviewImage(inbasebean.getOptions().size(), relaroot);
 
 
@@ -138,7 +137,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             @Override
             public void onGlobalLayout() {
                 if (!calculation) {
-                     /*左边*/
+                    /*左边*/
                     if (leftViews.get(0) != null) {
                         int leftPointViewX = leftViews.get(0).getLeft();
                         int leftPointViewY = leftViews.get(0).getTop();
@@ -172,27 +171,27 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             if (inbasebean.isAnswer() == true) {
                 fixedImagview = new ExFixedImagview(getActivity(), i, inbasebean, mMineContentList);
             } else {
-                fixedImagview = new ExFixedImagview(getActivity(), R.drawable.default_null, i, inbasebean);
+                fixedImagview = new ExFixedImagview(getActivity(), i, inbasebean);
             }
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
             lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             lp.topMargin = mRightTop;
             mRightTop += screenWidth / 4;
 
-            lp.rightMargin =screenWidth / 6;
+            lp.rightMargin = screenWidth / 6;
             fixedImagview.setLayoutParams(lp);
             /*check之后*/
             if (inbasebean.isAnswer() == true) {
-                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(screenWidth / 5,screenWidth / 5);
+                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
                 paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
                 ImageView imageViewT = new ImageView(getActivity());
                 imageViewT.setLayoutParams(paramsT);
                 if (mMineContentList.size() > 0 && mRightContentList.size() > 0 &&
                         mRightContentList.get(i).equals(mMineContentList.get(i))) {
-                /*正确答案 添加遮罩*/
+                    /*正确答案 添加遮罩*/
                     imageViewT.setBackgroundResource(R.drawable.answer_true_bg);
                 } else {
-                 /*错误答案 添加遮罩*/
+                    /*错误答案 添加遮罩*/
                     imageViewT.setBackgroundResource(R.drawable.answer_false_bg);
                 }
                 fixedImagview.addView(imageViewT);
@@ -213,11 +212,11 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                 mMoveView = new ExMoveImagview(getActivity(), this, i, inbasebean);
                 leftViewsNoanswer.add(mMoveView);
             }
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
             lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             lp.topMargin = mLeftTop;
-            mLeftTop +=screenWidth / 4;
-            lp.leftMargin =screenWidth / 6;
+            mLeftTop += screenWidth / 4;
+            lp.leftMargin = screenWidth / 6;
             leftViews.add(mMoveView);
             mMoveView.setLayoutParams(lp);
             rela.addView(mMoveView); //动态添加图片
@@ -232,9 +231,9 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
 
         /*未答题状态下*/
         if (inbasebean.isAnswer() == false) {
-        /*循环便利右视图的集合  判断中心点是否在右视图某一个的范围内*/
+            /*循环便利右视图的集合  判断中心点是否在右视图某一个的范围内*/
             for (int i = 0; i < pointRightList.size(); i++) {
-            /*算法  循环判断中心点是否在右边的view的范围内*/
+                /*算法  循环判断中心点是否在右边的view的范围内*/
                 int getLeft = pointRightList.get(i).getGetLeft();
                 int getTop = pointRightList.get(i).getGetTop();
                 int width = pointRightList.get(i).getWidth();
@@ -244,16 +243,16 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                 boolean right = (float) getLeft + (float) width >= X;
                 boolean top = (float) getTop <= Y;
                 boolean bottom = (float) getTop + (float) height >= Y;
-               /*加判断条件只有未作答状态*/
+                /*加判断条件只有未作答状态*/
 
-             /*判断中心点在右侧的view视图上*/
+                /*判断中心点在右侧的view视图上*/
                 if (left && right && top && bottom) {
-                       /*让上一个视图回到原来的位置*/
+                    /*让上一个视图回到原来的位置*/
                     for (int a = 0; a < leftViews.size(); a++) {
                         int mLeft = leftViews.get(a).getLeft();
                         int mTop = leftViews.get(a).getTop();
 
-                          /*移除右边图片上已经排序的view  返回到原来*/
+                        /*移除右边图片上已经排序的view  返回到原来*/
                         if (getLeft == mLeft && getTop == mTop) {
                             ExMoveImagview moveImagview = leftViews.get(a);
                             int indexOf = leftViews.indexOf(moveImagview);//找到对应view的索引
@@ -278,11 +277,11 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
                     return beLocation;
                 } else {
 
-                /*找到当前view在 左视图集合的位置*/
+                    /*找到当前view在 左视图集合的位置*/
                     int indexOf = leftViews.indexOf(mBeforeView);
                     BeLocation beLocation = pointLeftList.get(indexOf);
                     mBeforeView.refreshLocation(beLocation);
-                  /*保存移动之后的坐标点  position 是当前移动view的在leftViews的索引*/
+                    /*保存移动之后的坐标点  position 是当前移动view的在leftViews的索引*/
                     mMineAnswerMap.put((indexOf), beLocation);
                     inbasebean.setSortAnswerMap(mMineAnswerMap);//我的答案的集合
                     inbasebean.setOptions(inbasebean.getOptions());
@@ -338,7 +337,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             mLeft.setTextColor(getResources().getColor(R.color.gray_9f938f));
             RelativeLayout.LayoutParams lpLeft = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             lpLeft.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-            lpLeft.leftMargin =screenWidth / 5;
+            lpLeft.leftMargin = screenWidth / 5;
             answerroot.addView(mLeft);
             mLeft.setLayoutParams(lpLeft);
 
@@ -347,7 +346,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             mRight.setTextColor(getResources().getColor(R.color.gray_9f938f));
             RelativeLayout.LayoutParams lpRight = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             lpRight.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-            lpRight.rightMargin =screenWidth / 5;
+            lpRight.rightMargin = screenWidth / 5;
             answerroot.addView(mRight);
             mRight.setLayoutParams(lpRight);
             /*正确答案*/
@@ -357,9 +356,9 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
             /*我的答案*/
             mRightTop = 0;
 
-           /*遍历我的答案（自己作答答案）的集合*/
+            /*遍历我的答案（自己作答答案）的集合*/
             for (int i = 0; i < inbasebean.getInitSortMyanswerList().size(); i++) {
-            /*遍历解析的集合找到 我的答案所对应的val*/
+                /*遍历解析的集合找到 我的答案所对应的val*/
                 for (int t = 0; t < inbasebean.getOptions().size(); t++) {
                     /*如果val值相等*/
                     if (inbasebean.getInitSortMyanswerList().get(i).equals(inbasebean.getOptions().get(t).getVal())) {
@@ -428,7 +427,7 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
     /*获取正确答案*/
     private void getAnswerList() {
 
-         /*正确答案 start*/
+        /*正确答案 start*/
         String standard_answer = inbasebean.getStandard_answer();
         List<String> mSandardAnswerList = new ArrayList<>();//截取字符串的集合参考答案）
 

@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.ui.FxFragment;
 
 import java.io.IOException;
@@ -63,7 +64,25 @@ public abstract class BaseHomeworkFragment extends FxFragment {
     public void onPause() {
         super.onPause();
 
-        mediaPlayer.stop();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        /*保存作品成功之后就退出activity*/
+        if (isVisibleToUser) {
+            //相当于Fragment的onResume
+//            Logger.d(" KaraOkeFragment 相当于Fragment的onResume");
+        } else {
+//            Logger.d("KaraOkeFragment  相当于Fragment的onPause");
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+            }
+            if (animationDrawable != null && animationDrawable.isRunning()) {
+                animationDrawable.stop();
+            }
+            //相当于Fragment的onPause
+        }
     }
 
     public void playMp3(String mp3path) {

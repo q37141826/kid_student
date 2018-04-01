@@ -22,7 +22,9 @@ import cn.dajiahui.kid.ui.homework.homeworkdetails.JudgeFragment;
 import static cn.dajiahui.kid.controller.Constant.JudgeAnswerView_margin;
 
 /**
- * Created by lenovo on 2018/2/7.
+ * Created by mj on 2018/2/7.
+ * <p>
+ * 选择题自定义view视图
  */
 
 @SuppressLint("AppCompatCustomView")
@@ -32,6 +34,12 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
     private int position;
     private JudgeFragment.SubmitJudgeFragment submit;
     private List<JudgeAnswerView> AnswerViewList;
+    public String val;
+
+    public JudgeAnswerView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
 
     public JudgeAnswerView(Context context, JudjeQuestionModle inbasebean, int position, JudgeFragment.SubmitJudgeFragment submit, List<JudgeAnswerView> AnswerViewList) {
         super(context);
@@ -40,52 +48,124 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
         this.position = position;
         this.submit = submit;
         this.AnswerViewList = AnswerViewList;
+        this.val = inbasebean.getOptions().get(position).getVal();
         this.setPadding(JudgeAnswerView_margin, JudgeAnswerView_margin, JudgeAnswerView_margin, JudgeAnswerView_margin);
         this.setBackgroundResource(R.drawable.noselect_judge_image);
+
+
+
+        /*首先判断是否作答*/
+        switch (inbasebean.getIs_complete()) {
+            /*未开始*/
+            case "-1":
+                this.setOnClickListener(this);
+                ShowNoCompleteUI();
+                break;
+            /*进行中*/
+            case "0":
+                this.setOnClickListener(this);
+                ShowNoCompleteUI();
+
+                break;
+            /*已完成*/
+            case "1":
+                ShowCompleteUI();
+//                AddMaskView();
+                break;
+            default:
+                break;
+
+        }
+
+
+    }
+
+    /*添加遮罩*/
+    private void AddMaskView() {
+        /*未作答 直接显示正确答案*/
+        if (inbasebean.getMy_answer().equals("㊒")) {
+            /*直接显示参考答案*/
+            if (val.equals(inbasebean.getStandard_answer())) {
+                ShowRightMaskView();
+            }
+        } else {
+
+            /*回答正确*/
+            if (val.equals(inbasebean.getStandard_answer())) {
+                /*添加正确答案遮罩*/
+                ShowRightMaskView();
+            } else {
+                /*添加错误答案遮罩*/
+                ShowWrongMaskView();
+            }
+
+        }
+
+
+    }
+
+    /*已完成*/
+    private void ShowCompleteUI() {
         String content = inbasebean.getOptions().get(position).getContent();
 
         if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
             /*添加图片*/
-            addView(addContentPic());
+            addView(ShowImageViewUI(inbasebean.getOptions().get(position).getContent()));
         } else {
-             /*添加文字*/
-            addView(addContentText());
+            /*添加文字*/
+            addView(ShowTextViewUI(inbasebean.getOptions().get(position).getContent()));
         }
-
-        /*判断题  只有没答过题才注册点击事件*/
-        if (inbasebean.getIs_answered().equals("0")) {
-            this.setOnClickListener(this);
-        }
-
 
     }
 
+    /*未开始*/
+    private void ShowNoCompleteUI() {
+        String content = inbasebean.getOptions().get(position).getContent();
 
-    public JudgeAnswerView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
+            /*添加图片*/
+            addView(ShowImageViewUI(inbasebean.getOptions().get(position).getContent()));
+        } else {
+            /*添加文字*/
+            addView(ShowTextViewUI(inbasebean.getOptions().get(position).getContent()));
+        }
+
     }
 
+    /*显示文本*/
+    private TextView ShowTextViewUI(String textComtent) {
+        ShowYellowShapFrame();
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        TextView textView = new TextView(context);
+        textView.setLayoutParams(params);
+        textView.setTextColor(getResources().getColor(R.color.gray_333333));
+        textView.setText(textComtent);
+        return textView;
+    }
 
-    private ImageView addContentPic() {
+    /*显示图片*/
+    private ImageView ShowImageViewUI(String imgUrl) {
+        ShowYellowShapFrame();
         ImageView imageView = new ImageView(context);
-           /*加载正确答案按钮图片*/
+        /*加载正确答案按钮图片*/
         Glide.with(context)
-                .load(inbasebean.getOptions().get(position).getContent())
+                .load(imgUrl)
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
         return imageView;
     }
 
-    /*添加文字*/
-    private TextView addContentText() {
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        TextView textView = new TextView(context);
-        textView.setLayoutParams(params);
-        textView.setTextColor(getResources().getColor(R.color.gray_333333));
-        textView.setText(inbasebean.getOptions().get(position).getContent());
-        return textView;
+    /*我的答案添加黄色边框*/
+    private void ShowYellowShapFrame() {
+        /*我的答案添加黄色边框 */
+        if (val.equals(inbasebean.getMy_answer())) {
+            this.setBackgroundResource(R.drawable.select_judge_image);
+        } else {
+            /*白色边框表示非选的答案*/
+            this.setBackgroundResource(R.drawable.noselect_judge_image);
+        }
     }
 
     @Override
@@ -93,7 +173,7 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
         if (inbasebean.isAnswer() == false) {
 
             for (int i = 0; i < AnswerViewList.size(); i++) {
-                  /*正确 错误答案添加背景遮罩*/
+                /*正确 错误答案添加背景遮罩*/
                 if (AnswerViewList.get(i) == this) {
                     this.setBackgroundResource(R.drawable.select_judge_image);
                 } else {
@@ -116,6 +196,35 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
         }
 
 
+    }
+
+
+    /*显示正确答案遮罩*/
+    private void ShowRightMaskView() {
+        RelativeLayout reT = new RelativeLayout(context);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        ImageView imageView = new ImageView(context);
+        imageView.setLayoutParams(params);
+        reT.addView(imageView);
+        imageView.setImageResource(R.drawable.answer_true);
+        reT.setBackgroundResource(R.drawable.answer_true_bg);
+        this.addView(reT);
+
+    }
+
+    /*显示错误答案遮罩*/
+    private void ShowWrongMaskView() {
+        /*回答错误就把我的答案加上红色遮罩*/
+        RelativeLayout reF = new RelativeLayout(context);
+        RelativeLayout.LayoutParams paramsF = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        paramsF.addRule(RelativeLayout.CENTER_IN_PARENT);
+        ImageView imageViewF = new ImageView(context);
+        imageViewF.setLayoutParams(paramsF);
+        reF.addView(imageViewF);
+        imageViewF.setImageResource(R.drawable.answer_false);
+        reF.setBackgroundResource(R.drawable.answer_false_bg);
+        this.addView(reF);
     }
 
 
