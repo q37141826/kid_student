@@ -101,7 +101,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
         if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
             ShowImageViewUI(imgUrl);
         } else {
-            ShowTextViewUI();
+            ShowTextViewUI(inbasebean.getOptions().get(position).getContent());
         }
     }
 
@@ -124,12 +124,12 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
             ShowImageViewUI(imgUrl);
 
         } else {
-            ShowTextViewUI();
+            ShowTextViewUI(mRightContentList.get(position));
         }
     }
 
     /*显示文本*/
-    private void ShowTextViewUI() {
+    private void ShowTextViewUI(String textcontext) {
         TextView textView = new TextView(context);
         LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         textView.setTextColor(getResources().getColor(R.color.blue));
@@ -138,7 +138,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
         if (inbasebean.getIs_answered().equals("0")) {
             textView.setText(inbasebean.getOptions().get(position).getContent());
         } else {
-            textView.setText(mRightContentList.get(position));
+            textView.setText(textcontext);
         }
         addView(textView);
     }

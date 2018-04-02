@@ -52,7 +52,6 @@ public class ExLineImagePointView extends RelativeLayout implements View.OnClick
     public RelativeLayout mContentView;//左边的view添加遮罩的父view
 
 
-
     public void selected(boolean flag) {
         if (flag) {
 //            mContentView.setBackgroundResource(R.color.red);//设置选中状态背景色
@@ -243,7 +242,7 @@ public class ExLineImagePointView extends RelativeLayout implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        this.setBackgroundResource(R.drawable.btnline);
+//        this.setBackgroundResource(R.drawable.btnline);
 
         sublineinfo.submitlininfo(this);
 

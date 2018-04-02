@@ -164,7 +164,7 @@ public class DoHomeworkActivity extends FxActivity
                                 if (!lineQuestionModle.getIs_answered().equals("1")) {
                                     /*初始化连线答案*/
                                     for (int l = 0; l < lineQuestionModle.getOptions().getLeft().size(); l++) {
-                                        lineQuestionModle.getInitLineMyanswerMap().put((l + 1) + "", "㊒");
+                                        lineQuestionModle.getInitLineMyanswerMap().put((l + 1) + "", "");
                                     }
                                 }
 //                                Logger.d("连线：" + lineQuestionModle.getInitLineMyanswerMap().toString());

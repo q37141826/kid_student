@@ -230,6 +230,7 @@ public class MainActivity extends FxTabActivity {
         }
         if (resultCode == DjhJumpUtil.getInstance().activtiy_HomeworkDetails_back) {
             /*查看作业详情*/
+
             if (frHomework != null) {
                 frHomework.homeworkHttp();
             }

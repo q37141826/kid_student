@@ -15,8 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.fxtx.framework.log.Logger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -62,34 +68,46 @@ public class LineFragment extends BaseHomeworkFragment implements
     private int PREPARERIGHT = 3;//准备数据
     private int PREPMINEARERIGHT = 4;//准备数据
 
-    private Map<String, Point> ponitViewXY = new HashMap();//通过val获取point点的map（提供显示正确答案 和 自己的答案 用）
+    private Map<Integer, Point> ponitViewXY = new HashMap();//通过val获取point点的map（提供显示正确答案 和 自己的答案 用）
     private boolean calculation = false;//false 监听  测量连线题图片的左右第一个 坐标
-    private List<String> substringRightList = new ArrayList<>();//截取字符串的集合（正确答案）
-    private List<String> substringMineList = new ArrayList<>();//截取字符串的集合（我的答案）
-    private List<String> mLeftAnswerList = new ArrayList<>();//保存正确答案的集合（左边）
-    private List<String> mRightAnswerList = new ArrayList<>();//保存正确答案的集合（右边）
+    //    private List<String> substringRightList = new ArrayList<>();//截取字符串的集合（正确答案）
+    //    private List<String> substringMineList = new ArrayList<>();//截取字符串的集合（我的答案）
+//    private List<String> mLeftAnswerList = new ArrayList<>();//保存正确答案的集合（左边）
+//    private List<String> mRightAnswerList = new ArrayList<>();//保存正确答案的集合（右边）
 
-    private List<String> mLeftMineAnswerList = new ArrayList<>();//保存我的答案的集合（左边）
-    private List<String> mRightMineAnswerList = new ArrayList<>();//保存我的答案的集合（右边）
+    //    private List<String> mLeftMineAnswerList = new ArrayList<>();//保存我的答案的集合（左边）
+//    private List<String> mRightMineAnswerList = new ArrayList<>();//保存我的答案的集合（右边）
 
-    private List<Point> mRightLPonitList = new ArrayList<>();//正确答案左边point集合
-    private List<Point> mRightRPonitList = new ArrayList<>();// 正确答案右边point集合
+//    private List<Point> mRightLPonitList = new ArrayList<>();//正确答案左边point集合
+//    private List<Point> mRightRPonitList = new ArrayList<>();// 正确答案右边point集合
+//
+//    private List<Point> mMineLPonitList = new ArrayList<>();//我的答案左边point集合
+//    private List<Point> mMineRPonitList = new ArrayList<>();//我的答案右边point集合
 
-    private List<Point> mMineLPonitList = new ArrayList<>();//我的答案左边point集合
-    private List<Point> mMineRPonitList = new ArrayList<>();//我的答案右边point集合
+
+//    private List<Point> mLPonitList = new ArrayList<>();//左边点的集合
+//    private List<Point> mRPonitList = new ArrayList<>();//右边点的集合
 
     private String media;
 
-    private Map<String, LineImagePointView> showT_RMap = new HashMap<>();//用于显示判断划线的颜色
+    private Map<Integer, LineImagePointView> showT_RMap = new HashMap<>();//用于显示判断划线的颜色
     private String title;
     private LinearLayout mLinroot;//显示正确答案我的答案的父布局
 
-    private List<ImageView> mMaskRightListL = new ArrayList();//正确答案的遮罩list 左侧
-    private List<ImageView> mMaskMineListL = new ArrayList();//我的答案的遮罩list  左侧
+//    private List<ImageView> mMaskRightListL = new ArrayList();//正确答案的遮罩list 左侧
+//    private List<ImageView> mMaskMineListL = new ArrayList();//我的答案的遮罩list  左侧
+//
+//    private List<ImageView> mMaskRightListR = new ArrayList();//正确答案的遮罩list 右侧
+//    private List<ImageView> mMaskMineListR = new ArrayList();//我的答案的遮罩list  右侧
 
-    private List<ImageView> mMaskRightListR = new ArrayList();//正确答案的遮罩list 右侧
-    private List<ImageView> mMaskMineListR = new ArrayList();//我的答案的遮罩list  右侧
+
+    private List<ImageView> mMaskImageviewL = new ArrayList<>();//遮罩view大集合
+    private List<ImageView> mMaskImageviewR = new ArrayList<>();//遮罩view大集合
+
+
     private Boolean mOnclickAnswer = false;//false可以点击正确答案
+    private Map mMineAnswerMap;//我的答案
+    private Map mStandardMap;//参考答案
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -118,7 +136,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                 mLeftTop += screenWidth / 4;
                 lp.leftMargin = lineView_margin;
                 leftViews.add(mView);
-                showT_RMap.put("" + (i + 1), mView);
+                showT_RMap.put(i + 1, mView);
 
             } else {
                 lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
@@ -126,7 +144,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                 lp.rightMargin = lineView_margin;
                 mRightTop += screenWidth / 4;
                 rightViews.add(mView);
-                showT_RMap.put("" + (i + 1 + size), mView);
+                showT_RMap.put(i + 1 + size, mView);
             }
             mView.setLayoutParams(lp);
             lin.addView(mView); //动态添加图片
@@ -148,7 +166,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                 int pLeftX = pLeft.getX();
                 int pLeftY = pLeft.getY();
                 for (int i = 0; i < leftViews.size(); i++) {
-                    ponitViewXY.put("" + (i + 1), new Point(pLeftX, pLeftY, "" + (i + 1)));
+                    ponitViewXY.put(i + 1, new Point(pLeftX, pLeftY, "" + (i + 1)));
                     pLeftY = pLeftY += screenWidth / 4;//左边所有点的y坐标
 
                 }
@@ -161,7 +179,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                 int pRightY = pRight.getY();
 
                 for (int i = 0; i < rightViews.size(); i++) {
-                    ponitViewXY.put("" + ((i + 1) + leftViews.size()), new Point(pRightX, pRightY, "" + ((i + 1) + leftViews.size())));
+                    ponitViewXY.put((i + 1 + leftViews.size()), new Point(pRightX, pRightY, "" + ((i + 1) + leftViews.size())));
                     pRightY = pRightY += screenWidth / 4;//左边所有点的y坐标
                     if (ponitViewXY.size() == (leftViews.size() * 2)) {
                         /*首先判断是否作答*/
@@ -173,13 +191,21 @@ public class LineFragment extends BaseHomeworkFragment implements
                             /*进行中*/
                             case "0":
 
-
                                 break;
                             /*已完成*/
                             case "1":
-                                getAnswer();
-                                handler.sendEmptyMessage(PREPARERIGHT);
-                                handler.sendEmptyMessage(PREPMINEARERIGHT);
+                                try {
+                                    getAnswer();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                                mLinroot.setVisibility(View.VISIBLE);
+                                mRight.setText("我的答案");
+                                mLeft.setText("正确答案");
+                                showRightAnswer();
+
+
                                 break;
                             default:
                                 break;
@@ -189,51 +215,10 @@ public class LineFragment extends BaseHomeworkFragment implements
                     }
                 }
 
-
             }
-            /*为点击正确答案准备数据*/
-            if (msg.what == PREPARERIGHT) {
-                if (inbasebean != null) {
-                    if (ponitViewXY.size() == (leftViews.size() * 2)) {
-                        /*获取正确答案的 坐标点*/
-                        for (int m = 0; m < mLeftAnswerList.size(); m++) {
-                            Point pointL = ponitViewXY.get(mLeftAnswerList.get(m));
-                            mRightLPonitList.add(pointL);
-                            Point pointR = ponitViewXY.get(mRightAnswerList.get(m));
-                            mRightRPonitList.add(pointR);
-                        }
-                    }
-                }
-            }
-            /*为我的答案准备数据*/
-            if (msg.what == PREPMINEARERIGHT) {
-                if (inbasebean != null) {
-                    /*获取json解析的我的答案*/
-                    if (ponitViewXY.size() == (leftViews.size() * 2)) { // 要判断json传过来的数据是“”的情况
-                        /*获取我的答案的 坐标点*/
-                        for (int m = 0; m < mLeftAnswerList.size(); m++) {
-                            Point pointL = ponitViewXY.get(mLeftMineAnswerList.get(m));
-                            mMineLPonitList.add(pointL);
-                            if (!mRightMineAnswerList.get(m).equals("㊒")) {
-                                Point pointR = ponitViewXY.get(mRightMineAnswerList.get(m));
-                                mMineRPonitList.add(pointR);
-                            }
-                        }
-
-//                        if (!mOnclickAnswer) {
-                        mLeft.setText("正确答案");
-                        mRight.setText("我的答案");
-                        mLinroot.setVisibility(View.VISIBLE);
-                        showRightAnswer();
-//                        }
-
-
-                    }
-                }
-            }
-
         }
     };
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -413,7 +398,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                     /*先删除*/
                     removeLineHomework(currentSelectedView, lineImagePointView);
                     /*必须每次都要new出来 要不不显示划线*/
-                    drawView = new DrawView(getActivity(), currentSelectedView, lineImagePointView, R.color.black);
+                    drawView = new DrawView(getActivity(), currentSelectedView, lineImagePointView, getResources().getColor(R.color.black));
                     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
                     draw_root.addView(drawView, params);
                     addLineHomework(currentSelectedView, lineImagePointView);
@@ -468,28 +453,36 @@ public class LineFragment extends BaseHomeworkFragment implements
                 break;
             case R.id.mLeft:
                 if (!mOnclickAnswer) {
+
                     /*清空我的答案的遮罩*/
-                    for (int i = 0; i < mRemoveLeftList.size(); i++) {
-                        mRemoveLeftList.get(i).mContentView.removeView(mMaskRightListR.get(i));
-                        mRemoveLeftList.remove(i);
-                        mMaskRightListR.remove(i);
-                        mRemoveRightList.get(i).mContentView.removeView(mMaskMineListR.get(i));
-                        mMaskMineListR.remove(i);
-                        mRemoveRightList.remove(i);
-                    }
+//                    Logger.d("mRemoveLeftList:" + mRemoveLeftList);
+//                    Logger.d("mRemoveRightList:" + mRemoveRightList);
+//
+//                    for (int i = 0; i < mRemoveLeftList.size(); i++) {
+//
+////                        mRemoveLeftList.get(i).mContentView.removeView(mMaskRightListR.get(i));
+////                        mRemoveLeftList.remove(i);
+////                        mMaskRightListR.remove(i);
+////                        mRemoveRightList.get(i).mContentView.removeView(mMaskMineListR.get(i));
+////                        mMaskMineListR.remove(i);
+////                        mRemoveRightList.remove(i);
+//
+//                    }
+
+
                     /*显示正确答案*/
                     showRightAnswer();
                 }
                 break;
             case R.id.mRight:
                 if (mOnclickAnswer) {
-                    /*清空*/
-                    for (int i = 0; i < leftViews.size(); i++) {
-                        leftViews.get(i).mContentView.removeView(mMaskRightListL.get(i));
-                        rightViews.get(i).mContentView.removeView(mMaskMineListL.get(i));
-                    }
-                    mMaskRightListL.clear();
-                    mMaskMineListL.clear();
+                    //清空
+//                    for (int i = 0; i < leftViews.size(); i++) {
+//                        leftViews.get(i).mContentView.removeView(mMaskRightListL.get(i));
+//                        rightViews.get(i).mContentView.removeView(mMaskMineListL.get(i));
+//                    }
+//                    mMaskRightListL.clear();
+//                    mMaskMineListL.clear();
                     /*显示我的答案*/
                     showMineAnswer();
                 }
@@ -542,8 +535,8 @@ public class LineFragment extends BaseHomeworkFragment implements
     }
 
 
-    private List<LineImagePointView> mRemoveLeftList = new ArrayList<>();//移除左边的View的集合
-    private List<LineImagePointView> mRemoveRightList = new ArrayList<>();//移除右边的View的集合
+//    private List<LineImagePointView> mRemoveLeftList = new ArrayList<>();//移除左边的View的集合
+//    private List<LineImagePointView> mRemoveRightList = new ArrayList<>();//移除右边的View的集合
 
     /*我的答案*/
     public void showMineAnswer() {
@@ -551,52 +544,94 @@ public class LineFragment extends BaseHomeworkFragment implements
             mLeft.setTextColor(getResources().getColor(R.color.gray_9f938f));
             mRight.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
             mOnclickAnswer = !mOnclickAnswer;
-            /*保证我的答案的点的集合有值*/
-            if (mMineRPonitList.size() > 0) {
 
-                inbasebean.getDrawPathList().clear();
-                /*划线父布局清空view*/
-                draw_root.removeAllViews();
+            /*便利参考答案*/
+            inbasebean.getDrawPathList().clear();
+            /*划线父布局清空view*/
+            draw_root.removeAllViews();
 
-                /*8888888888888888888888888888888888888888888888888888888888888888888888888*/
-                /*我的答案循环右边点集合*/
-                for (int n = 0; n < mMineRPonitList.size(); n++) {
-                    DrawPath drawPath = new DrawPath(mMineRPonitList.get(n), mMineLPonitList.get(n));
+            if (mStandardMap != null) {
+                for (int n = 1; n <= mStandardMap.size(); n++) {
+
+                    for (View v : mMaskImageviewL) {
+
+                        leftViews.get(n - 1).mContentView.removeView(v);
+
+                        if (mMineAnswerMap != null) {
+                            for (int i = 1; i <= mMineAnswerMap.size(); i++) {
+
+                                showT_RMap.get(mMineAnswerMap.get(i)).mContentView.removeView(v);
+                                showT_RMap.get(i).mContentView.removeView(v);
+                            }
+                        }
+                    }
+                    for (View v : mMaskImageviewR) {
+
+                        rightViews.get(n - 1).mContentView.removeView(v);
+
+                        if (mMineAnswerMap != null) {
+                            for (int i = 1; i <= mMineAnswerMap.size(); i++) {
+
+                                showT_RMap.get(mMineAnswerMap.get(i)).mContentView.removeView(v);
+                                showT_RMap.get(i).mContentView.removeView(v);
+                            }
+                        }
+                    }
+
+
+                }
+            }
+
+
+            mMaskImageviewL.clear();
+            mMaskImageviewR.clear();
+
+            if (mMineAnswerMap != null)
+                for (int i = 1; i <= mMineAnswerMap.size(); i++) {
+
+                    DrawPath drawPath = new DrawPath(ponitViewXY.get(i), ponitViewXY.get(mMineAnswerMap.get(i)));
                     DrawView drawView = null;
-//                    String s = showT_RMap.toString();
-                    /*正确答案添加遮罩*/
-//                    if (inbasebean.getIs_answered().equals("1")) {
-                    /*正确答案 左边的集合数和我的答案左边的集合数相等 改变画线的颜色*/
-                    if ((mLeftMineAnswerList.get(n).equals(mLeftAnswerList.get(n))
-                            && mRightMineAnswerList.get(n).equals(mRightAnswerList.get(n)))) {
-
+                    /*回答正确*/
+                    if (mStandardMap.get(i) == mMineAnswerMap.get(i)) {
                         /*改变划线颜色 green*/
                         drawView = new DrawView(getActivity(), getResources().getColor(R.color.green_9DEAA6));
-
                         /*添加左边view的遮罩*/
                         RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
                         paramsL.addRule(RelativeLayout.CENTER_IN_PARENT);
                         ImageView imageViewL = new ImageView(getActivity());
                         imageViewL.setLayoutParams(paramsL);
                         imageViewL.setBackgroundResource(R.drawable.answer_true_bg);
-                        mMaskRightListR.add(imageViewL);
-                        showT_RMap.get(mMineRPonitList.get(n).getVal()).mContentView.addView(imageViewL);
+
+                        showT_RMap.get(i).mContentView.addView(imageViewL);
+                        mMaskImageviewL.add(imageViewL);
+
                         /*改变小点颜色 绿色*/
-                        showT_RMap.get(mMineRPonitList.get(n).getVal()).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
-                        showT_RMap.get(mMineRPonitList.get(n).getVal()).pointview.refreshPonitColor();
-                        mRemoveLeftList.add(showT_RMap.get(mMineRPonitList.get(n).getVal()));
+                        showT_RMap.get(i).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
+                        showT_RMap.get(i).pointview.refreshPonitColor();
+//                    mRemoveLeftList.add(showT_RMap.get(i - 1));
+
                         /*添加右边view的遮罩*/
                         RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
                         paramsR.addRule(RelativeLayout.CENTER_IN_PARENT);
                         ImageView imageViewR = new ImageView(getActivity());
                         imageViewR.setLayoutParams(paramsR);
                         imageViewR.setBackgroundResource(R.drawable.answer_true_bg);
-                        mMaskMineListR.add(imageViewR);
-                        showT_RMap.get(mMineLPonitList.get(n).getVal()).mContentView.addView(imageViewR);
-                        showT_RMap.get(mMineLPonitList.get(n).getVal()).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
-                        showT_RMap.get(mMineLPonitList.get(n).getVal()).pointview.refreshPonitColor();
-                        mRemoveRightList.add(showT_RMap.get(mMineLPonitList.get(n).getVal()));
-                    } else {
+//                    mMaskMineListR.add(imageViewR);
+
+
+                        showT_RMap.get(mMineAnswerMap.get(i)).mContentView.addView(imageViewR);
+                        mMaskImageviewR.add(imageViewR);
+
+
+                        showT_RMap.get(mMineAnswerMap.get(i)).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
+                        showT_RMap.get(mMineAnswerMap.get(i)).pointview.refreshPonitColor();
+
+                        int i1 = (int) mMineAnswerMap.get(i);
+//                    mRemoveRightList.add(showT_RMap.get(i1 - 1));
+
+
+                    } else {//回答错误
+
                         /*改变划线颜色 red*/
                         drawView = new DrawView(getActivity(), getResources().getColor(R.color.red));
 
@@ -606,59 +641,49 @@ public class LineFragment extends BaseHomeworkFragment implements
                         ImageView imageViewL = new ImageView(getActivity());
                         imageViewL.setLayoutParams(paramsL);
                         imageViewL.setBackgroundResource(R.drawable.answer_false_bg);
-                        mMaskRightListR.add(imageViewL);
-                        if (mMineRPonitList.get(n) != null) {
-                            showT_RMap.get(mMineRPonitList.get(n).getVal()).mContentView.addView(imageViewL);
-                            /*改变小点颜色 红色*/
-                            showT_RMap.get(mMineRPonitList.get(n).getVal()).pointview.setcolor(getResources().getColor(R.color.red));
-                            showT_RMap.get(mMineRPonitList.get(n).getVal()).pointview.refreshPonitColor();
-                            mRemoveLeftList.add(showT_RMap.get(mMineRPonitList.get(n).getVal()));
+//                    mMaskRightListR.add(imageViewL);
 
-                            /*添加右边view的遮罩*/
-                            RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
-                            paramsR.addRule(RelativeLayout.CENTER_IN_PARENT);
-                            ImageView imageViewR = new ImageView(getActivity());
-                            imageViewR.setLayoutParams(paramsR);
-                            imageViewR.setBackgroundResource(R.drawable.answer_false_bg);
-                            mMaskMineListR.add(imageViewR);
-                            showT_RMap.get(mMineLPonitList.get(n).getVal()).mContentView.addView(imageViewR);
-                            showT_RMap.get(mMineLPonitList.get(n).getVal()).pointview.refreshPonitColor();
-                            showT_RMap.get(mMineLPonitList.get(n).getVal()).pointview.setcolor(getResources().getColor(R.color.red));
-                            mRemoveRightList.add(showT_RMap.get(mMineLPonitList.get(n).getVal()));
-                        } else {
+                        showT_RMap.get(i).mContentView.addView(imageViewL);
+                        mMaskImageviewL.add(imageViewL);
+                        /*改变小点颜色 红色*/
+                        showT_RMap.get(i).pointview.setcolor(getResources().getColor(R.color.red));
+                        showT_RMap.get(i).pointview.refreshPonitColor();
 
-                        }
+//                    mRemoveLeftList.add(showT_RMap.get(showT_RMap.get(i - 1)));
+
+                        /*添加右边view的遮罩*/
+                        RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
+                        paramsR.addRule(RelativeLayout.CENTER_IN_PARENT);
+                        ImageView imageViewR = new ImageView(getActivity());
+                        imageViewR.setLayoutParams(paramsR);
+                        imageViewR.setBackgroundResource(R.drawable.answer_false_bg);
+//                    mMaskMineListR.add(imageViewR);
+                        showT_RMap.get(mMineAnswerMap.get(i)).mContentView.addView(imageViewR);
+                        mMaskImageviewR.add(imageViewR);
+
+
+                        showT_RMap.get(mMineAnswerMap.get(i)).pointview.refreshPonitColor();
+                        showT_RMap.get(mMineAnswerMap.get(i)).pointview.setcolor(getResources().getColor(R.color.red));
+
+                        int i2 = (int) mMineAnswerMap.get(i);
+//                    mRemoveRightList.add(showT_RMap.get(i2 - 1));
+
+
                     }
-//                    }
+
                     drawView.DrawViewOnback(drawPath);
                     inbasebean.getDrawPathList().add(drawPath);
                     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
                     draw_root.addView(drawView, params);
 
+
                 }
-
-
-                if (inbasebean.getIs_answered().equals("0")) {
-                    submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
-                }
-            } else {
-                /*未作*/
-                draw_root.removeAllViews();
-
-                for (int n = 0; n < mRightLPonitList.size(); n++) {
-                    /*改变小点颜色*/
-                    leftViews.get(n).pointview.setcolor(getResources().getColor(R.color.red));
-                    rightViews.get(n).pointview.setcolor(getResources().getColor(R.color.red));
-                    leftViews.get(n).pointview.refreshPonitColor();
-                    rightViews.get(n).pointview.refreshPonitColor();
-                }
-
-            }
         }
     }
 
 
     /*显示正确答案*/
+
     private void showRightAnswer() {
         mOnclickAnswer = !mOnclickAnswer;
         mRight.setTextColor(getResources().getColor(R.color.gray_9f938f));
@@ -666,101 +691,116 @@ public class LineFragment extends BaseHomeworkFragment implements
         inbasebean.getDrawPathList().clear();
         /*划线父布局清空view*/
         draw_root.removeAllViews();
-        for (int n = 0; n < mRightLPonitList.size(); n++) {
-            DrawPath drawPath = new DrawPath(mRightLPonitList.get(n), mRightRPonitList.get(n));
-            DrawView drawView = new DrawView(getActivity(), getResources().getColor(R.color.green_9DEAA6));
-            drawView.DrawViewOnback(drawPath);
-            inbasebean.getDrawPathList().add(drawPath);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
-            draw_root.addView(drawView, params);
 
-//            /*正确答案添加遮罩*/
-//            if (inbasebean.getIs_answered().equals("1")) {
-            /*改变小点颜色*/
-            leftViews.get(n).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
-            rightViews.get(n).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
-            leftViews.get(n).pointview.refreshPonitColor();
-            rightViews.get(n).pointview.refreshPonitColor();
+        if (mStandardMap != null) {
+            for (int n = 1; n <= mStandardMap.size(); n++) {
 
-            RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
-            paramsL.addRule(RelativeLayout.CENTER_IN_PARENT);
-            ImageView imageViewL = new ImageView(getActivity());
-            imageViewL.setLayoutParams(paramsL);
-            imageViewL.setBackgroundResource(R.drawable.answer_true_bg);
-            mMaskRightListL.add(imageViewL);
-            leftViews.get(n).mContentView.addView(imageViewL);
+                for (View v : mMaskImageviewL) {
 
-            RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
-            paramsR.addRule(RelativeLayout.CENTER_IN_PARENT);
-            ImageView imageViewR = new ImageView(getActivity());
-            imageViewR.setLayoutParams(paramsR);
-            imageViewR.setBackgroundResource(R.drawable.answer_true_bg);
-            mMaskMineListL.add(imageViewR);
-            rightViews.get(n).mContentView.addView(imageViewR);
+                    leftViews.get(n - 1).mContentView.removeView(v);
 
-//            }
+                    if (mMineAnswerMap != null) {
+                        for (int i = 1; i <= mMineAnswerMap.size(); i++) {
+
+                            showT_RMap.get(mMineAnswerMap.get(i)).mContentView.removeView(v);
+                            showT_RMap.get(i).mContentView.removeView(v);
+                        }
+                    }
+                }
+                for (View v : mMaskImageviewR) {
+
+                    rightViews.get(n - 1).mContentView.removeView(v);
+
+                    if (mMineAnswerMap != null) {
+                        for (int i = 1; i <= mMineAnswerMap.size(); i++) {
+
+                            showT_RMap.get(mMineAnswerMap.get(i)).mContentView.removeView(v);
+                            showT_RMap.get(i).mContentView.removeView(v);
+                        }
+                    }
+                }
+
+
+            }
         }
+        mMaskImageviewL.clear();
+        mMaskImageviewR.clear();
 
-        if (inbasebean.getIs_answered().equals("0")) {
-            submit.submitLineFragment(inbasebean);//告诉活动每次连线的数据
+
+        if (mStandardMap != null)
+            for (int n = 1; n <= mStandardMap.size(); n++) {
+                DrawPath drawPath = new DrawPath(ponitViewXY.get(n), ponitViewXY.get(mStandardMap.get(n)));
+                DrawView drawView = new DrawView(getActivity(), getResources().getColor(R.color.green_9DEAA6));
+                drawView.DrawViewOnback(drawPath);
+                inbasebean.getDrawPathList().add(drawPath);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, selectview_root.getMeasuredHeight());
+                draw_root.addView(drawView, params);
+
+                leftViews.get(n - 1).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
+                rightViews.get(n - 1).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
+                leftViews.get(n - 1).pointview.refreshPonitColor();
+                rightViews.get(n - 1).pointview.refreshPonitColor();
+                RelativeLayout.LayoutParams paramsL = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
+                paramsL.addRule(RelativeLayout.CENTER_IN_PARENT);
+
+
+                ImageView imageViewL = new ImageView(getActivity());
+                imageViewL.setLayoutParams(paramsL);
+                imageViewL.setBackgroundResource(R.drawable.answer_true_bg);
+                /*添加遮罩到正确答案集合左边*/
+
+
+                leftViews.get(n - 1).mContentView.addView(imageViewL);
+                mMaskImageviewL.add(imageViewL);
+
+
+                RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
+                paramsR.addRule(RelativeLayout.CENTER_IN_PARENT);
+
+
+                ImageView imageViewR = new ImageView(getActivity());
+                imageViewR.setLayoutParams(paramsR);
+                imageViewR.setBackgroundResource(R.drawable.answer_true_bg);
+
+
+                rightViews.get(n - 1).mContentView.addView(imageViewR);
+                mMaskImageviewR.add(imageViewR);
+
+
+            }
+    }
+
+    /*json转map*/
+    public Map jsonToObject(String jsonStr) {
+        JSONObject jsonObj = null;
+        try {
+            jsonObj = new JSONObject(jsonStr);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
+        Iterator<String> nameItr = jsonObj.keys();
+        String name;
+        Map<Integer, Integer> outMap = new HashMap<Integer, Integer>();
+        while (nameItr.hasNext()) {
+            name = nameItr.next();
+            try {
+                outMap.put(Integer.parseInt(name), Integer.parseInt(jsonObj.getString(name)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return outMap;
     }
 
     /*获取答案*/
     private void getAnswer() {
         /*我的答案start */
         String my_answer = inbasebean.getMy_answer();
-        String substringmyanswer = my_answer.substring(1, (my_answer.length() - 1));
-        String[] strsMy = substringmyanswer.split(",");
-        /*截取字符串*/
-        for (int i = 0, len = strsMy.length; i < len; i++) {
-            String split = strsMy[i].toString();
-            substringMineList.add(split);
-        }
-        /*二次截取 获取答案 获取 */
-        for (int l = 0; l < substringMineList.size(); l++) {
-            String split1 = substringMineList.get(l).toString().substring(1, 2);
-            mLeftMineAnswerList.add(split1);
-            String s = substringMineList.get(l).toString();
-            String split2 = null;
-            if (s.length() == 5) {/*配合测试后台数据*/
-                split2 = substringMineList.get(l).toString().substring(4);
-            } else {
-                split2 = substringMineList.get(l).toString().substring(5, 6);
-            }
-//            if (split2.equals("㊒")) {
-//                mRightMineAnswerList.add("0");
-//            } else {
-                mRightMineAnswerList.add(split2);
-//            }
-
-        }
-        /*我的答案end */
-
-        /*正确答案start */
+        //我的答案map
+        mMineAnswerMap = jsonToObject(my_answer);
         String standard_answer = inbasebean.getStandard_answer();
-        String substring = standard_answer.substring(1, (standard_answer.length() - 1));
-        String[] strSt = substring.split(",");
-        /*截取字符串*/
-        for (int i = 0, len = strSt.length; i < len; i++) {
-            String split = strSt[i].toString();
-            substringRightList.add(split);
-        }
-        /*二次截取 获取答案 获取 */
-        for (int l = 0; l < substringRightList.size(); l++) {
-            String split1 = substringRightList.get(l).toString().substring(1, 2);
-            mLeftAnswerList.add(split1);
-            String s = substringMineList.get(l).toString();
-            String split2 = null;
-            if (s.length() == 5) {/*配合测试后台数据*/
-                split2 = substringRightList.get(l).toString().substring(4);
-            } else {
-                split2 = substringRightList.get(l).toString().substring(5, 6);
-            }
-            mRightAnswerList.add(split2);
-        }
-        /*正确答案end */
+        //参考答案map
+        mStandardMap = jsonToObject(standard_answer);
     }
 }
 

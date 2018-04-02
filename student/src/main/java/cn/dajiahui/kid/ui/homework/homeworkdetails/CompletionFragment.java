@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fxtx.framework.log.Logger;
+import com.fxtx.framework.util.BaseUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +51,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     private int mTvTop = 0;//初始距离上端
     private String mediaUrl;//音频地址
     private Bundle bundle;
+    private int screenWidth;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -150,12 +152,12 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             params.topMargin = mTop;
             params.leftMargin = 80;
             /*适配文本框的位置*/
-            if (inbasebean.getIs_answered().equals("1")) {
-                mTvTop += 300;
-                mTop += 300;
+            if (inbasebean.getIs_complete().equals("1")) {
+                mTvTop += screenWidth/4;
+                mTop += screenWidth/4;
             } else {
-                mTvTop += 200;
-                mTop += 200;
+                mTvTop +=screenWidth/5;
+                mTop += screenWidth/5;
             }
 
 
@@ -243,6 +245,8 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         stemroot = getView(R.id.stemroot);
         imgplay.setOnClickListener(this);
         imgplay.setBackground(animationDrawable);
+        //获取屏幕宽度
+        screenWidth = BaseUtil.getWidthPixels(getActivity());
     }
 
     /*监听editext输入*/
@@ -267,7 +271,12 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/
             for (int i = 0; i < mAllList.size(); i++) {
                 LinkedHashMap<Integer, CompletionQuestionadapterItemModle> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
+
                 mAllList.get(i).setInputContainer(integerObjectMap);
+//
+//                for (int i2=0;i2<integerObjectMap.siz) {
+//                    Logger.d("");
+//                }
             }
         }
     }

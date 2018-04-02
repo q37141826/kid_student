@@ -244,9 +244,9 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        this.setBackgroundResource(R.drawable.btnline);
+//        this.setBackgroundResource(R.drawable.btnline);
         /*0 未作答  1 已经提交过了*/
-        if (inbasebean.getIs_answered().equals("0")) {
+        if (!inbasebean.getIs_complete().equals("1")) {
             sublineinfo.submitlininfo(this);
         }
     }

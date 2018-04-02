@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fxtx.framework.log.Logger;
+import com.fxtx.framework.util.BaseUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +55,7 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
 
     private String mediaUrl;//音频地址
     private Bundle bundle;
+    private int screenWidth;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -106,8 +108,9 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
             params.topMargin = mTop;
             params.leftMargin = 80;
             /*适配文本框的位置*/
-            mTvTop += 300;
-            mTop += 300;
+
+            mTvTop += screenWidth / 4;
+            mTop += screenWidth / 4;
 
             horizontalListView.setLayoutParams(params);
 
@@ -194,14 +197,16 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
         stemroot = getView(R.id.stemroot);
         imgplay.setOnClickListener(this);
         imgplay.setBackground(animationDrawable);
+        //获取屏幕宽度
+        screenWidth = BaseUtil.getWidthPixels(getActivity());
     }
 
     /*监听editext输入*/
     @Override
 
-    public void submitEditextInfo( int selfposition, LinkedHashMap<Integer,
+    public void submitEditextInfo(int selfposition, LinkedHashMap<Integer,
             CompletionQuestionadapterItemModle> inputContainer,
-                                   int position, String itemValue) {
+                                  int position, String itemValue) {
 
         inbasebean.setAnswerflag("true");
         inbasebean.getmCompletionAllMap().get(selfposition).get(position).setShowItemMy(itemValue);
@@ -242,55 +247,13 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
                     inbasebean.getmCompletionAllMap().put(i, mItemMap);
                 }
             }
-                        /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/
+            /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/
             for (int i = 0; i < mAllAdapterList.size(); i++) {
                 LinkedHashMap<Integer, CompletionQuestionadapterItemModle> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
-                mAllAdapterList.get(i).setInputContainer(integerObjectMap, inbasebean );
+                mAllAdapterList.get(i).setInputContainer(integerObjectMap, inbasebean);
 
             }
 
-
-//            /*获取我的答案*/
-//            for (int i = 0; i < mAllAdapterList.size(); i++) {
-//                Map<Integer, CompletionQuestionadapterItemModle> integerStringMap = inbasebean.getmCompletionAllMap().get(i);
-//
-//                StringBuffer buffer = new StringBuffer();
-//                for (int q = 0; q < integerStringMap.size(); q++) {
-//                    buffer.append(integerStringMap.get(q));
-//                }
-//                myAnswerList.add(buffer.toString());
-//            }
-//            /*拼接的我的答案*/
-////            Logger.d("拼接的我的答案--myAnswerList:" + myAnswerList);
-//
-//            for (int a = 0; a < standardAnswerList.size(); a++) {
-//                /*填空题数据模型*/
-//                CompletionQuestionModle completionQuestionModle = new CompletionQuestionModle();
-//                List<List<CompletionQuestionadapterItemModle>> rightList = new ArrayList();
-//                for (int q = 0; q < standardAnswerList.get(a).length(); q++) {
-//                    List<CompletionQuestionadapterItemModle> rightItemList = new ArrayList();
-//                    CompletionQuestionadapterItemModle cqim = new CompletionQuestionadapterItemModle(
-//                            String.valueOf(standardAnswerList.get(a).charAt(q)),
-//                            String.valueOf(myAnswerList.get(a).charAt(q)));
-//                    /*如果所对应的值相等*/
-//                    if (String.valueOf(standardAnswerList.get(a).charAt(q)).
-//                            equals(String.valueOf(myAnswerList.get(a).charAt(q)))) {
-//                        cqim.setShowItemRightColor(0);
-//                    } else {
-//                        cqim.setShowItemRightColor(1);
-//                    }
-//
-//                    rightItemList.add(cqim);
-//                    rightList.add(rightItemList);
-//
-//                    completionQuestionModle.setShowRightList(rightList);
-//
-//                }
-//                mRightanswer.add(completionQuestionModle);
-//            }
-//
-
-//
 
         }
     }

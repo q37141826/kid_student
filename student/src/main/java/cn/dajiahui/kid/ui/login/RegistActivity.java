@@ -276,7 +276,7 @@ public class RegistActivity extends FxActivity {
         public void onTick(long millisUntilFinished) {
             isBtnCode = false;
             btnCode.setClickable(false);
-            btnCode.setBackgroundResource(R.color.whilte_gray);
+            btnCode.setBackgroundResource(R.color.white);
             btnCode.setText(millisUntilFinished / 1000 + "秒");
         }
     }
