@@ -263,7 +263,7 @@ public class SortFragment extends BaseHomeworkFragment implements
     public BeLocation submitCenterPoint(MoveImagview mBeforeView, int position, float X, float Y) {
 
         /*未答题状态下*/
-        if (inbasebean.getIs_answered().equals("0")) {
+//        if (!inbasebean.getIs_complete().equals("1")) {
             /*循环便利右视图的集合  判断中心点是否在右视图某一个的范围内*/
             for (int i = 0; i < pointRightList.size(); i++) {
                 /*算法  循环判断中心点是否在右边的view的范围内*/
@@ -324,7 +324,7 @@ public class SortFragment extends BaseHomeworkFragment implements
 
             }
 
-        }
+//        }
 
         return null;
 

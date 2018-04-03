@@ -76,7 +76,7 @@ public class ReadingBookFragment extends FxFragment implements
                 int endtime = msg.arg1;
                 int currentPosition = mediaPlayer.getCurrentPosition();
                 Logger.d("点读本实时音频：" + currentPosition);
-               /*实时在endtime区间内 停止音频播放*/
+                /*实时在endtime区间内 停止音频播放*/
                 if (((endtime - 500) < (currentPosition)) && ((currentPosition) < (endtime + 500))) {
                     /*停止音频播放*/
                     mediaPlayer.stop();
@@ -187,9 +187,9 @@ public class ReadingBookFragment extends FxFragment implements
         loadImageView();
         media_url = beReadingBookPageData.getMedia_url();
         if (media_url.length() > 0) {
-         /*获取Mp3视频名称*/
+            /*获取Mp3视频名称*/
             String sMp3 = MD5.getMD5(media_url.substring(media_url.lastIndexOf("/"))) + ".mp3";
-         /*判断mp3文件是否下载过*/
+            /*判断mp3文件是否下载过*/
             if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPointRedaing() + sMp3)) {
                 downloadReadingBook();
             }
@@ -238,6 +238,7 @@ public class ReadingBookFragment extends FxFragment implements
             mediaPlayer.pause();
         }
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -256,6 +257,7 @@ public class ReadingBookFragment extends FxFragment implements
             }
         }
     }
+
     /*加载网络图片*/
     private void loadImageView() {
         //获取图片自己本身的尺寸
@@ -311,7 +313,7 @@ public class ReadingBookFragment extends FxFragment implements
 //        }
 
     }
-     /*指定播放位置 毫秒*/
+    /*指定播放位置 毫秒*/
 
     public void Mp3seekTo(String mp3path, int starttime) {
 //        Logger.d("播放地址：" + mp3path);
@@ -323,6 +325,8 @@ public class ReadingBookFragment extends FxFragment implements
             mediaPlayer.setDataSource(mp3path);
             mediaPlayer.prepare();
             mediaPlayer.seekTo(starttime);
+            Logger.d("-----------跳转到开始时间：" + starttime);
+            Logger.d("-----------跳转到开始时间之后实时获取：" + mediaPlayer.getCurrentPosition());
             /*设置监听事件*/
             setListener();
         } catch (IOException e) {

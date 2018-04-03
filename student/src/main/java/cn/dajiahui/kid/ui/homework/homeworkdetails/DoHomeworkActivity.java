@@ -23,10 +23,12 @@ import com.squareup.okhttp.Request;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,75 +130,129 @@ public class DoHomeworkActivity extends FxActivity
                                 Logger.d("判断：" + jsonArray.get(i).toString());
                                 JudjeQuestionModle judjeQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), JudjeQuestionModle.class);
                                 mDatalist.add(judjeQuestionModle);
-
-                                if (!judjeQuestionModle.getIs_answered().equals("1")) {
-                                    judjeQuestionModle.setMy_answer("㊒");
+                                /*未完成时初始化  分为 两种情况 -1 未开始  0进行中 */
+                                if (!judjeQuestionModle.getIs_complete().equals("1")) {
+                                    if (!judjeQuestionModle.getIs_answered().equals("1")) {//未回答时
+                                        judjeQuestionModle.setMy_answer("");
+                                    } else {//已经回答
+                                        judjeQuestionModle.setMy_answer(judjeQuestionModle.getMy_answer());
+                                    }
                                 }
-
                                 break;
                             case Constant.Choice:
                                 Logger.d("选择：" + jsonArray.get(i).toString());
                                 ChoiceQuestionModle choiceQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), ChoiceQuestionModle.class);
                                 mDatalist.add(choiceQuestionModle);
-                                if (!choiceQuestionModle.getIs_answered().equals("1")) {
-                                    choiceQuestionModle.setMy_answer("㊒");
+
+                                /*未完成时初始化  分为 两种情况 -1 未开始  0进行中 */
+                                if (!choiceQuestionModle.getIs_complete().equals("1")) {
+                                    if (!choiceQuestionModle.getIs_answered().equals("1")) {//未回答时
+                                        choiceQuestionModle.setMy_answer("");
+                                    } else {//已经回答
+                                        choiceQuestionModle.setMy_answer(choiceQuestionModle.getMy_answer());
+                                    }
                                 }
+
                                 break;
                             case Constant.Sort:
                                 Logger.d("排序：" + jsonArray.get(i).toString());
                                 SortQuestionModle sortQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), SortQuestionModle.class);
                                 mDatalist.add(sortQuestionModle);
 
-                                if (!sortQuestionModle.getIs_answered().equals("1")) {
-                                    /*初始化排序答案*/
-                                    for (int s = 0; s < sortQuestionModle.getOptions().size(); s++) {
-                                        if (sortQuestionModle.getInitSortMyanswerList().size() < sortQuestionModle.getOptions().size()) {
-                                            sortQuestionModle.getInitSortMyanswerList().add("㊒");
+                                /*未完成时初始化*/
+                                if (!sortQuestionModle.getIs_complete().equals("1")) {
+                                    if (!sortQuestionModle.getIs_answered().equals("1")) {
+                                        /*初始化排序答案*/
+                                        for (int s = 0; s < sortQuestionModle.getOptions().size(); s++) {
+                                            if (sortQuestionModle.getInitSortMyanswerList().size() < sortQuestionModle.getOptions().size()) {
+                                            sortQuestionModle.getInitSortMyanswerList().add("");//未回答
+                                            }
+                                        }
+                                    } else {
+                                        /*初始化排序答案*/
+                                        String[] split = sortQuestionModle.getMy_answer().split(",");
+                                        for (int s = 0; s < split.length; s++) {
+                                            sortQuestionModle.getInitSortMyanswerList().add(split[s].toString());//已经回答
                                         }
                                     }
                                 }
-//                                Logger.d("排序：" + sortQuestionModle.getInitSortMyanswerList().toString());
                                 break;
                             case Constant.Line:
                                 Logger.d("连线：" + jsonArray.get(i).toString());
                                 LineQuestionModle lineQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), LineQuestionModle.class);
                                 mDatalist.add(lineQuestionModle);
-                                if (!lineQuestionModle.getIs_answered().equals("1")) {
-                                    /*初始化连线答案*/
-                                    for (int l = 0; l < lineQuestionModle.getOptions().getLeft().size(); l++) {
-                                        lineQuestionModle.getInitLineMyanswerMap().put((l + 1) + "", "");
+                                /*未完成时初始化*/
+                                if (!lineQuestionModle.getIs_complete().equals("1")) {
+
+                                    if (!lineQuestionModle.getIs_answered().equals("1")) {
+                                        /*初始化连线答案*/
+                                        for (int l = 0; l < lineQuestionModle.getOptions().getLeft().size(); l++) {
+                                            lineQuestionModle.getInitLineMyanswerMap().put((l + 1) + "", "");//未回答
+                                        }
+                                    } else {
+                                        Map map = jsonToObject(lineQuestionModle.getMy_answer());
+                                        for (int l = 1; l <= map.size(); l++) {
+                                            lineQuestionModle.getInitLineMyanswerMap().put((l) + "", map.get(l) + "");//已经回答
+                                        }
                                     }
                                 }
-//                                Logger.d("连线：" + lineQuestionModle.getInitLineMyanswerMap().toString());
                                 break;
                             case Constant.Completion:
                                 Logger.d("填空：" + jsonArray.get(i).toString());
                                 CompletionQuestionModle completionQuestionModle = new Gson().fromJson(jsonArray.get(i).toString(), CompletionQuestionModle.class);
                                 /*初始化填空答案*/
                                 mDatalist.add(completionQuestionModle);
-                                if (!completionQuestionModle.getIs_answered().equals("1")) {
-                                    /*根据正确答案初始化我的答案*/
-                                    /*解析正确答案（后台获取的正确答案）۞    分隔单词  然后自己拆分一个单词几个字母*/
-                                    String standard_answer = completionQuestionModle.getStandard_answer();
-                                    /*多个题*/
-                                    if (standard_answer.contains("۞")) {
-                                        String[] strs = standard_answer.split("۞");
-                                        for (int a = 0; a < strs.length; a++) {
-                                            /*填空题数据模型*/
-                                            LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
-                                            for (int b = 0; b < strs[a].length(); b++) {
-                                                mItemMap.put(b, new CompletionQuestionadapterItemModle("㊒"));
-                                            }
-                                            completionQuestionModle.getmCompletionAllMap().put(a, mItemMap);
-                                        }
 
-                                    } else {
-                                        /*没有۞   只有一个横滑的adapterview*/
-                                        LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
-                                        for (int a = 0; a < standard_answer.length(); a++) {
-                                            mItemMap.put(a, new CompletionQuestionadapterItemModle("㊒"));
+                                /*未完成时初始化*/
+                                if (!completionQuestionModle.getIs_complete().equals("1")) {
+
+                                    if (!completionQuestionModle.getIs_answered().equals("1")) {//未完成
+                                        /*根据正确答案初始化我的答案*/
+                                        /*解析正确答案（后台获取的正确答案）۞    分隔单词  然后自己拆分一个单词几个字母*/
+                                        String standard_answer = completionQuestionModle.getStandard_answer();
+                                        /*多个题*/
+                                        if (standard_answer.contains("۞")) {
+                                            String[] strs = standard_answer.split("۞");
+                                            for (int a = 0; a < strs.length; a++) {
+                                                /*填空题数据模型*/
+                                                LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
+                                                for (int b = 0; b < strs[a].length(); b++) {
+                                                    mItemMap.put(b, new CompletionQuestionadapterItemModle("㊒"));
+                                                }
+                                                completionQuestionModle.getmCompletionAllMap().put(a, mItemMap);
+                                            }
+
+                                        } else {
+                                            /*没有۞   只有一个横滑的adapterview*/
+                                            LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
+                                            for (int a = 0; a < standard_answer.length(); a++) {
+                                                mItemMap.put(a, new CompletionQuestionadapterItemModle("㊒"));
+                                            }
+                                            completionQuestionModle.getmCompletionAllMap().put(0, mItemMap);
                                         }
-                                        completionQuestionModle.getmCompletionAllMap().put(0, mItemMap);
+                                    } else {//已经完成
+
+                                        String my_answer = completionQuestionModle.getMy_answer();
+                                        /*多个题*/
+                                        if (my_answer.contains("۞")) {
+                                            String[] strs = my_answer.split("۞");
+                                            for (int a = 0; a < strs.length; a++) {
+                                                /*填空题数据模型*/
+                                                LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
+                                                for (int b = 0; b < strs[a].length(); b++) {
+                                                    mItemMap.put(b, new CompletionQuestionadapterItemModle(strs[a]));
+                                                }
+                                                completionQuestionModle.getmCompletionAllMap().put(a, mItemMap);
+                                            }
+
+                                        } else {
+                                            /*没有۞   只有一个横滑的adapterview*/
+                                            LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
+                                            for (int a = 0; a < my_answer.length(); a++) {
+                                                mItemMap.put(a, new CompletionQuestionadapterItemModle(String.valueOf(my_answer.charAt(a))));
+                                            }
+                                            completionQuestionModle.getmCompletionAllMap().put(0, mItemMap);
+                                        }
                                     }
                                 }
                                 break;
@@ -223,6 +279,29 @@ public class DoHomeworkActivity extends FxActivity
             }
         }
     };
+
+    /*json转map*/
+    public Map jsonToObject(String jsonStr) {
+        JSONObject jsonObj = null;
+        try {
+            jsonObj = new JSONObject(jsonStr);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Iterator<String> nameItr = jsonObj.keys();
+        String name;
+        Map<Integer, Integer> outMap = new HashMap<Integer, Integer>();
+        while (nameItr.hasNext()) {
+            name = nameItr.next();
+            try {
+                if (!jsonObj.getString(name).equals(""))
+                    outMap.put(Integer.parseInt(name), Integer.parseInt(jsonObj.getString(name)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return outMap;
+    }
 
     /*初始化*/
     private void initialize() {

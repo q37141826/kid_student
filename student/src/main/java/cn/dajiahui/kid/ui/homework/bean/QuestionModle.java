@@ -195,5 +195,11 @@ public class QuestionModle implements Serializable {
         this.currentAnswerPosition = currentAnswerPosition;
     }
 
-
+//    public Map<Integer, String> getInitSortMyanswerMap() {
+//        return initSortMyanswerMap;
+//    }
+//
+//    public void setInitSortMyanswerMap(Map<Integer, String> initSortMyanswerMap) {
+//        this.initSortMyanswerMap = initSortMyanswerMap;
+//    }
 }

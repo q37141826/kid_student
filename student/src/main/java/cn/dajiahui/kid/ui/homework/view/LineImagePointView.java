@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,6 +28,7 @@ import cn.dajiahui.kid.ui.homework.myinterface.Sublineinfo;
 
 import static cn.dajiahui.kid.controller.Constant.pointViewDiameter;
 import static cn.dajiahui.kid.controller.Constant.pointViewDiameter_margin;
+import static cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity.screenWidth;
 
 /**
  * Created by lenovo on 2018/1/12.
@@ -51,6 +53,7 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     private final LinearLayout linRoot;//imageview或者textview 和小点的父亲布局
     public RelativeLayout mContentView;//左边的view添加遮罩的父view
     private final int screenWidth;
+    private RelativeLayout.LayoutParams mParams;
 
 
     @SuppressLint("ResourceType")
@@ -81,11 +84,11 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     public Point getPoint() {
         Point point = new Point();
         if (direction == Dir.left) {
-            point.setX(this.getLeft() + pointview.getLeft() + pointViewDiameter/2); // 小圆点直径的一半
+            point.setX(this.getLeft() + pointview.getLeft() + pointViewDiameter / 2); // 小圆点直径的一半
         } else {
-            point.setX(getLeft() + pointViewDiameter/2);
+            point.setX(getLeft() + pointViewDiameter / 2);
         }
-        point.setY(this.getTop() + pointview.getTop() + pointViewDiameter/2);
+        point.setY(this.getTop() + pointview.getTop() + pointViewDiameter / 2);
         return point;
     }
 
@@ -101,11 +104,12 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
         this.inbasebean = inbasebean;
         this.lefts = inbasebean.getOptions().getLeft();
         this.rights = inbasebean.getOptions().getRight();
-        if (inbasebean.getIs_answered().equals("0")) {
+
+        if (!inbasebean.getIs_complete().equals("1")) {
             this.setOnClickListener(this);
         }
         /*imageview和textview的大小*/
-        LayoutParams lp = new LayoutParams(screenWidth/5, screenWidth/5);
+
 
         linRoot = new LinearLayout(context);
 
@@ -115,25 +119,25 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
             String content = inbasebean.getOptions().getLeft().get(cLeftposiion).getContent();
 
             if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
-
+                mParams = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
                 imageViewL = addLImageView();
-                imageViewL.setLayoutParams(lp);
+                imageViewL.setLayoutParams(mParams);
                 mContentView = new RelativeLayout(context);
                 mContentView.addView(imageViewL);
                 linRoot.addView(mContentView);
 
             } else {
-
+                mParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 mContentView = new RelativeLayout(context);
                 textViewL = addLTextView();
-                lp.addRule(CENTER_IN_PARENT);
-                textViewL.setLayoutParams(lp);
+                mParams.addRule(CENTER_IN_PARENT);
+                textViewL.setLayoutParams(mParams);
                 mContentView.addView(textViewL);
 
                 linRoot.addView(mContentView);
 
             }
-            mContentView.setPadding(5,5,5,5);
+            mContentView.setPadding(5, 5, 5, 5);
             mContentView.setBackgroundResource(R.drawable.line_bg);
             this.value = inbasebean.getOptions().getLeft().get(cLeftposiion).getVal();
             addPointLeft();//添加左边小黑点
@@ -146,21 +150,22 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
 
             if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
                 mContentView = new RelativeLayout(context);
-
+                mParams = new RelativeLayout.LayoutParams(screenWidth/5, screenWidth/5);
                 imageViewR = addRImageView();
-                imageViewR.setLayoutParams(lp);
+                imageViewR.setLayoutParams(mParams);
                 mContentView.addView(imageViewR);
                 linRoot.addView(mContentView);
 
             } else {
+                mParams = new RelativeLayout.LayoutParams(screenWidth/5, screenWidth/5);
                 mContentView = new RelativeLayout(context);
                 textViewR = addRTextView();
-                lp.addRule(CENTER_IN_PARENT);
+                mParams.addRule(CENTER_IN_PARENT);
                 mContentView.addView(textViewR);
-                textViewR.setLayoutParams(lp);
+                textViewR.setLayoutParams(mParams);
                 linRoot.addView(mContentView);
             }
-            mContentView.setPadding(5,5,5,5);
+            mContentView.setPadding(5, 5, 5, 5);
             mContentView.setBackgroundResource(R.drawable.line_bg);
         }
         this.selected(false);
@@ -183,10 +188,12 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
 
     /*添加左侧文字*/
     private TextView addLTextView() {
-        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+        mParams = new RelativeLayout.LayoutParams(screenWidth/5, screenWidth/5);
+        mParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         TextView textView = new TextView(context);
         textView.setText(inbasebean.getOptions().getLeft().get(cLeftposiion).getContent());
-        textView.setLayoutParams(lp);
+        textView.setLayoutParams(mParams);
         return textView;
     }
 
@@ -205,11 +212,11 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
 
     /*添加右侧文字*/
     private TextView addRTextView() {
-        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
+        mParams = new RelativeLayout.LayoutParams(screenWidth/5, screenWidth/5);
+        mParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         TextView textView = new TextView(context);
         textView.setText(inbasebean.getOptions().getRight().get(cLeftposiion).getContent());
-        textView.setLayoutParams(lp);
+        textView.setLayoutParams(mParams);
         return textView;
     }
 
@@ -270,27 +277,5 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
         super.onLayout(changed, left, top, right, bottom);
     }
 
-//    public void updateUI(BeOptionViewState state) {
-//        switch (state) {
-//            case unselected:
-//                // 更新未选中的UI样式
-//                break;
-//            case selected:
-//                // 更新选中的UI样式
-//                break;
-//            case right:
-//                // 更新正确的UI样式
-//                break;
-//            case wrong:
-//                // 更新错误的UI样式
-//                break;
-//
-//            case aimed:
-//                // 更新命中的UI样式
-//                break;
-//            default:
-//                break;
-//        }
-//    }
 
 }

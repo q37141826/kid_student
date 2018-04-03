@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
@@ -28,6 +29,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
@@ -39,6 +42,7 @@ import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.QuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
+import cn.dajiahui.kid.ui.study.kinds.practice.view.SignOutDialog;
 
 /*
  * 做练习Activity
@@ -256,7 +260,7 @@ public class DoPraticeActivity extends FxActivity
 
                                     /*判断是否做完题 */
                                     for (int i = 0; i < questionModle.getInitSortMyanswerList().size(); i++) {
-                                        if (questionModle.getInitSortMyanswerList().contains("㊒")) {
+                                        if (questionModle.getInitSortMyanswerList().contains("")) {
                                             questionModle.setAnswer(false);
                                             return;
                                         }
@@ -290,7 +294,7 @@ public class DoPraticeActivity extends FxActivity
                                         for (int i2 = 0; i2 < integerLinkedHashMapLinkedHashMap.get(i).size(); i2++) {
                                             if (integerLinkedHashMapLinkedHashMap.get(i).get(i2).getShowItemMy().equals("㊒")) {
                                                 questionModle.setAnswer(false);
-                                               return;
+                                                return;
                                             }
                                         }
                                     }
@@ -478,7 +482,6 @@ public class DoPraticeActivity extends FxActivity
             } else {
                 mHNum++;
             }
-//            Map<Integer, String> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
         }
 
         if (mHNum == 0) {
@@ -490,22 +493,42 @@ public class DoPraticeActivity extends FxActivity
 
     /*练习 改变按钮的颜色*/
     public void changeBtnN() {
-        /*最后一题显示END*/
-        if (praticeCurrentPosition + 1 == mdata.size()) {
-            btncheck.setText("END");
-            changeBtnBgGray();
-            btncheck.setClickable(false);
-        } else {
-            btncheck.setText("NEXT");
-            changeBtnBgYellow();
+        btncheck.setText("NEXT");
+        changeBtnBgYellow();
 
-        }
     }
+
+    Timer timer = new Timer();
 
     /*练习 改变按钮的颜色*/
     public void changeBtnY() {
-        btncheck.setText("Check");
-        changeBtnBgGray();
+        /*最后一题显示END*/
+        if (praticeCurrentPosition == mdata.size()) {
+            /*弹框退出*/
+            SignOutDialog signOutDialog = new SignOutDialog(this, R.layout.dialog_sign_out) {
+                @Override
+                public void initView() {
+
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            dismiss();
+                            finishActivity();
+                            timer = null;
+                        }
+                    }, 1500);
+                }
+            };
+
+            signOutDialog.show();
+
+
+
+        } else {
+            btncheck.setText("Check");
+            changeBtnBgGray();
+        }
+
 
     }
 

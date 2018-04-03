@@ -65,28 +65,10 @@ public class LineFragment extends BaseHomeworkFragment implements
     final List<Point> listPoint = new ArrayList<>();
     private int LEFT = 1;
     private int RIGHT = 2;
-    private int PREPARERIGHT = 3;//准备数据
-    private int PREPMINEARERIGHT = 4;//准备数据
+
 
     private Map<Integer, Point> ponitViewXY = new HashMap();//通过val获取point点的map（提供显示正确答案 和 自己的答案 用）
     private boolean calculation = false;//false 监听  测量连线题图片的左右第一个 坐标
-    //    private List<String> substringRightList = new ArrayList<>();//截取字符串的集合（正确答案）
-    //    private List<String> substringMineList = new ArrayList<>();//截取字符串的集合（我的答案）
-//    private List<String> mLeftAnswerList = new ArrayList<>();//保存正确答案的集合（左边）
-//    private List<String> mRightAnswerList = new ArrayList<>();//保存正确答案的集合（右边）
-
-    //    private List<String> mLeftMineAnswerList = new ArrayList<>();//保存我的答案的集合（左边）
-//    private List<String> mRightMineAnswerList = new ArrayList<>();//保存我的答案的集合（右边）
-
-//    private List<Point> mRightLPonitList = new ArrayList<>();//正确答案左边point集合
-//    private List<Point> mRightRPonitList = new ArrayList<>();// 正确答案右边point集合
-//
-//    private List<Point> mMineLPonitList = new ArrayList<>();//我的答案左边point集合
-//    private List<Point> mMineRPonitList = new ArrayList<>();//我的答案右边point集合
-
-
-//    private List<Point> mLPonitList = new ArrayList<>();//左边点的集合
-//    private List<Point> mRPonitList = new ArrayList<>();//右边点的集合
 
     private String media;
 
@@ -94,11 +76,6 @@ public class LineFragment extends BaseHomeworkFragment implements
     private String title;
     private LinearLayout mLinroot;//显示正确答案我的答案的父布局
 
-//    private List<ImageView> mMaskRightListL = new ArrayList();//正确答案的遮罩list 左侧
-//    private List<ImageView> mMaskMineListL = new ArrayList();//我的答案的遮罩list  左侧
-//
-//    private List<ImageView> mMaskRightListR = new ArrayList();//正确答案的遮罩list 右侧
-//    private List<ImageView> mMaskMineListR = new ArrayList();//我的答案的遮罩list  右侧
 
 
     private List<ImageView> mMaskImageviewL = new ArrayList<>();//遮罩view大集合
@@ -194,12 +171,8 @@ public class LineFragment extends BaseHomeworkFragment implements
                                 break;
                             /*已完成*/
                             case "1":
-                                try {
-                                    getAnswer();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
 
+                                getAnswer();
                                 mLinroot.setVisibility(View.VISIBLE);
                                 mRight.setText("我的答案");
                                 mLeft.setText("正确答案");
@@ -453,36 +426,12 @@ public class LineFragment extends BaseHomeworkFragment implements
                 break;
             case R.id.mLeft:
                 if (!mOnclickAnswer) {
-
-                    /*清空我的答案的遮罩*/
-//                    Logger.d("mRemoveLeftList:" + mRemoveLeftList);
-//                    Logger.d("mRemoveRightList:" + mRemoveRightList);
-//
-//                    for (int i = 0; i < mRemoveLeftList.size(); i++) {
-//
-////                        mRemoveLeftList.get(i).mContentView.removeView(mMaskRightListR.get(i));
-////                        mRemoveLeftList.remove(i);
-////                        mMaskRightListR.remove(i);
-////                        mRemoveRightList.get(i).mContentView.removeView(mMaskMineListR.get(i));
-////                        mMaskMineListR.remove(i);
-////                        mRemoveRightList.remove(i);
-//
-//                    }
-
-
                     /*显示正确答案*/
                     showRightAnswer();
                 }
                 break;
             case R.id.mRight:
                 if (mOnclickAnswer) {
-                    //清空
-//                    for (int i = 0; i < leftViews.size(); i++) {
-//                        leftViews.get(i).mContentView.removeView(mMaskRightListL.get(i));
-//                        rightViews.get(i).mContentView.removeView(mMaskMineListL.get(i));
-//                    }
-//                    mMaskRightListL.clear();
-//                    mMaskMineListL.clear();
                     /*显示我的答案*/
                     showMineAnswer();
                 }
@@ -534,9 +483,6 @@ public class LineFragment extends BaseHomeworkFragment implements
         mediaPlayer.stop();
     }
 
-
-//    private List<LineImagePointView> mRemoveLeftList = new ArrayList<>();//移除左边的View的集合
-//    private List<LineImagePointView> mRemoveRightList = new ArrayList<>();//移除右边的View的集合
 
     /*我的答案*/
     public void showMineAnswer() {
@@ -608,7 +554,6 @@ public class LineFragment extends BaseHomeworkFragment implements
                         /*改变小点颜色 绿色*/
                         showT_RMap.get(i).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
                         showT_RMap.get(i).pointview.refreshPonitColor();
-//                    mRemoveLeftList.add(showT_RMap.get(i - 1));
 
                         /*添加右边view的遮罩*/
                         RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
@@ -616,7 +561,6 @@ public class LineFragment extends BaseHomeworkFragment implements
                         ImageView imageViewR = new ImageView(getActivity());
                         imageViewR.setLayoutParams(paramsR);
                         imageViewR.setBackgroundResource(R.drawable.answer_true_bg);
-//                    mMaskMineListR.add(imageViewR);
 
 
                         showT_RMap.get(mMineAnswerMap.get(i)).mContentView.addView(imageViewR);
@@ -625,9 +569,6 @@ public class LineFragment extends BaseHomeworkFragment implements
 
                         showT_RMap.get(mMineAnswerMap.get(i)).pointview.setcolor(getResources().getColor(R.color.green_9DEAA6));
                         showT_RMap.get(mMineAnswerMap.get(i)).pointview.refreshPonitColor();
-
-                        int i1 = (int) mMineAnswerMap.get(i);
-//                    mRemoveRightList.add(showT_RMap.get(i1 - 1));
 
 
                     } else {//回答错误
@@ -641,7 +582,6 @@ public class LineFragment extends BaseHomeworkFragment implements
                         ImageView imageViewL = new ImageView(getActivity());
                         imageViewL.setLayoutParams(paramsL);
                         imageViewL.setBackgroundResource(R.drawable.answer_false_bg);
-//                    mMaskRightListR.add(imageViewL);
 
                         showT_RMap.get(i).mContentView.addView(imageViewL);
                         mMaskImageviewL.add(imageViewL);
@@ -649,7 +589,6 @@ public class LineFragment extends BaseHomeworkFragment implements
                         showT_RMap.get(i).pointview.setcolor(getResources().getColor(R.color.red));
                         showT_RMap.get(i).pointview.refreshPonitColor();
 
-//                    mRemoveLeftList.add(showT_RMap.get(showT_RMap.get(i - 1)));
 
                         /*添加右边view的遮罩*/
                         RelativeLayout.LayoutParams paramsR = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
@@ -657,17 +596,13 @@ public class LineFragment extends BaseHomeworkFragment implements
                         ImageView imageViewR = new ImageView(getActivity());
                         imageViewR.setLayoutParams(paramsR);
                         imageViewR.setBackgroundResource(R.drawable.answer_false_bg);
-//                    mMaskMineListR.add(imageViewR);
+
                         showT_RMap.get(mMineAnswerMap.get(i)).mContentView.addView(imageViewR);
                         mMaskImageviewR.add(imageViewR);
 
 
                         showT_RMap.get(mMineAnswerMap.get(i)).pointview.refreshPonitColor();
                         showT_RMap.get(mMineAnswerMap.get(i)).pointview.setcolor(getResources().getColor(R.color.red));
-
-                        int i2 = (int) mMineAnswerMap.get(i);
-//                    mRemoveRightList.add(showT_RMap.get(i2 - 1));
-
 
                     }
 
@@ -784,6 +719,7 @@ public class LineFragment extends BaseHomeworkFragment implements
         while (nameItr.hasNext()) {
             name = nameItr.next();
             try {
+                if(!jsonObj.getString(name).equals(""))
                 outMap.put(Integer.parseInt(name), Integer.parseInt(jsonObj.getString(name)));
             } catch (JSONException e) {
                 e.printStackTrace();

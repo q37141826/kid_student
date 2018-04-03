@@ -85,7 +85,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgconment);
 
-        /*添加遮罩*/
+        /*判断条件是已完成状态下  添加遮罩*/
         if (inbasebean.getIs_complete().equals("1")) {
             addMaskView();
         }
@@ -98,7 +98,7 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
         for (int i = 0; i < mAnswerViewList.size(); i++) {
             if (mAnswerViewList.get(i) != null) {
                 /*未作答 直接显示正确答案*/
-                if (inbasebean.getMy_answer().equals("㊒")) {
+                if (inbasebean.getMy_answer().equals("")) {
                     /*直接显示参考答案*/
                     if (mAnswerViewList.get(i).val.equals(inbasebean.getStandard_answer())) {
                         mAnswerViewList.get(i).addView(ShowRightMaskView());

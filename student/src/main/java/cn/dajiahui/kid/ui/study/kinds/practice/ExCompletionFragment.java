@@ -227,6 +227,7 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
 
             String standard_answer = inbasebean.getStandard_answer();
 
+            /*多个单词*/
             if (standard_answer.contains("۞")) {
 
                 String[] strsTrue = standard_answer.split("۞");
@@ -245,6 +246,21 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
                     }
 
                     inbasebean.getmCompletionAllMap().put(i, mItemMap);
+                }
+            } else {//单个待测
+
+                String standard_answer1 = inbasebean.getStandard_answer();
+                LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = inbasebean.getmCompletionAllMap().get(0);
+
+                for (int i = 0; i < standard_answer1.length(); i++) {
+                    String sTrue = String.valueOf(standard_answer1.charAt(i));
+                    String sMine = mItemMap.get(i).getShowItemMy();
+
+                    if (sTrue.equals(sMine)) {
+                        mItemMap.put(i, new CompletionQuestionadapterItemModle(sTrue, sMine, 0));
+                    } else {
+                        mItemMap.put(i, new CompletionQuestionadapterItemModle(sTrue, sMine, 1));
+                    }
                 }
             }
             /*循环便利 所有适配器的集合 然后向适配器集合赋值 然后刷新adapter*/

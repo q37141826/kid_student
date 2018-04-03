@@ -80,29 +80,29 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
 
     }
 
-    /*添加遮罩*/
-    private void AddMaskView() {
-        /*未作答 直接显示正确答案*/
-        if (inbasebean.getMy_answer().equals("㊒")) {
-            /*直接显示参考答案*/
-            if (val.equals(inbasebean.getStandard_answer())) {
-                ShowRightMaskView();
-            }
-        } else {
-
-            /*回答正确*/
-            if (val.equals(inbasebean.getStandard_answer())) {
-                /*添加正确答案遮罩*/
-                ShowRightMaskView();
-            } else {
-                /*添加错误答案遮罩*/
-                ShowWrongMaskView();
-            }
-
-        }
-
-
-    }
+//    /*添加遮罩*/
+//    private void AddMaskView() {
+//        /*未作答 直接显示正确答案*/
+//        if (inbasebean.getMy_answer().equals("㊒")) {
+//            /*直接显示参考答案*/
+//            if (val.equals(inbasebean.getStandard_answer())) {
+//                ShowRightMaskView();
+//            }
+//        } else {
+//
+//            /*回答正确*/
+//            if (val.equals(inbasebean.getStandard_answer())) {
+//                /*添加正确答案遮罩*/
+//                ShowRightMaskView();
+//            } else {
+//                /*添加错误答案遮罩*/
+//                ShowWrongMaskView();
+//            }
+//
+//        }
+//
+//
+//    }
 
     /*已完成*/
     private void ShowCompleteUI() {
@@ -199,33 +199,33 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
     }
 
 
-    /*显示正确答案遮罩*/
-    private void ShowRightMaskView() {
-        RelativeLayout reT = new RelativeLayout(context);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        ImageView imageView = new ImageView(context);
-        imageView.setLayoutParams(params);
-        reT.addView(imageView);
-        imageView.setImageResource(R.drawable.answer_true);
-        reT.setBackgroundResource(R.drawable.answer_true_bg);
-        this.addView(reT);
-
-    }
-
-    /*显示错误答案遮罩*/
-    private void ShowWrongMaskView() {
-        /*回答错误就把我的答案加上红色遮罩*/
-        RelativeLayout reF = new RelativeLayout(context);
-        RelativeLayout.LayoutParams paramsF = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        paramsF.addRule(RelativeLayout.CENTER_IN_PARENT);
-        ImageView imageViewF = new ImageView(context);
-        imageViewF.setLayoutParams(paramsF);
-        reF.addView(imageViewF);
-        imageViewF.setImageResource(R.drawable.answer_false);
-        reF.setBackgroundResource(R.drawable.answer_false_bg);
-        this.addView(reF);
-    }
+//    /*显示正确答案遮罩*/
+//    private void ShowRightMaskView() {
+//        RelativeLayout reT = new RelativeLayout(context);
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+//        ImageView imageView = new ImageView(context);
+//        imageView.setLayoutParams(params);
+//        reT.addView(imageView);
+//        imageView.setImageResource(R.drawable.answer_true);
+//        reT.setBackgroundResource(R.drawable.answer_true_bg);
+//        this.addView(reT);
+//
+//    }
+//
+//    /*显示错误答案遮罩*/
+//    private void ShowWrongMaskView() {
+//        /*回答错误就把我的答案加上红色遮罩*/
+//        RelativeLayout reF = new RelativeLayout(context);
+//        RelativeLayout.LayoutParams paramsF = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        paramsF.addRule(RelativeLayout.CENTER_IN_PARENT);
+//        ImageView imageViewF = new ImageView(context);
+//        imageViewF.setLayoutParams(paramsF);
+//        reF.addView(imageViewF);
+//        imageViewF.setImageResource(R.drawable.answer_false);
+//        reF.setBackgroundResource(R.drawable.answer_false_bg);
+//        this.addView(reF);
+//    }
 
 
 }

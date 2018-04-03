@@ -41,6 +41,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.Constant;
@@ -51,14 +53,15 @@ import cn.dajiahui.kid.http.bean.BeDownFile;
 import cn.dajiahui.kid.ui.study.bean.BeChivoxEvaluateResult;
 import cn.dajiahui.kid.ui.study.bean.BeCradPratice;
 import cn.dajiahui.kid.ui.study.bean.BeCradPraticePageData;
+import cn.dajiahui.kid.ui.study.kinds.practice.view.SignOutDialog;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.ui.study.view.RotateAnimationTvSore;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.MD5;
 
 /*
-* 单词卡
-* */
+ * 单词卡
+ * */
 public class CardPracticeActivity extends ChivoxBasicActivity implements
         CardPraticeFragment.NoticeCheckButton {
 
@@ -169,10 +172,10 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                 BeCradPratice beCradPratice = json.parsingObject(BeCradPratice.class);
                 if (beCradPratice != null) {
                     page_data = beCradPratice.getPage_data();
-                     /*获取Mp3名称*/
+                    /*获取Mp3名称*/
                     String sMp3 = MD5.getMD5(page_data.get(0).getMusic_oss_url().substring(page_data.get(0).getMusic_oss_url().lastIndexOf("/"))) + ".mp3";
 
-                        /*判断mp3文件是否下载过*/
+                    /*判断mp3文件是否下载过*/
                     if (FileUtil.fileIsExists(KidConfig.getInstance().getPathCardPratice() + sMp3)) {
                         CardAdapter adapter = new CardAdapter(getSupportFragmentManager());
                         mCardpager.setAdapter(adapter);
@@ -231,8 +234,8 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
 
     /*
-   *卡片练习适配器
-   * */
+     *卡片练习适配器
+     * */
     private class CardAdapter extends FragmentStatePagerAdapter {
 
 
@@ -308,6 +311,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
     }
 
+    Timer timer = new Timer();
     private View.OnClickListener onClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -321,22 +325,25 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                         mCardpager.setCurrentItem(currentPositinon);
 
                     } else {
-                        FxDialog fxDialog = new FxDialog(CardPracticeActivity.this) {
-                            @Override
-                            public void onRightBtn(int flag) {
-                                cleanEnvironment();
-                                finishActivity();
-                                dismiss();
-                            }
 
+                        /*弹框退出*/
+                        SignOutDialog signOutDialog = new SignOutDialog(CardPracticeActivity.this, R.layout.dialog_sign_out) {
                             @Override
-                            public void onLeftBtn(int flag) {
+                            public void initView() {
 
-                                dismiss();
+                                timer.schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        dismiss();
+                                        finishActivity();
+                                        timer = null;
+                                    }
+                                }, 1500);
                             }
                         };
-                        fxDialog.setMessage("已经是最后一个,是否退出？");
-                        fxDialog.show();
+
+                        signOutDialog.show();
+
                     }
 
 
@@ -350,7 +357,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                     if (!isRecording) {/*开始录音*/
                         if (beCradPraticePageData != null) {
                             mRecording.setImageResource(R.drawable.card_record_on);
-                           /* 通知评分引擎此次为英文句子评测 */
+                            /* 通知评分引擎此次为英文句子评测 */
                             coretype = CoreType.en_sent_score;
 //
                             recordingEvaluation();
@@ -377,10 +384,10 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
     private void recordingEvaluation() {
 
         if (currentPositinon < page_data.size()) {
-                               /*参数是评分的语句*/
+            /*参数是评分的语句*/
             recordStart(page_data.get(currentPositinon).getItem().get(0).getEnglish());
         } else {
-                                /*解決数组越界*/
+            /*解決数组越界*/
             recordStart(page_data.get(page_data.size() - 1).getItem().get(0).getEnglish());
         }
     }

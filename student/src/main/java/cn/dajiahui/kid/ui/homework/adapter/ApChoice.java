@@ -108,8 +108,8 @@ public class ApChoice extends BaseAdapter {
 
         /*添加遮罩 首先判断是否完成*/
         if (inbasebean.getIs_complete().equals("1")) {
-            /*我的答案有 ㊒ 就认为是未作答 直接显示正确答案 */
-            if (inbasebean.getMy_answer().equals("㊒")) {
+            /*我的答案有 "" 就认为是未作答 直接显示正确答案 */
+            if (inbasebean.getMy_answer().equals("")) {
                 /*判断当前条目是是不是自己选的答案  是加绿色对号  不相同就红色× */
                 /*获取当前条目的答案*/
                 if (mPptions.get(position).getVal().equals(inbasebean.getStandard_answer())) {

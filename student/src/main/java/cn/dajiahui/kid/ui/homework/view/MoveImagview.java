@@ -45,7 +45,6 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     private MoveLocation moveLocation;//接口实例
     public String val;//当前拖动图片的val值
     private List<String> mRightContentList;//正确答案内容的集合
-    private LayoutParams params;
 
 
     /*构造*/
@@ -65,18 +64,21 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
         this.mRightContentList = mRightContentList;
         this.setBackgroundResource(R.drawable.sortview_default_bg);
         this.setPadding(SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin);
-        params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+
 
 
         /*首先判断是否作答*/
         switch (inbasebean.getIs_complete()) {
             /*未开始*/
             case "-1":
+
                 this.setOnTouchListener(this);
                 ShowNoCompleteUI(inbasebean.getOptions().get(position).getContent());
+
                 break;
             /*进行中*/
             case "0":
+
                 this.setOnTouchListener(this);
                 ShowNoCompleteUI(inbasebean.getOptions().get(position).getContent());
 
@@ -108,7 +110,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     /*添加遮罩*/
     private void AddMaskView() {
         /*正确答案 添加遮罩*/
-        RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
+        LayoutParams paramsT = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
         ImageView imageViewT = new ImageView(context);
         imageViewT.setLayoutParams(paramsT);
@@ -132,11 +134,11 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     private void ShowTextViewUI(String textcontext) {
         TextView textView = new TextView(context);
         LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        textView.setTextColor(getResources().getColor(R.color.blue));
-        params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
+        textView.setTextColor(context.getResources().getColor(R.color.gray_9c9c9c));
+        tparams.addRule(RelativeLayout.CENTER_IN_PARENT);
         textView.setLayoutParams(tparams);
         if (inbasebean.getIs_answered().equals("0")) {
-            textView.setText(inbasebean.getOptions().get(position).getContent());
+            textView.setText(textcontext);
         } else {
             textView.setText(textcontext);
         }
@@ -145,6 +147,7 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
 
     /*显示图片*/
     private void ShowImageViewUI(String imgUrl) {
+        LayoutParams params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         ImageView imageView = new ImageView(context);
         imageView.setLayoutParams(params);
         this.addView(imageView);
