@@ -17,7 +17,7 @@ public class ErrorCode {
        if (e == null)
            return "";
        e.printStackTrace();
-       String error ="网络错误";
+       String error ="";//网络错误
        if(e instanceof ConnectException)
            error = "连接服务器失败";
        else if(e instanceof SocketTimeoutException)

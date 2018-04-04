@@ -83,9 +83,9 @@ public class DownloadFile {
             case Constant.file_kaoraok_mp4:
                 showfxDialog("下载中");
                 break;
-            case Constant.file_personal_stereo:
-                showfxDialog("下载中");
-                break;
+//            case Constant.file_personal_stereo:
+//                showfxDialog("下载中");
+//                break;
             case Constant.file_card_pratice:
                 showfxDialog("下载中");
                 break;

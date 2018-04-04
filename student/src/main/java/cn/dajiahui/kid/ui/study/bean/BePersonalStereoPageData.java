@@ -12,6 +12,9 @@ public class BePersonalStereoPageData {
     private String page_id;
     private String page_no;
     private String title;
+    private String type;
+    private String type_name;
+
 
     public String getInfo() {
         return info;
@@ -59,5 +62,21 @@ public class BePersonalStereoPageData {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType_name() {
+        return type_name;
+    }
+
+    public void setType_name(String type_name) {
+        this.type_name = type_name;
     }
 }

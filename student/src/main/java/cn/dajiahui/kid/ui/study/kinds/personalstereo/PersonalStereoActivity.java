@@ -22,6 +22,7 @@ import com.squareup.okhttp.Request;
 
 import java.io.IOException;
 import java.util.Formatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,14 +40,14 @@ import cn.dajiahui.kid.util.MD5;
 
 
 /*
-* 随身听
-* */
+ * 随身听
+ * */
 public class PersonalStereoActivity extends FxActivity {
     public static final int MUSIC_CURRENTTIME = 0;
     public static final int MUSIC_STOP = 1;
 
     private ImageView imgplay;
-    private TextView tvunitname;
+    private TextView mTypeName, mAudioTitle, mPrevious, mNext, mTypeNAme;
     private SeekBar pbDuration;
     private TextView tvTimeElapsed;
     private TextView tvDuration, tvcontent;
@@ -54,12 +55,18 @@ public class PersonalStereoActivity extends FxActivity {
     private Formatter mFormatter;
     private int mOnpausePosition = 0;
     private Timer timer = null;
-    private BePersonalStereoPageData bePersonalStereoPageData;
+
     private String book_id;
     private String unit_id;
     private MediaPlayer mediaPlayer;
     private AnimationDrawable animationDrawable;
-    private Boolean completePlay = false;//播放完成标志
+    private Boolean completePlay = false;//播放完成标志 false未完成  true 已完成
+
+
+    private int mCurrentNum = 0;//当前页面
+
+    private List<BePersonalStereoPageData> mPageData;//数据源
+
 
     private Handler mHandler = new Handler() {
         @Override
@@ -72,7 +79,7 @@ public class PersonalStereoActivity extends FxActivity {
             if (msg.what == MUSIC_STOP) {
                 timer.cancel();
                 pbDuration.setProgress(0);
-                /*播放完毕要置0*/
+               /*播放完毕要置0*/
                 mOnpausePosition = 0;
                 timer = null;
                 tvTimeElapsed.setText("00:00");
@@ -96,8 +103,6 @@ public class PersonalStereoActivity extends FxActivity {
         httpData();
         /*设置动画*/
         settingRing();
-
-
     }
 
     @Override
@@ -124,25 +129,26 @@ public class PersonalStereoActivity extends FxActivity {
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
                 BePersonalStereo bePersonalStereo = json.parsingObject(BePersonalStereo.class);
+                if (bePersonalStereo != null) ;
                 if (bePersonalStereo.getPage_data().size() > 0) {
-                    bePersonalStereoPageData = bePersonalStereo.getPage_data().get(0);
-                    if (bePersonalStereoPageData != null) {
-                        tvunitname.setText(bePersonalStereoPageData.getMusic_name());
-                        /*文件名以MD5加密*/
-                        String mp3Name = MD5.getMD5(bePersonalStereoPageData.getMusic_oss_name().substring(bePersonalStereoPageData.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
-
-                        if (FileUtil.fileIsExists(KidConfig.getInstance().getPathPersonalStereo() + mp3Name)) {
-                         /*读取本地*/
-                            StartMp3(KidConfig.getInstance().getPathPersonalStereo() + mp3Name);
+                    mPageData = bePersonalStereo.getPage_data();
+                    mPageData.get(mCurrentNum);
+                    if (mPageData.get(mCurrentNum) != null) {
+                        settingInfo();
+                        if (!FileUtil.fileIsExists(AudioPath())) {
+                            showfxDialog("音频下载中，请稍后...");
+                            /*网络下载*/
+                            downloadPersonalStereo(mPageData.get(0).getMusic_oss_name());
+                            mNext.setTextColor(getResources().getColor(R.color.gray_DBDBDB));
+                            mNext.setClickable(false);//下一个按钮不可点击
 
                         } else {
-                         /*网络下载*/
-                            downloadPersonalStereo();
+                            /*读取本地*/
+                            startAudio(AudioPath());
+                            mNext.setTextColor(getResources().getColor(R.color.gray_333333));
+                            mNext.setClickable(true);//下一个按钮不可点击
                         }
-                        setProgress(true);//设置进度
-                        startTimer();//启动计时器
 
-                        tvcontent.setText(bePersonalStereoPageData.getInfo());
                     }
                 }
             } else {
@@ -154,19 +160,43 @@ public class PersonalStereoActivity extends FxActivity {
     };
 
     /*随身听mp3*/
-    private void downloadPersonalStereo() {
+    private void downloadPersonalStereo(String fileUrl) {
 
-        BeDownFile file = new BeDownFile(Constant.file_personal_stereo, bePersonalStereoPageData.getMusic_oss_name(), "", KidConfig.getInstance().getPathTemp());
+        BeDownFile file = new BeDownFile(Constant.file_personal_stereo, fileUrl, "", KidConfig.getInstance().getPathTemp());
 
         new DownloadFile(PersonalStereoActivity.this, file, false, new OnDownload() {
             @Override
             public void onDownload(String fileurl, FxProgressDialog progressDialog) {
-                progressDialog.dismiss();
+                if (mPageData.size() > 1) {
+                    /*读取本地*/
+                    startAudio(AudioPath());
+                    dismissfxDialog();
+                    /*下载成功后下载下一个*/
+                    String mp3Name = MD5.getMD5(mPageData.get(1).getMusic_oss_name().
+                            substring(mPageData.get(1).getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
+                    if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPersonalStereo() + mp3Name)) {
+                        /*下载 下一个*/
+                        downloadPersonalStereo(mPageData.get(1).getMusic_oss_name());
+                    } else {
+                        mNext.setTextColor(getResources().getColor(R.color.gray_333333));
+                        mNext.setClickable(true);//下一个按钮可点击
+                    }
+                }
+            }
+        });
+    }
 
-                String mp3Name = MD5.getMD5(bePersonalStereoPageData.getMusic_oss_name().
-                        substring(bePersonalStereoPageData.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
-                  /*读取本地*/
-                StartMp3(KidConfig.getInstance().getPathPersonalStereo() + mp3Name);
+    /*随身听mp3*/
+    private void Preloading(String fileUrl) {
+
+        BeDownFile file = new BeDownFile(Constant.file_personal_stereo, fileUrl, "", KidConfig.getInstance().getPathTemp());
+
+        new DownloadFile(PersonalStereoActivity.this, file, false, new OnDownload() {
+            @Override
+            public void onDownload(String fileurl, FxProgressDialog progressDialog) {
+                mNext.setClickable(true);
+                mNext.setTextColor(getResources().getColor(R.color.gray_333333));
+
             }
         });
     }
@@ -174,19 +204,18 @@ public class PersonalStereoActivity extends FxActivity {
     /*设置进度*/
     private void setProgress(boolean totaltime) {
         if (mediaPlayer != null) {
-        /*设置当前时长*/
+            /*设置当前时长*/
             int position = mediaPlayer.getCurrentPosition();
             pbDuration.setProgress(position);
             tvTimeElapsed.setText(stringForTime(position));
 
-        /*设置总时长*/
+            /*设置总时长*/
             if (totaltime == true) {
                 int duration = mediaPlayer.getDuration();
                 tvDuration.setText(stringForTime(duration));
-             /*设置进度条最大值*/
+                /*设置进度条最大值*/
                 pbDuration.setMax(mediaPlayer.getDuration());
             }
-
         }
     }
 
@@ -198,12 +227,18 @@ public class PersonalStereoActivity extends FxActivity {
     /*初始化*/
     private void initialize() {
         imgplay = getView(R.id.img_play);
-        tvunitname = getView(R.id.tv_unitname);
+        mTypeName = getView(R.id.tv_unitname);
+        mAudioTitle = getView(R.id.tv_title);
+        mPrevious = getView(R.id.previous);
+        mNext = getView(R.id.next);
         pbDuration = getView(R.id.pbDuration);
+        mTypeNAme = getView(R.id.audio_content);
         tvTimeElapsed = getView(R.id.tvTimeElapsed);
         tvDuration = getView(R.id.tvDuration);
         tvcontent = getView(R.id.tv_content);
         imgplay.setOnClickListener(onClick);
+        mPrevious.setOnClickListener(onClick);
+        mNext.setOnClickListener(onClick);
         pbDuration.setOnSeekBarChangeListener(seekListener);/*设置seek监听*/
         mFormatBuilder = new StringBuilder();
         mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
@@ -212,18 +247,14 @@ public class PersonalStereoActivity extends FxActivity {
 
     /*格式化时间*/
     private String stringForTime(int timeMs) {
-        int totalSeconds = timeMs / 1000;
-        //   int haomiao=totalSeconds % 60%1000;
-        int seconds = totalSeconds % 60;
-        int minutes = (totalSeconds / 60) % 60;
-        int hours = totalSeconds / 3600;
-        mFormatBuilder.setLength(0);
-        if (hours > 0) {//:%02d
-            return mFormatter.format("%d:%02d:%02d", hours, minutes, seconds).toString();
-        } else {
-            return mFormatter.format("%02d:%02d", minutes, seconds).toString();
-        }
+        int hours = (timeMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+        int minutes = (timeMs % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = timeMs % (1000 * 60) / 1000;
+        int haomiao = timeMs % 1000;
+
+        return new Formatter(new StringBuilder(), Locale.getDefault()).format("%02d:%02d", minutes, seconds).toString();
     }
+
 
     @Override
     protected void onStop() {
@@ -245,6 +276,17 @@ public class PersonalStereoActivity extends FxActivity {
         }
     }
 
+    /*获取本地音频路径*/
+    private String AudioPath() {
+        String mp3Name = "";
+        if (mCurrentNum < mPageData.size()) {
+            /*文件名以MD5加密*/
+            mp3Name = MD5.getMD5(mPageData.get(mCurrentNum).getMusic_oss_name().
+                    substring(mPageData.get(mCurrentNum).getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
+        }
+        return KidConfig.getInstance().getPathPersonalStereo() + mp3Name;
+    }
+
     /*点击事件*/
     private View.OnClickListener onClick = new View.OnClickListener() {
         @Override
@@ -253,28 +295,82 @@ public class PersonalStereoActivity extends FxActivity {
             switch (v.getId()) {
 
                 case R.id.img_play:
-
+                    /*播放器处于播放状态*/
                     if ((mediaPlayer != null) && (mediaPlayer.isPlaying())) {
                         stopAnimation();
                         PauseMp3();
                         mOnpausePosition = mediaPlayer.getCurrentPosition();
+                        completePlay = false;
                     } else {
 
-                        /*如果是播放完成*/
-                        if (completePlay) {
-                            StartMp3(bePersonalStereoPageData.getMusic_oss_name());
-                            setProgress(true);
-                            startTimer();//启动计时器
-                            completePlay = false;
+                        /*判断本地是否存在*/
+                        if (FileUtil.fileIsExists(AudioPath())) {
 
-                        } else {
+                            /*播放器处于未播放状态*/
+                            if (completePlay) {/*如果是播放完成*/
+                                /*读取本地*/
+                                startAudio(AudioPath());
+                                setProgress(true);
+                                completePlay = false;
 
-                            if ((mediaPlayer != null)) {
-                                mediaPlayer.seekTo(mOnpausePosition);
-                                mediaPlayer.start();
-                                mOnpausePosition = 0;
-                                startAnimation();
+                            } else {
+                                if ((mediaPlayer != null)) {
+                                    mediaPlayer.seekTo(mOnpausePosition);
+                                    mediaPlayer.start();
+                                    startAnimation();
+                                }
                             }
+                        }
+                    }
+
+                    break;
+
+                /*上一个*/
+                case R.id.previous:
+                    stopAudio();
+                    if (mCurrentNum > 0) {
+                        /*读取本地*/
+                        startAudio(AudioPath());
+                        mCurrentNum = mCurrentNum - 1;
+                        settingInfo();
+                        mNext.setTextColor(getResources().getColor(R.color.gray_333333));
+                        mPrevious.setTextColor(getResources().getColor(R.color.gray_333333));
+                        if (mCurrentNum == 0) {
+                            mPrevious.setTextColor(getResources().getColor(R.color.gray_DBDBDB));
+                            mPrevious.setClickable(false);
+                        }
+                    }
+
+                    break;
+                /*下一个*/
+                case R.id.next:
+                    stopAudio();
+                    if (mCurrentNum + 1 < mPageData.size()) {
+                        mCurrentNum = mCurrentNum + 1;
+                        settingInfo();
+                        /*读取本地*/
+                        startAudio(AudioPath());
+                        mNext.setTextColor(getResources().getColor(R.color.gray_333333));
+                        mPrevious.setTextColor(getResources().getColor(R.color.gray_333333));
+
+                        if (mCurrentNum + 1 == mPageData.size()) {
+                            mNext.setTextColor(getResources().getColor(R.color.gray_DBDBDB));
+                            mNext.setClickable(false);
+                        }
+                    }
+
+                    if (mCurrentNum + 1 < mPageData.size() && mPageData.get(mCurrentNum + 1) != null) {
+
+                        String mp3Name = MD5.getMD5(mPageData.get(mCurrentNum + 1).getMusic_oss_name().
+                                substring(mPageData.get(mCurrentNum + 1).getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
+                        /*判断本地不存在 */
+                        if (!FileUtil.fileIsExists(KidConfig.getInstance().getPathPersonalStereo() + mp3Name)) {
+                            Preloading(mPageData.get(mCurrentNum + 1).getMusic_oss_name());
+                            mNext.setTextColor(getResources().getColor(R.color.gray_DBDBDB));
+                            mNext.setClickable(false);
+                        } else {
+                            mNext.setTextColor(getResources().getColor(R.color.gray_333333));
+                            mNext.setClickable(true);
                         }
 
                     }
@@ -284,7 +380,29 @@ public class PersonalStereoActivity extends FxActivity {
                     break;
             }
         }
+
+
     };
+
+    private void stopAudio() {
+        mNext.setClickable(true);
+        mPrevious.setClickable(true);
+        tvTimeElapsed.setText("00:00");
+        tvDuration.setText("00:00");
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            /*结束动画*/
+            stopAnimation();
+            /*释放资源*/
+            mediaPlayer.stop();
+        }
+    }
+
+    private void settingInfo() {
+        mAudioTitle.setText(mPageData.get(mCurrentNum).getTitle());
+        tvcontent.setText(mPageData.get(mCurrentNum).getInfo());
+        mTypeName.setText(mPageData.get(mCurrentNum).getType_name());
+
+    }
 
     /*seekbar监听*/
     private SeekBar.OnSeekBarChangeListener seekListener = new SeekBar.OnSeekBarChangeListener() {
@@ -302,6 +420,9 @@ public class PersonalStereoActivity extends FxActivity {
         public void onStopTrackingTouch(SeekBar seekBar) {
             // 进度条拖动播放进度的声音
             mediaPlayer.seekTo(pbDuration.getProgress());
+            mOnpausePosition = mediaPlayer.getCurrentPosition();
+            completePlay = false;
+            startTimer();
         }
     };
 
@@ -352,7 +473,8 @@ public class PersonalStereoActivity extends FxActivity {
     }
 
     /*开始播放*/
-    public void StartMp3(String mp3Url) {
+    private void startAudio(String mp3Url) {
+
         try {
             if (mediaPlayer == null) {
                 mediaPlayer = new MediaPlayer();
@@ -360,12 +482,14 @@ public class PersonalStereoActivity extends FxActivity {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(mp3Url);
             mediaPlayer.prepare();
-              /*准备播放*/
+            /*准备播放*/
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 
                 @Override
                 public void onPrepared(MediaPlayer mp) {
+                    /*开启动画*/
                     startAnimation();
+                    startTimer();//启动计时器
                     mediaPlayer.start();
                 }
 
@@ -378,25 +502,21 @@ public class PersonalStereoActivity extends FxActivity {
                     completePlay = true;
                     /*停止动画*/
                     stopAnimation();
-                     /*释放资源*/
+                    /*释放资源*/
                     mediaPlayer.stop();
 
                 }
             });
             /*播放失败*/
-            mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener()
-
-            {
+            mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
 
-                    return false;
+                    return true;
                 }
             });
-           /*进度监听*/
-            mediaPlayer.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener()
-
-            {
+            /*进度监听*/
+            mediaPlayer.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
                 @Override
                 public void onSeekComplete(MediaPlayer mp) {
 
@@ -415,5 +535,4 @@ public class PersonalStereoActivity extends FxActivity {
     public void PauseMp3() {
         mediaPlayer.pause();
     }
-
 }
