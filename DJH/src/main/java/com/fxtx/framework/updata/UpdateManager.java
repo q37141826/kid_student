@@ -2,11 +2,14 @@ package com.fxtx.framework.updata;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -14,9 +17,12 @@ import com.fxtx.framework.http.ErrorCode;
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.http.request.OkHttpDownloadRequest;
 import com.fxtx.framework.log.ToastUtil;
+import com.fxtx.framework.time.TimeUtil;
+import com.fxtx.framework.util.DjhSputils;
 import com.squareup.okhttp.Request;
 
 import java.io.File;
+import java.util.Date;
 
 /**
  */
@@ -24,7 +30,7 @@ import java.io.File;
 public abstract class UpdateManager {
 
     private String soft_update_no = "已经是最新版本";
-    private String soft_update_title = "软件更新";
+    public String soft_update_title = "软件更新";
     private String soft_updating = "正在更新";
     private String soft_update_update_now = "更新";
     private String soft_update_finish = "退出应用";
@@ -35,7 +41,7 @@ public abstract class UpdateManager {
     protected final int DO_NOTHING = 2;
     protected final int DO_ERROR = 3;//下载错误
     // 强制更新
-    protected boolean isMustUpdate;
+    protected boolean isMustUpdate;// false 不强制  true 强制
     /* 下载保存路径 */
     private String mSavePath;
     /* 是否取消更新 */
@@ -82,7 +88,7 @@ public abstract class UpdateManager {
     public abstract void checkUpdateOrNotAuto();
 
 
-    // 检测更新
+    // 检测更新``
     public abstract void checkUpdateOrNot();
 
     /**
@@ -100,6 +106,9 @@ public abstract class UpdateManager {
                 if (isMustUpdate) {
                     onUpdate.onUpdateCancel(1);
                 } else {
+                    /*保存更新的时间*/
+                    DjhSputils spUtil = new DjhSputils(mContext);
+                    spUtil.setCancleUpdateTime(TimeUtil.stampToString(String.valueOf(System.currentTimeMillis() / 1000), "yyyyMMdd"));
                     onUpdate.onUpdateCancel(2);
                 }
             }
@@ -149,6 +158,7 @@ public abstract class UpdateManager {
                         onUpdate.onUpdateCancel(2);
                     }
                 }
+
                 @Override
                 public void onRightBtn(int floag) {
 
@@ -229,4 +239,5 @@ public abstract class UpdateManager {
         mContext.startActivity(i);
         onUpdate.onUpdateSuccess();
     }
+
 }

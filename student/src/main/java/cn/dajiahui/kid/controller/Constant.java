@@ -153,8 +153,10 @@ public class Constant {
 
     public static final Point PointZero = new Point(0, 0);    /*画线路径*/
 
-//    public static int ScreenWidth = 0;//屏幕宽度
-//    public static int ScreenHeight = 0;//屏幕高度
+    public static final String device = "4";//公共参数
+    public static final String os_version = "Android" + android.os.Build.VERSION.RELEASE;
+    public static final String signKey = "dajiahuiv5@#$%123";
+    public static int activityCount = 0;//版本更新时的计数
 
     public static final int lineWidth = 5;//作业，练习连线题线的宽度
     public static final int pointViewDiameter = 20;//作业，练习连线题小圆点的直径

@@ -1,5 +1,6 @@
 package cn.dajiahui.kid.ui.login;
 
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.text.StringUtil;
 import com.fxtx.framework.ui.base.FxFirstActivity;
 
@@ -20,6 +21,7 @@ public class FirstActivity extends FxFirstActivity {
         UpdateApp manager = new UpdateApp(this, onUpdate);
         manager.checkUpdateOrNotAuto();
 
+        Logger.d("检查版本更新-----------------------manager.checkUpdateOrNotAuto()");
     }
 
     @Override
