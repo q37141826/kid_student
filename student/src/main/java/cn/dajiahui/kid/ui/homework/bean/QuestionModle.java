@@ -26,6 +26,8 @@ public class QuestionModle implements Serializable {
     /*填空题我的答案集合 作业*/
     private LinkedHashMap<Integer, LinkedHashMap<Integer, CompletionQuestionadapterItemModle>> mCompletionAllMap = new LinkedHashMap<>();
 
+    /*连线题我的答案集合*/
+    private Map<Integer, Integer> exinitLineMyanswerMap = new LinkedHashMap<>();//连线题我的答案集合（val对应）
 
     /*各种题型公共拥有*/
     private String id;
@@ -90,7 +92,13 @@ public class QuestionModle implements Serializable {
         this.initLineMyanswerMap = initLineMyanswerMap;
     }
 
+    public Map<Integer, Integer> getExinitLineMyanswerMap() {
+        return exinitLineMyanswerMap;
+    }
 
+    public void setExinitLineMyanswerMap(Map<Integer, Integer> exinitLineMyanswerMap) {
+        this.exinitLineMyanswerMap = exinitLineMyanswerMap;
+    }
     public LinkedHashMap<Integer, LinkedHashMap<Integer, CompletionQuestionadapterItemModle>> getmCompletionAllMap() {
         return mCompletionAllMap;
     }
@@ -195,11 +203,5 @@ public class QuestionModle implements Serializable {
         this.currentAnswerPosition = currentAnswerPosition;
     }
 
-//    public Map<Integer, String> getInitSortMyanswerMap() {
-//        return initSortMyanswerMap;
-//    }
-//
-//    public void setInitSortMyanswerMap(Map<Integer, String> initSortMyanswerMap) {
-//        this.initSortMyanswerMap = initSortMyanswerMap;
-//    }
+
 }

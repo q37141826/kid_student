@@ -20,8 +20,6 @@ public class FirstActivity extends FxFirstActivity {
 
         UpdateApp manager = new UpdateApp(this, onUpdate);
         manager.checkUpdateOrNotAuto();
-
-        Logger.d("检查版本更新-----------------------manager.checkUpdateOrNotAuto()");
     }
 
     @Override

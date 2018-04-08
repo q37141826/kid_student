@@ -44,6 +44,7 @@ public class UpdateApp extends UpdateManager {
 
             @Override
             public void onResponse(String response) {
+                /*在自定义测试json*/
                 String str = "{    \"data\": {        \"apk_url\": \"http://d-static.s.dajiahui.cn/release/mLecture_online_v2.0.7_c11-b171228.apk\",        \"app_id\": 4,        \"is_update\": \"1\",        \"title\": \"Android魔耳英语学生端 升级更新了\",        \"update_msg\": \"升级说明\",        \"version_code\": \"1.0.0\"    },    \"msg\": \"版本升级信息获取成功\",    \"status\": 0}";
                 HeadJson json = new HeadJson(str);
 
@@ -62,8 +63,7 @@ public class UpdateApp extends UpdateManager {
 
                         case "1":
                             //SharedPreferences存的时间与当前的时间进行对比（日）
-                            if (!
-                                    new DjhSputils(context).getCancleUpdateTime().equals(TimeUtil.stampToString(String.valueOf(System.currentTimeMillis() / 1000), "yyyyMMdd"))) {
+                            if (!new DjhSputils(context).getCancleUpdateTime().equals(TimeUtil.stampToString(String.valueOf(System.currentTimeMillis() / 1000), "yyyyMMdd"))) {
                                 isMustUpdate = false;
                                 soft_update_title = update.getTitle();
                                 message = update.getUpdate_msg();

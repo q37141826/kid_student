@@ -272,14 +272,14 @@ public class DoPraticeActivity extends FxActivity
                                 /*连线题*/
                                 else if (questionModle.getQuestion_cate_id().equals(Constant.Line)) {
                                     ExLineFragment linFragment = (ExLineFragment) frMap.get(praticeCurrentPosition);
-                                    Map<String, String> myanswerMap = questionModle.getInitLineMyanswerMap();
+                                    Map<Integer, Integer> myanswerMap = questionModle.getExinitLineMyanswerMap();
                                     LineQuestionModle lineQuestionModle = (LineQuestionModle) mDatalist.get(praticeCurrentPosition);
 
                                     if (myanswerMap.size() == lineQuestionModle.getOptions().getRight().size()) {
                                         linFragment.submitHomework(questionModle);
                                     } else {
                                         questionModle.setAnswer(false);
-//                                    Toast.makeText(context, "答题未完成，请继续...", Toast.LENGTH_SHORT).show();
+
                                         return;
                                     }
 
@@ -458,7 +458,8 @@ public class DoPraticeActivity extends FxActivity
         praticeCurrentPosition = Lqm.getEachposition();
         mDatalist.set(Lqm.getEachposition(), Lqm);
         /*连线题 高亮显示check按钮 改变按钮颜色*/
-        if (Lqm.getInitLineMyanswerMap().size() == ((LineQuestionModle) mDatalist.get(praticeCurrentPosition)).getOptions().getRight().size()) {
+
+        if (Lqm.getExinitLineMyanswerMap().size() == ((LineQuestionModle) mDatalist.get(praticeCurrentPosition)).getOptions().getRight().size()) {
             changeBtnBgYellow();
         }
     }

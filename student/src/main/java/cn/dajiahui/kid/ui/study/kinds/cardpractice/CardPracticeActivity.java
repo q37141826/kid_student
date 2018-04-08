@@ -479,22 +479,6 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                                 Logger.d("jsonResult:" + jsonResult);
 
                                 switch (resultCode) {
-//                                    case 3:
-//                                        try {
-//                                            JSONObject var1 = new JSONObject(jsonResult.getJsonText());
-//                                            if (var1.has("sound_intensity")) {
-//                                                Logger.d("sound_intensity:"  );
-//                                                mHandler.removeMessages(DELAYED_CHIVOX);
-//                                                counter = 0;
-//                                                dismissfxDialog();
-//
-//                                            }
-//
-//                                        } catch (Exception var2) {
-//                                            var2.printStackTrace();
-//                                        }
-//                                        break;
-
                                     case 5:
                                         try {
                                             JSONObject var1 = new JSONObject(jsonResult.getJsonText());
@@ -525,7 +509,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                                         final String overall = chivoxEvaluateResult.getOverall();
 
                                         mScore.setVisibility(View.VISIBLE);
-                                        Logger.d("------------打分：" + overall);
+//                                        Logger.d("------------打分：" + overall);
 
                                         float cX = mScore.getWidth() / 2.0f;
                                         float cY = mScore.getHeight() / 2.0f;
@@ -572,10 +556,6 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                     }
 
                 });
-        /* 一秒钟查一下是否收到sound_intensity，如果没有需要重新开始录音 */
-//        mHandler.sendEmptyMessageDelayed(DELAYED_CHIVOX, 1000);
-//        counter++;
-//        showfxDialog("请稍后...");
     }
 
     /**

@@ -82,7 +82,7 @@ public class LineFragment extends BaseHomeworkFragment implements
     private List<ImageView> mMaskImageviewR = new ArrayList<>();//遮罩view大集合
 
 
-    private Boolean mOnclickAnswer = false;//false可以点击正确答案
+//    private Boolean mOnclickAnswer = false;//false可以点击正确答案
     private Map mMineAnswerMap;//我的答案
     private Map mStandardMap;//参考答案
 
@@ -158,6 +158,9 @@ public class LineFragment extends BaseHomeworkFragment implements
                 for (int i = 0; i < rightViews.size(); i++) {
                     ponitViewXY.put((i + 1 + leftViews.size()), new Point(pRightX, pRightY, "" + ((i + 1) + leftViews.size())));
                     pRightY = pRightY += screenWidth / 4;//左边所有点的y坐标
+
+
+                    Logger.d("作业ponitViewXY:"+ponitViewXY);
                     if (ponitViewXY.size() == (leftViews.size() * 2)) {
                         /*首先判断是否作答*/
                         switch (inbasebean.getIs_complete()) {
@@ -174,8 +177,8 @@ public class LineFragment extends BaseHomeworkFragment implements
 
                                 getAnswer();
                                 mLinroot.setVisibility(View.VISIBLE);
-                                mRight.setText("我的答案");
-                                mLeft.setText("正确答案");
+                                mLeft.setText("我的答案");
+                                mRight.setText("正确答案");
                                 showRightAnswer();
 
 
@@ -425,16 +428,17 @@ public class LineFragment extends BaseHomeworkFragment implements
                 playMp3(media);
                 break;
             case R.id.mLeft:
-                if (!mOnclickAnswer) {
-                    /*显示正确答案*/
-                    showRightAnswer();
-                }
-                break;
-            case R.id.mRight:
-                if (mOnclickAnswer) {
+//                if (!mOnclickAnswer) {
                     /*显示我的答案*/
                     showMineAnswer();
-                }
+
+//                }
+                break;
+            case R.id.mRight:
+//                if (mOnclickAnswer) {
+                    /*显示正确答案*/
+                    showRightAnswer();
+//                }
                 break;
 
             default:
@@ -487,9 +491,9 @@ public class LineFragment extends BaseHomeworkFragment implements
     /*我的答案*/
     public void showMineAnswer() {
         if (inbasebean != null) {
-            mLeft.setTextColor(getResources().getColor(R.color.gray_9f938f));
-            mRight.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
-            mOnclickAnswer = !mOnclickAnswer;
+            mRight.setTextColor(getResources().getColor(R.color.gray_9f938f));
+            mLeft.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
+//            mOnclickAnswer = !mOnclickAnswer;
 
             /*便利参考答案*/
             inbasebean.getDrawPathList().clear();
@@ -620,9 +624,9 @@ public class LineFragment extends BaseHomeworkFragment implements
     /*显示正确答案*/
 
     private void showRightAnswer() {
-        mOnclickAnswer = !mOnclickAnswer;
-        mRight.setTextColor(getResources().getColor(R.color.gray_9f938f));
-        mLeft.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
+//        mOnclickAnswer = !mOnclickAnswer;
+        mLeft.setTextColor(getResources().getColor(R.color.gray_9f938f));
+        mRight.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
         inbasebean.getDrawPathList().clear();
         /*划线父布局清空view*/
         draw_root.removeAllViews();
