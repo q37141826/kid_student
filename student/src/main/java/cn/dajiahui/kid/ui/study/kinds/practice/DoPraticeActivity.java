@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -461,6 +462,8 @@ public class DoPraticeActivity extends FxActivity
 
         if (Lqm.getExinitLineMyanswerMap().size() == ((LineQuestionModle) mDatalist.get(praticeCurrentPosition)).getOptions().getRight().size()) {
             changeBtnBgYellow();
+        } else {
+            changeBtnBgGray();
         }
     }
 
@@ -535,12 +538,12 @@ public class DoPraticeActivity extends FxActivity
 
     /*练习设置check按钮为黄色*/
     public void changeBtnBgYellow() {
-        btncheck.setBackgroundResource(R.color.yellow_FEBF12);
+        btncheck.setBackgroundResource(R.drawable.pratice_btn_round_bgyellow);
     }
 
     /*练习设置check按钮为灰*/
     public void changeBtnBgGray() {
-        btncheck.setBackgroundResource(R.color.gray_DBDBDB);
+        btncheck.setBackgroundResource(R.drawable.pratice_btn_round_bggray);
     }
 
 

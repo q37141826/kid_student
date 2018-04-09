@@ -38,7 +38,7 @@
             android:layout_marginTop="3dp"
             android:background="@drawable/right_answer_bg"
             android:gravity="center"
-            android:textColor="#f0f0"
+            android:textColor="@color/green_pratice"
             android:textSize="15sp"
             android:visibility="invisible"/>
     </LinearLayout>

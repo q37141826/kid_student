@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 红色点击 效果 -->
+
+    <item android:drawable="@drawable/round_bggray_10" android:state_pressed="true">
+
+    </item>
+    <!-- pressed -->
+    <item android:drawable="@drawable/round_bggray_10" android:state_focused="true">
+
+    </item>
+    <!-- focused -->
+    <item android:drawable="@drawable/round_bggray_10">
+
+    </item>
+    <!-- default -->
+
+    <item
+        android:drawable="@drawable/pratice_btn_round_bggray"
+        android:state_checked="true"
+        android:state_enabled="false">
+    </item>
+</selector>

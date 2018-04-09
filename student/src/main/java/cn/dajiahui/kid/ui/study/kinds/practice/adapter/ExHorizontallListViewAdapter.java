@@ -146,7 +146,7 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
                     /*字母显示绿色 框显示绿色*/
                     if (integerStringMap.get(position).getShowItemRightColor() == 0) {
                         holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_green);
-                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.green));
+                        holderView.editext.setTextColor(mContext.getResources().getColor(R.color.green_pratice));
                     } else {
                         holderView.editext.setBackgroundResource(R.drawable.select_completion_editext_bg_red);
                         /*显示正确答案*/

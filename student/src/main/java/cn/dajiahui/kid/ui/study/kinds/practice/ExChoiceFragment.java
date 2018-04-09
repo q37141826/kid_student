@@ -165,7 +165,7 @@ public class ExChoiceFragment extends ExBaseHomeworkFragment implements CheckHom
         if (questionModle != null) {
             /*活动通知碎片后，改变当前模型的值*/
             inbasebean = (ChoiceQuestionModle) questionModle;
-            Logger.d(" inbasebean.getIs_right():" + inbasebean.getIs_right());
+//            Logger.d(" inbasebean.getIs_right():" + inbasebean.getIs_right());
 
             /*判断正误，改变UI*/
            /*刷新翻页回来后 上次答题情况*/

@@ -99,6 +99,7 @@ public class QuestionModle implements Serializable {
     public void setExinitLineMyanswerMap(Map<Integer, Integer> exinitLineMyanswerMap) {
         this.exinitLineMyanswerMap = exinitLineMyanswerMap;
     }
+
     public LinkedHashMap<Integer, LinkedHashMap<Integer, CompletionQuestionadapterItemModle>> getmCompletionAllMap() {
         return mCompletionAllMap;
     }

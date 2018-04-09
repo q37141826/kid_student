@@ -179,7 +179,7 @@ public class LineFragment extends BaseHomeworkFragment implements
                                 mLinroot.setVisibility(View.VISIBLE);
                                 mLeft.setText("我的答案");
                                 mRight.setText("正确答案");
-                                showRightAnswer();
+                                showMineAnswer();
 
 
                                 break;
@@ -397,12 +397,12 @@ public class LineFragment extends BaseHomeworkFragment implements
     public void submitHomework(Object questionModle) {
         if (questionModle != null) {
             inbasebean = (LineQuestionModle) questionModle;
-
             if (currentSelectedView != null) {
                 currentSelectedView.selected(true);
             }
             /*作业模式没有答过题*/
-            if (inbasebean.getIs_answered().equals("0")) {
+            if (!inbasebean.getIs_complete().equals("1")) {
+                draw_root.removeAllViews();
                 for (int i = 0; i < inbasebean.getDrawPathList().size(); i++) {
                     DrawPath drawPath = inbasebean.getDrawPathList().get(i);
                     drawPath.setPathColor(getResources().getColor(R.color.btn_green_noraml));
@@ -428,17 +428,12 @@ public class LineFragment extends BaseHomeworkFragment implements
                 playMp3(media);
                 break;
             case R.id.mLeft:
-//                if (!mOnclickAnswer) {
                     /*显示我的答案*/
                     showMineAnswer();
-
-//                }
                 break;
             case R.id.mRight:
-//                if (mOnclickAnswer) {
                     /*显示正确答案*/
                     showRightAnswer();
-//                }
                 break;
 
             default:

@@ -41,7 +41,7 @@ public class ExFixedImagview extends RelativeLayout {
 
 
     /*未check*/
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "ResourceType"})
     public ExFixedImagview(Context context, int position, SortQuestionModle inbasebean) {
         super(context);
         this.context = context;
@@ -51,7 +51,7 @@ public class ExFixedImagview extends RelativeLayout {
         this.setBackgroundResource(R.drawable.sortview_default_bg);
         this.setPadding(SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin);
         params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-
+        this.setBackgroundResource( R.color.gray_f4f4f4);
         /*添加视图*/
         addImageView();
     }
@@ -102,7 +102,7 @@ public class ExFixedImagview extends RelativeLayout {
         textview.setText(textComtent);
         textview.setLayoutParams(params);
         params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
-        textview.setTextColor(context.getResources().getColor(R.color.gray_9c9c9c));
+        textview.setTextColor(context.getResources().getColor(R.color.black));
         this.addView(textview);
     }
 

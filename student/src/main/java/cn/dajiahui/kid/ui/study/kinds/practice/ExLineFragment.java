@@ -86,7 +86,6 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
 
     private Map<Integer, Integer> mMineAnswerMap = new HashMap<>();//我的答案集合（val对应）
     private Map mStandardMap;//参考答案
-//    private Boolean mOnclickAnswer = false;//false可以点击正确答案
 
     private List<ImageView> mMaskImageviewL = new ArrayList<>();//遮罩view大集合
     private List<ImageView> mMaskImageviewR = new ArrayList<>();//遮罩view大集合
@@ -237,14 +236,17 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
 
     /*删除线练习模块*/
     private void removeLineHomework(ExLineImagePointView firstView, ExLineImagePointView secondView) {
+
         /* 查找firstView */
         for (int i = 0; i < drawPathList.size(); i++) {
+
             DrawPath drawPath = drawPathList.get(i);
             if (firstView.getDirection() == Dir.left) {
                 if (drawPath.getLeftPoint().getY() == firstView.getPoint().getY()) {
                     draw_root.removeViewAt(i);
                     // 当前这点是有线的，要删除
                     drawPathList.remove(i);
+                    mMineAnswerMap.clear();
                     break;
                 }
             } else {
@@ -253,12 +255,16 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
                     draw_root.removeViewAt(i);
                     // 当前这点是有线的，要删除
                     drawPathList.remove(i);
+                    mMineAnswerMap.clear();
                     break;
                 }
             }
+
+
         }
         /* 查找secondView */
         for (int i = 0; i < drawPathList.size(); i++) {
+
             DrawPath drawPath = drawPathList.get(i);
             if (secondView.getDirection() == Dir.left) {
                 if (drawPath.getLeftPoint().getY() == secondView.getPoint().getY()) {
@@ -267,7 +273,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
 
                     // 当前这点是有线的，要删除
                     drawPathList.remove(i);
-
+                    mMineAnswerMap.clear();
                     break;
                 }
             } else {
@@ -277,7 +283,7 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
 
                     // 当前这点是有线的，要删除
                     drawPathList.remove(i);
-
+                    mMineAnswerMap.clear();
                     break;
                 }
             }
@@ -430,7 +436,6 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
         if (inbasebean != null) {
             mRight.setTextColor(getResources().getColor(R.color.gray_9f938f));
             mLeft.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
-//            mOnclickAnswer = !mOnclickAnswer;
 
             /*便利参考答案*/
             inbasebean.getDrawPathList().clear();
@@ -560,7 +565,6 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
 
     /*正确答案*/
     private void showRightAnswer() {
-//        mOnclickAnswer = !mOnclickAnswer;
         mLeft.setTextColor(getResources().getColor(R.color.gray_9f938f));
         mRight.setTextColor(getResources().getColor(R.color.yellow_FEBF12));
         inbasebean.getDrawPathList().clear();
