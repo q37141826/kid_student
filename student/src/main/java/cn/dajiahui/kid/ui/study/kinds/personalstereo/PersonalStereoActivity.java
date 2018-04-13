@@ -120,6 +120,7 @@ public class PersonalStereoActivity extends FxActivity {
         @Override
         public void onError(Request request, Exception e) {
             dismissfxDialog();
+            Logger.d("随身听失败：" + e.getMessage());
         }
 
         @Override

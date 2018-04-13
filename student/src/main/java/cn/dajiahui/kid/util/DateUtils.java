@@ -232,8 +232,8 @@ public final class DateUtils {
      * @param time
      * @return
      */
-    public static String times(String time) {
-        SimpleDateFormat sdr = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+    public static String timesY_M_D(String time) {
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd");
         @SuppressWarnings("unused")
         long lcc = Long.valueOf(time);
         int i = Integer.parseInt(time);

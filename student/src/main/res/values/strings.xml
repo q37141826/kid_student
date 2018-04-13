@@ -462,4 +462,16 @@
     <string name="tvSentRec1">Imagine you are looking for Jim, Her mother said he is not home, but you need to talk to hime right now.\n What would you say at the moment?\n 1.How many people are there?\n 2.Do you have a pen?\n 3. Can you call him? </string>
     <string name="tvSentRec2">Congratulations, Now let\'s go shopping! You are looking for size 8 running shoes.\n the Waitress said \"How can I help you sir?\"\n You woud reply:\n 1.I\'m looking for the map of China.\n 2.I\'m looking for some shoes.\n 3.You look nice, do you have a boyfriend? </string>
     <!-- 驰声测试用###################################################################  end-->
+
+    <string name="activation_code">暂无书籍，请输入激活码获取</string>
+    <string name="activation_code_overdue">激活码已过期</string>
+    <string name="activation_code_1">点读 配音 口语测评 习题</string>
+    <string name="activation_code_2">让学习更加有兴趣</string>
+    <string name="activation_code_hinttext">请输入激活码</string>
+    <string name="immediately_activation">立即激活</string>
+    <string name="please_input_activation_code">请输入激活码</string>
+    <string name="please_input_effectiveActivation_code">请输入有效激活码</string>
+
+
+
 </resources>

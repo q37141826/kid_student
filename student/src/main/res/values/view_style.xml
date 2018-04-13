@@ -81,4 +81,13 @@
         <item name="android:button">@drawable/mineworks_checkbox</item>
     </style>
 
+    <style name="activation_code_editText">
+        <item name="android:layout_marginLeft">45dp</item>
+        <item name="android:layout_marginRight">45dp</item>
+        <item name="android:layout_marginTop">81dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
 </resources>

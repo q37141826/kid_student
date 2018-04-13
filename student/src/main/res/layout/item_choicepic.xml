@@ -14,7 +14,7 @@
 
 
         <TextView
-            android:id="@+id/tv_choice_pic"
+            android:id="@+id/tv_choice_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true" />
@@ -23,7 +23,9 @@
             android:id="@+id/img_answer"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center" />
 
 
         <ImageView

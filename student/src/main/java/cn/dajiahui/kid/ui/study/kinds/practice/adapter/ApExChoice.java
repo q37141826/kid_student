@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.fxtx.framework.log.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +74,7 @@ public class ApExChoice extends BaseAdapter {
                 holder.tv_answer = (TextView) convertView.findViewById(R.id.tv_answer);
                 holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
                 holder.masked_root = (RelativeLayout) convertView.findViewById(R.id.masked_root);
+                holder.tv_choice_text = (TextView) convertView.findViewById(R.id.tv_choice_text);
 
 
             } else {//图片答案
@@ -83,6 +83,7 @@ public class ApExChoice extends BaseAdapter {
                 holder.img_answer = (ImageView) convertView.findViewById(R.id.img_answer);
                 holder.choice_root = (RelativeLayout) convertView.findViewById(R.id.choice_root);
                 holder.masked_root = (RelativeLayout) convertView.findViewById(R.id.masked_root);
+                holder.tv_choice_text = (TextView) convertView.findViewById(R.id.tv_choice_text);
 
             }
 
@@ -97,6 +98,7 @@ public class ApExChoice extends BaseAdapter {
                         .into(holder.img_answer);
 
             }
+            holder.tv_choice_text.setText(mPptions.get(position).getLabel());
             posttionMap.put(position, new ShowAnswer(position, holder.img_rightchoice));
             convertView.setTag(holder);
         } else {
@@ -119,14 +121,14 @@ public class ApExChoice extends BaseAdapter {
                 /*判断自己的答案与参考答案是否相同  相同 当前view 加绿色对号  不相同就红色×*/
                 if (inbasebean.getMy_answer().equals(inbasebean.getStandard_answer())) {
                     holder.img_rightchoice.setImageResource(R.drawable.answer_true);
-                    holder.masked_root.setBackgroundResource(R.drawable.choice_mask_bg_green_yellow_frame);
+                    holder.masked_root.setBackgroundResource(R.drawable.choice_mask_bg_green_frame_green);
 
                 } else {
 
                     holder.img_rightchoice.setImageResource(R.drawable.answer_false);
                     /*找出正确答案的item   把正确答案的item画个绿色对勾*/
 
-                    holder.masked_root.setBackgroundResource(R.drawable.choice_mask_bg_red_frame);
+                    holder.masked_root.setBackgroundResource(R.drawable.choice_mask_bg_red_frame_red);
                 }
             } else {
 
@@ -134,7 +136,7 @@ public class ApExChoice extends BaseAdapter {
                 /*获取当前条目的答案*/
                 if (mPptions.get(position).getVal().equals(inbasebean.getStandard_answer())) {
                     holder.img_rightchoice.setImageResource(R.drawable.answer_true);
-                    holder.masked_root.setBackgroundResource(R.drawable.choice_mask_bg_green_yellow_frame);
+                    holder.masked_root.setBackgroundResource(R.drawable.choice_mask_bg_green_frame_green);
                 }
             }
         }
@@ -171,7 +173,7 @@ public class ApExChoice extends BaseAdapter {
 
     class ViewHolder {
         public ImageView img_answer;
-        public TextView tv_answer;
+        public TextView tv_answer, tv_choice_text;
         public ImageView img_rightchoice;
         public RelativeLayout choice_root, masked_root;
 

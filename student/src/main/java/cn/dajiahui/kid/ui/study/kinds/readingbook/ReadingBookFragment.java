@@ -77,7 +77,7 @@ public class ReadingBookFragment extends FxFragment implements
                 int currentPosition = mediaPlayer.getCurrentPosition();
                 Logger.d("点读本实时音频：" + currentPosition);
                 /*实时在endtime区间内 停止音频播放*/
-                if (((endtime - 500) < (currentPosition)) && ((currentPosition) < (endtime + 500))) {
+                if (((endtime - 100) < (currentPosition)) && ((currentPosition) < (endtime + 200))) {
                     /*停止音频播放*/
                     mediaPlayer.stop();
                     mediaPlayer.reset();

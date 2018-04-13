@@ -59,10 +59,10 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     @SuppressLint("ResourceType")
     public void selected(boolean flag) {
         if (flag) {
-//            mContentView.setBackgroundColor(getResources().getColor(R.color.red));//设置选中状态背景色
+            mContentView.setBackgroundResource(R.color.yellow_FEBF12);//设置选中状态背景色
         } else {
 
-//            mContentView.setBackgroundColor(getResources().getColor(R.color.transparent));//设置选中状态背景色//
+            mContentView.setBackgroundResource(R.color.transparent);//设置非选中状态背景色//
         }
     }
 

@@ -469,6 +469,16 @@ public class RequestUtill {
 
     }
 
+    /*激活码*/
+    public void httpImmediatelyActivation(Context context, ResultCallback callback,String activationCode) {
+        IdentityHashMap params = new IdentityHashMap<>();
+        publicParameters(params, context);
+        params.put("token", UserController.getInstance().getUser().getToken());
+        params.put("code",activationCode);
+
+        getHttpBuilder(context, "student/book/activate").params(params).post(callback);
+    }
+
     /*自学首页*/
     public void httpStudyHomePage(Context context, ResultCallback callback) {
         IdentityHashMap params = new IdentityHashMap<>();
@@ -815,7 +825,7 @@ public class RequestUtill {
         params.put("timeflag", getTimeStamp());
         params.put("signature", cn.dajiahui.kid.util.MD5.getMD5(getTimeStamp() + Constant.signKey));
 
-        Logger.d("params:" + params);
+//        Logger.d("params:" + params);
     }
 
     /*获取时间戳*/

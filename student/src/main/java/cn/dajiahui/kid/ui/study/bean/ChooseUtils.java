@@ -18,6 +18,9 @@ public class ChooseUtils extends BeanObj {
     private String name;
     private String org_id;
     private String series;
+    private String authStatus;//激活码状态 authStatus   0:未激活, 1:已经激活  2:已经过期
+    private String endtime;//截止时间
+
 
     public String getBook_type() {
         return book_type;
@@ -75,6 +78,23 @@ public class ChooseUtils extends BeanObj {
         this.series = series;
     }
 
+    public String getAuthStatus() {
+        return authStatus;
+    }
+
+    public void setAuthStatus(String authStatus) {
+        this.authStatus = authStatus;
+    }
+
+    public String getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
+    }
+
+
     @Override
     public String toString() {
         return "ChooseUtils{" +
@@ -85,6 +105,8 @@ public class ChooseUtils extends BeanObj {
                 ", name='" + name + '\'' +
                 ", org_id='" + org_id + '\'' +
                 ", series='" + series + '\'' +
+                ", authStatus='" + authStatus + '\'' +
+                ", endtime='" + endtime + '\'' +
                 '}';
     }
 }

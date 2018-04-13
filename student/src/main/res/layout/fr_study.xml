@@ -1,113 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tab_fragment"
-    android:layout_width="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_F5F5F5"
-    android:focusable="true"
-    android:orientation="vertical">
+    android:background="@color/gray_F5F5F5">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="90dp"
-        android:background="@drawable/study_bg"
-        android:gravity="center_vertical"
+        android:id="@+id/line_activation_code_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_F5F5F5"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/img_activation_code"
+            android:layout_width="81dp"
+            android:layout_height="108dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="57dp"
+            android:background="@drawable/shape_frame_black"
+            android:padding="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/activation_code" />
+
+        <TextView
+            android:id="@+id/tv_activation_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_activation_code"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/activation_code"
+            android:textColor="@color/gray_333333"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_activation_code"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/activation_code_1"
+            android:textColor="@color/gray_bbbbbb"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/activation_code_2"
+            android:textColor="@color/gray_bbbbbb"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/activation_code_input"
+            style="@style/activation_code_editText"
+            android:layout_below="@+id/tv2"
+            android:layout_centerHorizontal="true"
+            android:background="@null"
+            android:drawableBottom="@drawable/editext_bottom_line"
+            android:drawablePadding="5dp"
+            android:hint="@string/activation_code_hinttext"
+            android:maxLength="8"
+
+            android:padding="4dp"
+            android:textColorHint="@color/gray_bbbbbb" />
+
+
+        <Button
+            android:id="@+id/btn_immediately_activation"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/activation_code_input"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginTop="30dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/round_bgyellow_10"
+            android:text="@string/immediately_activation"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/line_studyroot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_F5F5F5"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:visibility="gone">
 
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="90dp"
+            android:background="@drawable/study_bg"
+            android:gravity="center_vertical"
+            android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/img_supplementary"
-                android:layout_width="56dp"
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_supplementary"
+                    android:layout_width="56dp"
+                    android:layout_height="74dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/shape_frame_black"
+                    android:padding="1dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/study_default" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/img_supplementary"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/tv_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="111"
+                        android:textColor="@color/gray_333333"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_unit"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/img_supplementary"
+                        android:layout_weight="1"
+                        android:text="222"
+                        android:textColor="@color/gray_333333"
+                        android:textSize="13sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_overdue_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_title"
+                        android:layout_toRightOf="@+id/img_supplementary"
+                        android:layout_weight="1"
+                        android:text="333"
+                        android:textColor="@color/gray_333333"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/tv_choiceMaterial"
+                android:layout_width="50dp"
                 android:layout_height="74dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/shape_frame_black"
-                android:padding="1dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/study_default"/>
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_unit"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/img_supplementary"
-                android:textColor="@color/gray_333333"
-                android:textSize="13sp"/>
-
-            <TextView
-                android:id="@+id/tv_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@+id/img_supplementary"
-
-                android:textColor="@color/gray_333333"
-                android:textSize="15sp"
-                />
-<!--android:textStyle="bold"-->
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/tv_choiceMaterial"
-            android:layout_width="50dp"
-            android:layout_height="74dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:drawableLeft="@drawable/choice_material"
+                android:layout_centerVertical="true">
 
-                android:textSize="14sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/choice_material"
+
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+
         </RelativeLayout>
 
-
-    </RelativeLayout>
-
-    <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@color/gray_F5F5F5"
-        app:isLoadMore="false"
-        app:overlay="false"
-        app:wave_color="@color/app_bg_a"
-        app:wave_show="false">
-
-        <ListView
-            android:id="@+id/listview"
+        <com.fxtx.framework.widgets.refresh.MaterialRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@null"
-            android:dividerHeight="10dp"
-            android:fadeScrollbars="false"
-            android:footerDividersEnabled="true"
-            android:headerDividersEnabled="true"
-            android:overScrollMode="never"
-            android:scrollbars="none"/>
+            android:layout_weight="1"
+            android:background="@color/gray_F5F5F5"
+            app:isLoadMore="false"
+            app:overlay="false"
+            app:wave_color="@color/app_bg_a"
+            app:wave_show="false">
 
-        <TextView style="@style/text_null"/>
+            <ListView
+                android:id="@+id/listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:dividerHeight="10dp"
+                android:fadeScrollbars="false"
+                android:footerDividersEnabled="true"
+                android:headerDividersEnabled="true"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
 
-    </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
+            <TextView style="@style/text_null" />
 
-</LinearLayout>
+        </com.fxtx.framework.widgets.refresh.MaterialRefreshLayout>
+    </LinearLayout>
+
+</RelativeLayout>
 
 

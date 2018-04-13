@@ -232,10 +232,13 @@ public class AnswerCardActivity extends FxActivity {
         @Override
         public void onError(Request request, Exception e) {
             dismissfxDialog();
+            Logger.d("完全提交答题卡失败！");
         }
 
         @Override
         public void onResponse(String response) {
+
+            Logger.d("完全提交答题卡成功！");
 
             dismissfxDialog();
             HeadJson json = new HeadJson(response);
