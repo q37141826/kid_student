@@ -155,7 +155,6 @@
                         android:layout_below="@+id/tv_title"
                         android:layout_toRightOf="@+id/img_supplementary"
                         android:layout_weight="1"
-                        android:text="333"
                         android:textColor="@color/gray_333333"
                         android:textSize="13sp" />
                 </LinearLayout>

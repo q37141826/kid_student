@@ -185,6 +185,8 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
             HeadJson json = new HeadJson(response);
             if (json.getstatus() == 0) {
 
+                studyHttp();
+
                 switch (chooseUtils.getAuthStatus()) {
                     /*未激活 */
                     case "0":
@@ -195,6 +197,10 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
                         break;
                     /*已过期*/
                     case "2":
+                        mLineStudyRoot.setVisibility(View.VISIBLE);
+                        break;
+                    /*已停用*/
+                    case "3":
                         mLineStudyRoot.setVisibility(View.VISIBLE);
                         break;
                     default:
@@ -242,6 +248,12 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
                         case "2":/*已过期*/
                             GlideUtil.showNoneImage(getActivity(), chooseUtils.getLogo(), mImgActivationCode, R.drawable.study_default);
                             mTvActivationCode.setText(R.string.activation_code_overdue);
+                            mLineActivationCodeRoot.setVisibility(View.VISIBLE);
+                            break;
+
+                        case "3":
+                            GlideUtil.showNoneImage(getActivity(), chooseUtils.getLogo(), mImgActivationCode, R.drawable.study_default);
+                            mTvActivationCode.setText(R.string.activation_code_disable);
                             mLineActivationCodeRoot.setVisibility(View.VISIBLE);
                             break;
 

@@ -61,12 +61,12 @@ import cn.dajiahui.kid.util.MD5;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /*
-*
-* 制作课本剧
-* 添加录音
-* 把混音只做到无声视频 合成视频
-*
-* */
+ *
+ * 制作课本剧
+ * 添加录音
+ * 把混音只做到无声视频 合成视频
+ *
+ * */
 public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements ViewPager.OnPageChangeListener {
 
     private BeTextBookDramaPageData bookDrama;
@@ -103,7 +103,8 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
             switch (msg.what) {
                 case 0:
                     int currentPosition = mVideoView.getCurrentPosition();
-                       /*实时在endtime区间内 停止音频播放*/
+                    Logger.d("实时获取课本剧片段：" + currentPosition);
+                    /*实时在endtime区间内 停止音频播放*/
                     if (((msg.arg1 - 100) < (currentPosition)) && ((currentPosition) < (msg.arg1 + 500))) {
                         isRecorded = true;
                         imgrecording.setImageResource(R.drawable.textbook_recording_start);
@@ -121,7 +122,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                     break;
 
                 case 2:
-                   /*判断是否已经全部配音*/
+                    /*判断是否已经全部配音*/
                     if (audiosList.size() == mDataList.size()) {
                         submit.setVisibility(View.VISIBLE);
                         showSubmitTimer.cancel();
@@ -162,6 +163,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         }
     };
     private String mVideoName;//要播放视频的内容
+    private int mOnpauseCurrentPosition;//暂停时的时间点
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -177,7 +179,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         initialize();
         bookDrama = (BeTextBookDramaPageData) this.getIntent().getSerializableExtra("BeTextBookDramaPageData");
         mDataList = bookDrama.getItem();
-         /*文件名以MD5加密*/
+        /*文件名以MD5加密*/
         mVideoName = MD5.getMD5(bookDrama.getPage_url().substring(bookDrama.getPage_url().lastIndexOf("/"))) + ".mp4";
         playVideo(KidConfig.getInstance().getPathTextbookPlayMp4() + mVideoName);
 
@@ -185,7 +187,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         mViewpager.setAdapter(textBookDramCardAdapter);
         mViewpager.setNoScroll(false);
         mViewpager.setOnPageChangeListener(this);
-
+        mViewpager.setOffscreenPageLimit(mDataList.size());//设置fragment的缓存页数
         /*暂停视频播放计时*/
         startVideoPauseTimer();
         /*显示提交按钮*/
@@ -193,6 +195,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
 
 
     }
+
 
     private MediaPlayer mCurrentMp;
 
@@ -235,7 +238,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
 
     /*显示提交按钮的timer*/
     private void startShowSubmitTimer() {
-  /*显示提交按钮的计时器*/
+        /*显示提交按钮的计时器*/
         if (showSubmitTimer == null) {
             showSubmitTimer = new Timer();
 
@@ -349,6 +352,8 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
         if (timer != null) {
+            mOnpauseCurrentPosition = mVideoView.getCurrentPosition();
+            mVideoView.pause();
             timer.cancel();
             timer = null;
         }
@@ -362,6 +367,11 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
     @Override
     protected void onRestart() {
         super.onRestart();
+        if (mVideoView != null) {
+            mVideoView.seekTo(mOnpauseCurrentPosition);
+            mVideoView.start();
+        }
+        startVideoPauseTimer();
         dismissfxDialog();
     }
 
@@ -383,27 +393,28 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
 
     @Override
     public void onPageSelected(int position) {
-  /*判断是否是数字*/
+        /*判断是否是数字*/
         if (isNumericzidai()) {
             isRecorded = true;
             imgrecording.setImageResource(R.drawable.textbook_recording_start);
             imgplayrecoding.setImageResource(R.drawable.play_recoding_start);
             mCurrentPosition = position;
-        /*打开视频声音*/
+            /*打开视频声音*/
             openVideoviewSound();
 
             if (StringUtil.isNumericzidai(mDataList.get(position).getTime_start())) {
                 int start_time = Integer.parseInt(mDataList.get(position).getTime_start());
 
-//            int end_time = Integer.parseInt(mDataList.get(position).getTime_end());
-               /*通知碎片中的进度条*/
+                int end_time = Integer.parseInt(mDataList.get(position).getTime_end());
+                Logger.d("mDataList.get(position).getTime_end():" + mDataList.get(position).getTime_end());
+                /*通知碎片中的进度条*/
                 mTextBookDramaCardMap.get(mCurrentPosition).refreshTime(((Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end()) - Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start())) / 1000));
                 mVideoView.seekTo(start_time);
                 mVideoView.start();
             }
-        /*关闭正在播放的录音片段*/
+            /*关闭正在播放的录音片段*/
             closeSoundRecording();
-         /*打开视频声音*/
+            /*打开视频声音*/
             openVideoviewSound();
 
             RefreshWidget refreshWidget = (RefreshWidget) mTextBookDramaCardMap.get(position);
@@ -440,29 +451,29 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                             isRecorded = false;
                             imgrecording.setImageResource(R.drawable.textbook_recording_pause);
                             imgplayrecoding.setImageResource(R.drawable.play_recoding_pause);
-                    /*判断是否是数字*/
+                            /*判断是否是数字*/
                             if (StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_start()) && StringUtil.isNumericzidai(mDataList.get(mCurrentPosition).getTime_end())) {
-                    /*点击录音同时视频要跳转到当前录音片段开始的时间点*/
+                                /*点击录音同时视频要跳转到当前录音片段开始的时间点*/
                                 mVideoView.seekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()));
-                    /*关闭视频声音*/
+                                /*关闭视频声音*/
                                 closeVideoviewSound();
-                    /*禁止滑动（录音时）*/
+                                /*禁止滑动（录音时）*/
                                 mViewpager.setNoScroll(true);
 
-                    /* 通知评分引擎此次为英文句子评测 */
+                                /* 通知评分引擎此次为英文句子评测 */
                                 coretype = CoreType.en_sent_score;
-                    /*参数是评分的语句*/
+                                /*参数是评分的语句*/
                                 recordStart(mDataList.get(mCurrentPosition).getEnglish());
                                 isRecording = true;
-                    /*播放视频*/
+                                /*播放视频*/
                                 mVideoView.start();
-                    /*获取当前片段录音的长度*/
+                                /*获取当前片段录音的长度*/
                                 mRecordLength = ((Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end()) - Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start())) / 1000);
-                   /*通知碎片中的进度条*/
+                                /*通知碎片中的进度条*/
                                 mTextBookDramaCardMap.get(mCurrentPosition).refreshProgress(mRecordLength);
-                            /*更新录制时间*/
+                                /*更新录制时间*/
                                 mTextBookDramaCardMap.get(mCurrentPosition).refreshTime(mRecordLength);
-                    /*监听时间录音倒计时*/
+                                /*监听时间录音倒计时*/
                                 if (timerRecoding == null) {
                                     timerRecoding = new Timer();
                                     timerRecoding.schedule(new TimerTask() {
@@ -491,11 +502,11 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                             imgrecording.setImageResource(R.drawable.textbook_recording_pause);
                             imgplayrecoding.setImageResource(R.drawable.play_recoding_pause);
 
-                        /*点击录音要跳转到当前片段的开始时间*/
+                            /*点击录音要跳转到当前片段的开始时间*/
                             mVideoView.seekTo(Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start()));
-                          /*播放视频*/
+                            /*播放视频*/
                             mVideoView.start();
-                        /*关闭视频的声音*/
+                            /*关闭视频的声音*/
                             closeVideoviewSound();
                             PlayMedia.getPlaying().StartMp3(mPlayRecordMap.get(mCurrentPosition));
 
@@ -510,7 +521,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                     cleanEnvironment();
                     /*混音的背景音*/
                     Map<String, Object> mRecordMap = new HashMap();
-                      /*文件名以MD5加密*/
+                    /*文件名以MD5加密*/
                     String mp3Name = MD5.getMD5(bookDrama.getMusic_oss_name().substring(bookDrama.getMusic_oss_name().lastIndexOf("/"))) + ".mp3";
 
                     File video = new File(KidConfig.getInstance().getPathTextbookPlayBackgroundAudio() + mp3Name);
@@ -712,7 +723,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                                         try {
                                             JSONObject var1 = new JSONObject(jsonResult.getJsonText());
                                             if (!var1.has("result")) {
-                                                 /*修改录音按钮的背景*/
+                                                /*修改录音按钮的背景*/
 //                                                mRecording.setImageResource(R.drawable.card_record_off);
                                                 /*隐藏打分*/
 //                                                mScore.setVisibility(View.INVISIBLE);
@@ -744,14 +755,14 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                                         timerRecoding = null;
                                         mViewpager.setNoScroll(false);//打开滑动
 
-                                           /*打开视频声音*/
+                                        /*打开视频声音*/
                                         openVideoviewSound();
                                         if (jsonResult != null)
                                             parseChivoxJsonResult(jsonResult);
-                                            /*获取评分分数*/
+                                        /*获取评分分数*/
                                         String overall = chivoxEvaluateResult.getOverall();
                                         Logger.d("打分-----" + overall);
-                                          /*通知碎片中的小星星*/
+                                        /*通知碎片中的小星星*/
                                         mTextBookDramaCardMap.get(mCurrentPosition).markScore(Integer.parseInt(overall));
                                         mScoreMap.put(mCurrentPosition, Integer.parseInt(overall));
 

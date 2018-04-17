@@ -424,6 +424,11 @@ public class MakeKraoOkeActivity extends FxActivity {
             /*改变录音按钮颜色*/
             startRecord.setBackgroundColor(getResources().getColor(R.color.yellow_FEBF12));
             startRecord.setText("开始录制");
+
+            /*重新录制后 默认显示第一句中英文*/
+            tv_chinese.setText(bePageDataWork.getItem().get(mCurrentPosition).getChinese());
+            tv_english.setText(bePageDataWork.getItem().get(mCurrentPosition).getEnglish());
+
         }
 
         /*制作成功后按返回键 与 左上角退出视频*/

@@ -16,10 +16,12 @@ public class JCVideoPlayerStudentFragment extends JCVideoPlayerStandard {
 
     public JCVideoPlayerStudentFragment(Context context) {
         super(context);
+        hideView();
     }
 
     public JCVideoPlayerStudentFragment(Context context, AttributeSet attrs) {
         super(context, attrs);
+        hideView();
     }
 
     @Override
