@@ -103,7 +103,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
             switch (msg.what) {
                 case 0:
                     int currentPosition = mVideoView.getCurrentPosition();
-                    Logger.d("实时获取课本剧片段：" + currentPosition);
+//                    Logger.d("实时获取课本剧片段：" + currentPosition);
                     /*实时在endtime区间内 停止音频播放*/
                     if (((msg.arg1 - 100) < (currentPosition)) && ((currentPosition) < (msg.arg1 + 500))) {
                         isRecorded = true;
@@ -405,8 +405,8 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
             if (StringUtil.isNumericzidai(mDataList.get(position).getTime_start())) {
                 int start_time = Integer.parseInt(mDataList.get(position).getTime_start());
 
-                int end_time = Integer.parseInt(mDataList.get(position).getTime_end());
-                Logger.d("mDataList.get(position).getTime_end():" + mDataList.get(position).getTime_end());
+//                int end_time = Integer.parseInt(mDataList.get(position).getTime_end());
+//                Logger.d("mDataList.get(position).getTime_end():" + mDataList.get(position).getTime_end());
                 /*通知碎片中的进度条*/
                 mTextBookDramaCardMap.get(mCurrentPosition).refreshTime(((Integer.parseInt(mDataList.get(mCurrentPosition).getTime_end()) - Integer.parseInt(mDataList.get(mCurrentPosition).getTime_start())) / 1000));
                 mVideoView.seekTo(start_time);

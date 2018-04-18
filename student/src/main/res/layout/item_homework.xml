@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -8,7 +7,8 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/homework_bg"/>
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/homework_bg" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
             android:layout_marginTop="5dp"
             android:text="02月"
             android:textSize="15sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <RatingBar
             android:id="@+id/rb_score"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
-            android:numStars="5"/>
+            android:numStars="5" />
 
         <TextView
             android:id="@+id/tv_classname"
@@ -40,7 +40,7 @@
             android:layout_below="@+id/tv_hometime"
             android:layout_marginTop="5dp"
             android:text="二年级7班"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_homecontent"
@@ -49,7 +49,7 @@
             android:layout_below="@+id/tv_classname"
             android:layout_marginTop="5dp"
             android:text="内容： unit 1"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_homename"
@@ -59,7 +59,7 @@
             android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:text="教材：move up 1"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/task_endtime"
@@ -72,7 +72,7 @@
             android:layout_marginTop="5dp"
             android:text="截止时间"
             android:textColor="@color/gray_333333"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_flag"
@@ -86,7 +86,7 @@
             android:padding="5dp"
             android:text="做作业"
             android:textColor="@color/white"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
     </RelativeLayout>
 
 

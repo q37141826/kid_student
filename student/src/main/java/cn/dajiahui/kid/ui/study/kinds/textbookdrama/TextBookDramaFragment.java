@@ -226,13 +226,13 @@ public class TextBookDramaFragment extends LazyLoadFragment {
         return score;
     }
 
-    @Override
+ /*   @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             //相当于Fragment的onResume
             if (TextBookSuccessActivity.CLOSE.equals("MakeTextBookDrmaSuccess")) {
-                /*直接退出Activity*/
+                *//*直接退出Activity*//*
                 getActivity().finishAffinity();
             }
 //            Logger.d(" KaraOkeFragment 相当于Fragment的onResume");
@@ -240,6 +240,6 @@ public class TextBookDramaFragment extends LazyLoadFragment {
 //            Logger.d("KaraOkeFragment  相当于Fragment的onPause");
             //相当于Fragment的onPause
         }
-    }
+    }*/
 
 }

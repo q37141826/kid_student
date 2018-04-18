@@ -261,7 +261,6 @@ public class FrStudy extends FxFragment implements ChoiceTeachingMaterialInfoAct
                             break;
 
                     }
-//                    mLineStudyRoot.setVisibility(View.VISIBLE);
                     GlideUtil.showNoneImage(getActivity(), chooseUtils.getLogo(), imgsupplementary, R.drawable.study_default);
                     mTvOverdueTime.setText("截止时间："+DateUtils.timesY_M_D(chooseUtils.getEndtime()));//;时间戳
                     tvtitle.setText(chooseUtils.getSeries());

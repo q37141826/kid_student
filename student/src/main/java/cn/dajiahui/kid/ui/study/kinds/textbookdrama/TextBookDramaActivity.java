@@ -31,9 +31,9 @@ import cn.dajiahui.kid.ui.study.view.NoScrollViewPager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /*
-* 课本剧
-*
-* */
+ * 课本剧
+ *
+ * */
 public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPageChangeListener {
 
 
@@ -96,7 +96,7 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
                     TextBookDramAdapter textBookDramAdapter = new TextBookDramAdapter(getSupportFragmentManager(), page_data);
                     mViewpager.setAdapter(textBookDramAdapter);
                     if (page_data.size() > 1) {
-                     /*设置小点点*/
+                        /*设置小点点*/
                         setTips();
                     }
 
@@ -215,4 +215,14 @@ public class TextBookDramaActivity extends FxActivity implements ViewPager.OnPag
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (TextBookSuccessActivity.CLOSE.equals("MakeTextBookDrmaSuccess")) {
+            Logger.d("结束TextBookDramaActivity");
+            /*直接退出Activity*/
+            TextBookSuccessActivity.CLOSE="";
+          finish();
+        }
+    }
 }

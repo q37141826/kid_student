@@ -121,7 +121,7 @@ public class FfmpegUtil {
 //        String cmd = "-i /storage/emulated/0/kid_student/SoundRecording/pd1.mp3 -itsoffset 00:00:04 -i /storage/emulated/0/kid_student/SoundRecording/pd2.mp3 -itsoffset 00:00:14 -i /storage/emulated/0/kid_student/SoundRecording/pd3.mp3 -filter_complex amix=inputs=3:duration=first:dropout_transition=4 -async 1 /storage/emulated/0/kid_student/13051152997/hunyin.mp3";  // 混合音频
 
 //        executeFFMpeg(cmd);
-        Logger.d("多个音频混音然后合成到视频中 cmd = " + cmd);
+//        Logger.d("多个音频混音然后合成到视频中 cmd = " + cmd);
 
         try {
             ffmpeg.execute(cmd.toString().split(" "), new ExecuteBinaryResponseHandler() {
@@ -221,13 +221,8 @@ public class FfmpegUtil {
                 public void onSuccess(String message) {
                     Logger.d("FFmpeg onSuccess ---- 音视频合成音视频合成 ");
 
-                    retriever.setDataSource(outputFile.getPath());
-                    String fileLength = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                    // *获取视频某一帧
-                    Bitmap frameAtTime = retriever.getFrameAtTime(Long.parseLong(fileLength) * 5, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-                    saveThumbnailToSDCard(frameAtTime, outputFile.getName().substring(0, outputFile.getName().lastIndexOf(".")));
-
-                    handler.sendEmptyMessage(MESSAGE_SYNTHETIC_VIDEO);
+                    /*majin fix 2018.4.18 修改获取视频缩略图方式*/
+                    obtainingThumbnails(outputFile.getPath(), KidConfig.getInstance().getPathMineWorksThumbnail() + outputFile.getName().substring(0, outputFile.getName().lastIndexOf(".")) + ".png");
 
                 }
 
@@ -241,89 +236,47 @@ public class FfmpegUtil {
         }
     }
 
-//
-//    /**
-//     * 音视频合成
-//     *
-//     * @param videoFile
-//     * @param audioFile
-//     * @param outputFile
-//     */
-//    public void audioVideoSyn(File videoFile, File audioFile, final File outputFile) {
-////        String cmd = "-i /sdcard/test/video001a.mp4 -i /sdcard/test/output.mp3 /sdcard/test/output.mp4";  // 插入音频
-//        StringBuilder cmd = new StringBuilder();
-//        cmd.append("-i");
-//        cmd.append(" ");
-//        cmd.append(videoFile.getPath());
-//        cmd.append(" ");
-//        cmd.append("-i");
-//        cmd.append(" ");
-//        cmd.append(audioFile.getPath());
-//        cmd.append(" ");
-//        cmd.append(outputFile.getPath());
-//        Logger.d("音视频合成cmd = " + cmd);
-//        try {
-//            ffmpeg.execute(cmd.toString().split(" "), new ExecuteBinaryResponseHandler() {
-//
-//                @Override
-//                public void onStart() {
-//                    Logger.d("FFmpeg onStart  ---- ");
-//                }
-//
-//                @Override
-//                public void onProgress(String message) {
-////                    Logger.d("FFmpeg onProgress ----   音视频合成");
-//                }
-//
-//                @Override
-//                public void onFailure(String message) {
-//                    Logger.d("FFmpeg onFailure ----  ");
-//                }
-//
-//                @Override
-//                public void onSuccess(String message) {
-//                    Logger.d("FFmpeg onSuccess ----  ");
-//
-//                    retriever.setDataSource(outputFile.getPath());
-//                    String fileLength = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-//                    // *获取视频某一帧
-//                    Bitmap frameAtTime = retriever.getFrameAtTime(Long.parseLong(fileLength) * 5, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-//                    String name = outputFile.getName();
-//                    Logger.d("outputFile.getName():" + outputFile.getName());
-//
-//                    saveThumbnailToSDCard(frameAtTime, outputFile.getName().substring(0,outputFile.getName().lastIndexOf(".")));
-//
-//                    handler.sendEmptyMessage(MESSAGE_SYNTHETIC_VIDEO);
-//
-//                }
-//
-//                @Override
-//                public void onFinish() {
-////                    Logger.d("FFmpeg onFinish ----音视频合成 ");
-//                }
-//            });
-//        } catch (FFmpegCommandAlreadyRunningException e) {
-////            Logger.d("FFmpeg exception  ----音视频合成 = " + e);
-//        }
-//    }
 
+    /*获取缩略图*/
+    private void obtainingThumbnails(String inputFileName, String outFileName) {
+//ffmpeg -y -ss 2 -t 5 -i inputFileName -vf "select=eq(pict_type\\,I)" -vframes 1 -f image2 -s 250x140 outuptFileName
 
-    // 分离视频  直接分离到课本剧的文件夹下
-    public void getNoSoundVideo(String VideoPath, String outPath) {
-        String cmd;
-        //-i input_file -vcodec copy -an output_file_video     //分离视频流 MlecConfig.getInstance().getPathSeparateVideoAudio() + "/out_video.mp4"
-        cmd = "-i " + VideoPath + " -vcodec copy -an " + outPath + "out_nosound_video.mp4";
-        separateVideo(cmd);
-
-    }
-
-    /*分离视频-获取无声视频*/
-    private void separateVideo(String str) {
-
-        String cmd[] = str.split(" ");
+        StringBuilder cmd = new StringBuilder();
+        cmd.append("-y");
+        cmd.append(" ");
+        cmd.append("-ss");
+        cmd.append(" ");
+        cmd.append("2");
+        cmd.append(" ");
+        cmd.append("-t");
+        cmd.append(" ");
+        cmd.append("5");
+        cmd.append(" ");
+        cmd.append("-i");
+        cmd.append(" ");
+        cmd.append(inputFileName);
+        cmd.append(" ");
+        cmd.append("-vf");
+        cmd.append(" ");
+        cmd.append("select=eq(pict_type\\,I)");
+        cmd.append(" ");
+        cmd.append("-vframes");
+        cmd.append(" ");
+        cmd.append("1");
+        cmd.append(" ");
+        cmd.append("-f");
+        cmd.append(" ");
+        cmd.append("image2");
+        cmd.append(" ");
+        cmd.append("-s");
+        cmd.append(" ");
+        cmd.append("250x140");
+        cmd.append(" ");
+        cmd.append(outFileName);
+//        Logger.d("获取缩略图：" + cmd);
         try {
             // to execute "ffmpeg -version" command you just need to pass "-version"
-            ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
+            ffmpeg.execute(cmd.toString().split(" "), new ExecuteBinaryResponseHandler() {
 
 
                 @Override
@@ -332,21 +285,18 @@ public class FfmpegUtil {
 
                 @Override
                 public void onProgress(String message) {
-                    Logger.d("分离视频");
+//                    Logger.d("获取缩略图");
                 }
 
                 @Override
                 public void onFailure(String message) {
-
+                    Logger.d("获取缩略图onFailure " + message);
                 }
 
                 @Override
                 public void onSuccess(String message) {
-                    Logger.d("分离视频成功");
-                    Message msg = Message.obtain();
-                    msg.what = 4;
-                    mHandler.sendMessage(msg);
-
+                    Logger.d("获取缩略图成功");
+                    handler.sendEmptyMessage(MESSAGE_SYNTHETIC_VIDEO);
                 }
 
                 @Override
@@ -397,31 +347,7 @@ public class FfmpegUtil {
         }
     }
 
-    /*保存缩略图到sd卡*/
-    private void saveThumbnailToSDCard(Bitmap mBitmap, String bitName) {
 
-        File f = new File(KidConfig.getInstance().getPathMineWorksThumbnail() + bitName + ".png");
-        FileOutputStream fOut = null;
-        try {
-            fOut = new FileOutputStream(f);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Bitmap zoom = zoom(mBitmap, 300, 200);
-        if (zoom != null) {
-            zoom.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-        }
-        try {
-            fOut.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            fOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 放大缩小图片
@@ -441,5 +367,21 @@ public class FfmpegUtil {
         Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, width, height,
                 matrix, true);
         return newbmp;
+    }
+
+
+    public static Bitmap getVideoBitmap(String path) {
+
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(path);
+            Bitmap frameAtTime = retriever.getFrameAtTime();
+            return frameAtTime;
+        } catch (Exception e) {
+            return null;
+        } finally {
+            retriever.release();
+        }
+
     }
 }
