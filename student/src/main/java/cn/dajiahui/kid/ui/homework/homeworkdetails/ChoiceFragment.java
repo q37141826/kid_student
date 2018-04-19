@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -59,7 +60,7 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         initialize();
         tv_choice.setText(inbasebean.getTitle());
         tv_schedule.setText(bundle.getString("currntQuestion"));
-       /*加载内容图片*/
+        /*加载内容图片*/
         Glide.with(getActivity()).load(inbasebean.getQuestion_stem()).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(img_conment);
 
@@ -83,24 +84,53 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         /*设置适配器*/
         mListview.setAdapter(apChoice);
         /*设置listview的高度*/
-        setHeight();
+//        setHeight();
+        setListViewHeightBasedOnChildren(mListview);
     }
 
-    /*设置高度*/
-    public void setHeight() {
-        int height = 0;
-        int count = apChoice.getCount();
-        for (int i = 0; i < count; i++) {
-            View temp = apChoice.getView(i, null, mListview);
-            temp.measure(0, 0);
-            height += temp.getMeasuredHeight() + 30;
+//    /*设置高度*/
+//    public void setHeight() {
+//        int height = 0;
+//        int count = apChoice.getCount();
+//        for (int i = 0; i < count; i++) {
+//            View temp = apChoice.getView(i, null, mListview);
+//            temp.measure(0, 200);
+//            height += temp.getMeasuredHeight() + 30;
+//        }
+//        ViewGroup.LayoutParams params = this.mListview.getLayoutParams();
+//        mListview.setDividerHeight(30);
+//        params.height = height;
+//        mListview.setLayoutParams(params);
+//    }
+
+    /**
+     * 解决ScrollView嵌套ListView只显示一条的问题
+     *
+     * @param listView
+     */
+    public void setListViewHeightBasedOnChildren(ListView listView) {
+        // 获取ListView对应的Adapter
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
         }
-        ViewGroup.LayoutParams params = this.mListview.getLayoutParams();
-        mListview.setDividerHeight(30);
-        params.height = height;
-        mListview.setLayoutParams(params);
+        int totalHeight = 0;
+        for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
+            // listAdapter.getCount()返回数据项的数目
+            View listItem = listAdapter.getView(i, null, listView);
+            // 计算子项View 的宽高
+            listItem.measure(0, 0);
+            // 统计所有子项的总高度
+            totalHeight += listItem.getMeasuredHeight() + (20 * (listAdapter.getCount() - 1));
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() *
+                (listAdapter.getCount()));
+        // listView.getDividerHeight()获取子项间分隔符占用的高度
+        // params.height最后得到整个ListView完整显示需要的高度
+        mListview.setDividerHeight(20);
+        listView.setLayoutParams(params);
     }
-
 
     /*初始化*/
     private void initialize() {

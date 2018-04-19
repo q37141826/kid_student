@@ -3,9 +3,12 @@ package cn.dajiahui.kid.ui.homework.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.JudjeQuestionModle;
 import cn.dajiahui.kid.ui.homework.homeworkdetails.JudgeFragment;
+import cn.dajiahui.kid.ui.study.view.CompositionTextView;
 
 import static cn.dajiahui.kid.controller.Constant.JudgeAnswerView_margin;
 
@@ -137,10 +141,29 @@ public class JudgeAnswerView extends RelativeLayout implements View.OnClickListe
         ShowYellowShapFrame();
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        TextView textView = new TextView(context);
+        final CompositionTextView textView = new CompositionTextView(context);
         textView.setLayoutParams(params);
         textView.setTextColor(getResources().getColor(R.color.gray_333333));
         textView.setText(textComtent);
+
+        textView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                //使用完必须撤销监听，否则，会一直不停的不定时的测量，这比较耗性能
+                textView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                if (textView.isOverFlowed()) {
+                    // 文字超过一行
+                    textView.setGravity(Gravity.LEFT | Gravity.CENTER | Gravity.TOP);
+
+                } else {
+                    // 文字没有超过
+                    textView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
+                }
+
+            }
+
+        });
         return textView;
     }
 

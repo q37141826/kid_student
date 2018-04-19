@@ -19,10 +19,11 @@
 
         <TextView
             android:id="@+id/tv_answer"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@+id/tv_choice_text"
             android:gravity="center"
             android:padding="12dp"
             android:singleLine="false"

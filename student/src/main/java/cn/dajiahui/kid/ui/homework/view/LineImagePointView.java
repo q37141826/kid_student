@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,6 +26,7 @@ import cn.dajiahui.kid.ui.homework.bean.Dir;
 import cn.dajiahui.kid.ui.homework.bean.LineQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.Point;
 import cn.dajiahui.kid.ui.homework.myinterface.Sublineinfo;
+import cn.dajiahui.kid.ui.study.view.CompositionTextView;
 
 import static cn.dajiahui.kid.controller.Constant.pointViewDiameter;
 import static cn.dajiahui.kid.controller.Constant.pointViewDiameter_margin;
@@ -150,14 +152,14 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
 
             if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
                 mContentView = new RelativeLayout(context);
-                mParams = new RelativeLayout.LayoutParams(screenWidth/5, screenWidth/5);
+                mParams = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
                 imageViewR = addRImageView();
                 imageViewR.setLayoutParams(mParams);
                 mContentView.addView(imageViewR);
                 linRoot.addView(mContentView);
 
             } else {
-                mParams = new RelativeLayout.LayoutParams(screenWidth/5, screenWidth/5);
+                mParams = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
                 mContentView = new RelativeLayout(context);
                 textViewR = addRTextView();
                 mParams.addRule(CENTER_IN_PARENT);
@@ -189,9 +191,27 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
     /*添加左侧文字*/
     private TextView addLTextView() {
 
-        mParams = new RelativeLayout.LayoutParams(screenWidth/5, screenWidth/5);
+        mParams = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
         mParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        TextView textView = new TextView(context);
+        final CompositionTextView textView = new CompositionTextView(context);
+        textView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                //使用完必须撤销监听，否则，会一直不停的不定时的测量，这比较耗性能
+                textView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                if (textView.isOverFlowed()) {
+                    // 文字超过一行
+                    textView.setGravity(Gravity.LEFT | Gravity.CENTER | Gravity.TOP);
+
+                } else {
+                    // 文字没有超过
+                    textView.setGravity(Gravity.CENTER);
+                }
+
+            }
+
+        });
         textView.setText(inbasebean.getOptions().getLeft().get(cLeftposiion).getContent());
         textView.setLayoutParams(mParams);
         return textView;
@@ -212,9 +232,27 @@ public class LineImagePointView extends RelativeLayout implements View.OnClickLi
 
     /*添加右侧文字*/
     private TextView addRTextView() {
-        mParams = new RelativeLayout.LayoutParams(screenWidth/5, screenWidth/5);
+        mParams = new RelativeLayout.LayoutParams(screenWidth / 5, screenWidth / 5);
         mParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        TextView textView = new TextView(context);
+        final CompositionTextView textView = new CompositionTextView(context);
+        textView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                //使用完必须撤销监听，否则，会一直不停的不定时的测量，这比较耗性能
+                textView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                if (textView.isOverFlowed()) {
+                    // 文字超过一行
+                    textView.setGravity(Gravity.LEFT | Gravity.CENTER | Gravity.TOP);
+
+                } else {
+                    // 文字没有超过
+                    textView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
+                }
+
+            }
+
+        });
         textView.setText(inbasebean.getOptions().getRight().get(cLeftposiion).getContent());
         textView.setLayoutParams(mParams);
         return textView;
