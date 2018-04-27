@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/gray_F5F5F5"
-        android:padding="5dp">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tv_translate"
@@ -31,6 +31,7 @@
             android:layout_centerHorizontal="true"
             android:ellipsize="end"
             android:maxLines="2"
+            android:tag="true"
             android:textColor="@color/gray_333333"
             android:textSize="15sp" />
     </RelativeLayout>
