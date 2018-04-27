@@ -1,14 +1,20 @@
 package cn.dajiahui.kid.ui.study.kinds.cardpractice;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.webkit.ValueCallback;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -32,7 +38,6 @@ import com.fxtx.framework.json.GsonUtil;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.log.ToastUtil;
-import com.fxtx.framework.widgets.dialog.FxDialog;
 import com.fxtx.framework.widgets.dialog.FxProgressDialog;
 import com.squareup.okhttp.Request;
 
@@ -40,7 +45,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -50,14 +58,18 @@ import cn.dajiahui.kid.http.DownloadFile;
 import cn.dajiahui.kid.http.OnDownload;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.http.bean.BeDownFile;
+import cn.dajiahui.kid.ui.homework.bean.ToAnswerCardJson;
 import cn.dajiahui.kid.ui.study.bean.BeChivoxEvaluateResult;
 import cn.dajiahui.kid.ui.study.bean.BeCradPratice;
 import cn.dajiahui.kid.ui.study.bean.BeCradPraticePageData;
+import cn.dajiahui.kid.ui.study.bean.BeRadarChrt;
 import cn.dajiahui.kid.ui.study.kinds.practice.view.SignOutDialog;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
 import cn.dajiahui.kid.ui.study.view.RotateAnimationTvSore;
 import cn.dajiahui.kid.util.KidConfig;
 import cn.dajiahui.kid.util.MD5;
+
+import static cn.dajiahui.kid.controller.Constant.CardPratice_ScoreUrl;
 
 /*
  * 单词卡
@@ -81,6 +93,9 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
     private File recordFile;//弛声录音地址
 
     private final int DELAYED_CHIVOX = 0;//弛声延迟
+    private WebView mWebView;
+    private List<BeRadarChrt> mRadarChartList = new ArrayList<>();
+    private ScoreDialog scoreDialog;
 
     @Override
 
@@ -216,6 +231,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
         tvname = getView(R.id.tv_name);
         tvnumber = getView(R.id.tv_number);
         btnnext = getView(R.id.btn_next);
+
         mPlayrecodingRoot = getView(R.id.playrecoding_root);
         mRecordingRoot = getView(R.id.img_recording_root);
         btnnext.setOnClickListener(onClick);
@@ -225,6 +241,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
         mPlayRecord = getView(R.id.img_playrecoding);
         mRecording = getView(R.id.img_recording);
         mScore = getView(R.id.tv_score);
+
         mPlayrecodingRoot.setOnClickListener(onClick);
         mRecordingRoot.setOnClickListener(onClick);
 
@@ -348,6 +365,11 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
 
                     break;
+
+                case R.id.close_dialog:
+
+
+                    break;
                 case R.id.playrecoding_root:
                     if (recordFile != null) {
                         PlayMedia.getPlaying().StartMp3(recordFile.getAbsolutePath());
@@ -359,7 +381,6 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                             mRecording.setImageResource(R.drawable.card_record_on);
                             /* 通知评分引擎此次为英文句子评测 */
                             coretype = CoreType.en_sent_score;
-//
                             recordingEvaluation();
                             isRecording = true;
                         }
@@ -472,6 +493,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
                         runOnUiThread(new Runnable() {
 
+
                             @Override
                             public void run() {
                                 //resultCode 1:错误 2:vad 3:sound 4:segment 5:evaluate
@@ -539,9 +561,23 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
                                             });
                                         }
+
+                                        /*打分点击事件*/
+                                        mScore.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showScoreDialog(overall);
+                                            }
+                                        });
+
+                                        showScoreDialog(overall);
+
+
                                         break;
                                 }
                             }
+
+
                         });
 
                     }
@@ -557,6 +593,183 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
                 });
     }
+
+    private void showScoreDialog(final String overall) {
+
+        /*弹框退出*/
+        scoreDialog = new ScoreDialog(CardPracticeActivity.this, R.layout.dialog_card_score) {
+
+
+            @Override
+            public void initView() {
+                /*关闭dialo*/
+                rootView.findViewById(R.id.close_dialog).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        dismiss();
+                    }
+                });
+
+                TextView mScore = (TextView) rootView.findViewById(R.id.tv_score);
+                mScore.setText(overall);
+
+                mWebView = (WebView) rootView.findViewById(R.id.webview);
+
+                mWebView.loadUrl(CardPratice_ScoreUrl);
+                mWebView.getSettings().setJavaScriptEnabled(true);//支持javaScript
+                mWebView.setWebViewClient(new WebViewClient() {
+                    //设置不用系统浏览器打开,直接显示在当前Webview
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+                        return true;
+                    }
+
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+
+                        super.onPageStarted(view, url, favicon);
+
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        String s = new GsonUtil().getJsonElement(AppendRadarChartJson()).toString();
+                        /*调取JS*/
+                        evaluateJavascript("clientInit(" + s + ")");
+                    }
+
+
+                });
+
+                /*设置文本*/
+                settingText(rootView);
+            }
+        };
+        scoreDialog.show();
+
+
+    }
+
+    /*拼接打分7个维度的json*/
+    private List<BeRadarChrt> AppendRadarChartJson() {
+        mRadarChartList.add(new BeRadarChrt("fluency", chivoxEvaluateResult.getFluency().getOverall()));//流利度
+        mRadarChartList.add(new BeRadarChrt("wordScore", chivoxEvaluateResult.getDetails().get(0).getScore()));//单词得分
+        mRadarChartList.add(new BeRadarChrt("toneScore", chivoxEvaluateResult.getRhythm().getTone()));//声调得分
+        mRadarChartList.add(new BeRadarChrt("rhythm", chivoxEvaluateResult.getRhythm().getOverall()));//韵律得分
+        mRadarChartList.add(new BeRadarChrt("integrity", chivoxEvaluateResult.getIntegrity()));//完整度
+        mRadarChartList.add(new BeRadarChrt("accuracy", chivoxEvaluateResult.getAccuracy()));//准确度
+        mRadarChartList.add(new BeRadarChrt("stressScore", chivoxEvaluateResult.getRhythm().getStress()));//重音得分
+        return mRadarChartList;
+    }
+
+
+    private void settingText(View rootView) {
+        TextView integrity = (TextView) rootView.findViewById(R.id.integrity);
+        int mIntegrity = Integer.parseInt(chivoxEvaluateResult.getIntegrity());
+        /*完整度*/
+        settingTextIntegrity(ContrastScore(mIntegrity), integrity);
+
+        TextView accuracy = (TextView) rootView.findViewById(R.id.accuracy);
+        int mAccuracy = Integer.parseInt(chivoxEvaluateResult.getAccuracy());
+        /*准确性*/
+        settingTextAccuracy(ContrastScore(mAccuracy), accuracy);
+
+        /*流利度*/
+        TextView overall = (TextView) rootView.findViewById(R.id.overall);
+        int mOverall = Integer.parseInt(chivoxEvaluateResult.getFluency().getOverall());  /*准确性*/
+        settingTextOverall(ContrastScore(mOverall), overall);
+
+
+    }
+
+    private int ContrastScore(int score) {
+        /*评分算法 20分为一颗星*/
+
+        if (0 <= score && score <= 54) {
+            return 4;
+        } else if (55 <= score && score <= 69) {
+            return 3;
+        } else if (70 <= score && score <= 85) {
+            return 2;
+        } else if (86 <= score && score <= 100) {
+            return 1;
+        }
+        return 0;
+    }
+
+
+    /*完整度*/
+    private void settingTextIntegrity(int condition, TextView integrity) {
+
+        switch (condition) {
+
+            case 1:
+                integrity.setText(R.string.integrity_excellent);
+                break;
+            case 2:
+                integrity.setText(R.string.integrity_good);
+                break;
+            case 3:
+                integrity.setText(R.string.integrity_commonly);
+                break;
+            case 4:
+                integrity.setText(R.string.integrity_difference);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /*准确度*/
+    private void settingTextAccuracy(int condition, TextView accuracy) {
+
+        switch (condition) {
+
+            case 1:
+                accuracy.setText(R.string.accuracy_excellent);
+                break;
+            case 2:
+                accuracy.setText(R.string.accuracy_good);
+                break;
+            case 3:
+                accuracy.setText(R.string.accuracy_commonly);
+                break;
+            case 4:
+                accuracy.setText(R.string.accuracy_difference);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /*流利度*/
+    private void settingTextOverall(int condition, TextView overall) {
+
+        switch (condition) {
+
+            case 1:
+                overall.setText(R.string.overall_excellent);
+                break;
+            case 2:
+                overall.setText(R.string.overall_good);
+                break;
+            case 3:
+                overall.setText(R.string.overall_commonly);
+                break;
+            case 4:
+                overall.setText(R.string.overall_difference);
+                break;
+
+            default:
+                break;
+        }
+    }
+
 
     /**
      * 解析评测结果
@@ -595,4 +808,21 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
         FileUtil.deleteAllFiles(new File(KidConfig.getInstance().getPathRecordingAudio()));
 
     }
+
+
+    /*渲染页面*/
+    @SuppressLint("NewApi")
+    private void evaluateJavascript(final String value) {
+        mWebView.evaluateJavascript(value, new ValueCallback<String>() {
+
+            @Override
+            public void onReceiveValue(String value) {
+
+                Logger.d("onReceiveValue " + value);
+                mRadarChartList.clear();
+            }
+        });
+    }
+
+
 }

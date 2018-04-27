@@ -11,4 +11,8 @@ import cn.dajiahui.kid.ui.study.kinds.practice.view.ExMoveImagview;
 public interface ExMoveLocation {
     /*可拖动视图的中心点x y*/
     public BeLocation submitCenterPoint(ExMoveImagview moveImagview, int position, float X, float Y);
+
+    public void RefreshDown();
+
+    public void RefreshUp();
 }

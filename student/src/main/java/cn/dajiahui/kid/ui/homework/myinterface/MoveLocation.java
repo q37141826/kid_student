@@ -10,5 +10,12 @@ import cn.dajiahui.kid.ui.homework.view.MoveImagview;
 
 public interface MoveLocation {
     /*可拖动视图的中心点x y*/
-    public BeLocation submitCenterPoint(MoveImagview moveImagview, int position,float X, float Y);
+    public BeLocation submitCenterPoint(MoveImagview moveImagview, int position, float X, float Y);
+
+
+    public void RefreshDown();
+
+    public void RefreshUp();
+
+
 }

@@ -409,7 +409,7 @@
     <string name="not_meterial">暂无资料</string>
     <string name="user_index_pop_all">全部</string>
     <string name="class_name">班级名</string>
-    <string name="play">播放</string>
+    <string name="pointReadingSettings">点读设置</string>
     <string name="change_pwd">是否更改密码?</string>
     <string name="lesson_over_str">课程结束后，才能评价</string>
     <string name="fx_report">学情报告</string>
@@ -472,6 +472,27 @@
     <string name="immediately_activation">立即激活</string>
     <string name="please_input_activation_code">请输入激活码</string>
     <string name="please_input_effectiveActivation_code">请输入有效激活码</string>
+
+
+    <string name="integrity_excellent">能完整地朗读英文</string>
+    <string name="integrity_good">能读出大多数句子</string>
+    <string name="integrity_commonly">只能读出部分的句子和词汇</string>
+    <string name="integrity_difference">朗读有困难</string>
+
+
+    <string name="accuracy_excellent">语音语调准确</string>
+    <string name="accuracy_good">语音语调基本正确，有少量错误</string>
+    <string name="accuracy_commonly">语音语调不够正确</string>
+    <string name="accuracy_difference">错误很多</string>
+
+
+    <string name="overall_excellent">朗读自然流利，语速适中，有节奏感</string>
+    <string name="overall_good">朗读比较自然流利</string>
+    <string name="overall_commonly">朗读不够连贯，错误较多</string>
+    <string name="overall_difference">不连贯，影响意思表达</string>
+
+
+    <string name="continue_to_refueling">请继续加油哦</string>
 
 
 </resources>

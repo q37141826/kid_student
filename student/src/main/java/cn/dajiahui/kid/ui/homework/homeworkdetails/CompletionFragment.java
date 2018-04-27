@@ -272,11 +272,9 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             for (int i = 0; i < mAllList.size(); i++) {
                 LinkedHashMap<Integer, CompletionQuestionadapterItemModle> integerObjectMap = inbasebean.getmCompletionAllMap().get(i);
 
+
                 mAllList.get(i).setInputContainer(integerObjectMap);
-//
-//                for (int i2=0;i2<integerObjectMap.siz) {
-//                    Logger.d("");
-//                }
+
             }
         }
     }

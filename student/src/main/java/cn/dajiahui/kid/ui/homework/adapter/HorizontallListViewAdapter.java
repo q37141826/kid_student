@@ -36,7 +36,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
     public String IsShowRightAnswer = "";//是否显示editext
     private CompletionQuestionModle inbasebean;
 
-
+    /*翻页通知适配器*/
     public void setInputContainer(LinkedHashMap<Integer, CompletionQuestionadapterItemModle> inputContainer) {
         if (inputContainer != null) {
             if (this.inputContainer == null) {
@@ -116,7 +116,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
                 if (this.inputContainer.get(position).getShowItemMy().toString().equals("㊒")) {
                     holderView.editext.setText("");
                 } else {
-                    holderView.editext.setText(this.inputContainer.get(position).toString());
+                    holderView.editext.setText(this.inputContainer.get(position).getShowItemMy().toString());
                 }
             }
         } else {
@@ -138,7 +138,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
                     for (int i = 0; i < integerStringMap.size(); i++) {
                         /*显示我的答案*/
                         if (!integerStringMap.get(position).getShowItemMy().equals("㊒")) {
-                            holderView.editext.setText(integerStringMap.get(position).getShowItemMy());
+                            holderView.editext.setText(integerStringMap.get(position).getShowItemMy().toString());
                         } else {
                             holderView.editext.setText("");
                         }
@@ -210,7 +210,7 @@ public class HorizontallListViewAdapter extends BaseAdapter {
                 }
                 this.editText.setSelection(tempSelection);
             }
-            submitEditext.submitEditextInfo(selfposition, inputContainer,position,s.toString());
+            submitEditext.submitEditextInfo(selfposition, inputContainer, position, s.toString());
         }
     }
 

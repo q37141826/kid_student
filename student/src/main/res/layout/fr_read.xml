@@ -1,59 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
 
-        <FrameLayout
-            android:id="@+id/fm_read_show"
+    <FrameLayout
+        android:id="@+id/fm_read_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_readbook_bg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
-            <ImageView
-                android:id="@+id/img_readbook_bg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </FrameLayout>
-    </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/translate_bottomroot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray_F5F5F5">
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_F5F5F5"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/tv_translate"
-            android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textColor="@color/gray_333333"
-            android:textSize="15sp"/>
-
-        <TextView
-            android:id="@+id/tv_show"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_translate"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp"
-            android:drawableRight="@drawable/readbook_up"
-            android:text="隐藏翻译"
-            android:textColor="@color/gray_666666"
-            android:textSize="11sp"
-
-        />
-
-
+            android:textSize="15sp" />
     </RelativeLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

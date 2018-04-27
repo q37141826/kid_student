@@ -88,23 +88,6 @@ public class FrHomework extends FxFragment {
             }
         });
 
-        /*判断是否加入班级*/
-        BeUser user = UserController.getInstance().getUser();
-        if (!user.getClass_status().equals("2")) {
-            /*弹框引导加入班级*/
-            addClassDialog = new AddClassDialog(getActivity(), R.layout.dialog_addclass) {
-                @Override
-                public void initView() {
-                    Button buttonCancle = (Button) rootView.findViewById(R.id.btn_cancle);
-                    buttonCancle.setOnClickListener(onClick);
-                    Button buttonChoice = (Button) rootView.findViewById(R.id.btn_choose);
-                    buttonChoice.setOnClickListener(onClick);
-
-                }
-            };
-            addClassDialog.show();
-
-        }
 
     }
 
@@ -192,17 +175,36 @@ public class FrHomework extends FxFragment {
                 }
 
                 BeHomeWorkList beHomeWorkList = json.parsingObject(BeHomeWorkList.class);
-                itemNumber = Integer.parseInt(beHomeWorkList.getTotalRows());
-                if (beHomeWorkList != null && beHomeWorkList.getLists().size() > 0) {
-                    mPageNum++;
-                    mHomeWorklists.addAll(beHomeWorkList.getLists());
-                }
-                apHomework.notifyDataSetChanged();
+                if (beHomeWorkList != null) {
+                    /*班级申请*/
+                    if (!beHomeWorkList.getClass_status().equals("2")) {
+                        /*弹框引导加入班级*/
+                        addClassDialog = new AddClassDialog(getActivity(), R.layout.dialog_addclass) {
+                            @Override
+                            public void initView() {
+                                Button buttonCancle = (Button) rootView.findViewById(R.id.btn_cancle);
+                                buttonCancle.setOnClickListener(onClick);
+                                Button buttonChoice = (Button) rootView.findViewById(R.id.btn_choose);
+                                buttonChoice.setOnClickListener(onClick);
 
+                            }
+                        };
+                        addClassDialog.show();
+
+                    }
+                    itemNumber = Integer.parseInt(beHomeWorkList.getTotalRows());
+                    if (beHomeWorkList != null && beHomeWorkList.getLists().size() > 0) {
+                        mPageNum++;
+                        mHomeWorklists.addAll(beHomeWorkList.getLists());
+                    }
+                    apHomework.notifyDataSetChanged();
+
+                }
             } else {
                 ToastUtil.showToast(getContext(), json.getMsg());
             }
             finishRefreshAndLoadMoer(refresh, isLastPage());
+
         }
     };
 

@@ -9,11 +9,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.util.BaseUtil;
 
 import java.util.List;
@@ -21,11 +23,14 @@ import java.util.List;
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
+import cn.dajiahui.kid.ui.study.kinds.practice.DoPraticeActivity;
 import cn.dajiahui.kid.ui.study.kinds.practice.myinterface.ExMoveLocation;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static cn.dajiahui.kid.controller.Constant.SortAnswerView_margin;
-import static cn.dajiahui.kid.ui.homework.homeworkdetails.SortFragment.isLinecheck;
+import static cn.dajiahui.kid.ui.study.kinds.practice.DoPraticeActivity.screenWidth;
+import static cn.dajiahui.kid.ui.study.kinds.practice.ExSortFragment.mExSortScrollviewHeight;
+
 
 /**
  * Created by lenovo on 2018/1/16.
@@ -51,6 +56,14 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
 
     private LayoutParams params;
 
+    private int heightPixels;//手机屏幕高度
+
+    private boolean navigationBarShow;//是否有导航栏
+    private int daoHangHeight;//导航栏高度
+    private int widthPixels;//屏幕宽度
+    private int statusBarHeight;
+
+
     /*构造*/
     public ExMoveImagview(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -74,6 +87,13 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
         /*添加视图*/
         addImageView();
 
+
+        heightPixels = BaseUtil.getHeightPixels((Activity) context);
+        navigationBarShow = BaseUtil.isNavigationBarShow((Activity) context);
+        //获取屏幕宽度
+        widthPixels = BaseUtil.getWidthPixels((Activity) context);
+        statusBarHeight = BaseUtil.getStatusBarHeight(context);
+
     }
 
     /*正确答案构造（后台返回数据后需重新加载一遍排序的图片）*/
@@ -88,7 +108,7 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
         this.setBackgroundResource(R.drawable.sortview_default_bg);
         this.setPadding(SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin);
         params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-       /*添加视图*/
+        /*添加视图*/
         addImageView();
     }
 
@@ -118,11 +138,10 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
                     int r = this.getRight() + dx;
                     int t = this.getTop() + dy;
                     int b = this.getBottom() + dy;
-                    /*如果是练习模式，已作答就锁定移动的view位置*/
-                    if (isLinecheck == false) {
-                        /*移动刷新位置*/
-                        this.layout(l, t, r, b);
-                    }
+
+
+                    /*移动刷新位置*/
+                    this.layout(l, t, r, b);
 
 
                     // 重新初始化起点坐标
@@ -134,6 +153,50 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
                     centerPointY = (((float) 1 / (float) 2) * getHeight()) + t;
 
                     getParent().requestDisallowInterceptTouchEvent(true);
+
+
+                    /*显示 虚拟按键*/
+                    if (navigationBarShow) {
+
+                        /*向下滑*/
+                        /*到达底部*/
+                        if ((startY + (widthPixels / 5) >= heightPixels - ((DoPraticeActivity) context).CheckBottom().getHeight())) {
+                            moveLocation.RefreshDown();
+                            if ((t + 5) < heightPixels - (widthPixels / 5)) {
+
+                                /*移动刷新位置*/
+                                this.layout(l, (t + 5), r, (b + 5));
+                            }
+                        }
+                        if (startY < (heightPixels - mExSortScrollviewHeight)) {
+
+                            if ((b - 5) > (widthPixels / 5)) {
+
+                                this.layout(l, (t - 5), r, (b - 5));
+                            }
+                            moveLocation.RefreshUp();
+                        }
+                    } else {
+
+                        LinearLayout linearLayout = ((DoPraticeActivity) context).CheckBottom();
+                        Logger.d("linearLayout:" + linearLayout.getHeight());
+
+                        /*到达底部*/
+                        /*不显示虚拟按键*/
+                        if (((startY + (widthPixels / 5) - statusBarHeight) >= heightPixels - ((DoPraticeActivity) context).CheckBottom().getHeight())) {
+                            moveLocation.RefreshDown();
+                            if ((t + 5) < heightPixels - (widthPixels / 5)) {
+                                /*移动刷新位置*/
+                                this.layout(l, (t + 5), r, (b + 5));
+                            }
+                        }
+                        if (startY < (heightPixels - mExSortScrollviewHeight)) {
+                            moveLocation.RefreshUp();
+                            if ((b - 5) > (widthPixels / 5)) {
+                                this.layout(l, (t - 5), r, (b - 5));
+                            }
+                        }
+                    }
                 }
 
                 break;
@@ -141,7 +204,7 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
                 /* 通知碎片  然后回调 手指抬起时回调当前拖动的view的中心点  */
                 BeLocation beLocation = moveLocation.submitCenterPoint(this, position, centerPointX, centerPointY);
                 if (beLocation != null) {
-                /*更新滑动之后的位置*/
+                    /*更新滑动之后的位置*/
                     this.layout(beLocation.getGetLeft(), beLocation.getGetTop(), beLocation.getGetRight(), beLocation.getGetBottom());
                 }
 
@@ -162,9 +225,7 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
 
     /*添加视图*/
     private void addImageView() {
-   /*屏幕宽度*/
 
-//        LayoutParams params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         String content = null;
         /*未回答的时候是false 走解析的图片集合   check后是true 走 自己正确答案的集合*/
         if (inbasebean.isAnswer() == false) {
@@ -199,26 +260,38 @@ public class ExMoveImagview extends RelativeLayout implements View.OnTouchListen
             }
 
         } else {
-            TextView textView = new TextView(context);
-            LayoutParams tparams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            textView.setTextColor(getResources().getColor(R.color.blue));
-            params.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
-            textView.setLayoutParams(tparams);
+            this.removeAllViews();
+
+            TextView textView1 = new TextView(context);
+            RelativeLayout.LayoutParams tparams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textView1.setTextColor(getResources().getColor(R.color.black));
+            tparams.addRule(RelativeLayout.CENTER_IN_PARENT);
+            textView1.setLayoutParams(tparams);
+
 
             if (inbasebean.isAnswer() == false) {
-                textView.setText(inbasebean.getOptions().get(position).getContent());
+                textView1.setText(inbasebean.getOptions().get(position).getContent());
+                this.addView(textView1);
+
             } else {
-                textView.setText(mRightContentList.get(position));
-                 /*正确答案 添加遮罩*/
-                RelativeLayout relativeLayout = new RelativeLayout(context);
-                LayoutParams paramsT = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+
+                TextView textView2 = new TextView(context);
+                textView2.setText(mRightContentList.get(position));
+                /*正确答案 添加遮罩*/
+                RelativeLayout.LayoutParams paramsT = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 paramsT.addRule(RelativeLayout.CENTER_IN_PARENT);
-                relativeLayout.setBackgroundResource(R.drawable.answer_true_bg);
-                relativeLayout.setLayoutParams(paramsT);
-                relativeLayout.addView(textView);
-                this.addView(relativeLayout);
+                textView2.setLayoutParams(paramsT);
+                this.addView(textView2);
+
+                /*添加遮罩*/
+                RelativeLayout.LayoutParams paramsT1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                paramsT1.addRule(RelativeLayout.CENTER_IN_PARENT);
+                ImageView imageViewT = new ImageView(context);
+                imageViewT.setLayoutParams(paramsT1);
+                imageViewT.setBackgroundResource(R.drawable.answer_true_bg);
+                this.addView(imageViewT);
             }
-            this.addView(textView);
+
         }
     }
 

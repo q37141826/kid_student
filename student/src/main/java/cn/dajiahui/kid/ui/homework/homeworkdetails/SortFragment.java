@@ -11,7 +11,11 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.fxtx.framework.log.Logger;
+import com.fxtx.framework.util.BaseUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +27,7 @@ import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.ui.homework.myinterface.MoveLocation;
+import cn.dajiahui.kid.ui.homework.view.CustomScrollView;
 import cn.dajiahui.kid.ui.homework.view.FixedImagview;
 import cn.dajiahui.kid.ui.homework.view.MoveImagview;
 
@@ -36,7 +41,7 @@ import static cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity.scr
 
 
 public class SortFragment extends BaseHomeworkFragment implements
-        View.OnClickListener, CheckHomework, MoveLocation {
+        View.OnClickListener, CheckHomework, MoveLocation  {
 
     private SortQuestionModle inbasebean;
     private RelativeLayout relaroot, answerroot;
@@ -74,8 +79,9 @@ public class SortFragment extends BaseHomeworkFragment implements
     private List<String> mRightContentList;//正确答案的内容
     private List<String> mMineContentList;//我的答案的内容
     private String title;
+    private ScrollView mSortScrollview;
+    public static int mSortScrollviewHeight;//srcllowview高度
 
-    public static boolean isLinecheck = false;//江湖救急  后续更改
     private Map<Integer, BeLocation> mMineAnswerMap = new HashMap<>();//（isanswer=0）
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -97,9 +103,12 @@ public class SortFragment extends BaseHomeworkFragment implements
                         pointLeftList.add(beLocation);
                         pLeftY = (pLeftY += screenWidth / 4);//左边所有点的y坐标
                     }
+
+
                     Message msg1 = Message.obtain();
                     msg1.what = PREPARERIGHT;
                     handler.sendMessage(msg1);
+
 
                     break;
                 case RIGHT:
@@ -118,6 +127,9 @@ public class SortFragment extends BaseHomeworkFragment implements
                     Message msg2 = Message.obtain();
                     msg2.what = PREPMINEARERIGHT;
                     handler.sendMessage(msg2);
+
+                    mSortScrollviewHeight = mSortScrollview.getHeight();
+
                     break;
                 case PREPARERIGHT: /*为点击正确答案准备数据*/
                     if (inbasebean.getStandard_answer() != null && inbasebean.getOptions() != null) {
@@ -129,6 +141,7 @@ public class SortFragment extends BaseHomeworkFragment implements
                             substringRightList.add(split);
                         }
                     }
+
                     break;
                 case PREPMINEARERIGHT:  /*我的答案准备数据*/
                     if (inbasebean.getMy_answer() != null && inbasebean.getOptions() != null) {
@@ -146,6 +159,7 @@ public class SortFragment extends BaseHomeworkFragment implements
             }
         }
     };
+
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -199,6 +213,10 @@ public class SortFragment extends BaseHomeworkFragment implements
                 }
             }
         });
+
+        mSortScrollview.getHeight();
+
+
     }
 
     /*显示正确，我的答案文案*/
@@ -253,6 +271,8 @@ public class SortFragment extends BaseHomeworkFragment implements
             leftViews.add(mMoveView);
             mMoveView.setLayoutParams(lp);
             lin.addView(mMoveView); //动态添加图片
+
+
         }
     }
 
@@ -264,70 +284,81 @@ public class SortFragment extends BaseHomeworkFragment implements
 
         /*未答题状态下*/
 //        if (!inbasebean.getIs_complete().equals("1")) {
-            /*循环便利右视图的集合  判断中心点是否在右视图某一个的范围内*/
-            for (int i = 0; i < pointRightList.size(); i++) {
-                /*算法  循环判断中心点是否在右边的view的范围内*/
-                int getLeft = pointRightList.get(i).getGetLeft();
-                int getTop = pointRightList.get(i).getGetTop();
-                int width = pointRightList.get(i).getWidth();
-                int height = pointRightList.get(i).getHeight();
+        /*循环便利右视图的集合  判断中心点是否在右视图某一个的范围内*/
+        for (int i = 0; i < pointRightList.size(); i++) {
+            /*算法  循环判断中心点是否在右边的view的范围内*/
+            int getLeft = pointRightList.get(i).getGetLeft();
+            int getTop = pointRightList.get(i).getGetTop();
+            int width = pointRightList.get(i).getWidth();
+            int height = pointRightList.get(i).getHeight();
 
-                boolean left = (float) getLeft <= X;
-                boolean right = (float) getLeft + (float) width >= X;
-                boolean top = (float) getTop <= Y;
-                boolean bottom = (float) getTop + (float) height >= Y;
-                /*加判断条件只有未作答状态*/
+            boolean left = (float) getLeft <= X;
+            boolean right = (float) getLeft + (float) width >= X;
+            boolean top = (float) getTop <= Y;
+            boolean bottom = (float) getTop + (float) height >= Y;
+            /*加判断条件只有未作答状态*/
 
-                /*判断中心点在右侧的view视图上*/
-                if (left && right && top && bottom) {
-                    /*让上一个视图回到原来的位置*/
-                    for (int a = 0; a < leftViews.size(); a++) {
-                        int mLeft = leftViews.get(a).getLeft();
-                        int mTop = leftViews.get(a).getTop();
+            /*判断中心点在右侧的view视图上*/
+            if (left && right && top && bottom) {
+                /*让上一个视图回到原来的位置*/
+                for (int a = 0; a < leftViews.size(); a++) {
+                    int mLeft = leftViews.get(a).getLeft();
+                    int mTop = leftViews.get(a).getTop();
 
-                        /*移除右边图片上已经排序的view  返回到原来*/
-                        if (getLeft == mLeft && getTop == mTop) {
-                            MoveImagview moveImagview = leftViews.get(a);
-                            int indexOf = leftViews.indexOf(moveImagview);//找到对应view的索引
-                            BeLocation beLocation = pointLeftList.get(indexOf);//通过索引找到位置信息
-                            moveImagview.refreshLocation(beLocation);
-                            mMineAnswerMap.put(indexOf, beLocation);
-                            submit.submitSoreFragment(inbasebean);
-                        }
+                    /*移除右边图片上已经排序的view  返回到原来*/
+                    if (getLeft == mLeft && getTop == mTop) {
+                        MoveImagview moveImagview = leftViews.get(a);
+                        int indexOf = leftViews.indexOf(moveImagview);//找到对应view的索引
+                        BeLocation beLocation = pointLeftList.get(indexOf);//通过索引找到位置信息
+                        moveImagview.refreshLocation(beLocation);
+                        mMineAnswerMap.put(indexOf, beLocation);
+                        submit.submitSoreFragment(inbasebean);
                     }
-
-
-                    /*获取右视图坐标点*/
-                    BeLocation beLocation = pointRightList.get(i);
-                    /*保存移动之后的坐标点  position 是当前移动view的在leftViews的索引  */
-                    mMineAnswerMap.put((position), beLocation);
-                    inbasebean.setSortAnswerMap(mMineAnswerMap);//我的答案的集合
-                    inbasebean.setAnswerflag("true");//答题标志
-
-                    inbasebean.getInitSortMyanswerList().set(i, mBeforeView.val);
-                    submit.submitSoreFragment(inbasebean);//告诉活动每次连线的数据
-
-                    return beLocation;
-                } else {
-
-                    /*找到当前view在 左视图集合的位置*/
-                    int indexOf = leftViews.indexOf(mBeforeView);
-                    BeLocation beLocation = pointLeftList.get(indexOf);
-                    mBeforeView.refreshLocation(beLocation);
-                    /*保存移动之后的坐标点  position 是当前移动view的在leftViews的索引  */
-                    mMineAnswerMap.put((indexOf), beLocation);
-                    inbasebean.setSortAnswerMap(mMineAnswerMap);//我的答案的集合
-
-                    inbasebean.setAnswerflag("true");//答题标志
-                    submit.submitSoreFragment(inbasebean);//告诉活动每次滑动的数据
                 }
 
+
+                /*获取右视图坐标点*/
+                BeLocation beLocation = pointRightList.get(i);
+                /*保存移动之后的坐标点  position 是当前移动view的在leftViews的索引  */
+                mMineAnswerMap.put((position), beLocation);
+                inbasebean.setSortAnswerMap(mMineAnswerMap);//我的答案的集合
+                inbasebean.setAnswerflag("true");//答题标志
+
+                inbasebean.getInitSortMyanswerList().set(i, mBeforeView.val);
+                submit.submitSoreFragment(inbasebean);//告诉活动每次连线的数据
+
+                return beLocation;
+            } else {
+
+                /*找到当前view在 左视图集合的位置*/
+                int indexOf = leftViews.indexOf(mBeforeView);
+                BeLocation beLocation = pointLeftList.get(indexOf);
+                mBeforeView.refreshLocation(beLocation);
+                /*保存移动之后的坐标点  position 是当前移动view的在leftViews的索引  */
+                mMineAnswerMap.put((indexOf), beLocation);
+                inbasebean.setSortAnswerMap(mMineAnswerMap);//我的答案的集合
+
+                inbasebean.setAnswerflag("true");//答题标志
+                submit.submitSoreFragment(inbasebean);//告诉活动每次滑动的数据
             }
+
+        }
 
 //        }
 
         return null;
 
+    }
+
+    @Override
+    public void RefreshDown() {
+        mSortScrollview.scrollBy(0, 5);
+
+    }
+
+    @Override
+    public void RefreshUp() {
+        mSortScrollview.scrollBy(0, -5);
     }
 
     private Bundle bundle;
@@ -343,12 +374,15 @@ public class SortFragment extends BaseHomeworkFragment implements
     /*初始化*/
     private void initialize() {
         sort_img_play = getView(R.id.sort_img_play);
+        mSortScrollview = getView(R.id.sort_scrollview);
         tv_schedule = getView(R.id.tv_schedule);
         tv_sort = getView(R.id.tv_sort);
         answerroot = getView(R.id.answerroot);
         relaroot = getView(R.id.relaroot);
         sort_img_play.setOnClickListener(this);
         sort_img_play.setBackground(animationDrawable);
+
+
 
     }
 
@@ -396,6 +430,7 @@ public class SortFragment extends BaseHomeworkFragment implements
         }
     }
 
+
     /*保存排序数据接口*/
     public interface SubmitSortFragment {
         public void submitSoreFragment(SortQuestionModle questionModle);
@@ -423,13 +458,13 @@ public class SortFragment extends BaseHomeworkFragment implements
     @Override
     public void onStop() {
         super.onStop();
-        isLinecheck = false;
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        isLinecheck = false;
+
     }
 
     /*获取答案集合*/

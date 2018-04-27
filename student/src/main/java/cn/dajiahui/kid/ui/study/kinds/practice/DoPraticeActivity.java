@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.fxtx.framework.http.callback.ResultCallback;
@@ -67,6 +68,7 @@ public class DoPraticeActivity extends FxActivity
     private String book_id;
     private String unit_id;
     public static int screenWidth;//屏幕寬度
+    public LinearLayout mCheckBottom;
 
 
     @Override
@@ -201,6 +203,7 @@ public class DoPraticeActivity extends FxActivity
     /*初始化*/
     private void initialize() {
         mViewpager = getView(R.id.viewpager);
+        mCheckBottom = getView(R.id.check_bottom);
         btncheck = (Button) findViewById(R.id.btn_check);
         btncheck.setOnClickListener(onclick);
 
@@ -208,6 +211,9 @@ public class DoPraticeActivity extends FxActivity
         screenWidth = BaseUtil.getWidthPixels(this);
     }
 
+    public LinearLayout CheckBottom() {
+        return mCheckBottom;
+    }
 
     @Override
     public void getMediaPlayer(MediaPlayer mediaPlayer) {
@@ -525,7 +531,6 @@ public class DoPraticeActivity extends FxActivity
             };
 
             signOutDialog.show();
-
 
 
         } else {

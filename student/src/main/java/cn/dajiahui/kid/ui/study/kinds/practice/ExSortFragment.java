@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -66,6 +67,8 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
     private String media;
     private String title;
     private Bundle bundle;
+    private ScrollView mSortScrollview;
+    public static int mExSortScrollviewHeight;//srcllowview高度
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -104,6 +107,8 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
 
                         inbasebean.getInitSortMyanswerList().add("㊒");
                     }
+
+                    mExSortScrollviewHeight = mSortScrollview.getHeight();
                     break;
 
                 default:
@@ -298,6 +303,17 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
     }
 
     @Override
+    public void RefreshDown() {
+        mSortScrollview.scrollBy(0, 5);
+
+    }
+
+    @Override
+    public void RefreshUp() {
+        mSortScrollview.scrollBy(0, -5);
+    }
+
+    @Override
     public void setArguments(Bundle bundle) {
         this.bundle = bundle;
 
@@ -310,15 +326,13 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
     /*初始化*/
     private void initialize() {
         sort_img_play = getView(R.id.sort_img_play);
-//        mRight = getView(R.id.mRight);
-//        mLeft = getView(R.id.mLeft);
+        mSortScrollview = getView(R.id.sort_scrollview);
         tv_sort = getView(R.id.tv_sort);
         mSchedule = getView(R.id.tv_schedule);
         answerroot = getView(R.id.answerroot);
         relaroot = getView(R.id.relaroot);
         sort_img_play.setOnClickListener(this);
-//        mLeft.setOnClickListener(this);
-//        mRight.setOnClickListener(this);
+
         sort_img_play.setBackground(animationDrawable);
 
 

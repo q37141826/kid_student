@@ -167,5 +167,7 @@ public class Constant {
     public static final int JudgeAnswerView_margin = 10;// 作业，练习选择JudgeAnswerView 的panding
     public static final int SortAnswerView_margin = 10;// 作业，练习排序的view 的panding
 
+    public static final String CardPratice_ScoreUrl = "http://api.k6.dajiahui.cn/share/chart"; //卡片练习的打分的url
+
 
 }

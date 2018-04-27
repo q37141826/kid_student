@@ -172,7 +172,7 @@ public class CardPraticeFragment extends LazyLoadFragment {
         lp.leftMargin = 100;
         lp.rightMargin = 100;
         cardView.setLayoutParams(lp);
-        cardView.setBackgroundResource(R.drawable.select_readingbook_bg_red);
+        cardView.setBackgroundResource(R.drawable.select_readingbook_bg_green);
         cardroot.addView(cardView);
 
 

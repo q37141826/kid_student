@@ -8,11 +8,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
@@ -49,13 +59,13 @@ import cn.dajiahui.kid.util.MD5;
 
 
 public class ReadingBookFragment extends FxFragment implements
-        PointReadView.GetPointReadView, ReadingBookActivity.PlayAll {
+        PointReadView.GetPointReadView, ReadingBookActivity.PointReadingSettings {
 
     protected Bundle bundle;// 用于保存信息以及标志
     public FrameLayout fr_read_show;
     private Timer timer;
     private PointReadView currentPointReadView = null;
-    private TextView mTranslate, mShow;
+    private TextView mTranslate;
     private BeReadingBookPageData beReadingBookPageData;
     private ImageView img_readbook_bg;
     public List<PointReadView> mPointReadViewList = new ArrayList<>();
@@ -66,10 +76,12 @@ public class ReadingBookFragment extends FxFragment implements
     private double loadWidth, loadHeight, selfHeight, selfWidth;
     private Bitmap mItemBitmap;
     private MediaPlayer mediaPlayer;
+
+    //    private boolean showEnglish = false;//显示英文  false 不显示  true 显示中文
+    private int showLanguage = 0;//0 中文 1 英文
+
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
-
-
         @Override
         public void handleMessage(android.os.Message msg) {
             if (msg.what == 0 && mediaPlayer != null) {
@@ -156,7 +168,7 @@ public class ReadingBookFragment extends FxFragment implements
         }
 
     };
-
+    private RelativeLayout mTranslateBottomroot;
 
     /*下载点读本mp3*/
     private void downloadReadingBook() {
@@ -183,6 +195,9 @@ public class ReadingBookFragment extends FxFragment implements
         initialize();//获取图片显示在ImageView后的宽高
 
         page_data = (List<BeReadingBookPageData>) bundle.getSerializable("page_data");
+        this.showLanguage = bundle.getInt("showLanguage", -1);
+        Logger.d("showLanguage----------" + showLanguage);
+
         beReadingBookPageData = page_data.get(bundle.getInt("position"));
         loadImageView();
         media_url = beReadingBookPageData.getMedia_url();
@@ -207,10 +222,10 @@ public class ReadingBookFragment extends FxFragment implements
     /*初始化*/
     private void initialize() {
         fr_read_show = getView(R.id.fm_read_show);
+        mTranslateBottomroot = getView(R.id.translate_bottomroot);
         mTranslate = getView(R.id.tv_translate);
-        mShow = getView(R.id.tv_show);
         img_readbook_bg = getView(R.id.img_readbook_bg);
-        mShow.setOnClickListener(onClick);
+        mTranslate.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
     @Override
@@ -287,10 +302,18 @@ public class ReadingBookFragment extends FxFragment implements
         for (int i = 0; i < mPointReadViewList.size(); i++) {
             mPointReadViewList.get(i).cleanAnimotion();
         }
-        /*显示翻译*/
-        mShow.setVisibility(View.VISIBLE);
-        /*设置中文翻译*/
-        mTranslate.setText(pointReadView.getBePlayReadingBook().getChinese());
+//        /*显示翻译*/
+//        mShow.setVisibility(View.VISIBLE);
+
+        if (this.showLanguage == 0) {
+            /*设置中文翻译*/
+            mTranslate.setText(pointReadView.getBePlayReadingBook().getChinese());
+        } else {
+            /*设置英文翻译*/
+            mTranslate.setText(pointReadView.getBePlayReadingBook().getEnglish());
+        }
+
+
         this.currentPointReadView = pointReadView;
         /*开启动画*/
         pointReadView.startAnimotion(mItemBitmap);
@@ -325,8 +348,8 @@ public class ReadingBookFragment extends FxFragment implements
             mediaPlayer.setDataSource(mp3path);
             mediaPlayer.prepare();
             mediaPlayer.seekTo(starttime);
-            Logger.d("-----------跳转到开始时间：" + starttime);
-            Logger.d("-----------跳转到开始时间之后实时获取：" + mediaPlayer.getCurrentPosition());
+//            Logger.d("-----------跳转到开始时间：" + starttime);
+//            Logger.d("-----------跳转到开始时间之后实时获取：" + mediaPlayer.getCurrentPosition());
             /*设置监听事件*/
             setListener();
         } catch (IOException e) {
@@ -385,58 +408,53 @@ public class ReadingBookFragment extends FxFragment implements
 
     }
 
-    /*点击事件监听*/
-    View.OnClickListener onClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (!translateHide) {
-                mTranslate.setVisibility(View.INVISIBLE);
-                mShow.setText("显示翻译");
-                setPictureDirection(R.drawable.readbook_down, 2);
 
-                translateHide = !translateHide;
+    /*点读设置*/
+    @SuppressLint("Range")
+    @Override
+    public void pointReadingSettings(int flag) {
+
+        this.showLanguage = flag;
+
+        if (currentPointReadView != null) {
+            if (this.showLanguage == 0) {
+                /*设置中文翻译*/
+                mTranslate.setText(currentPointReadView.getBePlayReadingBook().getChinese());
             } else {
-                mTranslate.setVisibility(View.VISIBLE);
-                mShow.setText("隐藏翻译");
-                setPictureDirection(R.drawable.readbook_up, 1);
-                translateHide = !translateHide;
+                /*设置英文翻译*/
+                mTranslate.setText(currentPointReadView.getBePlayReadingBook().getEnglish());
             }
         }
-    };
-
-    /*上设置图片方向 1向上 2.向下*/
-
-    private void setPictureDirection(int picture, int dir) {
-        switch (dir) {
-            case 1:
-                Drawable drawableUp = getActivity().getResources().getDrawable(picture);
-                drawableUp.setBounds(0, 0, drawableUp.getMinimumWidth(), drawableUp.getMinimumHeight());
-                mShow.setCompoundDrawables(null, null, drawableUp, null);
-                break;
-            case 2:
-                Drawable drawableDown = getActivity().getResources().getDrawable(picture);
-                drawableDown.setBounds(0, 0, drawableDown.getMinimumWidth(), drawableDown.getMinimumHeight());
-                mShow.setCompoundDrawables(null, null, drawableDown, null);
-                break;
-            default:
-                break;
-
-        }
-
     }
 
-    /*连读点击事件*/
-    @Override
-    public void playAll() {
-//        /*循环标记置0*/
-//        readingFlag = 0;
-//        isPointRead = false;
-//        /*保证播放环境*/
-//        if (  mediaPlayer != null &&   mediaPlayer.isPlaying()) {
-//              mediaPlayer.stop();
+
+    public void showmTranslateBottomroot() {
+        mTranslateBottomroot.setVisibility(View.VISIBLE);
+    }
+
+    public void hidemTranslateBottomroot() {
+        mTranslateBottomroot.setVisibility(View.GONE);
+    }
+
+//    /*上设置图片方向 1向上 2.向下*/
+//    private void setPictureDirection(int picture, int dir) {
+//        switch (dir) {
+//            case 1:
+//                Drawable drawableUp = getActivity().getResources().getDrawable(picture);
+//                drawableUp.setBounds(0, 0, drawableUp.getMinimumWidth(), drawableUp.getMinimumHeight());
+//                mShow.setCompoundDrawables(null, null, drawableUp, null);
+//                break;
+//            case 2:
+//                Drawable drawableDown = getActivity().getResources().getDrawable(picture);
+//                drawableDown.setBounds(0, 0, drawableDown.getMinimumWidth(), drawableDown.getMinimumHeight());
+//                mShow.setCompoundDrawables(null, null, drawableDown, null);
+//                break;
+//            default:
+//                break;
+//
 //        }
-//        continuousReading();
-    }
+//
+//    }
 
 
 }

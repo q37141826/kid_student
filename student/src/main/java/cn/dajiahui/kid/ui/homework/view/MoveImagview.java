@@ -1,6 +1,7 @@
 package cn.dajiahui.kid.ui.homework.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -11,20 +12,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.fxtx.framework.log.Logger;
+import com.fxtx.framework.util.BaseUtil;
 
 import java.util.List;
 
 import cn.dajiahui.kid.R;
+
 import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.MoveLocation;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static cn.dajiahui.kid.controller.Constant.SortAnswerView_margin;
-import static cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity.screenWidth;
-import static cn.dajiahui.kid.ui.homework.homeworkdetails.SortFragment.isLinecheck;
+import static cn.dajiahui.kid.ui.homework.homeworkdetails.SortFragment.mSortScrollviewHeight;
+
 
 /**
  * Created by lenovo on 2018/1/16.
@@ -46,6 +51,12 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
     public String val;//当前拖动图片的val值
     private List<String> mRightContentList;//正确答案内容的集合
 
+    private int heightPixels;//手机屏幕高度
+    private boolean navigationBarShow;//是否有导航栏
+
+    private int widthPixels;//屏幕宽度
+    private int statusBarHeight;
+
 
     /*构造*/
     public MoveImagview(Context context, @Nullable AttributeSet attrs) {
@@ -65,7 +76,11 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
         this.setBackgroundResource(R.drawable.sortview_default_bg);
         this.setPadding(SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin);
 
-
+        heightPixels = BaseUtil.getHeightPixels((Activity) context);
+        navigationBarShow = BaseUtil.isNavigationBarShow((Activity) context);
+        //获取屏幕宽度
+        widthPixels = BaseUtil.getWidthPixels((Activity) context);
+        statusBarHeight = BaseUtil.getStatusBarHeight(context);
 
         /*首先判断是否作答*/
         switch (inbasebean.getIs_complete()) {
@@ -169,7 +184,6 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
                 break;
             case MotionEvent.ACTION_MOVE:
 
-
                 /*排序题  首先判断是否完成提交*/
                 if (!inbasebean.getIs_complete().equals("1")) {
                     int endX = (int) motionEvent.getRawX();
@@ -184,11 +198,10 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
                     int r = this.getRight() + dx;
                     int t = this.getTop() + dy;
                     int b = this.getBottom() + dy;
-                    /*如果是练习模式，已作答就锁定移动的view位置*/
-                    if (isLinecheck == false) {
-                        /*移动刷新位置*/
-                        this.layout(l, t, r, b);
-                    }
+
+
+                    /*移动刷新位置*/
+                    this.layout(l, t, r, b);
 
 
                     // 重新初始化起点坐标
@@ -200,6 +213,51 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
                     centerPointY = (((float) 1 / (float) 2) * getHeight()) + t;
 
                     getParent().requestDisallowInterceptTouchEvent(true);
+
+                    Logger.d("startX--" + startX + "   startY--" + startY);
+                    Logger.d(" t--" + t + "   b--" + b);
+                    /*显示 虚拟按键*/
+                    if (navigationBarShow) {
+
+
+                        /*向下滑*/
+                        /*到达底部*/
+                        if ((startY + (widthPixels / 5) >= heightPixels)) {
+                            moveLocation.RefreshDown();
+                            if ((t + 5) < heightPixels - (widthPixels / 5)) {
+
+                                /*移动刷新位置*/
+                                this.layout(l, (t + 5), r, (b + 5));
+                            }
+                        }
+                        if (startY < (heightPixels - mSortScrollviewHeight)) {
+
+                            if ((b - 5) > (widthPixels / 5)) {
+
+                                this.layout(l, (t - 5), r, (b - 5));
+                            }
+                            moveLocation.RefreshUp();
+                        }
+                    } else {
+
+
+                        /*到达底部*/
+                        /*不显示虚拟按键*/
+                        if (((startY + (widthPixels / 5) - statusBarHeight) >= heightPixels)) {
+                            moveLocation.RefreshDown();
+                            if ((t + 5) < heightPixels - (widthPixels / 5)) {
+                                /*移动刷新位置*/
+                                this.layout(l, (t + 5), r, (b + 5));
+                            }
+                        }
+                        if (startY < (heightPixels - mSortScrollviewHeight)) {
+                            moveLocation.RefreshUp();
+                            if ((b - 5) > (widthPixels / 5)) {
+                                this.layout(l, (t - 5), r, (b - 5));
+                            }
+                        }
+                    }
+
                 }
 
                 break;

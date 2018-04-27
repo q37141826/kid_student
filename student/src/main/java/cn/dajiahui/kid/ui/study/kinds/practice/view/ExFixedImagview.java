@@ -51,7 +51,7 @@ public class ExFixedImagview extends RelativeLayout {
         this.setBackgroundResource(R.drawable.sortview_default_bg);
         this.setPadding(SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin, SortAnswerView_margin);
         params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-        this.setBackgroundResource( R.color.gray_f4f4f4);
+
         /*添加视图*/
         addImageView();
     }
@@ -78,23 +78,30 @@ public class ExFixedImagview extends RelativeLayout {
         /*未check*/
         if (inbasebean.isAnswer() == false) {
             /*未回答状态下获取 内容类型*/
-            String content = inbasebean.getOptions().get(position).getContent();
-            if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
-                ShowTextViewUI((position + 1) + "");
-            } else {
-                ShowTextViewUI(inbasebean.getOptions().get(position).getContent());
-            }
+            ShowNoCompleteUI();
 
         } else {/*check之后*/
-            this.removeAllViews(); /*保险起见先清理所有view*/
-            String content = mMineContentList.get(position);
-            if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
-                ShowImageViewUI();
-            } else {
-                ShowTextViewUI(content);
-            }
+            ShowCompleteUI();
         }
     }
+
+    /*显示完成视图*/
+    private void ShowCompleteUI() {
+
+        this.removeAllViews(); /*保险起见先清理所有view*/
+        String content = mMineContentList.get(position);
+        if (content.startsWith("h", 0) && content.startsWith("t", 1)) {
+            ShowImageViewUI();
+        } else {
+            ShowTextViewUI(content);
+        }
+    }
+
+    /*显示未完成视图*/
+    private void ShowNoCompleteUI() {
+        ShowTextViewUI((position + 1) + "");
+    }
+
 
     /*显示文本*/
     private void ShowTextViewUI(String textComtent) {

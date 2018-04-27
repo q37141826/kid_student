@@ -5,9 +5,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.transition.Visibility;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
@@ -35,12 +42,25 @@ public class ReadingBookActivity extends FxActivity {
 
 
     private ViewPager mReadViewPager;
-    private RelativeLayout scoll;
-    private PlayAll playAll;
+
+    private PointReadingSettings pointReadingSettings;
     private Map<Integer, ReadingBookFragment> mReadingBookMap = new HashMap();
     private Bundle mReadingBookBundle;
     private String book_id;
     private String unit_id;
+
+
+    private RelativeLayout mCloseMenu;
+    private LinearLayout mMenu;//侧边栏
+    private Animation menuOutAnimation;
+    private Animation menuInAnimation;
+    private LinearLayout mtranslateRoot;
+    private Switch mSwitch;
+    private TextView mChinese, mEnglish;
+
+    private Boolean showMenu = false;//显示侧边栏  true 显示  false 不显示
+
+    private int showLanguage = 0;//0 中文 1 英文
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +68,8 @@ public class ReadingBookActivity extends FxActivity {
         /*标题是活的*/
         setfxTtitle(mReadingBookBundle.getString("UNIT_NAME"));
         onBackText();
-//        HideNavigationBar();
         onBackText();
-//        onRightBtn(R.string.play);
+        onRightBtn(R.string.pointReadingSettings);
 
 
     }
@@ -68,22 +87,23 @@ public class ReadingBookActivity extends FxActivity {
         mReadingBookBundle = getIntent().getExtras();
         book_id = mReadingBookBundle.getString("BOOK_ID");
         unit_id = mReadingBookBundle.getString("UNIT_ID");
-//        Logger.d("book_id:" + book_id);
-//        Logger.d("unit_id:" + unit_id);
         /*获取点读本资源*/
         httpData();
         initialize();
 
-       /*监听viewpager滑动*/
+        /*监听viewpager滑动*/
         mReadViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                playAll = mReadingBookMap.get(position);
+                pointReadingSettings = mReadingBookMap.get(position);
             }
 
             @Override
             public void onPageSelected(int position) {
-                playAll = mReadingBookMap.get(position);
+                if (mMenu.getVisibility() == View.VISIBLE) {
+                    closeMenu();
+                }
+                pointReadingSettings = mReadingBookMap.get(position);
                 if (PlayMedia.getPlaying().mediaPlayer != null && PlayMedia.getPlaying().mediaPlayer.isPlaying()) {
                     PlayMedia.getPlaying().mediaPlayer.stop();
 
@@ -99,21 +119,115 @@ public class ReadingBookActivity extends FxActivity {
     }
 
 
+    /*swich开关*/
+    CompoundButton.OnCheckedChangeListener onCheckedChange = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (!isChecked) {
+                mtranslateRoot.setVisibility(View.VISIBLE);
+                for (int i = 0; i < mReadingBookMap.size(); i++) {
+                    mReadingBookMap.get(i).showmTranslateBottomroot();
+                }
+            } else {
+                for (int i = 0; i < mReadingBookMap.size(); i++) {
+                    mReadingBookMap.get(i).hidemTranslateBottomroot();
+                }
+                mtranslateRoot.setVisibility(View.INVISIBLE);
+
+                closeMenu();
+            }
+        }
+    };
+
     @Override
     public void onRightBtnClick(View view) {
-            /*关闭连读*/
-//        playAll.playAll();
+
+        if (!showMenu) {
+            openMenu();
+        } else {
+            closeMenu();
+        }
     }
+
 
     /*初始化*/
     private void initialize() {
         mReadViewPager = getView(R.id.read_pager);
-        scoll = getView(R.id.scoll);
+
+        mMenu = getView(R.id.menu);
+        mSwitch = getView(R.id.switch_point);
+        mChinese = getView(R.id.tv_chinese);
+        mEnglish = getView(R.id.tv_english);
+        mCloseMenu = getView(R.id.closeMenu);
+        mtranslateRoot = getView(R.id.translate_root);
+
+        mSwitch.setOnCheckedChangeListener(onCheckedChange);
+        mtranslateRoot.setOnClickListener(onClick);
+        mCloseMenu.setOnClickListener(onClick);
+        mEnglish.setOnClickListener(onClick);
+        mChinese.setOnClickListener(onClick);
+
+        menuInAnimation = AnimationUtils.loadAnimation(this, R.anim.pointbook_slide_right_in);//进入
+        menuOutAnimation = AnimationUtils.loadAnimation(this, R.anim.pointbook_slide_right_out);//退出
+
+    }
+
+    /*点击事件监听*/
+    View.OnClickListener onClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+
+                case R.id.closeMenu:
+                    if (showMenu) {
+                        closeMenu();
+                    }
+                    break;
+
+                case R.id.tv_chinese:
+
+                    mChinese.setBackgroundResource(R.drawable.round_bgyellow_febf12_homwwork_startstudy);
+                    mEnglish.setBackgroundResource(R.drawable.round_bggray_333333_study_pointbook);
+                    showLanguage = 0;
+                    for (int i = 0; i < mReadingBookMap.size(); i++) {
+                        mReadingBookMap.get(i).pointReadingSettings(0);
+                    }
+                    closeMenu();
+                    break;
+                case R.id.tv_english:
+                    showLanguage = 1;
+                    mChinese.setBackgroundResource(R.drawable.round_bggray_333333_study_pointbook);
+                    mEnglish.setBackgroundResource(R.drawable.round_bgyellow_febf12_homwwork_startstudy);
+
+                    for (int i = 0; i < mReadingBookMap.size(); i++) {
+                        mReadingBookMap.get(i).pointReadingSettings(1);
+                    }
+                    closeMenu();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    };
+
+    /*关闭侧边栏*/
+    private void closeMenu() {
+        mMenu.startAnimation(menuOutAnimation);
+        mMenu.setVisibility(View.INVISIBLE);
+        showMenu = !showMenu;
+    }
+
+    /*显示侧边栏*/
+    private void openMenu() {
+        mMenu.startAnimation(menuInAnimation);
+        mMenu.setVisibility(View.VISIBLE);
+        showMenu = !showMenu;
     }
 
     /*
-    *点读适配器
-    * */
+     *点读适配器
+     * */
     private class ReadAdapter extends FragmentStatePagerAdapter {
 
         private List<BeReadingBookPageData> page_data;
@@ -140,11 +254,11 @@ public class ReadingBookActivity extends FxActivity {
 
             ReadingBookFragment fr = new ReadingBookFragment();
             mReadingBookMap.put(position, fr);
-
             Bundle bundle = new Bundle();
             bundle.putSerializable("page_data", (Serializable) page_data);
-
+            bundle.putInt("showLanguage", showLanguage);
             bundle.putInt("position", position);
+
             fr.setArguments(bundle);
 
             return fr;
@@ -153,10 +267,10 @@ public class ReadingBookActivity extends FxActivity {
         @Override/*销毁的是销毁当前的页数*/
         public void destroyItem(ViewGroup container, int position, Object object) {
             //如果注释这行，那么不管怎么切换，page都不会被销毁
-            super.destroyItem(container, position, object);
-            mReadingBookMap.remove(position);
+//            super.destroyItem(container, position, object);
+//            mReadingBookMap.remove(position);
             //希望做一次垃圾回收
-            System.gc();
+//            System.gc();
         }
     }
 
@@ -190,6 +304,7 @@ public class ReadingBookActivity extends FxActivity {
 
                 ReadAdapter adapter = new ReadAdapter(getSupportFragmentManager(), page_data);
                 mReadViewPager.setAdapter(adapter);
+                mReadViewPager.setOffscreenPageLimit(page_data.size());//设置缓存view 的个数
 
             } else {
                 ToastUtil.showToast(ReadingBookActivity.this, json.getMsg());
@@ -199,7 +314,7 @@ public class ReadingBookActivity extends FxActivity {
 
     };
 
-    public interface PlayAll {
-        public void playAll();
+    public interface PointReadingSettings {
+        public void pointReadingSettings(int flag);//0 chinese 1  english
     }
 }
