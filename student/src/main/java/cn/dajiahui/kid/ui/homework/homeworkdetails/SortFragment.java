@@ -14,8 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.fxtx.framework.log.Logger;
-import com.fxtx.framework.util.BaseUtil;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +26,7 @@ import cn.dajiahui.kid.ui.homework.bean.BeLocation;
 import cn.dajiahui.kid.ui.homework.bean.SortQuestionModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.ui.homework.myinterface.MoveLocation;
-import cn.dajiahui.kid.ui.homework.view.CustomScrollView;
+
 import cn.dajiahui.kid.ui.homework.view.FixedImagview;
 import cn.dajiahui.kid.ui.homework.view.MoveImagview;
 

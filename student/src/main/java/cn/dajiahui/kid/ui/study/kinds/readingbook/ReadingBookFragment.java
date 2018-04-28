@@ -225,8 +225,28 @@ public class ReadingBookFragment extends FxFragment implements
         mTranslateBottomroot = getView(R.id.translate_bottomroot);
         mTranslate = getView(R.id.tv_translate);
         img_readbook_bg = getView(R.id.img_readbook_bg);
-        mTranslate.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mTranslate.setOnClickListener(onClick);
     }
+
+    private View.OnClickListener onClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            Boolean flag = Boolean.valueOf((String) v.getTag());
+            if (flag) {
+                // 展开
+                mTranslate.setTag("false");
+                mTranslate.setMaxLines(20);
+                mTranslate.setText(mTranslate.getText());
+
+            } else {
+                // 收缩
+                mTranslate.setTag("true");
+                mTranslate.setMaxLines(2);
+                mTranslate.setText(mTranslate.getText());
+            }
+        }
+    };
 
     @Override
     public void onDetach() {

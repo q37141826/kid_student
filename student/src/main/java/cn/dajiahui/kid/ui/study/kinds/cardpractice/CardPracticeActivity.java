@@ -655,13 +655,13 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
     /*拼接打分7个维度的json*/
     private List<BeRadarChrt> AppendRadarChartJson() {
-        mRadarChartList.add(new BeRadarChrt("fluency", chivoxEvaluateResult.getFluency().getOverall()));//流利度
-        mRadarChartList.add(new BeRadarChrt("wordScore", chivoxEvaluateResult.getDetails().get(0).getScore()));//单词得分
         mRadarChartList.add(new BeRadarChrt("toneScore", chivoxEvaluateResult.getRhythm().getTone()));//声调得分
-        mRadarChartList.add(new BeRadarChrt("rhythm", chivoxEvaluateResult.getRhythm().getOverall()));//韵律得分
+        mRadarChartList.add(new BeRadarChrt("fluency", chivoxEvaluateResult.getFluency().getOverall()));//流利度
         mRadarChartList.add(new BeRadarChrt("integrity", chivoxEvaluateResult.getIntegrity()));//完整度
-        mRadarChartList.add(new BeRadarChrt("accuracy", chivoxEvaluateResult.getAccuracy()));//准确度
         mRadarChartList.add(new BeRadarChrt("stressScore", chivoxEvaluateResult.getRhythm().getStress()));//重音得分
+        mRadarChartList.add(new BeRadarChrt("wordScore", chivoxEvaluateResult.getDetails().get(0).getScore()));//单词得分
+        mRadarChartList.add(new BeRadarChrt("rhythm", chivoxEvaluateResult.getRhythm().getOverall()));//韵律得分
+        mRadarChartList.add(new BeRadarChrt("accuracy", chivoxEvaluateResult.getAccuracy()));//准确度
         return mRadarChartList;
     }
 
