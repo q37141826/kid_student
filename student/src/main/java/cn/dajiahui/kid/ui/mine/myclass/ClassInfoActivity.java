@@ -8,11 +8,13 @@ import com.fxtx.framework.http.callback.ResultCallback;
 import com.fxtx.framework.json.HeadJson;
 import com.fxtx.framework.log.ToastUtil;
 import com.fxtx.framework.ui.FxActivity;
+import com.fxtx.framework.widgets.dialog.FxDialog;
 import com.squareup.okhttp.Request;
 
 import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.ui.mine.bean.BeClassDetail;
+import cn.dajiahui.kid.ui.mine.setting.SettingActivity;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 
 
@@ -77,8 +79,25 @@ public class ClassInfoActivity extends FxActivity {
                     finishActivity();
                     break;
                 case R.id.btn_exitclass:
-                    /*退出班级需要网络请求  接口未给出 */
-                    httpQuitClass();
+
+                    //退出登录
+                    FxDialog dialog = new FxDialog(ClassInfoActivity.this) {
+                        @Override
+                        public void onRightBtn(int flag) {
+
+                            /*退出班级需要网络请求  接口未给出 */
+                            httpQuitClass();
+                        }
+
+                        @Override
+                        public void onLeftBtn(int flag) {
+                            dismiss();
+                        }
+                    };
+                    dialog.setTitle(R.string.prompt);
+                    dialog.setMessage(R.string.signout_class);
+                    dialog.show();
+
                     break;
                 default:
                     break;

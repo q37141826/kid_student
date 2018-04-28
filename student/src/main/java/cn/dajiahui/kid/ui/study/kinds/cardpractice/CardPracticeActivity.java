@@ -93,7 +93,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
     private File recordFile;//弛声录音地址
 
     private final int DELAYED_CHIVOX = 0;//弛声延迟
-    private WebView mWebView;
+    private cn.dajiahui.kid.ui.study.view.WebViewMod mWebView;
     private List<BeRadarChrt> mRadarChartList = new ArrayList<>();
     private ScoreDialog scoreDialog;
 
@@ -614,8 +614,10 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                 TextView mScore = (TextView) rootView.findViewById(R.id.tv_score);
                 mScore.setText(overall);
 
-                mWebView = (WebView) rootView.findViewById(R.id.webview);
-
+                mWebView = (cn.dajiahui.kid.ui.study.view.WebViewMod) rootView.findViewById(R.id.webview);
+                mWebView.setScrollContainer(false);
+                mWebView.setVerticalScrollBarEnabled(false);
+                mWebView.setHorizontalScrollBarEnabled(false);
                 mWebView.loadUrl(CardPratice_ScoreUrl);
                 mWebView.getSettings().setJavaScriptEnabled(true);//支持javaScript
                 mWebView.setWebViewClient(new WebViewClient() {

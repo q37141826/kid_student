@@ -224,11 +224,11 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
                         /*到达底部*/
                         if ((startY + (widthPixels / 5) >= heightPixels)) {
                             moveLocation.RefreshDown();
-                            if ((t + 5) < heightPixels - (widthPixels / 5)) {
+//                            if ((t + 5) < heightPixels - (widthPixels / 5)) {
 
                                 /*移动刷新位置*/
                                 this.layout(l, (t + 5), r, (b + 5));
-                            }
+//                            }
                         }
                         if (startY < (heightPixels - mSortScrollviewHeight)) {
 
@@ -245,10 +245,10 @@ public class MoveImagview extends RelativeLayout implements View.OnTouchListener
                         /*不显示虚拟按键*/
                         if (((startY + (widthPixels / 5) - statusBarHeight) >= heightPixels)) {
                             moveLocation.RefreshDown();
-                            if ((t + 5) < heightPixels - (widthPixels / 5)) {
+//                            if ((t + 5) < heightPixels - (widthPixels / 5)) {
                                 /*移动刷新位置*/
                                 this.layout(l, (t + 5), r, (b + 5));
-                            }
+//                            }
                         }
                         if (startY < (heightPixels - mSortScrollviewHeight)) {
                             moveLocation.RefreshUp();

@@ -493,6 +493,6 @@
 
 
     <string name="continue_to_refueling">请继续加油哦</string>
-
+    <string name="signout_class">是否要退出当前班级？</string>
 
 </resources>
