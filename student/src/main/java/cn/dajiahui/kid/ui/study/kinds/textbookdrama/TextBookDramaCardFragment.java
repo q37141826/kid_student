@@ -22,6 +22,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.ui.study.bean.BeTextBookDramScore;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageDataItem;
 import cn.dajiahui.kid.ui.video.util.JCVideoPlayerStudent;
 
@@ -63,21 +64,22 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
         initialize();
         beTextBookDramaPageDataItem = (BeTextBookDramaPageDataItem) bundle.get("BeTextBookDramaPageDataItem");
         int position = (int) bundle.get("position");
-         /*通知碎片中的进度条*/
+        /*通知碎片中的进度条*/
 
         totalsize = bundle.getString("size");
         tvenglish.setText(beTextBookDramaPageDataItem.getEnglish());
         tvchinese.setText(beTextBookDramaPageDataItem.getChinese());
 
+        if (!isScore) {
+            if (StringUtil.isNumericzidai(beTextBookDramaPageDataItem.getTime_end()) && StringUtil.isNumericzidai(beTextBookDramaPageDataItem.getTime_start())) {
+                seekroot.setVisibility(View.VISIBLE);
+                ratingBar.setVisibility(View.INVISIBLE);
+                tvtotaltime.setText(((Integer.parseInt(beTextBookDramaPageDataItem.getTime_end()) - Integer.parseInt(beTextBookDramaPageDataItem.getTime_start())) / 1000) + "s");
+                tvcurrentnum.setText("1/" + totalsize);
+            } else {
+                Toast.makeText(activity, "数据错误", Toast.LENGTH_SHORT).show();
 
-        if (StringUtil.isNumericzidai(beTextBookDramaPageDataItem.getTime_end()) && StringUtil.isNumericzidai(beTextBookDramaPageDataItem.getTime_start())) {
-            seekroot.setVisibility(View.VISIBLE);
-            ratingBar.setVisibility(View.INVISIBLE);
-            tvtotaltime.setText(((Integer.parseInt(beTextBookDramaPageDataItem.getTime_end()) - Integer.parseInt(beTextBookDramaPageDataItem.getTime_start())) / 1000) + "s");
-            tvcurrentnum.setText("1/" + totalsize);
-        }else {
-            Toast.makeText(activity, "数据错误", Toast.LENGTH_SHORT).show();
-
+            }
         }
     }
 
@@ -94,9 +96,19 @@ public class TextBookDramaCardFragment extends FxFragment implements MakeTextBoo
 //      RefreshWidget refreshWidget = (RefreshWidget) activity;
     }
 
+    private boolean isScore = false;
+
     @Override
-    public void refresgWidget(int position) {
+    public void refresgWidget(BeTextBookDramScore beTextBookDramScore, int position) {
+        if (beTextBookDramScore != null) {
+            isScore = beTextBookDramScore.isScore();
+            /*评测过分数，显示小星星*/
+            if (beTextBookDramScore.isScore()) {
+                markScore(beTextBookDramScore.getScore());
+            }
+        }
         tvcurrentnum.setText(position + "/" + totalsize);
+
         Logger.d("------------position：" + position);
     }
 

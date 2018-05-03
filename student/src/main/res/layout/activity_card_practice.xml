@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_tool_text"/>
+    <include layout="@layout/layout_tool_text" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2px"
-        android:background="@color/line_gray"/>
+        android:background="@color/line_gray" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:padding="10dp"
-            android:text="单词卡"/>
+            android:text="单词卡" />
 
         <TextView
             android:id="@+id/tv_number"
@@ -32,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:padding="10dp"
-            android:text="1/6"/>
+            android:text="1/6" />
 
         <View
             android:layout_width="match_parent"
@@ -40,7 +39,7 @@
             android:layout_below="@+id/tv_number"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/line_gray"/>
+            android:background="@color/line_gray" />
 
         <!--新布局-->
         <cn.dajiahui.kid.ui.study.view.NoScrollViewPager
@@ -48,7 +47,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/tv_name"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_recording"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="录音中"
+            android:textSize="13sp"
+            android:visibility="invisible" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -71,7 +86,7 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/btn_play_off"/>
+                android:src="@drawable/btn_play_off" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -86,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/card_record_off"/>
+                android:src="@drawable/card_record_off" />
         </RelativeLayout>
 
 
@@ -101,7 +116,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="13sp"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
@@ -118,6 +133,6 @@
             android:layout_gravity="center_horizontal"
             android:background="@color/gray_DBDBDB"
             android:text="Next"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
     </LinearLayout>
 </LinearLayout>

@@ -2,6 +2,7 @@ package cn.dajiahui.kid.ui.study.kinds.cardpractice;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -78,7 +79,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
         CardPraticeFragment.NoticeCheckButton {
 
     private cn.dajiahui.kid.ui.study.view.NoScrollViewPager mCardpager;
-    private TextView tvname;
+    private TextView tvname, mTv_Recording;
     private TextView tvnumber;
     private Button btnnext;
     private int currentPositinon = 0;
@@ -93,6 +94,10 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
     private File recordFile;//弛声录音地址
 
     private final int DELAYED_CHIVOX = 0;//弛声延迟
+    private final int DELAYED_SHOW20 = 1;//显示文字 透明度20
+    private final int DELAYED_SHOW80 = 2;//显示文字  透明度80
+    private Boolean switch_transparency = false;
+    private final int DELAYED_HIDE = 3;//隐藏文字
     private cn.dajiahui.kid.ui.study.view.WebViewMod mWebView;
     private List<BeRadarChrt> mRadarChartList = new ArrayList<>();
     private ScoreDialog scoreDialog;
@@ -241,6 +246,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
         mPlayRecord = getView(R.id.img_playrecoding);
         mRecording = getView(R.id.img_recording);
         mScore = getView(R.id.tv_score);
+        mTv_Recording = getView(R.id.tv_recording);
 
         mPlayrecodingRoot.setOnClickListener(onClick);
         mRecordingRoot.setOnClickListener(onClick);
@@ -383,6 +389,9 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                             coretype = CoreType.en_sent_score;
                             recordingEvaluation();
                             isRecording = true;
+                            mTv_Recording.setVisibility(View.VISIBLE);
+                            startChange();
+
                         }
                     } else {
                         /*修改录音按钮的背景*/
@@ -391,6 +400,8 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                         mPlayrecodingRoot.setBackgroundResource(R.drawable.circle_bg_yellow);
                         /* 结束驰声录音 */
                         recordStop();
+                        mHandler.sendEmptyMessage(DELAYED_HIDE);
+
                     }
 
                     break;
@@ -400,6 +411,29 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
         }
     };
+
+    /*改变录音中的文字*/
+    private void startChange() {
+        if (tv_recording == null) {
+            tv_recording = new Timer();//改变录音中文字的timer
+            tv_recording.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (!switch_transparency) {
+                        switch_transparency = !switch_transparency;
+                        mHandler.sendEmptyMessage(DELAYED_SHOW20);
+                    } else {
+                        switch_transparency = !switch_transparency;
+                        mHandler.sendEmptyMessage(DELAYED_SHOW80);
+                    }
+
+                }
+            }, 0, 500);
+        }
+
+    }
+
+    private Timer tv_recording = null;
 
     /*录音测评*/
     private void recordingEvaluation() {
@@ -436,6 +470,18 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                         Toast.makeText(context, "系统繁忙，请稍后再试", Toast.LENGTH_SHORT).show();
                         isRecording = false;
                     }
+                    break;
+
+                case DELAYED_SHOW20:
+                    mTv_Recording.setTextColor(getResources().getColor(R.color.gray_666666));  //文字颜色
+                    break;
+                case DELAYED_SHOW80:
+                    mTv_Recording.setTextColor(getResources().getColor(R.color.gray_F5F5F5));  //文字颜色
+                    break;
+                case DELAYED_HIDE:
+                    mTv_Recording.setVisibility(View.INVISIBLE);
+                    tv_recording.cancel();
+                    tv_recording = null;
                     break;
                 default:
                     break;
@@ -498,7 +544,7 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
                             public void run() {
                                 //resultCode 1:错误 2:vad 3:sound 4:segment 5:evaluate
 //                                Logger.d("resultCode:" + resultCode);
-                                Logger.d("jsonResult:" + jsonResult);
+//                                Logger.d("jsonResult:" + jsonResult);
 
                                 switch (resultCode) {
                                     case 5:

@@ -51,6 +51,7 @@ import cn.dajiahui.kid.R;
 import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.ui.study.bean.BeChivoxEvaluateResult;
 import cn.dajiahui.kid.ui.study.bean.BeGoTextBookSuccess;
+import cn.dajiahui.kid.ui.study.bean.BeTextBookDramScore;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageData;
 import cn.dajiahui.kid.ui.study.bean.BeTextBookDramaPageDataItem;
 import cn.dajiahui.kid.ui.study.mediautil.PlayMedia;
@@ -87,6 +88,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
     private TextView submit;//提交按钮
     private BeGoTextBookSuccess beGoTextBookSuccess; /*向合成功后进入的activity带的数据*/
     private Map<Integer, TextBookDramaCardFragment> mTextBookDramaCardMap = new HashMap<>();//保存当前Fragment的map
+    private Map<Integer, BeTextBookDramScore> mTextBookDramaCardScoreMap = new HashMap<>();//保存当前Fragment的打分数据的map
     private BeChivoxEvaluateResult chivoxEvaluateResult;//解析弛声打分
     private Map<Integer, Integer> mScoreMap = new HashMap<>();//当前碎片弛声打分的集合
 
@@ -187,7 +189,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         mViewpager.setAdapter(textBookDramCardAdapter);
         mViewpager.setNoScroll(false);
         mViewpager.setOnPageChangeListener(this);
-        mViewpager.setOffscreenPageLimit(mDataList.size());//设置fragment的缓存页数
+//        mViewpager.setOffscreenPageLimit(mDataList.size());//设置fragment的缓存页数
         /*暂停视频播放计时*/
         startVideoPauseTimer();
         /*显示提交按钮*/
@@ -325,7 +327,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
         public void destroyItem(ViewGroup container, int position, Object object) {
             //如果注释这行，那么不管怎么切换，page都不会被销毁
             super.destroyItem(container, position, object);
-            mTextBookDramaCardMap.remove(position);
+//            mTextBookDramaCardMap.remove(position);
 
             //希望做一次垃圾回收
             System.gc();
@@ -335,7 +337,7 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
     /*刷新控件*/
     public interface RefreshWidget {
 
-        public void refresgWidget(int position);
+        public void refresgWidget(BeTextBookDramScore beTextBookDramScore, int position);
 
     }
 
@@ -418,7 +420,12 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
             openVideoviewSound();
 
             RefreshWidget refreshWidget = (RefreshWidget) mTextBookDramaCardMap.get(position);
-            refreshWidget.refresgWidget(position + 1);
+            refreshWidget.refresgWidget(mTextBookDramaCardScoreMap.get(position), position + 1);
+
+            if (mTextBookDramaCardScoreMap.get(position) != null) {
+
+                Logger.d(" mTextBookDramaCardMap.get(position).isScore():" + mTextBookDramaCardScoreMap.get(position).isScore() + "    mTextBookDramaCardMap.get(position).getScore" + mTextBookDramaCardScoreMap.get(position).getScore());
+            }
         } else {
             Toast.makeText(context, "数据错误", Toast.LENGTH_SHORT).show();
         }
@@ -764,6 +771,9 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                                         Logger.d("打分-----" + overall);
                                         /*通知碎片中的小星星*/
                                         mTextBookDramaCardMap.get(mCurrentPosition).markScore(Integer.parseInt(overall));
+
+                                        mTextBookDramaCardScoreMap.put(mCurrentPosition, new BeTextBookDramScore(true, Integer.parseInt(overall)));
+
                                         mScoreMap.put(mCurrentPosition, Integer.parseInt(overall));
 
                                         break;
