@@ -119,7 +119,7 @@ public class MainActivity extends FxTabActivity {
         addRadioView(tab, radioGroup);
         functionRb = addRadioView(tab2, radioGroup);
 //        if (userAuth.isMsn) {
-        BeTab tab3 = new BeTab(R.id.rediobtn_chat, "", getString(R.string.tab_chat), R.drawable.radio_chat, false);
+        BeTab tab3 = new BeTab(R.id.rediobtn_chat, "", getString(R.string.tab_class), R.drawable.radio_chat, false);
         chatRb = addRadioView(tab3, radioGroup);
 //        }
         addRadioView(tab4, radioGroup);

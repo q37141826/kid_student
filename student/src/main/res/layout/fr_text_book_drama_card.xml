@@ -96,15 +96,15 @@
 
         <TextView
             android:id="@+id/tv_score"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="95dp"
             android:background="@drawable/textbook_drama_score_bg"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
     </RelativeLayout>
 
 </RelativeLayout>
