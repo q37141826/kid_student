@@ -2,14 +2,12 @@ package cn.dajiahui.kid.ui.study.kinds.cardpractice;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -47,9 +45,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -59,7 +55,6 @@ import cn.dajiahui.kid.http.DownloadFile;
 import cn.dajiahui.kid.http.OnDownload;
 import cn.dajiahui.kid.http.RequestUtill;
 import cn.dajiahui.kid.http.bean.BeDownFile;
-import cn.dajiahui.kid.ui.homework.bean.ToAnswerCardJson;
 import cn.dajiahui.kid.ui.study.bean.BeChivoxEvaluateResult;
 import cn.dajiahui.kid.ui.study.bean.BeCradPratice;
 import cn.dajiahui.kid.ui.study.bean.BeCradPraticePageData;
@@ -598,9 +593,16 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
 
                                                 }
 
+                                                @SuppressLint("ResourceType")
                                                 @Override
                                                 public void onAnimationEnd(Animation animation) {
                                                     mScore.setText(overall + "分");
+
+                                                    if (Integer.parseInt(overall) >= 60) {
+                                                        mScore.setBackgroundResource(R.drawable.card_pratice_score_green_bg);
+                                                    } else {
+                                                        mScore.setBackgroundResource(R.drawable.card_pratice_score_red_bg);
+                                                    }
                                                     mScore.clearAnimation();
                                                     rotateAnim.cancel();
                                                 }
@@ -734,7 +736,6 @@ public class CardPracticeActivity extends ChivoxBasicActivity implements
     }
 
     private int ContrastScore(int score) {
-        /*评分算法 20分为一颗星*/
 
         if (0 <= score && score <= 54) {
             return 4;

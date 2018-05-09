@@ -49,6 +49,7 @@ import cn.dajiahui.kid.ui.login.LoginActivity;
 import cn.dajiahui.kid.ui.login.bean.BeUserAuth;
 import cn.dajiahui.kid.ui.mine.FrMine;
 import cn.dajiahui.kid.ui.mine.personalinformation.UserDetailsActivity;
+import cn.dajiahui.kid.ui.myclass.FrClass;
 import cn.dajiahui.kid.ui.study.FrStudy;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 
@@ -59,6 +60,7 @@ public class MainActivity extends FxTabActivity {
     private RadioGroup radioGroup;
     private FrChat frChat;
     private FrStudy frStudy;
+    private FrClass frClass;
     public FrHomework frHomework;
     private FrMine frMine;
     private int rediobtnId; // 当前选择的模块
@@ -178,10 +180,15 @@ public class MainActivity extends FxTabActivity {
                 break;
 
             case R.id.rediobtn_chat:
-                if (frChat == null) {
-                    frChat = new FrChat();//沟通
+//                if (frChat == null) {
+//                    frChat = new FrChat();//沟通
+//                }
+//                switchContent(isFragment, frChat);
+
+                if (frClass == null) {
+                    frClass = new FrClass();//沟通
                 }
-                switchContent(isFragment, frChat);
+                switchContent(isFragment, frClass);
                 rediobtnId = 3;
                 StatusBarCompat.compat(this, getResources().getColor(com.fxtx.framework.R.color.app_bg));
                 changeRadioButtonTextColor(checkedId);

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginTop="10dp"
-    android:background="#9EDBEE">
+    android:background="#9EDBEE"
+    android:padding="10dp">
 
 
     <TextView
@@ -18,41 +18,29 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:textColor="@color/white"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
+
 
     <TextView
         android:id="@+id/tv_english"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_above="@+id/tv_chinese"
+        android:layout_centerHorizontal="true"
         android:text="课本剧卡片"
         android:textColor="@color/white"
-        android:textSize="24sp"/>
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/tv_chinese"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_english"
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
         android:text="中文"
         android:textColor="@color/white"
-        android:textSize="24sp"/>
+        android:textSize="24sp" />
 
-
-    <!--<ImageView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_centerVertical="true"-->
-    <!--android:src="@drawable/slide_right_empty"/>-->
-
-    <!--<ImageView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_centerVertical="true"-->
-    <!--android:src="@drawable/slide_right"/>-->
 
     <LinearLayout
         android:id="@+id/seek_root"
@@ -70,7 +58,7 @@
             android:layout_height="5dp"
             android:layout_marginTop="10dp"
             android:progressDrawable="@drawable/progress_style"
-            android:thumb="@null"/>
+            android:thumb="@null" />
 
         <TextView
             android:id="@+id/tv_totaltime"
@@ -79,23 +67,45 @@
             android:layout_centerInParent="true"
             android:layout_toRightOf="@+id/record_seek"
             android:textColor="@color/white"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </LinearLayout>
 
-
-    <RatingBar
-        android:id="@+id/rb_score"
-        style="@style/myratingbar"
+    <RelativeLayout
+        android:id="@+id/rb_score_root"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_chinese"
-        android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:clickable="false"
-        android:focusable="false"
-        android:gravity="center"
-        android:visibility="invisible"/>
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <RatingBar
+            android:id="@+id/rb_score"
+            style="@style/myratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:numStars="5" />
+
+        <TextView
+            android:id="@+id/tv_score"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="95dp"
+            android:background="@drawable/textbook_drama_score_bg"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
 </RelativeLayout>
 

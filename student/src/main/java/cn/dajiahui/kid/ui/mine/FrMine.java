@@ -29,7 +29,7 @@ public class FrMine extends FxFragment {
     private ImageView imSet;
     private TextView tv_userName, tv_sex, tv_studylength, tv_goodhomework; // 用户名
     public ImageView imUser;//头像
-    private TextView tv_myclass;//我的班级
+    //    private TextView tv_myclass;//我的班级
     private TextView tv_myworks;//我的作品
     private TextView tv_about;//关于
     private TextView tv_notice;//通知
@@ -89,14 +89,14 @@ public class FrMine extends FxFragment {
                 case R.id.iv_edit:
                     DjhJumpUtil.getInstance().startBaseActivityForResult(getActivity(), UserDetailsActivity.class, null, PICFPRRESULT);
                     break;
-                case R.id.tvMyclass://我的班级
+               /* case R.id.tvMyclass://我的班级
                     DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MyClassActivity.class);
-                    break;
+                    break;*/
                 case R.id.tvMyworks: //我的作品
                     DjhJumpUtil.getInstance().startBaseActivity(getActivity(), MyWorksActivity.class);
                     break;
                 case R.id.tvAbout: //关于
-                  DjhJumpUtil.getInstance().startBaseActivity(getActivity(),  AboutActivity.class);
+                    DjhJumpUtil.getInstance().startBaseActivity(getActivity(), AboutActivity.class);
                     break;
                 case R.id.tvNotice: //通知
                     DjhJumpUtil.getInstance().startBaseActivity(getActivity(), NoticeActivity.class);
@@ -122,8 +122,8 @@ public class FrMine extends FxFragment {
         tv_sex = getView(R.id.tv_sex);
         tv_studylength = getView(R.id.tv_studylength);
         tv_goodhomework = getView(R.id.tv_goodhomework);
-        tv_myclass = getView(R.id.tvMyclass);
-        tv_myclass.setOnClickListener(onClick);
+//        tv_myclass = getView(R.id.tvMyclass);
+//        tv_myclass.setOnClickListener(onClick);
         tv_myworks = getView(R.id.tvMyworks);
         tv_myworks.setOnClickListener(onClick);
         tv_about = getView(R.id.tvAbout);

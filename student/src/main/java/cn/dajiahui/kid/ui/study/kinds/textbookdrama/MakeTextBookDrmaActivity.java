@@ -422,10 +422,6 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
             RefreshWidget refreshWidget = (RefreshWidget) mTextBookDramaCardMap.get(position);
             refreshWidget.refresgWidget(mTextBookDramaCardScoreMap.get(position), position + 1);
 
-            if (mTextBookDramaCardScoreMap.get(position) != null) {
-
-                Logger.d(" mTextBookDramaCardMap.get(position).isScore():" + mTextBookDramaCardScoreMap.get(position).isScore() + "    mTextBookDramaCardMap.get(position).getScore" + mTextBookDramaCardScoreMap.get(position).getScore());
-            }
         } else {
             Toast.makeText(context, "数据错误", Toast.LENGTH_SHORT).show();
         }
@@ -749,8 +745,8 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                                             var2.printStackTrace();
                                         }
 
-                                        File recordFile = lastRecordFile.getRecordFile();
-                                        Logger.d("停止录音：" + recordFile.getAbsolutePath());
+//                                        File recordFile = lastRecordFile.getRecordFile();
+//                                        Logger.d("停止录音：" + recordFile.getAbsolutePath());
 
                                         Map<String, Object> mRecordMap = new HashMap();
                                         File video = lastRecordFile.getRecordFile();
@@ -768,11 +764,13 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                                             parseChivoxJsonResult(jsonResult);
                                         /*获取评分分数*/
                                         String overall = chivoxEvaluateResult.getOverall();
-                                        Logger.d("打分-----" + overall);
+//                                        Logger.d("打分-----" + overall);
                                         /*通知碎片中的小星星*/
-                                        mTextBookDramaCardMap.get(mCurrentPosition).markScore(Integer.parseInt(overall));
+//                                        mTextBookDramaCardMap.get(mCurrentPosition).markScore(Integer.parseInt(overall));
+                                        mTextBookDramaCardMap.get(mCurrentPosition).markScore(chivoxEvaluateResult);
+                                        mTextBookDramaCardMap.get(mCurrentPosition).showScoreDialog();
 
-                                        mTextBookDramaCardScoreMap.put(mCurrentPosition, new BeTextBookDramScore(true, Integer.parseInt(overall)));
+                                        mTextBookDramaCardScoreMap.put(mCurrentPosition, new BeTextBookDramScore(true, chivoxEvaluateResult));
 
                                         mScoreMap.put(mCurrentPosition, Integer.parseInt(overall));
 

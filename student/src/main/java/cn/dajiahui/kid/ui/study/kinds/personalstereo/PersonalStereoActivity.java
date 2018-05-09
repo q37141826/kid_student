@@ -331,8 +331,8 @@ public class PersonalStereoActivity extends FxActivity {
                     stopAudio();
                     if (mCurrentNum > 0) {
                         /*读取本地*/
-                        startAudio(AudioPath());
                         mCurrentNum = mCurrentNum - 1;
+                        startAudio(AudioPath());
                         settingInfo();
                         mNext.setTextColor(getResources().getColor(R.color.gray_333333));
                         mPrevious.setTextColor(getResources().getColor(R.color.gray_333333));

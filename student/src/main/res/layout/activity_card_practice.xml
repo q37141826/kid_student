@@ -112,7 +112,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="95dp"
-            android:background="@drawable/card_pratice_score_bg"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="13sp"

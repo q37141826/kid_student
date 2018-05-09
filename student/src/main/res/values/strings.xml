@@ -18,6 +18,7 @@
     <string name="tab_study">自学</string>
     <string name="choicebook">选择教材</string>
     <string name="tab_chat">沟通</string>
+    <string name="tab_class">班级</string>
     <string name="tab_mine">我的</string>
     <string name="task_done">已完成</string>
     <string name="task_staydone">待完成</string>

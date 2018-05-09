@@ -1,18 +1,17 @@
 package cn.dajiahui.kid.ui.study.bean;
 
 
-
 public class BeTextBookDramScore {
 
 
     private boolean isScore = false;//是否打分标志
-    private int score = 0;//具体分数
+    private BeChivoxEvaluateResult beChivoxEvaluateResult;//池声打分数据
 
-
-    public BeTextBookDramScore(boolean isScore, int score) {
+    public BeTextBookDramScore(boolean isScore, BeChivoxEvaluateResult beChivoxEvaluateResult) {
         this.isScore = isScore;
-        this.score = score;
+        this.beChivoxEvaluateResult = beChivoxEvaluateResult;
     }
+
 
     public boolean isScore() {
         return isScore;
@@ -22,11 +21,7 @@ public class BeTextBookDramScore {
         isScore = score;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
+    public BeChivoxEvaluateResult getBeChivoxEvaluateResult() {
+        return beChivoxEvaluateResult;
     }
 }

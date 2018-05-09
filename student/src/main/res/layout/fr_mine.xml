@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -30,7 +29,7 @@
                     android:layout_height="80dp"
                     android:layout_centerVertical="true"
                     android:padding="10dp"
-                    android:src="@drawable/ico_default_user"/>
+                    android:src="@drawable/ico_default_user" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -45,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/user_name"
                         android:textColor="@color/gray_333333"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_sex"
@@ -53,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/sex"
                         android:textColor="@color/gray_333333"
-                        android:textSize="13sp"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
 
 
@@ -64,7 +63,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="15dp"
-                    android:src="@drawable/go_right"/>
+                    android:src="@drawable/go_right" />
             </RelativeLayout>
 
             <LinearLayout
@@ -90,7 +89,7 @@
                         android:gravity="center"
                         android:text="360min"
                         android:textColor="@color/yellow_FEBF12"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -99,7 +98,7 @@
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
                         android:text="我的学习时长"
-                        android:textSize="11sp"/>
+                        android:textSize="11sp" />
                 </RelativeLayout>
 
 
@@ -108,7 +107,7 @@
                     android:layout_height="21dp"
                     android:layout_gravity="center"
                     android:background="@color/whilte_gray"
-                    android:gravity="center"/>
+                    android:gravity="center" />
 
 
                 <RelativeLayout
@@ -127,7 +126,7 @@
                         android:gravity="center"
                         android:text="20"
                         android:textColor="@color/yellow_FEBF12"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -136,7 +135,7 @@
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
                         android:text="优秀作业"
-                        android:textSize="11sp"/>
+                        android:textSize="11sp" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -146,30 +145,29 @@
             android:layout_width="match_parent"
             android:layout_height="20px"
             android:background="@color/gray_F5F5F5"
-            android:orientation="vertical">
-        </LinearLayout>
+            android:orientation="vertical"></LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <!--去掉我的班级-->
+            <!-- <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                 <TextView
+                     android:id="@+id/tvMyclass"
+                     style="@style/mine_view"
+                     android:drawableLeft="@drawable/mine_myclass"
+                     android:text="@string/my_class"/>
+             </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/tvMyclass"
-                    style="@style/mine_view"
-                    android:drawableLeft="@drawable/mine_myclass"
-                    android:text="@string/my_class"/>
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="10dp"
-                android:background="@color/line_gray"/>
+             <View
+                 android:layout_width="match_parent"
+                 android:layout_height="1px"
+                 android:layout_marginLeft="10dp"
+                 android:background="@color/line_gray"/>-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -179,14 +177,14 @@
                     android:id="@+id/tvMyworks"
                     style="@style/mine_view"
                     android:drawableLeft="@drawable/mine_myworks"
-                    android:text="@string/myworks"/>
+                    android:text="@string/myworks" />
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginLeft="10dp"
-                android:background="@color/line_gray"/>
+                android:background="@color/line_gray" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -196,7 +194,7 @@
                     android:id="@+id/tvNotice"
                     style="@style/mine_view"
                     android:drawableLeft="@drawable/mine_notice"
-                    android:text="@string/text_notice"/>
+                    android:text="@string/text_notice" />
 
                 <TextView
                     android:id="@+id/tv_noticecount"
@@ -210,14 +208,14 @@
                     android:gravity="center"
                     android:text="1"
                     android:textColor="@color/white"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible" />
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginLeft="10dp"
-                android:background="@color/line_gray"/>
+                android:background="@color/line_gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -228,19 +226,19 @@
                     android:id="@+id/tvAbout"
                     style="@style/mine_view"
                     android:drawableLeft="@drawable/mine_about"
-                    android:text="@string/mine_text_about"/>
+                    android:text="@string/mine_text_about" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_marginLeft="10dp"
-                    android:background="@color/line_gray"/>
+                    android:background="@color/line_gray" />
 
                 <TextView
                     android:id="@+id/tvSet_up"
                     style="@style/mine_view"
                     android:drawableLeft="@drawable/mine_mysetting"
-                    android:text="@string/text_set_up"/>
+                    android:text="@string/text_set_up" />
             </LinearLayout>
 
         </LinearLayout>
@@ -249,7 +247,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginLeft="10dp"
-            android:background="@color/line_gray"/>
+            android:background="@color/line_gray" />
 
     </LinearLayout>
 </LinearLayout>

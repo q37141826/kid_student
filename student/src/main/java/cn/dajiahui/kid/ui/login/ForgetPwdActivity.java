@@ -123,12 +123,21 @@ public class ForgetPwdActivity extends FxActivity {
             ToastUtil.showToast(context, R.string.inputcode);
             return;
         }
+
         if (StringUtil.isEmpty(newPwd)) {
             ToastUtil.showToast(context, R.string.inputnewpwd);
             return;
         }
+        if (newPwd.length() < 6 || newPwd.length() > 16) {
+            ToastUtil.showToast(context, R.string.correct_pwd);
+            return;
+        }
         if (StringUtil.isEmpty(pwdAgsin)) {
             ToastUtil.showToast(context, R.string.inputnewpwd);
+            return;
+        }
+        if (pwdAgsin.length() < 6 || pwdAgsin.length() > 16) {
+            ToastUtil.showToast(context, R.string.correct_pwd);
             return;
         }
         if (!StringUtil.sameStr(newPwd, pwdAgsin)) {
