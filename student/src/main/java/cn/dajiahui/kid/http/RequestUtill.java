@@ -361,7 +361,7 @@ public class RequestUtill {
         params.put("repassword", pwdAgain);
         params.put("telcode", telcode);
 
-        getHttpBuilder(context, "site/find-passwd").params(params).post(callback);
+        getHttpBuilder(context, "student/public/find-passwd").params(params).post(callback);
     }
 
 
