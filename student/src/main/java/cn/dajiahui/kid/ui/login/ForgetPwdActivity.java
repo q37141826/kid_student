@@ -177,7 +177,7 @@ public class ForgetPwdActivity extends FxActivity {
     }
 
     /*忘记密码*/
-    private void httpChange(String phone, String code, String toChangePwd, String pwdAgain) {
+    private void httpChange(String phone, String toChangePwd, String pwdAgain,String code) {
         ResultCallback callback = new ResultCallback() {
             @Override
             public void onError(Request request, Exception e) {
@@ -196,7 +196,7 @@ public class ForgetPwdActivity extends FxActivity {
                 }
             }
         };
-        RequestUtill.getInstance().changePwd(context, callback, phone, toChangePwd, pwdAgain, code);
+        RequestUtill.getInstance().changePwd(context, callback, phone, toChangePwd, pwdAgain,code);
     }
 
     class TimeCount extends CountDownTimer {
