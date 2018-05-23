@@ -1,32 +1,30 @@
 package cn.dajiahui.kid.ui.study.kinds.practice.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.fxtx.framework.log.Logger;
-
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.homework.adapter.HorizontallListViewAdapter;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionadapterItemModle;
 import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
 
 /*填空题 横划listview适配器*/
-public class ExHorizontallListViewAdapter extends BaseAdapter {
+public class ExApCompleteGrildViewAdapter extends BaseAdapter {
     private Context mContext;
     private final SubmitEditext submitEditext;
     private MyFoucus myFoucus;
@@ -38,6 +36,8 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
     private CompletionQuestionModle inbasebean;
     private LinkedHashMap<Integer, CompletionQuestionadapterItemModle> integerStringMap;
 
+    private LinkedHashMap<Integer, EditText> mEditextMap = new LinkedHashMap<>();
+    private int index = -1;
 
     /*练习Check之后 刷新适配器*/
     public void setInputContainer(
@@ -52,7 +52,7 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
     }
 
 
-    public ExHorizontallListViewAdapter(Context context, SubmitEditext submitEditext, int selfposition, CompletionQuestionModle inbasebean) {
+    public ExApCompleteGrildViewAdapter(Context context, SubmitEditext submitEditext, int selfposition, CompletionQuestionModle inbasebean) {
 
         this.mContext = context;
         this.submitEditext = submitEditext;
@@ -60,8 +60,8 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
         this.haveFocus = inbasebean.getIsFocusable();
         this.IsShowRightAnswer = inbasebean.getIsShowRightAnswer();
         this.inbasebean = inbasebean;
-        myFoucus = new ExHorizontallListViewAdapter.MyFoucus();
-        editChangedListener = new ExHorizontallListViewAdapter.EditChangedListener();
+        myFoucus = new ExApCompleteGrildViewAdapter.MyFoucus();
+        editChangedListener = new ExApCompleteGrildViewAdapter.EditChangedListener();
     }
 
     @Override
@@ -85,11 +85,11 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
     @SuppressLint("ResourceAsColor")
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ExHorizontallListViewAdapter.HolderView holderView = null;
+        ExApCompleteGrildViewAdapter.HolderView holderView = null;
 
         if (convertView == null) {
 
-            holderView = new ExHorizontallListViewAdapter.HolderView();
+            holderView = new ExApCompleteGrildViewAdapter.HolderView();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.match_league_round_item, parent, false);
             holderView.editext = (EditText) convertView.findViewById(R.id.editext);
             holderView.tv_rightanswer = (TextView) convertView.findViewById(R.id.tv_rightanswer);
@@ -97,19 +97,51 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
             holderView.editext.setOnFocusChangeListener(myFoucus);
             holderView.editext.setLongClickable(false);
             convertView.setTag(holderView);
+
+            holderView.editext.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            /*控制存入的值*/
+            if (mEditextMap.get(position) == null) {
+                mEditextMap.put(position, holderView.editext);
+            }
         } else {
-            holderView = (ExHorizontallListViewAdapter.HolderView) convertView.getTag();
+            holderView = (ExApCompleteGrildViewAdapter.HolderView) convertView.getTag();
 
         }
 
         // setTag是个好东西呀，把position放上去，一会用
         holderView.editext.setTag(position);
 
+        holderView.editext.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    index = position;
+                }
+                return false;
+            }
+        });
 
-        View currentFocus = ((Activity) mContext).getCurrentFocus();
-        if (currentFocus != null) {
-            currentFocus.clearFocus();
-        }
+        /*监听删除按钮*/
+        holderView.editext.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_DOWN) {
+
+                    Integer mPosition = keyInt(mEditextMap, v);
+                    if (mEditextMap.get(mPosition - 1) != null) {
+
+                        mEditextMap.get(mPosition - 1).requestFocus();//获取焦点 光标出现
+
+                    }
+                }
+                return false;
+            }
+        });
+
+//        View currentFocus = ((Activity) mContext).getCurrentFocus();
+//        if (currentFocus != null) {
+//            currentFocus.clearFocus();
+//        }
 
 
         holderView.editext.removeTextChangedListener(editChangedListener);
@@ -119,7 +151,7 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
                 if (this.inputContainer.get(position).getShowItemMy().toString().equals("㊒")) {
                     holderView.editext.setText("");
                 } else {
-                    holderView.editext.setText(this.inputContainer.get(position).toString());
+                    holderView.editext.setText(this.inputContainer.get(position).getShowItemMy().toString());
                 }
             }
         } else {
@@ -166,7 +198,11 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
             holderView.editext.setFocusable(false);
         }
         holderView.editext.addTextChangedListener(editChangedListener);
-
+        holderView.editext.clearFocus();
+        if (index != -1 && index == position) {
+            // 如果当前的行下标和点击事件中保存的index一致，手动为EditText设置焦点。
+            mEditextMap.get(index).requestFocus();
+        }
         return convertView;
     }
 
@@ -213,7 +249,11 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
                 }
                 this.editText.setSelection(tempSelection);
             }
-            submitEditext.submitEditextInfo(selfposition, inputContainer,position,s.toString());
+
+            submitEditext.submitEditextInfo(selfposition, inputContainer, position, s.toString());
+            if (position + 1 < mEditextMap.size() && !temp.toString().equals("")) {
+                mEditextMap.get(position + 1).requestFocus();//获取焦点 光标出现
+            }
         }
     }
 
@@ -228,5 +268,15 @@ public class ExHorizontallListViewAdapter extends BaseAdapter {
                 editChangedListener.editText = (EditText) v;
             }
         }
+    }
+
+    private int keyInt(HashMap<Integer, EditText> map, Object o) {
+        Iterator<Integer> it = map.keySet().iterator();
+        while (it.hasNext()) {
+            Integer keyInt = it.next();
+            if (map.get(keyInt).equals(o))
+                return keyInt;
+        }
+        return 0;
     }
 }

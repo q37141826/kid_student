@@ -20,6 +20,8 @@ import cn.dajiahui.kid.controller.Constant;
 import cn.dajiahui.kid.controller.UserController;
 import cn.dajiahui.kid.util.KidConfig;
 
+import static cn.dajiahui.kid.controller.Constant.Code;
+
 
 /**
  * Created by z on 2016/1/20.
@@ -349,6 +351,7 @@ public class RequestUtill {
         IdentityHashMap params = new IdentityHashMap<>();
         publicParameters(params, context);
         params.put("telnum", phone);
+        params.put("code", cn.dajiahui.kid.util.MD5.getMD5(phone + Code));
         getHttpBuilder(context, "student/public/send-code").params(params).post(callback);
     }
 
@@ -470,11 +473,11 @@ public class RequestUtill {
     }
 
     /*激活码*/
-    public void httpImmediatelyActivation(Context context, ResultCallback callback,String activationCode) {
+    public void httpImmediatelyActivation(Context context, ResultCallback callback, String activationCode) {
         IdentityHashMap params = new IdentityHashMap<>();
         publicParameters(params, context);
         params.put("token", UserController.getInstance().getUser().getToken());
-        params.put("code",activationCode);
+        params.put("code", activationCode);
 
         getHttpBuilder(context, "student/book/activate").params(params).post(callback);
     }

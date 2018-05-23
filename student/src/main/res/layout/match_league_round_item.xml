@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/match_league_roung_item_ll"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+
+    android:gravity="center"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:orientation="vertical">
 
 
-    <LinearLayout
-        android:id="@+id/match_league_roung_item_ll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+    <EditText
+        android:id="@+id/editext"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-
+        android:background="@drawable/edit_bg"
+        android:cursorVisible="true"
+        android:descendantFocusability="beforeDescendants"
         android:gravity="center"
-        android:orientation="vertical">
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/back_up_val"
+        android:singleLine="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:textCursorDrawable="@null" />
 
-        <EditText
-            android:id="@+id/editext"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:background="@drawable/edit_bg"
-            android:cursorVisible="true"
-            android:gravity="center"
-            android:imeOptions="actionNone"
-            android:nextFocusForward="@+id/back_up_val"
+    <!--      android:inputType="textVisiblePassword"-->
+    <TextView
+        android:id="@+id/tv_rightanswer"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:textColor="@color/green_pratice"
+        android:textSize="15sp"
+        android:visibility="invisible" />
+    <!--  -->
+    <!--  -->
+    <!--         android:background="@drawable/right_answer_bg"-->
 
-            android:textCursorDrawable="@null"/>
 
-        <TextView
-            android:id="@+id/tv_rightanswer"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/right_answer_bg"
-            android:gravity="center"
-            android:textColor="@color/green_pratice"
-            android:textSize="15sp"
-            android:visibility="invisible"/>
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

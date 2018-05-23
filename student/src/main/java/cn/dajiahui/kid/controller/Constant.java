@@ -156,6 +156,7 @@ public class Constant {
     public static final String device = "4";//公共参数
     public static final String os_version = "Android" + android.os.Build.VERSION.RELEASE;
     public static final String signKey = "dajiahuiv5@#$%123";
+    public static  final  String Code="dajiahui-mover";//验证码秘钥
 
 
     public static final int lineWidth = 5;//作业，练习连线题线的宽度

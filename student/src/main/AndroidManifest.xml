@@ -158,7 +158,10 @@
         <activity android:name=".ui.mine.setting.SetPhoneActivity" />
         <!-- 作业详情 -->
         <!-- 检查作业 -->
-        <activity android:name=".ui.homework.homeworkdetails.DoHomeworkActivity"></activity>
+        <activity
+            android:name=".ui.homework.homeworkdetails.DoHomeworkActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"></activity>
         <!-- 答题卡 -->
         <activity android:name=".ui.homework.homeworkdetails.AnswerCardActivity"></activity>
         <!-- 教材选择 -->

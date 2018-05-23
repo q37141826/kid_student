@@ -13,23 +13,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.util.BaseUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.homework.adapter.HorizontallListViewAdapter;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionadapterItemModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
-import cn.dajiahui.kid.ui.study.kinds.practice.adapter.ExHorizontallListViewAdapter;
-import cn.dajiahui.kid.ui.study.kinds.practice.view.ExHorizontalListView;
+import cn.dajiahui.kid.ui.study.kinds.practice.adapter.ExApCompleteGrildViewAdapter;
+import cn.dajiahui.kid.view.NoSlideGrildView;
 
 
 /**
@@ -42,10 +38,12 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
     private TextView tvcompletion, tv_schedule;
     private ImageView imgplay;
     private ImageView imgconment;
-    private RelativeLayout horlistviewroot, stemroot;
+    private RelativeLayout stemroot;
+    private LinearLayout horlistviewroot;
+
     /////////////////
-    private List<ExHorizontallListViewAdapter> mAllAdapterList = new ArrayList<>();//装每个HorizontalListView的适配器
-    private List<ExHorizontalListView> mAllHorizontalListView = new ArrayList<>();//装每个HorizontalListView的适配器
+    private List<ExApCompleteGrildViewAdapter> mAllAdapterList = new ArrayList<>();//装每个HorizontalListView的适配器
+    //    private List<ExHorizontalListView> mAllHorizontalListView = new ArrayList<>();//装每个HorizontalListView的适配器
     private LinkedHashMap<Integer, LinkedHashMap<Integer, CompletionQuestionadapterItemModle>> mAllMap = new LinkedHashMap<>();//存所有答案的集合（key： 第几个listview  val：listview对应的数据）
 
     private int mTop = 0;//初始距离上端
@@ -103,24 +101,27 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
             tvparams.topMargin = mTvTop;
             textView.setLayoutParams(tvparams);
 
-            ExHorizontalListView horizontalListView = new ExHorizontalListView(getActivity());
+//            ExHorizontalListView horizontalListView = new ExHorizontalListView(getActivity());
+            NoSlideGrildView grildView = new NoSlideGrildView(getActivity());
+            grildView.setNumColumns(10);
+
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300);
-            params.topMargin = mTop;
+//            params.topMargin = mTop;
             params.leftMargin = 80;
             /*适配文本框的位置*/
 
-            mTvTop += screenWidth / 4;
-            mTop += screenWidth / 4;
+//            mTvTop += screenWidth / 4;
+//            mTop += screenWidth / 4;
 
-            horizontalListView.setLayoutParams(params);
+            grildView.setLayoutParams(params);
 
-            ExHorizontallListViewAdapter horizontallListViewAdapter = new ExHorizontallListViewAdapter(getActivity(), this, i, inbasebean);
-            horizontalListView.setAdapter(horizontallListViewAdapter);
+            ExApCompleteGrildViewAdapter horizontallListViewAdapter = new ExApCompleteGrildViewAdapter(getActivity(), this, i, inbasebean);
+            grildView.setAdapter(horizontallListViewAdapter);
             mAllAdapterList.add(horizontallListViewAdapter);
-            mAllHorizontalListView.add(horizontalListView);
+//            mAllHorizontalListView.add(grildView);
 
             relativeLayout.addView(textView);
-            relativeLayout.addView(horizontalListView);
+            relativeLayout.addView(grildView);
 
             horlistviewroot.addView(relativeLayout);
         }

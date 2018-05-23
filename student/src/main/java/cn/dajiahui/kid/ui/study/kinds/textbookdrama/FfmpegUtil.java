@@ -62,7 +62,7 @@ public class FfmpegUtil {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MESSAGE_MIX_V_T_A:
-                    audioVideoSyn(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3"), mOutputFile);
+                    audioVideoSyn(mOriginVideo, new File(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp4"), mOutputFile);
                     break;
                 case MESSAGE_SYNTHETIC_VIDEO:
                     mHandler.sendEmptyMessage(3);
@@ -115,7 +115,7 @@ public class FfmpegUtil {
         cmd.append(" ");
         cmd.append("-async 1");
         cmd.append(" ");
-        cmd.append(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp3");//混音之后的地址
+        cmd.append(KidConfig.getInstance().getPathMixAudios() + "mixAutios.mp4");//混音之后的地址
         // 混合音频
 
 //        String cmd = "-i /storage/emulated/0/kid_student/SoundRecording/pd1.mp3 -itsoffset 00:00:04 -i /storage/emulated/0/kid_student/SoundRecording/pd2.mp3 -itsoffset 00:00:14 -i /storage/emulated/0/kid_student/SoundRecording/pd3.mp3 -filter_complex amix=inputs=3:duration=first:dropout_transition=4 -async 1 /storage/emulated/0/kid_student/13051152997/hunyin.mp3";  // 混合音频

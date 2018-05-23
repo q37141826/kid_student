@@ -127,7 +127,8 @@ public class MakeTextBookDrmaActivity extends ChivoxBasicActivity implements Vie
                     /*判断是否已经全部配音*/
                     if (audiosList.size() == mDataList.size()) {
                         submit.setVisibility(View.VISIBLE);
-                        showSubmitTimer.cancel();
+                        if (showSubmitTimer != null)
+                            showSubmitTimer.cancel();
                         showSubmitTimer = null;
                     }
                     break;

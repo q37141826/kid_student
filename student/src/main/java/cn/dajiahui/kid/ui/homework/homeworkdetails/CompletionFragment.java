@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.util.BaseUtil;
 
 import java.util.ArrayList;
@@ -23,12 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 import cn.dajiahui.kid.R;
-import cn.dajiahui.kid.ui.homework.adapter.HorizontallListViewAdapter;
+import cn.dajiahui.kid.ui.homework.adapter.ApCompleteGrildViewAdapter;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionModle;
 import cn.dajiahui.kid.ui.homework.bean.CompletionQuestionadapterItemModle;
 import cn.dajiahui.kid.ui.homework.myinterface.CheckHomework;
 import cn.dajiahui.kid.ui.homework.myinterface.SubmitEditext;
-import cn.dajiahui.kid.ui.homework.view.HorizontalListView;
+import cn.dajiahui.kid.view.NoSlideGrildView;
 
 
 /**
@@ -41,10 +40,12 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     private TextView tvcompletion, tv_schedule;
     private ImageView imgplay;
     private ImageView imgconment;
-    private RelativeLayout horlistviewroot, stemroot;
+    private RelativeLayout stemroot;
+    private LinearLayout horlistviewroot;
+
     /////////////////
-    private List<HorizontallListViewAdapter> mAllList = new ArrayList<>();//装每个HorizontalListView的适配器
-    private List<HorizontalListView> mAllHorizontalListView = new ArrayList<>();//装每个HorizontalListView的适配器
+    private List<ApCompleteGrildViewAdapter> mAllList = new ArrayList<>();//装每个HorizontalListView的适配器
+    //    private List<HorizontalListView> mAllHorizontalListView = new ArrayList<>();//装每个HorizontalListView的适配器
     private Map<Integer, Map<Integer, String>> mAllMap = new HashMap<>();//存所有答案的集合（key： 第几个listview  val：listview对应的数据）
 
     private int mTop = 0;//初始距离上端
@@ -53,7 +54,9 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
     private Bundle bundle;
     private int screenWidth;
 
+
     @Override
+
     protected View initinitLayout(LayoutInflater inflater) {
         return inflater.inflate(R.layout.fr_completion, null);
     }
@@ -140,38 +143,45 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
         for (int i = 0; i < size; i++) {
 
             RelativeLayout relativeLayout = new RelativeLayout(getActivity());
-            RelativeLayout.LayoutParams tvparams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300);
+            RelativeLayout.LayoutParams tvparams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             TextView textView = new TextView(getActivity());
             textView.setText((i + 1) + ".");
-            textView.setTextSize(25);
+            textView.setTextSize(20);
             tvparams.topMargin = mTvTop;
             textView.setLayoutParams(tvparams);
 
-            HorizontalListView horizontalListView = new HorizontalListView(getActivity());
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300);
-            params.topMargin = mTop;
+//            HorizontalListView horizontalListView = new HorizontalListView(getActivity());
+            NoSlideGrildView grildView = new NoSlideGrildView(getActivity());
+            grildView.setNumColumns(10);
+//            grildView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+//            descendantFocusability
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//            params.topMargin = mTop;
             params.leftMargin = 80;
+
             /*适配文本框的位置*/
-            if (inbasebean.getIs_complete().equals("1")) {
-                mTvTop += screenWidth/4;
-                mTop += screenWidth/4;
-            } else {
-                mTvTop +=screenWidth/5;
-                mTop += screenWidth/5;
-            }
+//            if (inbasebean.getIs_complete().equals("1")) {
+//                mTvTop += screenWidth / 4;
+//                mTop += screenWidth / 4;
+//            } else {
+//                mTvTop += screenWidth / 5;
+//                mTop += screenWidth / 5;
+//            }
 
 
-            horizontalListView.setLayoutParams(params);
+            grildView.setLayoutParams(params);
 
-            HorizontallListViewAdapter horizontallListViewAdapter = new HorizontallListViewAdapter(getActivity(), this, i, inbasebean);
-            horizontalListView.setAdapter(horizontallListViewAdapter);
-            mAllList.add(horizontallListViewAdapter);
-            mAllHorizontalListView.add(horizontalListView);
+            final ApCompleteGrildViewAdapter apCompleteGrildViewAdapter = new ApCompleteGrildViewAdapter(getActivity(), this, i, inbasebean);
+            grildView.setAdapter(apCompleteGrildViewAdapter);
+            mAllList.add(apCompleteGrildViewAdapter);
+//            mAllHorizontalListView.add(horizontalListView);
 
             relativeLayout.addView(textView);
-            relativeLayout.addView(horizontalListView);
+            relativeLayout.addView(grildView);
 
             horlistviewroot.addView(relativeLayout);
+
+
         }
 
     }
@@ -256,6 +266,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             int selfposition, LinkedHashMap<Integer,
             CompletionQuestionadapterItemModle> inputContainer,
             int position, String itemValue) {
+
 
         inbasebean.setAnswerflag("true");
         inbasebean.getmCompletionAllMap().get(selfposition).get(position).setShowItemMy(itemValue);

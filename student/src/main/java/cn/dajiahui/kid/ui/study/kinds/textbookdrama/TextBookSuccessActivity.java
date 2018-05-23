@@ -37,14 +37,14 @@ import cn.dajiahui.kid.util.KidConfig;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /*
-*
-* 课本剧制作成功后
-*
-* 课本剧和卡拉ok成功录制的activity共用一个
-*
-* 保存我的作品成功之后要显示  分享的view
-*
-* */
+ *
+ * 课本剧制作成功后
+ *
+ * 课本剧和卡拉ok成功录制的activity共用一个
+ *
+ * 保存我的作品成功之后要显示  分享的view
+ *
+ * */
 public class TextBookSuccessActivity extends FxActivity {
 
     public static String CLOSE = "";//救急（后续更改）
@@ -90,7 +90,7 @@ public class TextBookSuccessActivity extends FxActivity {
 
         if (makeTextBookDrma.equals("MakeTextBookDrma")) {
             CLOSE = "MakeTextBookDrma";
-              /*隐藏分享布局  要分享成功后显示*/
+            /*隐藏分享布局  要分享成功后显示*/
             shareRoot.setVisibility(View.GONE);
             shareRootNotice.setVisibility(View.VISIBLE);
             beGoTextBookSuccess = (BeGoTextBookSuccess) intent.getSerializableExtra("BeGoTextBookSuccess");
@@ -148,11 +148,11 @@ public class TextBookSuccessActivity extends FxActivity {
             } else if (look.equals("textbook")) {/*已经制作玩的课本剧*/
                 /*数据模型*/
                 beTextBookDramaPageData = (BeTextBookDramaPageData) intent.getSerializableExtra("BeTextBookDramaPageData");
-               /*隐藏保存我的作品按钮*/
+                /*隐藏保存我的作品按钮*/
                 tv_savemineworks.setVisibility(View.GONE);
                 /*显示分享按钮*/
                 shareRoot.setVisibility(View.VISIBLE);
-                  /*播放视频*/
+                /*播放视频*/
                 playVideo(beTextBookDramaPageData.getMy_work().getVideo());
                 /*设置信息*/
                 settingInfo(beTextBookDramaPageData.getMy_work().getTitle(), UserController.getInstance().getUser().getAvatar(),
@@ -169,17 +169,17 @@ public class TextBookSuccessActivity extends FxActivity {
             bePageDataMyWork = (BePageDataMyWork) intent.getSerializableExtra("BePageDataMyWork");
             /*显示分享按钮*/
             shareRoot.setVisibility(View.VISIBLE);
-                /*播放视频*/
+            /*播放视频*/
             playVideo(bePageDataMyWork.getVideo());
-                /*设置信息*/
+            /*设置信息*/
             settingInfo(bePageDataMyWork.getTitle(), UserController.getInstance().getUser().getAvatar(),
                     UserController.getInstance().getUser().getNickname(), (Long.parseLong(bePageDataMyWork.getDate()) * 1000) + "");
-                /*获取平均分*/
+            /*获取平均分*/
             tvscore.setText(getAverage(bePageDataMyWork.getScore()) + "分");
             rbscore.setMax(100);
             rbscore.setProgress(getScore(getAverage(bePageDataMyWork.getScore())));
 
-              /*设置分享信息*/
+            /*设置分享信息*/
             setShareContent(bePageDataMyWork.getShare_url(), "魔耳英语作品分享", bePageDataMyWork.getThumbnail(), "我分享了" + bePageDataMyWork.getAuthor() + "的作品，快来看看吧！");
 
         } else if (makeTextBookDrma.equals("LookKalaOk")) {/*由我的作品查看 kalaok*/
@@ -313,10 +313,15 @@ public class TextBookSuccessActivity extends FxActivity {
                         FileUtil.copyFile(beGoTextBookSuccess.getMineWorksTempPath(), KidConfig.getInstance().getPathMineWorksTextBookDrama() + sTextBookDrma);
 
                         StringBuffer sb = new StringBuffer();
-                        /*拼接分数 用逗号隔开，方便与以后拓展*/
-                        for (int i = 1; i < beGoTextBookSuccess.getmScoreMap().size(); i++) {
-                            append = sb.append("," + beGoTextBookSuccess.getmScoreMap().get(i));
+                        if (beGoTextBookSuccess.getmScoreMap().size() > 1) {
+                            /*拼接分数 用逗号隔开，方便与以后拓展*/
+                            for (int i = 1; i < beGoTextBookSuccess.getmScoreMap().size(); i++) {
+                                append = sb.append("," + beGoTextBookSuccess.getmScoreMap().get(i));
+                            }
+                        } else {
+                            append = sb;
                         }
+
 
                         /*上传卡本剧*/
                         RequestUtill.getInstance().httpSaveMineWorks(TextBookSuccessActivity.this, callMineWorksUp,
@@ -366,7 +371,7 @@ public class TextBookSuccessActivity extends FxActivity {
         @Override
         public void onResponse(String response) {
             dismissfxDialog();
-              /*显示分享布局  要分享成功后显示*/
+            /*显示分享布局  要分享成功后显示*/
             shareRoot.setVisibility(View.VISIBLE);
             shareRootNotice.setVisibility(View.GONE);
             dismissfxDialog();
@@ -376,11 +381,11 @@ public class TextBookSuccessActivity extends FxActivity {
                 if (makeTextBookDrma.equals("MakeTextBookDrma")) {
                     CLOSE = "MakeTextBookDrmaSuccess";
                     /*设置分享信息*/
-                    setShareContent(beUpdateMIneWorks.getShareUrl(), "魔耳英语作品分享", beUpdateMIneWorks.getThumbnail(), "我分享了" + beGoTextBookSuccess.getUserName() + "的作品，快来看看吧！");
+                    setShareContent(beUpdateMIneWorks.getShareUrl(), "魔耳英语作品分享", beUpdateMIneWorks.getThumbnail(), beGoTextBookSuccess.getUserName() + "的魔耳英语课本剧配音，快来看看吧！");
                 } else if (makeTextBookDrma.equals("MakeKraoOke")) {
                     CLOSE = "MakeKraoOkeSuccess";
-                   /*设置分享信息*/
-                    setShareContent(beUpdateMIneWorks.getShareUrl(), "魔耳英语作品分享", beUpdateMIneWorks.getThumbnail(), "我分享了" + beGoTextBookSuccess.getUserName() + "的作品，快来看看吧！");
+                    /*设置分享信息*/
+                    setShareContent(beUpdateMIneWorks.getShareUrl(), "魔耳英语作品分享", beUpdateMIneWorks.getThumbnail(), beGoTextBookSuccess.getUserName() + "的魔耳英语卡啦OK配音，快来看看吧！");
                 }
                 Logger.d("卡拉OK上传成功" + response);
                 /*隐藏保存我的作品按钮*/
