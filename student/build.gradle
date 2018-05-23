@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 
-def BuildVersion = 'b180516'
+def BuildVersion = 'b180523'
 
 android {
     signingConfigs {
@@ -18,8 +18,8 @@ android {
         applicationId "cn.dajiahui.kid"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 8
-        versionName '1.0.8'
+        versionCode 9
+        versionName '1.0.9'
         signingConfig signingConfigs.config
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
