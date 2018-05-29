@@ -97,7 +97,7 @@ public class LineFragment extends BaseHomeworkFragment implements
     public void setArguments(Bundle bundle) {
         this.bundle = bundle;
         inbasebean = (LineQuestionModle) bundle.get("LineQuestionModle");
-        media = inbasebean.getMedia();
+        mediaUrl = inbasebean.getMedia();
         title = inbasebean.getTitle();
     }
 

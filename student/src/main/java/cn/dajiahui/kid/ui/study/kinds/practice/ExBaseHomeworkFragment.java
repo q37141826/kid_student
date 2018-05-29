@@ -21,7 +21,7 @@ import cn.dajiahui.kid.ui.homework.view.AudioDialog;
  */
 
 public abstract class ExBaseHomeworkFragment extends FxFragment {
-    public  ExBaseHomeworkFragment.GetMediaPlayer Mp3;
+    public ExBaseHomeworkFragment.GetMediaPlayer Mp3;
 
     public MediaPlayer mediaPlayer;
     public AudioDialog audioDialog;
@@ -38,8 +38,9 @@ public abstract class ExBaseHomeworkFragment extends FxFragment {
         mediaPlayer = new MediaPlayer();
         /*设置动画*/
         settingRing();
-        if (audioDialog==null) {
-            audioDialog = new AudioDialog(getActivity()) {};
+        if (audioDialog == null) {
+            audioDialog = new AudioDialog(getActivity()) {
+            };
             audioDialog.setTitle(R.string.prompt);
             audioDialog.setMessage(R.string.no_audio);
         }
@@ -73,18 +74,18 @@ public abstract class ExBaseHomeworkFragment extends FxFragment {
     }
 
     public void playMp3(String mp3path) {
-
-        try {
-            mediaPlayer.reset();
-            mediaPlayer.setDataSource(mp3path);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-            Mp3 = ( GetMediaPlayer) getActivity();
-            Mp3.getMediaPlayer(mediaPlayer);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (mediaPlayer.isPlaying() == false) {
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(mp3path);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                Mp3 = (GetMediaPlayer) getActivity();
+                Mp3.getMediaPlayer(mediaPlayer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
