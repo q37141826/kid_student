@@ -70,7 +70,7 @@ public class LineFragment extends BaseHomeworkFragment implements
     private Map<Integer, Point> ponitViewXY = new HashMap();//通过val获取point点的map（提供显示正确答案 和 自己的答案 用）
     private boolean calculation = false;//false 监听  测量连线题图片的左右第一个 坐标
 
-    private String media;
+    private String mediaUrl;
 
     private Map<Integer, LineImagePointView> showT_RMap = new HashMap<>();//用于显示判断划线的颜色
     private String title;
@@ -159,8 +159,6 @@ public class LineFragment extends BaseHomeworkFragment implements
                     ponitViewXY.put((i + 1 + leftViews.size()), new Point(pRightX, pRightY, "" + ((i + 1) + leftViews.size())));
                     pRightY = pRightY += screenWidth / 4;//左边所有点的y坐标
 
-
-                    Logger.d("作业ponitViewXY:"+ponitViewXY);
                     if (ponitViewXY.size() == (leftViews.size() * 2)) {
                         /*首先判断是否作答*/
                         switch (inbasebean.getIs_complete()) {
@@ -425,7 +423,12 @@ public class LineFragment extends BaseHomeworkFragment implements
         switch (v.getId()) {
 
             case R.id.img_play:
-                playMp3(media);
+                if (!mediaUrl.equals("")) {
+                    playMp3(mediaUrl);
+                } else {
+                    audioDialog.show();
+                }
+
                 break;
             case R.id.mLeft:
                     /*显示我的答案*/
@@ -472,14 +475,12 @@ public class LineFragment extends BaseHomeworkFragment implements
     @Override
     public void onStop() {
         super.onStop();
-        mediaPlayer.stop();
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mediaPlayer.stop();
+
     }
 
 
@@ -718,8 +719,8 @@ public class LineFragment extends BaseHomeworkFragment implements
         while (nameItr.hasNext()) {
             name = nameItr.next();
             try {
-                if(!jsonObj.getString(name).equals(""))
-                outMap.put(Integer.parseInt(name), Integer.parseInt(jsonObj.getString(name)));
+                if (!jsonObj.getString(name).equals(""))
+                    outMap.put(Integer.parseInt(name), Integer.parseInt(jsonObj.getString(name)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

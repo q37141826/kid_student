@@ -147,8 +147,12 @@ public class ExChoiceFragment extends ExBaseHomeworkFragment implements CheckHom
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.img_play:
+                    if (!mediaUrl.equals("")) {
 
-                    playMp3(mediaUrl);
+                        playMp3(mediaUrl);
+                    } else {
+                        audioDialog.show();
+                    }
 
                     break;
                 default:
@@ -197,7 +201,7 @@ public class ExChoiceFragment extends ExBaseHomeworkFragment implements CheckHom
 //            Logger.d(" inbasebean.getIs_right():" + inbasebean.getIs_right());
 
             /*判断正误，改变UI*/
-           /*刷新翻页回来后 上次答题情况*/
+            /*刷新翻页回来后 上次答题情况*/
             apChoice.changeitemState(inbasebean);
 
         }

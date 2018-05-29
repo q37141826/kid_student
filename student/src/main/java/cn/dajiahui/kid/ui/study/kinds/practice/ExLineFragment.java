@@ -377,7 +377,12 @@ public class ExLineFragment extends ExBaseHomeworkFragment implements
         switch (v.getId()) {
 
             case R.id.img_play:
-                playMp3(media);
+                if(!media.equals("")){
+                    playMp3(media);
+
+                } else {
+                    audioDialog.show();
+                }
                 break;
             case R.id.mLeft:
                 /*显示我的答案*/

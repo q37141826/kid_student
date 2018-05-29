@@ -134,7 +134,12 @@ public class ExCompletionFragment extends ExBaseHomeworkFragment implements Chec
 
         switch (v.getId()) {
             case R.id.img_play:
-                playMp3(mediaUrl);
+                if (!mediaUrl.equals("")) {
+                    playMp3(mediaUrl);
+                } else {
+                    audioDialog.show();
+                }
+
                 break;
             default:
                 break;

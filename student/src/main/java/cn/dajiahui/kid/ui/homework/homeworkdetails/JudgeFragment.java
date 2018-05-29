@@ -188,6 +188,8 @@ public class JudgeFragment extends BaseHomeworkFragment implements CheckHomework
                 case R.id.img_play:
                     if (!mediaUrl.equals("")) {
                         playMp3(mediaUrl);
+                    }else {
+                        audioDialog.show();
                     }
 
                     break;

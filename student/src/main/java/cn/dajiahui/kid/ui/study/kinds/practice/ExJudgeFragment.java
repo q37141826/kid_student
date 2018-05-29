@@ -175,6 +175,8 @@ public class ExJudgeFragment extends ExBaseHomeworkFragment implements CheckHome
 
                     if (!mediaUrl.equals("")) {
                         playMp3(mediaUrl);
+                    } else {
+                        audioDialog.show();
                     }
 
                     break;

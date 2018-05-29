@@ -9,12 +9,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.fxtx.framework.log.Logger;
 import com.fxtx.framework.ui.FxFragment;
 
 import java.io.IOException;
 
 import cn.dajiahui.kid.R;
+import cn.dajiahui.kid.ui.homework.view.AudioDialog;
 
 /**
  * Created by lenovo on 2018/1/5.
@@ -24,7 +24,7 @@ public abstract class BaseHomeworkFragment extends FxFragment {
     public BaseHomeworkFragment.GetMediaPlayer Mp3;
 
     public MediaPlayer mediaPlayer;
-
+    public AudioDialog audioDialog;
 
     @Override
     protected View initinitLayout(LayoutInflater inflater) {
@@ -38,6 +38,13 @@ public abstract class BaseHomeworkFragment extends FxFragment {
         mediaPlayer = new MediaPlayer();
         /*设置动画*/
         settingRing();
+        if (audioDialog==null) {
+            audioDialog = new AudioDialog(getActivity()) {
+            };
+            audioDialog.setTitle(R.string.prompt);
+            audioDialog.setMessage(R.string.no_audio);
+        }
+
     }
 
     @Override

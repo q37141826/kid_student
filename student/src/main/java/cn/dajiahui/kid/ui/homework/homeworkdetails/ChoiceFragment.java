@@ -151,7 +151,11 @@ public class ChoiceFragment extends BaseHomeworkFragment implements CheckHomewor
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.img_play:
-                    playMp3(mediaUrl);
+                    if (!mediaUrl.equals("")) {
+                        playMp3(mediaUrl);
+                    } else {
+                        audioDialog.show();
+                    }
                     break;
                 default:
                     break;

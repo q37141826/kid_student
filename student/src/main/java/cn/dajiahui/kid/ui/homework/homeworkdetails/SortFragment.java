@@ -15,7 +15,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +39,7 @@ import static cn.dajiahui.kid.ui.homework.homeworkdetails.DoHomeworkActivity.scr
 
 
 public class SortFragment extends BaseHomeworkFragment implements
-        View.OnClickListener, CheckHomework, MoveLocation  {
+        View.OnClickListener, CheckHomework, MoveLocation {
 
     private SortQuestionModle inbasebean;
     private RelativeLayout relaroot, answerroot;
@@ -74,7 +73,7 @@ public class SortFragment extends BaseHomeworkFragment implements
 
     private TextView tv_sort, tv_schedule;
     private ImageView sort_img_play;//播放器按钮
-    private String media;
+    private String mediaUrl;
     private List<String> mRightContentList;//正确答案的内容
     private List<String> mMineContentList;//我的答案的内容
     private String title;
@@ -366,7 +365,7 @@ public class SortFragment extends BaseHomeworkFragment implements
     public void setArguments(Bundle bundle) {
         this.bundle = bundle;
         inbasebean = (SortQuestionModle) bundle.get("SortQuestionModle");
-        media = inbasebean.getMedia();
+        mediaUrl = inbasebean.getMedia();
         title = inbasebean.getTitle();
     }
 
@@ -421,8 +420,11 @@ public class SortFragment extends BaseHomeworkFragment implements
         switch (v.getId()) {
 
             case R.id.sort_img_play:
-//                Toast.makeText(activity, "播放音频！", Toast.LENGTH_SHORT).show();
-                playMp3(media);
+                if (!mediaUrl.equals("")) {
+                    playMp3(mediaUrl);
+                } else {
+                    audioDialog.show();
+                }
                 break;
             default:
                 break;

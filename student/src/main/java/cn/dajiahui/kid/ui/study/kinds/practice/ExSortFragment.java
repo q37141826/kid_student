@@ -398,8 +398,12 @@ public class ExSortFragment extends ExBaseHomeworkFragment implements
         switch (v.getId()) {
 
             case R.id.sort_img_play:
+                if (!media.equals("")) {
+                    playMp3(media);
+                } else {
+                    audioDialog.show();
+                }
 
-                playMp3(media);
                 break;
             default:
                 break;

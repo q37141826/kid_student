@@ -83,7 +83,9 @@ public class LoginHttp {
                             setStartActivity();
                             onLogin.successful();
                         } else {
-                            huanxLogin(temp.getThird().getEasemob_username(), temp.getThird().getEasemob_passwd());
+//                            huanxLogin(temp.getThird().getEasemob_username(), temp.getThird().getEasemob_passwd());
+                            setStartActivity();
+                            onLogin.successful();
                         }
                     } else {
                         if (ImHelper.getInstance().isLoggedIn()) {

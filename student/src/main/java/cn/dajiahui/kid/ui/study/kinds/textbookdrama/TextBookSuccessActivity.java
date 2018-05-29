@@ -35,6 +35,7 @@ import cn.dajiahui.kid.util.DateUtils;
 import cn.dajiahui.kid.util.DjhJumpUtil;
 import cn.dajiahui.kid.util.KidConfig;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /*
  *
@@ -418,6 +419,10 @@ public class TextBookSuccessActivity extends FxActivity {
     protected void onPause() {
         super.onPause();
         mVideoplayer.onStatePause();
+        if (mVideoplayer != null) {
+            JCVideoPlayerStandard.releaseAllVideos();
+        }
+
     }
 
     @Override

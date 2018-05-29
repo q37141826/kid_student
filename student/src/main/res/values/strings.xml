@@ -312,6 +312,7 @@
     <string name="homeworktextview">homeworktextview</string>
     <string name="addclassDialog1">您好，您还没加入班级，</string>
     <string name="addclassDialog2">快去找老师索要班级码加入班级吧！</string>
+    <string name="no_audio">本题无音频</string>
 
 
     <!--我的 end -->
