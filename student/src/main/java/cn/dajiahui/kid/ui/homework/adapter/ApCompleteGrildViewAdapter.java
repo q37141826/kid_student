@@ -91,7 +91,6 @@ public class ApCompleteGrildViewAdapter extends BaseAdapter {
         final HolderView holderView;
 
         if (convertView == null) {
-            Logger.d("-------------------------------1");
             holderView = new HolderView();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.match_league_round_item, parent, false);
             holderView.editext = (EditText) convertView.findViewById(R.id.editext);
@@ -111,11 +110,8 @@ public class ApCompleteGrildViewAdapter extends BaseAdapter {
             holderView = (HolderView) convertView.getTag();
         }
 
-
-//        Logger.d("wanminle :" + "存储 editext" + holderView.editext);
         // setTag是个好东西呀，把position放上去，一会用
         holderView.editext.setTag(position);
-
 
         holderView.editext.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -136,32 +132,11 @@ public class ApCompleteGrildViewAdapter extends BaseAdapter {
                     if (mEditextMap.get(mPosition - 1) != null) {
 
                         mEditextMap.get(mPosition - 1).requestFocus();//获取焦点 光标出现
-                        Logger.d("wanminle:" + mPosition);
-                        Logger.d("wanminle:" + mEditextMap.get(mPosition - 1));
-//                        for (int i = 0; i < mEditextMap.size(); i++) {
-//
-//                            Logger.d("mEditextMap:" + mEditextMap.get(i)+"--------------------------"+i);
-////                            Logger.d("mEditextMap-------------:" + i + mEditextMap.get(i).getText());
-//                        }
-//                        Logger.d("mPosition:" + mPosition);
-
-
-                    } else {
-                        Logger.d("wanminle:" + "没找到上一个");
                     }
-//                    Logger.d("mEditextMap-------------:" + mEditextMap.get(0).getText());
                 }
                 return false;
             }
         });
-
-
-//        View currentFocus = ((Activity) mContext).getCurrentFocus();
-//        if (currentFocus != null) {
-//            Logger.d("wanminle : "+ "清楚了焦点");
-//            currentFocus.clearFocus();
-//        }
-
 
         holderView.editext.removeTextChangedListener(editChangedListener);
 

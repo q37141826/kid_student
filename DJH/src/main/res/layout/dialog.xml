@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="30dp"
-              android:background="@drawable/sp_while"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="30dp"
+    android:background="@drawable/sp_while"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/title"
@@ -13,7 +13,7 @@
         android:gravity="center_horizontal"
         android:padding="10dp"
         android:textColor="@color/black"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -35,21 +35,20 @@
                 style="?android:attr/textAppearanceMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="5dip"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
-                android:visibility="gone">
-            </TextView>
-        </LinearLayout>
+                android:visibility="gone"></TextView>
+        </LinearLayout>.
     </ScrollView>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="10dp"
-        android:background="@color/gray_line">
-    </View>
+        android:background="@color/gray_line"></View>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,14 +64,13 @@
             android:gravity="center"
             android:text="@string/cancle"
             android:textColor="@color/black"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <View
             android:id="@+id/dialog_line"
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="@color/gray_line">
-        </View>
+            android:background="@color/gray_line"></View>
 
         <Button
             android:id="@+id/dialog_two"
@@ -83,7 +81,7 @@
             android:gravity="center"
             android:text="@string/sure"
             android:textColor="@color/black"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

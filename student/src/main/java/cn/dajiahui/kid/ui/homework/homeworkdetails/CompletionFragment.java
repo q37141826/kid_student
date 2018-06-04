@@ -111,11 +111,18 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
 
             } else {//单个空
 
-//                LinkedHashMap<Integer, String> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
-//                for (int a = 0; a < my_answer.length(); a++) {
-//
-//                }
-//                inbasebean.getmCompletionAllMap().put(0, mItemMap);
+                LinkedHashMap<Integer, CompletionQuestionadapterItemModle> mItemMap = new LinkedHashMap<>();//每个横滑dadpter的数据
+                for (int b = 0; b < my_answer.length(); b++) {
+                    String sTrue = String.valueOf(standard_answer.charAt(b));
+                    String sMine = String.valueOf(my_answer.charAt(b));
+
+                    if (sTrue.equals(sMine)) {
+                        mItemMap.put(b, new CompletionQuestionadapterItemModle(sTrue, sMine, 0));
+                    } else {
+                        mItemMap.put(b, new CompletionQuestionadapterItemModle(sTrue, sMine, 1));
+                    }
+                }
+                inbasebean.getmCompletionAllMap().put(0, mItemMap);
             }
         }
 
@@ -194,7 +201,7 @@ public class CompletionFragment extends BaseHomeworkFragment implements CheckHom
             case R.id.img_play:
                 if (!mediaUrl.equals("")) {
                     playMp3(mediaUrl);
-                }else {
+                } else {
                     audioDialog.show();
                 }
                 break;
