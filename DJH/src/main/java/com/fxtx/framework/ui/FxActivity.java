@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -55,6 +56,7 @@ public abstract class FxActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
             toolbar.setOnMenuItemClickListener(onMenuItemClick);
         }
+        Log.e("where",this.getClass().getSimpleName());
     }
 
     protected void onCreate(Bundle savedInstanceState, int resId) {
