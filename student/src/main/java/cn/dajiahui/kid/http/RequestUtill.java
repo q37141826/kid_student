@@ -68,7 +68,7 @@ public class RequestUtill {
     public void downImageFile(Context context, String url, String fileName, ResultCallback callback) {
         //文件名称 和文件地址
 //        httpDownFile(context, url, callback, fileName, UserController.getInstance().getUserImageFile(context));
-        httpDownFile(context, url, callback, fileName, KidConfig.getInstance().getPathClassSpace() );
+        httpDownFile(context, url, callback, fileName, KidConfig.getInstance().getPathClassSpace());
     }
 
     //下载资料文件
@@ -756,7 +756,8 @@ public class RequestUtill {
         Pair<String, File> videofile = new Pair<String, File>("video", new File(videoPath));
         Pair<String, File> thumbnailfile = new Pair<String, File>("thumbnail", new File(thumbnailPath));
         new OkHttpRequest.Builder().tag(context).url(getUrl() + "student/work/save").
-                files(videofile, thumbnailfile).params(params).upload(callback);
+                files(videofile, thumbnailfile).
+                params(params).upload(callback);
 
     }
 
